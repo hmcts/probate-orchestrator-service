@@ -1,0 +1,23 @@
+/build/
+/out/**
+/docker/test/
+/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###git
+.idea
+*.iws
+*.iml
+*.ipr
+
+.DS_store
+
+git.properties
+.gradle

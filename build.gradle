@@ -1,0 +1,291 @@
+buildscript {
+  dependencies {
+    classpath group: 'org.sonarsource.scanner.gradle', name: 'sonarqube-gradle-plugin', version: '2.5'
+    classpath("net.serenity-bdd:serenity-gradle-plugin:1.5.2")
+  }
+}
+
+plugins {
+  id 'application'
+  id 'pmd'
+  id 'io.spring.dependency-management' version '1.0.6.RELEASE'
+  id 'org.springframework.boot' version '2.0.5.RELEASE'
+  id 'org.owasp.dependencycheck' version '3.2.1'
+  id 'com.github.ben-manes.versions' version '0.15.0'
+  id 'com.gorylenko.gradle-git-properties' version '1.5.2'
+  id 'info.solidsoft.pitest' version '1.3.0'
+}
+
+
+apply plugin: 'org.sonarqube'
+apply plugin: 'findbugs'
+apply plugin: 'jacoco'
+apply plugin: 'net.serenity-bdd.aggregator'
+apply plugin: "com.gorylenko.gradle-git-properties"
+
+group = 'uk.gov.hmcts.probate'
+version = "4.0.0"
+mainClassName = 'uk.gov.hmcts.probate.OrchestratorApplication'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+
+check.dependsOn dependencyCheckAnalyze
+// make build fail on Checkstyle issues (https://github.com/gradle/gradle/issues/881)
+tasks.withType(Checkstyle).each { checkstyleTask ->
+  checkstyleTask.doLast {
+    reports.all { report ->
+      def outputFile = report.destination
+      if (outputFile.exists() && outputFile.text.contains("<error ")) {
+        throw new GradleException("There were checkstyle warnings! For more info check $outputFile")
+      }
+    }
+  }
+}
+
+jacoco {
+  toolVersion = '0.8.0'
+}
+
+jacocoTestReport {
+  group = "Reporting"
+  reports {
+    xml.enabled false
+    html.destination "${buildDir}/reports/jacoco"
+  }
+}
+
+tasks.withType(FindBugs) {
+  reports {
+    xml.enabled = false
+    html.enabled = true
+  }
+}
+
+findbugs {
+  ignoreFailures = true
+  reportLevel = "low"
+}
+
+sonarqube {
+  properties {
+    property "sonar.projectName", "PROBATE :: Probate-Orchestrator-Service"
+    property "sonar.projectKey", "Probate-Orchestrator-Service"
+    property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
+    property "sonar.host.url", "https://sonar.reform.hmcts.net/"
+    property "sonar.pitest.mode", "reuseReport"
+    property "sonar.pitest.reportsDirectory", "build/reports/pitest"
+  }
+}
+
+test.finalizedBy jacocoTestReport
+
+// https://jeremylong.github.io/DependencyCheck/dependency-check-gradle/configuration.html
+dependencyCheck {
+  // Specifies if the build should be failed if a CVSS score above a specified level is identified.
+  // range of 0-10 fails the build, anything greater and it doesn't fail the build
+  failBuildOnCVSS = System.getProperty('dependencyCheck.failBuild') == 'true' ? 0 : 11
+  suppressionFile = 'dependency-check-suppressions.xml'
+}
+
+pitest {
+  targetClasses = ['uk.gov.hmcts.probate.*']
+  threads = 10
+  outputFormats = ['XML', 'HTML']
+  timestampedReports = false
+  mutationThreshold = 50
+  timeoutConstInMillis = 30000
+}
+
+sonarqube {
+  properties {
+    property "sonar.pitest.mode", "reuseReport"
+    property "sonar.pitest.reportsDirectory", "build/reports/pitest"
+  }
+}
+
+sourceSets {
+    testSmoke {
+        java {
+            compileClasspath += main.output
+            runtimeClasspath += main.output
+            srcDir file('src/smokeTest/java')
+        }
+        resources.srcDir file('src/smokeTest/resources')
+    }
+    testFunctional {
+      java {
+        compileClasspath += main.output
+        runtimeClasspath += main.output
+        srcDir file('src/functionalTest/java')
+      }
+      resources.srcDir file('src/functionalTest/resources')
+    }
+  testCaseCreator {
+    java {
+      compileClasspath += main.output
+      runtimeClasspath += main.output
+      srcDir file('src/caseCreator/java')
+    }
+    resources.srcDir file('src/caseCreator/resources')
+  }
+}
+
+task smoke(type: Test) {
+  description = "Runs Smoke Tests"
+  testClassesDirs = sourceSets.testSmoke.output.classesDirs
+  classpath = sourceSets.testSmoke.runtimeClasspath
+}
+
+task functional(type: Test) {
+  description = "Runs functional Tests"
+  testClassesDirs = sourceSets.testFunctional.output.classesDirs
+  classpath = sourceSets.testFunctional.runtimeClasspath
+  finalizedBy aggregate
+}
+
+task caseCreator(type: Test) {
+  description = "Runs functional Case creator Tests"
+  testClassesDirs = sourceSets.testCaseCreator.output.classesDirs
+  classpath = sourceSets.testCaseCreator.runtimeClasspath
+  finalizedBy aggregate
+}
+
+gitProperties {
+  gitPropertiesDir = new File("${project.rootDir}/src/main/resources/uk/gov/hmcts/probate")
+  keys = ['git.commit.id','git.commit.time']
+  dateFormat = "yyyy-MM-dd'T'HH:mmZ"
+  dateFormatTimeZone = "GMT"
+}
+
+def versions = [
+        commonsIO: '2.6',
+        hmctsJavaLogging: '3.0.2',
+        lombok: '1.16.18',
+        restAssured: '3.0.3',
+        serviceTokenGenerator: '0.6.0',
+        springfoxSwagger: '2.6.1',
+        springCloudWiremock: '1.2.4.RELEASE',
+        mapStruct: '1.2.0.Final',
+        authCheckerLib: '2.1.2',
+        springCloudStarterNetflixHystrix: '2.0.2.RELEASE',
+        serenityBdd: '1.5.2',
+        serenitySpring: '1.0.26',
+        jjwt: '0.9.0',
+        serviceAuthProviderClient: '0.6.0',
+        restAssured: '3.0.7',
+        piTest: '1.3.2',
+        commonMark: '0.11.0'
+]
+
+jacocoTestReport {
+    executionData(test)
+    reports {
+        xml.enabled = true
+        csv.enabled = false
+        xml.destination = file("${project.buildDir}/reports/jacoco/test/jacocoTestReport.xml")
+    }
+}
+
+repositories {
+  mavenLocal()
+  mavenCentral()
+  jcenter()
+  maven { url "https://dl.bintray.com/hmcts/hmcts-maven" }
+  maven { url "http://repo.maven.apache.org/maven2" }
+}
+
+
+processResources {
+  from ('src/lib/AI-Agent.xml') {
+    into 'lib'
+  }
+}
+
+
+dependencies {
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
+  compile group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
+  compile group: 'org.springframework.retry', name: 'spring-retry'
+
+  compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: versions.springCloudStarterNetflixHystrix
+  compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix-dashboard', version: versions.springCloudStarterNetflixHystrix
+  compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: versions.springCloudStarterNetflixHystrix
+  compile group: 'org.springframework.hateoas', name: 'spring-hateoas'
+
+  compile group: 'uk.gov.hmcts.reform', name: 'java-logging-spring', version: versions.hmctsJavaLogging
+  compile group: 'uk.gov.hmcts.reform', name: 'java-logging-httpcomponents', version: versions.hmctsJavaLogging
+  compile group: 'uk.gov.hmcts.reform', name: 'java-logging-appinsights', version: versions.hmctsJavaLogging
+  compile group: 'uk.gov.hmcts.reform.auth', name: 'auth-checker-lib', version: versions.authCheckerLib
+  compile group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceAuthProviderClient
+  compile group: 'uk.gov.hmcts.reform', name: 'core-case-data-store-client', version: '4.4.1'
+
+  compile group: 'commons-io', name: 'commons-io', version: versions.commonsIO
+
+  compile group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.springfoxSwagger
+  compile group: 'io.springfox', name: 'springfox-swagger2', version: versions.springfoxSwagger
+  compile group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+  compile group: 'org.mapstruct', name: 'mapstruct-jdk8', version: versions.mapStruct
+  
+  compile group: 'org.pitest', name: 'pitest', version: versions.piTest
+  compile group: 'com.atlassian.commonmark', name: 'commonmark', version: versions.commonMark
+  compile 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.3.0'
+  compile 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'
+
+  compileOnly group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
+
+  testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+  testCompile group: 'org.springframework.security', name: 'spring-security-test'
+  testCompile group: 'org.springframework.cloud', name: 'spring-cloud-contract-wiremock', version: versions.springCloudWiremock
+  testCompile group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
+    
+  testSmokeCompile group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
+  testSmokeCompile sourceSets.main.runtimeClasspath
+  testSmokeCompile sourceSets.test.runtimeClasspath
+
+  testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenityBdd
+  testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenityBdd
+  testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenityBdd
+  testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenitySpring
+  testFunctionalCompile group: 'io.jsonwebtoken', name: 'jjwt', version: versions.jjwt
+  testFunctionalCompile group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceAuthProviderClient
+  testFunctionalCompile sourceSets.main.runtimeClasspath
+  testFunctionalCompile sourceSets.test.runtimeClasspath
+
+  testCaseCreatorCompile group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenityBdd
+  testCaseCreatorCompile group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenityBdd
+  testCaseCreatorCompile group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenityBdd
+  testCaseCreatorCompile group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenitySpring
+  testCaseCreatorCompile group: 'io.jsonwebtoken', name: 'jjwt', version: versions.jjwt
+  testCaseCreatorCompile group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceAuthProviderClient
+  testCaseCreatorCompile sourceSets.main.runtimeClasspath
+  testCaseCreatorCompile sourceSets.test.runtimeClasspath
+}
+
+compileJava {
+  options.compilerArgs << '-parameters'
+}
+
+jar {
+  archiveName = 'probate-orchestrator-service.jar'
+  manifest {
+
+    attributes 'Implementation-Title': project.name,
+            'Implementation-Version': project.version
+  }
+}
+
+task printVersion {
+  doLast {
+    print project.version
+  }
+}
+
+run {
+  if (debug == 'true') {
+    jvmArgs = ['-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005']
+  }
+}
