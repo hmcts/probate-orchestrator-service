@@ -25,8 +25,6 @@ apply plugin: 'jacoco'
 apply plugin: 'net.serenity-bdd.aggregator'
 apply plugin: "com.gorylenko.gradle-git-properties"
 
-
-
 group = 'uk.gov.hmcts.probate'
 version = "4.0.0"
 mainClassName = 'uk.gov.hmcts.probate.OrchestratorApplication'
@@ -133,21 +131,20 @@ sourceSets {
       resources.srcDir file('src/functionalTest/resources')
     }
     testContract{
-      java {
-          compileClasspath += main.output
-          runtimeClasspath += main.output
-          srcDir file('src/contractTest/java')
+        java {
+            compileClasspath += main.output
+            runtimeClasspath += main.output
+            srcDir file('src/contractTest/java')
         }
         resources.srcDir file('src/contractTest/resources')
     }
-
 }
 
 pact {
-  publish {
-    pactDirectory = 'target/pacts'
-    pactBrokerUrl = "$System.env.PACT_BROKER_URL"
-  }
+    publish {
+        pactDirectory = 'target/pacts'
+        pactBrokerUrl = "$System.env.PACT_BROKER_URL"
+    }
 }
 
 task smoke(type: Test) {
@@ -160,7 +157,6 @@ task functional(type: Test) {
   description = "Runs functional Tests"
   testClassesDirs = sourceSets.testFunctional.output.classesDirs
   classpath = sourceSets.testFunctional.runtimeClasspath
-  println classpath
   finalizedBy aggregate
 }
 
@@ -169,6 +165,13 @@ task contract(type: Test) {
   useJUnitPlatform()
   testClassesDirs = sourceSets.testContract.output.classesDirs
   classpath = sourceSets.testContract.runtimeClasspath
+}
+
+task contract(type: Test) {
+    description = "Runs Contract Tests"
+    useJUnitPlatform()
+    testClassesDirs = sourceSets.testContract.output.classesDirs
+    classpath = sourceSets.testContract.runtimeClasspath
 }
 
 gitProperties {
@@ -228,7 +231,6 @@ processResources {
 
 
 dependencies {
-
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
@@ -296,8 +298,20 @@ dependencies {
   testContractCompile sourceSets.main.runtimeClasspath
   testContractCompile sourceSets.test.runtimeClasspath
 
+    compile('org.springframework.cloud:spring-cloud-starter-netflix-ribbon')
+    testCompile('org.codehaus.groovy:groovy-all:2.4.6')
+    testCompile("au.com.dius:pact-jvm-consumer-junit5_2.12:${pact_version}")
+
 }
 
+
+pact {
+  publish {
+    pactDirectory = 'target/pacts'
+    pactBrokerUrl ='http://localhost:80'
+      tags = [project.pactBrokerTag]
+  }
+}
 task printbranch {
     doLast {
         print project.pactBrokerTag
@@ -322,6 +336,7 @@ compileJava {
 jar {
   archiveName = 'probate-orchestrator-service.jar'
   manifest {
+
     attributes 'Implementation-Title': project.name,
             'Implementation-Version': project.version
   }
