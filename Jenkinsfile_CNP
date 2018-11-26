@@ -33,7 +33,7 @@ withPipeline("java", product, component) {
     }
 
     try {
-        sh './gradlew contract && ./gradlew publish'
+        sh './gradlew contract && ./gradlew pactPublish'
     } finally {
         //steps.archiveArtifacts "build/reports/pitest/**/*.*"
     }
