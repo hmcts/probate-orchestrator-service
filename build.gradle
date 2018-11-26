@@ -290,7 +290,7 @@ dependencies {
 pact {
   publish {
     pactDirectory = 'target/pacts'
-    pactBrokerUrl ='http://localhost:80'
+    pactBrokerUrl = "$System.env.PACT_BROKER_URL"
       tags = [project.pactBrokerTag]
   }
 }
