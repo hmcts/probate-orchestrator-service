@@ -1,7 +1,6 @@
 package uk.gov.hmcts.probate.client.validation;
 
 import au.com.dius.pact.consumer.Pact;
-import au.com.dius.pact.consumer.dsl.PactDslJsonBody;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
@@ -10,9 +9,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -20,10 +16,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.validation.FieldError;
-import uk.gov.hmcts.probate.domain.Applicant;
-import uk.gov.hmcts.probate.domain.FormData;
-import uk.gov.hmcts.probate.dto.ccd.data.AddressDTO;
 import uk.gov.hmcts.probate.dto.formdata.ApplicantDTO;
 import uk.gov.hmcts.probate.dto.formdata.FormDataDTO;
 import uk.gov.hmcts.probate.dto.validation.BusinessValidationErrorDTO;
@@ -35,7 +27,6 @@ import java.util.Arrays;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
-
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @ExtendWith(PactConsumerTestExt.class)
@@ -139,8 +130,6 @@ class BusinessValidationServiceConsumerTest {
         BusinessValidationResponseDTO businessValidationResponseDTO = new BusinessValidationResponseDTO(BusinessValidationStatusDTO.FAILURE, Arrays.asList(error));
         return businessValidationResponseDTO;
     }
-
-
 
 	private JSONObject createJsonObject(Object object, boolean wrapRoot) {
         ObjectMapper objectMapper = new ObjectMapper();
