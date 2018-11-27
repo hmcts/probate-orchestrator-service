@@ -167,7 +167,7 @@ task functional(type: Test) {
 
 task contract(type: Test) {
   description = "Runs Contract Tests"
-  delete pact.publish.pactDirectory
+  //delete pact.publish.pactDirectorye
   useJUnitPlatform()
   testClassesDirs = sourceSets.testContract.output.classesDirs
   classpath = sourceSets.testContract.runtimeClasspath
@@ -299,7 +299,6 @@ dependencies {
   testContractImplementation(
           'org.junit.jupiter:junit-jupiter-api:5.3.2'
   )
-  testContractAnnotationProcessor('org.junit.jupiter:junit-jupiter-api:5.3.2')
   testContractCompile sourceSets.main.runtimeClasspath
   testContractCompile sourceSets.test.runtimeClasspath
 
