@@ -2,7 +2,6 @@ buildscript {
   dependencies {
     classpath group: 'org.sonarsource.scanner.gradle', name: 'sonarqube-gradle-plugin', version: '2.5'
     classpath("net.serenity-bdd:serenity-gradle-plugin:1.5.2")
-      
   }
 }
 
@@ -18,9 +17,8 @@ plugins {
     id 'au.com.dius.pact' version '3.5.20'
 }
 
-
+apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
-
 apply plugin: 'org.sonarqube'
 apply plugin: 'findbugs'
 apply plugin: 'jacoco'
@@ -49,6 +47,7 @@ tasks.withType(Checkstyle).each { checkstyleTask ->
     }
   }
 }
+
 
 project.ext {
   nativeType = "dmg"
@@ -133,15 +132,7 @@ sourceSets {
       }
       resources.srcDir file('src/functionalTest/resources')
     }
-    testCaseCreator {
-      java {
-        compileClasspath += main.output
-        runtimeClasspath += main.output
-        srcDir file('src/caseCreator/java')
-      }
-      resources.srcDir file('src/caseCreator/resources')
-    }
-    testContract{ 
+    testContract{
       java {
           compileClasspath += main.output
           runtimeClasspath += main.output
@@ -149,7 +140,15 @@ sourceSets {
         }
         resources.srcDir file('src/contractTest/resources')
     }
-  
+
+}
+
+pact {
+  publish {
+    pactDirectory = 'target/pacts'
+    pactBrokerUrl = "$System.env.PACT_BROKER_URL"
+    tags = [project.pactBrokerTag]
+  }
 }
 
 task smoke(type: Test) {
@@ -162,21 +161,16 @@ task functional(type: Test) {
   description = "Runs functional Tests"
   testClassesDirs = sourceSets.testFunctional.output.classesDirs
   classpath = sourceSets.testFunctional.runtimeClasspath
-  finalizedBy aggregate
-}
-
-task caseCreator(type: Test) {
-  description = "Runs functional Case creator Tests"
-  testClassesDirs = sourceSets.testCaseCreator.output.classesDirs
-  classpath = sourceSets.testCaseCreator.runtimeClasspath
+  println classpath
   finalizedBy aggregate
 }
 
 task contract(type: Test) {
   description = "Runs Contract Tests"
+  delete pact.publish.pactDirectory
+  useJUnitPlatform()
   testClassesDirs = sourceSets.testContract.output.classesDirs
   classpath = sourceSets.testContract.runtimeClasspath
-  finalizedBy aggregate
 }
 
 gitProperties {
@@ -236,6 +230,7 @@ processResources {
 
 
 dependencies {
+
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
@@ -272,7 +267,15 @@ dependencies {
   testCompile group: 'org.springframework.security', name: 'spring-security-test'
   testCompile group: 'org.springframework.cloud', name: 'spring-cloud-contract-wiremock', version: versions.springCloudWiremock
   testCompile group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
-  testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'  
+  testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
+
+  testCompile("org.junit.jupiter:junit-jupiter-api:5.3.2")
+  testRuntime("org.junit.jupiter:junit-jupiter-engine:5.3.2")
+  testImplementation(
+          'org.junit.jupiter:junit-jupiter-api:5.3.2'
+  )
+
+
     
   testSmokeCompile group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
   testSmokeCompile sourceSets.main.runtimeClasspath
@@ -287,32 +290,21 @@ dependencies {
   testFunctionalCompile sourceSets.main.runtimeClasspath
   testFunctionalCompile sourceSets.test.runtimeClasspath
 
-  testCaseCreatorCompile group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenityBdd
-  testCaseCreatorCompile group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenityBdd
-  testCaseCreatorCompile group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenityBdd
-  testCaseCreatorCompile group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenitySpring
-  testCaseCreatorCompile group: 'io.jsonwebtoken', name: 'jjwt', version: versions.jjwt
-  testCaseCreatorCompile group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceAuthProviderClient
-  testCaseCreatorCompile sourceSets.main.runtimeClasspath
-  testCaseCreatorCompile sourceSets.test.runtimeClasspath
-
+  testContractCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+  testContractCompile('org.springframework.cloud:spring-cloud-starter-netflix-ribbon')
+  testContractCompile('org.codehaus.groovy:groovy-all:2.4.6')
+  testContractCompile("au.com.dius:pact-jvm-consumer-junit5_2.12:${pact_version}")
+  testContractCompile("org.junit.jupiter:junit-jupiter-api:5.3.2")
+  testContractRuntime("org.junit.jupiter:junit-jupiter-engine:5.3.2")
+  testContractImplementation(
+          'org.junit.jupiter:junit-jupiter-api:5.3.2'
+  )
+  testContractAnnotationProcessor('org.junit.jupiter:junit-jupiter-api:5.3.2')
   testContractCompile sourceSets.main.runtimeClasspath
   testContractCompile sourceSets.test.runtimeClasspath
-  
-  compile('org.springframework.cloud:spring-cloud-starter-netflix-ribbon')
-  testCompile('org.codehaus.groovy:groovy-all:2.4.6')
-  testCompile("au.com.dius:pact-jvm-consumer-junit5_2.12:${pact_version}")
-  testRuntimeOnly( 'org.junit.jupiter:junit-jupiter-engine:5.1.0')
+
 }
 
-
-pact {
-  publish {
-    pactDirectory = 'target/pacts'
-    pactBrokerUrl = "$System.env.PACT_BROKER_URL"
-      tags = [project.pactBrokerTag]
-  }
-}
 task printbranch {
     doLast {
         print project.pactBrokerTag
@@ -337,7 +329,6 @@ compileJava {
 jar {
   archiveName = 'probate-orchestrator-service.jar'
   manifest {
-
     attributes 'Implementation-Title': project.name,
             'Implementation-Version': project.version
   }

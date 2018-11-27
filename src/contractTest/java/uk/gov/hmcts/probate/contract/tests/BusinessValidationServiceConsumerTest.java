@@ -1,4 +1,4 @@
-package uk.gov.hmcts.probate.client.validation;
+package uk.gov.hmcts.probate.contract.tests;
 
 import au.com.dius.pact.consumer.Pact;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
@@ -16,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import uk.gov.hmcts.probate.client.validation.BusinessValidationClient;
 import uk.gov.hmcts.probate.dto.formdata.ApplicantDTO;
 import uk.gov.hmcts.probate.dto.formdata.FormDataDTO;
 import uk.gov.hmcts.probate.dto.validation.BusinessValidationErrorDTO;
@@ -37,7 +38,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 				"businessvalidationservice.ribbon.listOfServers: localhost:8889",
                 "business-validation-service.url : localhost:8889"
 })
-class BusinessValidationServiceConsumerTest {
+public class BusinessValidationServiceConsumerTest {
 
     public static final String SOME_AUTHORIZATION_TOKEN = "someAuthorizationToken";
     public static final String SOME_SERVICE_AUTHORIZATION_TOKEN = "someServiceAuthorizationToken";
@@ -46,7 +47,7 @@ class BusinessValidationServiceConsumerTest {
 	private String SERVICE_AUTHORIZATION = "ServiceAuthorization";
 
 	@Pact(state = "provider validates formdata with success", provider = "businessvalidationservice", consumer = "businessvalidationclient")
-	RequestResponsePact executeSuccessBusinessValidationPact(PactDslWithProvider builder) {
+	public RequestResponsePact executeSuccessBusinessValidationPact(PactDslWithProvider builder) {
 		// @formatter:off
 		FormDataDTO formData = getFormData();
 		JSONObject jsonObject = createJsonObject(formData, true);
@@ -66,7 +67,7 @@ class BusinessValidationServiceConsumerTest {
 	}
 
     @Pact(state = "provider validates formdata with errors", provider = "businessvalidationservice", consumer = "businessvalidationclient")
-    RequestResponsePact executeErrorsBusinessValidationPact(PactDslWithProvider builder) {
+    public RequestResponsePact executeErrorsBusinessValidationPact(PactDslWithProvider builder) {
         // @formatter:off
         FormDataDTO formData = getFormData();
         JSONObject jsonObject = createJsonObject(formData, true);
@@ -88,7 +89,7 @@ class BusinessValidationServiceConsumerTest {
 
     @Test
     @PactTestFor(pactMethod = "executeSuccessBusinessValidationPact")
-    void  verifyExecuteSuccessBusinessValidationPact() {
+    public void  verifyExecuteSuccessBusinessValidationPact() {
         FormDataDTO formData = getFormData();
 
         BusinessValidationResponseDTO businessValidationResponseDTO  =businessValidationClient.valididateIntestacy( SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN ,formData);
@@ -98,9 +99,8 @@ class BusinessValidationServiceConsumerTest {
 
     @Test
     @PactTestFor(pactMethod = "executeErrorsBusinessValidationPact")
-    void  verifyExecuteErrorBusinessValidationPact() {
+    public void  verifyExecuteErrorBusinessValidationPact() {
         FormDataDTO formData = getFormData();
-
         BusinessValidationResponseDTO businessValidationResponseDTO  =businessValidationClient.valididateIntestacy( SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN ,formData);
         assertThat(businessValidationResponseDTO.getStatus(), equalTo(BusinessValidationStatusDTO.FAILURE));
         assertThat(businessValidationResponseDTO.getErrors().size(), equalTo(1));
@@ -109,7 +109,7 @@ class BusinessValidationServiceConsumerTest {
 	private FormDataDTO getFormData() {
 		FormDataDTO formData = new FormDataDTO();
 		ApplicantDTO applicant = new ApplicantDTO();
-		applicant.setFirstName("Ruban");
+		applicant.setFirstName("Ruby");
 		applicant.setLastName("Mahendran");
 		applicant.setAddress("Some address");
 
