@@ -3,7 +3,7 @@ package uk.gov.hmcts.probate.functional;
 import feign.Feign;
 import feign.jackson.JacksonEncoder;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.netflix.feign.support.SpringMvcContract;
+import org.springframework.cloud.openfeign.support.SpringMvcContract;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
