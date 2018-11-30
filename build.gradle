@@ -167,7 +167,6 @@ task functional(type: Test) {
 
 task contract(type: Test) {
   description = "Runs Contract Tests"
-  //delete pact.publish.pactDirectorye
   useJUnitPlatform()
   testClassesDirs = sourceSets.testContract.output.classesDirs
   classpath = sourceSets.testContract.runtimeClasspath
@@ -271,9 +270,7 @@ dependencies {
 
   testCompile("org.junit.jupiter:junit-jupiter-api:5.3.2")
   testRuntime("org.junit.jupiter:junit-jupiter-engine:5.3.2")
-  testImplementation(
-          'org.junit.jupiter:junit-jupiter-api:5.3.2'
-  )
+  testImplementation('org.junit.jupiter:junit-jupiter-api:5.3.2')
 
 
     
@@ -291,7 +288,7 @@ dependencies {
   testFunctionalCompile sourceSets.test.runtimeClasspath
 
   testContractCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
-  testContractCompile('org.springframework.cloud:spring-cloud-starter-netflix-ribbon')
+  testContractCompile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-ribbon'
   testContractCompile('org.codehaus.groovy:groovy-all:2.4.6')
   testContractCompile("au.com.dius:pact-jvm-consumer-junit5_2.12:${pact_version}")
   testContractCompile("org.junit.jupiter:junit-jupiter-api:5.3.2")
