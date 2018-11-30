@@ -32,10 +32,10 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @ExtendWith(PactConsumerTestExt.class)
 @ExtendWith(SpringExtension.class)
-@PactTestFor(providerName = "probate.businessservice.validationservice", port = "8889")
+@PactTestFor(providerName = "probate_businessservice_validationservice", port = "8889")
 @SpringBootTest({
 				// overriding provider address
-				"probate.businessservice.validationservice.ribbon.listOfServers: localhost:8889",
+				"probate_businessservice_validationservice.ribbon.listOfServers: localhost:8889",
                 "business-validation-service.url : localhost:8889"
 })
 public class BusinessValidationServiceConsumerTest {
@@ -46,7 +46,7 @@ public class BusinessValidationServiceConsumerTest {
 	private BusinessValidationClient businessValidationClient;
 	private String SERVICE_AUTHORIZATION = "ServiceAuthorization";
 
-	@Pact(state = "provider validates formdata with success", provider = "probate.businessservice.validationservice", consumer = "probate.orchestratorservice.businessvalidationclient")
+	@Pact(state = "provider validates formdata with success", provider = "probate_businessservice_validationservice", consumer = "probate_orchestratorservice_businessvalidationclient")
 	public RequestResponsePact executeSuccessBusinessValidationPact(PactDslWithProvider builder) {
 		// @formatter:off
 		FormDataDTO formData = getFormData();
@@ -66,7 +66,7 @@ public class BusinessValidationServiceConsumerTest {
 		// @formatter:on
 	}
 
-    @Pact(state = "provider validates formdata with errors", provider = "probate.businessservice.validationservice", consumer = "probate.orchestratorservice.businessvalidationclient")
+    @Pact(state = "provider validates formdata with errors", provider = "probate_businessservice_validationservice", consumer = "probate_orchestratorservice_businessvalidationclient")
     public RequestResponsePact executeErrorsBusinessValidationPact(PactDslWithProvider builder) {
         // @formatter:off
         FormDataDTO formData = getFormData();

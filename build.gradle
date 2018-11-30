@@ -147,7 +147,6 @@ pact {
   publish {
     pactDirectory = 'target/pacts'
     pactBrokerUrl = "$System.env.PACT_BROKER_URL"
-    tags = [project.pactBrokerTag]
   }
 }
 
