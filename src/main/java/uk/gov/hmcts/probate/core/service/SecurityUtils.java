@@ -3,7 +3,6 @@ package uk.gov.hmcts.probate.core.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import uk.gov.hmcts.probate.client.validation.BusinessValidationClient;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 
 @Component

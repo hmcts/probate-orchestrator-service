@@ -15,50 +15,45 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import uk.gov.hmcts.probate.dto.CaseInfoDTO;
-import uk.gov.hmcts.probate.dto.formdata.FormDataDTO;
-import uk.gov.hmcts.probate.controller.mapper.FormDataMapper;
-import uk.gov.hmcts.probate.service.OrchestratorSubmitService;
+import uk.gov.hmcts.probate.service.SubmitService;
+import uk.gov.hmcts.reform.probate.model.forms.Form;
 
 @Api(tags = {"OrchestratorSubmitController"})
 @SwaggerDefinition(tags = {@Tag(name = "OrchestratorSubmitController", description = "OrchestratorSubmit API")})
 @RestController
-public class OrchestratorSubmitController {
+public class DraftsController {
 
-    private static final String SUBMIT_URL = "/submit";
+    private static final String DRAFTS_URL = "/drafts";
     private static final String HANDSHAKE_URL = "/handshake";
 
-    private final OrchestratorSubmitService orchestratorSubmitService;
-
-    private final FormDataMapper formDataMapper;
+    private final SubmitService submitService;
 
     @Autowired
-    private OrchestratorSubmitController(OrchestratorSubmitService orchestratorSubmitService, FormDataMapper formDataMapper) {
-        this.orchestratorSubmitService = orchestratorSubmitService;
-        this.formDataMapper = formDataMapper;
+    private DraftsController(SubmitService submitService) {
+        this.submitService = submitService;
     }
 
     @ApiOperation(value = "Create submission to CCD", notes = "Create submission to CCD")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Submission to CCD created"),
-            @ApiResponse(code = 400, message = "Submission to CCD failed"),
-            @ApiResponse(code = 422, message = "Invalid or missing attribute")
+        @ApiResponse(code = 201, message = "Draft created"),
+        @ApiResponse(code = 400, message = "Saving draft failed failed"),
+        @ApiResponse(code = 422, message = "Invalid or missing attribute")
     })
-    @RequestMapping(path = SUBMIT_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = DRAFTS_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<CaseInfoDTO> submit(@RequestBody FormDataDTO formDataDTO) {
-        CaseInfoDTO caseInfoDTO = orchestratorSubmitService.submit(formDataMapper.mapFormDataDTO(formDataDTO));
-        return new ResponseEntity<>(caseInfoDTO, HttpStatus.CREATED);
+    public ResponseEntity<Form> saveDrafts(@RequestBody Form form) {
+        Form formResponse = submitService.saveDrafts(form);
+        return new ResponseEntity<>(formResponse, HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Handshake", notes = "Handshake with Orchestrator Service")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Handshake successful"),
-            @ApiResponse(code = 400, message = "Handshake failed"),
+        @ApiResponse(code = 200, message = "Handshake successful"),
+        @ApiResponse(code = 400, message = "Handshake failed"),
     })
     @RequestMapping(path = HANDSHAKE_URL, method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<String> handshake() {
         return new ResponseEntity<>("Hello from the Orchestrator Service!", HttpStatus.OK);
-        }
+    }
 }
