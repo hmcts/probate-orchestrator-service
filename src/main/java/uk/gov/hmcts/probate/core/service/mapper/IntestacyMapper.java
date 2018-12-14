@@ -8,15 +8,19 @@ import org.mapstruct.Mappings;
 import org.mapstruct.ReportingPolicy;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.Address;
+import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
+import uk.gov.hmcts.reform.probate.model.cases.Payment;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.Declaration;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentation;
 import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 
 import java.math.BigDecimal;
+import java.time.ZoneId;
+import java.util.Arrays;
 
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {AliasNameMapper.class})
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public abstract class IntestacyMapper implements FormMapper<GrantOfRepresentation, IntestacyForm> {
 
     @Mappings({
@@ -33,17 +37,21 @@ public abstract class IntestacyMapper implements FormMapper<GrantOfRepresentatio
             @Mapping(target = "deceasedDateOfDeath", source = "deceased.dateOfDeath"),
             @Mapping(target = "deceasedAddressFound", source = "deceased.addressFound"),
             @Mapping(target = "deceasedAnyOtherNames", source = "deceased.alias"),
+            @Mapping(target = "deceasedMaritalStatus", source = "deceased.maritalStatus"),
             @Mapping(target = "deceasedDivorcedInEnglandOrWales", source = "deceased.divorcedInEnglandOrWales"),
+            @Mapping(target = "deceasedDomicileInEngWales", source = "deceased.domiciledInEnglandOrWales"),
             @Mapping(target = "deceasedOtherChildren", source = "deceased.otherChildren"),
             @Mapping(target = "deceasedAllDeceasedChildrenOverEighteen", source = "deceased.allDeceasedChildrenOverEighteen"),
             @Mapping(target = "deceasedAnyDeceasedChildrenDieBeforeDeceased", source = "deceased.anyDeceasedChildrenDieBeforeDeceased"),
             @Mapping(target = "deceasedAnyDeceasedGrandchildrenUnderEighteen", source = "deceased.anyDeceasedGrandchildrenUnderEighteen"),
+            @Mapping(target = "deceasedSpouseNotApplyingReason", source = "deceased.spouseNotApplyingReason"),
             @Mapping(target = "deceasedAnyChildren", source = "deceased.anyChildren"),
             @Mapping(target = "outsideUkGrantCopies", source = "copies.overseas"),
             @Mapping(target = "extraCopiesOfGrant", source = "copies.uk"),
             @Mapping(target = "assetsOverseas", source = "assets.assetsOverseas"),
             @Mapping(target = "assetsOverseasNetValue", source = "assets.assetsOverseasNetValue"),
             @Mapping(target = "ihtReferenceNumber", source = "iht.identifier"),
+            @Mapping(target = "registryLocation", source = "registry.address")
     })
     public abstract GrantOfRepresentation map(IntestacyForm form);
 
@@ -55,10 +63,15 @@ public abstract class IntestacyMapper implements FormMapper<GrantOfRepresentatio
     @AfterMapping
     public void mapIhtValues(IntestacyForm form, @MappingTarget GrantOfRepresentation grantOfRepresentation) {
         grantOfRepresentation.setIhtFormCompletedOnline(form.getIht().getMethod().equals(IhtMethod.ONLINE));
+        grantOfRepresentation.setIhtFormId(form.getIht().getForm());
         grantOfRepresentation.setIhtNetValue(form.getIht().getNetValue().multiply(new BigDecimal(100)).longValue());
         grantOfRepresentation.setIhtGrossValue(form.getIht().getGrossValue().multiply(new BigDecimal(100)).longValue());
     }
-
+    @AfterMapping
+    public void mapAssetsValues(IntestacyForm form, @MappingTarget GrantOfRepresentation grantOfRepresentation) {
+        grantOfRepresentation.setAssetsOverseasNetValue(form.getAssets()
+                .getAssetsOverseasNetValue().multiply(new BigDecimal(100)).longValue());
+    }
 
     @AfterMapping
     public void mapAddresses(IntestacyForm form, @MappingTarget GrantOfRepresentation grantOfRepresentation) {
@@ -71,6 +84,24 @@ public abstract class IntestacyMapper implements FormMapper<GrantOfRepresentatio
         Declaration declaration = new Declaration();
         declaration.setDeclarationCheckbox(form.getDeclaration().getDeclarationAgreement());
         grantOfRepresentation.setDeclaration(declaration);
+    }
+
+    @AfterMapping
+    public void mapPayment(IntestacyForm form, @MappingTarget GrantOfRepresentation grantOfRepresentation) {
+
+        Payment payment = new Payment();
+        uk.gov.hmcts.reform.probate.model.forms.Payment paymentForm = form.getPayment();
+        payment.setDate(paymentForm.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        payment.setAmount(paymentForm.getAmount()
+                .multiply(new BigDecimal(100)).longValue());
+        payment.setMethod(paymentForm.getChannel());
+        payment.setReference(paymentForm.getReference());
+        payment.setStatus(paymentForm.getStatus());
+        payment.setTransactionId(paymentForm.getTransactionId());
+        CollectionMember<Payment> paymentCollectionMember = new CollectionMember<>();
+        paymentCollectionMember.setValue(payment);
+
+        grantOfRepresentation.setPayments(Arrays.asList(paymentCollectionMember));
     }
 
     private Address createAddress(String addressStr, String postCode) {
