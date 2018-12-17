@@ -26,7 +26,7 @@ import static io.restassured.RestAssured.port;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class FormsIT {
+public class FormsIntegrationTest {
 
     private static final String DETAILS_ENDPOINT = "/details";
 
@@ -34,7 +34,7 @@ public class FormsIT {
 
     private static final String FORMS_ENDPOINT = "/forms/{email}";
 
-    private static final String DRAFTS_ENDPOINT = "/v2/drafts/jon.snow@thenorth.com";
+    private static final String DRAFTS_ENDPOINT = "/v2/drafts/jon.snow%40thenorth.com";
 
 
     private static final String AUTHORIZATION = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI4c28yYzVlajF0bTI0cDNub" +
