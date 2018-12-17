@@ -7,19 +7,21 @@ import java.math.BigDecimal;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
-class MapperUtilsTest {
+class PoundsConverterTest {
 
     private static final Long longValue = 250015L;
 
     private static final BigDecimal bigDecimalValue = new BigDecimal("2500.15");
 
+    private PoundsConverter poundsConverter = new PoundsConverter();
+
     @Test
     void shouldConvertFromPoundsToPennies() {
-        assertThat(MapperUtils.poundsToPennies(bigDecimalValue), equalTo(longValue));
+        assertThat(poundsConverter.poundsToPennies(bigDecimalValue), equalTo(longValue));
     }
 
     @Test
     void shouldConvertPenniesToPounds() {
-        assertThat(MapperUtils.penniesToPounds(longValue), equalTo(bigDecimalValue));
+        assertThat(poundsConverter.penniesToPounds(longValue), equalTo(bigDecimalValue));
     }
 }
