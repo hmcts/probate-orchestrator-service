@@ -6,7 +6,9 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.ReportingPolicy;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromCollectionMember;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromIhtMethod;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCollectionMember;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToIhtMethod;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPennies;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPounds;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
@@ -15,7 +17,8 @@ import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 
 
-@Mapper(uses = {PaymentsMapper.class, AliasNameMapper.class, PoundsConverter.class},
+@Mapper(componentModel = "spring", uses = {PaymentsMapper.class, AliasNameMapper.class, PoundsConverter.class,
+    IhtMethodConverter.class},
     imports = {ProbateType.class, IhtMethod.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface IntestacyMapper extends FormMapper<GrantOfRepresentation, IntestacyForm> {
 
@@ -53,7 +56,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentation, Intes
         @Mapping(target = "assetsOverseas", source = "assets.assetsOverseas"),
         @Mapping(target = "ihtReferenceNumber", source = "iht.identifier"),
         @Mapping(target = "ihtFormId", source = "iht.form"),
-        @Mapping(target = "ihtFormCompletedOnline", expression = "java(form.getIht().getMethod() == IhtMethod.ONLINE)"),
+        @Mapping(target = "ihtFormCompletedOnline", source = "iht.method", qualifiedBy = {FromIhtMethod.class}),
         @Mapping(target = "ihtNetValue", source = "iht.netValue", qualifiedBy = {ToPennies.class}),
         @Mapping(target = "ihtGrossValue", source = "iht.grossValue", qualifiedBy = {ToPennies.class}),
         @Mapping(target = "registryLocation", source = "registry.name"),
@@ -69,7 +72,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentation, Intes
     GrantOfRepresentation toCaseData(IntestacyForm form);
 
     @Mappings( {
-        @Mapping(target = "iht.method", expression = "java(grantOfRepresentation.getIhtFormCompletedOnline() ? IhtMethod.ONLINE : IhtMethod.BY_POST)"),
+        @Mapping(target = "iht.method", source = "ihtFormCompletedOnline", qualifiedBy = {ToIhtMethod.class}),
         @Mapping(target = "assets.assetsOverseasNetValue", source = "assetsOverseasNetValue", qualifiedBy = {ToPounds.class}),
         @Mapping(target = "iht.netValue", source = "ihtNetValue", qualifiedBy = {ToPounds.class}),
         @Mapping(target = "iht.grossValue", source = "ihtGrossValue", qualifiedBy = {ToPounds.class}),

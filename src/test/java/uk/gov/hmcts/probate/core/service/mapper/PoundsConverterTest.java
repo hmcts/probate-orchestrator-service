@@ -1,13 +1,16 @@
 package uk.gov.hmcts.probate.core.service.mapper;
 
-import org.junit.jupiter.api.Test;
+
+import org.junit.Test;
 
 import java.math.BigDecimal;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-class PoundsConverterTest {
+public class PoundsConverterTest {
 
     private static final Long longValue = 250015L;
 
@@ -16,12 +19,22 @@ class PoundsConverterTest {
     private PoundsConverter poundsConverter = new PoundsConverter();
 
     @Test
-    void shouldConvertFromPoundsToPennies() {
+    public void shouldConvertFromPoundsToPennies() {
         assertThat(poundsConverter.poundsToPennies(bigDecimalValue), equalTo(longValue));
     }
 
     @Test
-    void shouldConvertPenniesToPounds() {
+    public void shouldConvertNullFromPoundsToPennies() {
+        assertThat(poundsConverter.poundsToPennies(null), is(nullValue()));
+    }
+
+    @Test
+    public void shouldConvertPenniesToPounds() {
         assertThat(poundsConverter.penniesToPounds(longValue), equalTo(bigDecimalValue));
+    }
+
+    @Test
+    public void shouldConvertNullPenniesToPounds() {
+        assertThat(poundsConverter.poundsToPennies(null), is(nullValue()));
     }
 }

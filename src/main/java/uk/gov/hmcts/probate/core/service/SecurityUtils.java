@@ -15,11 +15,11 @@ public class SecurityUtils {
         this.authTokenGenerator = authTokenGenerator;
     }
 
-    public String generateServiceToken() {
+    public String getServiceAuthorisation() {
         return authTokenGenerator.generate();
     }
 
-    public  String getUserToken() {
+    public  String getAuthorisation() {
         return (String) SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getCredentials();
