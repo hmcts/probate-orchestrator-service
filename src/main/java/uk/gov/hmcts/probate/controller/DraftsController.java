@@ -42,8 +42,8 @@ public class DraftsController {
     @RequestMapping(path = DRAFTS_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Form> saveDrafts(@RequestBody Form form) {
-        Form formResponse = submitService.saveDrafts(form);
-        return new ResponseEntity<>(formResponse, HttpStatus.CREATED);
+        //Form formResponse = submitService.saveDraft(form);
+        return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Handshake", notes = "Handshake with Orchestrator Service")
