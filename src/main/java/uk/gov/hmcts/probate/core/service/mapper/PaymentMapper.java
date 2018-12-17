@@ -9,7 +9,7 @@ import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPounds;
 import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
 import uk.gov.hmcts.reform.probate.model.forms.Payment;
 
-@Mapper(uses = PoundsConverter.class, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", uses = PoundsConverter.class, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface PaymentMapper {
 
     @Mappings( {

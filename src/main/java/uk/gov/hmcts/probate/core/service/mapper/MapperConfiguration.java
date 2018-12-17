@@ -12,9 +12,9 @@ import java.util.Map;
 public class MapperConfiguration {
 
     @Bean
-    public Map<ProbateType, FormMapper> mappers() {
+    public Map<ProbateType, FormMapper> mappers(IntestacyMapper intestacyMapper) {
         return ImmutableMap.<ProbateType, FormMapper>builder()
-            .put(ProbateType.INTESTACY, Mappers.getMapper(IntestacyMapper.class))
+            .put(ProbateType.INTESTACY, intestacyMapper)
             .build();
     }
 }
