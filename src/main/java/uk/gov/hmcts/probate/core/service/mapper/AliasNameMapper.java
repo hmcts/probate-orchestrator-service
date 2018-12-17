@@ -1,7 +1,7 @@
 package uk.gov.hmcts.probate.core.service.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.ReportingPolicy;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromCollectionMember;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.AliasName;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.forms.AliasOtherNames;
@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public class AliasNameMapper {
 
+    @ToCollectionMember
     public List<CollectionMember<AliasName>> toCollectionMember(Map<String, AliasOtherNames> otherNames) {
         return otherNames.values()
             .stream()
@@ -23,7 +23,7 @@ public class AliasNameMapper {
             .collect(Collectors.toList());
     }
 
-
+    @FromCollectionMember
     public Map<String, AliasOtherNames> fromCollectionMember(List<CollectionMember<AliasName>> collectionMembers) {
         List<AliasOtherNames> aliasOtherNamesList = collectionMembers
             .stream()

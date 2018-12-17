@@ -8,9 +8,7 @@ import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 public class IntestacyMapperTest {
-
 
     private IntestacyMapper mapper = Mappers.getMapper(IntestacyMapper.class);
     private IntestacyForm intestacyForm;
@@ -25,12 +23,12 @@ public class IntestacyMapperTest {
     @Test
     void shouldMapIntestacyFormToGrantOfRepresentation() {
         GrantOfRepresentation actualGrantOfRepresentation = mapper.toCaseData(intestacyForm);
-        assertThat(actualGrantOfRepresentation).isEqualToComparingFieldByField(grantOfRepresentation);
+        assertThat(actualGrantOfRepresentation).isEqualToComparingFieldByFieldRecursively(grantOfRepresentation);
     }
 
     @Test
     void shouldMapGrantOfRepresentationToGrantOfIntestacyForm() {
         IntestacyForm actualIntestacyForm = mapper.fromCaseData(grantOfRepresentation);
-        assertThat(actualIntestacyForm).isEqualToComparingFieldByField(intestacyForm);
+        assertThat(actualIntestacyForm).isEqualToComparingFieldByFieldRecursively(intestacyForm);
     }
 }
