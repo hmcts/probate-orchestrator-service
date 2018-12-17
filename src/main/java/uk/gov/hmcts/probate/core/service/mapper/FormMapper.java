@@ -5,5 +5,7 @@ import uk.gov.hmcts.reform.probate.model.forms.Form;
 
 public interface FormMapper<R extends CaseData, T extends Form> {
 
-    R map(T form);
+    R toCaseData(T form);
+
+    T fromCaseData(R caseData);
 }
