@@ -25,7 +25,7 @@ public interface SubmitServiceApi {
 
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/v2/cases/{applicantEmail}",
+        value = "/cases/{applicantEmail}",
         headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
     ProbateCaseDetails getCase(
@@ -37,7 +37,7 @@ public interface SubmitServiceApi {
 
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/v2/drafts/{applicantEmail}",
+        value = "/drafts/{applicantEmail}",
         headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
     ProbateCaseDetails saveDraft(
@@ -49,7 +49,7 @@ public interface SubmitServiceApi {
 
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/v2/submissions/{applicantEmail}",
+        value = "/submissions/{applicantEmail}",
         headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
     ProbateCaseDetails submit(
@@ -61,7 +61,7 @@ public interface SubmitServiceApi {
 
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/v2/payments/{applicantEmail}",
+        value = "/payments/{applicantEmail}",
         headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
     ProbateCaseDetails updatePayments(
