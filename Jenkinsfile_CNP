@@ -6,6 +6,22 @@ String product = "probate"
 String component = "orchestrator-service"
 
 List<LinkedHashMap<String, Object>> secrets = [
+        secret('probatePersistenceUrl', 'TEST_PERSISTENCE_URL'),
+        secret('probateBusinessUrl', 'TEST_BUSINESS_URL'),
+        secret('s2sAuthTotpSecret', 'S2S_AUTH_TOTP_SECRET'),
+        secret('probateIdamSecret', 'IDAM_SECRET'),
+        secret('probateIdamUserName', 'IDAM_USERNAME'),
+        secret('probateIdamPassword', 'IDAM_PASSWORD'),
+        secret('probateCcdDataStoreApi', 'CCD_DATA_STORE_API_URL'),
+        secret('serviceAuthProviderBaseUrl', 'SERVICE_AUTH_PROVIDER_BASE_URL'),
+        secret('probateUserAuthUrl', 'USER_AUTH_PROVIDER_OAUTH2_URL'),
+        secret('probateIdamOauthRedirectUrl', 'IDAM_OAUTH2_REDIRECT_URI'),
+        secret('probate-mail-host', 'PROBATE_SUB_MAIL_HOST'),
+        secret('probate-mail-username', 'PROBATE_SUB_MAIL_USERNAME'),
+        secret('probate-mail-password', 'PROBATE_SUB_MAIL_PASSWORD'),
+        secret('probate-mail-port', 'PROBATE_SUB_MAIL_PORT'),
+        secret('probate-mail-sender', 'PROBATE_SUB_MAIL_SENDER'),
+        secret('probate-mail-recipient', 'PROBATE_SUB_MAIL_REC')
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
@@ -18,24 +34,28 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 }
 
 withPipeline("java", product, component) {
+  setVaultName('probate')
   env.PACT_BROKER_URL = "url"
   loadVaultSecrets(secrets)
   enableSlackNotifications('#probate-jenkins')
+  enableDockerBuild()
+  enableDeployToAKS()
 
   before('buildinfra:prod') {
     error 'Deliberately breaking pipeline to prevent prod deployment'
   }
+
   after('test') {
     try {
-       // sh './gradlew pitest'
+      // sh './gradlew pitest'
     } finally {
-        //steps.archiveArtifacts "build/reports/pitest/**/*.*"
+      //steps.archiveArtifacts "build/reports/pitest/**/*.*"
     }
 
     try {
-        sh './gradlew contract && ./gradlew pactPublish'
+      //     sh './gradlew contract && ./gradlew pactPublish'
     } finally {
-        //steps.archiveArtifacts "build/reports/pitest/**/*.*"
+      //steps.archiveArtifacts "build/reports/pitest/**/*.*"
     }
     junit 'build/test-results/test/**/*.xml'
     archiveArtifacts 'build/reports/tests/test/index.html'
@@ -68,20 +88,20 @@ withPipeline("java", product, component) {
   }
 
   after('functionalTest:aat') {
-      publishHTML target: [
-              reportDir            : "target/site/serenity/",
-              reportFiles          : "index.html",
-              reportName           : "AAT Functional Tests",
-              alwaysLinkToLastBuild: true
-      ]
+    publishHTML target: [
+            reportDir            : "target/site/serenity/",
+            reportFiles          : "index.html",
+            reportName           : "AAT Functional Tests",
+            alwaysLinkToLastBuild: true
+    ]
   }
 
   after('functionalTest:spreview') {
-      publishHTML target: [
-              reportDir            : "target/site/serenity/",
-              reportFiles          : "index.html",
-              reportName           : "Preview Functional Tests",
-              alwaysLinkToLastBuild: true
-      ]
+    publishHTML target: [
+            reportDir            : "target/site/serenity/",
+            reportFiles          : "index.html",
+            reportName           : "Preview Functional Tests",
+            alwaysLinkToLastBuild: true
+    ]
   }
 }
