@@ -29,7 +29,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentation, Intes
         @Mapping(target = "primaryApplicantRelationshipToDeceased", source = "applicant.relationshipToDeceased"),
         @Mapping(target = "primaryApplicantAdoptionInEnglandOrWales", source = "applicant.adoptionInEnglandOrWales"),
         @Mapping(target = "primaryApplicantPhoneNumber", source = "applicant.phoneNumber"),
-        @Mapping(target = "primaryApplicantEmailAddress", source = "applicant.email"),
+        @Mapping(target = "primaryApplicantEmailAddress", expression = "java(form.getApplicant().getEmail().toLowerCase())"),
         @Mapping(target = "primaryApplicantAddressFound", source = "applicant.addressFound"),
         @Mapping(target = "primaryApplicantFreeTextAddress", source = "applicant.freeTextAddress"),
         @Mapping(target = "deceasedAddress.addressLine1", source = "deceased.address"),
