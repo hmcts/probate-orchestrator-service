@@ -13,6 +13,7 @@ import uk.gov.hmcts.probate.functional.TestAuthTokenGenerator;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 
 @Component
@@ -21,43 +22,33 @@ public class TestUtils {
     @Autowired
     protected TestAuthTokenGenerator testAuthTokenGenerator;
 
-    private ObjectMapper objectMapper;
-
-    private String serviceToken;
-
-    @PostConstruct
-    public void init() {
-        serviceToken = testAuthTokenGenerator.generateServiceToken();
-        objectMapper = new ObjectMapper();
+    public String getJsonFromFile(String fileName) {
+        try {
+            File file = ResourceUtils.getFile(this.getClass().getResource("/json/" + fileName));
+            return new String(Files.readAllBytes(file.toPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public JsonNode getJsonNodeFromFile(String fileName) throws IOException {
-        File file = ResourceUtils.getFile(this.getClass().getResource("/json/" + fileName));
-        return objectMapper.readTree(file);
-    }
-
-    public Headers getHeaders() {
-        return getHeaders(serviceToken);
-    }
-
-    public Headers getHeaders(String serviceToken) {
+    public Headers getHeaders(String sessionId) {
         return Headers.headers(
-                new Header("ServiceAuthorization", serviceToken),
-                new Header("Content-Type", ContentType.JSON.toString()));
+            new Header("Content-Type", ContentType.JSON.toString()),
+            new Header("Session-ID", sessionId));
     }
 
-    public Headers getHeadersWithUserId() {
-        return getHeadersWithUserId(serviceToken);
-    }
-
-    public Headers getHeadersWithUserId(String serviceToken) {
+    public Headers submitHeaders(String sessionId) {
         return Headers.headers(
-                new Header("ServiceAuthorization", serviceToken),
-                new Header("Content-Type", ContentType.JSON.toString()),
-                new Header("Authorization", testAuthTokenGenerator.generateUserTokenWithNoRoles()));
+            new Header("Content-Type", ContentType.JSON.toString()),
+            new Header("UserId", sessionId),
+            new Header("Authorization", "DUMMY_KEY"));
     }
 
-    public String getUserId() {
-        return testAuthTokenGenerator.getUserId();
+    public Headers getHeaders(String userName, String password) {
+        return Headers.headers(
+            new Header("ServiceAuthorization", testAuthTokenGenerator.generateServiceAuthorisation()),
+            new Header("Content-Type", ContentType.JSON.toString()),
+            new Header("Authorization", testAuthTokenGenerator.generateAuthorisation(userName, password)));
     }
 }

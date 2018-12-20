@@ -2,6 +2,7 @@ package uk.gov.hmcts.probate.core.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +14,9 @@ import uk.gov.hmcts.probate.core.service.mapper.FormMapper;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.CaseData;
 import uk.gov.hmcts.reform.probate.model.cases.CaseInfo;
+import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
+import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.ProbatePaymentDetails;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentation;
@@ -70,7 +73,9 @@ public class SubmitServiceImplTest {
         submitService = new SubmitServiceImpl(mappers, submitServiceApi, securityUtils);
         String formStr = TestUtils.getJSONFromFile("intestacyForm.json");
         form = objectMapper.readValue(formStr, Form.class);
-        caseData = GrantOfRepresentation.builder().build();
+        CasePayment casePayment = new CasePayment();
+        caseData = GrantOfRepresentation.builder().payments(
+            Lists.newArrayList(CollectionMember.<CasePayment>builder().value(casePayment).build())).build();
         caseInfo = CaseInfo.builder().state(STATE).caseId(CASE_ID).build();
         probateCaseDetails = ProbateCaseDetails.builder().caseData(caseData).caseInfo(caseInfo).build();
         when(securityUtils.getAuthorisation()).thenReturn(AUTHORIZATION);

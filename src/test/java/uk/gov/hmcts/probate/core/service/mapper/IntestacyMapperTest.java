@@ -4,7 +4,10 @@ package uk.gov.hmcts.probate.core.service.mapper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mapstruct.factory.Mappers;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentation;
 import uk.gov.hmcts.reform.probate.model.forms.Copies;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
@@ -19,9 +22,13 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class IntestacyMapperTest {
 
-    private IntestacyMapper mapper = Mappers.getMapper(IntestacyMapper.class);
+    @Autowired
+    private IntestacyMapper mapper;
+
     private IntestacyForm intestacyForm;
     private GrantOfRepresentation grantOfRepresentation;
 
