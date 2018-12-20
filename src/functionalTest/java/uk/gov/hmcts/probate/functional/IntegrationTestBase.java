@@ -23,9 +23,9 @@ public abstract class IntegrationTestBase {
     protected String idamUrl;
 
     @Autowired
-    public void solCcdServiceUrl(@Value("${probate.orchestrator.service.url}") String orchestratorUrl,
-                                 @Value("${probate.submit.url}") String submitServiceUrl,
-                                 @Value("${user.auth.provider.oauth2.url}") String idamUrl) {
+    public void initialise(@Value("${probate.orchestrator.service.url}") String orchestratorUrl,
+                           @Value("${probate.submit.url}") String submitServiceUrl,
+                           @Value("${user.auth.provider.oauth2.url}") String idamUrl) {
         RestAssured.baseURI = orchestratorUrl;
         RestAssured.defaultParser = Parser.JSON;
         this.orchestratorUrl = orchestratorUrl;
