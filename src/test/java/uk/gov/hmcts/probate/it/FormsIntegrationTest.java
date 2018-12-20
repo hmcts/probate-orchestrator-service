@@ -7,6 +7,7 @@ import io.restassured.http.Header;
 import io.restassured.http.Headers;
 import org.junit.Before;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -102,6 +103,7 @@ public class FormsIntegrationTest {
                 .withStatus(200)));
     }
 
+    @Ignore
     @Test
     public void shouldSaveForm() throws Exception {
 
