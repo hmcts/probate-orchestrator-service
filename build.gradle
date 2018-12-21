@@ -293,19 +293,15 @@ dependencies {
   testContractImplementation('org.junit.jupiter:junit-jupiter-api:5.3.2')
   testContractCompile sourceSets.main.runtimeClasspath
   testContractCompile sourceSets.test.runtimeClasspath
-  
-  compile('org.springframework.cloud:spring-cloud-starter-netflix-ribbon')
-  testCompile('org.codehaus.groovy:groovy-all:2.4.6')
-  testCompile("au.com.dius:pact-jvm-consumer-junit5_2.12:${pact_version}")
-  testRuntimeOnly( 'org.junit.jupiter:junit-jupiter-engine:5.1.0')
+    
 }
 
 
 pact {
   publish {
     pactDirectory = 'target/pacts'
-    pactBrokerUrl = "$System.env.PACT_BROKER_URL"
-      tags = [project.pactBrokerTag]
+    pactBrokerUrl = "http://localhost:80"
+     // tags = [project.pactBrokerTag]
   }
 }
 task printbranch {

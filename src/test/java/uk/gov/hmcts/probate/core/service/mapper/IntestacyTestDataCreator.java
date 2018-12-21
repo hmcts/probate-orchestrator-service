@@ -15,7 +15,6 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.Declaration
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentation;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.SpouseNotApplyingReason;
 import uk.gov.hmcts.reform.probate.model.forms.AliasOtherNames;
-import uk.gov.hmcts.reform.probate.model.forms.CcdCase;
 import uk.gov.hmcts.reform.probate.model.forms.Copies;
 import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
@@ -230,6 +229,31 @@ public class IntestacyTestDataCreator {
         paymentCollectionMember.setValue(payment);
         grantOfRepresentation.setPayments(Lists.newArrayList(paymentCollectionMember));
         grantOfRepresentation.setUploadDocumentUrl(UPLOAD_DOCUMENT_URL);
+        return grantOfRepresentation;
+    }
+
+    public static GrantOfRepresentation createInvalidGrantOfRepresentation() {
+        GrantOfRepresentation grantOfRepresentation = IntestacyTestDataCreator.createGrantOfRepresentation();
+        grantOfRepresentation.setIhtNetValue(200000000L);
+        return grantOfRepresentation;
+    }
+
+
+    public static GrantOfRepresentation createPartialGrantOfRepresentation() {
+        GrantOfRepresentation grantOfRepresentation = new GrantOfRepresentation();
+        grantOfRepresentation.setApplicationType(ProbateType.INTESTACY);
+        grantOfRepresentation.setPrimaryApplicantEmailAddress(EMAIL);
+        grantOfRepresentation.setPrimaryApplicantForenames(FIRST_NAME);
+        grantOfRepresentation.setPrimaryApplicantSurname(LAST_NAME);
+        Address primaryApplicantAddress = new Address();
+        primaryApplicantAddress.setAddressLine1(ADDRESS);
+        primaryApplicantAddress.setPostCode(POSTCODE);
+        Address deceasedAddress = new Address();
+        deceasedAddress.setAddressLine1(DECEASED_ADDRESS);
+        grantOfRepresentation.setDeceasedAddress(deceasedAddress);
+        grantOfRepresentation.setDeceasedFreeTextAddress(DECEASED_FREE_TEXT_ADDRESS);
+        grantOfRepresentation.setDeceasedAddressFound(Boolean.TRUE);
+        grantOfRepresentation.setDeceasedAnyOtherNames(Boolean.TRUE);
         return grantOfRepresentation;
     }
 }
