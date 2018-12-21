@@ -29,7 +29,9 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentation, Intes
         @Mapping(target = "primaryApplicantRelationshipToDeceased", source = "applicant.relationshipToDeceased"),
         @Mapping(target = "primaryApplicantAdoptionInEnglandOrWales", source = "applicant.adoptionInEnglandOrWales"),
         @Mapping(target = "primaryApplicantPhoneNumber", source = "applicant.phoneNumber"),
-        @Mapping(target = "primaryApplicantEmailAddress", expression = "java(form.getApplicant().getEmail().toLowerCase())"),
+        @Mapping(target = "primaryApplicantEmailAddress",
+            expression = "java(form.getApplicant() != null && form.getApplicant().getEmail() != null ? " +
+                "form.getApplicant().getEmail().toLowerCase() : null)"),
         @Mapping(target = "primaryApplicantAddressFound", source = "applicant.addressFound"),
         @Mapping(target = "primaryApplicantFreeTextAddress", source = "applicant.freeTextAddress"),
         @Mapping(target = "deceasedAddress.addressLine1", source = "deceased.address"),
@@ -72,6 +74,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentation, Intes
     GrantOfRepresentation toCaseData(IntestacyForm form);
 
     @Mappings( {
+        @Mapping(target = "applicant.email", source = "primaryApplicantEmailAddress"),
         @Mapping(target = "iht.method", source = "ihtFormCompletedOnline", qualifiedBy = {ToIhtMethod.class}),
         @Mapping(target = "assets.assetsOverseasNetValue", source = "assetsOverseasNetValue", qualifiedBy = {ToPounds.class}),
         @Mapping(target = "iht.netValue", source = "ihtNetValue", qualifiedBy = {ToPounds.class}),

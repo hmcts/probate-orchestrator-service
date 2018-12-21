@@ -74,7 +74,8 @@ public class SubmitServiceImpl implements SubmitService {
     }
 
     private void assertEmail(String applicantEmail, Form form) {
-        Assert.isTrue(form.getApplicant().getEmail().equals(applicantEmail),
+        Assert.isTrue(form.getApplicant() != null && form.getApplicant().getEmail() != null
+                && form.getApplicant().getEmail().equals(applicantEmail),
             "Path variable email address must match applicant email address in form");
     }
 
@@ -89,10 +90,9 @@ public class SubmitServiceImpl implements SubmitService {
     public Form updatePayments(String applicantEmail, Form form) {
         Assert.isTrue(!CollectionUtils.isEmpty(form.getPayments()),
             "Cannot update case with no payments, there needs to be at least one payment");
-        Payment payment = (Payment) form.getPayments().get(0);
         FormMapper formMapper = mappers.get(form.getType());
-        PaymentMapper paymentMapper = Mappers.getMapper(PaymentMapper.class);
-        CasePayment casePayment = paymentMapper.toCasePayment(payment);
+        CaseData caseData = formMapper.toCaseData(form);
+        CasePayment casePayment = caseData.getPayments().get(0).getValue();
         ProbateCaseDetails probateCaseDetails = submitServiceApi.updatePayments(
             securityUtils.getAuthorisation(),
             securityUtils.getServiceAuthorisation(),
