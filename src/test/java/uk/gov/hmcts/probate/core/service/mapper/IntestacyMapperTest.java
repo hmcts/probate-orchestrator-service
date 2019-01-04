@@ -8,7 +8,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import uk.gov.hmcts.reform.probate.model.ProbateType;
+import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentation;
+import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.forms.Copies;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
@@ -65,6 +68,8 @@ public class IntestacyMapperTest {
     @Test
     public void shouldMapEmptyIntestacyFormToGrantOfRepresentation() {
         GrantOfRepresentation expectedGrantOfRepresentation = new GrantOfRepresentation();
+        expectedGrantOfRepresentation.setApplicationType(ApplicationType.PERSONAL);
+        expectedGrantOfRepresentation.setCaseType(GrantType.INTESTACY);
         GrantOfRepresentation actualGrantOfRepresentation = mapper.toCaseData(new IntestacyForm());
         Assert.assertThat(actualGrantOfRepresentation, equalTo(expectedGrantOfRepresentation));
         assertThat(actualGrantOfRepresentation).isEqualToComparingFieldByFieldRecursively(expectedGrantOfRepresentation);
@@ -74,6 +79,7 @@ public class IntestacyMapperTest {
     @Test
     public void shouldMapEmptyGrantOfRepresentationToGrantOfIntestacyForm() {
         IntestacyForm expectedIntestacyForm = new IntestacyForm();
+        expectedIntestacyForm.setType(ProbateType.INTESTACY);
         expectedIntestacyForm.setCopies(new Copies());
         expectedIntestacyForm.setAssets(new IntestacyAssets());
         expectedIntestacyForm.setIht(new InheritanceTax());
