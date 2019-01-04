@@ -4,6 +4,7 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
+import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromIhtMethod;
@@ -12,18 +13,22 @@ import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToIhtMethod;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPennies;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPounds;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
+import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentation;
+import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 
 
 @Mapper(componentModel = "spring", uses = {PaymentsMapper.class, AliasNameMapper.class, PoundsConverter.class,
     IhtMethodConverter.class},
-    imports = {ProbateType.class, IhtMethod.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+    imports = {ApplicationType.class, GrantType.class, ProbateType.class, IhtMethod.class},
+    unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface IntestacyMapper extends FormMapper<GrantOfRepresentation, IntestacyForm> {
 
-    @Mappings( {
-        @Mapping(target = "applicationType", source = "type"),
+    @Mappings({
+        @Mapping(target = "applicationType", expression = "java(ApplicationType.PERSONAL)"),
+        @Mapping(target = "caseType", expression = "java(GrantType.INTESTACY)"),
         @Mapping(target = "primaryApplicantForenames", source = "applicant.firstName"),
         @Mapping(target = "primaryApplicantSurname", source = "applicant.lastName"),
         @Mapping(target = "primaryApplicantRelationshipToDeceased", source = "applicant.relationshipToDeceased"),
@@ -43,19 +48,19 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentation, Intes
         @Mapping(target = "deceasedAddressFound", source = "deceased.addressFound"),
         @Mapping(target = "deceasedFreeTextAddress", source = "deceased.freeTextAddress"),
         @Mapping(target = "deceasedAnyOtherNames", source = "deceased.alias"),
-        @Mapping(target = "deceasedMaritalStatus", source = "deceased.maritalStatus"),
+        @Mapping(target = "deceasedMartialStatus", source = "deceased.maritalStatus"),
         @Mapping(target = "deceasedDivorcedInEnglandOrWales", source = "deceased.divorcedInEnglandOrWales"),
         @Mapping(target = "deceasedDomicileInEngWales", source = "deceased.domiciledInEnglandOrWales"),
         @Mapping(target = "deceasedOtherChildren", source = "deceased.otherChildren"),
-        @Mapping(target = "deceasedAllDeceasedChildrenOverEighteen", source = "deceased.allDeceasedChildrenOverEighteen"),
-        @Mapping(target = "deceasedAnyDeceasedChildrenDieBeforeDeceased", source = "deceased.anyDeceasedChildrenDieBeforeDeceased"),
-        @Mapping(target = "deceasedAnyDeceasedGrandchildrenUnderEighteen", source = "deceased.anyDeceasedGrandchildrenUnderEighteen"),
+        @Mapping(target = "childrenOverEighteenSurvived", source = "deceased.allDeceasedChildrenOverEighteen"),
+        @Mapping(target = "childrenDied", source = "deceased.anyDeceasedChildrenDieBeforeDeceased"),
+        @Mapping(target = "grandChildrenSurvivedUnderEighteen", source = "deceased.anyDeceasedGrandchildrenUnderEighteen"),
         @Mapping(target = "deceasedSpouseNotApplyingReason", source = "deceased.spouseNotApplyingReason"),
         @Mapping(target = "deceasedAnyChildren", source = "deceased.anyChildren"),
         @Mapping(target = "deceasedAliasNameList", source = "deceased.otherNames", qualifiedBy = {ToCollectionMember.class}),
         @Mapping(target = "outsideUkGrantCopies", source = "copies.overseas"),
         @Mapping(target = "extraCopiesOfGrant", source = "copies.uk"),
-        @Mapping(target = "assetsOverseas", source = "assets.assetsOverseas"),
+        @Mapping(target = "deceasedHasAssetsOutsideUK", source = "assets.assetsOverseas"),
         @Mapping(target = "ihtReferenceNumber", source = "iht.identifier"),
         @Mapping(target = "ihtFormId", source = "iht.form"),
         @Mapping(target = "ihtFormCompletedOnline", source = "iht.method", qualifiedBy = {FromIhtMethod.class}),
@@ -73,7 +78,8 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentation, Intes
     })
     GrantOfRepresentation toCaseData(IntestacyForm form);
 
-    @Mappings( {
+    @Mappings({
+        @Mapping(target = "type", expression = "java(ProbateType.INTESTACY)"),
         @Mapping(target = "applicant.email", source = "primaryApplicantEmailAddress"),
         @Mapping(target = "iht.method", source = "ihtFormCompletedOnline", qualifiedBy = {ToIhtMethod.class}),
         @Mapping(target = "assets.assetsOverseasNetValue", source = "assetsOverseasNetValue", qualifiedBy = {ToPounds.class}),

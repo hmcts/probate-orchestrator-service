@@ -1,7 +1,8 @@
 {
   "caseData": {
     "type": "GrantOfRepresentation",
-    "applicationType": "Intestacy",
+    "applicationType": "Personal",
+    "caseType": "intestacy",
     "primaryApplicantEmailAddress": "jon.snow@thenorth.com",
     "primaryApplicantForenames": "Jon",
     "primaryApplicantSurname": "Snow",
