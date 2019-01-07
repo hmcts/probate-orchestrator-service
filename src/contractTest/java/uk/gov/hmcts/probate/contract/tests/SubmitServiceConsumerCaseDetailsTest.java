@@ -184,7 +184,7 @@ public class SubmitServiceConsumerCaseDetailsTest {
                                                 .stringValue("deceasedSpouseNotApplyingReason", "mentallyIncapable")
                                                 .object("declaration", (d) -> d.stringValue("declarationCheckbox", "Yes"))
                                                 .stringValue("primaryApplicantFreeTextAddress", "Pret a Manger St. Georges Hospital Blackshaw Road")
-                                                .stringValue("deceasedAnyDeceasedChildrenDieBeforeDeceased", "No")
+                                                .stringValue("childrenDied", "No")
                                                 .stringValue("ihtFormCompletedOnline", "Yes")
                                                 .array("deceasedAliasNameList", (n) -> {
                                                     n.object((f) -> f.object("value", (g) -> {
@@ -194,7 +194,7 @@ public class SubmitServiceConsumerCaseDetailsTest {
 
                                                 })
                                                 .stringValue("ihtGrossValue", "100000")
-                                                .stringValue("applicationType", "Intestacy")
+                                                .stringValue("applicationType", "Personal")
                                                 .stringValue("ihtNetValue", "100000")
                                                 .stringValue("deceasedAnyOtherNames", "No")
                                                 .stringValue("ihtReferenceNumber", "GOT123456")
@@ -210,16 +210,16 @@ public class SubmitServiceConsumerCaseDetailsTest {
                                                 .object("primaryApplicantAddress", (p) -> p.stringValue("AddressLine1", "Pret a Manger St. Georges Hospital Blackshaw Road London SW17 0QT"))
                                                 .object("deceasedAddress", (p) -> p.stringValue("AddressLine1", "Winterfell, Westeros"))
                                                 .stringValue("deceasedDivorcedInEnglandOrWales", "No")
-                                                .stringValue("deceasedMaritalStatus", "marriedCivilPartnership")
+                                                .stringValue("deceasedMartialStatus", "marriedCivilPartnership")
                                                 .stringValue("deceasedDateOfBirth", "2018-01-01")
                                                 .stringValue("assetsOverseasNetValue", "10050")
                                                 .stringValue("primaryApplicantAddressFound", "Yes")
                                                 .stringValue("deceasedOtherChildren", "Yes")
                                                 .stringValue("ihtFormId", "IHT205")
                                                 .stringValue("registryLocation", "Birmingham")
-                                                .stringValue("deceasedAllDeceasedChildrenOverEighteen", "Yes")
+                                                .stringValue("childrenOverEighteenSurvived", "Yes")
                                                 .stringValue("deceasedSurname", "Stark")
-                                                .stringValue("deceasedAnyDeceasedGrandchildrenUnderEighteen", "No")
+                                                .stringValue("grandChildrenSurvivedUnderEighteen", "No")
                                                 .stringValue("deceasedDateOfDeath", "1920-01-01")
                                         ));
                             }
