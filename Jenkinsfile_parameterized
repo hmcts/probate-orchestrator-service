@@ -30,7 +30,8 @@ withParameterizedPipeline('java', product, component, params.ENVIRONMENT, 'sandb
   loadVaultSecrets(secrets)
   after ('build') {
     try {
-        sh './gradlew contract && ./gradlew publish'
+        sh './gradlew contract'
+        sh './gradlew pactPublish'
     } finally {
         //steps.archiveArtifacts "build/reports/pitest/**/*.*"
     }

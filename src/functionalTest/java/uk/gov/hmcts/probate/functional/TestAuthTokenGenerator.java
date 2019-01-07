@@ -29,12 +29,7 @@ public class TestAuthTokenGenerator {
 
     @Value("${user.auth.provider.oauth2.url}")
     private String baseServiceOauth2Url;
-
-    @Value("${idam.username}")
-    private String idamUsername;
-
-    @Value("${idam.userpassword}")
-    private String idamPassword;
+    String clientToken;
 
     @Value("${env}")
     private String environment;
@@ -54,39 +49,39 @@ public class TestAuthTokenGenerator {
     @Autowired
     private ServiceAuthTokenGenerator tokenGenerator;
 
-    public String generateServiceToken() {
+    public String generateServiceAuthorisation() {
         return tokenGenerator.generate();
     }
 
     public String getUserId() {
         return "" + RestAssured.given()
-                .header("Authorization", userToken)
-                .get(idamUserBaseUrl + "/details")
-                .body()
-                .path("id");
+            .header("Authorization", userToken)
+            .get(idamUserBaseUrl + "/details")
+            .body()
+            .path("id");
     }
 
-    public String generateUserTokenWithNoRoles() {
-        userToken = generateClientToken();
-        return userToken;
+    public String generateAuthorisation(String userName, String password) {
+        return generateClientToken(userName, password);
     }
 
-    private String generateClientToken() {
-        String code = generateClientCode();
+    private String generateClientToken(String userName, String password) {
+        String code = generateClientCode(userName, password);
         String token = RestAssured.given().post(idamUserBaseUrl + "/oauth2/token?code=" + code +
-                "&client_secret=" + secret +
-                "&client_id=probate" +
-                "&redirect_uri=" + redirectUri +
-                "&grant_type=authorization_code")
-                .body().path("access_token");
-        return "Bearer " + token;
+            "&client_secret=" + secret +
+            "&client_id=probate" +
+            "&redirect_uri=" + redirectUri +
+            "&grant_type=authorization_code")
+            .body().path("access_token");
+        return token;
     }
 
-    private String generateClientCode() {
-        final String encoded = Base64.getEncoder().encodeToString((idamUsername + ":" + idamPassword).getBytes());
+    private String generateClientCode(String userName, String password) {
+        final String encoded = Base64.getEncoder().encodeToString((userName + ":" + password).getBytes());
         return RestAssured.given().baseUri(idamUserBaseUrl)
-                .header("Authorization", "Basic " + encoded)
-                .post("/oauth2/authorize?response_type=code&client_id=probate&redirect_uri=" + redirectUri)
-                .body().path("code");
+            .header("Authorization", "Basic " + encoded)
+            .post("/oauth2/authorize?response_type=code&client_id=probate&redirect_uri=" + redirectUri)
+            .body().path("code");
+
     }
 }

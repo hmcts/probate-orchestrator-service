@@ -1,0 +1,15 @@
+{
+  "forename": "User",
+  "surname": "Test",
+  "roles": [
+    "caseworker-probate",
+    "citizen",
+    "caseworker",
+    "caseworker-probate-loa1",
+    "citizen-loa1",
+    "caseworker-loa1"
+  ],
+  "id": 33,
+  "defaultService": "CCD",
+  "email": "testusername1@test.com"
+}

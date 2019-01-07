@@ -18,17 +18,9 @@ public class HealthConfiguration {
     @Value("${auth.idam.client.baseUrl}")
     private String idamUrl;
 
-    @Value("${core_case_data.api.url}")
-    private String ccdUrl;
-
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
-    }
-
-    @Bean
-    public ProbateHealthIndicator ccdHealthIndicator(RestTemplate restTemplate) {
-        return new ProbateHealthIndicator(ccdUrl, restTemplate, HEALTH_ENDPOINT);
     }
 
     @Bean
