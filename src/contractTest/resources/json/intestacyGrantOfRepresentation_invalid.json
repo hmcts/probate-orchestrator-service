@@ -15,8 +15,8 @@
     "primaryApplicantAdoptionInEnglandOrWales": "Yes",
     "deceasedForenames": "Ned",
     "deceasedSurname": "Stark",
-    "deceasedDateOfBirth": "1930-01-01",
-    "deceasedDateOfDeath": "2018-01-01",
+    "deceasedDateOfBirth": "2018-01-01",
+    "deceasedDateOfDeath": "1920-01-01",
     "deceasedAddress": {
       "AddressLine1": "Winterfell, Westeros"
     },
