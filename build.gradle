@@ -9,7 +9,7 @@ plugins {
   id 'application'
   id 'pmd'
   id 'io.spring.dependency-management' version '1.0.6.RELEASE'
-  id 'org.springframework.boot' version '2.1.0.RELEASE'
+  id 'org.springframework.boot' version '2.1.1.RELEASE'
   id 'org.owasp.dependencycheck' version '3.2.1'
   id 'com.github.ben-manes.versions' version '0.15.0'
   id 'com.gorylenko.gradle-git-properties' version '1.5.2'
@@ -147,7 +147,6 @@ pact {
   publish {
     pactDirectory = 'target/pacts'
     pactBrokerUrl = "$System.env.PACT_BROKER_URL"
-    tags = [project.pactBrokerTag]
   }
 }
 
@@ -167,7 +166,6 @@ task functional(type: Test) {
 
 task contract(type: Test) {
   description = "Runs Contract Tests"
-  //delete pact.publish.pactDirectorye
   useJUnitPlatform()
   testClassesDirs = sourceSets.testContract.output.classesDirs
   classpath = sourceSets.testContract.runtimeClasspath
@@ -193,6 +191,7 @@ def versions = [
         springCloudStarterNetflixHystrix: '2.0.2.RELEASE',
         serenityBdd: '1.5.2',
         serenitySpring: '1.0.26',
+        serentity: '2.0.17',
         jjwt: '0.9.0',
         serviceAuthProviderClient: '0.6.0',
         restAssured: '3.0.7',
@@ -236,6 +235,7 @@ dependencies {
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
   compile group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
   compile group: 'org.springframework.retry', name: 'spring-retry'
+  compile group: 'com.google.guava', name: 'guava', version: '27.0-jre'
 
   compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: versions.springCloudStarterNetflixHystrix
   compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix-dashboard', version: versions.springCloudStarterNetflixHystrix
@@ -247,7 +247,7 @@ dependencies {
   compile group: 'uk.gov.hmcts.reform', name: 'java-logging-appinsights', version: versions.hmctsJavaLogging
   compile group: 'uk.gov.hmcts.reform.auth', name: 'auth-checker-lib', version: versions.authCheckerLib
   compile group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceAuthProviderClient
-  compile group: 'uk.gov.hmcts.reform', name: 'core-case-data-store-client', version: '4.4.1'
+  compile group: 'uk.gov.hmcts.reform.probate', name : 'probate-commons', version: '0.0.7'
 
   compile group: 'commons-io', name: 'commons-io', version: versions.commonsIO
 
@@ -271,39 +271,42 @@ dependencies {
 
   testCompile("org.junit.jupiter:junit-jupiter-api:5.3.2")
   testRuntime("org.junit.jupiter:junit-jupiter-engine:5.3.2")
-  testImplementation(
-          'org.junit.jupiter:junit-jupiter-api:5.3.2'
-  )
-
-
+  testImplementation('org.junit.jupiter:junit-jupiter-api:5.3.2')
     
   testSmokeCompile group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
   testSmokeCompile sourceSets.main.runtimeClasspath
   testSmokeCompile sourceSets.test.runtimeClasspath
 
-  testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenityBdd
-  testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenityBdd
-  testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenityBdd
-  testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenitySpring
-  testFunctionalCompile group: 'io.jsonwebtoken', name: 'jjwt', version: versions.jjwt
-  testFunctionalCompile group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceAuthProviderClient
+  testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serentity
+  testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serentity
+  testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serentity
+  testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serentity
+  testFunctionalCompile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.0'
+  testFunctionalCompile group: 'io.rest-assured', name: 'rest-assured', version: '3.1.1'
   testFunctionalCompile sourceSets.main.runtimeClasspath
   testFunctionalCompile sourceSets.test.runtimeClasspath
 
   testContractCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
-  testContractCompile('org.springframework.cloud:spring-cloud-starter-netflix-ribbon')
+  testContractCompile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-ribbon'
   testContractCompile('org.codehaus.groovy:groovy-all:2.4.6')
   testContractCompile("au.com.dius:pact-jvm-consumer-junit5_2.12:${pact_version}")
+  testContractCompile("au.com.dius:pact-jvm-consumer-java8_2.12:${pact_version}")
   testContractCompile("org.junit.jupiter:junit-jupiter-api:5.3.2")
   testContractRuntime("org.junit.jupiter:junit-jupiter-engine:5.3.2")
-  testContractImplementation(
-          'org.junit.jupiter:junit-jupiter-api:5.3.2'
-  )
+  testContractImplementation('org.junit.jupiter:junit-jupiter-api:5.3.2')
   testContractCompile sourceSets.main.runtimeClasspath
   testContractCompile sourceSets.test.runtimeClasspath
-
+    
 }
 
+
+pact {
+  publish {
+    pactDirectory = 'target/pacts'
+    pactBrokerUrl = "http://localhost:80"
+     // tags = [project.pactBrokerTag]
+  }
+}
 task printbranch {
     doLast {
         print project.pactBrokerTag

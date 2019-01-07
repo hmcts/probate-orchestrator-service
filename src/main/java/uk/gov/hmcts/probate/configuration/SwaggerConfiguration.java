@@ -51,8 +51,8 @@ public class SwaggerConfiguration {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Spring Boot Template API Documentation")
-                .description("Spring Boot Template API Documentation")
+                .title("Probate Orchestrator API Documentation")
+                .description("Probate Orchestrator API Documentation")
                 .build();
     }
 }

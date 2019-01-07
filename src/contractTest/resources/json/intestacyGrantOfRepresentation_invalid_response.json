@@ -1,0 +1,94 @@
+{
+  "path":"/submissions/email",
+  "timestamp":"2019-01-03T15:31:16.525+0000",
+  "errors":[
+    {
+      "field":"caseData",
+      "bindingFailure":false,
+      "code":"AssertExpression",
+      "codes":[
+        "AssertExpression.probateCaseDetails.caseData",
+        "AssertExpression.caseData",
+        "AssertExpression.uk.gov.hmcts.reform.probate.model.cases.CaseData",
+        "AssertExpression"
+      ],
+      "defaultMessage":"deceasedDateOfBirth.isBefore(deceasedDateOfDeath) is false",
+      "rejectedValue":{
+        "primaryApplicantPhoneNumber":"123455678",
+        "deceasedFreeTextAddress":"Winterfell, Westeros",
+        "deceasedAddressFound":"Yes",
+        "primaryApplicantAdoptionInEnglandOrWales":"Yes",
+        "uploadDocumentUrl":"http://document-management/document/12345",
+        "deceasedSpouseNotApplyingReason":"mentallyIncapable",
+        "declaration":{
+          "declarationCheckbox":"Yes"
+        },
+        "primaryApplicantFreeTextAddress":"Pret a Manger St. Georges Hospital Blackshaw Road",
+        "deceasedAnyDeceasedChildrenDieBeforeDeceased":"No",
+        "ihtFormCompletedOnline":"Yes",
+        "deceasedAliasNameList":[
+          {
+            "value":{
+              "Forenames":"King",
+              "LastName":"North"
+            }
+          }
+        ],
+        "ihtGrossValue":"100000",
+        "applicationType":"Intestacy",
+        "ihtNetValue":"100000",
+        "deceasedAnyOtherNames":"No",
+        "ihtReferenceNumber":"GOT123456",
+        "deceasedHasAssetsOutsideUk":"Yes",
+        "deceasedAnyChildren":"No",
+        "outsideUKGrantCopies":6,
+        "primaryApplicantRelationshipToDeceased":"adoptedChild",
+        "extraCopiesOfGrant":5,
+        "deceasedForenames":"Ned",
+        "primaryApplicantEmailAddress":"jsnow@bbc.co.uk",
+        "primaryApplicantSurname":"Snow",
+        "primaryApplicantForenames":"Jon",
+        "primaryApplicantAddress":{
+          "AddressLine1":"Pret a Manger St. Georges Hospital Blackshaw Road London SW17 0QT"
+        },
+        "deceasedAddress":{
+          "AddressLine1":"Winterfell, Westeros"
+        },
+        "deceasedDivorcedInEnglandOrWales":"No",
+        "deceasedMartialStatus":"marriedCivilPartnership",
+        "deceasedDateOfBirth":"2018-01-01",
+        "assetsOverseasNetValue":"10050",
+        "primaryApplicantAddressFound":"Yes",
+        "deceasedOtherChildren":"Yes",
+        "ihtFormId":"IHT205",
+        "registryLocation":"Birmingham",
+        "childrenOverEighteenSurvived":"Yes",
+        "deceasedSurname":"Stark",
+        "grandChildrenSurvivedUnderEighteen":"No",
+        "deceasedDateOfDeath":"1920-01-01"
+      },
+      "arguments":[
+        {
+          "codes":[
+            "probateCaseDetails.caseData",
+            "caseData"
+          ],
+          "arguments":null,
+          "defaultMessage":"caseData",
+          "code":"caseData"
+        },
+        {
+          "arguments":null,
+          "codes":[
+            "deceasedDateOfBirth.isBefore(deceasedDateOfDeath)"
+          ],
+          "defaultMessage":"deceasedDateOfBirth.isBefore(deceasedDateOfDeath)"
+        }
+      ],
+      "objectName":"probateCaseDetails"
+    }
+  ],
+  "error":"Bad Request",
+  "status":400,
+  "message":"Validation failed for object='probateCaseDetails'. Error count: 1"
+}
