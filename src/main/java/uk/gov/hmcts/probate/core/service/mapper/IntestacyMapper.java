@@ -4,7 +4,6 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
-import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromIhtMethod;
@@ -22,13 +21,11 @@ import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 
 @Mapper(componentModel = "spring", uses = {PaymentsMapper.class, AliasNameMapper.class, PoundsConverter.class,
     IhtMethodConverter.class},
-    imports = {ApplicationType.class, GrantType.class, ProbateType.class, IhtMethod.class},
-    unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+    imports = {ProbateType.class, IhtMethod.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface IntestacyMapper extends FormMapper<GrantOfRepresentation, IntestacyForm> {
 
-    @Mappings({
-        @Mapping(target = "applicationType", expression = "java(ApplicationType.PERSONAL)"),
-        @Mapping(target = "caseType", expression = "java(GrantType.INTESTACY)"),
+    @Mappings( {
+        @Mapping(target = "applicationType", source = "type"),
         @Mapping(target = "primaryApplicantForenames", source = "applicant.firstName"),
         @Mapping(target = "primaryApplicantSurname", source = "applicant.lastName"),
         @Mapping(target = "primaryApplicantRelationshipToDeceased", source = "applicant.relationshipToDeceased"),
@@ -78,8 +75,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentation, Intes
     })
     GrantOfRepresentation toCaseData(IntestacyForm form);
 
-    @Mappings({
-        @Mapping(target = "type", expression = "java(ProbateType.INTESTACY)"),
+    @Mappings( {
         @Mapping(target = "applicant.email", source = "primaryApplicantEmailAddress"),
         @Mapping(target = "iht.method", source = "ihtFormCompletedOnline", qualifiedBy = {ToIhtMethod.class}),
         @Mapping(target = "assets.assetsOverseasNetValue", source = "assetsOverseasNetValue", qualifiedBy = {ToPounds.class}),

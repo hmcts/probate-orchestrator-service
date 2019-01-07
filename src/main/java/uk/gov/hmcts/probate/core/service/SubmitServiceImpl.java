@@ -1,5 +1,6 @@
 package uk.gov.hmcts.probate.core.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,7 @@ import uk.gov.hmcts.reform.probate.model.forms.Payment;
 import java.util.Map;
 
 @Component
+@Slf4j
 public class SubmitServiceImpl implements SubmitService {
 
     private final Map<ProbateType, FormMapper> mappers;

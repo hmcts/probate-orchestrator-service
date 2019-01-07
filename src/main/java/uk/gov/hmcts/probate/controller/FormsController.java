@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.SwaggerDefinition;
 import io.swagger.annotations.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,6 +25,7 @@ import uk.gov.hmcts.reform.probate.model.forms.Form;
 @Api(tags = {"FormsController"})
 @SwaggerDefinition(tags = {@Tag(name = "FormsController", description = "Forms API")})
 @RestController
+@Slf4j
 public class FormsController {
 
     private static final String FORMS_ENDPOINT = "/forms/{applicantEmail}";
@@ -48,6 +50,7 @@ public class FormsController {
     @ResponseBody
     public ResponseEntity<Form> saveForm(@RequestBody Form form,
                                          @PathVariable("applicantEmail") String applicantEmail) {
+        log.info("Save form called for: {}", applicantEmail);
         return new ResponseEntity<>(submitService.saveDraft(applicantEmail, form), HttpStatus.OK);
     }
 
@@ -60,6 +63,7 @@ public class FormsController {
     @ResponseBody
     public ResponseEntity<Form> getForm(@PathVariable("applicantEmail") String applicantEmail,
                                         @RequestParam("probateType") ProbateType probateType) {
+        log.info("Get form called for: {}", applicantEmail, probateType);
         return new ResponseEntity<>(submitService.getCase(applicantEmail, probateType), HttpStatus.OK);
     }
 
@@ -74,6 +78,7 @@ public class FormsController {
     @ResponseBody
     public ResponseEntity<Form> submitForm(@RequestBody Form form,
                                            @PathVariable("applicantEmail") String applicantEmail) {
+        log.info("Save form called for: {}", applicantEmail);
         return new ResponseEntity<>(submitService.submit(applicantEmail, form), HttpStatus.OK);
     }
 
