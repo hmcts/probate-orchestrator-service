@@ -41,7 +41,7 @@ public class SubmitServiceImpl implements SubmitService {
 
     @Override
     public Form getCase(String applicantEmail, ProbateType probateType) {
-        log.info("Get case called with : {}", applicantEmail, probateType);
+        log.info("Get case called for : {}",  probateType.getName());
         FormMapper formMapper = mappers.get(probateType);
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
@@ -52,7 +52,7 @@ public class SubmitServiceImpl implements SubmitService {
 
     @Override
     public Form saveDraft(String applicantEmail, Form form) {
-        log.info("Save draft called for : {}", applicantEmail);
+        log.info("Save draft called");
         assertEmail(applicantEmail, form);
         FormMapper formMapper = mappers.get(form.getType());
         ProbateCaseDetails probateCaseDetails = submitServiceApi.saveDraft(
@@ -66,7 +66,7 @@ public class SubmitServiceImpl implements SubmitService {
 
     @Override
     public Form submit(String applicantEmail, Form form) {
-        log.info("Submit called for : {}", applicantEmail);
+        log.info("Submit called for");
         assertEmail(applicantEmail, form);
         FormMapper formMapper = mappers.get(form.getType());
         log.debug("calling submit on submitserviceapi");
@@ -94,7 +94,7 @@ public class SubmitServiceImpl implements SubmitService {
 
     @Override
     public Form updatePayments(String applicantEmail, Form form) {
-        log.info("update Payments called for : {}", applicantEmail);
+        log.info("update Payments called");
         Assert.isTrue(!CollectionUtils.isEmpty(form.getPayments()),
             "Cannot update case with no payments, there needs to be at least one payment");
         FormMapper formMapper = mappers.get(form.getType());
