@@ -78,7 +78,7 @@ public class FormsController {
     @ResponseBody
     public ResponseEntity<Form> submitForm(@RequestBody Form form,
                                            @PathVariable("applicantEmail") String applicantEmail) {
-        log.info("Save form called for: {}", applicantEmail);
+        log.info("Submit form called for: {}", applicantEmail);
         return new ResponseEntity<>(submitService.submit(applicantEmail, form), HttpStatus.OK);
     }
 
@@ -93,6 +93,7 @@ public class FormsController {
     @ResponseBody
     public ResponseEntity<Form> updatePayments(@RequestBody Form form,
                                                @PathVariable("applicantEmail") String applicantEmail) {
+        log.info("Update payments called for: {}", applicantEmail);
         return new ResponseEntity<>(submitService.updatePayments(applicantEmail, form), HttpStatus.OK);
     }
 }

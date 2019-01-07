@@ -1,7 +1,7 @@
 {
   "caseData": {
     "type": "GrantOfRepresentation",
-    "applicationType": "Intestacy",
+    "applicationType": "Personal",
     "primaryApplicantEmailAddress": "jsnow@bbc.co.uk",
     "primaryApplicantForenames": "Jon",
     "primaryApplicantSurname": "Snow",
@@ -31,13 +31,13 @@
         }
       }
     ],
-    "deceasedMaritalStatus": "marriedCivilPartnership",
+    "deceasedMartialStatus": "marriedCivilPartnership",
     "deceasedDivorcedInEnglandOrWales": "No",
     "deceasedSpouseNotApplyingReason": "mentallyIncapable",
     "deceasedOtherChildren": "Yes",
-    "deceasedAllDeceasedChildrenOverEighteen": "Yes",
-    "deceasedAnyDeceasedChildrenDieBeforeDeceased": "No",
-    "deceasedAnyDeceasedGrandchildrenUnderEighteen": "No",
+    "childrenOverEighteenSurvived": "Yes",
+    "childrenDied": "No",
+    "grandChildrenSurvivedUnderEighteen": "No",
     "deceasedAnyChildren": "No",
     "registryLocation": "Birmingham",
     "assetsOverseasNetValue": "10050",

@@ -55,16 +55,16 @@
           "AddressLine1":"Winterfell, Westeros"
         },
         "deceasedDivorcedInEnglandOrWales":"No",
-        "deceasedMaritalStatus":"marriedCivilPartnership",
+        "deceasedMartialStatus":"marriedCivilPartnership",
         "deceasedDateOfBirth":"2018-01-01",
         "assetsOverseasNetValue":"10050",
         "primaryApplicantAddressFound":"Yes",
         "deceasedOtherChildren":"Yes",
         "ihtFormId":"IHT205",
         "registryLocation":"Birmingham",
-        "deceasedAllDeceasedChildrenOverEighteen":"Yes",
+        "childrenOverEighteenSurvived":"Yes",
         "deceasedSurname":"Stark",
-        "deceasedAnyDeceasedGrandchildrenUnderEighteen":"No",
+        "grandChildrenSurvivedUnderEighteen":"No",
         "deceasedDateOfDeath":"1920-01-01"
       },
       "arguments":[
