@@ -50,7 +50,7 @@ public class FormsController {
     @ResponseBody
     public ResponseEntity<Form> saveForm(@RequestBody Form form,
                                          @PathVariable("applicantEmail") String applicantEmail) {
-        log.info("Save form called for: {}", applicantEmail);
+        log.info("Save form called");
         return new ResponseEntity<>(submitService.saveDraft(applicantEmail, form), HttpStatus.OK);
     }
 
@@ -63,7 +63,7 @@ public class FormsController {
     @ResponseBody
     public ResponseEntity<Form> getForm(@PathVariable("applicantEmail") String applicantEmail,
                                         @RequestParam("probateType") ProbateType probateType) {
-        log.info("Get form called for: {}", applicantEmail, probateType);
+        log.info("Get form called");
         return new ResponseEntity<>(submitService.getCase(applicantEmail, probateType), HttpStatus.OK);
     }
 
@@ -78,7 +78,7 @@ public class FormsController {
     @ResponseBody
     public ResponseEntity<Form> submitForm(@RequestBody Form form,
                                            @PathVariable("applicantEmail") String applicantEmail) {
-        log.info("Submit form called for: {}", applicantEmail);
+        log.info("Submit form called");
         return new ResponseEntity<>(submitService.submit(applicantEmail, form), HttpStatus.OK);
     }
 
@@ -93,7 +93,7 @@ public class FormsController {
     @ResponseBody
     public ResponseEntity<Form> updatePayments(@RequestBody Form form,
                                                @PathVariable("applicantEmail") String applicantEmail) {
-        log.info("Update payments called for: {}", applicantEmail);
+        log.info("Update payments called");
         return new ResponseEntity<>(submitService.updatePayments(applicantEmail, form), HttpStatus.OK);
     }
 }
