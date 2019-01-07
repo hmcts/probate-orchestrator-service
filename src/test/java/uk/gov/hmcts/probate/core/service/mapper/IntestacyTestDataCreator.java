@@ -157,8 +157,7 @@ public class IntestacyTestDataCreator {
 
     public static GrantOfRepresentation createGrantOfRepresentation() {
         GrantOfRepresentation grantOfRepresentation = new GrantOfRepresentation();
-        grantOfRepresentation.setApplicationType(ApplicationType.PERSONAL);
-        grantOfRepresentation.setCaseType(GrantType.INTESTACY);
+        grantOfRepresentation.setApplicationType(ProbateType.INTESTACY);
         grantOfRepresentation.setPrimaryApplicantEmailAddress(EMAIL);
         grantOfRepresentation.setPrimaryApplicantForenames(FIRST_NAME);
         grantOfRepresentation.setPrimaryApplicantSurname(LAST_NAME);
@@ -190,12 +189,12 @@ public class IntestacyTestDataCreator {
         aliasNameCollectionMember.setValue(aliasName);
         grantOfRepresentation.setDeceasedDomicileInEngWales(Boolean.TRUE);
         grantOfRepresentation.setDeceasedAliasNameList(Lists.newArrayList(aliasNameCollectionMember));
-        grantOfRepresentation.setDeceasedMartialStatus(MaritalStatus.MARRIED);
+        grantOfRepresentation.setDeceasedMaritalStatus(MaritalStatus.MARRIED);
         grantOfRepresentation.setDeceasedDivorcedInEnglandOrWales(Boolean.FALSE);
         grantOfRepresentation.setDeceasedOtherChildren(Boolean.FALSE);
-        grantOfRepresentation.setChildrenDied(Boolean.FALSE);
-        grantOfRepresentation.setGrandChildrenSurvivedUnderEighteen(Boolean.FALSE);
-        grantOfRepresentation.setChildrenOverEighteenSurvived(Boolean.FALSE);
+        grantOfRepresentation.setDeceasedAnyDeceasedChildrenDieBeforeDeceased(Boolean.FALSE);
+        grantOfRepresentation.setDeceasedAnyDeceasedGrandchildrenUnderEighteen(Boolean.FALSE);
+        grantOfRepresentation.setDeceasedAllDeceasedChildrenOverEighteen(Boolean.FALSE);
         grantOfRepresentation.setDeceasedAnyChildren(Boolean.TRUE);
         grantOfRepresentation.setDeceasedAnyOtherNames(Boolean.TRUE);
         grantOfRepresentation.setDeceasedFreeTextAddress(DECEASED_FREE_TEXT_ADDRESS);
