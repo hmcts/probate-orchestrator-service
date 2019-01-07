@@ -9,7 +9,7 @@ plugins {
   id 'application'
   id 'pmd'
   id 'io.spring.dependency-management' version '1.0.6.RELEASE'
-  id 'org.springframework.boot' version '2.1.0.RELEASE'
+  id 'org.springframework.boot' version '2.1.1.RELEASE'
   id 'org.owasp.dependencycheck' version '3.2.1'
   id 'com.github.ben-manes.versions' version '0.15.0'
   id 'com.gorylenko.gradle-git-properties' version '1.5.2'
@@ -235,6 +235,7 @@ dependencies {
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
   compile group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
   compile group: 'org.springframework.retry', name: 'spring-retry'
+  compile group: 'com.google.guava', name: 'guava', version: '27.0-jre'
 
   compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: versions.springCloudStarterNetflixHystrix
   compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix-dashboard', version: versions.springCloudStarterNetflixHystrix
