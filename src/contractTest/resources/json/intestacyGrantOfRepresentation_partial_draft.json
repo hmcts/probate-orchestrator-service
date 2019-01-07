@@ -1,7 +1,7 @@
 {
   "caseData": {
     "type": "GrantOfRepresentation",
-    "applicationType": "Intestacy",
+    "applicationType": "Personal",
     "primaryApplicantEmailAddress": "jsnow@bbc.co.uk",
     "primaryApplicantForenames": "Jon",
     "primaryApplicantSurname": "Snow",

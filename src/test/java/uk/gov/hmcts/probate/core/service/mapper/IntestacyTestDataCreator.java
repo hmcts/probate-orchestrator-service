@@ -205,7 +205,7 @@ public class IntestacyTestDataCreator {
         grantOfRepresentation.setRegistryEmail(REG_EMAIL);
         grantOfRepresentation.setRegistrySequenceNumber(Long.toString(SEQUENCE_NUMBER));
 
-        grantOfRepresentation.setDeceasedHasAssetsOutsideUK(Boolean.TRUE);
+        grantOfRepresentation.setDeceasedHasAssetsOutsideUk(Boolean.TRUE);
         grantOfRepresentation.setAssetsOverseasNetValue(ASSETS_OVERSEAS_NET_VALUE_LONG);
         grantOfRepresentation.setIhtFormId(IhtFormType.IHT205);
         grantOfRepresentation.setIhtFormCompletedOnline(Boolean.FALSE);
@@ -244,7 +244,7 @@ public class IntestacyTestDataCreator {
 
     public static GrantOfRepresentation createPartialGrantOfRepresentation() {
         GrantOfRepresentation grantOfRepresentation = new GrantOfRepresentation();
-        grantOfRepresentation.setApplicationType(ProbateType.INTESTACY);
+        grantOfRepresentation.setApplicationType(ApplicationType.PERSONAL.PERSONAL);
         grantOfRepresentation.setPrimaryApplicantEmailAddress(EMAIL);
         grantOfRepresentation.setPrimaryApplicantForenames(FIRST_NAME);
         grantOfRepresentation.setPrimaryApplicantSurname(LAST_NAME);
