@@ -157,7 +157,8 @@ public class IntestacyTestDataCreator {
 
     public static GrantOfRepresentation createGrantOfRepresentation() {
         GrantOfRepresentation grantOfRepresentation = new GrantOfRepresentation();
-        grantOfRepresentation.setApplicationType(ProbateType.INTESTACY);
+        grantOfRepresentation.setApplicationType(ApplicationType.PERSONAL);
+        grantOfRepresentation.setCaseType(GrantType.INTESTACY);
         grantOfRepresentation.setPrimaryApplicantEmailAddress(EMAIL);
         grantOfRepresentation.setPrimaryApplicantForenames(FIRST_NAME);
         grantOfRepresentation.setPrimaryApplicantSurname(LAST_NAME);
@@ -189,12 +190,12 @@ public class IntestacyTestDataCreator {
         aliasNameCollectionMember.setValue(aliasName);
         grantOfRepresentation.setDeceasedDomicileInEngWales(Boolean.TRUE);
         grantOfRepresentation.setDeceasedAliasNameList(Lists.newArrayList(aliasNameCollectionMember));
-        grantOfRepresentation.setDeceasedMaritalStatus(MaritalStatus.MARRIED);
+        grantOfRepresentation.setDeceasedMartialStatus(MaritalStatus.MARRIED);
         grantOfRepresentation.setDeceasedDivorcedInEnglandOrWales(Boolean.FALSE);
         grantOfRepresentation.setDeceasedOtherChildren(Boolean.FALSE);
-        grantOfRepresentation.setDeceasedAnyDeceasedChildrenDieBeforeDeceased(Boolean.FALSE);
-        grantOfRepresentation.setDeceasedAnyDeceasedGrandchildrenUnderEighteen(Boolean.FALSE);
-        grantOfRepresentation.setDeceasedAllDeceasedChildrenOverEighteen(Boolean.FALSE);
+        grantOfRepresentation.setChildrenDied(Boolean.FALSE);
+        grantOfRepresentation.setGrandChildrenSurvivedUnderEighteen(Boolean.FALSE);
+        grantOfRepresentation.setChildrenOverEighteenSurvived(Boolean.FALSE);
         grantOfRepresentation.setDeceasedAnyChildren(Boolean.TRUE);
         grantOfRepresentation.setDeceasedAnyOtherNames(Boolean.TRUE);
         grantOfRepresentation.setDeceasedFreeTextAddress(DECEASED_FREE_TEXT_ADDRESS);
@@ -204,7 +205,7 @@ public class IntestacyTestDataCreator {
         grantOfRepresentation.setRegistryEmail(REG_EMAIL);
         grantOfRepresentation.setRegistrySequenceNumber(Long.toString(SEQUENCE_NUMBER));
 
-        grantOfRepresentation.setDeceasedHasAssetsOutsideUK(Boolean.TRUE);
+        grantOfRepresentation.setDeceasedHasAssetsOutsideUk(Boolean.TRUE);
         grantOfRepresentation.setAssetsOverseasNetValue(ASSETS_OVERSEAS_NET_VALUE_LONG);
         grantOfRepresentation.setIhtFormId(IhtFormType.IHT205);
         grantOfRepresentation.setIhtFormCompletedOnline(Boolean.FALSE);
@@ -243,7 +244,7 @@ public class IntestacyTestDataCreator {
 
     public static GrantOfRepresentation createPartialGrantOfRepresentation() {
         GrantOfRepresentation grantOfRepresentation = new GrantOfRepresentation();
-        grantOfRepresentation.setApplicationType(ProbateType.INTESTACY);
+        grantOfRepresentation.setApplicationType(ApplicationType.PERSONAL.PERSONAL);
         grantOfRepresentation.setPrimaryApplicantEmailAddress(EMAIL);
         grantOfRepresentation.setPrimaryApplicantForenames(FIRST_NAME);
         grantOfRepresentation.setPrimaryApplicantSurname(LAST_NAME);
