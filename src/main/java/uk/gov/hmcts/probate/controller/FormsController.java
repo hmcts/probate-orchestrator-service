@@ -11,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,7 +45,7 @@ public class FormsController {
         @ApiResponse(code = 400, message = "Saving form failed"),
         @ApiResponse(code = 422, message = "Invalid or missing attribute")
     })
-    @RequestMapping(path = FORMS_ENDPOINT, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+    @PostMapping(path = FORMS_ENDPOINT, consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Form> saveForm(@RequestBody Form form,
@@ -59,7 +59,7 @@ public class FormsController {
         @ApiResponse(code = 200, message = "Retrieved form successfully"),
         @ApiResponse(code = 400, message = "Retrieving form failed")
     })
-    @RequestMapping(path = FORMS_ENDPOINT, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = FORMS_ENDPOINT, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Form> getForm(@PathVariable("applicantEmail") String applicantEmail,
                                         @RequestParam("probateType") ProbateType probateType) {
@@ -73,7 +73,7 @@ public class FormsController {
         @ApiResponse(code = 400, message = "Submitting form failed"),
         @ApiResponse(code = 422, message = "Invalid or missing attribute")
     })
-    @RequestMapping(path = FORMS_ENDPOINT + SUBMISSIONS_ENDPOINT, method = RequestMethod.POST,
+    @PostMapping(path = FORMS_ENDPOINT + SUBMISSIONS_ENDPOINT,
         consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Form> submitForm(@RequestBody Form form,
@@ -88,7 +88,7 @@ public class FormsController {
         @ApiResponse(code = 400, message = "Saving payment failed"),
         @ApiResponse(code = 422, message = "Invalid or missing attribute")
     })
-    @RequestMapping(path = FORMS_ENDPOINT + PAYMENTS_ENDPOINT, method = RequestMethod.POST,
+    @PostMapping(path = FORMS_ENDPOINT + PAYMENTS_ENDPOINT,
         consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Form> updatePayments(@RequestBody Form form,
