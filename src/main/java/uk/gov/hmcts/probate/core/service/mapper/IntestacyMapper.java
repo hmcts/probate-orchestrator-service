@@ -61,7 +61,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentation, Intes
             qualifiedBy = {ToCollectionMember.class})
     @Mapping(target = "outsideUkGrantCopies", source = "copies.overseas")
     @Mapping(target = "extraCopiesOfGrant", source = "copies.uk")
-    @Mapping(target = "deceasedHasAssetsOutsideUk", source = "assets.assetsOverseas")
+    @Mapping(target = "deceasedHasAssetsOutsideUK", source = "assets.assetsOverseas")
     @Mapping(target = "ihtReferenceNumber", source = "iht.identifier")
     @Mapping(target = "ihtFormId", source = "iht.form")
     @Mapping(target = "ihtFormCompletedOnline", source = "iht.method", qualifiedBy = {FromIhtMethod.class})
