@@ -11,7 +11,6 @@ public class FeignClientConfiguration {
     @Bean
     @Primary
     Decoder feignDecoder(ObjectMapper objectMapper) {
-        //objectMapper.enable(DeserializationFeature.UNWRAP_ROOT_VALUE);
         objectMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
         return new JacksonDecoder(objectMapper);
     }
