@@ -205,7 +205,7 @@ public class IntestacyTestDataCreator {
         grantOfRepresentation.setRegistryEmail(REG_EMAIL);
         grantOfRepresentation.setRegistrySequenceNumber(Long.toString(SEQUENCE_NUMBER));
 
-        grantOfRepresentation.setDeceasedHasAssetsOutsideUk(Boolean.TRUE);
+        grantOfRepresentation.setDeceasedHasAssetsOutsideUK(Boolean.TRUE);
         grantOfRepresentation.setAssetsOverseasNetValue(ASSETS_OVERSEAS_NET_VALUE_LONG);
         grantOfRepresentation.setIhtFormId(IhtFormType.IHT205);
         grantOfRepresentation.setIhtFormCompletedOnline(Boolean.FALSE);
