@@ -15,53 +15,53 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @FeignClient(
-    name = "submit-service-api",
-    url = "${submit-service.api.url}",
-    configuration = SubmitServiceConfiguration.class
+        name = "submit-service-api",
+        url = "${submit-service.api.url}",
+        configuration = SubmitServiceConfiguration.class
 )
 public interface SubmitServiceApi {
 
     @GetMapping(
-        value = "/cases/{applicantEmail}",
-        headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+            value = "/cases/{applicantEmail}",
+            headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
     ProbateCaseDetails getCase(
-        @RequestHeader(AUTHORIZATION) String authorisation,
-        @RequestHeader("ServiceAuthorization") String serviceAuthorization,
-        @PathVariable("applicantEmail") String applicantEmail,
-        @RequestParam("caseType") String caseType
+            @RequestHeader(AUTHORIZATION) String authorisation,
+            @RequestHeader(OrchestratorHttpHeaders.SERVICE_AUTHORIZATION) String serviceAuthorization,
+            @PathVariable(OrchestratorHttpHeaders.APPLICANT_EMAIL) String applicantEmail,
+            @RequestParam("caseType") String caseType
     );
 
     @PostMapping(
-        value = "/drafts/{applicantEmail}",
-        headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+            value = "/drafts/{applicantEmail}",
+            headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
     ProbateCaseDetails saveDraft(
-        @RequestHeader(AUTHORIZATION) String authorisation,
-        @RequestHeader("ServiceAuthorization") String serviceAuthorization,
-        @PathVariable("applicantEmail") String applicantEmail,
-        @RequestBody ProbateCaseDetails probateCaseDetails
+            @RequestHeader(AUTHORIZATION) String authorisation,
+            @RequestHeader(OrchestratorHttpHeaders.SERVICE_AUTHORIZATION) String serviceAuthorization,
+            @PathVariable(OrchestratorHttpHeaders.APPLICANT_EMAIL) String applicantEmail,
+            @RequestBody ProbateCaseDetails probateCaseDetails
     );
 
     @PostMapping(
-        value = "/submissions/{applicantEmail}",
-        headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+            value = "/submissions/{applicantEmail}",
+            headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
     ProbateCaseDetails submit(
-        @RequestHeader(AUTHORIZATION) String authorisation,
-        @RequestHeader("ServiceAuthorization") String serviceAuthorization,
-        @PathVariable("applicantEmail") String applicantEmail,
-        @RequestBody ProbateCaseDetails probateCaseDetails
+            @RequestHeader(AUTHORIZATION) String authorisation,
+            @RequestHeader(OrchestratorHttpHeaders.SERVICE_AUTHORIZATION) String serviceAuthorization,
+            @PathVariable(OrchestratorHttpHeaders.APPLICANT_EMAIL) String applicantEmail,
+            @RequestBody ProbateCaseDetails probateCaseDetails
     );
 
     @PostMapping(
-        value = "/payments/{applicantEmail}",
-        headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+            value = "/payments/{applicantEmail}",
+            headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
     ProbateCaseDetails updatePayments(
-        @RequestHeader(AUTHORIZATION) String authorisation,
-        @RequestHeader("ServiceAuthorization") String serviceAuthorization,
-        @PathVariable("applicantEmail") String applicantEmail,
-        @RequestBody ProbatePaymentDetails probatePaymentDetails
+            @RequestHeader(AUTHORIZATION) String authorisation,
+            @RequestHeader(OrchestratorHttpHeaders.SERVICE_AUTHORIZATION) String serviceAuthorization,
+            @PathVariable(OrchestratorHttpHeaders.APPLICANT_EMAIL) String applicantEmail,
+            @RequestBody ProbatePaymentDetails probatePaymentDetails
     );
 }
