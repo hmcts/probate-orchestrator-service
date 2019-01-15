@@ -343,7 +343,7 @@ compileJava {
     options.compilerArgs << '-parameters'
 }
 
-jar {
+bootJar {
     archiveName = 'probate-orchestrator-service.jar'
     manifest {
         attributes 'Implementation-Title': project.name,
