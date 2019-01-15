@@ -15,9 +15,17 @@ public class HealthConfiguration {
     @Value("${service.auth.provider.base.url}")
     private String serviceAuthUrl;
 
+    @Value("${auth.idam.client.baseUrl}")
+    private String idamUrl;
+
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
+    }
+
+    @Bean
+    public ProbateHealthIndicator idamHealthIndicator(RestTemplate restTemplate) {
+        return new ProbateHealthIndicator(idamUrl, restTemplate, HEALTH_ENDPOINT);
     }
 
     @Bean
