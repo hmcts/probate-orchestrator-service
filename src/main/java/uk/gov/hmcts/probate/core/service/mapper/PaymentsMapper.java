@@ -22,7 +22,7 @@ public class PaymentsMapper {
     @ToCollectionMember
     public List<CollectionMember<CasePayment>> toCasePaymentCollectionMembers(List<Payment> payments) {
         if (payments == null) {
-            return null;
+            return null;//NOSONAR
         }
         return payments.stream()
             .map(paymentMapper::toCasePayment)
@@ -39,10 +39,10 @@ public class PaymentsMapper {
     @FromCollectionMember
     public List<Payment> fromCasePaymentCollectionMembers(List<CollectionMember<CasePayment>> collectionMembers) {
         if (collectionMembers == null) {
-            return null;
+            return null;//NOSONAR
         }
         return collectionMembers.stream()
-            .map(casePaymentCollectionMember -> casePaymentCollectionMember.getValue())
+            .map(CollectionMember::getValue)
             .map(paymentMapper::fromCasePayment)
             .collect(Collectors.toList());
     }

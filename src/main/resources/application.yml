@@ -29,6 +29,7 @@
   service.auth.provider.base.url: ${auth.provider.service.client.baseUrl}
 
   auth.idam.client.baseUrl: http://localhost:4501
+
   s2s.auth.totp.secret: ${auth.provider.service.client.key}
   service.name: ${auth.provider.service.client.microservice}
 

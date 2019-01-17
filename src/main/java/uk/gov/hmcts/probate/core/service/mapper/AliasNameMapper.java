@@ -19,7 +19,7 @@ public class AliasNameMapper {
     @ToCollectionMember
     public List<CollectionMember<AliasName>> toCollectionMember(Map<String, AliasOtherNames> otherNames) {
         if (CollectionUtils.isEmpty(otherNames)) {
-            return null;
+            return null;//NOSONAR
         }
         return otherNames.values()
             .stream()
@@ -32,11 +32,11 @@ public class AliasNameMapper {
     @FromCollectionMember
     public Map<String, AliasOtherNames> fromCollectionMember(List<CollectionMember<AliasName>> collectionMembers) {
         if (CollectionUtils.isEmpty(collectionMembers)) {
-            return null;
+            return null;//NOSONAR
         }
         List<AliasOtherNames> aliasOtherNamesList = collectionMembers
             .stream()
-            .map(aliasNameCollectionMember -> aliasNameCollectionMember.getValue())
+            .map(CollectionMember::getValue)
             .map(aliasName -> AliasOtherNames.builder().firstName(aliasName.getForenames())
                 .lastName(aliasName.getLastName()).build())
             .collect(Collectors.toList());

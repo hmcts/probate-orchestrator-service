@@ -19,7 +19,7 @@ public class IhtMethodConverter {
     @FromIhtMethod
     public Boolean fromIhtMethod(IhtMethod ihtMethod) {
         if (ihtMethod == null) {
-            return null;
+            return null;// NOSONAR
         }
         return IhtMethod.ONLINE.equals(ihtMethod);
     }
