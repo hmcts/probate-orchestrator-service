@@ -130,22 +130,22 @@ public class IntestacyTestDataCreator {
                 .method(IhtMethod.BY_POST)
                 .netValue(NET_VALUE)
                 .build())
-            .payments(Lists.newArrayList(Payment.builder()
-                .amount(PAYMENT_AMOUNT)
-                .method(PAYMENT_CHANNEL)
-                .date(DATE)
-                .reference(PAYMENT_REFERENCE)
-                .siteId(PAYMENT_SITE_ID)
-                .status(PaymentStatus.SUCCESS)
-                .transactionId(PAYMENT_TRANSACTION_ID)
-                .build()))
-            .registry(Registry.builder()
-                .address(REG_ADDRESS)
-                .email(REG_EMAIL)
-                .name(REGNAME)
-                .sequenceNumber(SEQUENCE_NUMBER)
-                .build())
-            .build();
+                .payments(Lists.newArrayList(Payment.builder()
+                        .amount(PAYMENT_AMOUNT)
+                        .method(PAYMENT_CHANNEL)
+                        .date(DATE)
+                        .reference(PAYMENT_REFERENCE)
+                        .siteId(PAYMENT_SITE_ID)
+                        .status(PaymentStatus.SUCCESS)
+                        .transactionId(PAYMENT_TRANSACTION_ID)
+                        .build()))
+                .registry(Registry.builder()
+                        .address(REG_ADDRESS)
+                        .email(REG_EMAIL)
+                        .name(REGNAME)
+                        .sequenceNumber(SEQUENCE_NUMBER)
+                        .build())
+                .build();
     }
 
     private static Map<String, AliasOtherNames> createAliasMap() {
@@ -205,7 +205,7 @@ public class IntestacyTestDataCreator {
         grantOfRepresentation.setRegistryEmail(REG_EMAIL);
         grantOfRepresentation.setRegistrySequenceNumber(Long.toString(SEQUENCE_NUMBER));
 
-        grantOfRepresentation.setDeceasedHasAssetsOutsideUk(Boolean.TRUE);
+        grantOfRepresentation.setDeceasedHasAssetsOutsideUK(Boolean.TRUE);
         grantOfRepresentation.setAssetsOverseasNetValue(ASSETS_OVERSEAS_NET_VALUE_LONG);
         grantOfRepresentation.setIhtFormId(IhtFormType.IHT205);
         grantOfRepresentation.setIhtFormCompletedOnline(Boolean.FALSE);
