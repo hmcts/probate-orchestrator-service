@@ -27,8 +27,8 @@ public interface SubmitServiceApi {
     )
     ProbateCaseDetails getCase(
             @RequestHeader(AUTHORIZATION) String authorisation,
-            @RequestHeader(OrchestratorHttpHeaders.SERVICE_AUTHORIZATION) String serviceAuthorization,
-            @PathVariable(OrchestratorHttpHeaders.APPLICANT_EMAIL) String applicantEmail,
+            @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+            @PathVariable(SubmitServiceConfiguration.APPLICANT_EMAIL) String applicantEmail,
             @RequestParam("caseType") String caseType
     );
 
@@ -38,8 +38,8 @@ public interface SubmitServiceApi {
     )
     ProbateCaseDetails saveDraft(
             @RequestHeader(AUTHORIZATION) String authorisation,
-            @RequestHeader(OrchestratorHttpHeaders.SERVICE_AUTHORIZATION) String serviceAuthorization,
-            @PathVariable(OrchestratorHttpHeaders.APPLICANT_EMAIL) String applicantEmail,
+            @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+            @PathVariable(SubmitServiceConfiguration.APPLICANT_EMAIL) String applicantEmail,
             @RequestBody ProbateCaseDetails probateCaseDetails
     );
 
@@ -49,8 +49,8 @@ public interface SubmitServiceApi {
     )
     ProbateCaseDetails submit(
             @RequestHeader(AUTHORIZATION) String authorisation,
-            @RequestHeader(OrchestratorHttpHeaders.SERVICE_AUTHORIZATION) String serviceAuthorization,
-            @PathVariable(OrchestratorHttpHeaders.APPLICANT_EMAIL) String applicantEmail,
+            @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+            @PathVariable(SubmitServiceConfiguration.APPLICANT_EMAIL) String applicantEmail,
             @RequestBody ProbateCaseDetails probateCaseDetails
     );
 
@@ -60,8 +60,8 @@ public interface SubmitServiceApi {
     )
     ProbateCaseDetails updatePayments(
             @RequestHeader(AUTHORIZATION) String authorisation,
-            @RequestHeader(OrchestratorHttpHeaders.SERVICE_AUTHORIZATION) String serviceAuthorization,
-            @PathVariable(OrchestratorHttpHeaders.APPLICANT_EMAIL) String applicantEmail,
+            @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+            @PathVariable(SubmitServiceConfiguration.APPLICANT_EMAIL) String applicantEmail,
             @RequestBody ProbatePaymentDetails probatePaymentDetails
     );
 }
