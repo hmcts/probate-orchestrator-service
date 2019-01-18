@@ -1,8 +1,11 @@
 package uk.gov.hmcts.probate.client;
 
-public class OrchestratorHttpHeaders {
+class OrchestratorHttpHeaders {
 
-    public static final String SERVICE_AUTHORIZATION = "ServiceAuthorization";
+    static final String SERVICE_AUTHORIZATION = "ServiceAuthorization";
 
-    public static final String APPLICANT_EMAIL = "applicantEmail";
+    static final String APPLICANT_EMAIL = "applicantEmail";
+
+    OrchestratorHttpHeaders() {
+    }
 }
