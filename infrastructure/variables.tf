@@ -99,18 +99,6 @@ variable "common_tags" {
   type = "map"
 }
 
-variable "asp_rg" {
-  
-}
-
-variable "asp_name" {
-  
-}
-
-#variable "spring_application_json" {
-
-#}
-
 variable "services_auth_provider_baseurl" {
 
 }
@@ -120,5 +108,13 @@ variable "auth_idam_client_baseurl" {
 }
 
 variable "submit_service_api_url" {
+
+}
+
+variable "asp_rg" {
+
+}
+
+variable "asp_name" {
 
 }
