@@ -107,9 +107,9 @@ variable "asp_name" {
   
 }
 
-variable "spring_application_json" {
+#variable "spring_application_json" {
 
-}
+#}
 
 variable "services_auth_provider_baseurl" {
 
