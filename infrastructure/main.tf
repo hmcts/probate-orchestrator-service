@@ -94,7 +94,7 @@ data "azurerm_key_vault_secret" "spring_application_json_submit_service" {
   vault_uri = "${data.azurerm_key_vault.probate_key_vault.vault_uri}"
 }
 
-module "probate-submit-service" {
+module "probate-orchestrator-service" {
   source = "git@github.com:hmcts/moj-module-webapp.git?ref=master"
   product = "${var.product}-${var.microservice}"
   location = "${var.location}"
