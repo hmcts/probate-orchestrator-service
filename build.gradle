@@ -54,6 +54,7 @@ project.ext {
     nativeType = "dmg"
     bundleAppName = 'My App'
     pactBrokerTag = branchTag()
+    pactVersion = getCheckedOutGitCommitHash()
 }
 jacoco {
     toolVersion = '0.8.0'
@@ -198,7 +199,7 @@ def versions = [
         restAssured                     : '3.0.7',
         piTest                          : '1.3.2',
         commonMark                      : '0.11.0',
-        probateCommons: '0.0.8'
+        probateCommons                  : '0.0.10'
 ]
 
 jacocoTestReport {
@@ -319,7 +320,8 @@ pact {
     publish {
         pactDirectory = 'target/pacts'
         pactBrokerUrl = "$System.env.PACT_BROKER_URL"
-        // tags = [project.pactBrokerTag]
+        tags = [project.pactBrokerTag]
+        version = [project.pactVersion]
     }
 }
 task printbranch {
@@ -338,6 +340,9 @@ private String branchTag() {
     return branch
 }
 
+def getCheckedOutGitCommitHash() {
+    'git rev-parse --verify --short HEAD'.execute().text.trim()
+}
 
 compileJava {
     options.compilerArgs << '-parameters'
