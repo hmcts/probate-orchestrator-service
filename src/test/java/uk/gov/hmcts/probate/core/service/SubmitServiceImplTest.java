@@ -19,7 +19,7 @@ import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.ProbatePaymentDetails;
-import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentation;
+import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
 
 import java.util.Map;
@@ -74,7 +74,7 @@ public class SubmitServiceImplTest {
         String formStr = TestUtils.getJSONFromFile("intestacyForm.json");
         form = objectMapper.readValue(formStr, Form.class);
         CasePayment casePayment = new CasePayment();
-        caseData = GrantOfRepresentation.builder().payments(
+        caseData = GrantOfRepresentationData.builder().payments(
             Lists.newArrayList(CollectionMember.<CasePayment>builder().value(casePayment).build())).build();
         caseInfo = CaseInfo.builder().state(STATE).caseId(CASE_ID).build();
         probateCaseDetails = ProbateCaseDetails.builder().caseData(caseData).caseInfo(caseInfo).build();
