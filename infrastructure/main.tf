@@ -147,7 +147,7 @@ module "probate-orchestrator-service" {
     AUTH_PROVIDER_SERVICE_CLIENT_BASEURL = "${var.idam_service_api}"
     SERVICES_CORECASEDATA_BASEURL = "${var.ccd_baseUrl}"
     SERVICES_CORECASEDATA_ENABLED = "${var.ccd_enabled}"
-
+    S2S_SERVICE_API = "${var.s2s_service_api}"
     SERVICES_AUTH_PROVIDER_BASEURL = "${var.services_auth_provider_baseurl}"
     AUTH_IDAM_CLIENT_BASEURL = "${var.auth_idam_client_baseurl}"
     SUBMIT_SERVICE_API_URL = "${var.submit_service_api_url}"
