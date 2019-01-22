@@ -143,7 +143,6 @@ module "probate-orchestrator-service" {
     SERVICES_CORECASEDATA_BASEURL = "${var.ccd_baseUrl}"
     SERVICES_CORECASEDATA_ENABLED = "${var.ccd_enabled}"
 
-    #SPRING_APPLICATION_JSON = "${var.spring_application_json}"
     SERVICES_AUTH_PROVIDER_BASEURL = "${var.services_auth_provider_baseurl}"
     AUTH_IDAM_CLIENT_BASEURL = "${var.auth_idam_client_baseurl}"
     SUBMIT_SERVICE_API_URL = "${var.submit_service_api_url}"
