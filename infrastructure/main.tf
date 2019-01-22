@@ -9,6 +9,11 @@ provider "vault" {
 }
 
 
+provider "azurerm" {
+  version = "1.19.0"
+}
+
+
 # data "vault_generic_secret" "probate_mail_host" {
 #   path = "secret/${var.vault_section}/probate/probate_mail_host"
 # }
