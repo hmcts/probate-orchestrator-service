@@ -94,10 +94,10 @@ data "azurerm_key_vault_secret" "probate_mail_recipient" {
   vault_uri = "${data.azurerm_key_vault.probate_key_vault.vault_uri}"
 }
 
-data "azurerm_key_vault_secret" "spring_application_json_submit_service" {
-  name = "spring-application-json-submit-service-azure"
-  vault_uri = "${data.azurerm_key_vault.probate_key_vault.vault_uri}"
-}
+//data "azurerm_key_vault_secret" "spring_application_json_submit_service" {
+//  name = "spring-application-json-submit-service-azure"
+//  vault_uri = "${data.azurerm_key_vault.probate_key_vault.vault_uri}"
+//}
 
 module "probate-orchestrator-service" {
   source = "git@github.com:hmcts/moj-module-webapp.git?ref=master"
@@ -138,7 +138,7 @@ module "probate-orchestrator-service" {
     MAIL_JAVAMAILPROPERTIES_RECIPIENT = "${data.azurerm_key_vault_secret.probate_mail_recipient.value}"
 
     AUTH_PROVIDER_SERVICE_CLIENT_KEY = "${data.azurerm_key_vault_secret.s2s_key.value}"
-    SPRING_APPLICATION_JSON = "${data.azurerm_key_vault_secret.spring_application_json_submit_service.value}"
+//    SPRING_APPLICATION_JSON = "${data.azurerm_key_vault_secret.spring_application_json_submit_service.value}"
    
     MAIL_JAVAMAILPROPERTIES_SUBJECT = "${var.probate_mail_subject}"
     MAIL_JAVAMAILPROPERTIES_MAIL_SMTP_AUTH = "${var.probate_mail_use_auth}"
