@@ -12,8 +12,9 @@ import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.MaritalStatus;
+import uk.gov.hmcts.reform.probate.model.cases.RegistryLocation;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.Declaration;
-import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentation;
+import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.SpouseNotApplyingReason;
 import uk.gov.hmcts.reform.probate.model.forms.AliasOtherNames;
@@ -67,7 +68,7 @@ public class IntestacyTestDataCreator {
     private static final String PAYMENT_TRANSACTION_ID = "paymentTransactionId";
     private static final String REG_ADDRESS = "regAddress";
     private static final String REG_EMAIL = "regEmail";
-    private static final String REGNAME = "regname";
+    private static final String REGNAME = "Birmingham";
     private static final long SEQUENCE_NUMBER = 1L;
     private static final String ALIAS_FIRST_NAME = "aliasFirstName";
     private static final String ALIAS_LASTNAME = "aliasLastname";
@@ -155,8 +156,8 @@ public class IntestacyTestDataCreator {
             .build());
     }
 
-    public static GrantOfRepresentation createGrantOfRepresentation() {
-        GrantOfRepresentation grantOfRepresentation = new GrantOfRepresentation();
+    public static GrantOfRepresentationData createGrantOfRepresentation() {
+        GrantOfRepresentationData grantOfRepresentation = new GrantOfRepresentationData();
         grantOfRepresentation.setApplicationType(ApplicationType.PERSONAL);
         grantOfRepresentation.setCaseType(GrantType.INTESTACY);
         grantOfRepresentation.setPrimaryApplicantEmailAddress(EMAIL);
@@ -200,7 +201,7 @@ public class IntestacyTestDataCreator {
         grantOfRepresentation.setDeceasedAnyOtherNames(Boolean.TRUE);
         grantOfRepresentation.setDeceasedFreeTextAddress(DECEASED_FREE_TEXT_ADDRESS);
 
-        grantOfRepresentation.setRegistryLocation(REGNAME);
+        grantOfRepresentation.setRegistryLocation(RegistryLocation.BIRMINGHAM);
         grantOfRepresentation.setRegistryAddress(REG_ADDRESS);
         grantOfRepresentation.setRegistryEmail(REG_EMAIL);
         grantOfRepresentation.setRegistrySequenceNumber(Long.toString(SEQUENCE_NUMBER));
@@ -235,15 +236,15 @@ public class IntestacyTestDataCreator {
         return grantOfRepresentation;
     }
 
-    public static GrantOfRepresentation createInvalidGrantOfRepresentation() {
-        GrantOfRepresentation grantOfRepresentation = IntestacyTestDataCreator.createGrantOfRepresentation();
+    public static GrantOfRepresentationData createInvalidGrantOfRepresentation() {
+        GrantOfRepresentationData grantOfRepresentation = IntestacyTestDataCreator.createGrantOfRepresentation();
         grantOfRepresentation.setIhtNetValue(200000000L);
         return grantOfRepresentation;
     }
 
 
-    public static GrantOfRepresentation createPartialGrantOfRepresentation() {
-        GrantOfRepresentation grantOfRepresentation = new GrantOfRepresentation();
+    public static GrantOfRepresentationData createPartialGrantOfRepresentation() {
+        GrantOfRepresentationData grantOfRepresentation = new GrantOfRepresentationData();
         grantOfRepresentation.setApplicationType(ApplicationType.PERSONAL.PERSONAL);
         grantOfRepresentation.setPrimaryApplicantEmailAddress(EMAIL);
         grantOfRepresentation.setPrimaryApplicantForenames(FIRST_NAME);

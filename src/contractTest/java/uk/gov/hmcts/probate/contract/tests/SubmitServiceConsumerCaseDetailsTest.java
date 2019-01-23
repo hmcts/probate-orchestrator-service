@@ -198,7 +198,7 @@ public class SubmitServiceConsumerCaseDetailsTest {
                                                 .stringValue("ihtNetValue", "100000")
                                                 .stringValue("deceasedAnyOtherNames", "No")
                                                 .stringValue("ihtReferenceNumber", "GOT123456")
-                                                .stringValue("deceasedHasAssetsOutsideUk", "Yes")
+                                                .stringValue("deceasedHasAssetsOutsideUK", "Yes")
                                                 .stringValue("deceasedAnyChildren", "No")
                                                 .numberValue("outsideUKGrantCopies", 6)
                                                 .stringValue("primaryApplicantRelationshipToDeceased", "adoptedChild")
