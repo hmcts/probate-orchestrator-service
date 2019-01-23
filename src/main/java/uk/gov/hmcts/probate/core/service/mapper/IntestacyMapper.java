@@ -7,23 +7,25 @@ import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromIhtMethod;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromRegistryLocation;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToIhtMethod;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPennies;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPounds;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToRegistryLocation;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
-import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentation;
+import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 
 
-@Mapper(componentModel = "spring", uses = {PaymentsMapper.class, AliasNameMapper.class, PoundsConverter.class,
+@Mapper(componentModel = "spring", uses = {PaymentsMapper.class, AliasNameMapper.class, RegistryLocationMapper.class, PoundsConverter.class,
         IhtMethodConverter.class},
         imports = {ApplicationType.class, GrantType.class, ProbateType.class, IhtMethod.class},
         unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
-public interface IntestacyMapper extends FormMapper<GrantOfRepresentation, IntestacyForm> {
+public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, IntestacyForm> {
 
 
     @Mapping(target = "applicationType", expression = "java(ApplicationType.PERSONAL)")
@@ -67,7 +69,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentation, Intes
     @Mapping(target = "ihtFormCompletedOnline", source = "iht.method", qualifiedBy = {FromIhtMethod.class})
     @Mapping(target = "ihtNetValue", source = "iht.netValue", qualifiedBy = {ToPennies.class})
     @Mapping(target = "ihtGrossValue", source = "iht.grossValue", qualifiedBy = {ToPennies.class})
-    @Mapping(target = "registryLocation", source = "registry.name")
+    @Mapping(target = "registryLocation", source ="registry.name", qualifiedBy = {ToRegistryLocation.class})
     @Mapping(target = "registryAddress", source = "registry.address")
     @Mapping(target = "registryEmail", source = "registry.email")
     @Mapping(target = "registrySequenceNumber", source = "registry.sequenceNumber")
@@ -77,7 +79,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentation, Intes
     @Mapping(target = "primaryApplicantAddress.addressLine1", source = "applicant.address")
     @Mapping(target = "primaryApplicantAddress.postCode", source = "applicant.postCode")
     @Mapping(target = "payments", source = "payments", qualifiedBy = {ToCollectionMember.class})
-    GrantOfRepresentation toCaseData(IntestacyForm form);
+    GrantOfRepresentationData toCaseData(IntestacyForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.INTESTACY)")
     @Mapping(target = "applicant.email", source = "primaryApplicantEmailAddress")
@@ -86,6 +88,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentation, Intes
     @Mapping(target = "iht.netValue", source = "ihtNetValue", qualifiedBy = {ToPounds.class})
     @Mapping(target = "iht.grossValue", source = "ihtGrossValue", qualifiedBy = {ToPounds.class})
     @Mapping(target = "deceased.otherNames", source = "deceasedAliasNameList", qualifiedBy = {FromCollectionMember.class})
+    @Mapping(target = "registry.name", source ="registryLocation", qualifiedBy = {FromRegistryLocation.class})
     @InheritInverseConfiguration
-    IntestacyForm fromCaseData(GrantOfRepresentation grantOfRepresentation);
+    IntestacyForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 }

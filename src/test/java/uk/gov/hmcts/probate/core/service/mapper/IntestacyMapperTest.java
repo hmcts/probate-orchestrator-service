@@ -10,7 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
-import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentation;
+import uk.gov.hmcts.reform.probate.model.cases.RegistryLocation;
+import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.forms.Copies;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
@@ -33,7 +34,7 @@ public class IntestacyMapperTest {
     private IntestacyMapper mapper;
 
     private IntestacyForm intestacyForm;
-    private GrantOfRepresentation grantOfRepresentation;
+    private GrantOfRepresentationData grantOfRepresentation;
 
     @Before
     public void setUp() {
@@ -43,7 +44,7 @@ public class IntestacyMapperTest {
 
     @Test
     public void shouldMapIntestacyFormToGrantOfRepresentation() {
-        GrantOfRepresentation actualGrantOfRepresentation = mapper.toCaseData(intestacyForm);
+        GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(intestacyForm);
         assertThat(actualGrantOfRepresentation).isEqualToComparingFieldByFieldRecursively(grantOfRepresentation);
     }
 
@@ -55,7 +56,7 @@ public class IntestacyMapperTest {
 
     @Test
     public void shouldMapNullIntestacyFormToGrantOfRepresentation() {
-        GrantOfRepresentation actualGrantOfRepresentation = mapper.toCaseData(null);
+        GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(null);
         Assert.assertThat(actualGrantOfRepresentation, is(nullValue()));
     }
 
@@ -67,10 +68,10 @@ public class IntestacyMapperTest {
 
     @Test
     public void shouldMapEmptyIntestacyFormToGrantOfRepresentation() {
-        GrantOfRepresentation expectedGrantOfRepresentation = new GrantOfRepresentation();
+        GrantOfRepresentationData expectedGrantOfRepresentation = new GrantOfRepresentationData();
         expectedGrantOfRepresentation.setApplicationType(ApplicationType.PERSONAL);
         expectedGrantOfRepresentation.setCaseType(GrantType.INTESTACY);
-        GrantOfRepresentation actualGrantOfRepresentation = mapper.toCaseData(new IntestacyForm());
+        GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(new IntestacyForm());
         Assert.assertThat(actualGrantOfRepresentation, equalTo(expectedGrantOfRepresentation));
         assertThat(actualGrantOfRepresentation).isEqualToComparingFieldByFieldRecursively(expectedGrantOfRepresentation);
 
@@ -86,7 +87,7 @@ public class IntestacyMapperTest {
         expectedIntestacyForm.setRegistry(new Registry());
         expectedIntestacyForm.setApplicant(new IntestacyApplicant());
         expectedIntestacyForm.setDeceased(new IntestacyDeceased());
-        IntestacyForm actualIntestacyForm = mapper.fromCaseData(new GrantOfRepresentation());
+        IntestacyForm actualIntestacyForm = mapper.fromCaseData(new GrantOfRepresentationData());
         assertThat(actualIntestacyForm).isEqualToComparingFieldByFieldRecursively(expectedIntestacyForm);
     }
 }
