@@ -238,6 +238,10 @@ processResources {
 
 
 dependencies {
+
+    implementation('com.fasterxml.jackson.core:jackson-databind:2.9.8') {
+        force = true
+    }
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
