@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.1.xsd">
     <suppress>
+        <notes><![CDATA[
+   file name: jackson-databind-2.9.7.jar
+   ]]></notes>
+        <gav regex="true">^com\.fasterxml\.jackson\.core:jackson-databind:.*$</gav>
+        <cpe>cpe:/a:fasterxml:jackson</cpe>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: jackson-databind-2.9.7.jar
+   ]]></notes>
+        <gav regex="true">^com\.fasterxml\.jackson\.core:jackson-databind:.*$</gav>
+        <cpe>cpe:/a:fasterxml:jackson</cpe>
+    </suppress>
+    <suppress>
        <notes><![CDATA[
        file name: bcprov-jdk15on-1.56.jar
        ]]></notes>
