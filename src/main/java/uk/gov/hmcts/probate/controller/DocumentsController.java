@@ -24,7 +24,7 @@ public class DocumentsController {
         this.businessService = businessService;
     }
 
-    @PostMapping(path = CHECK_ANSWERS_ENDPOINT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(path = CHECK_ANSWERS_ENDPOINT, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<byte[]> generateCheckAnswersSummaryPdf(@RequestBody CheckAnswersSummary checkAnswersSummary) {
         log.info("generate pdf");
