@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(value = {DocumentsController.class}, secure = false)
 public class DocumentsControllerTest {
 
-    private static final String DOCUMENTS_ENDPOINT = "/documents";
+    private static final String CHECK_ANSWERS_SUMMARY_ENDPOINT = "/documents/generate/check-answers-summary";
 
     @MockBean
     private BusinessService businessService;
@@ -60,7 +60,7 @@ public class DocumentsControllerTest {
     public void shouldGenerateCheckAnswersSummaryPdf() throws Exception {
         when(businessService.generateCheckAnswersSummaryPdf(eq(checkAnswersSummary))).thenReturn(new byte[10]);
 
-        mockMvc.perform(post(DOCUMENTS_ENDPOINT)
+        mockMvc.perform(post(CHECK_ANSWERS_SUMMARY_ENDPOINT)
                 .content(checkAnswersSummaryJson)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
