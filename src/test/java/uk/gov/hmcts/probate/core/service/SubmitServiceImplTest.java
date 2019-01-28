@@ -21,6 +21,7 @@ import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.ProbatePaymentDetails;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
+import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 
 import java.util.Map;
 
@@ -55,7 +56,7 @@ public class SubmitServiceImplTest {
 
     private SubmitServiceImpl submitService;
 
-    private Form form;
+    private IntestacyForm form;
 
     private ProbateCaseDetails probateCaseDetails;
 
@@ -67,12 +68,15 @@ public class SubmitServiceImplTest {
 
     @Before
     public void setUp() throws Exception {
+        IdentifierConfiguration identifierConfiguration = new IdentifierConfiguration();
+
         mappers = ImmutableMap.<ProbateType, FormMapper>builder()
             .put(ProbateType.INTESTACY, formMapper)
             .build();
-        submitService = new SubmitServiceImpl(mappers, submitServiceApi, securityUtils);
+        submitService = new SubmitServiceImpl(mappers, submitServiceApi, securityUtils,
+            identifierConfiguration.formIdentifierFunctionMap());
         String formStr = TestUtils.getJSONFromFile("intestacyForm.json");
-        form = objectMapper.readValue(formStr, Form.class);
+        form = objectMapper.readValue(formStr, IntestacyForm.class);
         CasePayment casePayment = new CasePayment();
         caseData = GrantOfRepresentationData.builder().payments(
             Lists.newArrayList(CollectionMember.<CasePayment>builder().value(casePayment).build())).build();
