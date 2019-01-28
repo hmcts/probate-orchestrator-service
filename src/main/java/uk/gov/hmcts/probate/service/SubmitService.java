@@ -5,11 +5,11 @@ import uk.gov.hmcts.reform.probate.model.forms.Form;
 
 public interface SubmitService {
 
-    Form getCase(String applicantEmail, ProbateType probateType);
+    Form getCase(String identifier, ProbateType probateType);
 
-    Form saveDraft(String applicantEmail, Form form);
+    Form saveDraft(String identifier, Form form);
 
-    Form submit(String applicantEmail, Form form);
+    Form submit(String identifier, Form form);
 
-    Form updatePayments(String applicantEmail, Form form);
+    Form updatePayments(String identifier, Form form);
 }

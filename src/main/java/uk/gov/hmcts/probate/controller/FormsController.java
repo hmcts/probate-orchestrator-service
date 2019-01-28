@@ -28,7 +28,7 @@ import uk.gov.hmcts.reform.probate.model.forms.Form;
 @Slf4j
 public class FormsController {
 
-    private static final String FORMS_ENDPOINT = "/forms/{applicantEmail}";
+    private static final String FORMS_ENDPOINT = "/forms/{identifier}";
     private static final String SUBMISSIONS_ENDPOINT = "/submissions";
     private static final String PAYMENTS_ENDPOINT = "/payments";
 
@@ -49,9 +49,9 @@ public class FormsController {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Form> saveForm(@RequestBody Form form,
-                                         @PathVariable("applicantEmail") String applicantEmail) {
+                                         @PathVariable("identifier") String identifier) {
         log.info("Save form called");
-        return new ResponseEntity<>(submitService.saveDraft(applicantEmail, form), HttpStatus.OK);
+        return new ResponseEntity<>(submitService.saveDraft(identifier, form), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Get form data", notes = "Get form data")
@@ -61,10 +61,10 @@ public class FormsController {
     })
     @GetMapping(path = FORMS_ENDPOINT, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Form> getForm(@PathVariable("applicantEmail") String applicantEmail,
+    public ResponseEntity<Form> getForm(@PathVariable("identifier") String identifier,
                                         @RequestParam("probateType") ProbateType probateType) {
         log.info("Get form called");
-        return new ResponseEntity<>(submitService.getCase(applicantEmail, probateType), HttpStatus.OK);
+        return new ResponseEntity<>(submitService.getCase(identifier, probateType), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Submit form data", notes = "Submit form data")
@@ -77,9 +77,9 @@ public class FormsController {
         consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Form> submitForm(@RequestBody Form form,
-                                           @PathVariable("applicantEmail") String applicantEmail) {
+                                           @PathVariable("identifier") String identifier) {
         log.info("Submit form called");
-        return new ResponseEntity<>(submitService.submit(applicantEmail, form), HttpStatus.OK);
+        return new ResponseEntity<>(submitService.submit(identifier, form), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Update payments", notes = "Update payments")
@@ -92,8 +92,8 @@ public class FormsController {
         consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Form> updatePayments(@RequestBody Form form,
-                                               @PathVariable("applicantEmail") String applicantEmail) {
+                                               @PathVariable("identifier") String identifier) {
         log.info("Update payments called");
-        return new ResponseEntity<>(submitService.updatePayments(applicantEmail, form), HttpStatus.OK);
+        return new ResponseEntity<>(submitService.updatePayments(identifier, form), HttpStatus.OK);
     }
 }
