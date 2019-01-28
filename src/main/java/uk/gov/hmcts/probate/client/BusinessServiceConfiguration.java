@@ -1,5 +1,6 @@
 package uk.gov.hmcts.probate.client;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import feign.codec.Decoder;
@@ -14,6 +15,7 @@ public class BusinessServiceConfiguration {
     @Bean
     @Primary
     Decoder feignDecoder(ObjectMapper objectMapper) {
+        objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
         objectMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
         return new JacksonDecoder(objectMapper);
     }
