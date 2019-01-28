@@ -5,11 +5,7 @@ import uk.gov.hmcts.probate.core.service.mapper.qualifiers.*;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
-import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
-import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
-import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
 import uk.gov.hmcts.reform.probate.model.forms.caveat.CaveatForm;
-import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 
 
 @Mapper(componentModel = "spring", uses = {PaymentsMapper.class, CaveatAliasNameMapper.class, RegistryLocationMapper.class, PoundsConverter.class},
