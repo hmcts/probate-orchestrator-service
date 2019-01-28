@@ -16,6 +16,9 @@ import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.probate.service.BusinessService;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyByte;
+import static org.mockito.ArgumentMatchers.byteThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -47,24 +50,17 @@ public class DocumentsControllerTest {
     @Before
     public void setUp() throws Exception {
         this.checkAnswersSummaryJson = TestUtils.getJSONFromFile("businessDocuments/validCheckAnswersSummary.json");
-        objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
         this.checkAnswersSummary = objectMapper.readValue(checkAnswersSummaryJson, CheckAnswersSummary.class);
     }
 
     @Test
-    public void testMappingJsonResponseToCheckAnswersSummary() throws Exception {
-        Assertions.assertThat(checkAnswersSummary.getMainParagraph()).isEqualTo("main paragraph");
-    }
-
-    @Test
     public void shouldGenerateCheckAnswersSummaryPdf() throws Exception {
-        when(businessService.generateCheckAnswersSummaryPdf(eq(checkAnswersSummary))).thenReturn(new byte[10]);
+        when(businessService.generateCheckAnswersSummaryPdf(any(CheckAnswersSummary.class))).thenReturn(any(byte[].class));
 
         mockMvc.perform(post(CHECK_ANSWERS_SUMMARY_ENDPOINT)
                 .content(checkAnswersSummaryJson)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json(checkAnswersSummaryJson, true));
-        verify(businessService, times(1)).generateCheckAnswersSummaryPdf(eq(checkAnswersSummary));
+                .andExpect(status().isOk());
+        verify(businessService, times(1)).generateCheckAnswersSummaryPdf(any(CheckAnswersSummary.class));
     }
 }
