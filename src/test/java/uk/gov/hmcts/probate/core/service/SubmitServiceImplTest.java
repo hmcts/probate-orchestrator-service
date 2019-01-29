@@ -21,6 +21,7 @@ import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.ProbatePaymentDetails;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
+import uk.gov.hmcts.reform.probate.model.cases.SubmitResult;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
 import uk.gov.hmcts.reform.probate.model.forms.caveat.CaveatForm;
@@ -182,7 +183,7 @@ public class SubmitServiceImplTest {
     @Test
     public void shouldSubmitIntestacyForm() {
         when(submitServiceApi.submit(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-            eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class))).thenReturn(intestacyCaseDetails);
+            eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class))).thenReturn(new SubmitResult(intestacyCaseDetails, null));
 
         Form formResponse = submitService.submit(EMAIL_ADDRESS, intestacyForm);
 
@@ -196,7 +197,7 @@ public class SubmitServiceImplTest {
     @Test
     public void shouldSubmitCaveatForm() {
         when(submitServiceApi.submit(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-                eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class))).thenReturn(caveatCaseDetails);
+                eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class))).thenReturn(new SubmitResult(caveatCaseDetails, null));
 
         Form formResponse = submitService.submit(EMAIL_ADDRESS, caveatForm);
 

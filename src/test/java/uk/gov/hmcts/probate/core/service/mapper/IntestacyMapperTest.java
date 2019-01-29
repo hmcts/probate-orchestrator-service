@@ -70,7 +70,7 @@ public class IntestacyMapperTest {
     public void shouldMapEmptyIntestacyFormToGrantOfRepresentation() {
         GrantOfRepresentationData expectedGrantOfRepresentation = new GrantOfRepresentationData();
         expectedGrantOfRepresentation.setApplicationType(ApplicationType.PERSONAL);
-        expectedGrantOfRepresentation.setCaseType(GrantType.INTESTACY);
+        expectedGrantOfRepresentation.setGrantType(GrantType.INTESTACY);
         GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(new IntestacyForm());
         Assert.assertThat(actualGrantOfRepresentation, equalTo(expectedGrantOfRepresentation));
         assertThat(actualGrantOfRepresentation).isEqualToComparingFieldByFieldRecursively(expectedGrantOfRepresentation);

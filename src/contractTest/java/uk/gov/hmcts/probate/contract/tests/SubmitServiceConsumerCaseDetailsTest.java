@@ -18,6 +18,7 @@ import org.springframework.util.ResourceUtils;
 import uk.gov.hmcts.probate.client.SubmitServiceApi;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
+import uk.gov.hmcts.reform.probate.model.cases.SubmitResult;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -44,7 +45,8 @@ public class SubmitServiceConsumerCaseDetailsTest {
 
     public static final String SOME_AUTHORIZATION_TOKEN = "someAuthorizationToken";
     public static final String SOME_SERVICE_AUTHORIZATION_TOKEN = "someServiceAuthorizationToken";
-    public static final String SOMEEMAILADDRESS_HOST_COM = "email";
+    public static final String SOMEEMAILADDRESS_HOST_COM = "jsnow@bbc.co.uk";
+    public static final String CASE_ID = "12323213323";
     @Autowired
     private SubmitServiceApi submitServiceApi;
     @Autowired
@@ -144,13 +146,14 @@ public class SubmitServiceConsumerCaseDetailsTest {
                 .willRespondWith()
                 .status(200)
                 .matchHeader("Content-Type", "application/json;charset=UTF-8")
-                .body(createJsonObject("intestacyGrantOfRepresentation_full.json"))
+                .body(createJsonObject("intestacyGrantOfRepresentation_full_response.json"))
                 .toPact();
         // @formatter:on
     }
 
     @Pact(state = "provider POSTS submission with validation errors", provider = "probate_submitservice_submissions", consumer = "probate_orchestratorservice_submitserviceclient")
-    public RequestResponsePact executePostSubmissionWithValidationErrorsDsl(PactDslWithProvider builder) throws IOException, JSONException {
+    public RequestResponsePact executePostSubmissionWithValidationErrors(PactDslWithProvider builder) throws IOException, JSONException {
+        // @formatter:off
         return builder
                 .given("provider POSTS submission with validation errors")
                 .uponReceiving("a request to POST an invalid submission")
@@ -162,102 +165,60 @@ public class SubmitServiceConsumerCaseDetailsTest {
                 .willRespondWith()
                 .status(400)
                 .matchHeader("Content-Type", "application/json;charset=UTF-8")
+                .body(createJsonObject("intestacyGrantOfRepresentation_invalid_response.json"))
+                .toPact();
+        // @formatter:on
+    }
+
+
+    @Pact(state = "provider POSTS submission with presubmit validation errors", provider = "probate_submitservice_submissions", consumer = "probate_orchestratorservice_submitserviceclient")
+    public RequestResponsePact executePostSubmissionWithValidationErrorsDsl(PactDslWithProvider builder) throws IOException, JSONException {
+        return builder
+                .given("provider POSTS submission with presubmit validation errors")
+                .uponReceiving("a request to POST an invalid submission")
+                .path("/submissions/" + SOMEEMAILADDRESS_HOST_COM)
+                .method("POST")
+                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)
+                .matchHeader("Content-Type", "application/json")
+                .body(createJsonObject("intestacyGrantOfRepresentation_invalid_presubmit.json"))
+                .willRespondWith()
+                .status(400)
+                .matchHeader("Content-Type", "application/json;charset=UTF-8")
                 .body(newJsonBody((o) -> {
-                    o.stringValue("path", "/submissions/email");
+                    o.stringValue("path", "/submissions/" + SOMEEMAILADDRESS_HOST_COM);
                     o.stringType("timestamp");
                     o.array("errors", (a) -> {
-                                a.object((e) -> e.stringValue("field", "caseData")
+                                a.object((e) -> e.stringValue("field", "caseData.deceasedForenames")
                                         .booleanValue("bindingFailure", false)
-                                        .stringValue("code", "AssertExpression")
+                                        .stringValue("code", "Size")
                                         .array("codes", (c) -> {
-                                            c.stringValue("AssertExpression.probateCaseDetails.caseData")
-                                                    .stringValue("AssertExpression.caseData")
-                                                    .stringValue("AssertExpression.uk.gov.hmcts.reform.probate.model.cases.CaseData")
-                                                    .stringValue("AssertExpression");
+                                            c.stringValue("Size.probateCaseDetails.caseData.deceasedForenames")
+                                                    .stringValue("Size.caseData.deceasedForenames")
+                                                    .stringValue("Size.deceasedForenames")
+                                                    .stringValue("Size.java.lang.String")
+                                                    .stringValue("Size");
                                         })
-                                        .stringValue("defaultMessage", "deceasedDateOfBirth.isBefore(deceasedDateOfDeath) is false")
-                                        .object("rejectedValue", (r) -> r.stringValue("primaryApplicantPhoneNumber", "123455678")
-                                                .stringValue("deceasedFreeTextAddress", "Winterfell, Westeros")
-                                                .stringValue("deceasedAddressFound", "Yes")
-                                                .stringValue("primaryApplicantAdoptionInEnglandOrWales", "Yes")
-                                                .stringValue("uploadDocumentUrl", "http://document-management/document/12345")
-                                                .stringValue("deceasedSpouseNotApplyingReason", "mentallyIncapable")
-                                                .object("declaration", (d) -> d.stringValue("declarationCheckbox", "Yes"))
-                                                .stringValue("primaryApplicantFreeTextAddress", "Pret a Manger St. Georges Hospital Blackshaw Road")
-                                                .stringValue("childrenDied", "No")
-                                                .stringValue("ihtFormCompletedOnline", "Yes")
-                                                .array("deceasedAliasNameList", (n) -> {
-                                                    n.object((f) -> f.object("value", (g) -> {
-                                                        g.stringValue("Forenames", "King")
-                                                                .stringValue("LastName", "North");
-                                                    }));
-
-                                                })
-                                                .stringValue("ihtGrossValue", "100000")
-                                                .stringValue("applicationType", "Personal")
-                                                .stringValue("ihtNetValue", "100000")
-                                                .stringValue("deceasedAnyOtherNames", "No")
-                                                .stringValue("ihtReferenceNumber", "GOT123456")
-                                                .stringValue("deceasedHasAssetsOutsideUK", "Yes")
-                                                .stringValue("deceasedAnyChildren", "No")
-                                                .numberValue("outsideUKGrantCopies", 6)
-                                                .stringValue("primaryApplicantRelationshipToDeceased", "adoptedChild")
-                                                .numberValue("extraCopiesOfGrant", 5)
-                                                .stringValue("deceasedForenames", "Ned")
-                                                .stringValue("primaryApplicantEmailAddress", "jsnow@bbc.co.uk")
-                                                .stringValue("primaryApplicantSurname", "Snow")
-                                                .stringValue("primaryApplicantForenames", "Jon")
-                                                .object("primaryApplicantAddress", (p) -> p.stringValue("AddressLine1", "Pret a Manger St. Georges Hospital Blackshaw Road London SW17 0QT"))
-                                                .object("deceasedAddress", (p) -> p.stringValue("AddressLine1", "Winterfell, Westeros"))
-                                                .stringValue("deceasedDivorcedInEnglandOrWales", "No")
-                                                .stringValue("deceasedMartialStatus", "marriedCivilPartnership")
-                                                .stringValue("deceasedDateOfBirth", "2018-01-01")
-                                                .stringValue("assetsOverseasNetValue", "10050")
-                                                .stringValue("primaryApplicantAddressFound", "Yes")
-                                                .stringValue("deceasedOtherChildren", "Yes")
-                                                .stringValue("ihtFormId", "IHT205")
-                                                .stringValue("registryLocation", "Birmingham")
-                                                .stringValue("childrenOverEighteenSurvived", "Yes")
-                                                .stringValue("deceasedSurname", "Stark")
-                                                .stringValue("grandChildrenSurvivedUnderEighteen", "No")
-                                                .stringValue("deceasedDateOfDeath", "1920-01-01")
+                                        .stringValue("defaultMessage", "size must be between 2 and 2147483647")
+                                        .stringValue("rejectedValue", ("N")
                                         ));
                             }
 
                     );
                     o.stringValue("error", "Bad Request");
                     o.numberValue("status", 400);
-                    o.stringValue("message","Validation failed for object='probateCaseDetails'. Error count: 1");
+                    o.stringValue("message", "Validation failed for object='probateCaseDetails'. Error count: 1");
                 }).build())
                 .toPact();
 
     }
 
-//    @Pact(state = "provider POSTS submission with validation errors", provider = "probate_submitservice_submissions", consumer = "probate_orchestratorservice_submitserviceclient")
-//    public RequestResponsePact executePostSubmissionWithValidationErrors(PactDslWithProvider builder) throws IOException, JSONException {
-//        // @formatter:off
-//        return builder
-//                .given("provider POSTS submission with validation errors")
-//                .uponReceiving("a request to POST an invalid submission")
-//                .path("/submissions/" + SOMEEMAILADDRESS_HOST_COM)
-//                .method("POST")
-//                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)
-//                .matchHeader("Content-Type", "application/json")
-//                .body(createJsonObject("intestacyGrantOfRepresentation_invalid.json"))
-//                .willRespondWith()
-//                .status(400)
-//                .matchHeader("Content-Type", "application/json;charset=UTF-8")
-//                .body(createJsonObject("intestacyGrantOfRepresentation_invalid_response.json"))
-//                .toPact();
-//        // @formatter:on
-//    }
 
     @Test
     @PactTestFor(pactMethod = "executeSuccessGetCaseDataPact")
     public void verifyExecuteSuccessGetCaseDataPact() {
 
         ProbateCaseDetails caseDetails = submitServiceApi.getCase(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, CaseType.GRANT_OF_REPRESENTATION.toString());
-        assertThat(caseDetails.getCaseInfo().getCaseId(), equalTo("caseId"));
+        assertThat(caseDetails.getCaseInfo().getCaseId(), equalTo(CASE_ID));
     }
 
     @Test
@@ -265,7 +226,7 @@ public class SubmitServiceConsumerCaseDetailsTest {
     public void verifyExecuteSuccessPostPartialDraftCaseDataPact() throws IOException, JSONException {
 
         ProbateCaseDetails caseDetails = submitServiceApi.saveDraft(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, getProbateCaseDetails("intestacyGrantOfRepresentation_partial_draft.json"));
-        assertThat(caseDetails.getCaseInfo().getCaseId(), equalTo("caseId"));
+        assertThat(caseDetails.getCaseInfo().getCaseId(), equalTo(CASE_ID));
     }
 
     @Test
@@ -273,15 +234,7 @@ public class SubmitServiceConsumerCaseDetailsTest {
     public void verifyExecuteSuccessPostDraftCaseDataPact() throws IOException, JSONException {
 
         ProbateCaseDetails caseDetails = submitServiceApi.saveDraft(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, getProbateCaseDetails("intestacyGrantOfRepresentation_full.json"));
-        assertThat(caseDetails.getCaseInfo().getCaseId(), equalTo("caseId"));
-    }
-
-    @Test
-    @PactTestFor(pactMethod = "executePostSubmissionWithSuccessPact")
-    public void verifyExecutePostSubmissionWithSuccessPact() throws IOException, JSONException {
-
-        ProbateCaseDetails caseDetails = submitServiceApi.submit(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, getProbateCaseDetails("intestacyGrantOfRepresentation_full.json"));
-        assertThat(caseDetails.getCaseInfo().getCaseId(), equalTo("caseId"));
+        assertThat(caseDetails.getCaseInfo().getCaseId(), equalTo(CASE_ID));
     }
 
     @Test
@@ -293,12 +246,28 @@ public class SubmitServiceConsumerCaseDetailsTest {
 
     }
 
+    @Test
+    @PactTestFor(pactMethod = "executePostSubmissionWithSuccessPact")
+    public void verifyExecutePostSubmissionWithSuccessPact() throws IOException, JSONException {
+
+        SubmitResult submitResult = submitServiceApi.submit(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, getProbateCaseDetails("intestacyGrantOfRepresentation_full.json"));
+        assertThat(submitResult.getProbateCaseDetails().getCaseInfo().getCaseId(), equalTo(CASE_ID));
+    }
 
     @Test
-    @PactTestFor(pactMethod = "executePostSubmissionWithValidationErrorsDsl")
+    @PactTestFor(pactMethod = "executePostSubmissionWithValidationErrors")
     public void verifyExecutePostSubmissionWithValidationErrors() throws IOException, JSONException {
         assertThrows(FeignException.class, () -> {
             submitServiceApi.submit(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, getProbateCaseDetails("intestacyGrantOfRepresentation_invalid.json"));
+        });
+
+    }
+
+    @Test
+    @PactTestFor(pactMethod = "executePostSubmissionWithValidationErrorsDsl")
+    public void verifyExecutePostSubmissionWithValidationErrorsDsl() throws IOException, JSONException {
+        assertThrows(FeignException.class, () -> {
+            submitServiceApi.submit(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, getProbateCaseDetails("intestacyGrantOfRepresentation_invalid_presubmit.json"));
         });
 
     }
