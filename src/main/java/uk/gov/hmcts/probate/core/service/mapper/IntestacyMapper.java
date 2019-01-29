@@ -29,7 +29,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
 
 
     @Mapping(target = "applicationType", expression = "java(ApplicationType.PERSONAL)")
-    @Mapping(target = "caseType", expression = "java(GrantType.INTESTACY)")
+    @Mapping(target = "grantType", expression = "java(GrantType.INTESTACY)")
     @Mapping(target = "primaryApplicantForenames", source = "applicant.firstName")
     @Mapping(target = "primaryApplicantSurname", source = "applicant.lastName")
     @Mapping(target = "primaryApplicantRelationshipToDeceased", source = "applicant.relationshipToDeceased")

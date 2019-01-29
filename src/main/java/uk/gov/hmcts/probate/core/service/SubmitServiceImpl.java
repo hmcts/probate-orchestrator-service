@@ -13,6 +13,7 @@ import uk.gov.hmcts.reform.probate.model.cases.CaseData;
 import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.ProbatePaymentDetails;
+import uk.gov.hmcts.reform.probate.model.cases.SubmitResult;
 import uk.gov.hmcts.reform.probate.model.forms.CcdCase;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
 
@@ -64,13 +65,13 @@ public class SubmitServiceImpl implements SubmitService {
         assertIdentifier(identifier, form);
         FormMapper formMapper = mappers.get(form.getType());
         log.debug("calling submit on submitserviceapi");
-        ProbateCaseDetails probateCaseDetails = submitServiceApi.submit(
+        SubmitResult submitResult = submitServiceApi.submit(
             securityUtils.getAuthorisation(),
             securityUtils.getServiceAuthorisation(),
             identifier,
             ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
         );
-        return mapFromCase(formMapper, probateCaseDetails);
+        return mapFromCase(formMapper, submitResult.getProbateCaseDetails());
     }
 
     private void assertIdentifier(String identifier, Form form) {
