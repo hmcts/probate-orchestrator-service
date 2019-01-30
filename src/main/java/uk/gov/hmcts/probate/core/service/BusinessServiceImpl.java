@@ -1,11 +1,15 @@
 package uk.gov.hmcts.probate.core.service;
 
+import feign.codec.Decoder;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.probate.client.BusinessServiceApi;
 import uk.gov.hmcts.probate.service.BusinessService;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
+
+import java.io.IOException;
 
 @Slf4j
 @Component
@@ -21,16 +25,24 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
-    public byte[] generateCheckAnswersSummaryPdf(CheckAnswersSummary checkAnswersSummary) {
+    public byte[] generateCheckAnswersSummaryPdf(CheckAnswersSummary checkAnswersSummary){
         log.info("generateCheckAnswersSummaryPdf");
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
-        byte[] pdf = businessServiceApi.generateCheckAnswersSummaryPdf(
+        feign.Response pdf = businessServiceApi.generateCheckAnswersSummaryPdf(
                 authorisation,
                 serviceAuthorisation,
                 checkAnswersSummary
         );
-        return pdf;
+
+        byte[] bytes = new byte[0];
+        try {
+            bytes = IOUtils.toByteArray(pdf.body().asInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return bytes;
     }
 
 }

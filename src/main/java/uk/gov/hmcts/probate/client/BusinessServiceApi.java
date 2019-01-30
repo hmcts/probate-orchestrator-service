@@ -6,9 +6,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 
+import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM_VALUE;
 
 @FeignClient(
         name = "business-service-api",
@@ -19,9 +21,12 @@ public interface BusinessServiceApi {
 
     @PostMapping(
             value = "/businessDocument/generateCheckAnswersSummaryPDF",
-            headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+            headers = {
+                    CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE,
+                    ACCEPT + "=" + APPLICATION_OCTET_STREAM_VALUE
+            }
     )
-    byte[] generateCheckAnswersSummaryPdf(
+    feign.Response generateCheckAnswersSummaryPdf(
             @RequestHeader(AUTHORIZATION) String authorization,
             @RequestHeader(BusinessServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
             @RequestBody CheckAnswersSummary checkAnswersSummary
