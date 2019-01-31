@@ -47,7 +47,7 @@ spec:
             - name: MAIL_JAVAMAILPROPERTIES_RECIPIENT
               value: "${PROBATE_SUB_MAIL_REC}"
             - name: PACT_BROKER_URL
-              value: "http://pact-broker.platform.hmcts.net"
+              value: "pact-broker.platform.hmcts.net"
             - name: PACT_BROKER_PORT
               value: "80"
           envFrom:
