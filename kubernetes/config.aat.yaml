@@ -12,3 +12,5 @@ data:
   AUTH_IDAM_CLIENT_BASEURL: "https://preprod-idamapi.reform.hmcts.net:3511"
 ###  SUBMIT_SERVICE_API_URL: 'http://probate-submit-service-aat.service.core-compute-aat.internal'
   SUBMIT_SERVICE_API_URL: "http://probate-submit-service-pr-116.service.core-compute-preview.internal"
+  PACT_BROKER_URL: "http://pact-broker.platform.hmcts.net"
+  PACT_BROKER_PORT: 80
