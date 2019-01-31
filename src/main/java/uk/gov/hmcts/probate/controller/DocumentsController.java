@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.probate.service.BusinessService;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 
+import javax.validation.Valid;
+
 
 @Slf4j
 @RestController
@@ -25,7 +27,7 @@ public class DocumentsController {
     }
 
     @PostMapping(path = CHECK_ANSWERS_ENDPOINT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<byte[]> generateCheckAnswersSummaryPdf(@RequestBody CheckAnswersSummary checkAnswersSummary) {
+    public ResponseEntity<byte[]> generateCheckAnswersSummaryPdf(@Valid @RequestBody CheckAnswersSummary checkAnswersSummary) {
         log.info("generate pdf");
         return new ResponseEntity<>(businessService.generateCheckAnswersSummaryPdf(checkAnswersSummary), HttpStatus.OK);
     }
