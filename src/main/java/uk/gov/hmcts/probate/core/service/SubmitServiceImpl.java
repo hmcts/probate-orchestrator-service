@@ -74,6 +74,21 @@ public class SubmitServiceImpl implements SubmitService {
         return mapFromCase(formMapper, submitResult.getProbateCaseDetails());
     }
 
+    @Override
+    public Form update(String identifier, Form form) {
+        log.info("Update called for");
+        assertIdentifier(identifier, form);
+        FormMapper formMapper = mappers.get(form.getType());
+        log.debug("calling update on submitserviceapi");
+        SubmitResult submitResult = submitServiceApi.update(
+                securityUtils.getAuthorisation(),
+                securityUtils.getServiceAuthorisation(),
+                identifier,
+                ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
+        );
+        return mapFromCase(formMapper, submitResult.getProbateCaseDetails());
+    }
+
     private void assertIdentifier(String identifier, Form form) {
         String identifierInForm = Optional.of(formIdentifierFunctionMap.get(form.getType()))
             .orElseThrow(IllegalArgumentException::new)
