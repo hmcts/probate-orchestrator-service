@@ -19,9 +19,7 @@ import uk.gov.hmcts.probate.functional.IntegrationTestBase;
 import java.io.IOException;
 import java.util.Map;
 
-import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
 @RunWith(SerenityRunner.class)

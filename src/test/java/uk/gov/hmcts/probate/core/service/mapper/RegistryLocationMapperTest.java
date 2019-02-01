@@ -4,8 +4,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import uk.gov.hmcts.reform.probate.model.cases.RegistryLocation;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 public class RegistryLocationMapperTest {
 
     RegistryLocationMapper mapper = new RegistryLocationMapper();
