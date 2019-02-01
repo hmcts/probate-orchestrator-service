@@ -26,8 +26,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 import static io.pactfoundation.consumer.dsl.LambdaDsl.newJsonBody;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
