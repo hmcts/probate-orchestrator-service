@@ -26,7 +26,7 @@ public interface BusinessServiceApi {
                     ACCEPT + "=" + APPLICATION_OCTET_STREAM_VALUE
             }
     )
-    feign.Response generateCheckAnswersSummaryPdf(
+    byte[] generateCheckAnswersSummaryPdf(
             @RequestHeader(AUTHORIZATION) String authorization,
             @RequestHeader(BusinessServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
             @RequestBody CheckAnswersSummary checkAnswersSummary
