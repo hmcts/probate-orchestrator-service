@@ -233,25 +233,6 @@ public class SubmitServiceConsumerCaseDetailsTest {
 
     }
 
-//    @Pact(state = "provider POSTS submission with validation errors", provider = "probate_submitservice_submissions", consumer = "probate_orchestratorservice_submitserviceclient")
-//    public RequestResponsePact executePostSubmissionWithValidationErrors(PactDslWithProvider builder) throws IOException, JSONException {
-//        // @formatter:off
-//        return builder
-//                .given("provider POSTS submission with validation errors")
-//                .uponReceiving("a request to POST an invalid submission")
-//                .path("/submissions/" + SOMEEMAILADDRESS_HOST_COM)
-//                .method("POST")
-//                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)
-//                .matchHeader("Content-Type", "application/json")
-//                .body(createJsonObject("intestacyGrantOfRepresentation_invalid.json"))
-//                .willRespondWith()
-//                .status(400)
-//                .matchHeader("Content-Type", "application/json;charset=UTF-8")
-//                .body(createJsonObject("intestacyGrantOfRepresentation_invalid_response.json"))
-//                .toPact();
-//        // @formatter:on
-//    }
-
     @Test
     @PactTestFor(pactMethod = "executeSuccessGetCaseDataPact")
     public void verifyExecuteSuccessGetCaseDataPact() {
