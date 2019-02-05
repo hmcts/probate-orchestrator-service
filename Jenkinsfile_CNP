@@ -39,7 +39,8 @@ withPipeline("java", product, component) {
   loadVaultSecrets(secrets)
   enableSlackNotifications('#probate-jenkins')
   enableDockerBuild()
-  enableDeployToAKS()
+//  enableDeployToAKS()
+  installCharts()
 
   before('buildinfra:prod') {
     error 'Deliberately breaking pipeline to prevent prod deployment'
