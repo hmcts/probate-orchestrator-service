@@ -7,8 +7,8 @@ data:
   SERVICES_PERSISTENCE_BASEURL : "http://probate-persistence-service-aat.service.core-compute-aat.internal"
   AUTH_PROVIDER_SERVICE_CLIENT_BASEURL : "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
   SERVICES_CORECASEDATA_BASEURL : "http://ccd-data-store-api-aat.service.core-compute-aat.internal"
-  SPRING_APPLICATION_JSON : '{"registries":[{"address":"Digital Application\nOxford District Probate Registry\nCombined Court Building\nSt Aldates\nOxford\nOX1 1LY","email":"test.probate.inbox@gmail.com","id":0,"name":"oxford"},{"address":"Digital Application\nBirmingham Probate Registry\nThe Priory Courts\n33 Bull Street\nBirmingham\nWest Midlands\nB4 6DU\n","email":"test.probate.inbox@gmail.com","id":1,"name":"birmingham"},{"address":"Digital Applications\nManchester District Probate Registry\nCivil Justice Centre\nGround Floor\n1 Bridge Street West\nP.O. BOX 4240\nManchester\nM60 1WJ","email":"test.probate.inbox@gmail.com","id":2,"name":"manchester"}]}'
+##  SPRING_APPLICATION_JSON : '{"registries":[{"address":"Digital Application\nOxford District Probate Registry\nCombined Court Building\nSt Aldates\nOxford\nOX1 1LY","email":"test.probate.inbox@gmail.com","id":0,"name":"oxford"},{"address":"Digital Application\nBirmingham Probate Registry\nThe Priory Courts\n33 Bull Street\nBirmingham\nWest Midlands\nB4 6DU\n","email":"test.probate.inbox@gmail.com","id":1,"name":"birmingham"},{"address":"Digital Applications\nManchester District Probate Registry\nCivil Justice Centre\nGround Floor\n1 Bridge Street West\nP.O. BOX 4240\nManchester\nM60 1WJ","email":"test.probate.inbox@gmail.com","id":2,"name":"manchester"}]}'
   SERVICES_AUTH_PROVIDER_BASEURL : "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
   AUTH_IDAM_CLIENT_BASEURL: "https://preprod-idamapi.reform.hmcts.net:3511"
-##  SUBMIT_SERVICE_API_URL: 'http://probate-submit-service-aat.service.core-compute-aat.internal'
-  SUBMIT_SERVICE_API_URL: "http://probate-submit-service-pr-116.service.core-compute-preview.internal"
+  SUBMIT_SERVICE_API_URL: 'http://probate-submit-service-aat.service.core-compute-aat.internal'
+##  SUBMIT_SERVICE_API_URL: "http://probate-submit-service-pr-116.service.core-compute-preview.internal"
