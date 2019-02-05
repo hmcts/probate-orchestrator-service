@@ -31,7 +31,7 @@ public class DocumentsController {
 
     protected static final String DOCUMENTS_BASEURL = "/documents";
     protected static final String CHECK_ANSWERS_ENDPOINT = "/generate/checkAnswersSummary";
-    protected static final String LEGAL_DECLARATION_ENDPOINT = "/generate/legalDeclarationSummary";
+    protected static final String LEGAL_DECLARATION_ENDPOINT = "/generate/legalDeclaration";
     protected static final String BULK_SCAN_COVERSHEET_ENDPOINT = "/generate/bulkScanCoversheet";
 
     private final BusinessService businessService;
