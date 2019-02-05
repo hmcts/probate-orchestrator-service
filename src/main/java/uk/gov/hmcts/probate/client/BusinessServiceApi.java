@@ -4,7 +4,9 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
+import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 
 import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -30,6 +32,32 @@ public interface BusinessServiceApi {
             @RequestHeader(AUTHORIZATION) String authorization,
             @RequestHeader(BusinessServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
             @RequestBody CheckAnswersSummary checkAnswersSummary
+    );
+
+    @PostMapping(
+            value = "/businessDocument/generateLegalDeclarationPDF",
+            headers = {
+                    CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE,
+                    ACCEPT + "=" + APPLICATION_OCTET_STREAM_VALUE
+            }
+    )
+    byte[] generateLegalDeclarationPDF(
+            @RequestHeader(AUTHORIZATION) String authorization,
+            @RequestHeader(BusinessServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+            @RequestBody LegalDeclaration legalDeclaration
+    );
+
+    @PostMapping(
+            value = "/businessDocument/generateBulkScanCoverSheetPDF",
+            headers = {
+                    CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE,
+                    ACCEPT + "=" + APPLICATION_OCTET_STREAM_VALUE
+            }
+    )
+    byte[] generateBulkScanCoverSheetPDF(
+            @RequestHeader(AUTHORIZATION) String authorization,
+            @RequestHeader(BusinessServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+            @RequestBody BulkScanCoverSheet bulkScanCoverSheet
     );
 
 }

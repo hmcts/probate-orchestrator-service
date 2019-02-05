@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.probate.client.BusinessServiceApi;
 import uk.gov.hmcts.probate.service.BusinessService;
+import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
+import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 
 @Slf4j
 @Component
@@ -32,4 +34,28 @@ public class BusinessServiceImpl implements BusinessService {
         );
     }
 
+    @Override
+    public byte[] generateLegalDeclarationPdf(LegalDeclaration legalDeclaration){
+        log.info("generateLegalDeclarationPdf");
+        String serviceAuthorisation = securityUtils.getServiceAuthorisation();
+        String authorisation = securityUtils.getAuthorisation();
+        return businessServiceApi.generateLegalDeclarationPDF(
+                authorisation,
+                serviceAuthorisation,
+                legalDeclaration
+        );
+    }
+
+
+    @Override
+    public byte[] generateBulkScanCoverSheetPdf(BulkScanCoverSheet bulkScanCoverSheet){
+        log.info("generateBulkScanCoverSheetPdf");
+        String serviceAuthorisation = securityUtils.getServiceAuthorisation();
+        String authorisation = securityUtils.getAuthorisation();
+        return businessServiceApi.generateBulkScanCoverSheetPDF(
+                authorisation,
+                serviceAuthorisation,
+                bulkScanCoverSheet
+        );
+    }
 }
