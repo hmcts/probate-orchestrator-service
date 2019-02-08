@@ -149,6 +149,8 @@ pact {
     publish {
         pactDirectory = 'target/pacts'
         pactBrokerUrl = "$System.env.PACT_BROKER_URL"
+        tags =["$System.env.CHANGE_BRANCH"]
+        version =[project.v]
     }
 }
 
@@ -319,8 +321,8 @@ dependencies {
 pact {
     publish {
         pactDirectory = 'target/pacts'
-        pactBrokerUrl = 'http://localhost:80'
-        tags = [project.pactBrokerTag]
+        pactBrokerUrl = "$System.env.PACT_BROKER_URL"
+        tags = ["$System.env.CHANGE_BRANCH"]
         version = [project.pactVersion]
     }
 }
