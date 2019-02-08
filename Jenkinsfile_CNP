@@ -25,81 +25,81 @@ List<LinkedHashMap<String, Object>> secrets = [
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
-  [ $class: 'AzureKeyVaultSecret',
-    secretType: 'Secret',
-    name: secretName,
-    version: '',
-    envVariable: envVar
-  ]
+    [$class     : 'AzureKeyVaultSecret',
+     secretType : 'Secret',
+     name       : secretName,
+     version    : '',
+     envVariable: envVar
+    ]
 }
 
 withPipeline("java", product, component) {
-  setVaultName('probate')
-  env.PACT_BROKER_URL = "http://pact-broker.platform.hmcts.net"
-  loadVaultSecrets(secrets)
-  enableSlackNotifications('#probate-jenkins')
-  enableDockerBuild()
+    setVaultName('probate')
+    env.PACT_BROKER_URL = "http://pact-broker.platform.hmcts.net"
+    loadVaultSecrets(secrets)
+    enableSlackNotifications('#probate-jenkins')
+    enableDockerBuild()
 //  enableDeployToAKS()
-  installCharts()
+    installCharts()
 
-  before('buildinfra:prod') {
-    error 'Deliberately breaking pipeline to prevent prod deployment'
-  }
-
-  after('test') {
-    try {
-      // sh './gradlew pitest'
-      sh './gradlew contract'
-      sh './gradlew pactPublish -Dpact.consumer.version=${GIT_COMMIT} -Dpact.tag=${BRANCH_NAME}'
-    } finally {
-      //steps.archiveArtifacts "build/reports/pitest/**/*.*"
+    before('buildinfra:prod') {
+        error 'Deliberately breaking pipeline to prevent prod deployment'
     }
 
-    junit 'build/test-results/test/**/*.xml'
-    archiveArtifacts 'build/reports/tests/test/index.html'
-    publishHTML target: [
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "build/reports/tests/test",
-            reportFiles          : "index.html",
-            reportName           : "probate-orchestrator-service Test Report"
-    ]
+    after('test') {
+        try {
+            // sh './gradlew pitest'
+            sh './gradlew contract'
+            sh './gradlew pactPublish -Dpact.pactBrokerUrl=${PACT_BROKER_URL} -Dpact.consumer.version=${GIT_COMMIT} -Dpact.tag=${BRANCH_NAME}'
+        } finally {
+            //steps.archiveArtifacts "build/reports/pitest/**/*.*"
+        }
 
-    publishHTML target: [
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "build/reports/jacoco",
-            reportFiles          : "index.html",
-            reportName           : "probate-orchestrator-service Code Coverage Report"
-    ]
+        junit 'build/test-results/test/**/*.xml'
+        archiveArtifacts 'build/reports/tests/test/index.html'
+        publishHTML target: [
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "build/reports/tests/test",
+                reportFiles          : "index.html",
+                reportName           : "probate-orchestrator-service Test Report"
+        ]
 
-    publishHTML target: [
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "build/reports/findbugs",
-            reportFiles          : "main.html",
-            reportName           : "probate-orchestrator-service find Bugs Report"
-    ]
-  }
+        publishHTML target: [
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "build/reports/jacoco",
+                reportFiles          : "index.html",
+                reportName           : "probate-orchestrator-service Code Coverage Report"
+        ]
 
-  after('functionalTest:aat') {
-    publishHTML target: [
-            reportDir            : "target/site/serenity/",
-            reportFiles          : "index.html",
-            reportName           : "AAT Functional Tests",
-            alwaysLinkToLastBuild: true
-    ]
-  }
+        publishHTML target: [
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "build/reports/findbugs",
+                reportFiles          : "main.html",
+                reportName           : "probate-orchestrator-service find Bugs Report"
+        ]
+    }
 
-  after('functionalTest:spreview') {
-    publishHTML target: [
-            reportDir            : "target/site/serenity/",
-            reportFiles          : "index.html",
-            reportName           : "Preview Functional Tests",
-            alwaysLinkToLastBuild: true
-    ]
-  }
+    after('functionalTest:aat') {
+        publishHTML target: [
+                reportDir            : "target/site/serenity/",
+                reportFiles          : "index.html",
+                reportName           : "AAT Functional Tests",
+                alwaysLinkToLastBuild: true
+        ]
+    }
+
+    after('functionalTest:spreview') {
+        publishHTML target: [
+                reportDir            : "target/site/serenity/",
+                reportFiles          : "index.html",
+                reportName           : "Preview Functional Tests",
+                alwaysLinkToLastBuild: true
+        ]
+    }
 }
