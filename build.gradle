@@ -319,9 +319,9 @@ dependencies {
 pact {
     publish {
         pactDirectory = 'target/pacts'
-        pactBrokerUrl = "$System.env.PACT_BROKER_URL"
-        tags = "$System.env.PACT_BROKER_TAG"
-        version = "$System.env.PACT_BROKER_VERSION"
+        pactBrokerUrl = 'http://localhost:80'
+        tags = [project.pactBrokerTag]
+        version = [project.pactVersion]
     }
 }
 task printbranch {
@@ -344,6 +344,10 @@ def getCheckedOutGitCommitHash() {
     'git rev-parse --verify --short HEAD'.execute().text.trim()
 }
 
+
+def getGitBranchName(){
+   'git rev-parse HEAD | git branch -a --contains | sed -n 2p | cut -d'/' -f 3'.execute().text.trim()
+}
 compileJava {
     options.compilerArgs << '-parameters'
 }
