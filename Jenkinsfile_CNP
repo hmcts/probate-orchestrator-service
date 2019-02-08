@@ -50,7 +50,7 @@ withPipeline("java", product, component) {
         try {
             // sh './gradlew pitest'
             sh './gradlew contract'
-            sh './gradlew pactPublish -Dpact.pactBrokerUrl=${PACT_BROKER_URL} -Dpact.consumer.version=${GIT_COMMIT} -Dpact.tag=${BRANCH_NAME}'
+            sh './gradlew pactPublish -Dpact.consumer.version=${GIT_COMMIT} -Dpact.tag=${BRANCH_NAME}'
         } finally {
             //steps.archiveArtifacts "build/reports/pitest/**/*.*"
         }
