@@ -320,6 +320,8 @@ pact {
     publish {
         pactDirectory = 'target/pacts'
         pactBrokerUrl = "$System.env.PACT_BROKER_URL"
+        tags = "$System.env.PACT_BROKER_TAG"
+        version = "$System.env.PACT_BROKER_VERSION"
     }
 }
 task printbranch {
