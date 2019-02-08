@@ -36,8 +36,8 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 withPipeline("java", product, component) {
     setVaultName('probate')
     env.PACT_BROKER_URL = "http://pact-broker.platform.hmcts.net"
-    env.PACT_BROKER_VERSION = ${GIT_COMMIT}
-    env.PACT_BROKER_TAG = ${BRANCH_NAME}
+    sh 'echo ${env.BRANCH_NAME}'
+    sh 'echo ${env.GIT_COMMIT}'
     loadVaultSecrets(secrets)
     enableSlackNotifications('#probate-jenkins')
     enableDockerBuild()
