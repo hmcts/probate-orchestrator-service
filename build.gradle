@@ -145,15 +145,6 @@ sourceSets {
 
 }
 
-pact {
-    publish {
-        pactDirectory = 'target/pacts'
-        pactBrokerUrl = "$System.env.PACT_BROKER_URL"
-        tags =["$System.env.CHANGE_BRANCH"]
-        version =[project.v]
-    }
-}
-
 task smoke(type: Test) {
     description = "Runs Smoke Tests"
     testClassesDirs = sourceSets.testSmoke.output.classesDirs
@@ -316,7 +307,11 @@ dependencies {
     testContractCompile sourceSets.test.runtimeClasspath
 
 }
-
+task printbranch {
+    doLast {
+        print project.pactBrokerTag
+    }
+}
 
 pact {
     publish {
@@ -326,12 +321,6 @@ pact {
         version = [project.pactVersion]
     }
 }
-task printbranch {
-    doLast {
-        print project.pactBrokerTag
-    }
-}
-
 
 private String branchTag() {
     def branch = ""
