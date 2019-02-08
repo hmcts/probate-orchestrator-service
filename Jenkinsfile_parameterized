@@ -47,7 +47,7 @@ withParameterizedPipeline('java', product, component, params.ENVIRONMENT, 'sandb
   after ('build') {
     try {
         sh './gradlew contract'
-        sh './gradlew pactPublish'
+        sh './gradlew pactPublish -Dpact.consumer.version=${GIT_COMMIT} -Dpact.tag=${BRANCH_NAME}'
     } finally {
         //steps.archiveArtifacts "build/reports/pitest/**/*.*"
     }
