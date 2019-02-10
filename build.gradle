@@ -49,11 +49,7 @@ tasks.withType(Checkstyle).each { checkstyleTask ->
     }
 }
 
-
 project.ext {
-    nativeType = "dmg"
-    bundleAppName = 'My App'
-    pactBrokerTag = branchTag()
     pactVersion = getCheckedOutGitCommitHash()
 }
 jacoco {
@@ -316,29 +312,16 @@ task printbranch {
 pact {
     publish {
         pactDirectory = 'target/pacts'
-        pactBrokerUrl = "$System.env.PACT_BROKER_URL"
-        tags = ["$System.env.CHANGE_BRANCH"]
+        pactBrokerUrl = System.getenv("PACT_BROKER_URL") ?:'http://localhost:80'
+        tags = [System.getenv("CHANGE_BRANCH") ?:'Dev']
         version = [project.pactVersion]
     }
-}
-
-private String branchTag() {
-    def branch = ""
-    def proc = "git rev-parse --abbrev-ref HEAD".execute()
-    proc.in.eachLine { line -> branch = line }
-    proc.err.eachLine { line -> println line }
-    proc.waitFor()
-    return branch
 }
 
 def getCheckedOutGitCommitHash() {
     'git rev-parse --verify --short HEAD'.execute().text.trim()
 }
 
-
-def getGitBranchName(){
-   'git rev-parse HEAD | git branch -a --contains | sed -n 2p | cut -d'/' -f 3'.execute().text.trim()
-}
 compileJava {
     options.compilerArgs << '-parameters'
 }
