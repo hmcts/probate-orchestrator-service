@@ -314,7 +314,7 @@ pact {
         pactDirectory = 'target/pacts'
         pactBrokerUrl = System.getenv("PACT_BROKER_URL") ?:'http://localhost:80'
         tags = [System.getenv("CHANGE_BRANCH") ?:'Dev']
-        version = [project.pactVersion]
+        version = project.pactVersion
     }
 }
 
