@@ -43,7 +43,7 @@ public class DocumentsController {
 
     @ApiOperation(value = "Generate PDF for Check Answers Summary")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "PDF generated successfully")})
+            @ApiResponse(code = 200, message = "Check Answers Summary PDF generated successfully")})
     @PostMapping(path = CHECK_ANSWERS_ENDPOINT, consumes = DocumentControllerConfiguration.APPLICATION_BUSINESSDOCUMENT_JSON)
     public ResponseEntity<byte[]> generateCheckAnswersSummaryPdf(@Valid @RequestBody CheckAnswersSummary checkAnswersSummary) {
         log.info("generate pdf");
@@ -52,7 +52,7 @@ public class DocumentsController {
 
     @ApiOperation(value = "Generate PDF for Legal Declaration")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "PDF generated successfully")})
+            @ApiResponse(code = 200, message = "Legal Declaration PDF generated successfully")})
     @PostMapping(path = LEGAL_DECLARATION_ENDPOINT, consumes = DocumentControllerConfiguration.APPLICATION_BUSINESSDOCUMENT_JSON)
     public ResponseEntity<byte[]> generateLegalDeclarationPdf(@Valid @RequestBody LegalDeclaration legalDeclaration) {
         log.info("generate pdf");
@@ -62,7 +62,7 @@ public class DocumentsController {
 
     @ApiOperation(value = "Generate PDF for Bulk Scan Coversheet")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "PDF generated successfully")})
+            @ApiResponse(code = 200, message = "Bulk Scan Coversheet PDF generated successfully")})
     @PostMapping(path = BULK_SCAN_COVERSHEET_ENDPOINT, consumes = DocumentControllerConfiguration.APPLICATION_BUSINESSDOCUMENT_JSON)
     public ResponseEntity<byte[]> generateBulkScanCoversheet(@Valid @RequestBody BulkScanCoverSheet bulkScanCoverSheet) {
         log.info("generate pdf");
