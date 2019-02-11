@@ -52,7 +52,7 @@ public class SubmitServiceConsumerCaseDetailsTest {
 
     private String SERVICE_AUTHORIZATION = "ServiceAuthorization";
 
-    @Pact(state = "provider returns casedata with success", provider = "probate_submitservice_cases", consumer = "probate_orchestratorservice_submitserviceclient")
+    @Pact(state = "provider returns casedata with success", provider = "probate_submitservice_cases", consumer = "probate_orchestrator_service")
     public RequestResponsePact executeSuccessGetCaseDataPact(PactDslWithProvider builder) throws IOException, JSONException {
         // @formatter:off
 
@@ -71,7 +71,7 @@ public class SubmitServiceConsumerCaseDetailsTest {
         // @formatter:on
     }
 
-    @Pact(state = "provider returns casedata not found", provider = "probate_submitservice_cases", consumer = "probate_orchestratorservice_submitserviceclient")
+    @Pact(state = "provider returns casedata not found", provider = "probate_submitservice_cases", consumer = "probate_orchestrator_service")
     public RequestResponsePact executeNotFoundGetCaseDataPact(PactDslWithProvider builder) {
         // @formatter:off
 
@@ -88,7 +88,7 @@ public class SubmitServiceConsumerCaseDetailsTest {
         // @formatter:on
     }
 
-    @Pact(state = "provider POSTS draft casedata with success", provider = "probate_submitservice_drafts", consumer = "probate_orchestratorservice_submitserviceclient")
+    @Pact(state = "provider POSTS draft casedata with success", provider = "probate_submitservice_drafts", consumer = "probate_orchestrator_service")
     public RequestResponsePact executeSuccessPostDraftCaseDataPact(PactDslWithProvider builder) throws IOException, JSONException {
         // @formatter:off
 
@@ -109,7 +109,7 @@ public class SubmitServiceConsumerCaseDetailsTest {
     }
 
 
-    @Pact(state = "provider POSTS partial draft casedata with success", provider = "probate_submitservice_drafts", consumer = "probate_orchestratorservice_submitserviceclient")
+    @Pact(state = "provider POSTS partial draft casedata with success", provider = "probate_submitservice_drafts", consumer = "probate_orchestrator_service")
     public RequestResponsePact executeSuccessPostPartialDraftCaseDataPact(PactDslWithProvider builder) throws IOException, JSONException {
         // @formatter:off
 
@@ -129,7 +129,7 @@ public class SubmitServiceConsumerCaseDetailsTest {
         // @formatter:on
     }
 
-    @Pact(state = "provider POSTS submission with success", provider = "probate_submitservice_submissions", consumer = "probate_orchestratorservice_submitserviceclient")
+    @Pact(state = "provider POSTS submission with success", provider = "probate_submitservice_submissions", consumer = "probate_orchestrator_service")
     public RequestResponsePact executePostSubmissionWithSuccessPact(PactDslWithProvider builder) throws IOException, JSONException {
         // @formatter:off
 
@@ -149,7 +149,7 @@ public class SubmitServiceConsumerCaseDetailsTest {
         // @formatter:on
     }
 
-    @Pact(state = "provider POSTS submission with validation errors", provider = "probate_submitservice_submissions", consumer = "probate_orchestratorservice_submitserviceclient")
+    @Pact(state = "provider POSTS submission with validation errors", provider = "probate_submitservice_submissions", consumer = "probate_orchestrator_service")
     public RequestResponsePact executePostSubmissionWithValidationErrorsDsl(PactDslWithProvider builder) throws IOException, JSONException {
         return builder
                 .given("provider POSTS submission with validation errors")
