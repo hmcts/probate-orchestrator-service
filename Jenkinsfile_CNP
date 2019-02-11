@@ -52,7 +52,7 @@ withPipeline("java", product, component) {
             sh 'printenv'
             sh './gradlew contract'
             sh './gradlew pactPublish'
-            env.PACT_BROKER_VERSION = '['+ sh(returnStdout: true, script: 'git rev-parse --verify --short HEAD') +']'
+            env.PACT_BROKER_VERSION = sh(returnStdout: true, script: 'git rev-parse --verify --short HEAD')
 
             sh 'curl -LO https://github.com/pact-foundation/pact-ruby-standalone/releases/download/v1.63.0/pact-1.63.0-linux-x86_64.tar.gz'
             sh 'tar xzf pact-1.63.0-linux-x86_64.tar.gz'
