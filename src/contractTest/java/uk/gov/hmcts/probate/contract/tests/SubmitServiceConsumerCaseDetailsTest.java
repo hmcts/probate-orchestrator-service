@@ -37,7 +37,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @SpringBootTest({
         // overriding provider address
         "probate_submitservice.ribbon.listOfServers: localhost:8889",
-        "submit-service.api.url : localhost:8889",
+        "submit.service.api.url : localhost:8889",
         "core_case_data.api.url : localhost:8889"
 })
 public class SubmitServiceConsumerCaseDetailsTest {
