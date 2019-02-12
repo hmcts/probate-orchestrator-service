@@ -16,7 +16,7 @@ import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM_VALUE;
 
 @FeignClient(
         name = "business-service-api",
-        url = "${business-service.api.url}",
+        url = "${business.service.api.url}",
         configuration = BusinessServiceConfiguration.class
 )
 public interface BusinessServiceApi {
