@@ -33,8 +33,8 @@
   s2s.auth.totp.secret: ${auth.provider.service.client.key}
   service.name: ${auth.provider.service.client.microservice}
 
-  submit-service.api.url: http://localhost:8181
-  business-service.api.url: http://localhost:8080
+  submit.service.api.url: http://localhost:8181
+  business.service.api.url: http://localhost:8080
 
   logging:
   level:

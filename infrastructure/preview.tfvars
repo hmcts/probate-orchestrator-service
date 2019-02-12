@@ -12,6 +12,6 @@ idam_service_api  = "http://rpe-service-auth-provider-aat.service.core-compute-a
 ccd_baseUrl = "http://ccd-data-store-api-aat.service.core-compute-aat.internal"
 services_persistence_baseUrl = "http://probate-persistence-service-aat.service.core-compute-aat.internal"
 submit_service_api_url = "http://probate-submit-service-demo.service.core-compute-aat.internal"
-business_service_api_url = "http://probate-business-service-demo.service.core-compute-aat.internal"
+business_service_api_url = "http://probate-business-service-aat.service.core-compute-aat.internal"
 asp_name = "probate-preview"
 asp_rg = "probate-preview"
