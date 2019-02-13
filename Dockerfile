@@ -8,3 +8,6 @@ HEALTHCHECK --interval=10s --timeout=10s --retries=10 CMD http_proxy="" wget -q 
 EXPOSE 8888
 
 CMD [ "probate-orchestrator-service.jar" ]
+
+
+
