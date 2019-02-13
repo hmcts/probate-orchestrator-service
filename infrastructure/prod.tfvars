@@ -18,6 +18,6 @@ services_corecasedata_baseurl = "http://ccd-data-store-api-prod.service.core-com
 services_auth_provider_baseurl = "http://rpe-service-auth-provider-prod.service.core-compute-prod.internal"
 auth_idam_client_baseurl = "https://prod-idamapi.reform.hmcts.net:3511"
 submit_service_api_url = "http://probate-submit-service-prod.service.core-compute-prod.internal"
-
+business_service_api_url = "http://probate-business-service-prod.service.core-compute-prod.internal"
 asp_name = "probate-prod-asp-prod-asp"
 asp_rg = "mgmt-asp-prod"
