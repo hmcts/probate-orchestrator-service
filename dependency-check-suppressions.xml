@@ -2,38 +2,17 @@
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.1.xsd">
     <suppress>
         <notes><![CDATA[
-   file name: jackson-databind-2.9.7.jar
-   ]]></notes>
-        <gav regex="true">^com\.fasterxml\.jackson\.core:jackson-databind:.*$</gav>
-        <cpe>cpe:/a:fasterxml:jackson</cpe>
+       file name: bcprov-jdk15on-1.56.jar
+       ]]></notes>
+        <gav regex="true">^org\.bouncycastle:bcprov-jdk15on:.*$</gav>
+        <cpe>cpe:/a:bouncycastle:legion-of-the-bouncy-castle-java-crytography-api</cpe>
     </suppress>
     <suppress>
         <notes><![CDATA[
-   file name: jackson-databind-2.9.7.jar
-   ]]></notes>
-        <gav regex="true">^com\.fasterxml\.jackson\.core:jackson-databind:.*$</gav>
-        <cpe>cpe:/a:fasterxml:jackson</cpe>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-   file name: jackson-databind-2.9.7.jar
-   ]]></notes>
-        <gav regex="true">^com\.fasterxml\.jackson\.core:jackson-databind:.*$</gav>
-        <cpe>cpe:/a:fasterxml:jackson-databind</cpe>
-    </suppress>
-    <suppress>
-       <notes><![CDATA[
        file name: bcprov-jdk15on-1.56.jar
        ]]></notes>
-       <gav regex="true">^org\.bouncycastle:bcprov-jdk15on:.*$</gav>
-       <cpe>cpe:/a:bouncycastle:legion-of-the-bouncy-castle-java-crytography-api</cpe>
-    </suppress>
-    <suppress>
-       <notes><![CDATA[
-       file name: bcprov-jdk15on-1.56.jar
-       ]]></notes>
-       <gav regex="true">^org\.bouncycastle:bcprov-jdk15on:.*$</gav>
-       <cve>CVE-2018-1000180</cve>
+        <gav regex="true">^org\.bouncycastle:bcprov-jdk15on:.*$</gav>
+        <cve>CVE-2018-1000180</cve>
     </suppress>
     <suppress>
        <notes><![CDATA[
