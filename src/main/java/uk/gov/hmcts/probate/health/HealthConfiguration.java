@@ -18,6 +18,12 @@ public class HealthConfiguration {
     @Value("${auth.idam.client.baseUrl}")
     private String idamUrl;
 
+    @Value("${business.service.api.url}")
+    private String businessServiceUrl;
+
+    @Value("${submit.service.api.url}")
+    private String submitServiceUrl;
+
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
@@ -31,5 +37,15 @@ public class HealthConfiguration {
     @Bean
     public ProbateHealthIndicator serviceAuthHealthIndicator(RestTemplate restTemplate) {
         return new ProbateHealthIndicator(serviceAuthUrl, restTemplate, HEALTH_ENDPOINT);
+    }
+
+    @Bean
+    public ProbateHealthIndicator businessServiceHealthIndicator(RestTemplate restTemplate) {
+        return new ProbateHealthIndicator(businessServiceUrl, restTemplate, HEALTH_ENDPOINT);
+    }
+
+    @Bean
+    public ProbateHealthIndicator submitServiceHealthIndicator(RestTemplate restTemplate) {
+        return new ProbateHealthIndicator(submitServiceUrl, restTemplate, HEALTH_ENDPOINT);
     }
 }
