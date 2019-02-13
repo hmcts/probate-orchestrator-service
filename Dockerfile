@@ -7,4 +7,4 @@ HEALTHCHECK --interval=10s --timeout=10s --retries=10 CMD http_proxy="" wget -q 
 
 EXPOSE 8888
 
-ENTRYPOINT [ "/entrypoint.sh" ]
+CMD [ "probate-orchestrator-service.jar" ]
