@@ -11,21 +11,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
-import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
-import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
-import uk.gov.hmcts.reform.probate.model.forms.Copies;
-import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
 import uk.gov.hmcts.reform.probate.model.forms.caveat.CaveatApplicant;
 import uk.gov.hmcts.reform.probate.model.forms.caveat.CaveatDeceased;
 import uk.gov.hmcts.reform.probate.model.forms.caveat.CaveatForm;
-import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyApplicant;
-import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyAssets;
-import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyDeceased;
-import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

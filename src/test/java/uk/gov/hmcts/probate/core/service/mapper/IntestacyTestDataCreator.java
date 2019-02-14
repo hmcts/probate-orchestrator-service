@@ -159,7 +159,7 @@ public class IntestacyTestDataCreator {
     public static GrantOfRepresentationData createGrantOfRepresentation() {
         GrantOfRepresentationData grantOfRepresentation = new GrantOfRepresentationData();
         grantOfRepresentation.setApplicationType(ApplicationType.PERSONAL);
-        grantOfRepresentation.setCaseType(GrantType.INTESTACY);
+        grantOfRepresentation.setGrantType(GrantType.INTESTACY);
         grantOfRepresentation.setPrimaryApplicantEmailAddress(EMAIL);
         grantOfRepresentation.setPrimaryApplicantForenames(FIRST_NAME);
         grantOfRepresentation.setPrimaryApplicantSurname(LAST_NAME);

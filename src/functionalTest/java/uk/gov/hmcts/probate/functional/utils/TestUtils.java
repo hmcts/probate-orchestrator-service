@@ -1,7 +1,5 @@
 package uk.gov.hmcts.probate.functional.utils;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
@@ -10,7 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 import uk.gov.hmcts.probate.functional.TestAuthTokenGenerator;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
