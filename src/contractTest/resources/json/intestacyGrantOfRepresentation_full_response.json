@@ -44,7 +44,7 @@
         "AddressLine1": "Winterfell, Westeros"
       },
       "deceasedDivorcedInEnglandOrWales": "No",
-      "deceasedDateOfBirth": "2018-01-01",
+      "deceasedDateOfBirth": "1930-01-01",
       "assetsOverseasNetValue": "10050",
       "caseType": "intestacy",
       "primaryApplicantAddressFound": "Yes",
@@ -54,7 +54,7 @@
       "type": "GrantOfRepresentation",
       "registryLocation": "Birmingham",
       "deceasedSurname": "Stark",
-      "deceasedDateOfDeath": "1920-01-01"
+      "deceasedDateOfDeath": "2018-01-01"
     },
     "caseInfo": {
       "caseId": "12323213323",
@@ -63,8 +63,7 @@
   },
   "validatorResults": {
     "validationMessages": [
-      "DeceasedDateOfDeath before DeceasedDateOfBirth"
     ],
-    "valid": false
+    "valid": true
   }
 }
