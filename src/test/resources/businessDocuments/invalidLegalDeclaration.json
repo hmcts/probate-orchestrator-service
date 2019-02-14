@@ -1,0 +1,25 @@
+{
+  "legalDeclaration": {
+    "headers": [
+      "header0",
+      "header1",
+      "header2"
+    ],
+    "sections": [
+      {
+        "headingType": "large",
+        "declarationItems": [
+          {
+            "title": "declaration title",
+            "values": [
+              "value0",
+              "value1",
+              "value2"
+            ]
+          }
+        ]
+      }
+    ],
+    "dateCreated": "date and time"
+  }
+}

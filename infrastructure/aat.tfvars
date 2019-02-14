@@ -18,6 +18,7 @@ services_corecasedata_baseurl = "http://ccd-data-store-api-aat.service.core-comp
 services_auth_provider_baseurl = "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
 auth_idam_client_baseurl = "https://preprod-idamapi.reform.hmcts.net:3511"
 submit_service_api_url = "http://probate-submit-service-aat.service.core-compute-aat.internal"
+business_service_api_url = "http://probate-business-service-aat.service.core-compute-aat.internal"
 
 asp_name = "probate-aat"
 asp_rg = "probate-aat"

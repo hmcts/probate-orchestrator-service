@@ -1,7 +1,15 @@
 package uk.gov.hmcts.probate.core.service.mapper;
 
-import org.mapstruct.*;
-import uk.gov.hmcts.probate.core.service.mapper.qualifiers.*;
+import org.mapstruct.InheritInverseConfiguration;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.NullValueCheckStrategy;
+import org.mapstruct.ReportingPolicy;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromCaveatCollectionMember;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromRegistryLocation;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCaveatCollectionMember;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCollectionMember;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToRegistryLocation;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
