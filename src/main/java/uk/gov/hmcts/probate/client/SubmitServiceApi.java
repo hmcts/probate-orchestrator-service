@@ -18,7 +18,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @FeignClient(
         name = "submit-service-api",
-        url = "${submit-service.api.url}",
+        url = "${submit.service.api.url}",
         configuration = SubmitServiceConfiguration.class
 )
 public interface SubmitServiceApi {
