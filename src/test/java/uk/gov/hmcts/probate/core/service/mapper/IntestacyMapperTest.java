@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
-import uk.gov.hmcts.reform.probate.model.cases.RegistryLocation;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.forms.Copies;
@@ -70,7 +69,7 @@ public class IntestacyMapperTest {
     public void shouldMapEmptyIntestacyFormToGrantOfRepresentation() {
         GrantOfRepresentationData expectedGrantOfRepresentation = new GrantOfRepresentationData();
         expectedGrantOfRepresentation.setApplicationType(ApplicationType.PERSONAL);
-        expectedGrantOfRepresentation.setCaseType(GrantType.INTESTACY);
+        expectedGrantOfRepresentation.setGrantType(GrantType.INTESTACY);
         GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(new IntestacyForm());
         Assert.assertThat(actualGrantOfRepresentation, equalTo(expectedGrantOfRepresentation));
         assertThat(actualGrantOfRepresentation).isEqualToComparingFieldByFieldRecursively(expectedGrantOfRepresentation);

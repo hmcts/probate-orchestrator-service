@@ -1,6 +1,7 @@
 {
   "caseData": {
     "type": "GrantOfRepresentation",
+    "caseType": "intestacy",
     "applicationType": "Personal",
     "primaryApplicantEmailAddress": "jsnow@bbc.co.uk",
     "primaryApplicantForenames": "Jon",
@@ -55,7 +56,7 @@
     "uploadDocumentUrl": "http://document-management/document/12345"
   },
   "caseInfo": {
-    "caseId": "caseId",
-    "state": "state"
+    "caseId": "12323213323",
+    "state": "Draft"
   }
 }
