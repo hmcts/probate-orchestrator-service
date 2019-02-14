@@ -332,6 +332,7 @@ pact {
         pactBrokerUrl = "$System.env.PACT_BROKER_URL"
         tags = [project.pactBrokerTag]
         version = [project.pactVersion]
+        excludes = [ '.*' ]
     }
 }
 task printbranch {
