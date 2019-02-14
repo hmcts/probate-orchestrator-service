@@ -22,6 +22,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -79,6 +80,28 @@ public class FormsControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(caveatFormJsonStr, true));
         verify(submitService, times(1)).saveDraft(eq(EMAIL_ADDRESS), eq(caveatForm));
+    }
+
+
+    @Test
+    public void shouldUpdateForm() throws Exception {
+        when(submitService.update(eq(EMAIL_ADDRESS), eq(intestacyForm))).thenReturn(intestacyForm);
+        when(submitService.update(eq(EMAIL_ADDRESS), eq(caveatForm))).thenReturn(caveatForm);
+
+        mockMvc.perform(put(FORMS_ENDPOINT + "/" + EMAIL_ADDRESS+ "/" + SUBMISSIONS_ENDPOINT)
+                .content(intestacyFormJsonStr)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(intestacyFormJsonStr, true));
+        verify(submitService, times(1)).update(eq(EMAIL_ADDRESS), eq(intestacyForm));
+
+        mockMvc.perform(put(FORMS_ENDPOINT + "/" + EMAIL_ADDRESS+ "/" + SUBMISSIONS_ENDPOINT)
+                .content(caveatFormJsonStr)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(caveatFormJsonStr, true));
+        verify(submitService, times(1)).update(eq(EMAIL_ADDRESS), eq(caveatForm));
+
     }
 
     @Test

@@ -147,12 +147,21 @@ public class SubmitServiceImplTest {
 
     @Test
     public void shouldSaveDraftIntestacyForm() {
+        shouldSaveDraftForm(intestacyForm, intestacyCaseDetails);
+    }
+
+    @Test
+    public void shouldSaveDraftCaveatsForm() {
+        shouldSaveDraftForm(caveatForm, caveatCaseDetails);
+    }
+
+    private void shouldSaveDraftForm(Form form, ProbateCaseDetails caseDetails) {
         when(submitServiceApi.saveDraft(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-            eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class))).thenReturn(intestacyCaseDetails);
+            eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class))).thenReturn(caseDetails);
 
-        Form formResponse = submitService.saveDraft(EMAIL_ADDRESS, intestacyForm);
+        Form formResponse = submitService.saveDraft(EMAIL_ADDRESS, form);
 
-        assertThat(formResponse, is(intestacyForm));
+        assertThat(formResponse, is(form));
         verify(submitServiceApi, times(1)).saveDraft(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
             eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class));
         verify(securityUtils, times(1)).getAuthorisation();
@@ -161,16 +170,7 @@ public class SubmitServiceImplTest {
 
     @Test
     public void shouldSaveDraftCaveatForm() {
-        when(submitServiceApi.saveDraft(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-                eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class))).thenReturn(caveatCaseDetails);
-
-        Form formResponse = submitService.saveDraft(EMAIL_ADDRESS, caveatForm);
-
-        assertThat(formResponse, is(caveatForm));
-        verify(submitServiceApi, times(1)).saveDraft(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-                eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class));
-        verify(securityUtils, times(1)).getAuthorisation();
-        verify(securityUtils, times(1)).getServiceAuthorisation();
+        shouldSaveDraftForm(caveatForm, caveatCaseDetails);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -182,31 +182,51 @@ public class SubmitServiceImplTest {
 
     @Test
     public void shouldSubmitIntestacyForm() {
-        when(submitServiceApi.submit(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-            eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class))).thenReturn(new SubmitResult(intestacyCaseDetails, null));
-
-        Form formResponse = submitService.submit(EMAIL_ADDRESS, intestacyForm);
-
-        assertThat(formResponse, is(intestacyForm));
-        verify(submitServiceApi, times(1)).submit(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-            eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class));
-        verify(securityUtils, times(1)).getAuthorisation();
-        verify(securityUtils, times(1)).getServiceAuthorisation();
+        shouldSubmitForm(intestacyForm, intestacyCaseDetails);
     }
 
     @Test
     public void shouldSubmitCaveatForm() {
+        shouldSubmitForm(caveatForm, caveatCaseDetails);
+    }
+
+    private void shouldSubmitForm(Form form, ProbateCaseDetails caseDetails) {
         when(submitServiceApi.submit(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-                eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class))).thenReturn(new SubmitResult(caveatCaseDetails, null));
+                eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class))).thenReturn(new SubmitResult(caseDetails, null));
 
-        Form formResponse = submitService.submit(EMAIL_ADDRESS, caveatForm);
+        Form formResponse = submitService.submit(EMAIL_ADDRESS, form);
 
-        assertThat(formResponse, is(caveatForm));
+        assertThat(formResponse, is(form));
         verify(submitServiceApi, times(1)).submit(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
                 eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class));
         verify(securityUtils, times(1)).getAuthorisation();
         verify(securityUtils, times(1)).getServiceAuthorisation();
     }
+
+
+    @Test
+    public void shouldUpdateCaveatForm() {
+        shouldUpdatetForm(caveatForm, caveatCaseDetails);
+    }
+
+    @Test
+    public void shouldUpdateIntestacyForm() {
+        shouldUpdatetForm(intestacyForm, intestacyCaseDetails);
+    }
+
+    private void shouldUpdatetForm(Form form, ProbateCaseDetails caseDetails) {
+        when(submitServiceApi.update(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
+                eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class))).thenReturn(new SubmitResult(caseDetails, null));
+
+        Form formResponse = submitService.update(EMAIL_ADDRESS, form);
+
+        assertThat(formResponse, is(form));
+        verify(submitServiceApi, times(1)).update(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
+                eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class));
+        verify(securityUtils, times(1)).getAuthorisation();
+        verify(securityUtils, times(1)).getServiceAuthorisation();
+    }
+
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowErrorOnSubmitIfEmailAddressDoesNotMatchForm() {
@@ -218,31 +238,27 @@ public class SubmitServiceImplTest {
 
     @Test
     public void shouldUpdateIntestacyPayments() {
-        when(submitServiceApi.updatePayments(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-            eq(EMAIL_ADDRESS), any(ProbatePaymentDetails.class))).thenReturn(intestacyCaseDetails);
-
-        Form formResponse = submitService.updatePayments(EMAIL_ADDRESS, intestacyForm);
-
-        assertThat(formResponse, is(intestacyForm));
-        verify(submitServiceApi, times(1)).updatePayments(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-            eq(EMAIL_ADDRESS), any(ProbatePaymentDetails.class));
-        verify(securityUtils, times(1)).getAuthorisation();
-        verify(securityUtils, times(1)).getServiceAuthorisation();
+        shouldUpdatePayments(intestacyForm, intestacyCaseDetails);
     }
 
     @Test
     public void shouldUpdateCaveatPayments() {
+        shouldUpdatePayments(caveatForm, caveatCaseDetails);
+    }
+
+    private void shouldUpdatePayments(Form form, ProbateCaseDetails caseDetails) {
         when(submitServiceApi.updatePayments(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-                eq(EMAIL_ADDRESS), any(ProbatePaymentDetails.class))).thenReturn(caveatCaseDetails);
+                eq(EMAIL_ADDRESS), any(ProbatePaymentDetails.class))).thenReturn(caseDetails);
 
-        Form formResponse = submitService.updatePayments(EMAIL_ADDRESS, caveatForm);
+        Form formResponse = submitService.updatePayments(EMAIL_ADDRESS, form);
 
-        assertThat(formResponse, is(caveatForm));
+        assertThat(formResponse, is(form));
         verify(submitServiceApi, times(1)).updatePayments(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
                 eq(EMAIL_ADDRESS), any(ProbatePaymentDetails.class));
         verify(securityUtils, times(1)).getAuthorisation();
         verify(securityUtils, times(1)).getServiceAuthorisation();
     }
+
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowErrorOnUpdatePaymentsIfNoPaymentsOnForm() {
