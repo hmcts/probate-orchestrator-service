@@ -111,6 +111,10 @@ variable "submit_service_api_url" {
 
 }
 
+variable "business_service_api_url" {
+
+}
+
 variable "asp_rg" {
 
 }
