@@ -1,9 +1,7 @@
 package uk.gov.hmcts.probate.contract.tests;
 
+import au.com.dius.pact.provider.junit.IgnoreNoPactsToVerify;
 import au.com.dius.pact.provider.junit.loader.PactBroker;
-import au.com.dius.pact.provider.junit.target.HttpTarget;
-import au.com.dius.pact.provider.junit.target.Target;
-import au.com.dius.pact.provider.junit.target.TestTarget;
 import au.com.dius.pact.provider.spring.SpringRestPactRunner;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
@@ -24,18 +22,12 @@ import java.nio.file.Files;
 
 @RunWith(SpringRestPactRunner.class)
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, properties = {
-        "server.port=8889", "spring.application.name=PACT_TEST"
-})
 @PactBroker(host = "${pact.broker.baseUrl}", port = "${pact.broker.port}")
+@IgnoreNoPactsToVerify
 abstract public class ControllerProviderTest {
 
     @Autowired
     ObjectMapper objectMapper;
-
-    @TestTarget
-    @SuppressWarnings(value = "VisibilityModifier")
-    public final Target target = new HttpTarget("http", "localhost", 8888, "/");
 
     @Before
     public void setUpTest() {
