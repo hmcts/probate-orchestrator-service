@@ -25,8 +25,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static io.pactfoundation.consumer.dsl.LambdaDsl.newJsonBody;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
@@ -150,8 +151,9 @@ public class SubmitServiceConsumerCaseDetailsTest {
         // @formatter:on
     }
 
-    @Pact(state = "provider POSTS submission with validation errors", provider = "probate_submitservice_submissions", consumer = "probate_orchestrator_service")
-    public RequestResponsePact executePostSubmissionWithValidationErrorsDsl(PactDslWithProvider builder) throws IOException, JSONException {
+    @Pact(state = "provider POSTS submission with validation errors", provider = "probate_submitservice_submissions", consumer = "probate_orchestratorservice_submitserviceclient")
+    public RequestResponsePact executePostSubmissionWithValidationErrors(PactDslWithProvider builder) throws IOException, JSONException {
+        // @formatter:off
         return builder
                 .given("provider POSTS submission with validation errors")
                 .uponReceiving("a request to POST an invalid submission")
@@ -167,6 +169,49 @@ public class SubmitServiceConsumerCaseDetailsTest {
                 .toPact();
         // @formatter:on
     }
+
+
+    @Pact(state = "provider POSTS submission with presubmit validation errors", provider = "probate_submitservice_submissions", consumer = "probate_orchestratorservice_submitserviceclient")
+    public RequestResponsePact executePostSubmissionWithValidationErrorsDsl(PactDslWithProvider builder) throws IOException, JSONException {
+        return builder
+                .given("provider POSTS submission with presubmit validation errors")
+                .uponReceiving("a request to POST an invalid submission")
+                .path("/submissions/" + SOMEEMAILADDRESS_HOST_COM)
+                .method("POST")
+                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)
+                .matchHeader("Content-Type", "application/json")
+                .body(createJsonObject("intestacyGrantOfRepresentation_invalid_presubmit.json"))
+                .willRespondWith()
+                .status(400)
+                .matchHeader("Content-Type", "application/json;charset=UTF-8")
+                .body(newJsonBody((o) -> {
+                    o.stringValue("path", "/submissions/" + SOMEEMAILADDRESS_HOST_COM);
+                    o.stringType("timestamp");
+                    o.array("errors", (a) -> {
+                                a.object((e) -> e.stringValue("field", "caseData.deceasedForenames")
+                                        .booleanValue("bindingFailure", false)
+                                        .stringValue("code", "Size")
+                                        .array("codes", (c) -> {
+                                            c.stringValue("Size.probateCaseDetails.caseData.deceasedForenames")
+                                                    .stringValue("Size.caseData.deceasedForenames")
+                                                    .stringValue("Size.deceasedForenames")
+                                                    .stringValue("Size.java.lang.String")
+                                                    .stringValue("Size");
+                                        })
+                                        .stringValue("defaultMessage", "size must be between 2 and 2147483647")
+                                        .stringValue("rejectedValue", ("N")
+                                        ));
+                            }
+
+                    );
+                    o.stringValue("error", "Bad Request");
+                    o.numberValue("status", 400);
+                    o.stringValue("message", "Validation failed for object='probateCaseDetails'. Error count: 1");
+                }).build())
+                .toPact();
+
+    }
+
 
     @Test
     @PactTestFor(pactMethod = "executeSuccessGetCaseDataPact")
