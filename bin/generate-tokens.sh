@@ -17,10 +17,11 @@ suffix='"}'
 
 tokenPrefix='{"access_token":"'
 tokenSuffix='","token_type":"Bearer","expires_in":28800}'
+
 authString=$(echo -n 'testusername1@test.com:password' | base64)
-code=$(curl -x proxyout.reform.hmcts.net:8080 --silent -XPOST \
+code=$(curl --silent -XPOST \
   -H "Authorization: Basic ${authString}" \
-  https://preprod-idamapi.reform.hmcts.net:3511/oauth2/authorize  \
+  http://localhost:4501/oauth2/authorize  \
   -d response_type=code \
   -d client_id=probate \
   -d redirect_uri=http://localhost:3451/oauth2redirect)
@@ -28,8 +29,8 @@ code=$(curl -x proxyout.reform.hmcts.net:8080 --silent -XPOST \
 code=${code#"$prefix"}
 code=${code%"$suffix"}
 
-token=$(curl -x proxyout.reform.hmcts.net:8080 --silent -XPOST \
-  https://preprod-idamapi.reform.hmcts.net:3511/oauth2/token  \
+token=$(curl --silent -XPOST \
+  http://localhost:4501/oauth2/token  \
   -d code=$code \
   -d client_id=probate \
   -d client_secret=123456 \
@@ -43,15 +44,15 @@ echo
 echo 'User Token: '
 echo $token
 
-id=$(curl -x proxyout.reform.hmcts.net:8080 --silent -XGET \
+id=$(curl --silent -XGET \
   -H "Authorization: Bearer ${token}" \
-  https://preprod-idamapi.reform.hmcts.net:3511/details)
+  http://localhost:4501/details)
 
 echo
 echo 'User Details: '
 echo $id
 
-serviceToken=$(curl -x proxyout.reform.hmcts.net:8080 --silent -X POST http://rpe-service-auth-provider-aat.service.core-compute-aat.internal//testing-support/lease -d '{"microservice":"probate_frontend"}' -H "CONTENT-TYPE:application/json")
+serviceToken=$(curl --silent -X POST http://localhost:4502/testing-support/lease -d '{"microservice":"probate_frontend"}' -H "CONTENT-TYPE:application/json")
 
 echo
 echo 'Service Token: '

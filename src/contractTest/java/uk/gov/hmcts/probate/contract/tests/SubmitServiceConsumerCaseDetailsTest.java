@@ -26,8 +26,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 import static io.pactfoundation.consumer.dsl.LambdaDsl.newJsonBody;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
@@ -138,7 +138,7 @@ public class SubmitServiceConsumerCaseDetailsTest {
         return builder
                 .given("provider POSTS submission with success")
                 .uponReceiving("a request to POST submission")
-                .path("/submissions/" + SOMEEMAILADDRESS_HOST_COM)
+                .path("/submissions/update/" + SOMEEMAILADDRESS_HOST_COM)
                 .method("POST")
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)
                 .matchHeader("Content-Type", "application/json")
@@ -151,13 +151,13 @@ public class SubmitServiceConsumerCaseDetailsTest {
         // @formatter:on
     }
 
-    @Pact(state = "provider POSTS submission with validation errors", provider = "probate_submitservice_submissions", consumer = "probate_orchestratorservice_submitserviceclient")
+    @Pact(state = "provider POSTS submission with validation errors", provider = "probate_submitservice_submissions", consumer = "probate_orchestrator_service")
     public RequestResponsePact executePostSubmissionWithValidationErrors(PactDslWithProvider builder) throws IOException, JSONException {
         // @formatter:off
         return builder
                 .given("provider POSTS submission with validation errors")
                 .uponReceiving("a request to POST an invalid submission")
-                .path("/submissions/" + SOMEEMAILADDRESS_HOST_COM)
+                .path("/submissions/update/" + SOMEEMAILADDRESS_HOST_COM)
                 .method("POST")
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)
                 .matchHeader("Content-Type", "application/json")
@@ -171,12 +171,12 @@ public class SubmitServiceConsumerCaseDetailsTest {
     }
 
 
-    @Pact(state = "provider POSTS submission with presubmit validation errors", provider = "probate_submitservice_submissions", consumer = "probate_orchestratorservice_submitserviceclient")
-    public RequestResponsePact executePostSubmissionWithValidationErrorsDsl(PactDslWithProvider builder) throws IOException, JSONException {
+    @Pact(state = "provider POSTS submission with presubmit validation errors", provider = "probate_submitservice_submissions", consumer = "probate_orchestrator_service")
+    public RequestResponsePact executePostSubmissionWithPreSubmitValidationErrorsDsl(PactDslWithProvider builder) throws IOException, JSONException {
         return builder
                 .given("provider POSTS submission with presubmit validation errors")
-                .uponReceiving("a request to POST an invalid submission")
-                .path("/submissions/" + SOMEEMAILADDRESS_HOST_COM)
+                .uponReceiving("a request to PUT an invalid submission with presubmit errors")
+                .path("/submissions/update/" + SOMEEMAILADDRESS_HOST_COM)
                 .method("POST")
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)
                 .matchHeader("Content-Type", "application/json")
@@ -185,7 +185,7 @@ public class SubmitServiceConsumerCaseDetailsTest {
                 .status(400)
                 .matchHeader("Content-Type", "application/json;charset=UTF-8")
                 .body(newJsonBody((o) -> {
-                    o.stringValue("path", "/submissions/" + SOMEEMAILADDRESS_HOST_COM);
+                    o.stringValue("path", "/submissions/update/" + SOMEEMAILADDRESS_HOST_COM);
                     o.stringType("timestamp");
                     o.array("errors", (a) -> {
                                 a.object((e) -> e.stringValue("field", "caseData.deceasedForenames")
@@ -250,27 +250,29 @@ public class SubmitServiceConsumerCaseDetailsTest {
     @PactTestFor(pactMethod = "executePostSubmissionWithSuccessPact")
     public void verifyExecutePostSubmissionWithSuccessPact() throws IOException, JSONException {
 
-        SubmitResult submitResult = submitServiceApi.submit(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, getProbateCaseDetails("intestacyGrantOfRepresentation_full.json"));
+        SubmitResult submitResult = submitServiceApi.update(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, getProbateCaseDetails("intestacyGrantOfRepresentation_full.json"));
         assertThat(submitResult.getProbateCaseDetails().getCaseInfo().getCaseId(), equalTo(CASE_ID));
+    }
+
+
+    @Test
+    @PactTestFor(pactMethod = "executePostSubmissionWithPreSubmitValidationErrorsDsl")
+    public void verifyExecutePostSubmissionWithValidationErrorsDsl() throws IOException, JSONException {
+        assertThrows(FeignException.class, () -> {
+            submitServiceApi.update(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, getProbateCaseDetails("intestacyGrantOfRepresentation_invalid_presubmit.json"));
+        });
+
     }
 
     @Test
     @PactTestFor(pactMethod = "executePostSubmissionWithValidationErrors")
     public void verifyExecutePostSubmissionWithValidationErrors() throws IOException, JSONException {
         assertThrows(FeignException.class, () -> {
-            submitServiceApi.submit(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, getProbateCaseDetails("intestacyGrantOfRepresentation_invalid.json"));
+            submitServiceApi.update(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, getProbateCaseDetails("intestacyGrantOfRepresentation_invalid.json"));
         });
 
     }
 
-    @Test
-    @PactTestFor(pactMethod = "executePostSubmissionWithValidationErrorsDsl")
-    public void verifyExecutePostSubmissionWithValidationErrorsDsl() throws IOException, JSONException {
-        assertThrows(FeignException.class, () -> {
-            submitServiceApi.submit(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, getProbateCaseDetails("intestacyGrantOfRepresentation_invalid_presubmit.json"));
-        });
-
-    }
 
     private JSONObject createJsonObject(String fileName) throws JSONException, IOException {
         File file = getFile(fileName);
