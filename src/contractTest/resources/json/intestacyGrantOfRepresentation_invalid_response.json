@@ -64,7 +64,6 @@
   "validatorResults": {
     "validationMessages": [
       "DeceasedDateOfDeath before DeceasedDateOfBirth"
-    ],
-    "valid": false
+    ]
   }
 }
