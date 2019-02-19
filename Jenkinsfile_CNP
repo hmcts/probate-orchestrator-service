@@ -51,7 +51,6 @@ withPipeline("java", product, component) {
             // sh './gradlew pitest'
             env.PACT_BROKER_VERSION = sh(returnStdout: true, script: 'git rev-parse --verify --short HEAD')
             sh 'printenv'
-            sh './gradlew contract'
             sh './gradlew clean runConsumerPactTests'
             sh './gradlew clean runProviderPactTests -Dpact.provider.version=${PACT_BROKER_VERSION}'
             sh './gradlew pactPublish'
