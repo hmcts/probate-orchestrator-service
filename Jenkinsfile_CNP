@@ -62,6 +62,7 @@ withPipeline("java", product, component) {
 
         } finally {
             //steps.archiveArtifacts "build/reports/pitest/**/*.*"
+            archiveArtifacts "build/reports/tests/**/*.*"
         }
 
     junit 'build/test-results/test/**/*.xml'
