@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.ResourceUtils;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
@@ -22,7 +21,7 @@ import java.nio.file.Files;
 
 @RunWith(SpringRestPactRunner.class)
 @ExtendWith(SpringExtension.class)
-@PactBroker(host = "${pact.broker.baseUrl}", port = "${pact.broker.port}")
+@PactBroker(host = "${pact.broker.baseUrl}", port = "${pact.broker.port}",scheme = "${pact.broker.scheme}")
 @IgnoreNoPactsToVerify
 abstract public class ControllerProviderTest {
 
