@@ -36,7 +36,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 withPipeline("java", product, component) {
     setVaultName('probate')
     env.PACT_BROKER_URL = "pact-broker.platform.hmcts.net"
-    env.PACT_BROKER_PORT = "80"
+    env.PACT_BROKER_PORT = "443"
     env.PACT_BROKER_SCHEME = "https"
     env.PACT_BROKER_FULL_URL = "https://pact-broker.platform.hmcts.net"
     loadVaultSecrets(secrets)
