@@ -35,7 +35,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 
 withPipeline("java", product, component) {
     setVaultName('probate')
-    env.PACT_BROKER_URL = "https://pact-broker.platform.hmcts.net"
+    env.PACT_BROKER_URL = "pact-broker.platform.hmcts.net"
     env.PACT_BROKER_PORT = "443"
     env.PACT_BROKER_SCHEME = "https"
     env.PACT_BROKER_FULL_URL = "https://pact-broker.platform.hmcts.net"
@@ -61,7 +61,7 @@ withPipeline("java", product, component) {
             sh 'curl -LO https://github.com/pact-foundation/pact-ruby-standalone/releases/download/v1.63.0/pact-1.63.0-linux-x86_64.tar.gz'
             sh 'tar xzf pact-1.63.0-linux-x86_64.tar.gz'
             dir('pact/bin') {
-                sh './pact-broker can-i-deploy --retry-while-unknown=12 --retry-interval=10 -a probate_orchestrator_service -b http://pact-broker.platform.hmcts.net -e ${PACT_BROKER_VERSION}'
+                sh './pact-broker can-i-deploy --retry-while-unknown=12 --retry-interval=10 -a probate_orchestrator_service -b https://pact-broker.platform.hmcts.net -e ${PACT_BROKER_VERSION}'
             }
 
         } finally {
