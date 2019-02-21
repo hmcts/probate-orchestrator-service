@@ -2,14 +2,12 @@ package uk.gov.hmcts.probate.contract.tests;
 
 import au.com.dius.pact.provider.junit.Provider;
 import au.com.dius.pact.provider.junit.State;
-import au.com.dius.pact.provider.junit.loader.PactBroker;
 import au.com.dius.pact.provider.junit.target.HttpTarget;
 import au.com.dius.pact.provider.junit.target.Target;
 import au.com.dius.pact.provider.junit.target.TestTarget;
 import au.com.dius.pact.provider.spring.SpringRestPactRunner;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
-import org.junit.Before;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -52,11 +50,10 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRestPactRunner.class)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, properties = {
-        "server.port=8889", "spring.application.name=PACT_TEST"
+        "server.port=8890", "spring.application.name=PACT_TEST"
 })
-@PactBroker(host = "${pact.broker.baseUrl}", port = "${pact.broker.port}")
-@Provider("probate_orchestrator_intestacysubmitdata_provider")
-public class FormsControllerSubmissionsProviderTest {
+@Provider("probate_orchestrator_service_intestacy_submit")
+public class FormsControllerSubmissionsProviderTest extends ControllerProviderTest{
 
     private static final LocalDate DATE_OF_BIRTH = LocalDate.of(1930, 01, 01);
     private static final LocalDate DATE_OF_DEATH = LocalDate.of(2018, 01, 01);
@@ -66,15 +63,10 @@ public class FormsControllerSubmissionsProviderTest {
 
     @TestTarget
     @SuppressWarnings(value = "VisibilityModifier")
-    public final Target target = new HttpTarget("http", "localhost", 8889, "/");
+    public final Target target = new HttpTarget("http", "localhost", 8890, "/");
 
-    @Before
-    public void setUpTest() {
-        System.getProperties().setProperty("pact.verifier.publishResults", "true");
-    }
-
-    @State({"provider submits intestacy formdata with success",
-            "provider submits intestacy formdata with success"})
+    @State({"probate_orchestrator_service submits intestacy formdata with success",
+            "probate_orchestrator_service submits intestacy formdata with success"})
     public void toPersistIntestacyFormDataWithSuccess() throws IOException, JSONException {
 
         IntestacyForm form = IntestacyForm.builder()
