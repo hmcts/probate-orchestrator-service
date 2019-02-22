@@ -35,15 +35,6 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 
 withPipeline("java", product, component) {
     setVaultName('probate')
-    env.PACT_BROKER_URL = "pact-broker.platform.hmcts.net"
-    env.PACT_BROKER_PORT = "443"
-    env.PACT_BROKER_SCHEME = "https"
-    env.PACT_BROKER_FULL_URL = "https://pact-broker.platform.hmcts.net"
-    if (env.BRANCH_NAME != 'master') {
-        env.PACT_BRANCH_NAME = env.CHANGE_BRANCH
-    } else {
-        env.PACT_BRANCH_NAME = env.BRANCH_NAME
-    }
     loadVaultSecrets(secrets)
     enableSlackNotifications('#probate-jenkins')
     enableDockerBuild()
@@ -56,23 +47,32 @@ withPipeline("java", product, component) {
 
     after('test') {
         try {
-            // sh './gradlew pitest'
-            env.PACT_BROKER_VERSION = sh(returnStdout: true, script: 'git rev-parse --verify --short HEAD')
-            sh 'printenv'
-            sh './gradlew runConsumerPactTests'
-            sh './gradlew runProviderPactTests -Dpact.provider.version=${PACT_BROKER_VERSION}'
-            sh './gradlew pactPublish'
+            if (env.CHANGE_BRANCH || env.BRANCH_NAME == 'master') {
+                env.PACT_BROKER_URL = "pact-broker.platform.hmcts.net"
+                env.PACT_BROKER_PORT = "443"
+                env.PACT_BROKER_SCHEME = "https"
+                env.PACT_BROKER_FULL_URL = "https://pact-broker.platform.hmcts.net"
+                env.PACT_BRANCH_NAME = env.CHANGE_BRANCH
+                if (env.BRANCH_NAME == 'master') {
+                    env.PACT_BRANCH_NAME = 'master'
+                }
+                // sh './gradlew pitest'
+                env.PACT_BROKER_VERSION = sh(returnStdout: true, script: 'git rev-parse --verify --short HEAD')
+                sh 'printenv'
+                sh './gradlew runConsumerPactTests'
+                sh './gradlew runProviderPactTests -Dpact.provider.version=${PACT_BROKER_VERSION}'
+                sh './gradlew pactPublish'
 
-            sh 'curl -LO https://github.com/pact-foundation/pact-ruby-standalone/releases/download/v1.63.0/pact-1.63.0-linux-x86_64.tar.gz'
-            sh 'tar xzf pact-1.63.0-linux-x86_64.tar.gz'
-            dir('pact/bin') {
-                sh './pact-broker can-i-deploy --retry-while-unknown=12 --retry-interval=10 -a probate_orchestrator_service -b ${PACT_BROKER_FULL_URL} -e ${PACT_BROKER_VERSION}'
+                sh 'curl -LO https://github.com/pact-foundation/pact-ruby-standalone/releases/download/v1.63.0/pact-1.63.0-linux-x86_64.tar.gz'
+                sh 'tar xzf pact-1.63.0-linux-x86_64.tar.gz'
+                dir('pact/bin') {
+                    sh './pact-broker can-i-deploy --retry-while-unknown=12 --retry-interval=10 -a probate_orchestrator_service -b ${PACT_BROKER_FULL_URL} -e ${PACT_BROKER_VERSION}'
+                }
             }
-
-        } finally {
-            //steps.archiveArtifacts "build/reports/pitest/**/*.*"
-            archiveArtifacts "build/reports/tests/**/*.*"
-        }
+            } finally {
+                //steps.archiveArtifacts "build/reports/pitest/**/*.*"
+                archiveArtifacts "build/reports/tests/**/*.*"
+            }
 
         junit 'build/test-results/test/**/*.xml'
         archiveArtifacts 'build/reports/tests/test/index.html'

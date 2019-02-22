@@ -5,13 +5,9 @@ import au.com.dius.pact.provider.junit.State;
 import au.com.dius.pact.provider.junit.target.HttpTarget;
 import au.com.dius.pact.provider.junit.target.Target;
 import au.com.dius.pact.provider.junit.target.TestTarget;
-import au.com.dius.pact.provider.spring.SpringRestPactRunner;
 import org.json.JSONException;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.probate.service.SubmitService;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyApplicant;
@@ -26,13 +22,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRestPactRunner.class)
-@ExtendWith(SpringExtension.class)
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, properties = {
         "server.port=8889", "spring.application.name=PACT_TEST"
 })
 @Provider("probate_orchestrator_service_intestacy_forms")
-public class FormsControllerDraftProviderTest extends ControllerProviderTest{
+public class IntestacyDraftsFormsControllerProviderTest extends ControllerProviderTest{
 
     private static final LocalDate DATE_OF_BIRTH = LocalDate.of(1930, 01, 01);
     private static final LocalDate DATE_OF_DEATH = LocalDate.of(2018, 01, 01);
