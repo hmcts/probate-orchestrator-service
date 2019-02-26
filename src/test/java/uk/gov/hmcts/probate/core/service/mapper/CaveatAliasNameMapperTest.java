@@ -21,10 +21,13 @@ class CaveatAliasNameMapperTest {
     void toAandFromCollectionMember() {
 
         Map<String, AliasOtherNames> aliasOtherNamesMap = Collections.singletonMap(NAME_0, new AliasOtherNames(FIRST_NAME, LAST_NAME));
+
         List<CollectionMember<FullAliasName>> collectionMembers = mapper.toCaveatCollectionMember(aliasOtherNamesMap);
         Assertions.assertThat(collectionMembers).hasSize(1);
         CollectionMember<FullAliasName> fullAliasNameCollectionMember = collectionMembers.get(0);
         Assertions.assertThat(fullAliasNameCollectionMember.getValue().getFullAliasName()).isEqualTo(FIRST_NAME + ' ' + LAST_NAME);
+        Assertions.assertThat(fullAliasNameCollectionMember.getId()).isEqualTo(NAME_0);
+
 
         Map<String, AliasOtherNames> resultAliasOtherNamesMap = mapper.fromCaveatCollectionMember(collectionMembers);
         Assertions.assertThat(resultAliasOtherNamesMap).hasSize(1);
