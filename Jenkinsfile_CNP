@@ -38,7 +38,7 @@ withPipeline("java", product, component) {
     loadVaultSecrets(secrets)
     enableSlackNotifications('#probate-jenkins')
     enableDockerBuild()
-//  enableDeployToAKS()
+////  enableDeployToAKS()
     installCharts()
 
     before('buildinfra:prod') {
