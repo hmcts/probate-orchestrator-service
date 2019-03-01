@@ -1,50 +1,11 @@
-provider "vault" {
-  //  # It is strongly recommended to configure this provider through the
-  //  ## environment variables described above, so that each user can have
-  //  # separate credentials set in the environment.
-  //  #
-  //  # This will default to using $VAULT_ADDR
-  //  # But can be set explicitly
-  address = "https://vault.reform.hmcts.net:6200"
-}
-
 
 provider "azurerm" {
-  version = "1.19.0"
+  version = "1.22.1"
 }
 
 
-# data "vault_generic_secret" "probate_mail_host" {
-#   path = "secret/${var.vault_section}/probate/probate_mail_host"
-# }
-
-# data "vault_generic_secret" "probate_mail_username" {
-#   path = "secret/${var.vault_section}/probate/probate_mail_username"
-# }
-
-# data "vault_generic_secret" "probate_mail_password" {
-#   path = "secret/${var.vault_section}/probate/probate_mail_password"
-# }
-
-# data "vault_generic_secret" "probate_mail_port" {
-#   path = "secret/${var.vault_section}/probate/probate_mail_port"
-# }
-
-# data "vault_generic_secret" "probate_mail_sender" {
-#   path = "secret/${var.vault_section}/probate/probate_mail_sender"
-# }
-
-# data "vault_generic_secret" "probate_mail_recipient" {
-#   path = "secret/${var.vault_section}/probate/probate_mail_recipient"
-# }
-
-
-# data "vault_generic_secret" "spring_application_json_submit_service" {
-#   path = "secret/${var.vault_section}/probate/spring_application_json_submit_service_azure"
-# }
-
 locals {
-  aseName = "${data.terraform_remote_state.core_apps_compute.ase_name[0]}"
+  aseName = "core-compute-${var.env}"
   //java_proxy_variables: "-Dhttp.proxyHost=${var.proxy_host} -Dhttp.proxyPort=${var.proxy_port} -Dhttps.proxyHost=${var.proxy_host} -Dhttps.proxyPort=${var.proxy_port}"
 
   //probate_frontend_hostname = "probate-frontend-aat.service.core-compute-aat.internal"
@@ -94,10 +55,6 @@ data "azurerm_key_vault_secret" "probate_mail_recipient" {
   vault_uri = "${data.azurerm_key_vault.probate_key_vault.vault_uri}"
 }
 
-//data "azurerm_key_vault_secret" "spring_application_json_submit_service" {
-//  name = "spring-application-json-submit-service-azure"
-//  vault_uri = "${data.azurerm_key_vault.probate_key_vault.vault_uri}"
-//}
 
 module "probate-orchestrator-service" {
   source = "git@github.com:hmcts/moj-module-webapp.git?ref=master"
@@ -121,14 +78,6 @@ module "probate-orchestrator-service" {
   
 
     DEPLOYMENT_ENV= "${var.deployment_env}"
-    //JAVA_OPTS = "${local.java_proxy_variables}"
-
-    # MAIL_USERNAME = "${data.vault_generic_secret.probate_mail_username.data["value"]}"
-    # MAIL_PASSWORD = "${data.vault_generic_secret.probate_mail_password.data["value"]}"
-    # MAIL_HOST = "${data.vault_generic_secret.probate_mail_host.data["value"]}"
-    # MAIL_PORT = "${data.vault_generic_secret.probate_mail_port.data["value"]}"
-    # MAIL_JAVAMAILPROPERTIES_SENDER = "${data.vault_generic_secret.probate_mail_sender.data["value"]}"
-    # MAIL_JAVAMAILPROPERTIES_RECIPIENT = "${data.vault_generic_secret.probate_mail_recipient.data["value"]}"
 
     MAIL_USERNAME = "${data.azurerm_key_vault_secret.probate_mail_username.value}"
     MAIL_PASSWORD = "${data.azurerm_key_vault_secret.probate_mail_password.value}"
@@ -138,8 +87,7 @@ module "probate-orchestrator-service" {
     MAIL_JAVAMAILPROPERTIES_RECIPIENT = "${data.azurerm_key_vault_secret.probate_mail_recipient.value}"
 
     AUTH_PROVIDER_SERVICE_CLIENT_KEY = "${data.azurerm_key_vault_secret.s2s_key.value}"
-//    SPRING_APPLICATION_JSON = "${data.azurerm_key_vault_secret.spring_application_json_submit_service.value}"
-   
+
     MAIL_JAVAMAILPROPERTIES_SUBJECT = "${var.probate_mail_subject}"
     MAIL_JAVAMAILPROPERTIES_MAIL_SMTP_AUTH = "${var.probate_mail_use_auth}"
     MAIL_JAVAMAILPROPERTIES_MAIL_SMTP_SSL_ENABLE = "${var.probate_mail_use_ssl}"
