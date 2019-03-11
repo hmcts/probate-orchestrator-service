@@ -17,11 +17,15 @@ public class MapperConfiguration {
     @Autowired
     public CaveatMapper caveatMapper;
 
+    @Autowired
+    public PaMapper paMapper;
+
     @Bean
     public Map<ProbateType, FormMapper> mappers() {
         return ImmutableMap.<ProbateType, FormMapper>builder()
             .put(ProbateType.INTESTACY, intestacyMapper)
-                .put(ProbateType.CAVEAT, caveatMapper)
+            .put(ProbateType.CAVEAT, caveatMapper)
+            .put(ProbateType.PA, paMapper)
             .build();
     }
 }

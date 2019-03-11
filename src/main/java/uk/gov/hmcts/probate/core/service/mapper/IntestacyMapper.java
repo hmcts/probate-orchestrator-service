@@ -81,14 +81,14 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "payments", source = "payments", qualifiedBy = {ToCollectionMember.class})
     GrantOfRepresentationData toCaseData(IntestacyForm form);
 
-    @Mapping(target = "type", expression = "java(ProbateType.INTESTACY)")
-    @Mapping(target = "applicant.email", source = "primaryApplicantEmailAddress")
-    @Mapping(target = "iht.method", source = "ihtFormCompletedOnline", qualifiedBy = {ToIhtMethod.class})
-    @Mapping(target = "assets.assetsOverseasNetValue", source = "assetsOverseasNetValue", qualifiedBy = {ToPounds.class})
-    @Mapping(target = "iht.netValue", source = "ihtNetValue", qualifiedBy = {ToPounds.class})
-    @Mapping(target = "iht.grossValue", source = "ihtGrossValue", qualifiedBy = {ToPounds.class})
-    @Mapping(target = "deceased.otherNames", source = "deceasedAliasNameList", qualifiedBy = {FromCollectionMember.class})
-    @Mapping(target = "registry.name", source ="registryLocation", qualifiedBy = {FromRegistryLocation.class})
-    @InheritInverseConfiguration
-    IntestacyForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
+//    @Mapping(target = "type", expression = "java(ProbateType.INTESTACY)")
+//    @Mapping(target = "applicant.email", source = "primaryApplicantEmailAddress")
+//    @Mapping(target = "iht.method", source = "ihtFormCompletedOnline", qualifiedBy = {ToIhtMethod.class})
+//    @Mapping(target = "assets.assetsOverseasNetValue", source = "assetsOverseasNetValue", qualifiedBy = {ToPounds.class})
+//    @Mapping(target = "iht.netValue", source = "ihtNetValue", qualifiedBy = {ToPounds.class})
+//    @Mapping(target = "iht.grossValue", source = "ihtGrossValue", qualifiedBy = {ToPounds.class})
+//    @Mapping(target = "deceased.otherNames", source = "deceasedAliasNameList", qualifiedBy = {FromCollectionMember.class})
+//    @Mapping(target = "registry.name", source ="registryLocation", qualifiedBy = {FromRegistryLocation.class})
+//    @InheritInverseConfiguration
+//    IntestacyForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 }
