@@ -48,4 +48,11 @@ public class ExecutorsMapper {
             .value(additionalExecutorNotApplying)
             .build();
     }
+
+    public static Long getNoOfApplicants(List<Executor> executors) {
+        return executors.stream()
+            .filter(Executor::getIsApplying)
+            .count();
+    }
+
 }

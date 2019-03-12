@@ -1,5 +1,6 @@
 package uk.gov.hmcts.probate.core.service.mapper;
 
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
@@ -21,13 +22,17 @@ import java.time.LocalDate;
 @Mapper(componentModel = "spring", uses = {PaymentsMapper.class, AliasNameMapper.class, RegistryLocationMapper.class,
     PoundsConverter.class, IhtMethodConverter.class, LegalStatementExecutorsApplyingMapper.class,
     LegalStatementExecutorsNotApplyingMapper.class},
-    imports = {ApplicationType.class, GrantType.class, ProbateType.class, IhtMethod.class, LocalDate.class},
+    imports = {ApplicationType.class, GrantType.class, ProbateType.class, IhtMethod.class,
+        LocalDate.class, ExecutorsMapper.class},
     unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> {
 
     @Mapping(target = "applicationType", expression = "java(ApplicationType.PERSONAL)")
     @Mapping(target = "grantType", expression = "java(GrantType.GRANT_OF_PROBATE)")
     @Mapping(target = "applicationSubmittedDate", expression = "java(LocalDate.now())")
+
+    @Mapping(target = "willHasCodicils", source = "will.codicils")
+    @Mapping(target = "willNumberOfCodicils", source = "will.codicilsNumber")
 
     @Mapping(target = "deceasedSurname", source = "deceased.lastName")
     @Mapping(target = "deceasedForenames", source = "deceased.firstName")
@@ -47,6 +52,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "primaryApplicantAddress.addressLine1", source = "applicant.address")
     @Mapping(target = "primaryApplicantSameWillName", source = "applicant.nameAsOnTheWill")
     @Mapping(target = "primaryApplicantPhoneNumber", source = "applicant.phoneNumber")
+    @Mapping(target = "primaryApplicantOtherReason", source = "applicant.otherReason")
 
     @Mapping(target = "registryLocation", source = "registry.name", qualifiedBy = {ToRegistryLocation.class})
 
@@ -78,13 +84,21 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
 
     @Mapping(target = "executorsApplying", source = "executors.list", qualifiedBy = {ToCollectionMember.class})
     @Mapping(target = "executorsNotApplying", source = "executors.list", qualifiedBy = {ToCollectionMember.class})
+    @Mapping(target = "numberOfApplicants",
+        expression = "java(ExecutorsMapper.getNoOfApplicants(form.getExecutors().getList()))")
+    @Mapping(target = "numberOfExecutors", source = "executors.executorsNumber")
 
-    @Mapping(target = "ihtReferenceNumber", source = "iht.identifier")
+    @Mapping(target = "ihtReferenceNumber", expression = "java(form.getIht().getMethod() == IhtMethod.ONLINE ? "
+        + "form.getIht().getIdentifier() : \"Not applicable\")")
     @Mapping(target = "ihtFormId", source = "iht.ihtFormId")
     @Mapping(target = "ihtFormCompletedOnline", source = "iht.method", qualifiedBy = {FromIhtMethod.class})
     @Mapping(target = "ihtNetValue", source = "iht.netValue", qualifiedBy = {ToPennies.class})
     @Mapping(target = "ihtGrossValue", source = "iht.grossValue", qualifiedBy = {ToPennies.class})
-    GrantOfRepresentationData toCaseData(PaForm form);
 
+    @Mapping(target = "extraCopiesOfGrant", expression = "java(form.getCopies().getUk() != null "
+        + "? form.getCopies().getUk() : 0L)")
+    @Mapping(target = "outsideUkGrantCopies", expression = "java(form.getAssets().getAssetsoverseas() ? "
+        + "form.getCopies().getOverseas() : 0L)")
+    GrantOfRepresentationData toCaseData(PaForm form);
 
 }
