@@ -27,7 +27,6 @@ import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
         unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, IntestacyForm> {
 
-
     @Mapping(target = "applicationType", expression = "java(ApplicationType.PERSONAL)")
     @Mapping(target = "grantType", expression = "java(GrantType.INTESTACY)")
     @Mapping(target = "primaryApplicantForenames", source = "applicant.firstName")
@@ -63,7 +62,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
             qualifiedBy = {ToCollectionMember.class})
     @Mapping(target = "outsideUkGrantCopies", source = "copies.overseas")
     @Mapping(target = "extraCopiesOfGrant", source = "copies.uk")
-    @Mapping(target = "deceasedHasAssetsOutsideUK", source = "assets.assetsOverseas")
+    @Mapping(target = "deceasedHasAssetsOutsideUK", source = "assets.assetsoverseas")
     @Mapping(target = "ihtReferenceNumber", source = "iht.identifier")
     @Mapping(target = "ihtFormId", source = "iht.form")
     @Mapping(target = "ihtFormCompletedOnline", source = "iht.method", qualifiedBy = {FromIhtMethod.class})
