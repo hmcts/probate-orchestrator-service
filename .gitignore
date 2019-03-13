@@ -11,11 +11,14 @@
 .settings
 .springBeans
 
+
 ### IntelliJ IDEA ###git
 .idea
 *.iws
 *.iml
 *.ipr
+*.plantuml
+*.puml
 
 .DS_store
 
