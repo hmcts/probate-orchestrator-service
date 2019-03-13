@@ -8,6 +8,7 @@ import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.FullAliasName;
 import uk.gov.hmcts.reform.probate.model.forms.AliasOtherNames;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,12 +22,15 @@ public class CaveatAliasNameMapper {
         if (CollectionUtils.isEmpty(otherNames)) {
             return null;//NOSONAR
         }
-        return otherNames.values()
-            .stream()
-            .map(aliasOtherName -> aliasOtherName.getFirstName() + " ".concat(aliasOtherName.getLastName()))
-                .map(aliasName -> FullAliasName.builder().fullAliasName(aliasName).build())
-                .map(fullAliasName -> CollectionMember.<FullAliasName>builder().value(fullAliasName).build())
-            .collect(Collectors.toList());
+
+        List<CollectionMember<FullAliasName>> result = new ArrayList<>();
+        otherNames.forEach((k, v) -> {
+            FullAliasName fan = new FullAliasName(v.getFirstName() + " ".concat(v.getLastName()));
+            CollectionMember<FullAliasName> collectionMember = new CollectionMember<>(k, fan);
+            result.add(collectionMember);
+        });
+
+        return result;
     }
 
     @FromCaveatCollectionMember
@@ -34,18 +38,12 @@ public class CaveatAliasNameMapper {
         if (CollectionUtils.isEmpty(collectionMembers)) {
             return null;//NOSONAR
         }
-        List<AliasOtherNames> aliasOtherNamesList = collectionMembers
-                .stream()
-                .map(CollectionMember::getValue)
-                .map(this::createAliasOtherName)
-                .collect(Collectors.toList());
-        Map<String, AliasOtherNames> aliasOtherNamesMap = new HashMap<>();
-        int count = 0;
-        for (AliasOtherNames aliasOtherNames : aliasOtherNamesList) {
-            aliasOtherNamesMap.put("name_" + count, aliasOtherNames);
-            count++;
-        }
-        return aliasOtherNamesMap;
+        Map<String, AliasOtherNames> result = new HashMap<>();
+        collectionMembers.forEach(collectionMember -> {
+             result.put(collectionMember.getId(), createAliasOtherName(collectionMember.getValue()));
+        });
+
+        return result;
     }
 
     private AliasOtherNames createAliasOtherName(FullAliasName fullAliasName) {
