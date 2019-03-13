@@ -1,5 +1,7 @@
 package uk.gov.hmcts.probate.core.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -50,11 +52,22 @@ public class SubmitServiceImpl implements SubmitService {
         log.info("Save draft called");
         assertIdentifier(identifier, form);
         FormMapper formMapper = mappers.get(form.getType());
+
+        ProbateCaseDetails pcdEntered = ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build();
+
+        ObjectMapper mapper = new ObjectMapper();
+        String s =null;
+        try {
+            s = mapper.writeValueAsString(pcdEntered);
+        } catch (JsonProcessingException e) {
+
+        }
+
         ProbateCaseDetails probateCaseDetails = submitServiceApi.saveDraft(
             securityUtils.getAuthorisation(),
             securityUtils.getServiceAuthorisation(),
             identifier,
-            ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
+                pcdEntered
         );
         return mapFromCase(formMapper, probateCaseDetails);
     }
@@ -64,12 +77,22 @@ public class SubmitServiceImpl implements SubmitService {
         log.info("Submit called for");
         assertIdentifier(identifier, form);
         FormMapper formMapper = mappers.get(form.getType());
+        ProbateCaseDetails probateCaseDetails = ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build();
+
+        ObjectMapper mapper = new ObjectMapper();
+        String s =null;
+        try {
+             s = mapper.writeValueAsString(probateCaseDetails);
+        } catch (JsonProcessingException e) {
+
+        }
+
         log.debug("calling submit on submitserviceapi");
         SubmitResult submitResult = submitServiceApi.submit(
             securityUtils.getAuthorisation(),
             securityUtils.getServiceAuthorisation(),
-            identifier,
-            ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
+            identifier,probateCaseDetails
+
         );
         return mapFromCase(formMapper, submitResult.getProbateCaseDetails());
     }

@@ -10,14 +10,27 @@ import org.junit.Before;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.ResourceUtils;
+import uk.gov.hmcts.reform.auth.checker.core.RequestAuthorizer;
+import uk.gov.hmcts.reform.auth.checker.core.SubjectResolver;
+import uk.gov.hmcts.reform.auth.checker.core.service.Service;
+import uk.gov.hmcts.reform.auth.checker.core.user.User;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
+import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
+import uk.gov.hmcts.reform.probate.model.forms.pa.PaForm;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.HashSet;
+import javax.servlet.http.HttpServletRequest;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRestPactRunner.class)
 @ExtendWith(SpringExtension.class)
@@ -28,8 +41,31 @@ abstract public class ControllerProviderTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    private static final String PRINCIPAL = "probate_backend";
+
+    private static final String SERVICE_AUTHORIZATION = "ServiceAuthorization";
+
+    private static final String AUTHORIZATION = "Authorization";
+
+
+    @MockBean
+    private SubjectResolver<Service> serviceResolver;
+
+    @MockBean
+    private RequestAuthorizer<User> userRequestAuthorizer;
+
+
+    private Service service;
+
+
     @Before
     public void setUpTest() {
+
+        service = new Service(PRINCIPAL);
+        when(serviceResolver.getTokenDetails(anyString())).thenReturn(service);
+
+        User user = new User("123", new HashSet<>());
+        when(userRequestAuthorizer.authorise(any(HttpServletRequest.class))).thenReturn(user);
         System.getProperties().setProperty("pact.verifier.publishResults", "true");
     }
 
@@ -43,6 +79,19 @@ abstract public class ControllerProviderTest {
         File file = getFile(fileName);
         ProbateCaseDetails probateCaseDetails = objectMapper.readValue(file, ProbateCaseDetails.class);
         return probateCaseDetails;
+    }
+
+    protected IntestacyForm getIntestacyForm(String fileName) throws JSONException, IOException {
+        File file = getFile(fileName);
+        IntestacyForm intestacyForm = objectMapper.readValue(file, IntestacyForm.class);
+        return intestacyForm;
+    }
+
+
+    protected PaForm getPaForm(String fileName) throws JSONException, IOException {
+        File file = getFile(fileName);
+        PaForm paForm = objectMapper.readValue(file, PaForm.class);
+        return paForm;
     }
 
     private File getFile(String fileName) throws FileNotFoundException {
