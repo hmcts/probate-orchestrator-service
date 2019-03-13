@@ -52,6 +52,7 @@ public class CaveatTestDataCreator {
     private static final String ALIAS_LASTNAME = "aliasLastname";
     private static final Date DATE = new Date();
     private static final LocalDate EXPIRYDATE = LocalDate.now().plusDays(30);
+    private static final String NAME_0 = "name_0";
 
     public static CaveatForm createCaveatForm() {
         return CaveatForm.builder()
@@ -104,7 +105,7 @@ public class CaveatTestDataCreator {
     }
 
     private static Map<String, AliasOtherNames> createAliasMap() {
-        return ImmutableMap.of("name_0", AliasOtherNames.builder()
+        return ImmutableMap.of(NAME_0, AliasOtherNames.builder()
             .firstName(ALIAS_FIRST_NAME)
             .lastName(ALIAS_LASTNAME)
             .build());
@@ -146,6 +147,7 @@ public class CaveatTestDataCreator {
         CollectionMember<FullAliasName> aliasNameCollectionMember = new CollectionMember<>();
         FullAliasName aliasName = new FullAliasName();
         aliasName.setFullAliasName(ALIAS_FIRST_NAME + " " + ALIAS_LASTNAME);
+        aliasNameCollectionMember.setId(NAME_0);
         aliasNameCollectionMember.setValue(aliasName);
         caveatData.setDeceasedFullAliasNameList(Lists.newArrayList(aliasNameCollectionMember));
 

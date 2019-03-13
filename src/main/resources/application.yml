@@ -19,22 +19,22 @@
   authorised.services: probate_backend,probate_frontend
 
   auth.provider.service.client:
-    baseUrl: http://localhost:4502
+    baseUrl: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
     microservice: 'probate_backend'
-    key: 'AAAAAAAAAAAAAAAA'
+    key: ${AUTH_PROVIDER_SERVICE_CLIENT_KEY:'AAAAAAAAAAAAAAAA'}
     tokenTimeToLiveInSeconds: '900'
 
   idam.s2s-auth.url: ${auth.provider.service.client.baseUrl}
 
   service.auth.provider.base.url: ${auth.provider.service.client.baseUrl}
 
-  auth.idam.client.baseUrl: http://localhost:4501
+  auth.idam.client.baseUrl: ${AUTH_IDAM_CLIENT_BASEURL:http://localhost:4501}
 
   s2s.auth.totp.secret: ${auth.provider.service.client.key}
   service.name: ${auth.provider.service.client.microservice}
 
-  submit.service.api.url: http://localhost:8181
-  business.service.api.url: http://localhost:8080
+  submit.service.api.url: ${SUBMIT_SERVICE_API_URL:http://localhost:8181}
+  business.service.api.url: ${BUSINESS_SERVICE_API_URL:http://localhost:8081}
 
   logging:
   level:
