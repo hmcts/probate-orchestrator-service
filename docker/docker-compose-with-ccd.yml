@@ -346,7 +346,7 @@ services:
       - https_proxy=
       - no_proxy=
     ports:
-     - 8081:8081
+     - 8081
 
   pdf-service-api:
     image: docker.artifactory.reform.hmcts.net/reform/pdf-service-api:f7969638ccd7c83e6ce70330fa3a16e8a6ab53ae
@@ -363,8 +363,30 @@ services:
     ports:
     - 5500:5500
 
+  fees-api:
+    image: docker.artifactory.reform.hmcts.net/fees-register/fees-api:${FEES_API_DOCKER_VERSION:-latest}
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://fees-database:5432/fees_register
+      - SPRING_DATASOURCE_USERNAME=fees_register
+      - SPRING_DATASOURCE_PASSWORD=fees_register
+      - SPRING_PROFILES_ACTIVE=embedded
+      - AUTH_IDAM_CLIENT_BASEURL=http://idam-api:8080
+      - ROOT_APPENDER=JSON_CONSOLE
+    ports:
+      - 4411:8080
+    links:
+      - idam-api
+      - fees-database
+    depends_on:
+      - idam-api
+      - fees-database
+
+  fees-database:
+    image: docker.artifactory.reform.hmcts.net/fees-register/fees-database:${FEES_DATABASE_DOCKER_VERSION:-latest}
+    environment:
+      - FEES_REGISTER_DB_USERNAME=fees_register
+      - FEES_REGISTER_DB_PASSWORD=fees_register
 
 volumes:
   shared-database-data:
   payments-database-data:
-
