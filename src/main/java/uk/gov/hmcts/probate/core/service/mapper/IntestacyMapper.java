@@ -1,17 +1,12 @@
 package uk.gov.hmcts.probate.core.service.mapper;
 
-import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
-import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromIhtMethod;
-import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromRegistryLocation;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCollectionMember;
-import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToIhtMethod;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPennies;
-import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPounds;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToRegistryLocation;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
@@ -22,9 +17,9 @@ import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 
 
 @Mapper(componentModel = "spring", uses = {PaymentsMapper.class, AliasNameMapper.class, RegistryLocationMapper.class, PoundsConverter.class,
-        IhtMethodConverter.class},
-        imports = {ApplicationType.class, GrantType.class, ProbateType.class, IhtMethod.class},
-        unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+    IhtMethodConverter.class},
+    imports = {ApplicationType.class, GrantType.class, ProbateType.class, IhtMethod.class},
+    unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, IntestacyForm> {
 
     @Mapping(target = "applicationType", expression = "java(ApplicationType.PERSONAL)")
@@ -35,8 +30,8 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "primaryApplicantAdoptionInEnglandOrWales", source = "applicant.adoptionInEnglandOrWales")
     @Mapping(target = "primaryApplicantPhoneNumber", source = "applicant.phoneNumber")
     @Mapping(target = "primaryApplicantEmailAddress",
-            expression = "java(form.getApplicant() != null && form.getApplicant().getEmail() != null ? " +
-                    "form.getApplicant().getEmail().toLowerCase() : null)")
+        expression = "java(form.getApplicant() != null && form.getApplicant().getEmail() != null ? " +
+            "form.getApplicant().getEmail().toLowerCase() : null)")
     @Mapping(target = "primaryApplicantAddressFound", source = "applicant.addressFound")
     @Mapping(target = "primaryApplicantFreeTextAddress", source = "applicant.freeTextAddress")
     @Mapping(target = "deceasedAddress.addressLine1", source = "deceased.address")
@@ -55,11 +50,11 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "childrenOverEighteenSurvived", source = "deceased.allDeceasedChildrenOverEighteen")
     @Mapping(target = "childrenDied", source = "deceased.anyDeceasedChildrenDieBeforeDeceased")
     @Mapping(target = "grandChildrenSurvivedUnderEighteen",
-            source = "deceased.anyDeceasedGrandchildrenUnderEighteen")
+        source = "deceased.anyDeceasedGrandchildrenUnderEighteen")
     @Mapping(target = "deceasedSpouseNotApplyingReason", source = "deceased.spouseNotApplyingReason")
     @Mapping(target = "deceasedAnyChildren", source = "deceased.anyChildren")
     @Mapping(target = "deceasedAliasNameList", source = "deceased.otherNames",
-            qualifiedBy = {ToCollectionMember.class})
+        qualifiedBy = {ToCollectionMember.class})
     @Mapping(target = "outsideUkGrantCopies", source = "copies.overseas")
     @Mapping(target = "extraCopiesOfGrant", source = "copies.uk")
     @Mapping(target = "deceasedHasAssetsOutsideUK", source = "assets.assetsoverseas")
@@ -68,12 +63,12 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "ihtFormCompletedOnline", source = "iht.method", qualifiedBy = {FromIhtMethod.class})
     @Mapping(target = "ihtNetValue", source = "iht.netValue", qualifiedBy = {ToPennies.class})
     @Mapping(target = "ihtGrossValue", source = "iht.grossValue", qualifiedBy = {ToPennies.class})
-    @Mapping(target = "registryLocation", source ="registry.name", qualifiedBy = {ToRegistryLocation.class})
+    @Mapping(target = "registryLocation", source = "registry.name", qualifiedBy = {ToRegistryLocation.class})
     @Mapping(target = "registryAddress", source = "registry.address")
     @Mapping(target = "registryEmail", source = "registry.email")
     @Mapping(target = "registrySequenceNumber", source = "registry.sequenceNumber")
     @Mapping(target = "assetsOverseasNetValue", source = "assets.assetsOverseasNetValue",
-            qualifiedBy = {ToPennies.class})
+        qualifiedBy = {ToPennies.class})
     @Mapping(target = "declaration.declarationCheckbox", source = "declaration.declarationAgreement")
     @Mapping(target = "primaryApplicantAddress.addressLine1", source = "applicant.address")
     @Mapping(target = "primaryApplicantAddress.postCode", source = "applicant.postCode")
