@@ -179,7 +179,6 @@ def versions = [
         commonsIO                       : '2.6',
         hmctsJavaLogging                : '3.0.2',
         lombok                          : '1.16.18',
-        restAssured                     : '3.0.3',
         serviceTokenGenerator           : '0.6.0',
         springfoxSwagger                : '2.6.1',
         springCloudWiremock             : '1.2.4.RELEASE',
@@ -194,7 +193,7 @@ def versions = [
         restAssured                     : '3.0.7',
         piTest                          : '1.3.2',
         commonMark                      : '0.11.0',
-        probateCommons                  : '0.0.23-dev',
+        probateCommons                  : '0.0.25',
         jacksonDatabind                 : '2.9.8',
         pact_version                    : '3.5.24'
         

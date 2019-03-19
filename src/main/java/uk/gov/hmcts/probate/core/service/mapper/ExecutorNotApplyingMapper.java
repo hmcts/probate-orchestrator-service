@@ -14,11 +14,12 @@ public interface ExecutorNotApplyingMapper {
 
     @Mapping(target = "value.notApplyingExecutorName", source = "fullName")
     @Mapping(target = "value.notApplyingExecutorReason",
-        expression = "java(ExecutorNotApplyingReason.getExecutorNotApplyingReasonByValue(executor.getNotApplyingKey()))")
+        expression = "java(executor.getNotApplyingKey() == null? null : ExecutorNotApplyingReason.getExecutorNotApplyingReasonByValue(executor.getNotApplyingKey()))")
     CollectionMember<ExecutorNotApplying> toExecutorNotApplying(Executor executor);
 
     @Mapping(target = "notApplyingKey",
         expression = "java(executorNotApplyingCollectionMember.getValue().getNotApplyingExecutorReason().getOptionValue())")
+    @Mapping(target = "isApplying", expression = "java(false)")
     @InheritInverseConfiguration
     Executor fromExecutorNotApplying(CollectionMember<ExecutorNotApplying> executorNotApplyingCollectionMember);
 }

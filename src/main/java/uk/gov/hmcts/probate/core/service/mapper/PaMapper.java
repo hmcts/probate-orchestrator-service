@@ -1,5 +1,6 @@
 package uk.gov.hmcts.probate.core.service.mapper;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -9,6 +10,8 @@ import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromIhtMethod;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromRegistryLocation;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCollectionMember;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToExecutorApplyingCollectionMember;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToExecutorNotApplyingCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToIhtMethod;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPennies;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPounds;
@@ -27,7 +30,7 @@ import java.time.LocalDate;
     PoundsConverter.class, IhtMethodConverter.class, LegalStatementMapper.class, ExecutorsMapper.class,
     ExecutorApplyingMapper.class, ExecutorNotApplyingMapper.class},
     imports = {ApplicationType.class, GrantType.class, ProbateType.class, IhtMethod.class,
-        LocalDate.class, ExecutorsMapper.class},
+        LocalDate.class, ExecutorsMapper.class, BooleanUtils.class},
     unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> {
 
@@ -59,18 +62,18 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "softStop", source = "declaration.softStop")
     @Mapping(target = "legalStatement", source = "declaration.legalStatement")
     @Mapping(target = "declaration", source = "declaration.declaration")
-    @Mapping(target = "executorsApplying", source = "executors.list", qualifiedBy = {ToCollectionMember.class})
-    @Mapping(target = "executorsNotApplying", source = "executors.list", qualifiedBy = {ToCollectionMember.class})
-    @Mapping(target = "numberOfApplicants", expression = "java(Long.valueOf(form.getExecutors().getList().size()))")
+    @Mapping(target = "executorsApplying", source = "executors.list", qualifiedBy = {ToExecutorApplyingCollectionMember.class})
+    @Mapping(target = "executorsNotApplying", source = "executors.list", qualifiedBy = {ToExecutorNotApplyingCollectionMember.class})
+    @Mapping(target = "numberOfApplicants", expression = "java(form.getExecutors() == null || form.getExecutors().getList() == null ? 0L : Long.valueOf(form.getExecutors().getList().size()))")
     @Mapping(target = "numberOfExecutors", source = "executors.executorsNumber")
-    @Mapping(target = "ihtReferenceNumber", expression = "java(form.getIht().getMethod() == IhtMethod.ONLINE ? "
+    @Mapping(target = "ihtReferenceNumber", expression = "java(form.getIht() != null && form.getIht().getMethod() == IhtMethod.ONLINE ? "
         + "form.getIht().getIdentifier() : \"Not applicable\")")
     @Mapping(target = "ihtFormId", source = "iht.ihtFormId")
     @Mapping(target = "ihtFormCompletedOnline", source = "iht.method", qualifiedBy = {FromIhtMethod.class})
     @Mapping(target = "ihtNetValue", source = "iht.netValue", qualifiedBy = {ToPennies.class})
     @Mapping(target = "ihtGrossValue", source = "iht.grossValue", qualifiedBy = {ToPennies.class})
     @Mapping(target = "extraCopiesOfGrant", source = "copies.uk", defaultValue = "0L")
-    @Mapping(target = "outsideUkGrantCopies", expression = "java(form.getAssets().getAssetsoverseas() ? "
+    @Mapping(target = "outsideUkGrantCopies", expression = "java(form.getAssets() != null && BooleanUtils.isTrue(form.getAssets().getAssetsoverseas()) ? "
         + "form.getCopies().getOverseas() : 0L)")
     GrantOfRepresentationData toCaseData(PaForm form);
 
@@ -82,11 +85,12 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "iht.netValue", source = "ihtNetValue", qualifiedBy = {ToPounds.class})
     @Mapping(target = "iht.grossValue", source = "ihtGrossValue", qualifiedBy = {ToPounds.class})
     @Mapping(target = "executors.list", source = ".", qualifiedBy = {FromCollectionMember.class})
-    @Mapping(target = "iht.identifier", expression = "java(grantOfRepresentationData.getIhtReferenceNumber().equals(\"Not applicable\") ? "
+    @Mapping(target = "iht.identifier", expression = "java(grantOfRepresentationData.getIhtReferenceNumber() == null || grantOfRepresentationData.getIhtReferenceNumber().equals(\"Not applicable\") ? "
         + "null : grantOfRepresentationData.getIhtReferenceNumber())")
     @Mapping(target = "iht.method", source = "ihtFormCompletedOnline", qualifiedBy = {ToIhtMethod.class})
     @Mapping(target = "copies.overseas", source = "outsideUkGrantCopies")
-    @Mapping(target = "assets.assetsoverseas", expression = "java(grantOfRepresentationData.getOutsideUkGrantCopies() > 0L)")
+    @Mapping(target = "assets.assetsoverseas", expression = "java(grantOfRepresentationData.getOutsideUkGrantCopies() == null ? null : " +
+        "grantOfRepresentationData.getOutsideUkGrantCopies() > 0L)")
     @InheritInverseConfiguration
     PaForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 
