@@ -13,7 +13,6 @@ import uk.gov.hmcts.probate.core.service.SecurityUtils;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 
 import java.io.IOException;
-import java.time.LocalDate;
 
 import static org.mockito.Mockito.when;
 
@@ -23,9 +22,6 @@ import static org.mockito.Mockito.when;
 })
 @Provider("probate_orchestrator_service_intestacy_forms")
 public class IntestacyDraftsFormsControllerProviderTest extends ControllerProviderTest {
-
-    private static final LocalDate DATE_OF_BIRTH = LocalDate.of(1930, 01, 01);
-    private static final LocalDate DATE_OF_DEATH = LocalDate.of(2018, 01, 01);
 
     @MockBean
     private SubmitServiceApi submitServiceApi;

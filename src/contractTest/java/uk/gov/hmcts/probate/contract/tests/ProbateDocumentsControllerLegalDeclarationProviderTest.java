@@ -8,23 +8,26 @@ import au.com.dius.pact.provider.junit.target.TestTarget;
 import org.json.JSONException;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import uk.gov.hmcts.probate.client.SubmitServiceApi;
+import uk.gov.hmcts.probate.client.BusinessServiceApi;
 import uk.gov.hmcts.probate.core.service.SecurityUtils;
-import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
+import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 
 import java.io.IOException;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, properties = {
         "server.port=8889", "spring.application.name=PACT_TEST"
 })
-@Provider("probate_orchestrator_service_probate_forms")
-public class ProbateDraftsFormsControllerProviderTest extends ControllerProviderTest{
+@Provider("probate_orchestrator_service_documents_legal_declaration")
+public class ProbateDocumentsControllerLegalDeclarationProviderTest extends ControllerProviderTest{
+
 
     @MockBean
-    private SubmitServiceApi submitServiceApi;
+    private BusinessServiceApi businessServiceApi;
     @MockBean
     private SecurityUtils securityUtils;
 
@@ -33,15 +36,13 @@ public class ProbateDraftsFormsControllerProviderTest extends ControllerProvider
     public final Target target = new HttpTarget("http", "localhost", 8889, "/");
 
 
-    @State({"probate_orchestrator_service persists probate formdata with success",
-            "probate_orchestrator_service persists probate formdata with success"})
+    @State({"probate_orchestrator_service generates legal declaration byte[] with success",
+            "probate_orchestrator_service generates legal declaration byte[] with success"})
     public void toPersistProbateFormDataWithSuccess() throws IOException, JSONException {
 
         when(securityUtils.getAuthorisation()).thenReturn("someAuthorisationId");
         when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorisationId");
-        ProbateCaseDetails probateCaseDetails = getProbateCaseDetails("probate_orchestrator_service_persists_intestacy_formdata_with_success_probate_case_details.json");
-        ProbateCaseDetails probateCaseDetailsResponse = getProbateCaseDetails("probate_orchestrator_service_persists_intestacy_formdata_with_success_probate_case_details_response.json");
-        when(submitServiceApi.saveDraft("someAuthorisationId", "someServiceAuthorisationId", "someemailaddress@host.com", probateCaseDetails)).thenReturn(probateCaseDetailsResponse);
+        when(businessServiceApi.generateLegalDeclarationPDF( anyString(),anyString(), any(LegalDeclaration.class) )) .thenReturn("".getBytes());
 
     }
 
