@@ -21,7 +21,7 @@
   auth.provider.service.client:
     baseUrl: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
     microservice: 'probate_backend'
-    key: 'AAAAAAAAAAAAAAAA'
+    key: ${AUTH_PROVIDER_SERVICE_CLIENT_KEY:'AAAAAAAAAAAAAAAA'}
     tokenTimeToLiveInSeconds: '900'
 
   idam.s2s-auth.url: ${auth.provider.service.client.baseUrl}
