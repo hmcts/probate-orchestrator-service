@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import uk.gov.hmcts.probate.client.BusinessServiceApi;
 import uk.gov.hmcts.probate.core.service.SecurityUtils;
-import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
+import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 
 import java.io.IOException;
 
@@ -22,8 +22,8 @@ import static org.mockito.Mockito.when;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, properties = {
         "server.port=8889", "spring.application.name=PACT_TEST"
 })
-@Provider("probate_orchestrator_service_documents_check_answers")
-public class ProbateDocumentsControllerCheckAnswersProviderTest extends ControllerProviderTest{
+@Provider("probate_orchestrator_service_documents_cover_sheet")
+public class ProbateDocumentsControllerCoverSheetProviderTest extends ControllerProviderTest{
 
 
     @MockBean
@@ -36,20 +36,14 @@ public class ProbateDocumentsControllerCheckAnswersProviderTest extends Controll
     public final Target target = new HttpTarget("http", "localhost", 8889, "/");
 
 
-    @State({"probate_orchestrator_service generates check answers byte[] with success",
-            "probate_orchestrator_service generates check answers byte[] with success"})
-    public void toReturnCheckAnswersSummaryWithSuccess() throws IOException, JSONException {
+    @State({"probate_orchestrator_service generates cover sheet byte[] with success",
+            "probate_orchestrator_service generates cover sheet byte[] with success"})
+    public void toReturnCoverSheetWithSuccess() throws IOException, JSONException {
 
         when(securityUtils.getAuthorisation()).thenReturn("someAuthorisationId");
         when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorisationId");
-        when(businessServiceApi.generateCheckAnswersSummaryPdf( anyString(),anyString(), any(CheckAnswersSummary.class) )) .thenReturn("".getBytes());
+        when(businessServiceApi.generateBulkScanCoverSheetPDF( anyString(),anyString(), any(BulkScanCoverSheet.class) )) .thenReturn("".getBytes());
 
     }
 
-
-    @State({"probate_orchestrator_service returns with validation errors",
-            "probate_orchestrator_service returns with validation errors"})
-    public void toReturnInvalidCheckAnswersSummaryWithError() throws IOException, JSONException {
-
-    }
 }
