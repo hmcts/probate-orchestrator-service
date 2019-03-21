@@ -8,8 +8,8 @@
   management:
     endpoints:
       web:
-#        exposure:
-#          include: health,info,liveness
+        exposure:
+          include: health,info,liveness,health/liveness
         base-path: /
     endpoint:
       health:
