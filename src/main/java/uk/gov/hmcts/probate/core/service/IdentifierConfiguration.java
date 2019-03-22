@@ -32,7 +32,7 @@ public class IdentifierConfiguration {
     private Function<Form, String> caveatFormIdentifierFunction() {
         return form -> {
             CaveatForm caveatForm = (CaveatForm) form;
-            return caveatForm.getApplicant().getEmail();
+            return caveatForm.getApplicationId();
         };
     }
 }

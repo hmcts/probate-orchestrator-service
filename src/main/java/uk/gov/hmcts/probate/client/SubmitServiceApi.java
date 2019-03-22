@@ -23,57 +23,57 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public interface SubmitServiceApi {
 
     @GetMapping(
-            value = "/cases/{applicantEmail}",
+            value = "/cases/{applicationId}",
             headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
     ProbateCaseDetails getCase(
             @RequestHeader(AUTHORIZATION) String authorisation,
             @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
-            @PathVariable(SubmitServiceConfiguration.APPLICANT_EMAIL) String applicantEmail,
+            @PathVariable(SubmitServiceConfiguration.APPLICATION_ID) String applicationId,
             @RequestParam("caseType") String caseType
     );
 
     @PostMapping(
-            value = "/drafts/{applicantEmail}",
+            value = "/drafts/{applicationId}",
             headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
     ProbateCaseDetails saveDraft(
             @RequestHeader(AUTHORIZATION) String authorisation,
             @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
-            @PathVariable(SubmitServiceConfiguration.APPLICANT_EMAIL) String applicantEmail,
+            @PathVariable(SubmitServiceConfiguration.APPLICATION_ID) String applicationId,
             @RequestBody ProbateCaseDetails probateCaseDetails
     );
 
     @PostMapping(
-            value = "/submissions/{applicantEmail}",
+            value = "/submissions/{applicationId}",
             headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
     SubmitResult submit(
             @RequestHeader(AUTHORIZATION) String authorisation,
             @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
-            @PathVariable(SubmitServiceConfiguration.APPLICANT_EMAIL) String applicantEmail,
+            @PathVariable(SubmitServiceConfiguration.APPLICATION_ID) String applicationId,
             @RequestBody ProbateCaseDetails probateCaseDetails
     );
 
     @PostMapping (
-            value = "/submissions/update/{applicantEmail}",
+            value = "/submissions/update/{applicationId}",
             headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
     SubmitResult update(
             @RequestHeader(AUTHORIZATION) String authorisation,
             @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
-            @PathVariable(SubmitServiceConfiguration.APPLICANT_EMAIL) String applicantEmail,
+            @PathVariable(SubmitServiceConfiguration.APPLICATION_ID) String applicationId,
             @RequestBody ProbateCaseDetails probateCaseDetails
     );
 
     @PostMapping(
-            value = "/payments/{applicantEmail}",
+            value = "/payments/{applicationId}",
             headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
     ProbateCaseDetails updatePayments(
             @RequestHeader(AUTHORIZATION) String authorisation,
             @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
-            @PathVariable(SubmitServiceConfiguration.APPLICANT_EMAIL) String applicantEmail,
+            @PathVariable(SubmitServiceConfiguration.APPLICATION_ID) String applicationId,
             @RequestBody ProbatePaymentDetails probatePaymentDetails
     );
 }
