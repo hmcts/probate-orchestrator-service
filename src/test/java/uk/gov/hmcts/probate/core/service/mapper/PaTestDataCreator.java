@@ -37,6 +37,7 @@ import uk.gov.hmcts.reform.probate.model.forms.pa.PaLegalStatementExecutorApplyi
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 public class PaTestDataCreator {
@@ -65,8 +66,8 @@ public class PaTestDataCreator {
     private static final boolean DECEASED_ALIAS = false;
     private static final String DECEASED_ADDRESS = "Winterfell, North, Westeros, GOT123";
     private static final boolean MARRIED = false;
-    private static final LocalDate DECEASED_DATE_OF_BIRTH = LocalDate.of(1900, 1, 1);
-    private static final LocalDate DECEASED_DATE_OF_DEATH = LocalDate.of(2019, 1, 1);
+    private static final LocalDateTime DECEASED_DATE_OF_BIRTH = LocalDate.of(1900, 1, 1).atStartOfDay();
+    private static final LocalDateTime DECEASED_DATE_OF_DEATH = LocalDate.of(2019, 1, 1).atStartOfDay();
     private static final String DECEASED_LAST_NAME = "Stark";
     private static final String DECEASED_FIRST_NAME = "Ned";
     private static final String MANCHESTER = "Manchester";
@@ -289,8 +290,8 @@ public class PaTestDataCreator {
             .primaryApplicantAliasReason(APPLICANT_ALIAS_REASON)
             .primaryApplicantPhoneNumber(APPLICANT_PHONE_NUMBER)
             .deceasedAnyOtherNames(false)
-            .deceasedDateOfBirth(DECEASED_DATE_OF_BIRTH)
-            .deceasedDateOfDeath(DECEASED_DATE_OF_DEATH)
+            .deceasedDateOfBirth(DECEASED_DATE_OF_BIRTH.toLocalDate())
+            .deceasedDateOfDeath(DECEASED_DATE_OF_DEATH.toLocalDate())
             .deceasedSurname(DECEASED_LAST_NAME)
             .deceasedForenames(DECEASED_FIRST_NAME)
             .deceasedMarriedAfterWillOrCodicilDate(MARRIED)
