@@ -45,6 +45,7 @@ public class SubmitServiceImplTest {
     private static final String AUTHORIZATION = "AUTH1234567";
     private static final String CASE_ID = "1232234234";
     private static final String STATE = "DRAFT";
+    public static final String CAVEAT_IDENTIFIER = "Id";
 
 
     private Map<ProbateType, FormMapper> mappers;
@@ -108,7 +109,7 @@ public class SubmitServiceImplTest {
         String caveatFormStr = TestUtils.getJSONFromFile("caveatForm.json");
         caveatForm = objectMapper.readValue(caveatFormStr, CaveatForm.class);
         CasePayment caveatCasePayment = new CasePayment();
-        caveatCaseData = CaveatData.builder().payments(
+        caveatCaseData = CaveatData.builder().applicationId(CAVEAT_IDENTIFIER).payments(
                 Lists.newArrayList(CollectionMember.<CasePayment>builder().value(caveatCasePayment).build())).build();
 
         caveatCaseDetails = ProbateCaseDetails.builder().caseData(caveatCaseData).caseInfo(caseInfo).build();
@@ -134,43 +135,43 @@ public class SubmitServiceImplTest {
     @Test
     public void shouldGetCaveatForm() {
         when(submitServiceApi.getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
-                EMAIL_ADDRESS, CaseType.CAVEAT.getName())).thenReturn(caveatCaseDetails);
+                CAVEAT_IDENTIFIER, CaseType.CAVEAT.getName())).thenReturn(caveatCaseDetails);
 
-        Form formResponse = submitService.getCase(EMAIL_ADDRESS, ProbateType.CAVEAT);
+        Form formResponse = submitService.getCase(CAVEAT_IDENTIFIER, ProbateType.CAVEAT);
 
         assertThat(formResponse, is(caveatForm));
         verify(submitServiceApi, times(1)).getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
-                EMAIL_ADDRESS, CaseType.CAVEAT.getName());
+                CAVEAT_IDENTIFIER, CaseType.CAVEAT.getName());
         verify(securityUtils, times(1)).getAuthorisation();
         verify(securityUtils, times(1)).getServiceAuthorisation();
     }
 
     @Test
     public void shouldSaveDraftIntestacyForm() {
-        shouldSaveDraftForm(intestacyForm, intestacyCaseDetails);
+        shouldSaveDraftForm(intestacyForm, intestacyCaseDetails, EMAIL_ADDRESS);
     }
 
     @Test
     public void shouldSaveDraftCaveatsForm() {
-        shouldSaveDraftForm(caveatForm, caveatCaseDetails);
+        shouldSaveDraftForm(caveatForm, caveatCaseDetails, CAVEAT_IDENTIFIER);
     }
 
-    private void shouldSaveDraftForm(Form form, ProbateCaseDetails caseDetails) {
+    private void shouldSaveDraftForm(Form form, ProbateCaseDetails caseDetails, String identifier) {
         when(submitServiceApi.saveDraft(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-            eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class))).thenReturn(caseDetails);
+            eq(identifier), any(ProbateCaseDetails.class))).thenReturn(caseDetails);
 
-        Form formResponse = submitService.saveDraft(EMAIL_ADDRESS, form);
+        Form formResponse = submitService.saveDraft(identifier, form);
 
         assertThat(formResponse, is(form));
         verify(submitServiceApi, times(1)).saveDraft(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-            eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class));
+            eq(identifier), any(ProbateCaseDetails.class));
         verify(securityUtils, times(1)).getAuthorisation();
         verify(securityUtils, times(1)).getServiceAuthorisation();
     }
 
     @Test
     public void shouldSaveDraftCaveatForm() {
-        shouldSaveDraftForm(caveatForm, caveatCaseDetails);
+        shouldSaveDraftForm(caveatForm, caveatCaseDetails, CAVEAT_IDENTIFIER);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -182,23 +183,23 @@ public class SubmitServiceImplTest {
 
     @Test
     public void shouldSubmitIntestacyForm() {
-        shouldSubmitForm(intestacyForm, intestacyCaseDetails);
+        shouldSubmitForm(intestacyForm, intestacyCaseDetails, EMAIL_ADDRESS);
     }
 
     @Test
     public void shouldSubmitCaveatForm() {
-        shouldSubmitForm(caveatForm, caveatCaseDetails);
+        shouldSubmitForm(caveatForm, caveatCaseDetails, CAVEAT_IDENTIFIER);
     }
 
-    private void shouldSubmitForm(Form form, ProbateCaseDetails caseDetails) {
+    private void shouldSubmitForm(Form form, ProbateCaseDetails caseDetails, String identifier) {
         when(submitServiceApi.submit(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-                eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class))).thenReturn(new SubmitResult(caseDetails, null));
+                eq(identifier), any(ProbateCaseDetails.class))).thenReturn(new SubmitResult(caseDetails, null));
 
-        Form formResponse = submitService.submit(EMAIL_ADDRESS, form);
+        Form formResponse = submitService.submit(identifier, form);
 
         assertThat(formResponse, is(form));
         verify(submitServiceApi, times(1)).submit(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-                eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class));
+                eq(identifier), any(ProbateCaseDetails.class));
         verify(securityUtils, times(1)).getAuthorisation();
         verify(securityUtils, times(1)).getServiceAuthorisation();
     }
@@ -206,23 +207,23 @@ public class SubmitServiceImplTest {
 
     @Test
     public void shouldUpdateCaveatForm() {
-        shouldUpdatetForm(caveatForm, caveatCaseDetails);
+        shouldUpdatetForm(caveatForm, caveatCaseDetails, CAVEAT_IDENTIFIER);
     }
 
     @Test
     public void shouldUpdateIntestacyForm() {
-        shouldUpdatetForm(intestacyForm, intestacyCaseDetails);
+        shouldUpdatetForm(intestacyForm, intestacyCaseDetails, EMAIL_ADDRESS);
     }
 
-    private void shouldUpdatetForm(Form form, ProbateCaseDetails caseDetails) {
+    private void shouldUpdatetForm(Form form, ProbateCaseDetails caseDetails, String identifier) {
         when(submitServiceApi.update(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-                eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class))).thenReturn(new SubmitResult(caseDetails, null));
+                eq(identifier), any(ProbateCaseDetails.class))).thenReturn(new SubmitResult(caseDetails, null));
 
-        Form formResponse = submitService.update(EMAIL_ADDRESS, form);
+        Form formResponse = submitService.update(identifier, form);
 
         assertThat(formResponse, is(form));
         verify(submitServiceApi, times(1)).update(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-                eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class));
+                eq(identifier), any(ProbateCaseDetails.class));
         verify(securityUtils, times(1)).getAuthorisation();
         verify(securityUtils, times(1)).getServiceAuthorisation();
     }
