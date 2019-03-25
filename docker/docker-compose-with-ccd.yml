@@ -36,7 +36,7 @@ services:
       - 1025:1025
       - 8025:8025
 
-    
+
   authentication-web:
     image: docker.artifactory.reform.hmcts.net/auth/authentication-web:latest
     container_name: authentication-web
