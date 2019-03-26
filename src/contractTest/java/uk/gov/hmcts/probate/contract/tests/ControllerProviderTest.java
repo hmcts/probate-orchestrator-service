@@ -2,7 +2,10 @@ package uk.gov.hmcts.probate.contract.tests;
 
 import au.com.dius.pact.provider.junit.IgnoreNoPactsToVerify;
 import au.com.dius.pact.provider.junit.loader.PactBroker;
+import au.com.dius.pact.provider.junit.target.Target;
+import au.com.dius.pact.provider.junit.target.TestTarget;
 import au.com.dius.pact.provider.spring.SpringRestPactRunner;
+import au.com.dius.pact.provider.spring.target.SpringBootHttpTarget;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,6 +13,7 @@ import org.junit.Before;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.ResourceUtils;
@@ -34,9 +38,14 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRestPactRunner.class)
 @ExtendWith(SpringExtension.class)
-@PactBroker(scheme = "${pact.broker.scheme}", host = "${pact.broker.baseUrl}", port = "${pact.broker.port}", tags={"${pact.broker.consumer.tag}", "latest", "master"})
+@PactBroker(scheme = "${pact.broker.scheme}", host = "${pact.broker.baseUrl}", port = "${pact.broker.port}", tags = {"${pact.broker.consumer.tag}", "latest", "master"})
 @IgnoreNoPactsToVerify
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 abstract public class ControllerProviderTest {
+
+    @TestTarget
+    @SuppressWarnings(value = "VisibilityModifier")
+    public final Target target = new SpringBootHttpTarget();
 
     @Autowired
     ObjectMapper objectMapper;
@@ -47,16 +56,13 @@ abstract public class ControllerProviderTest {
 
     private static final String AUTHORIZATION = "Authorization";
 
-
     @MockBean
     private SubjectResolver<Service> serviceResolver;
 
     @MockBean
     private RequestAuthorizer<User> userRequestAuthorizer;
 
-
     private Service service;
-
 
     @Before
     public void setUpTest() {
