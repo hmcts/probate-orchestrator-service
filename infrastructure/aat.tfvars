@@ -16,7 +16,7 @@ s2s_service_api = "http://rpe-service-auth-provider-aat.service.core-compute-aat
 auth_provider_service_client_baseurl = "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
 services_corecasedata_baseurl = "http://ccd-data-store-api-aat.service.core-compute-aat.internal"
 services_auth_provider_baseurl = "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
-auth_idam_client_baseurl = "https://preprod-idamapi.reform.hmcts.net:3511"
+auth_idam_client_baseurl = "https://idam-api.aat.platform.hmcts.net"
 submit_service_api_url = "http://probate-submit-service-aat.service.core-compute-aat.internal"
 business_service_api_url = "http://probate-business-service-aat.service.core-compute-aat.internal"
 
