@@ -54,6 +54,8 @@ withPipeline("java", product, component) {
                     '"field":"redirect_uri",' +
                     '"value":"' + aksUrlToWhitelist + '"' +
                     '}]\'')
+        } catch (err) {
+            notifyBuildEvent channel: notificationsChannel, color: 'warning', message: 'Failed to update SIDAM PR whitelisting'
         }
     }
 
