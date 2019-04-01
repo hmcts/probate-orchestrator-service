@@ -3,7 +3,7 @@
     "type": "GrantOfRepresentation",
     "applicationType": "Personal",
     "primaryApplicantEmailAddress": "someemailaddress@host.com",
-    "applicationSubmittedDate": "2019-04-01",
+    "applicationSubmittedDate": "2019-03-29",
     "extraCopiesOfGrant": 0,
     "deceasedAddress": {
       "AddressLine1": "12 Nowhere Road\r\nNotown"
@@ -37,11 +37,10 @@
     "primaryApplicantPhoneNumber": "07951058088",
     "willHasCodicils": "No",
     "willNumberOfCodicils": 1,
-    "numberOfExecutors": 2,
+    "numberOfExecutors": 1,
     "executorsApplying": [
       {
         "value": {
-          "applyingExecutorName": "Jackie Smith",
           "applyingExecutorAddress": {}
         }
       }
@@ -50,7 +49,7 @@
     "declaration": {
       "declarationCheckbox": "Yes"
     },
-    "numberOfApplicants": 2,
+    "numberOfApplicants": 1,
     "outsideUKGrantCopies": 0,
     "caseType": "gop"
   }

@@ -20,7 +20,7 @@ public class IdentifierConfiguration {
         return ImmutableMap.<ProbateType, Function<Form, String>>builder()
             .put(ProbateType.INTESTACY, intestacyFormIdentifierFunction())
             .put(ProbateType.CAVEAT, caveatFormIdentifierFunction())
-                .put(ProbateType.PA, paFormIdentifierFunction())
+            .put(ProbateType.PA, paFormIdentifierFunction())
             .build();
     }
 
@@ -41,7 +41,7 @@ public class IdentifierConfiguration {
     private Function<Form, String> paFormIdentifierFunction() {
         return form -> {
             PaForm paForm = (PaForm) form;
-            return paForm.getApplicant().getEmail();
+            return paForm.getApplicantEmail();
         };
     }
 }

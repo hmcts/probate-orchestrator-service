@@ -43,8 +43,11 @@ public class SubmitServiceImpl implements SubmitService {
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
         ProbateCaseDetails probateCaseDetails = submitServiceApi.getCase(authorisation,
-            serviceAuthorisation, identifier, probateType.getCaseType().getName());
-        return formMapper.fromCaseData(probateCaseDetails.getCaseData());
+            serviceAuthorisation, identifier, probateType.getCaseType().name());
+        outputAsString(probateCaseDetails);
+        Form form = formMapper.fromCaseData(probateCaseDetails.getCaseData());
+        outputAsString(form);
+        return form;
     }
 
     @Override
@@ -55,13 +58,8 @@ public class SubmitServiceImpl implements SubmitService {
 
         ProbateCaseDetails pcdEntered = ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build();
 
-        ObjectMapper mapper = new ObjectMapper();
-        String s =null;
-        try {
-            s = mapper.writeValueAsString(pcdEntered);
-        } catch (JsonProcessingException e) {
-
-        }
+        outputAsString(pcdEntered);
+        outputAsString(form);
 
         ProbateCaseDetails probateCaseDetails = submitServiceApi.saveDraft(
             securityUtils.getAuthorisation(),
@@ -72,6 +70,27 @@ public class SubmitServiceImpl implements SubmitService {
         return mapFromCase(formMapper, probateCaseDetails);
     }
 
+    private void outputAsString(Form form) {
+        ObjectMapper mapper = new ObjectMapper();
+        String s = null;
+        try {
+            s = mapper.writeValueAsString(form);
+        } catch (JsonProcessingException e) {
+
+        }
+    }
+
+
+    private void outputAsString(ProbateCaseDetails pcdEntered) {
+        ObjectMapper mapper = new ObjectMapper();
+        String s = null;
+        try {
+            s = mapper.writeValueAsString(pcdEntered);
+        } catch (JsonProcessingException e) {
+
+        }
+    }
+
     @Override
     public Form submit(String identifier, Form form) {
         log.info("Submit called for");
@@ -79,13 +98,7 @@ public class SubmitServiceImpl implements SubmitService {
         FormMapper formMapper = mappers.get(form.getType());
         ProbateCaseDetails probateCaseDetails = ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build();
 
-        ObjectMapper mapper = new ObjectMapper();
-        String s =null;
-        try {
-             s = mapper.writeValueAsString(probateCaseDetails);
-        } catch (JsonProcessingException e) {
-
-        }
+        outputAsString(probateCaseDetails);
 
         log.debug("calling submit on submitserviceapi");
         SubmitResult submitResult = submitServiceApi.submit(
