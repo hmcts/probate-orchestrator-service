@@ -65,7 +65,7 @@ withPipeline("java", product, component) {
                 sh 'curl -LO https://github.com/pact-foundation/pact-ruby-standalone/releases/download/v1.63.0/pact-1.63.0-linux-x86_64.tar.gz'
                 sh 'tar xzf pact-1.63.0-linux-x86_64.tar.gz'
                 dir('pact/bin') {
-                    sh './pact-broker can-i-deploy --retry-while-unknown=12 --retry-interval=10 -a probate_orchestrator_service -b ${PACT_BROKER_FULL_URL} -e ${PACT_BROKER_VERSION}'
+                    //sh './pact-broker can-i-deploy --retry-while-unknown=12 --retry-interval=10 -a probate_orchestrator_service -b ${PACT_BROKER_FULL_URL} -e ${PACT_BROKER_VERSION}'
                 }
             }
             } finally {
