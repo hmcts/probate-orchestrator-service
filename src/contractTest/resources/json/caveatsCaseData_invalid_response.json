@@ -1,0 +1,42 @@
+{
+  "caseData": {
+    "type":     "Caveat",
+    "applicationId": "Id",
+    "applicationType": "Personal",
+    "registryLocation": "Oxford",
+    "deceasedForenames": "deceased forename",
+    "deceasedSurname": "deceased surname",
+    "deceasedDateOfDeath": "1966-11-20",
+    "deceasedDateOfBirth": "2018-03-04",
+    "deceasedAnyOtherNames": "Yes",
+    "deceasedFullAliasNameList": [
+      {
+        "value": {
+          "FullAliasName": "fullAliasName"
+        }
+      }
+    ],
+    "deceasedAddress": {
+      "AddressLine1": "deceased address line 1",
+      "AddressLine2": "deceased address line 2",
+      "AddressLine3": "deceased address line 3",
+      "County": "deceased county",
+      "PostTown": "deceased post town",
+      "PostCode": "deceased post code",
+      "Country": "deceased country"
+    },
+    "caveatorForenames": "caveator forename",
+    "caveatorSurname": "caveator surname",
+    "caveatorEmailAddress": "caveator@email.com",
+    "caveatorAddress": {
+      "AddressLine1": "caveator address line 1",
+      "AddressLine2": "caveator address line 2",
+      "AddressLine3": "caveator address line 3",
+      "County": "caveator county",
+      "PostTown": "caveator post town",
+      "PostCode": "caveator post code",
+      "Country": "caveator country"
+    },
+    "expiryDate": "2019-02-14"
+  }
+}
