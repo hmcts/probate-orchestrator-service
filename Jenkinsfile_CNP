@@ -54,6 +54,7 @@ withPipeline("java", product, component) {
                     '"field":"redirect_uri",' +
                     '"value":"' + aksUrlToWhitelist + '"' +
                     '}]\'')
+        }
     }
 
 //    before('buildinfra:prod') {
