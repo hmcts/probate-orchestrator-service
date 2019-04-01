@@ -1,0 +1,77 @@
+{
+  "type": "PA",
+  "deceased": {
+    "firstName": "Bob",
+    "lastName": "Smith",
+    "alias": "Yes",
+    "otherNames": {
+      "name_0": {
+        "firstName": "Bobby",
+        "lastName": "Smith"
+      }
+    },
+    "married": "Yes",
+    "address": "12 Nowhere Road\r\nNotown",
+    "freeTextAddress": "12 Nowhere Road\r\nNotown",
+    "addressFound": "false",
+    "dob_date": "1939-02-12T00:00:00.000Z",
+    "dod_date": "2018-02-12T00:00:00.000Z",
+    "dod_day": 12,
+    "dod_month": 2,
+    "dod_year": 2018,
+    "dob_day": 12,
+    "dob_month": 2,
+    "dob_year": 1939,
+    "dod_formattedDate": "12 February 2018",
+    "dob_formattedDate": "12 February 1939"
+  },
+  "type": "PA",
+  "applicant": {
+    "firstName": "Jackie",
+    "lastName": "Smith",
+    "address": "12 Nowhere Avenue\r\nLondon",
+    "phoneNumber": "07951058088",
+    "nameAsOnTheWill": "Yes"
+  },
+  "type": "PA",
+  "registry": {},
+  "declaration": {
+    "declarationCheckbox": "Yes"
+  },
+  "applicantEmail": "someemailaddress@host.com",
+  "executors": {
+    "executorsNumber": 2,
+    "list": [
+      {
+        "lastName": "Smith",
+        "firstName": "Jackie",
+        "isApplying": true
+      },
+      {
+        "fullName": "Graham Smith"
+      }
+    ]
+  },
+  "copies": {
+    "uk": 0,
+    "overseas": 0
+  },
+  "assets": {
+    "assetsoverseas": "No"
+  },
+  "iht": {
+    "method": "By post",
+    "ihtFormId": "IHT205",
+    "form": "IHT205",
+    "grossValue": 10000.01,
+    "netValue": 9000.01,
+    "grossValueOnline": "10000.01",
+    "netValueOnline": "9000.01",
+    "grossIHT205": "10000.01",
+    "netIHT205": "9000.01"
+  },
+  "will": {
+    "codicils": "No",
+    "codicilsNumber": 1
+  }
+}
