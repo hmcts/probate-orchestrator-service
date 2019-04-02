@@ -37,15 +37,24 @@
     "primaryApplicantPhoneNumber": "07951058088",
     "willHasCodicils": "No",
     "willNumberOfCodicils": 1,
-    "numberOfExecutors": 1,
+    "numberOfExecutors": 2,
+    "executorsAllAlive": "Yes",
+    "otherExecutorsApplying" : "No",
     "executorsApplying": [
       {
         "value": {
+          "applyingExecutorName": "Jackie Smith",
           "applyingExecutorAddress": {}
         }
       }
     ],
-    "executorsNotApplying": [],
+    "executorsNotApplying": [
+      {
+        "value": {
+          "notApplyingExecutorName": "Graham Smith"
+        }
+      }
+    ],
     "numberOfApplicants": 1,
     "outsideUKGrantCopies": 0,
     "caseType": "gop",

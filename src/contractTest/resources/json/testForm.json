@@ -48,7 +48,9 @@
         "isApplying": true
       },
       {
-        "fullName": "Graham Smith"
+        "fullName": "Graham Smith",
+        "lastName": "Smith",
+        "firstName": "Jackie"
       }
     ]
   },
