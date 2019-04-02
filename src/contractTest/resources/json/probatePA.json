@@ -3,12 +3,12 @@
     "type": "GrantOfRepresentation",
     "applicationType": "Personal",
     "primaryApplicantEmailAddress": "someemailaddress@host.com",
-    "applicationSubmittedDate": "2019-03-29",
+    "applicationSubmittedDate": "2019-04-01",
     "extraCopiesOfGrant": 0,
-    "deceasedAddressFound": "No",
     "deceasedAddress": {
       "AddressLine1": "12 Nowhere Road\r\nNotown"
     },
+    "deceasedAddressFound": "No",
     "deceasedMarriedAfterWillOrCodicilDate": "Yes",
     "deceasedForenames": "Bob",
     "deceasedSurname": "Smith",
@@ -37,20 +37,29 @@
     "primaryApplicantPhoneNumber": "07951058088",
     "willHasCodicils": "No",
     "willNumberOfCodicils": 1,
-    "numberOfExecutors": 1,
+    "executorsAllAlive": "Yes",
+    "otherExecutorsApplying" : "No",
+    "numberOfExecutors": 2,
     "executorsApplying": [
       {
         "value": {
+          "applyingExecutorName": "Jackie Smith",
           "applyingExecutorAddress": {}
         }
       }
     ],
-    "executorsNotApplying": [],
-    "numberOfApplicants": 1,
+    "executorsNotApplying": [
+      {
+        "value": {
+          "notApplyingExecutorName": "Graham Smith"
+        }
+      }
+    ],
+    "declaration": {
+      "declarationCheckbox": "Yes"
+    },
+    "numberOfApplicants": 2,
     "outsideUKGrantCopies": 0,
-    "caseType": "gop",
-    "declaration":{
-      "declarationCheckbox" : "Yes"
-    }
+    "caseType": "gop"
   }
 }
