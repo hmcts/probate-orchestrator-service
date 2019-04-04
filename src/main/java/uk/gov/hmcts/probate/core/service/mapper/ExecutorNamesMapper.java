@@ -16,19 +16,5 @@ public class ExecutorNamesMapper {
         return null;
     }
 
-    public static String getFirstName(String fullName){
-        if(fullName==null){
-            return null;
-        }
-        return fullName.split(" (?!.* )")[0];
-    }
-
-    public static String getLastName(String fullName){
-        if(fullName==null){
-            return null;
-        }
-        return  fullName.split(" (?!.* )")[1];
-    }
-
 
 }
