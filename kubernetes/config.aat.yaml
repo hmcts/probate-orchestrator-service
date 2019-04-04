@@ -11,3 +11,4 @@ data:
   AUTH_IDAM_CLIENT_BASEURL : "https://preprod-idamapi.reform.hmcts.net:3511"
   SUBMIT_SERVICE_API_URL : "http://probate-submit-service-aat.service.core-compute-aat.internal"
   BUSINESS_SERVICE_API_URL : "http://probate-business-service-aat.service.core-compute-aat.internal"
+# test integration
