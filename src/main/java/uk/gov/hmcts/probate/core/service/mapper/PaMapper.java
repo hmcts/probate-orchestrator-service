@@ -71,7 +71,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "softStop", source = "declaration.softStop")
     @Mapping(target = "legalStatement", source = "declaration.legalStatement")
     @Mapping(target = "declaration", source = "declaration.declaration")
-    @Mapping(target = "declaration.declarationCheckbox", source = "declaration.declarationCheckbox")
+   // @Mapping(target = "declaration.declarationCheckbox", source = "declaration.declarationCheckbox")
     @Mapping(target = "executorsApplying", source = "executors.list", qualifiedBy = {ToExecutorApplyingCollectionMember.class})
     @Mapping(target = "executorsNotApplying", source = "executors.list", qualifiedBy = {ToExecutorNotApplyingCollectionMember.class})
     @Mapping(target = "numberOfApplicants", expression = "java(form.getExecutors() == null || form.getExecutors().getList() == null ? 0L : Long.valueOf(form.getExecutors().getList().size()))")
@@ -120,7 +120,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
         "grantOfRepresentationData.getOutsideUkGrantCopies() > 0L)")
     @Mapping(target = "deceased.addresses", source = "deceasedAddresses", qualifiedBy = {ToMap.class})
     @Mapping(target = "applicant.addresses", source = "primaryApplicantAddresses", qualifiedBy = {ToMap.class})
-    @Mapping(target = "declaration.declarationCheckbox", expression = "java(DeclarationMapper.getDeclarationCheckbox(grantOfRepresentationData.getDeclaration()))")
+//    @Mapping(target = "declaration.declarationCheckbox", expression = "java(DeclarationMapper.getDeclarationCheckbox(grantOfRepresentationData.getDeclaration()))")
     @InheritInverseConfiguration
     PaForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 
