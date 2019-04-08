@@ -86,7 +86,7 @@ withPipeline("java", product, component) {
                 }
             }
             } finally {
-                //steps.archiveArtifacts "build/reports/pitest/**/*.*"
+ //               //steps.archiveArtifacts "build/reports/pitest/**/*.*"
                 archiveArtifacts "build/reports/tests/**/*.*"
             }
 
