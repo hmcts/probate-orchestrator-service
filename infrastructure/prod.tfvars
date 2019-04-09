@@ -6,7 +6,7 @@ vault_section = "prod"
 packages_environment = "prod"
 packages_version = "3.0.0"
 
-capacity = "1"  //changed until internal memory to changed to persistence
+capacity = "2"
 
 idam_service_api  = "http://rpe-service-auth-provider-prod.service.core-compute-prod.internal"
 ccd_baseUrl = "http://ccd-data-store-api-prod.service.core-compute-prod.internal"
