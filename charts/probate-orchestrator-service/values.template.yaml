@@ -18,7 +18,13 @@ java:
     MAIL_JAVAMAILPROPERTIES_RECIPIENT: ${PROBATE_SUB_MAIL_REC}
     PACT_BROKER_URL: pact-broker.platform.hmcts.net
     PACT_BROKER_PORT: 80
+  tags:
+     - idam-pr
   # Don't modify below here
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
 
+idam-pr:
+  service:
+    name: Probate # this is the label (name) of the service as configured in IDAM. If unsure, see below.
+    redirect_uri: https://${SERVICE_FQDN}/oauth2/callback # this is the application callback URL where IDAM will send back the authentication code. SERVICE_FQDN is injected by Jenkins.
