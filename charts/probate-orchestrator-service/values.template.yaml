@@ -1,3 +1,6 @@
+tags:
+  - idam-pr
+
 java:
   applicationPort: 8888
   environment:
