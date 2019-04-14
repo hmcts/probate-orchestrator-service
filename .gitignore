@@ -21,3 +21,4 @@
 
 git.properties
 .gradle
+gradle/wrapper/gradle-wrapper\.properties
