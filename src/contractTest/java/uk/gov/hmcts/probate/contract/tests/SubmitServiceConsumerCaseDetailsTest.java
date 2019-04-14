@@ -19,6 +19,7 @@ import uk.gov.hmcts.probate.client.SubmitServiceApi;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.SubmitResult;
+import uk.gov.hmcts.reform.probate.model.client.ApiClientException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -240,7 +241,7 @@ public class SubmitServiceConsumerCaseDetailsTest {
     @Test
     @PactTestFor(pactMethod = "executeNotFoundGetCaseDataPact")
     public void verifyExecuteNotFoundGetCaseDataPact() {
-        assertThrows(FeignException.class, () -> {
+        assertThrows(ApiClientException.class, () -> {
             submitServiceApi.getCase(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, CaseType.GRANT_OF_REPRESENTATION.toString());
         });
 
@@ -258,7 +259,7 @@ public class SubmitServiceConsumerCaseDetailsTest {
     @Test
     @PactTestFor(pactMethod = "executePostSubmissionWithPreSubmitValidationErrorsDsl")
     public void verifyExecutePostSubmissionWithValidationErrorsDsl() throws IOException, JSONException {
-        assertThrows(FeignException.class, () -> {
+        assertThrows(ApiClientException.class, () -> {
             submitServiceApi.update(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, getProbateCaseDetails("intestacyGrantOfRepresentation_invalid_presubmit.json"));
         });
 
@@ -267,7 +268,7 @@ public class SubmitServiceConsumerCaseDetailsTest {
     @Test
     @PactTestFor(pactMethod = "executePostSubmissionWithValidationErrors")
     public void verifyExecutePostSubmissionWithValidationErrors() throws IOException, JSONException {
-        assertThrows(FeignException.class, () -> {
+        assertThrows(ApiClientException.class, () -> {
             submitServiceApi.update(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, getProbateCaseDetails("intestacyGrantOfRepresentation_invalid.json"));
         });
 
