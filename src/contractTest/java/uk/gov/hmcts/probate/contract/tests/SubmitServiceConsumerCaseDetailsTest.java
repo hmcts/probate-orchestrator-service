@@ -86,7 +86,7 @@ public class SubmitServiceConsumerCaseDetailsTest {
                 .matchQuery("caseType", CaseType.GRANT_OF_REPRESENTATION.toString())
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)
                 .willRespondWith()
-                .status(400)
+                .status(404)
                 .toPact();
         // @formatter:on
     }
