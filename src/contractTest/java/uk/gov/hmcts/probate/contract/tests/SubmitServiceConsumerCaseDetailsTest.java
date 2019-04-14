@@ -186,31 +186,49 @@ public class SubmitServiceConsumerCaseDetailsTest {
                 .status(400)
                 .matchHeader("Content-Type", "application/json;charset=UTF-8")
                 .body(newJsonBody((o) -> {
-                    o.stringValue("path", "/submissions/update/" + SOMEEMAILADDRESS_HOST_COM);
-                    o.stringType("timestamp");
-                    o.array("errors", (a) -> {
-                                a.object((e) -> e.stringValue("field", "caseData.deceasedForenames")
-                                        .booleanValue("bindingFailure", false)
-                                        .stringValue("code", "Size")
-                                        .array("codes", (c) -> {
-                                            c.stringValue("Size.probateCaseDetails.caseData.deceasedForenames")
-                                                    .stringValue("Size.caseData.deceasedForenames")
-                                                    .stringValue("Size.deceasedForenames")
-                                                    .stringValue("Size.java.lang.String")
-                                                    .stringValue("Size");
-                                        })
-                                        .stringValue("defaultMessage", "size must be between 2 and 2147483647")
-                                        .stringValue("rejectedValue", ("N")
-                                        ));
-                            }
-
-                    );
-                    o.stringValue("error", "Bad Request");
-                    o.numberValue("status", 400);
-                    o.stringValue("message", "Validation failed for object='probateCaseDetails'. Error count: 1");
+                    o.stringValue("type", "VALIDATION");
+                    o.array("errors",
+                            (a) -> a.object((e) ->
+                                    e.stringValue("field", "caseData.deceasedForenames")
+                                    .stringValue("code", "Size")
+                                    .stringValue("message", "size must be between 2 and 2147483647")));
                 }).build())
                 .toPact();
+    }
 
+    @Pact(state = "provider POSTS submission with errors",
+            provider = "probate_submitservice_submissions", consumer = "probate_orchestrator_service")
+    public RequestResponsePact ExecutePostSubmissionWithClientErrors(PactDslWithProvider builder) throws IOException, JSONException {
+        return builder
+                .given("provider POSTS submission with errors")
+                .uponReceiving("a request to POST an invalid submission with client errors")
+                .path("/submissions/update/" + SOMEEMAILADDRESS_HOST_COM)
+                .method("POST")
+                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)
+                .matchHeader("Content-Type", "application/json")
+                .body(createJsonObject("intestacyGrantOfRepresentation_invalid_PAAPCREATED.json"))
+                .willRespondWith()
+                .status(400)
+                .matchHeader("Content-Type", "application/json;charset=UTF-8")
+                .body(newJsonBody((o) -> {
+                    o.stringValue("type", "API_CLIENT");
+                    o.object("error", (e) ->
+                            e.stringType("exception")
+                            .numberType("status")
+                            .stringType("error")
+                            .stringType("path"));
+                }).build())
+                .toPact();
+    }
+
+    @Test
+    @PactTestFor(pactMethod = "ExecutePostSubmissionWithClientErrors")
+    public void verifyExecutePostSubmissionWithClientErrors() {
+        assertThrows(ApiClientException.class, () -> submitServiceApi.update(
+                SOME_AUTHORIZATION_TOKEN,
+                SOME_SERVICE_AUTHORIZATION_TOKEN,
+                SOMEEMAILADDRESS_HOST_COM,
+                getProbateCaseDetails("intestacyGrantOfRepresentation_invalid_PAAPCREATED.json")));
     }
 
 
