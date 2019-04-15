@@ -15,5 +15,6 @@ public interface PaymentMapper {
     CasePayment toCasePayment(Payment payment);
 
     @Mapping(target = "amount", qualifiedBy = {ToPennies.class})
+    @Mapping(target = "total", source = "amount", qualifiedBy = {ToPennies.class})
     Payment fromCasePayment(CasePayment casePayment);
 }

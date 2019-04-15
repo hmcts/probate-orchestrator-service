@@ -67,11 +67,11 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "primaryApplicantPhoneNumber", source = "applicant.phoneNumber")
     @Mapping(target = "primaryApplicantOtherReason", source = "applicant.otherReason")
     @Mapping(target = "registryLocation", source = "registry.name", qualifiedBy = {ToRegistryLocation.class})
-    @Mapping(target = "payments", source = "payments", qualifiedBy = {ToCollectionMember.class})
+    @Mapping(target = "payments", source = "payment", qualifiedBy = {ToCollectionMember.class})
     @Mapping(target = "softStop", source = "declaration.softStop")
     @Mapping(target = "legalStatement", source = "declaration.legalStatement")
     @Mapping(target = "declaration", source = "declaration.declaration")
-    @Mapping(target = "declaration.declarationCheckbox", source = "declaration.declarationCheckbox")
+    @Mapping(target = "declarationCheckbox", source = "declaration.declarationCheckbox")
     @Mapping(target = "executorsApplying", source = "executors.list", qualifiedBy = {ToExecutorApplyingCollectionMember.class})
     @Mapping(target = "executorsNotApplying", source = "executors.list", qualifiedBy = {ToExecutorNotApplyingCollectionMember.class})
     @Mapping(target = "numberOfApplicants", expression = "java(form.getExecutors() == null || form.getExecutors().getList() == null ? 0L : Long.valueOf(form.getExecutors().getList().size()))")
@@ -82,9 +82,13 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "ihtFormCompletedOnline", source = "iht.method", qualifiedBy = {FromIhtMethod.class})
     @Mapping(target = "ihtNetValue", source = "iht.netValue", qualifiedBy = {ToPennies.class})
     @Mapping(target = "ihtGrossValue", source = "iht.grossValue", qualifiedBy = {ToPennies.class})
-    @Mapping(target = "extraCopiesOfGrant", source = "copies.uk", defaultValue = "0L")
+    @Mapping(target = "extraCopiesOfGrant", source = "copies.uk")
     @Mapping(target = "outsideUkGrantCopies", expression = "java(form.getAssets() != null && BooleanUtils.isTrue(form.getAssets().getAssetsoverseas()) ? "
-        + "form.getCopies().getOverseas() : 0L)")
+        + "form.getCopies().getOverseas() : null)")
+    @Mapping(target = "legalDeclarationJson", source = "legalDeclaration", qualifiedBy = {FromMap.class})
+    @Mapping(target = "checkAnswersSummaryJson", source = "checkAnswersSummary", qualifiedBy = {FromMap.class})
+    @Mapping(target = "paymentPending", source = "paymentPending")
+    @Mapping(target = "creatingPayment", source = "creatingPayment")
     GrantOfRepresentationData toCaseData(PaForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.PA)")
@@ -117,7 +121,9 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
         "grantOfRepresentationData.getOutsideUkGrantCopies() > 0L)")
     @Mapping(target = "deceased.addresses", source = "deceasedAddresses", qualifiedBy = {ToMap.class})
     @Mapping(target = "applicant.addresses", source = "primaryApplicantAddresses", qualifiedBy = {ToMap.class})
-    @Mapping(target = "declaration.declarationCheckbox", expression = "java(DeclarationMapper.getDeclarationCheckbox(grantOfRepresentationData.getDeclaration()))")
+    @Mapping(target = "legalDeclaration", source = "legalDeclarationJson", qualifiedBy = {ToMap.class})
+    @Mapping(target = "checkAnswersSummary", source = "checkAnswersSummaryJson", qualifiedBy = {ToMap.class})
+    @Mapping(target = "payment", source = "payments", qualifiedBy = {FromCollectionMember.class})
     @InheritInverseConfiguration
     PaForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 
