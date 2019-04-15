@@ -22,6 +22,7 @@ import uk.gov.hmcts.reform.probate.model.forms.caveat.CaveatForm;
 public interface CaveatMapper extends FormMapper<CaveatData, CaveatForm> {
 
 
+    @Mapping(target = "applicationId", source = "applicationId")
     @Mapping(target = "applicationType", expression = "java(ApplicationType.PERSONAL)")
 
     @Mapping(target = "caveatorForenames", source = "applicant.firstName")

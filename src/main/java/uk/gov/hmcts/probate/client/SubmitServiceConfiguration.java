@@ -10,7 +10,7 @@ class SubmitServiceConfiguration {
 
     static final String SERVICE_AUTHORIZATION = "ServiceAuthorization";
 
-    static final String APPLICANT_EMAIL = "applicantEmail";
+    static final String APPLICATION_ID = "applicationId";
 
     @Bean
     @Primary
