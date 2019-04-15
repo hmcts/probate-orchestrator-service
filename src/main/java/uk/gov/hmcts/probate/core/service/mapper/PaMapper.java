@@ -76,6 +76,9 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "executorsNotApplying", source = "executors.list", qualifiedBy = {ToExecutorNotApplyingCollectionMember.class})
     @Mapping(target = "numberOfApplicants", expression = "java(form.getExecutors() == null || form.getExecutors().getList() == null ? 0L : Long.valueOf(form.getExecutors().getList().size()))")
     @Mapping(target = "numberOfExecutors", source = "executors.executorsNumber")
+    @Mapping(target = "executorsAllAlive", source = "executors.allalive")
+    @Mapping(target = "otherExecutorsApplying", source = "executors.otherExecutorsApplying")
+    @Mapping(target = "executorsHaveAlias", source = "executors.alias")
     @Mapping(target = "ihtReferenceNumber", expression = "java(form.getIht() != null && form.getIht().getMethod() == IhtMethod.ONLINE ? "
         + "form.getIht().getIdentifier() : \"Not applicable\")")
     @Mapping(target = "ihtFormId", source = "iht.ihtFormId")

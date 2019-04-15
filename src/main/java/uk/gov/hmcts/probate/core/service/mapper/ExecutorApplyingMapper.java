@@ -28,8 +28,6 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "otherReason", source = "value.applyingExecutorOtherReason")
     @Mapping(target = "isApplying", expression = "java(true)")
     @Mapping(target = "fullName", source = "value.applyingExecutorName")
-    @Mapping(target = "firstName", expression = "java(ExecutorNamesMapper.getFirstName(executorApplyingCollectionMember.getValue().getApplyingExecutorName()))")
-    @Mapping(target = "lastName", expression = "java(ExecutorNamesMapper.getLastName(executorApplyingCollectionMember.getValue().getApplyingExecutorName()))")
     @InheritInverseConfiguration
     Executor fromExecutorApplying(CollectionMember<ExecutorApplying> executorApplyingCollectionMember);
 }
