@@ -100,8 +100,7 @@ public class SubmitServiceImpl implements SubmitService {
         String identifierInForm = Optional.of(formIdentifierFunctionMap.get(form.getType()))
             .orElseThrow(IllegalArgumentException::new)
             .apply(form);
-        Assert.isTrue(form.getApplicant() != null
-                && identifierInForm != null && identifierInForm.equals(identifier),
+        Assert.isTrue(identifierInForm != null && identifierInForm.equals(identifier),
             "Path variable identifier must match identifier in form");
     }
 
