@@ -19,7 +19,7 @@ public class MapConverter {
     private final ObjectMapper objectMapper;
 
     @FromMap
-    public String fromMap(List<Map<String, String>> maps) throws JsonProcessingException {
+    public String fromMapList(List<Map<String, Object>> maps) throws JsonProcessingException {
         if (maps == null) {
             return null; //NOSONAR
         }
@@ -27,11 +27,28 @@ public class MapConverter {
     }
 
     @ToMap
-    public List<Map<String, String>> toMap(String mapStr) throws IOException {
+    public List<Map<String, Object>> toMapList(String mapStr) throws IOException {
         if (mapStr == null) {
             return null; //NOSONAR
         }
-        return objectMapper.readValue(mapStr, new TypeReference<List<Map<String, String>>>() {
+        return objectMapper.readValue(mapStr, new TypeReference<List<Map<String, Object>>>() {
+        });
+    }
+
+    @FromMap
+    public String fromMap(Map<String, Object> map) throws JsonProcessingException {
+        if (map == null) {
+            return null; //NOSONAR
+        }
+        return objectMapper.writeValueAsString(map);
+    }
+
+    @ToMap
+    public Map<String, Object> toMap(String mapStr) throws IOException {
+        if (mapStr == null) {
+            return null; //NOSONAR
+        }
+        return objectMapper.readValue(mapStr, new TypeReference<Map<String, Object>>() {
         });
     }
 }

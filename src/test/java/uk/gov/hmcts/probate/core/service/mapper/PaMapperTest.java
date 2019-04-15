@@ -77,8 +77,6 @@ public class PaMapperTest {
         expectedGrantOfRepresentation.setGrantType(GrantType.GRANT_OF_PROBATE);
         expectedGrantOfRepresentation.setApplicationSubmittedDate(LocalDate.now());
         expectedGrantOfRepresentation.setNumberOfApplicants(0L);
-        expectedGrantOfRepresentation.setExtraCopiesOfGrant(0L);
-        expectedGrantOfRepresentation.setOutsideUkGrantCopies(0L);
         expectedGrantOfRepresentation.setIhtReferenceNumber("Not applicable");
         GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(new PaForm());
         Assert.assertThat(actualGrantOfRepresentation, equalTo(expectedGrantOfRepresentation));
@@ -91,7 +89,9 @@ public class PaMapperTest {
         PaForm expectedPaForm = new PaForm();
         expectedPaForm.setType(ProbateType.PA);
         expectedPaForm.setCopies(new Copies());
-        expectedPaForm.setAssets(new PaAssets());
+        PaAssets paAssets = new PaAssets();
+        paAssets.setAssetsoverseas(false);
+        expectedPaForm.setAssets(paAssets);
         expectedPaForm.setIht(new InheritanceTax());
         expectedPaForm.setRegistry(new Registry());
         expectedPaForm.setApplicant(new PaApplicant());

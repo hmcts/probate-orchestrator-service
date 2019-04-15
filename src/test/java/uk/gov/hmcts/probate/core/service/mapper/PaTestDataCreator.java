@@ -47,10 +47,10 @@ public class PaTestDataCreator {
     private static final BigDecimal NET_VALUE = new BigDecimal("20000.00");
     private static final BigDecimal GROSS_VALUE = new BigDecimal("20000.00");
     private static final String IDENTIFIER = "IHT1234567";
-    private static final long OVERSEAS = 0L;
-    private static final long UK = 1L;
+    private static final Long OVERSEAS = null;
+    private static final Long UK = 1L;
     private static final boolean CODICILS = true;
-    private static final long ID = 1551365512754035L;
+    private static final Long ID = 1551365512754035L;
     private static final String STATE = "CaseCreated";
     private static final java.util.Date PAYMENT_DATE = Date.from(LocalDate.of(2019, 2, 28).atStartOfDay().toInstant(ZoneOffset.UTC));
     private static final BigDecimal AMOUNT = new BigDecimal("215.50");
