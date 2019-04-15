@@ -37,20 +37,43 @@
     "primaryApplicantPhoneNumber": "07951058088",
     "willHasCodicils": "No",
     "willNumberOfCodicils": 1,
-    "numberOfExecutors": 1,
+    "executorsHaveAlias": "Yes",
+    "executorsAllAlive": "Yes",
+    "otherExecutorsApplying" : "No",
+    "numberOfExecutors": 2,
     "executorsApplying": [
       {
+        "id": "f55172d2-4ee8-4223-a0df-2ad726f671cb",
         "value": {
+          "applyingExecutorName": "Jackie Smith",
           "applyingExecutorAddress": {}
+        }
+      },
+      {
+        "id": "54aa9b24-a953-4b68-aa92-f1a491990076",
+        "value": {
+          "applyingExecutorName": "Graham Smith",
+          "applyingExecutorPhoneNumber": "079898989898",
+          "applyingExecutorEmail": "anotheremail@address.com",
+          "applyingExecutorAddress": {
+            "AddressLine1": "12 West End Avenue"
+          },
+          "applyingExecutorOtherNames": "Graham Poll",
+          "applyingExecutorOtherNamesReason": "Divorce"
         }
       }
     ],
-    "executorsNotApplying": [],
+    "executorsNotApplying": [
+    ],
     "numberOfApplicants": 1,
     "outsideUKGrantCopies": 0,
     "caseType": "gop",
     "declaration":{
       "declarationCheckbox" : "Yes"
     }
+  },
+  "caseInfo": {
+    "caseId": "1535574519543819",
+    "state": "Draft"
   }
 }
