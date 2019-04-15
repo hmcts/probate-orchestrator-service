@@ -215,7 +215,6 @@ public class IntestacyTestDataCreator {
         grantOfRepresentation.setIhtReferenceNumber(IHT_IDENTIFIER);
 
         Declaration declaration = new Declaration();
-        declaration.setDeclarationCheckbox(Boolean.FALSE);
         grantOfRepresentation.setDeclaration(declaration);
 
         grantOfRepresentation.setExtraCopiesOfGrant(COPIES_UK);
