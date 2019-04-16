@@ -43,6 +43,8 @@
     "method": "Through the HMRC online service",
     "netValue": 100000,
     "grossValue": 100000,
+    "netValueOnline" : "100000",
+    "grossValueOnline": "100000",
     "identifier": "GOT123456"
   },
   "assets": {

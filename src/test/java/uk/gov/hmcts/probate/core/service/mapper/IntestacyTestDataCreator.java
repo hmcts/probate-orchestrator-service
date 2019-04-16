@@ -121,9 +121,6 @@ public class IntestacyTestDataCreator {
                 .otherNames(createAliasMap())
                 .spouseNotApplyingReason(SpouseNotApplyingReason.MENTALLY_INCAPABLE)
                 .build())
-            .declaration(IntestacyDeclaration.builder()
-                .declarationAgreement(Boolean.FALSE)
-                .build())
             .iht(InheritanceTax.builder()
                 .form(IhtFormType.IHT205)
                 .grossValue(GROSS_VALUE)
@@ -213,10 +210,6 @@ public class IntestacyTestDataCreator {
         grantOfRepresentation.setIhtGrossValue(GROSS_VALUE_LONG);
         grantOfRepresentation.setIhtNetValue(NET_VALUE_LONG);
         grantOfRepresentation.setIhtReferenceNumber(IHT_IDENTIFIER);
-
-        Declaration declaration = new Declaration();
-        declaration.setDeclarationCheckbox(Boolean.FALSE);
-        grantOfRepresentation.setDeclaration(declaration);
 
         grantOfRepresentation.setExtraCopiesOfGrant(COPIES_UK);
         grantOfRepresentation.setOutsideUkGrantCopies(COPIES_OVERSEAS);
