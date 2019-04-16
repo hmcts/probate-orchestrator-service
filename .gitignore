@@ -16,6 +16,9 @@
 *.iws
 *.iml
 *.ipr
+*.plantuml
+*.puml
+
 
 .DS_store
 

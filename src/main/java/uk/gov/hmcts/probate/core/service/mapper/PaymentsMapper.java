@@ -1,6 +1,7 @@
 package uk.gov.hmcts.probate.core.service.mapper;
 
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
@@ -21,7 +22,7 @@ public class PaymentsMapper {
 
     @ToCollectionMember
     public List<CollectionMember<CasePayment>> toCasePaymentCollectionMembers(List<Payment> payments) {
-        if (payments == null) {
+        if (CollectionUtils.isEmpty(payments)) {
             return null;//NOSONAR
         }
         return payments.stream()
@@ -38,7 +39,7 @@ public class PaymentsMapper {
 
     @FromCollectionMember
     public List<Payment> fromCasePaymentCollectionMembers(List<CollectionMember<CasePayment>> collectionMembers) {
-        if (collectionMembers == null) {
+        if (CollectionUtils.isEmpty(collectionMembers)) {
             return null;//NOSONAR
         }
         return collectionMembers.stream()

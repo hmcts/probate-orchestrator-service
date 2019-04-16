@@ -41,8 +41,10 @@ public class SubmitServiceImpl implements SubmitService {
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
         ProbateCaseDetails probateCaseDetails = submitServiceApi.getCase(authorisation,
-            serviceAuthorisation, identifier, probateType.getCaseType().getName());
-        return formMapper.fromCaseData(probateCaseDetails.getCaseData());
+            serviceAuthorisation, identifier, probateType.getCaseType().name());
+        Form form = formMapper.fromCaseData(probateCaseDetails.getCaseData());
+        updateCcdCase(probateCaseDetails, form);
+        return form;
     }
 
     @Override
@@ -50,11 +52,14 @@ public class SubmitServiceImpl implements SubmitService {
         log.info("Save draft called");
         assertIdentifier(identifier, form);
         FormMapper formMapper = mappers.get(form.getType());
+
+        ProbateCaseDetails pcdEntered = ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build();
+
         ProbateCaseDetails probateCaseDetails = submitServiceApi.saveDraft(
             securityUtils.getAuthorisation(),
             securityUtils.getServiceAuthorisation(),
             identifier,
-            ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
+            pcdEntered
         );
         return mapFromCase(formMapper, probateCaseDetails);
     }
@@ -64,12 +69,14 @@ public class SubmitServiceImpl implements SubmitService {
         log.info("Submit called for");
         assertIdentifier(identifier, form);
         FormMapper formMapper = mappers.get(form.getType());
+        ProbateCaseDetails probateCaseDetails = ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build();
+
         log.debug("calling submit on submitserviceapi");
         SubmitResult submitResult = submitServiceApi.submit(
             securityUtils.getAuthorisation(),
             securityUtils.getServiceAuthorisation(),
-            identifier,
-            ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
+            identifier, probateCaseDetails
+
         );
         return mapFromCase(formMapper, submitResult.getProbateCaseDetails());
     }
@@ -81,10 +88,10 @@ public class SubmitServiceImpl implements SubmitService {
         FormMapper formMapper = mappers.get(form.getType());
         log.debug("calling update on submitserviceapi");
         SubmitResult submitResult = submitServiceApi.update(
-                securityUtils.getAuthorisation(),
-                securityUtils.getServiceAuthorisation(),
-                identifier,
-                ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
+            securityUtils.getAuthorisation(),
+            securityUtils.getServiceAuthorisation(),
+            identifier,
+            ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
         );
         return mapFromCase(formMapper, submitResult.getProbateCaseDetails());
     }
