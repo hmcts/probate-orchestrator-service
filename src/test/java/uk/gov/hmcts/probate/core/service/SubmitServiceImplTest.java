@@ -135,13 +135,13 @@ public class SubmitServiceImplTest {
     @Test
     public void shouldGetCaveatForm() {
         when(submitServiceApi.getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
-                CAVEAT_IDENTIFIER, CaseType.CAVEAT.getName())).thenReturn(caveatCaseDetails);
+                CAVEAT_IDENTIFIER, CaseType.CAVEAT.name())).thenReturn(caveatCaseDetails);
 
         Form formResponse = submitService.getCase(CAVEAT_IDENTIFIER, ProbateType.CAVEAT);
 
         assertThat(formResponse, is(caveatForm));
         verify(submitServiceApi, times(1)).getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
-                CAVEAT_IDENTIFIER, CaseType.CAVEAT.getName());
+                CAVEAT_IDENTIFIER, CaseType.CAVEAT.name());
         verify(securityUtils, times(1)).getAuthorisation();
         verify(securityUtils, times(1)).getServiceAuthorisation();
     }
