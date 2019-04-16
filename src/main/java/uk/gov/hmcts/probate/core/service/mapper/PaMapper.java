@@ -30,7 +30,7 @@ import uk.gov.hmcts.reform.probate.model.forms.pa.PaForm;
 import java.time.LocalDate;
 
 
-@Mapper(componentModel = "spring", uses = {PaymentsMapper.class, AliasNameMapper.class, RegistryLocationMapper.class,
+@Mapper(componentModel = "spring", uses = {PaPaymentMapper.class, AliasNameMapper.class, RegistryLocationMapper.class,
     PoundsConverter.class, IhtMethodConverter.class, LegalStatementMapper.class, ExecutorsMapper.class,
     ExecutorApplyingMapper.class, ExecutorNotApplyingMapper.class, MapConverter.class, LocalDateTimeMapper.class},
     imports = {ApplicationType.class, GrantType.class, ProbateType.class, IhtMethod.class,
@@ -67,7 +67,6 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "primaryApplicantPhoneNumber", source = "applicant.phoneNumber")
     @Mapping(target = "primaryApplicantOtherReason", source = "applicant.otherReason")
     @Mapping(target = "registryLocation", source = "registry.name", qualifiedBy = {ToRegistryLocation.class})
-    @Mapping(target = "payments", source = "payment", qualifiedBy = {ToCollectionMember.class})
     @Mapping(target = "softStop", source = "declaration.softStop")
     @Mapping(target = "legalStatement", source = "declaration.legalStatement")
     @Mapping(target = "declaration", source = "declaration.declaration")
@@ -92,6 +91,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "checkAnswersSummaryJson", source = "checkAnswersSummary", qualifiedBy = {FromMap.class})
     @Mapping(target = "paymentPending", source = "paymentPending")
     @Mapping(target = "creatingPayment", source = "creatingPayment")
+    @Mapping(target = "payments", source = "payment", qualifiedBy = {ToCollectionMember.class})
     GrantOfRepresentationData toCaseData(PaForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.PA)")
@@ -127,6 +127,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "legalDeclaration", source = "legalDeclarationJson", qualifiedBy = {ToMap.class})
     @Mapping(target = "checkAnswersSummary", source = "checkAnswersSummaryJson", qualifiedBy = {ToMap.class})
     @Mapping(target = "payment", source = "payments", qualifiedBy = {FromCollectionMember.class})
+    @Mapping(target = "payments", ignore = true)
     @InheritInverseConfiguration
     PaForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 

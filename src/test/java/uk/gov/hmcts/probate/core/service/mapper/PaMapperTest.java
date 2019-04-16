@@ -53,7 +53,7 @@ public class PaMapperTest {
     }
 
     @Test
-    public void shouldMapGrantOfRepresentationToGrantOfPaForm() {
+    public void shouldMapGrantOfRepresentationToPaForm() {
         PaForm actualPaForm = mapper.fromCaseData(grantOfRepresentation);
         assertThat(actualPaForm).isEqualToComparingFieldByFieldRecursively(paForm);
     }
@@ -90,7 +90,7 @@ public class PaMapperTest {
         expectedPaForm.setType(ProbateType.PA);
         expectedPaForm.setCopies(new Copies());
         PaAssets paAssets = new PaAssets();
-        paAssets.setAssetsoverseas(false);
+        paAssets.setAssetsoverseas(null);
         expectedPaForm.setAssets(paAssets);
         expectedPaForm.setIht(new InheritanceTax());
         expectedPaForm.setRegistry(new Registry());
