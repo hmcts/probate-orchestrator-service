@@ -62,6 +62,7 @@ abstract public class ControllerProviderTest {
     @MockBean
     private RequestAuthorizer<User> userRequestAuthorizer;
 
+
     private Service service;
 
     @Before
@@ -73,6 +74,8 @@ abstract public class ControllerProviderTest {
         User user = new User("123", new HashSet<>());
         when(userRequestAuthorizer.authorise(any(HttpServletRequest.class))).thenReturn(user);
         System.getProperties().setProperty("pact.verifier.publishResults", "true");
+
+
     }
 
     protected JSONObject createJsonObject(String fileName) throws JSONException, IOException {

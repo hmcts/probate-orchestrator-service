@@ -48,7 +48,7 @@ public class SubmitServiceSubmissionValidationConsumerTest {
         // @formatter:off
         return builder
                 .given("provider PUTS submission with validation errors")
-                .uponReceiving("a request to POST an invalid submission")
+                .uponReceiving("a request to PUT an invalid submission")
                 .path("/submissions/" + SOMEEMAILADDRESS_HOST_COM)
                 .method("PUT")
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)

@@ -44,12 +44,12 @@ public class SubmitServiceSubmissionConsumerTest {
     private String SERVICE_AUTHORIZATION = "ServiceAuthorization";
 
 
-    @Pact(state = "provider PUTs submission with success", provider = "probate_submitservice_submissions", consumer = "probate_orchestrator_service")
+    @Pact(state = "provider PUTS submission with success", provider = "probate_submitservice_submissions", consumer = "probate_orchestrator_service")
     public RequestResponsePact executePostSubmissionWithSuccessPact(PactDslWithProvider builder) throws IOException, JSONException {
         // @formatter:off
 
         return builder
-                .given("provider PUTs submission with success")
+                .given("provider PUTS submission with success")
                 .uponReceiving("a request to POST submission")
                 .path("/submissions/" + SOMEEMAILADDRESS_HOST_COM)
                 .method("PUT")
