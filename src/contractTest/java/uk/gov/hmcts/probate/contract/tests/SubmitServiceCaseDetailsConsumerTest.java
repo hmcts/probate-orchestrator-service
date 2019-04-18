@@ -51,7 +51,7 @@ public class SubmitServiceCaseDetailsConsumerTest {
 
         return builder
                 .given("provider returns casedata with success")
-                .uponReceiving("a request to GET casedata")
+                .uponReceiving("a request to GET casedata with success")
                 .path("/cases/" + SOMEEMAILADDRESS_HOST_COM)
                 .method("GET")
                 .matchQuery("caseType", CaseType.GRANT_OF_REPRESENTATION.toString())
@@ -70,7 +70,7 @@ public class SubmitServiceCaseDetailsConsumerTest {
 
         return builder
                 .given("provider returns casedata not found")
-                .uponReceiving("a request to GET casedata")
+                .uponReceiving("a request to GET casedata not found")
                 .path("/cases/" + SOMEEMAILADDRESS_HOST_COM)
                 .method("GET")
                 .matchQuery("caseType", CaseType.GRANT_OF_REPRESENTATION.toString())

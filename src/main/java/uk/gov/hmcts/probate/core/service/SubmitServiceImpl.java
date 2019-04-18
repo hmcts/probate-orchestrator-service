@@ -1,5 +1,7 @@
 package uk.gov.hmcts.probate.core.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -54,7 +56,7 @@ public class SubmitServiceImpl implements SubmitService {
         FormMapper formMapper = mappers.get(form.getType());
 
         ProbateCaseDetails pcdEntered = ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build();
-
+        String pcdString  = outputAsString(pcdEntered);
         ProbateCaseDetails probateCaseDetails = submitServiceApi.saveDraft(
             securityUtils.getAuthorisation(),
             securityUtils.getServiceAuthorisation(),
@@ -70,6 +72,7 @@ public class SubmitServiceImpl implements SubmitService {
         assertIdentifier(identifier, form);
         FormMapper formMapper = mappers.get(form.getType());
         ProbateCaseDetails probateCaseDetails = ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build();
+        String pcdString  = outputAsString(probateCaseDetails);
 
         log.debug("calling submit on submitserviceapi");
         SubmitResult submitResult = submitServiceApi.submit(
@@ -87,11 +90,13 @@ public class SubmitServiceImpl implements SubmitService {
         assertIdentifier(identifier, form);
         FormMapper formMapper = mappers.get(form.getType());
         log.debug("calling update on submitserviceapi");
+        ProbateCaseDetails pcd = ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build();
+        String pcdString  = outputAsString(pcd);
         SubmitResult submitResult = submitServiceApi.update(
             securityUtils.getAuthorisation(),
             securityUtils.getServiceAuthorisation(),
             identifier,
-            ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
+                pcd
         );
         return mapFromCase(formMapper, submitResult.getProbateCaseDetails());
     }
@@ -138,5 +143,28 @@ public class SubmitServiceImpl implements SubmitService {
         Form formResponse = formMapper.fromCaseData(probateCaseDetails.getCaseData());
         updateCcdCase(probateCaseDetails, formResponse);
         return formResponse;
+    }
+
+    private String outputAsString(Form form) {
+        ObjectMapper mapper = new ObjectMapper();
+        String s = null;
+        try {
+            s = mapper.writeValueAsString(form);
+        } catch (JsonProcessingException e) {
+
+        }
+        return s;
+    }
+
+
+    private String outputAsString(ProbateCaseDetails pcdEntered) {
+        ObjectMapper mapper = new ObjectMapper();
+        String s = null;
+        try {
+            s = mapper.writeValueAsString(pcdEntered);
+        } catch (JsonProcessingException e) {
+
+        }
+        return s;
     }
 }

@@ -29,7 +29,7 @@ public class IntestacySubmissionsFormsControllerProviderTest extends ControllerP
         when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorisationId");
         ProbateCaseDetails probateCaseDetails = getProbateCaseDetails("intestacyGrantOfRepresentation_submission.json");
         ProbateCaseDetails probateCaseDetailsResponse = getProbateCaseDetails("intestacyGrantOfRepresentation_submission_response.json");
-        when(submitServiceApi.submit("someAuthorisationId", "someServiceAuthorisationId", "someemailaddress@host.com", probateCaseDetails)).thenReturn(new SubmitResult(probateCaseDetailsResponse, null));
+        when(submitServiceApi.update("someAuthorisationId", "someServiceAuthorisationId", "someemailaddress@host.com", probateCaseDetails)).thenReturn(new SubmitResult(probateCaseDetailsResponse, null));
 }
 
 

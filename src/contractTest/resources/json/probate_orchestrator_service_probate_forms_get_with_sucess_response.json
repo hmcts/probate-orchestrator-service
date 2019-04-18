@@ -40,7 +40,7 @@
     "numberOfExecutors": 2,
     "executorsHaveAlias": "Yes",
     "executorsAllAlive": "Yes",
-    "otherExecutorsApplying" : "No",
+    "otherExecutorsApplying": "No",
     "executorsApplying": [
       {
         "id": "54aa9b24-a953-4b68-aa92-f1a491990076",
@@ -68,8 +68,10 @@
     "numberOfApplicants": 1,
     "outsideUKGrantCopies": 0,
     "caseType": "gop",
-    "declaration":{
-      "declarationCheckbox" : "Yes"
-    }
+    "declarationCheckbox": "Yes"
+  },
+  "caseInfo": {
+    "caseId": "1535574519543819",
+    "state": "Draft"
   }
 }
