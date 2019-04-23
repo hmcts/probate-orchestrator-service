@@ -63,11 +63,8 @@
     ],
     "executorsNotApplying": [
     ],
-    "declaration": {
-      "declarationCheckbox": "Yes"
-    },
+    "declarationCheckbox": "Yes",
     "numberOfApplicants": 2,
-    "outsideUKGrantCopies": 0,
     "caseType": "gop"
   }
 }
