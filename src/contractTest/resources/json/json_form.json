@@ -1,64 +1,69 @@
 {
-  "caseData":{
-    "type":"GrantOfRepresentation",
-    "applicationType":"Personal",
-    "primaryApplicantEmailAddress":"someemailaddress@host.com",
-    "registryLocation":"Birmingham",
-    "extraCopiesOfGrant":5,
-    "deceasedDomicileInEngWales":"Yes",
-    "deceasedAddress":{
-      "AddressLine1":"Winterfell, Westeros",
-      "PostCode":"SW17 0QT"
+  "caseData": {
+    "type": "GrantOfRepresentation",
+    "applicationType": "Personal",
+    "primaryApplicantEmailAddress": "someemailaddress@host.com",
+    "applicationSubmittedDate": "2019-04-18",
+    "extraCopiesOfGrant": 0,
+    "deceasedAddress": {
+      "AddressLine1": "12 Nowhere Road\r\nNotown"
     },
-    "deceasedFreeTextAddress":"Winterfell, Westeros",
-    "deceasedAddressFound":"Yes",
-    "deceasedForenames":"Ned",
-    "deceasedSurname":"Stark",
-    "deceasedDateOfDeath":"2018-01-01",
-    "deceasedDateOfBirth":"1930-01-01",
-    "deceasedMartialStatus":"marriedCivilPartnership",
-    "deceasedAnyOtherNames":"Yes",
-    "deceasedAliasNameList":[
+    "deceasedAddressFound": "No",
+    "deceasedMarriedAfterWillOrCodicilDate": "Yes",
+    "deceasedForenames": "Bob",
+    "deceasedSurname": "Smith",
+    "deceasedDateOfDeath": "2018-02-12",
+    "deceasedDateOfBirth": "1939-02-12",
+    "deceasedAnyOtherNames": "Yes",
+    "deceasedAliasNameList": [
       {
-        "value":{
-          "Forenames":"King",
-          "LastName":"North"
+        "value": {
+          "Forenames": "Bobby",
+          "LastName": "Smith"
         }
       }
     ],
-    "deceasedSpouseNotApplyingReason":"mentallyIncapable",
-    "deceasedDivorcedInEnglandOrWales":"No",
-    "deceasedOtherChildren":"Yes",
-    "deceasedAnyChildren":"No",
-    "childrenDied":"No",
-    "childrenOverEighteenSurvived":"Yes",
-    "grandChildrenSurvivedUnderEighteen":"No",
-    "ihtFormId":"IHT205",
-    "ihtFormCompletedOnline":"Yes",
-    "ihtNetValue":"10000000",
-    "ihtGrossValue":"10000000",
-    "ihtReferenceNumber":"GOT123456",
-    "primaryApplicantAddress":{
-      "AddressLine1":"Pret a Manger St. Georges Hospital Blackshaw Road London SW17 0QT",
-      "PostCode":"SW17 0QT"
+    "ihtFormId": "IHT205",
+    "ihtFormCompletedOnline": "No",
+    "ihtNetValue": "900001",
+    "ihtGrossValue": "1000001",
+    "ihtReferenceNumber": "Not applicable",
+    "primaryApplicantAddress": {
+      "AddressLine1": "12 Nowhere Avenue\r\nLondon"
     },
-    "primaryApplicantFreeTextAddress":"Pret a Manger St. Georges Hospital Blackshaw Road",
-    "primaryApplicantAddressFound":"Yes",
-    "primaryApplicantForenames":"Jon",
-    "primaryApplicantSurname":"Snow",
-    "primaryApplicantPhoneNumber":"123455678",
-    "primaryApplicantRelationshipToDeceased":"adoptedChild",
-    "primaryApplicantAdoptionInEnglandOrWales":"Yes",
-    "declaration":{
-      "declarationCheckbox":"Yes"
-    },
-    "deceasedHasAssetsOutsideUK":"Yes",
-    "assetsOverseasNetValue":"10050",
-    "uploadDocumentUrl":"http://document-management/document/12345",
-    "registryAddress":"Line 1 Bham\nLine 2 Bham\nLine 3 Bham\nPostCode Bham",
-    "registryEmail":"birmingham@email.com",
-    "registrySequenceNumber":"20075",
-    "outsideUKGrantCopies":6,
-    "caseType":"intestacy"
+    "primaryApplicantForenames": "Jackie",
+    "primaryApplicantSurname": "Smith",
+    "primaryApplicantSameWillName": "Yes",
+    "primaryApplicantPhoneNumber": "07951058088",
+    "willHasCodicils": "No",
+    "willNumberOfCodicils": 1,
+    "numberOfExecutors": 2,
+    "executorsAllAlive": "Yes",
+    "otherExecutorsApplying": "No",
+    "executorsHaveAlias": "Yes",
+    "executorsApplying": [
+      {
+        "value": {
+          "applyingExecutorName": "Graham Smith",
+          "applyingExecutorPhoneNumber": "079898989898",
+          "applyingExecutorEmail": "anotheremail@address.com",
+          "applyingExecutorAddress": {
+            "AddressLine1": "12 West End Avenue"
+          },
+          "applyingExecutorOtherNames": "Graham Poll",
+          "applyingExecutorOtherNamesReason": "Divorce"
+        }
+      },
+      {
+        "value": {
+          "applyingExecutorName": "Jackie Smith",
+          "applyingExecutorAddress": {}
+        }
+      }
+    ],
+    "executorsNotApplying": [],
+    "numberOfApplicants": 2,
+    "declarationCheckbox": "Yes",
+    "caseType": "gop"
   }
 }

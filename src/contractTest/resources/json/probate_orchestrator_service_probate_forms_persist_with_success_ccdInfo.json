@@ -68,9 +68,7 @@
     "numberOfApplicants": 1,
     "outsideUKGrantCopies": 0,
     "caseType": "gop",
-    "declaration":{
-      "declarationCheckbox" : "Yes"
-    }
+    "declarationCheckbox" : "Yes"
   },
   "caseInfo": {
     "caseId": "1535574519543819",
