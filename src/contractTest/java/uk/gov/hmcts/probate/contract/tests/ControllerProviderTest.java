@@ -22,7 +22,7 @@ import java.nio.file.Files;
 
 @RunWith(SpringRestPactRunner.class)
 @ExtendWith(SpringExtension.class)
-@PactBroker(scheme = "${pact.broker.scheme}", host = "${pact.broker.baseUrl}", port = "${pact.broker.port}", tags={"${pact.broker.consumer.tag}", "latest", "master"})
+@PactBroker(scheme = "${pact.broker.scheme}", host = "${pact.broker.baseUrl}", port = "${pact.broker.port}", tags={"${pact.broker.consumer.tag}", "master"})
 @IgnoreNoPactsToVerify
 abstract public class ControllerProviderTest {
 
