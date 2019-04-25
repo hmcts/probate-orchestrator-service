@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -65,6 +66,9 @@ abstract public class ControllerProviderTest {
 
     private Service service;
 
+    @Value("${pact.broker.version}")
+    private String providerVersion;
+
     @Before
     public void setUpTest() {
 
@@ -74,8 +78,7 @@ abstract public class ControllerProviderTest {
         User user = new User("123", new HashSet<>());
         when(userRequestAuthorizer.authorise(any(HttpServletRequest.class))).thenReturn(user);
         System.getProperties().setProperty("pact.verifier.publishResults", "true");
-
-
+        System.getProperties().setProperty("pact.provider.version", providerVersion);
     }
 
     protected JSONObject createJsonObject(String fileName) throws JSONException, IOException {
