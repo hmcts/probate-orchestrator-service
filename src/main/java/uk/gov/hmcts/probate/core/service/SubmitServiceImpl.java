@@ -82,17 +82,15 @@ public class SubmitServiceImpl implements SubmitService {
     }
 
     @Override
-    public Form update(String identifier, Form form) {
-        log.info("Update called for");
-        assertIdentifier(identifier, form);
-        FormMapper formMapper = mappers.get(form.getType());
+    public Form update(String identifier, ProbateType probateType) {
         log.debug("calling update on submitserviceapi");
         SubmitResult submitResult = submitServiceApi.update(
             securityUtils.getAuthorisation(),
             securityUtils.getServiceAuthorisation(),
             identifier,
-            ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
+            probateType.getCaseType().name()
         );
+        FormMapper formMapper = mappers.get(probateType);
         return mapFromCase(formMapper, submitResult.getProbateCaseDetails());
     }
 

@@ -93,10 +93,10 @@ public class FormsController {
     @PutMapping(path = FORMS_ENDPOINT + SUBMISSIONS_ENDPOINT,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Form> updateForm(@RequestBody Form form,
-                                           @PathVariable("identifier") String identifier) {
+    public ResponseEntity<Form> updateForm(@PathVariable("identifier") String identifier,
+                                           @RequestParam("probateType") ProbateType probateType) {
         log.info("Submit form called");
-        return new ResponseEntity<>(submitService.update(identifier, form), HttpStatus.OK);
+        return new ResponseEntity<>(submitService.update(identifier, probateType), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Update payments", notes = "Update payments")

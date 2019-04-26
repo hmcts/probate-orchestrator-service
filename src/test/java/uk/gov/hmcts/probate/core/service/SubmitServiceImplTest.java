@@ -32,6 +32,7 @@ import java.util.Map;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -207,23 +208,23 @@ public class SubmitServiceImplTest {
 
     @Test
     public void shouldUpdateCaveatForm() {
-        shouldUpdatetForm(caveatForm, caveatCaseDetails, CAVEAT_IDENTIFIER);
+        shouldUpdateForm(caveatForm, caveatCaseDetails, CAVEAT_IDENTIFIER);
     }
 
     @Test
     public void shouldUpdateIntestacyForm() {
-        shouldUpdatetForm(intestacyForm, intestacyCaseDetails, EMAIL_ADDRESS);
+        shouldUpdateForm(intestacyForm, intestacyCaseDetails, EMAIL_ADDRESS);
     }
 
-    private void shouldUpdatetForm(Form form, ProbateCaseDetails caseDetails, String identifier) {
+    private void shouldUpdateForm(Form form, ProbateCaseDetails caseDetails, String identifier) {
         when(submitServiceApi.update(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-                eq(identifier), any(ProbateCaseDetails.class))).thenReturn(new SubmitResult(caseDetails, null));
+                eq(identifier), anyString())).thenReturn(new SubmitResult(caseDetails, null));
 
-        Form formResponse = submitService.update(identifier, form);
+        Form formResponse = submitService.update(identifier, form.getType());
 
         assertThat(formResponse, is(form));
         verify(submitServiceApi, times(1)).update(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-                eq(identifier), any(ProbateCaseDetails.class));
+                eq(identifier), anyString());
         verify(securityUtils, times(1)).getAuthorisation();
         verify(securityUtils, times(1)).getServiceAuthorisation();
     }
