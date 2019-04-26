@@ -85,22 +85,24 @@ public class FormsControllerTest {
 
     @Test
     public void shouldUpdateForm() throws Exception {
-        when(submitService.update(eq(EMAIL_ADDRESS), eq(intestacyForm))).thenReturn(intestacyForm);
-        when(submitService.update(eq(EMAIL_ADDRESS), eq(caveatForm))).thenReturn(caveatForm);
+        when(submitService.update(eq(EMAIL_ADDRESS), eq(ProbateType.INTESTACY))).thenReturn(intestacyForm);
+        when(submitService.update(eq(EMAIL_ADDRESS), eq(ProbateType.CAVEAT))).thenReturn(caveatForm);
 
         mockMvc.perform(put(FORMS_ENDPOINT + "/" + EMAIL_ADDRESS+ "/" + SUBMISSIONS_ENDPOINT)
-                .content(intestacyFormJsonStr)
+            .param("probateType", ProbateType.INTESTACY.name())
+            .content(intestacyFormJsonStr)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(intestacyFormJsonStr, true));
-        verify(submitService, times(1)).update(eq(EMAIL_ADDRESS), eq(intestacyForm));
+        verify(submitService, times(1)).update(eq(EMAIL_ADDRESS), eq(ProbateType.INTESTACY));
 
         mockMvc.perform(put(FORMS_ENDPOINT + "/" + EMAIL_ADDRESS+ "/" + SUBMISSIONS_ENDPOINT)
+            .param("probateType", ProbateType.CAVEAT.name())
                 .content(caveatFormJsonStr)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(caveatFormJsonStr, true));
-        verify(submitService, times(1)).update(eq(EMAIL_ADDRESS), eq(caveatForm));
+        verify(submitService, times(1)).update(eq(EMAIL_ADDRESS), eq(ProbateType.CAVEAT));
 
     }
 

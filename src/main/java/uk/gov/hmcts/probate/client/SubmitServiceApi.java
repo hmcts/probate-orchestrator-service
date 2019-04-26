@@ -64,7 +64,7 @@ public interface SubmitServiceApi {
             @RequestHeader(AUTHORIZATION) String authorisation,
             @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
             @PathVariable(SubmitServiceConfiguration.APPLICATION_ID) String applicationId,
-            @RequestBody ProbateCaseDetails probateCaseDetails
+            @RequestParam("caseType") String caseType
     );
 
     @PostMapping(
