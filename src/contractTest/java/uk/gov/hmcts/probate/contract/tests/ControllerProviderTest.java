@@ -32,16 +32,6 @@ abstract public class ControllerProviderTest {
     @Value("${pact.broker.version}")
     private String providerVersion;
 
-    static {
-        if (System.getProperty("PACT_BRANCH_NAME").equals("master")) {
-            System.setProperty("PACT_BROKER_TAG", "master");
-        } else if (System.getProperty("PACT_BRANCH_NAME") != null) {
-            System.setProperty("PACT_BROKER_TAG", "master");
-        }
-
-    }
-
-
     @Before
     public void setUpTest() {
         System.getProperties().setProperty("pact.verifier.publishResults", "true");
