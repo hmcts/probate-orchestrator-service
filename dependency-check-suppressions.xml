@@ -198,4 +198,18 @@
         <gav regex="true">^com\.google\.guava:guava:.*$</gav>
         <cve>CVE-2018-10237</cve>
     </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: tomcat-embed-core-9.0.13.jar
+   ]]></notes>
+        <gav regex="true">^org\.apache\.tomcat\.embed\:tomcat-embed-core:.*$</gav>
+        <cve>CVE-2019-0199</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: tomcat-embed-core-9.0.13.jar
+   ]]></notes>
+        <gav regex="true">^org\.apache\.tomcat\.embed\:tomcat-embed-core:.*$</gav>
+        <cve>CVE-2019-0232</cve>
+    </suppress>
 </suppressions>
