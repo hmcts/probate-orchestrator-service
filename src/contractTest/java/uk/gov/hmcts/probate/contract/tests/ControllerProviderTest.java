@@ -22,7 +22,7 @@ import java.nio.file.Files;
 
 @RunWith(SpringRestPactRunner.class)
 @ExtendWith(SpringExtension.class)
-@PactBroker(scheme = "${pact.broker.scheme}", host = "${pact.broker.baseUrl}", port = "${pact.broker.port}", tags={"${pact.broker.consumer.tag}"})
+@PactBroker(scheme = "${pact.broker.scheme}", host = "${pact.broker.baseUrl}", port = "${pact.broker.port}", tags = {"${pact.broker.consumer.tag}"})
 @IgnoreNoPactsToVerify
 abstract public class ControllerProviderTest {
 
@@ -31,6 +31,16 @@ abstract public class ControllerProviderTest {
 
     @Value("${pact.broker.version}")
     private String providerVersion;
+
+    static {
+        if (System.getProperty("PACT_BRANCH_NAME").equals("master")) {
+            System.setProperty("PACT_BROKER_TAG", "master");
+        } else if (System.getProperty("PACT_BRANCH_NAME") != null) {
+            System.setProperty("PACT_BROKER_TAG", "master");
+        }
+
+    }
+
 
     @Before
     public void setUpTest() {
