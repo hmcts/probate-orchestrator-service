@@ -243,4 +243,18 @@
         <gav regex="true">^org\.postgresql:postgresql:.*$</gav>
         <cve>CVE-2018-1115</cve>
     </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: tomcat-embed-websocket-9.0.13.jar
+   ]]></notes>
+        <gav regex="true">^org\.apache\.tomcat:tomcat-embed-websocket:.*$</gav>
+        <cve>CVE-2019-0199</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: tomcat-embed-websocket-9.0.13.jar
+   ]]></notes>
+        <gav regex="true">^org\.apache\.tomcat:tomcat-embed-websocket:.*$</gav>
+        <cve>CVE-2019-0232</cve>
+    </suppress>
 </suppressions>
