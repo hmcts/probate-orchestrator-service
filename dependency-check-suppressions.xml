@@ -200,16 +200,47 @@
     </suppress>
     <suppress>
         <notes><![CDATA[
-   file name: tomcat-embed-core-9.0.13.jar
-   ]]></notes>
-        <gav regex="true">^org\.apache\.tomcat\.embed\:tomcat-embed-core:.*$</gav>
-        <cve>CVE-2019-0199</cve>
+    file name: slf4j-api-1.7.25.jar
+    ]]></notes>
+        <gav regex="true">^org\.slf4j:slf4j-api:.*$</gav>
+        <cve>CVE-2018-8088</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[
-   file name: tomcat-embed-core-9.0.13.jar
+    file name: jul-to-slf4j-1.7.25.jar
+    ]]></notes>
+        <gav regex="true">^org\.slf4j:jul-to-slf4j:.*$</gav>
+        <cve>CVE-2018-8088</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[ file name: applicationinsights-core-2.1.1.jar/META-INF/maven/com.google.guava/guava/pom.xml]]></notes>
+        <gav regex="true">^com\.google\.guava:guava:.*$</gav>
+        <cpe>cpe:/a:google:guava</cpe>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: guava-21.0.jar
    ]]></notes>
-        <gav regex="true">^org\.apache\.tomcat\.embed\:tomcat-embed-core:.*$</gav>
-        <cve>CVE-2019-0232</cve>
+        <cve>CVE-2018-10237</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: slf4j-api-1.7.25.jar
+   ]]></notes>
+        <cve>CVE-2018-8088</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: postgresql-42.2.5.jar
+   ]]></notes>
+        <gav regex="true">^org\.postgresql:postgresql:.*$</gav>
+        <cve>CVE-2016-7048</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: postgresql-42.2.5.jar
+   ]]></notes>
+        <gav regex="true">^org\.postgresql:postgresql:.*$</gav>
+        <cve>CVE-2018-1115</cve>
     </suppress>
 </suppressions>
