@@ -1,0 +1,15 @@
+{
+  "type": "VALIDATION",
+  "errors": [
+    {
+      "code": "Size",
+      "field": "caseData.deceasedForenames",
+      "message": "size must be between 2 and 2147483647"
+    },
+    {
+      "code": "Size",
+      "field": "caseData.deceasedSurname",
+      "message": "size must be between 2 and 2147483647"
+    }
+  ]
+}

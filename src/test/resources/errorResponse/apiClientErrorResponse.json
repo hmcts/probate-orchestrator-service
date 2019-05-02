@@ -1,0 +1,9 @@
+{
+  "type":"API_CLIENT",
+  "error":{
+    "exception":"uk.gov.hmcts.ccd.endpoint.exceptions.ResourceNotFoundException",
+    "status":404,
+    "error":"Not Found",
+    "message":"No field found"
+  }
+}
