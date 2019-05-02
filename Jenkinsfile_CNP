@@ -38,7 +38,7 @@ withPipeline("java", product, component) {
     loadVaultSecrets(secrets)
     enableSlackNotifications('#probate-jenkins')
     enableDockerBuild()
-////  enableDeployToAKS()
+//  enableDeployToAKS()
     installCharts()
 
 //    before('buildinfra:prod') {
@@ -69,7 +69,7 @@ withPipeline("java", product, component) {
                 }
             }
             } finally {
-                //steps.archiveArtifacts "build/reports/pitest/**/*.*"
+ //               //steps.archiveArtifacts "build/reports/pitest/**/*.*"
                 archiveArtifacts "build/reports/tests/**/*.*"
             }
 

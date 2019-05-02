@@ -1,0 +1,17 @@
+{
+  "checkAnswersSummary": {
+    "sections": [
+      {
+        "type": "heading-medium",
+        "questionAndAnswers": [
+          {
+            "question": "question 1",
+            "answers": [
+            ]
+          }
+        ]
+      }
+    ],
+    "pageTitle": "pageTitle"
+  }
+}
