@@ -33,5 +33,10 @@ public class ProbateDocumentsControllerLegalDeclarationProviderTest extends Cont
         when(businessServiceApi.generateLegalDeclarationPDF( anyString(),anyString(), any(LegalDeclaration.class) )) .thenReturn("".getBytes());
 
     }
+    @State({"probate_orchestrator_service generates legal declaration byte[] with validation errors",
+            "probate_orchestrator_service generates legal declaration byte[] with validation errors"})
+    public void toReturnInvalidLegalDeclarationWithError() throws IOException, JSONException {
+
+    }
 
 }
