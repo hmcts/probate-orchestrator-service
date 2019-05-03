@@ -59,7 +59,7 @@ public class SubmitServiceSubmissionValidationConsumerTest {
                 .given("provider PUTS submission with errors")
                 .uponReceiving("a request to PUT an invalid submission with client errors")
                 .path("/submissions/" + SOMEEMAILADDRESS_HOST_COM)
-                .method("POST")
+                .method("PUT")
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)
                 .matchHeader("Content-Type", "application/json")
                 .body(createJsonObject("intestacyGrantOfRepresentation_invalid_PAAPCREATED.json"))
