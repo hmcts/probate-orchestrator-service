@@ -49,15 +49,14 @@
     "primaryApplicantPhoneNumber":"123455678",
     "primaryApplicantRelationshipToDeceased":"adoptedChild",
     "primaryApplicantAdoptionInEnglandOrWales":"Yes",
-    "declaration":{
-      "declarationCheckbox":"Yes"
-    },
+    "declaration": {},
     "deceasedHasAssetsOutsideUK":"Yes",
     "assetsOverseasNetValue":"10099",
     "uploadDocumentUrl":"http://document-management/document/12345",
     "registryAddress":"Line 1 Bham\nLine 2 Bham\nLine 3 Bham\nPostCode Bham",
     "registryEmail":"birmingham@email.com",
     "registrySequenceNumber":"20075",
+    "declarationCheckbox": "Yes",
     "outsideUKGrantCopies":6,
     "caseType":"intestacy"
   }
