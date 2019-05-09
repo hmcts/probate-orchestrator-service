@@ -1,12 +1,16 @@
 package uk.gov.hmcts.probate.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
+import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
 import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -60,4 +64,22 @@ public interface BusinessServiceApi {
             @RequestBody BulkScanCoverSheet bulkScanCoverSheet
     );
 
+    @PostMapping(
+            value = "/invite",
+            headers = {
+                    CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+            }
+    )
+    public String invite(@RequestBody Invitation invitation,
+                         @RequestHeader("Session-Id") String sessionId);
+
+
+    @PostMapping(path = "/invite/{inviteId}",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String invite(@PathVariable("inviteId") String inviteId,
+                         @RequestBody Invitation invitation,
+                         @RequestHeader("Session-Id") String sessionId);
+
+    @GetMapping(path = "/invites/allAgreed/{formdataId:.+}")
+    public Boolean invitesAllAgreed(@PathVariable String formdataId);
 }

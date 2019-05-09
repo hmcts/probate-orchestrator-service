@@ -19,6 +19,9 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "value.applyingExecutorOtherNames", expression = "java(BooleanUtils.isTrue(executor.getHasOtherName()) ? executor.getCurrentName() : null)")
     @Mapping(target = "value.applyingExecutorOtherNamesReason", expression = "java(BooleanUtils.isTrue(executor.getHasOtherName()) ? executor.getCurrentNameReason() : null)")
     @Mapping(target = "value.applyingExecutorOtherReason", expression = "java(BooleanUtils.isTrue(executor.getHasOtherName()) ? executor.getOtherReason() : null)")
+    @Mapping(target = "value.applyingExecutorInvitiationId", source = "inviteId")
+    @Mapping( target ="value.applyingExecutorLeadName", source ="leadExecutorName")
+    @Mapping( target ="value.applyingExecutorAgreed", source ="executorAgreed")
     CollectionMember<ExecutorApplying> toExecutorApplying(Executor executor);
 
 
