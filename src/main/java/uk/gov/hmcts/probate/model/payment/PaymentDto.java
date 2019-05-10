@@ -1,4 +1,4 @@
-package uk.gov.hmcts.probate.model.pay;
+package uk.gov.hmcts.probate.model.payment;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
