@@ -1,4 +1,4 @@
-package uk.gov.hmcts.probate.client;
+package uk.gov.hmcts.probate.client.submit;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -8,6 +8,7 @@ import uk.gov.hmcts.reform.probate.model.cases.Address;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
+import uk.gov.hmcts.reform.probate.model.cases.ProbateCalculatedFees;
 import uk.gov.hmcts.reform.probate.model.cases.RegistryLocation;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.Declaration;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
@@ -18,6 +19,7 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.LegalStatement;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.LegalStatementExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.forms.Copies;
+import uk.gov.hmcts.reform.probate.model.forms.Fees;
 import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
 import uk.gov.hmcts.reform.probate.model.forms.Payment;
@@ -35,6 +37,7 @@ import uk.gov.hmcts.reform.probate.model.forms.pa.PaLegalStatement;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaLegalStatementExecutorApplying;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -136,6 +139,16 @@ public class PaTestDataCreator {
     private static final String SECOND_EXECUTOR_NOT_APPLYING = "Catlin Stark";
     private static final ExecutorNotApplyingReason FIRST_EXECUTOR_NOT_APPLYING_KEY = ExecutorNotApplyingReason.DIED_BEFORE;
     private static final ExecutorNotApplyingReason SECOND_EXECUTOR_NOT_APPLYING_KEY = ExecutorNotApplyingReason.DIED_BEFORE;
+    public static final BigDecimal UK_COPIES_FEE = BigDecimal.valueOf(100L).setScale( 2, RoundingMode.HALF_UP);
+    public static final BigDecimal OVERSEAS_COPIES_FEE = BigDecimal.valueOf(200L).setScale( 2, RoundingMode.HALF_UP);
+    public static final BigDecimal APPLICATION_FEE = BigDecimal.valueOf(300).setScale( 2, RoundingMode.HALF_UP);
+    public static final BigDecimal FEES_TOTAL = BigDecimal.valueOf(600L).setScale( 2, RoundingMode.HALF_UP);
+    public static final String OVERSEAS_COPIES_FEE_CODE = "OVERSEAS1";
+    public static final String OVERSEAS_COPIES_FEE_VERSION = "22";
+    public static final String UK_COPIES_FEE_CODE = "UK1";
+    public static final String UK_COPIES_FEE_VERSION = "1";
+    public static final String APPLICATION_FEE_CODE = "APP1";
+    public static final String APPLICATION_FEE_VERSION = "33";
 
     public static PaForm createPaForm() {
         return PaForm.builder()
@@ -262,6 +275,18 @@ public class PaTestDataCreator {
                     .deceasedEstateValue(DECEASED_ESTATE_VALUE)
                     .build())
                 .build())
+            .fees(Fees.builder()
+                .ukCopiesFee(UK_COPIES_FEE)
+                .ukCopiesFeeVersion(UK_COPIES_FEE_VERSION)
+                .ukCopiesFeeCode(UK_COPIES_FEE_CODE)
+                .overseasCopiesFee(OVERSEAS_COPIES_FEE)
+                .overseasCopiesFeeVersion(OVERSEAS_COPIES_FEE_VERSION)
+                .overseasCopiesFeeCode(OVERSEAS_COPIES_FEE_CODE)
+                .applicationFee(APPLICATION_FEE)
+                .applicationFeeCode(APPLICATION_FEE_CODE)
+                .applicationFeeVersion(APPLICATION_FEE_VERSION)
+                .total(FEES_TOTAL)
+                .build())
             .build();
     }
 
@@ -382,6 +407,20 @@ public class PaTestDataCreator {
                         .build())
                     .build()
             ))
+            .fees(ProbateCalculatedFees.builder()
+                .ukCopiesFee(UK_COPIES_FEE.multiply(BigDecimal.valueOf(100)).longValue())
+                .ukCopiesFeeVersion(UK_COPIES_FEE_VERSION)
+                .ukCopiesFeeCode(UK_COPIES_FEE_CODE)
+                .overseasCopiesFee(OVERSEAS_COPIES_FEE.multiply(BigDecimal.valueOf(100)).longValue())
+                .overseasCopiesFeeVersion(OVERSEAS_COPIES_FEE_VERSION)
+                .overseasCopiesFeeCode(OVERSEAS_COPIES_FEE_CODE)
+                .applicationFee(APPLICATION_FEE.multiply(BigDecimal.valueOf(100)).longValue())
+                .applicationFeeCode(APPLICATION_FEE_CODE)
+                .applicationFeeVersion(APPLICATION_FEE_VERSION)
+                .total(FEES_TOTAL.multiply(BigDecimal.valueOf(100)).longValue())
+                .build()
+            )
+
             .build();
     }
 }

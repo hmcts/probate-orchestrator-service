@@ -1,4 +1,4 @@
-package uk.gov.hmcts.probate.client;
+package uk.gov.hmcts.probate.client.pay;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.codec.Decoder;
@@ -6,7 +6,7 @@ import feign.jackson.JacksonDecoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 
-class SubmitServiceConfiguration {
+class PaymentConfiguration {
 
     static final String SERVICE_AUTHORIZATION = "ServiceAuthorization";
 

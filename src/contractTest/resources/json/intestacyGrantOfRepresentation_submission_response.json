@@ -50,8 +50,8 @@
     "primaryApplicantRelationshipToDeceased":"adoptedChild",
     "primaryApplicantAdoptionInEnglandOrWales":"Yes",
     "declaration":{
-      "declarationCheckbox":"Yes"
     },
+    "declarationCheckbox":"Yes",
     "deceasedHasAssetsOutsideUK":"Yes",
     "assetsOverseasNetValue":"10099",
     "uploadDocumentUrl":"http://document-management/document/12345",
