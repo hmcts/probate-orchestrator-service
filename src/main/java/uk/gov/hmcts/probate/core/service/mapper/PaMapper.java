@@ -32,7 +32,8 @@ import java.time.LocalDate;
 
 @Mapper(componentModel = "spring", uses = {PaPaymentMapper.class, AliasNameMapper.class, RegistryLocationMapper.class,
     PoundsConverter.class, IhtMethodConverter.class, LegalStatementMapper.class, ExecutorsMapper.class,
-    ExecutorApplyingMapper.class, ExecutorNotApplyingMapper.class, MapConverter.class, LocalDateTimeMapper.class},
+    ExecutorApplyingMapper.class, ExecutorNotApplyingMapper.class, MapConverter.class, LocalDateTimeMapper.class,
+    FeesMapper.class},
     imports = {ApplicationType.class, GrantType.class, ProbateType.class, IhtMethod.class,
         LocalDate.class, ExecutorsMapper.class, BooleanUtils.class, AddressMapper.class},
     unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
@@ -89,8 +90,6 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
         + "form.getCopies().getOverseas() : null)")
     @Mapping(target = "legalDeclarationJson", source = "legalDeclaration", qualifiedBy = {FromMap.class})
     @Mapping(target = "checkAnswersSummaryJson", source = "checkAnswersSummary", qualifiedBy = {FromMap.class})
-    @Mapping(target = "paymentPending", source = "paymentPending")
-    @Mapping(target = "creatingPayment", source = "creatingPayment")
     @Mapping(target = "payments", source = "payment", qualifiedBy = {ToCollectionMember.class})
     GrantOfRepresentationData toCaseData(PaForm form);
 
