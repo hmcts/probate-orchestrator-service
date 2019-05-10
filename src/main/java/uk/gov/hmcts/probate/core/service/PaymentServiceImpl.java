@@ -2,13 +2,13 @@
 //
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.stereotype.Component;
-//import uk.gov.hmcts.probate.client.pay.PaymentApi;
+//import uk.gov.hmcts.probate.client.payment.PaymentApi;
 //import uk.gov.hmcts.probate.core.service.fees.FeesChangedException;
 //import uk.gov.hmcts.probate.core.service.fees.FeesNotCalculatedException;
 //import uk.gov.hmcts.probate.core.service.payment.PaymentConfiguration;
-//import uk.gov.hmcts.probate.model.pay.CardPaymentRequest;
-//import uk.gov.hmcts.probate.model.pay.PaymentDto;
-//import uk.gov.hmcts.probate.model.pay.PaymentsDto;
+//import uk.gov.hmcts.probate.model.payment.CardPaymentRequest;
+//import uk.gov.hmcts.probate.model.payment.PaymentDto;
+//import uk.gov.hmcts.probate.model.payment.PaymentsDto;
 //import uk.gov.hmcts.probate.service.FeesService;
 //import uk.gov.hmcts.probate.service.PaymentService;
 //import uk.gov.hmcts.reform.probate.model.forms.Fees;

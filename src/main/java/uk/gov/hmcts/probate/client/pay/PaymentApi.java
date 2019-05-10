@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
-import uk.gov.hmcts.probate.model.pay.CardPaymentRequest;
-import uk.gov.hmcts.probate.model.pay.PaymentDto;
-import uk.gov.hmcts.probate.model.pay.PaymentsDto;
+import uk.gov.hmcts.probate.model.payment.CardPaymentRequest;
+import uk.gov.hmcts.probate.model.payment.PaymentDto;
+import uk.gov.hmcts.probate.model.payment.PaymentsDto;
 
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
