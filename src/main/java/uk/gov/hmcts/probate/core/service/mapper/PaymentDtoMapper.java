@@ -14,7 +14,6 @@ public interface PaymentDtoMapper {
     @Mapping(target = "amount", qualifiedBy = {ToPennies.class})
     @Mapping(target = "status", expression = "java(PaymentStatus.getPaymentStatusByName(paymentDto.getStatus()))")
     @Mapping(target = "date", source = "dateCreated")
-    @Mapping(target = "currency", source = "currency")
     @Mapping(target = "transactionId", source = "externalProvider")
     CasePayment toCasePayment(PaymentDto paymentDto);
 
