@@ -7,10 +7,12 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import uk.gov.hmcts.probate.client.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.mapper.FormMapper;
+import uk.gov.hmcts.probate.core.service.mapper.PaymentDtoMapper;
 import uk.gov.hmcts.probate.service.SubmitService;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.CaseData;
 import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
+import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.ProbatePaymentDetails;
 import uk.gov.hmcts.reform.probate.model.cases.SubmitResult;
@@ -81,10 +83,10 @@ public class SubmitServiceImpl implements SubmitService {
         FormMapper formMapper = mappers.get(form.getType());
         log.debug("calling update on submitserviceapi");
         SubmitResult submitResult = submitServiceApi.update(
-                securityUtils.getAuthorisation(),
-                securityUtils.getServiceAuthorisation(),
-                identifier,
-                ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
+            securityUtils.getAuthorisation(),
+            securityUtils.getServiceAuthorisation(),
+            identifier,
+            ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
         );
         return mapFromCase(formMapper, submitResult.getProbateCaseDetails());
     }
@@ -121,6 +123,18 @@ public class SubmitServiceImpl implements SubmitService {
                 .payment(casePayment)
                 .build());
         return mapFromCase(formMapper, probateCaseDetails);
+    }
+
+    @Override
+    public ProbateCaseDetails updatePaymentsByCaseId(String caseId, CaseType caseType, CasePayment casePayment) {
+        return submitServiceApi.updatePaymentsByCaseId(
+            securityUtils.getAuthorisation(),
+            securityUtils.getServiceAuthorisation(),
+            caseId,
+            ProbatePaymentDetails.builder()
+                .caseType(caseType)
+                .payment(casePayment)
+                .build());
     }
 
     private CaseData mapToCase(Form form, FormMapper formMapper) {
