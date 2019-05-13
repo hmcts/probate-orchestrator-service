@@ -1,75 +1,116 @@
-//package uk.gov.hmcts.probate.core.service;
-//
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.stereotype.Component;
-//import uk.gov.hmcts.probate.client.payment.PaymentApi;
-//import uk.gov.hmcts.probate.core.service.fees.FeesChangedException;
-//import uk.gov.hmcts.probate.core.service.fees.FeesNotCalculatedException;
-//import uk.gov.hmcts.probate.core.service.payment.PaymentConfiguration;
-//import uk.gov.hmcts.probate.model.payment.CardPaymentRequest;
-//import uk.gov.hmcts.probate.model.payment.PaymentDto;
-//import uk.gov.hmcts.probate.model.payment.PaymentsDto;
-//import uk.gov.hmcts.probate.service.FeesService;
-//import uk.gov.hmcts.probate.service.PaymentService;
-//import uk.gov.hmcts.reform.probate.model.forms.Fees;
-//import uk.gov.hmcts.reform.probate.model.forms.Form;
-//
-//import java.math.BigDecimal;
-//
-//@Component
-//@RequiredArgsConstructor
-//public class PaymentServiceImpl implements PaymentService {
-//
-//    private final FeesService feesService;
-//
-//    private final PaymentApi paymentApi;
-//
-//    private final SecurityUtils securityUtils;
-//
-//    private final PaymentConfiguration paymentConfiguration;
-//
-//    @Override
-//    public PaymentDto createPayment(Form form) {
-//
-//        String caseId = form.getCcdCase().getId().toString();
-//        String serviceAuthorisation = securityUtils.getServiceAuthorisation();
-//        String authorisation = securityUtils.getAuthorisation();
-//
-//        PaymentsDto paymentsDto = paymentApi.getPayments(authorisation, serviceAuthorisation, caseId, "Probate");
-//        for (PaymentDto paymentDto : paymentsDto.getPayments()) {
-//            if (paymentDto.getStatus().equals("Success")) {
-//                return paymentDto;
-//            }
-//            if (paymentDto.getStatus().equals("Initiated")) {
-//                return paymentApi.getCardPayment(serviceAuthorisation, authorisation, paymentDto.getPaymentReference());
-//            }
-//        }
-//
-//
-//        Fees fees = form.getFees();
-//        if (form.getFees() == null) {
-//            throw new FeesNotCalculatedException();
-//        }
-//
-//        if ((form.getFees().getTotal().compareTo(BigDecimal.ZERO) == 0) )  {
-//            // submit
-//        }
-//
-//        Fees calculatedFees = feesService.calculateFees(form.getType(), form);
-//        if (fees.equals(calculatedFees)) {
-//            throw new FeesChangedException();
-//        }
-//
-//
-//        CardPaymentRequest cardPaymentRequest = CardPaymentRequest.builder()
-//            .amount(fees.getTotal())
-//            .description("Probate Fees")
-//            .ccdCaseNumber(caseId)
-//            .service(paymentConfiguration.getServiceId())
-//            .siteId(paymentConfiguration.getSiteId())
-//            .currency(paymentConfiguration.getCurrency())
-//            .build();
-//
-//        return null;
-//    }
-//}
+package uk.gov.hmcts.probate.core.service;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+import uk.gov.hmcts.probate.client.payment.PaymentApi;
+import uk.gov.hmcts.probate.core.service.payment.PaymentConfiguration;
+import uk.gov.hmcts.probate.model.payment.CardPaymentRequest;
+import uk.gov.hmcts.probate.model.payment.FeeDto;
+import uk.gov.hmcts.probate.model.payment.PaymentDto;
+import uk.gov.hmcts.probate.model.payment.PaymentsDto;
+import uk.gov.hmcts.probate.service.PaymentService;
+import uk.gov.hmcts.reform.probate.model.forms.Fees;
+import uk.gov.hmcts.reform.probate.model.forms.Form;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+@Component
+@RequiredArgsConstructor
+public class PaymentServiceImpl implements PaymentService {
+
+    private static final String PROBATE_FEES_MEMO_LINE = "Probate Fees";
+    private static final String ADDITIONAL_OVERSEAS_COPIES_MEMO_LINE = "Additional overseas copies";
+    private static final String ADDITIONAL_UK_COPIES_MEMO_LINE = "Additional UK copies";
+    private static final String PROBATE_FEES = "Probate Fees";
+    private static final int APPLICATION_FEE_VOLUME = 1;
+    private static final String SUCCESS_STATUS = "Success";
+    private static final String INITIATED_STATUS = "Initiated";
+    public static final String SERVICE_NAME = "Probate";
+
+    private final PaymentApi paymentApi;
+
+    private final SecurityUtils securityUtils;
+
+    private final PaymentConfiguration paymentConfiguration;
+
+    @Override
+    public PaymentDto createPayment(Form form, String returnUrl) {
+        String caseId = form.getCcdCase().getId().toString();
+        String serviceAuthorisation = securityUtils.getServiceAuthorisation();
+        String authorisation = securityUtils.getAuthorisation();
+        CardPaymentRequest cardPaymentRequest = createCardPaymentRequest(form, caseId, form.getFees());
+        return paymentApi.createCardPayment(authorisation, serviceAuthorisation, returnUrl, cardPaymentRequest);
+    }
+
+    @Override
+    public Optional<PaymentDto> findNonFailedPaymentByCaseId(String caseId) {
+        String serviceAuthorisation = securityUtils.getServiceAuthorisation();
+        String authorisation = securityUtils.getAuthorisation();
+        PaymentsDto paymentsDto = paymentApi.getPayments(authorisation, serviceAuthorisation, caseId, SERVICE_NAME);
+        for (PaymentDto paymentDto : paymentsDto.getPayments()) {
+            if (paymentDto.getStatus().equals(SUCCESS_STATUS)) {
+                return Optional.of(paymentDto);
+            }
+            if (paymentDto.getStatus().equals(INITIATED_STATUS)) {
+                return Optional.of(paymentApi.getCardPayment(serviceAuthorisation, authorisation, paymentDto.getPaymentReference()));
+            }
+        }
+        return Optional.empty();
+    }
+
+    private CardPaymentRequest createCardPaymentRequest(Form form, String caseId, Fees fees) {
+        return CardPaymentRequest.builder()
+            .amount(fees.getTotal())
+            .description(PROBATE_FEES)
+            .ccdCaseNumber(caseId)
+            .service(paymentConfiguration.getServiceId())
+            .siteId(paymentConfiguration.getSiteId())
+            .currency(paymentConfiguration.getCurrency())
+            .fees(createFees(caseId, form))
+            .build();
+    }
+
+    private List<FeeDto> createFees(String caseId, Form form) {
+        Fees fees = form.getFees();
+        List<FeeDto> feeDtos = new ArrayList<>();
+        if (fees.getApplicationFee().compareTo(BigDecimal.ZERO) != 0) {
+            feeDtos.add(FeeDto.builder()
+                .calculatedAmount(fees.getApplicationFee())
+                .ccdCaseNumber(caseId)
+                .code(fees.getApplicationFeeCode())
+                .version(fees.getApplicationFeeVersion())
+                .reference(securityUtils.getUserId())
+                .volume(APPLICATION_FEE_VOLUME)
+                .memoLine(PROBATE_FEES_MEMO_LINE)
+                .build());
+        }
+
+        if (fees.getOverseasCopiesFee().compareTo(BigDecimal.ZERO) != 0) {
+            feeDtos.add(FeeDto.builder()
+                .calculatedAmount(fees.getOverseasCopiesFee())
+                .ccdCaseNumber(caseId)
+                .code(fees.getOverseasCopiesFeeCode())
+                .version(fees.getOverseasCopiesFeeVersion())
+                .reference(securityUtils.getUserId())
+                .volume(form.getCopies().getOverseas().intValue())
+                .memoLine(ADDITIONAL_OVERSEAS_COPIES_MEMO_LINE)
+                .build());
+        }
+
+        if (fees.getUkCopiesFee().compareTo(BigDecimal.ZERO) != 0) {
+            feeDtos.add(FeeDto.builder()
+                .calculatedAmount(fees.getUkCopiesFee())
+                .ccdCaseNumber(caseId)
+                .code(fees.getUkCopiesFeeCode())
+                .version(fees.getUkCopiesFeeVersion())
+                .reference(securityUtils.getUserId())
+                .volume(form.getCopies().getUk().intValue())
+                .memoLine(ADDITIONAL_UK_COPIES_MEMO_LINE)
+                .build());
+        }
+        return feeDtos;
+    }
+}

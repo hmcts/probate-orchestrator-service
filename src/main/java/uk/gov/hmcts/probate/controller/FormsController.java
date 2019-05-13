@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -70,12 +71,12 @@ public class FormsController {
 
     @ApiOperation(value = "Submit form data", notes = "Submit form data")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Form submitted successfully"),
-            @ApiResponse(code = 400, message = "Submitting form failed"),
-            @ApiResponse(code = 422, message = "Invalid or missing attribute")
+        @ApiResponse(code = 200, message = "Form submitted successfully"),
+        @ApiResponse(code = 400, message = "Submitting form failed"),
+        @ApiResponse(code = 422, message = "Invalid or missing attribute")
     })
     @PostMapping(path = FORMS_ENDPOINT + SUBMISSIONS_ENDPOINT,
-            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+        consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Form> submitForm(@RequestBody Form form,
                                            @PathVariable("identifier") String identifier) {
@@ -86,17 +87,18 @@ public class FormsController {
 
     @ApiOperation(value = "Update form data", notes = "Update form data")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Form updated successfully"),
-            @ApiResponse(code = 400, message = "Updating form failed"),
-            @ApiResponse(code = 422, message = "Invalid or missing attribute")
+        @ApiResponse(code = 200, message = "Form updated successfully"),
+        @ApiResponse(code = 400, message = "Updating form failed"),
+        @ApiResponse(code = 422, message = "Invalid or missing attribute")
     })
     @PutMapping(path = FORMS_ENDPOINT + SUBMISSIONS_ENDPOINT,
-            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+        consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Form> updateForm(@PathVariable("identifier") String identifier,
+    public ResponseEntity<Form> updateForm(@RequestHeader("return-url") String returnUrl,
+                                           @PathVariable("identifier") String identifier,
                                            @RequestParam("probateType") ProbateType probateType) {
         log.info("Submit form called");
-        return new ResponseEntity<>(submitService.update(identifier, probateType), HttpStatus.OK);
+        return new ResponseEntity<>(submitService.update(identifier, probateType, returnUrl), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Update payments", notes = "Update payments")

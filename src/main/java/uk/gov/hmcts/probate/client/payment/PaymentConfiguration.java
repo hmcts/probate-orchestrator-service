@@ -1,4 +1,4 @@
-package uk.gov.hmcts.probate.client.pay;
+package uk.gov.hmcts.probate.client.payment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.codec.Decoder;
