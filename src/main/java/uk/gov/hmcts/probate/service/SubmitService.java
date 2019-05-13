@@ -1,6 +1,9 @@
 package uk.gov.hmcts.probate.service;
 
 import uk.gov.hmcts.reform.probate.model.ProbateType;
+import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
+import uk.gov.hmcts.reform.probate.model.cases.CaseType;
+import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
 
 public interface SubmitService {
@@ -14,4 +17,7 @@ public interface SubmitService {
     Form update(String identifier, Form form);
 
     Form updatePayments(String identifier, Form form);
+
+    ProbateCaseDetails updatePaymentsByCaseId(String caseId, CaseType caseType, CasePayment casePayment);
+
 }
