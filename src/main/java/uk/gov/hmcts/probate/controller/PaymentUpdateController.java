@@ -12,11 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.probate.service.PaymentUpdateService;
-import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
 @Api(tags = {"Payment Update Controller"})
@@ -25,7 +23,7 @@ import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 @Slf4j
 public class PaymentUpdateController {
 
-    private static final String PAYMENT_UPDATES = "/payment-updates/{caseType}";
+    private static final String PAYMENT_UPDATES = "/payment-updates";
 
     private final PaymentUpdateService paymentUpdateService;
 
@@ -41,9 +39,8 @@ public class PaymentUpdateController {
     @PostMapping(path = PAYMENT_UPDATES, consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void updatePayment(@RequestBody PaymentDto paymentDto,
-                              @RequestParam("caseType") CaseType caseType) {
+    public void updatePayment(@RequestBody PaymentDto paymentDto) {
         log.info("Updating payment");
-        paymentUpdateService.paymentUpdate(paymentDto, caseType);
+        paymentUpdateService.paymentUpdate(paymentDto);
     }
 }
