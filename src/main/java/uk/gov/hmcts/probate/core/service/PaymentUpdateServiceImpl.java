@@ -8,7 +8,6 @@ import uk.gov.hmcts.probate.service.PaymentUpdateService;
 import uk.gov.hmcts.probate.service.SubmitService;
 import uk.gov.hmcts.reform.probate.model.PaymentStatus;
 import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
-import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
 @Component
@@ -19,15 +18,17 @@ public class PaymentUpdateServiceImpl implements PaymentUpdateService {
 
     private final PaymentDtoMapper paymentDtoMapper;
 
+    private final SecurityUtils securityUtils;
+
     @Async
     @Override
-    public void paymentUpdate(PaymentDto paymentDto, CaseType caseType) {
+    public void paymentUpdate(PaymentDto paymentDto) {
         if (!PaymentStatus.SUCCESS.getName().equals(paymentDto.getStatus())) {
             return;
         }
+        securityUtils.setSecurityContextUserAsCaseworker();
         String caseId = paymentDto.getCcdCaseNumber();
         CasePayment casePayment = paymentDtoMapper.toCasePayment(paymentDto);
-        submitService.updatePaymentsByCaseId(paymentDto.getCcdCaseNumber(), caseType, casePayment);
-        submitService.updatePaymentsByCaseId(caseId, caseType, casePayment);
+        submitService.updatePaymentsByCaseId(caseId, casePayment);
     }
 }

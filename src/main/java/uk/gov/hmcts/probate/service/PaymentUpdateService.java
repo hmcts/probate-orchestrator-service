@@ -1,9 +1,8 @@
 package uk.gov.hmcts.probate.service;
 
-import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
 public interface PaymentUpdateService {
 
-    void paymentUpdate(PaymentDto paymentDto, CaseType caseType);
+    void paymentUpdate(PaymentDto paymentDto);
 }

@@ -126,13 +126,12 @@ public class SubmitServiceImpl implements SubmitService {
     }
 
     @Override
-    public ProbateCaseDetails updatePaymentsByCaseId(String caseId, CaseType caseType, CasePayment casePayment) {
+    public ProbateCaseDetails updatePaymentsByCaseId(String caseId, CasePayment casePayment) {
         return submitServiceApi.updatePaymentsByCaseId(
             securityUtils.getAuthorisation(),
             securityUtils.getServiceAuthorisation(),
             caseId,
             ProbatePaymentDetails.builder()
-                .caseType(caseType)
                 .payment(casePayment)
                 .build());
     }
