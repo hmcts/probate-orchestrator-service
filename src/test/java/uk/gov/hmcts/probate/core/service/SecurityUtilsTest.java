@@ -84,6 +84,6 @@ public class SecurityUtilsTest {
 
         securityUtils.setSecurityContextUserAsCaseworker();
 
-        assertThat(securityUtils.getAuthorisation(), equalTo("Bearer " + USER_TOKEN));
+        assertThat(securityUtils.getAuthorisation(), equalTo(USER_TOKEN));
     }
 }
