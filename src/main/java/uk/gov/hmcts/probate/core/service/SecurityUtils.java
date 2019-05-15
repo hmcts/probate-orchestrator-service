@@ -82,7 +82,7 @@ public class SecurityUtils {
             authClientSecret
         );
 
-        return BEARER + tokenExchangeResponse.getAccessToken();
+        return tokenExchangeResponse.getAccessToken();
     }
 
     private String getBasicAuthHeader(String username, String password) {
