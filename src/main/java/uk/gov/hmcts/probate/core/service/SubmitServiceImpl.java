@@ -7,12 +7,10 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import uk.gov.hmcts.probate.client.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.mapper.FormMapper;
-import uk.gov.hmcts.probate.core.service.mapper.PaymentDtoMapper;
 import uk.gov.hmcts.probate.service.SubmitService;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.CaseData;
 import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
-import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.ProbatePaymentDetails;
 import uk.gov.hmcts.reform.probate.model.cases.SubmitResult;
@@ -127,6 +125,7 @@ public class SubmitServiceImpl implements SubmitService {
 
     @Override
     public ProbateCaseDetails updatePaymentsByCaseId(String caseId, CasePayment casePayment) {
+        log.info("Call to submit service with id {} with payment reference {}", caseId, casePayment.getReference());
         return submitServiceApi.updatePaymentsByCaseId(
             securityUtils.getAuthorisation(),
             securityUtils.getServiceAuthorisation(),

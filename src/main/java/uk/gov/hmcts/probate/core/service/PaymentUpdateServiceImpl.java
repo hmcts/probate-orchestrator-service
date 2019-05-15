@@ -1,6 +1,7 @@
 package uk.gov.hmcts.probate.core.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.probate.core.service.mapper.PaymentDtoMapper;
@@ -11,6 +12,7 @@ import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class PaymentUpdateServiceImpl implements PaymentUpdateService {
 
@@ -23,7 +25,11 @@ public class PaymentUpdateServiceImpl implements PaymentUpdateService {
     @Async
     @Override
     public void paymentUpdate(PaymentDto paymentDto) {
+        log.info("Attempting to update payment for case Id {} with payment reference {}", paymentDto.getCcdCaseNumber(),
+            paymentDto.getReference());
         if (!PaymentStatus.SUCCESS.getName().equals(paymentDto.getStatus())) {
+            log.info("Not updating case, as payment not successful for case Id {} with payment reference {}", paymentDto.getCcdCaseNumber(),
+                paymentDto.getReference());
             return;
         }
         securityUtils.setSecurityContextUserAsCaseworker();
