@@ -40,7 +40,6 @@ public class PaymentUpdateController {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void updatePayment(@RequestBody PaymentDto paymentDto) {
-        log.info("Updating payment");
         paymentUpdateService.paymentUpdate(paymentDto);
     }
 }
