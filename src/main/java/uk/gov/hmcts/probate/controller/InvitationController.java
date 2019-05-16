@@ -41,34 +41,43 @@ public class InvitationController {
         return businessService.resendInvite(inviteId, invitation, sessionId);
     }
 
-    @GetMapping(path = "/invites/allAgreed/{formdataId:.+}")
-    public Boolean invitesAllAgreed(@PathVariable String formdataId) {
+    @GetMapping(path = "/invites/allAgreed/{formdataId}")
+    public Boolean invitesAllAgreed(@PathVariable("formdataId") String formdataId) {
         return businessService.haveAllIniviteesAgreed(formdataId);
     }
 
-    @PostMapping(path = "/inviteagreed/{formdataId}",
+    @PostMapping(path = "/invite/agreed/{formdataId}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public String inviteAgreed(@PathVariable("formdataId") String formdataId,
-                         @Valid @RequestBody Invitation invitation,
-                         @RequestHeader("Session-Id") String sessionId) {
-        return businessService.inviteAgreed(formdataId, invitation, sessionId);
+                               @Valid @RequestBody Invitation invitation) {
+        return businessService.inviteAgreed(formdataId, invitation);
     }
 
-    @PutMapping(path = "/invitecontactdetails/{formdataId}",
+    @PutMapping(path = "/invite/contactdetails/{formdataId}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public String updateContactDetails(@PathVariable("formdataId") String formdataId,
-                               @Valid @RequestBody Invitation invitation) {
+                                       @Valid @RequestBody Invitation invitation) {
         return businessService.updateContactDetails(formdataId, invitation);
     }
 
-    @PutMapping(path = "/inviteresetagreed/{formdataId}",
+    @PutMapping(path = "/invite/resetAgreed/{formdataId}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public String resetAgreedFlags(@PathVariable("formdataId") String formdataId) {
-        return businessService.resetAgreedFlags(formdataId);
+        businessService.resetAgreedFlags(formdataId);
+        return formdataId;
+    }
+
+
+    @PutMapping(path = "/invite/delete/{formdataId}",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String deleteInvite(@PathVariable("formdataId") String formdataId,
+                               @Valid @RequestBody Invitation invitation) {
+        businessService.resetAgreedFlags(formdataId);
+        return formdataId;
     }
 
     @GetMapping(path = "/invitedata/{inviteId}")
-    public InviteData invitedata(@PathVariable String inviteId){
+    public InviteData invitedata(@PathVariable String inviteId) {
         //return businessService.inviteData(inviteId);
         return null;
     }

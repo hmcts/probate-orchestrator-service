@@ -33,4 +33,10 @@ public class ProbateDocumentsControllerCoverSheetProviderTest extends Controller
 
     }
 
+
+    @State({"probate_orchestrator_service generates cover sheet byte[] with validation errors",
+            "probate_orchestrator_service generates cover sheet byte[] with validation errors"})
+    public void toReturnInvalidCheckAnswersSummaryWithError() throws IOException, JSONException {
+
+    }
 }

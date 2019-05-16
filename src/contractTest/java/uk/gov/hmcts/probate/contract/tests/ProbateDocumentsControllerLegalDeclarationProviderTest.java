@@ -34,4 +34,9 @@ public class ProbateDocumentsControllerLegalDeclarationProviderTest extends Cont
 
     }
 
+    @State({"probate_orchestrator_service generates legal declaration byte[] with validation errors",
+            "probate_orchestrator_service generates legal declaration byte[] with validation errors"})
+    public void toReturnInvalidCheckAnswersSummaryWithError() throws IOException, JSONException {
+
+    }
 }

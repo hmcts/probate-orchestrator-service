@@ -19,9 +19,11 @@ public interface BusinessService {
 
     Boolean haveAllIniviteesAgreed(String formdataId);
 
-    String inviteAgreed(String formdataId, Invitation invitation, String sessionId);
+    String inviteAgreed(String formdataId, Invitation invitation);
 
     String updateContactDetails(String formdataId, Invitation invitation);
 
-    String resetAgreedFlags(String formdataId);
+    void resetAgreedFlags(String formdataId);
+
+    String deleteInvite(String formdataId, Invitation invitation);;
 }

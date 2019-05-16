@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.probate.client.BusinessServiceApi;
+import uk.gov.hmcts.probate.client.SubmitServiceApi;
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
@@ -28,6 +29,9 @@ public class BusinessServiceImplTest {
     private BusinessServiceApi businessServiceApi;
 
     @Mock
+    private SubmitServiceApi submitServiceApi;
+
+    @Mock
     SecurityUtils securityUtils;
 
     private BusinessServiceImpl businessService;
@@ -44,7 +48,7 @@ public class BusinessServiceImplTest {
         Mockito.when(securityUtils.getAuthorisation()).thenReturn(AUTHORIZATION);
         Mockito.when(securityUtils.getServiceAuthorisation()).thenReturn(SERVICE_AUTHORIZATION);
         pdfExample = new byte[10];
-        businessService = new BusinessServiceImpl(businessServiceApi, securityUtils);
+        businessService = new BusinessServiceImpl(businessServiceApi, submitServiceApi, securityUtils);
     }
 
     @Test

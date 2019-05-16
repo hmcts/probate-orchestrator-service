@@ -80,6 +80,6 @@ public interface BusinessServiceApi {
                          @RequestBody Invitation invitation,
                          @RequestHeader("Session-Id") String sessionId);
 
-    @GetMapping(path = "/invites/allAgreed/{formdataId:.+}")
-    public Boolean invitesAllAgreed(@PathVariable String formdataId);
+    @GetMapping(path = "/invite/allAgreed/{formdataId}")
+    public Boolean invitesAllAgreed(@PathVariable("formdataId") String formdataId);
 }
