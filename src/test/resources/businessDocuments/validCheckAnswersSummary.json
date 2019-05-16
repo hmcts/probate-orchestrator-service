@@ -1,5 +1,4 @@
 {
-  "checkAnswersSummary": {
     "sections": [
       {
         "title": "section title",
@@ -22,5 +21,4 @@
     ],
     "mainParagraph": "main paragraph",
     "pageTitle": "page title"
-  }
 }

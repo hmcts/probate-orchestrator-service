@@ -1,5 +1,4 @@
 {
-  "checkAnswersSummary": {
     "sections": [
       {
         "type": "heading-medium",
@@ -13,5 +12,4 @@
       }
     ],
     "pageTitle": "pageTitle"
-  }
 }
