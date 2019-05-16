@@ -49,6 +49,7 @@ withPipeline("java", product, component) {
 //    }
 
     after('test') {
+
 //        try {
 //            if (env.CHANGE_BRANCH || env.BRANCH_NAME == 'master') {
 //                env.PACT_BROKER_URL = "pact-broker.platform.hmcts.net"
@@ -75,6 +76,8 @@ withPipeline("java", product, component) {
 //                //steps.archiveArtifacts "build/reports/pitest/**/*.*"
 //                archiveArtifacts "build/reports/tests/**/*.*"
 //            }
+
+
 
         junit 'build/test-results/test/**/*.xml'
         archiveArtifacts 'build/reports/tests/test/index.html'
