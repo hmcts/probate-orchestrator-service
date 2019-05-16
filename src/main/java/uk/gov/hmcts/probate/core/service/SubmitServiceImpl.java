@@ -7,6 +7,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import uk.gov.hmcts.probate.client.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.mapper.FormMapper;
+import uk.gov.hmcts.probate.service.BackOfficeService;
 import uk.gov.hmcts.probate.service.SubmitService;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.CaseData;
@@ -29,6 +30,8 @@ public class SubmitServiceImpl implements SubmitService {
     private final Map<ProbateType, FormMapper> mappers;
 
     private final SubmitServiceApi submitServiceApi;
+
+    private final BackOfficeService backOfficeService;
 
     private final SecurityUtils securityUtils;
 
@@ -71,6 +74,7 @@ public class SubmitServiceImpl implements SubmitService {
             identifier,
             ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
         );
+        backOfficeService.sendNotification(submitResult.getProbateCaseDetails());
         return mapFromCase(formMapper, submitResult.getProbateCaseDetails());
     }
 

@@ -196,8 +196,8 @@ def versions = [
         commonMark                      : '0.11.0',
         probateCommons                  : '0.0.27',
         jacksonDatabind                 : '2.9.8',
-        pact_version                    : '3.5.24'
-        
+        pact_version                    : '3.5.24',
+        ccdClient                       : '4.4.1'
 ]
 
 jacocoTestReport {
@@ -253,13 +253,15 @@ dependencies {
     compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: versions.springCloudStarterNetflixHystrix
     compile group: 'org.springframework.hateoas', name: 'spring-hateoas'
 
-  compile group: 'uk.gov.hmcts.reform', name: 'java-logging-spring', version: versions.hmctsJavaLogging
-  compile group: 'uk.gov.hmcts.reform', name: 'java-logging-httpcomponents', version: versions.hmctsJavaLogging
-  compile group: 'uk.gov.hmcts.reform', name: 'java-logging-appinsights', version: versions.hmctsJavaLogging
+    compile group: 'uk.gov.hmcts.reform', name: 'java-logging-spring', version: versions.hmctsJavaLogging
+    compile group: 'uk.gov.hmcts.reform', name: 'java-logging-httpcomponents', version: versions.hmctsJavaLogging
+    compile group: 'uk.gov.hmcts.reform', name: 'java-logging-appinsights', version: versions.hmctsJavaLogging
     compile group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version: '0.0.3'
-  compile group: 'uk.gov.hmcts.reform.auth', name: 'auth-checker-lib', version: versions.authCheckerLib
-  compile group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceAuthProviderClient
-  compile group: 'uk.gov.hmcts.reform.probate', name : 'probate-commons', version: versions.probateCommons
+    compile group: 'uk.gov.hmcts.reform.auth', name: 'auth-checker-lib', version: versions.authCheckerLib
+    compile group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceAuthProviderClient
+    compile group: 'uk.gov.hmcts.reform.probate', name : 'probate-commons', version: versions.probateCommons
+    compile group: 'uk.gov.hmcts.reform', name: 'core-case-data-store-client', version: versions.ccdClient
+
 
     compile group: 'commons-io', name: 'commons-io', version: versions.commonsIO
 

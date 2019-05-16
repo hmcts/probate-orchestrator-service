@@ -152,6 +152,7 @@ module "probate-orchestrator-service" {
     AUTH_IDAM_CLIENT_BASEURL = "${var.auth_idam_client_baseurl}"
     SUBMIT_SERVICE_API_URL = "${var.submit_service_api_url}"
     BUSINESS_SERVICE_API_URL = "${var.business_service_api_url}"
+    BACK_OFFICE_API_URL = "${var.back_office_api_url}"
 
     java_app_name = "${var.microservice}"
     LOG_LEVEL = "${var.log_level}"

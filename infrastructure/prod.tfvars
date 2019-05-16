@@ -19,5 +19,6 @@ services_auth_provider_baseurl = "http://rpe-service-auth-provider-prod.service.
 auth_idam_client_baseurl = "https://idam-api.platform.hmcts.net"
 submit_service_api_url = "http://probate-submit-service-prod.service.core-compute-prod.internal"
 business_service_api_url = "http://probate-business-service-prod.service.core-compute-prod.internal"
+back_office_api_url = "http://probate-back-office-prod.service.core-compute-prod.internal"
 asp_name = "probate-prod-asp-prod-asp"
 asp_rg = "mgmt-asp-prod"
