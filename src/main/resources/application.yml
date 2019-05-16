@@ -32,11 +32,11 @@
     client.baseUrl: ${AUTH_IDAM_CLIENT_BASEURL:http://localhost:4501}
     clientId: probate
     clientSecret: ${AUTH2_CLIENT_SECRET:123456}
-    redirectUrl: ${IDAM_API_REDIRECT_URL:http://localhost:3451/oauth2redirect}
-    citizen:
-      username: ${PAYMENT_CITIZEN_USERNAME:testusername1@test.com}
-      password: ${PAYMENT_CITIZEN_PASSWORD:password}
-
+    redirectUrl: ${IDAM_API_REDIRECT_URL:http://localhost:8080/authenticated}
+    caseworker:
+      username: ${PAYMENT_CASEWORKER_USERNAME:ProbateSolCW1@gmail.com}
+      password: ${PAYMENT_CASEWORKER_PASSWORD:password}
+      
   s2s.auth.totp.secret: ${auth.provider.service.client.key}
   service.name: ${auth.provider.service.client.microservice}
 
@@ -50,4 +50,4 @@
   pattern:
     console: "%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n"
 
-  logging.level.uk.gov.hmcts.probate.client.BusinessServiceApi: INFO
+  logging.level.uk.gov.hmcts.probate.client.BusinessServiceApi: DEBUG

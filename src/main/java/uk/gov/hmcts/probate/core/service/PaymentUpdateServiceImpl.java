@@ -32,7 +32,7 @@ public class PaymentUpdateServiceImpl implements PaymentUpdateService {
                 paymentDto.getReference());
             return;
         }
-        securityUtils.setSecurityContextUserAsCitizen();
+        securityUtils.setSecurityContextUserAsCaseworker();
         String caseId = paymentDto.getCcdCaseNumber();
         CasePayment casePayment = paymentDtoMapper.toCasePayment(paymentDto);
         submitService.updatePaymentsByCaseId(caseId, casePayment);
