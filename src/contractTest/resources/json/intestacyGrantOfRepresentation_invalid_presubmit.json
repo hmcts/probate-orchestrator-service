@@ -48,9 +48,7 @@
     "ihtGrossValue": "100000",
     "ihtNetValue": "100000",
     "ihtReferenceNumber": "GOT123456",
-    "declaration": {
-      "declarationCheckbox": "Yes"
-    },
+    "declarationCheckbox": "Yes",
     "extraCopiesOfGrant": 5,
     "outsideUKGrantCopies": 6,
     "uploadDocumentUrl": "http://document-management/document/12345"
