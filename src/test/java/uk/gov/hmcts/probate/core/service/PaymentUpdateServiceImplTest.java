@@ -45,7 +45,7 @@ public class PaymentUpdateServiceImplTest {
 
         paymentUpdateService.paymentUpdate(paymentDto);
 
-        verify(securityUtils).setSecurityContextUserAsCaseworker();
+        verify(securityUtils).setSecurityContextUserAsCitizen();
         verify(paymentDtoMapper).toCasePayment(paymentDto);
         verify(submitService).updatePaymentsByCaseId(CCD_CASE_NUMBER, casePayment);
     }
@@ -57,7 +57,7 @@ public class PaymentUpdateServiceImplTest {
             .status(PaymentStatus.FAILED.getName())
             .build();
 
-        verify(securityUtils, never()).setSecurityContextUserAsCaseworker();
+        verify(securityUtils, never()).setSecurityContextUserAsCitizen();
         verify(paymentDtoMapper, never()).toCasePayment(paymentDto);
         verify(submitService, never()).updatePaymentsByCaseId(eq(CCD_CASE_NUMBER), any(CasePayment.class));
     }

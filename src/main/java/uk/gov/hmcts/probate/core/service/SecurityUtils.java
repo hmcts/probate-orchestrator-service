@@ -35,11 +35,11 @@ public class SecurityUtils {
     @Value("${auth.idam.clientSecret}")
     private String authClientSecret;
 
-    @Value("${auth.idam.caseworker.username}")
-    private String caseworkerUserName;
+    @Value("${auth.idam.citizen.username}")
+    private String citizenUserName;
 
-    @Value("${auth.idam.caseworker.password}")
-    private String caseworkerPassword;
+    @Value("${auth.idam.citizen.password}")
+    private String citizenPassword;
 
     private final IdamClient idamClient;
 
@@ -53,13 +53,13 @@ public class SecurityUtils {
             .getCredentials();
     }
 
-    public void setSecurityContextUserAsCaseworker() {
+    public void setSecurityContextUserAsCitizen() {
         SecurityContextHolder.getContext()
-            .setAuthentication(new UsernamePasswordAuthenticationToken(caseworkerUserName, getCaseworkerToken()));
+            .setAuthentication(new UsernamePasswordAuthenticationToken(citizenUserName, getCitizenToken()));
     }
 
-    private String getCaseworkerToken() {
-        return getIdamOauth2Token(caseworkerUserName, caseworkerPassword);
+    private String getCitizenToken() {
+        return getIdamOauth2Token(citizenUserName, citizenPassword);
     }
 
     private String getIdamOauth2Token(String username, String password) {
