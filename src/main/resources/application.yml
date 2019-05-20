@@ -51,3 +51,4 @@
     console: "%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n"
 
   logging.level.uk.gov.hmcts.probate.client.BusinessServiceApi: DEBUG
+  logging.level.uk.gov.hmcts.probate.client.idam.IdamClient: DEBUG
