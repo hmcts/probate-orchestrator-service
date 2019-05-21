@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.probate.client.fees.FeesApi;
-import uk.gov.hmcts.probate.model.fees.FeeLookupResponseDto;
 import uk.gov.hmcts.probate.utils.NumberUtils;
+import uk.gov.hmcts.reform.probate.model.fees.FeeLookupResponseDto;
 
 import java.math.BigDecimal;
 

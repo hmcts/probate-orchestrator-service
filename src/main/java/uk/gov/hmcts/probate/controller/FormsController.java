@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.probate.service.SubmitService;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
+import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
 @Api(tags = {"FormsController"})
 @SwaggerDefinition(tags = {@Tag(name = "FormsController", description = "Forms API")})
@@ -33,6 +34,8 @@ public class FormsController {
     private static final String FORMS_ENDPOINT = "/forms/{identifier}";
     private static final String SUBMISSIONS_ENDPOINT = "/submissions";
     private static final String PAYMENTS_ENDPOINT = "/payments";
+    private static final String PAYMENT_SUBMISSIONS_ENDPOINT = "/payment-submissions";
+
 
     private final SubmitService submitService;
 
@@ -85,20 +88,24 @@ public class FormsController {
     }
 
 
-    @ApiOperation(value = "Update form data", notes = "Update form data")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Form updated successfully"),
-        @ApiResponse(code = 400, message = "Updating form failed"),
-        @ApiResponse(code = 422, message = "Invalid or missing attribute")
-    })
+//    @PutMapping(path = FORMS_ENDPOINT + PAYMENT_SUBMISSIONS_ENDPOINT,
+//        consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseBody
+//    public ResponseEntity<Form> createPaymentAndSubmitForm(@RequestHeader("return-url") String returnUrl,
+//                                           @PathVariable("identifier") String identifier,
+//                                           @RequestParam("probateType") ProbateType probateType) {
+//        log.info("Submit form called");
+//        return new ResponseEntity<>(submitService.update(identifier, probateType, returnUrl), HttpStatus.OK);
+//    }
+
+
     @PutMapping(path = FORMS_ENDPOINT + SUBMISSIONS_ENDPOINT,
         consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Form> updateForm(@RequestHeader("return-url") String returnUrl,
-                                           @PathVariable("identifier") String identifier,
-                                           @RequestParam("probateType") ProbateType probateType) {
-        log.info("Submit form called");
-        return new ResponseEntity<>(submitService.update(identifier, probateType, returnUrl), HttpStatus.OK);
+    public ResponseEntity<Form> submitPayments(@PathVariable("identifier") String identifier,
+                                           @RequestBody PaymentDto paymentDto,
+                                             @RequestParam("probateType") ProbateType probateType) {
+        return new ResponseEntity<>(submitService.update(identifier, probateType, paymentDto), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Update payments", notes = "Update payments")

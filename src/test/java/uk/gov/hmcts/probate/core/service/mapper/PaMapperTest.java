@@ -1,6 +1,7 @@
 package uk.gov.hmcts.probate.core.service.mapper;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
@@ -16,6 +18,7 @@ import uk.gov.hmcts.reform.probate.model.forms.Copies;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
 import uk.gov.hmcts.reform.probate.model.forms.Will;
+import uk.gov.hmcts.reform.probate.model.forms.caveat.CaveatForm;
 import uk.gov.hmcts.reform.probate.model.forms.pa.Executors;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaApplicant;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaAssets;
@@ -39,11 +42,18 @@ public class PaMapperTest {
 
     private PaForm paForm;
     private GrantOfRepresentationData grantOfRepresentation;
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @Before
     public void setUp() {
         paForm = PaTestDataCreator.createPaForm();
         grantOfRepresentation = PaTestDataCreator.createGrantOfRepresentation();
+    }
+
+    @Test
+    public void shouldJason() throws Exception {
+        String jsonString  = TestUtils.getJSONFromFile("addressForm.json");
+        PaForm paForm = objectMapper.readValue(jsonString, PaForm.class);
     }
 
     @Test

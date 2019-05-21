@@ -10,7 +10,6 @@ import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.fees.FeesChangedException;
 import uk.gov.hmcts.probate.core.service.fees.FeesNotCalculatedException;
 import uk.gov.hmcts.probate.core.service.mapper.FormMapper;
-import uk.gov.hmcts.probate.model.payment.PaymentDto;
 import uk.gov.hmcts.probate.service.FeesService;
 import uk.gov.hmcts.probate.service.PaymentService;
 import uk.gov.hmcts.probate.service.SubmitService;
@@ -25,6 +24,7 @@ import uk.gov.hmcts.reform.probate.model.forms.CcdCase;
 import uk.gov.hmcts.reform.probate.model.forms.Fees;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
 import uk.gov.hmcts.reform.probate.model.forms.Payment;
+import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -44,9 +44,9 @@ public class SubmitServiceImpl implements SubmitService {
 
     private final Map<ProbateType, Function<Form, String>> formIdentifierFunctionMap;
 
-    private final PaymentService paymentService;
-
-    private final FeesService feesService;
+//    private final PaymentService paymentService;
+//
+//    private final FeesService feesService;
 
     @Override
     public Form getCase(String identifier, ProbateType probateType) {
@@ -93,34 +93,40 @@ public class SubmitServiceImpl implements SubmitService {
         return mapFromCase(formMapper, submitResult.getProbateCaseDetails());
     }
 
+//    @Override
+//    public Form update(String identifier, ProbateType probateType, String returnUrl) {
+//        Form form = getCase(identifier, probateType);
+//        if (form.getFees() == null) {
+//            throw new FeesNotCalculatedException();
+//        }
+//
+//        if (form.getFees().getApplicationFee().compareTo(BigDecimal.ZERO) == 0
+//            && form.getCopies().getUk() == 0L && form.getCopies().getOverseas() == 0L) {
+//            return updateCaseState(identifier, probateType);
+//        }
+//
+//        Optional<PaymentDto> paymentOptional = paymentService.findNonFailedPaymentByCaseId(form.getCcdCase().getId().toString());
+//        if (paymentOptional.isPresent()) {
+//            PaymentDto paymentDto = paymentOptional.get();
+//            return updatePayment(identifier, form, paymentDto);
+//        }
+//
+//        Fees calculatedFees = feesService.calculateFees(form.getType(), form);
+//        if (!form.getFees().equals(calculatedFees)) {
+//            throw new FeesChangedException();
+//        }
+//
+//        PaymentDto paymentDto = paymentService.createPayment(form, returnUrl);
+//        return updatePayment(identifier, form, paymentDto);
+//    }
+
     @Override
-    public Form update(String identifier, ProbateType probateType, String returnUrl) {
+    public Form update(String identifier, ProbateType probateType, PaymentDto paymentDto) {
         Form form = getCase(identifier, probateType);
-        if (form.getFees() == null) {
-            throw new FeesNotCalculatedException();
-        }
-
-        if (form.getFees().getApplicationFee().compareTo(BigDecimal.ZERO) == 0
-            && form.getCopies().getUk() == 0L && form.getCopies().getOverseas() == 0L) {
-            return updateCaseState(identifier, probateType);
-        }
-
-        Optional<PaymentDto> paymentOptional = paymentService.findNonFailedPaymentByCaseId(form.getCcdCase().getId().toString());
-        if (paymentOptional.isPresent()) {
-            PaymentDto paymentDto = paymentOptional.get();
-            return updatePayment(identifier, form, paymentDto);
-        }
-
-        Fees calculatedFees = feesService.calculateFees(form.getType(), form);
-        if (!form.getFees().equals(calculatedFees)) {
-            throw new FeesChangedException();
-        }
-
-        PaymentDto paymentDto = paymentService.createPayment(form, returnUrl);
         return updatePayment(identifier, form, paymentDto);
     }
 
-    public Form updatePayment(String identifier, Form form, PaymentDto paymentDto) {
+    private Form updatePayment(String identifier, Form form, PaymentDto paymentDto) {
         Payment payment = Payment.builder()
             .reference(paymentDto.getReference())
             .status(PaymentStatus.valueOf(paymentDto.getStatus()))

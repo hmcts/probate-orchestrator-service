@@ -11,9 +11,11 @@ import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromIhtMethod;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromLocalDate;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromMap;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromRegistryLocation;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCaseAddress;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToExecutorApplyingCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToExecutorNotApplyingCollectionMember;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToFormAddress;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToIhtMethod;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToLocalDate;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToMap;
@@ -33,7 +35,7 @@ import java.time.LocalDate;
 @Mapper(componentModel = "spring", uses = {PaPaymentMapper.class, AliasNameMapper.class, RegistryLocationMapper.class,
     PoundsConverter.class, IhtMethodConverter.class, LegalStatementMapper.class, ExecutorsMapper.class,
     ExecutorApplyingMapper.class, ExecutorNotApplyingMapper.class, MapConverter.class, LocalDateTimeMapper.class,
-    FeesMapper.class},
+    AddressMapper.class, FeesMapper.class},
     imports = {ApplicationType.class, GrantType.class, ProbateType.class, IhtMethod.class,
         LocalDate.class, ExecutorsMapper.class, BooleanUtils.class, AddressMapper.class},
     unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
@@ -49,19 +51,19 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "deceasedAnyOtherNames", source = "deceased.alias")
     @Mapping(target = "deceasedAliasNameList", source = "deceased.otherNames", qualifiedBy = {ToCollectionMember.class})
     @Mapping(target = "deceasedMarriedAfterWillOrCodicilDate", source = "deceased.married")
-    @Mapping(target = "deceasedAddress.addressLine1", source = "deceased.address")
-    @Mapping(target = "deceasedAddress.postCode", source = "deceased.postcode")
+    @Mapping(target = "deceasedAddress", source = "deceased.address", qualifiedBy = {ToCaseAddress.class})
     @Mapping(target = "deceasedDateOfBirth", source = "deceased.dateOfBirth", qualifiedBy = {ToLocalDate.class})
     @Mapping(target = "deceasedDateOfDeath", source = "deceased.dateOfDeath", qualifiedBy = {ToLocalDate.class})
     @Mapping(target = "deceasedAddressFound", source = "deceased.addressFound")
     @Mapping(target = "deceasedAddresses", source = "deceased.addresses", qualifiedBy = {FromMap.class})
+    @Mapping(target = "deceasedPostCode", source = "deceased.postcode")
     @Mapping(target = "primaryApplicantForenames", source = "applicant.firstName")
     @Mapping(target = "primaryApplicantSurname", source = "applicant.lastName")
     @Mapping(target = "primaryApplicantEmailAddress", source = "applicantEmail")
     @Mapping(target = "primaryApplicantAlias", source = "applicant.alias")
     @Mapping(target = "primaryApplicantAliasReason", source = "applicant.aliasReason")
-    @Mapping(target = "primaryApplicantAddress.addressLine1", source = "applicant.address")
-    @Mapping(target = "primaryApplicantAddress.postCode", source = "applicant.postcode")
+    @Mapping(target = "primaryApplicantAddress", source = "applicant.address", qualifiedBy = {ToCaseAddress.class})
+    @Mapping(target = "primaryApplicantPostCode", source = "applicant.postcode")
     @Mapping(target = "primaryApplicantAddressFound", source = "applicant.addressFound")
     @Mapping(target = "primaryApplicantAddresses", source = "applicant.addresses", qualifiedBy = {FromMap.class})
     @Mapping(target = "primaryApplicantSameWillName", source = "applicant.nameAsOnTheWill")
@@ -94,16 +96,10 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     GrantOfRepresentationData toCaseData(PaForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.PA)")
-    @Mapping(target = "deceased.address", expression = "java(AddressMapper.getAddress(grantOfRepresentationData.getDeceasedAddress()))")
-    @Mapping(target = "deceased.postcode", expression = "java(AddressMapper.getPostCode(grantOfRepresentationData.getDeceasedAddress()))")
-    @Mapping(target = "deceased.freeTextAddress", expression = "java(AddressMapper.getFreeTextAddress(grantOfRepresentationData.getDeceasedAddressFound(), grantOfRepresentationData.getDeceasedAddress()))")
-    @Mapping(target = "deceased.postcodeAddress", expression = "java(AddressMapper.getPostCodeAddress(grantOfRepresentationData.getDeceasedAddressFound(), grantOfRepresentationData.getDeceasedAddress()))")
+    @Mapping(target = "deceased.address", source = "deceasedAddress", qualifiedBy = {ToFormAddress.class})
+    @Mapping(target = "deceased.addresses", source = "deceasedAddresses", qualifiedBy = {ToMap.class})
     @Mapping(target = "deceased.dateOfBirth", source = "deceasedDateOfBirth", qualifiedBy = {FromLocalDate.class})
     @Mapping(target = "deceased.dateOfDeath", source = "deceasedDateOfDeath", qualifiedBy = {FromLocalDate.class})
-    @Mapping(target = "applicant.address", expression = "java(AddressMapper.getAddress(grantOfRepresentationData.getPrimaryApplicantAddress()))")
-    @Mapping(target = "applicant.postcode", expression = "java(AddressMapper.getPostCode(grantOfRepresentationData.getPrimaryApplicantAddress()))")
-    @Mapping(target = "applicant.freeTextAddress", expression = "java(AddressMapper.getFreeTextAddress(grantOfRepresentationData.getPrimaryApplicantAddressFound(), grantOfRepresentationData.getPrimaryApplicantAddress()))")
-    @Mapping(target = "applicant.postcodeAddress", expression = "java(AddressMapper.getPostCodeAddress(grantOfRepresentationData.getPrimaryApplicantAddressFound(), grantOfRepresentationData.getPrimaryApplicantAddress()))")
     @Mapping(target = "registry.name", source = "registryLocation", qualifiedBy = {FromRegistryLocation.class})
     @Mapping(target = "iht.netValue", source = "ihtNetValue", qualifiedBy = {ToPounds.class})
     @Mapping(target = "iht.grossValue", source = "ihtGrossValue", qualifiedBy = {ToPounds.class})
@@ -121,7 +117,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "copies.overseas", source = "outsideUkGrantCopies")
     @Mapping(target = "assets.assetsoverseas", expression = "java(grantOfRepresentationData.getOutsideUkGrantCopies() == null ? null : " +
         "grantOfRepresentationData.getOutsideUkGrantCopies() > 0L)")
-    @Mapping(target = "deceased.addresses", source = "deceasedAddresses", qualifiedBy = {ToMap.class})
+    @Mapping(target = "applicant.address", source = "primaryApplicantAddress", qualifiedBy = {ToFormAddress.class})
     @Mapping(target = "applicant.addresses", source = "primaryApplicantAddresses", qualifiedBy = {ToMap.class})
     @Mapping(target = "legalDeclaration", source = "legalDeclarationJson", qualifiedBy = {ToMap.class})
     @Mapping(target = "checkAnswersSummary", source = "checkAnswersSummaryJson", qualifiedBy = {ToMap.class})

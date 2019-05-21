@@ -4,13 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.probate.client.payment.PaymentApi;
 import uk.gov.hmcts.probate.core.service.payment.PaymentConfiguration;
-import uk.gov.hmcts.probate.model.payment.CardPaymentRequest;
-import uk.gov.hmcts.probate.model.payment.FeeDto;
-import uk.gov.hmcts.probate.model.payment.PaymentDto;
-import uk.gov.hmcts.probate.model.payment.PaymentsDto;
 import uk.gov.hmcts.probate.service.PaymentService;
 import uk.gov.hmcts.reform.probate.model.forms.Fees;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
+import uk.gov.hmcts.reform.probate.model.payments.CardPaymentRequest;
+import uk.gov.hmcts.reform.probate.model.payments.FeeDto;
+import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
+import uk.gov.hmcts.reform.probate.model.payments.PaymentsDto;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public class PaymentServiceImpl implements PaymentService {
                 return Optional.of(paymentDto);
             }
             if (paymentDto.getStatus().equals(INITIATED_STATUS)) {
-                return Optional.of(paymentApi.getCardPayment(serviceAuthorisation, authorisation, paymentDto.getPaymentReference()));
+                return Optional.of(paymentApi.getCardPayment(serviceAuthorisation, authorisation, paymentDto.getReference()));
             }
         }
         return Optional.empty();
