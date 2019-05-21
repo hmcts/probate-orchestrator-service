@@ -4,7 +4,14 @@
     "email": "jon.snow@thenorth.com",
     "firstName": "Jon",
     "lastName": "Snow",
-    "address": "Pret a Manger St. Georges Hospital Blackshaw Road London SW17 0QT",
+    "address": {
+      "addressLine1": "Pret a Manger",
+      "addressLine2": "St. Georges Hospital",
+      "addressLine3": "Blackshaw Road",
+      "postTown": "London",
+      "postCode": "SW17 0QT",
+      "formattedAddress": "Pret a Manger St. Georges Hospital Blackshaw Road London SW17 0QT"
+    },
     "postCode": "SW17 0QT",
     "phoneNumber": "123455678",
     "addressFound": "Yes",
@@ -17,7 +24,13 @@
     "lastName": "Stark",
     "dob_date": "1930-01-01",
     "dod_date": "2018-01-01",
-    "address": "Winterfell, Westeros",
+    "address": {
+      "addressLine1": "Winterfell",
+      "postTown": "Kings Landing",
+      "postCode": "Win1",
+      "country": "Westeros",
+      "formattedAddress": "Winterfell Kings Landing Win1 Westeros"
+    },
     "addressFound": "Yes",
     "postCode": "SW17 0QT",
     "freeTextAddress": "Winterfell, Westeros",
