@@ -25,16 +25,19 @@ public class PaymentUpdateServiceImpl implements PaymentUpdateService {
     @Async
     @Override
     public void paymentUpdate(PaymentDto paymentDto) {
-        log.info("Attempting to update payment for case Id {} with payment reference {}", paymentDto.getCcdCaseNumber(),
-            paymentDto.getReference());
+        String caseId = paymentDto.getCcdCaseNumber();
+        String reference = paymentDto.getReference();
+        log.info("Attempting to update payment for case Id {} with payment reference {}", caseId,
+            reference);
         if (!PaymentStatus.SUCCESS.getName().equalsIgnoreCase(paymentDto.getStatus())) {
-            log.info("Not updating case, as payment not successful for case Id {} with payment reference {}", paymentDto.getCcdCaseNumber(),
-                paymentDto.getReference());
+            log.info("Not updating case, as payment not successful for case Id {} with payment reference {}", caseId,
+                reference);
             return;
         }
         securityUtils.setSecurityContextUserAsCaseworker();
-        String caseId = paymentDto.getCcdCaseNumber();
         CasePayment casePayment = paymentDtoMapper.toCasePayment(paymentDto);
+
+        log.info("Submitting payment details for case Id {} with payment reference {}", caseId, reference);
         submitService.updatePaymentsByCaseId(caseId, casePayment);
     }
 }

@@ -11,7 +11,9 @@ public class FeignErrorDecoder implements ErrorDecoder {
     public Exception decode(String methodKey, Response response) {
 
         log.info("Status code " + response.status() + ", methodKey = " + methodKey);
-        log.info("Body " + response.body());
+        if (response.body() != null) {
+            log.info("Body " + response.body().toString());
+        }
 
         return new Exception(response.reason());
     }

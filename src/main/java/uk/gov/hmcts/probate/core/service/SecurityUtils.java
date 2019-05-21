@@ -65,9 +65,7 @@ public class SecurityUtils {
     private String getIdamOauth2Token(String username, String password) {
         String basicAuthHeader = getBasicAuthHeader(username, password);
 
-        log.info("Client ID: {}, username:{}, password:{}, basicAuthHeader:{}, authRedirectUrl{}",
-                authClientId, username, password, basicAuthHeader, authRedirectUrl);
-        log.info("Authenticating...");
+        log.info("Client ID: {} . Authenticating...", authClientId);
 
         AuthenticateUserResponse authenticateUserResponse = idamClient.authenticateUser(
             basicAuthHeader,
@@ -85,7 +83,7 @@ public class SecurityUtils {
             authClientSecret
         );
 
-        log.info("getAccessToken");
+        log.info("Getting AccessToken...");
         return tokenExchangeResponse.getAccessToken();
     }
 
