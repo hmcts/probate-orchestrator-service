@@ -1,7 +1,7 @@
 package uk.gov.hmcts.probate.service;
 
-import uk.gov.hmcts.probate.model.payment.PaymentDto;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
+import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
 import java.util.Optional;
 

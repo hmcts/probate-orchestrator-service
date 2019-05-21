@@ -256,7 +256,7 @@ services:
     image: docker.artifactory.reform.hmcts.net/common-components/payments-api:latest
     container_name: payments-api
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://docker.for.mac.localhost:5430/payment
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://172.18.7.81:5430/payment
       - SPRING_DATASOURCE_USERNAME=payment
       - SPRING_DATASOURCE_PASSWORD=
       - AUTH_PROVIDER_SERVICE_CLIENT_BASEURL=http://service-auth-provider-api:8080/
@@ -317,8 +317,7 @@ services:
 
 
   persistence-service:
-    image: hmcts/probate-persistence-service
-    command: --wait-for-database 30
+    image: hmcts.azurecr.io/hmcts/probate-persistence-service
     container_name: persistence-service
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://shared-database:5432/probate
@@ -336,17 +335,6 @@ services:
      - 8282:8282
     depends_on:
       - shared-database
-
-  business-service:
-    image: hmcts/probate-business-service
-    container_name: business-service
-    environment:
-      - SERVER_PORT=8081
-      - http_proxy=
-      - https_proxy=
-      - no_proxy=
-    ports:
-     - 8081
 
   pdf-service-api:
     image: docker.artifactory.reform.hmcts.net/reform/pdf-service-api:f7969638ccd7c83e6ce70330fa3a16e8a6ab53ae

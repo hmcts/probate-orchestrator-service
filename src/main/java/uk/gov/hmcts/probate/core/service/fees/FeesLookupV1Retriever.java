@@ -2,14 +2,13 @@ package uk.gov.hmcts.probate.core.service.fees;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.probate.client.fees.FeesApi;
-import uk.gov.hmcts.probate.model.fees.FeeLookupResponseDto;
 import uk.gov.hmcts.probate.utils.NumberUtils;
+import uk.gov.hmcts.reform.probate.model.fees.FeeLookupResponseDto;
 
 import java.math.BigDecimal;
 
