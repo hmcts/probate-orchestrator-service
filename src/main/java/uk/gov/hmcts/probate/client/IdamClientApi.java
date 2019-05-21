@@ -19,7 +19,7 @@ import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VAL
     url = "${auth.idam.client.baseUrl}",
     configuration = IdamConfiguration.class
 )
-public interface IdamClient {
+public interface IdamClientApi {
 
     @RequestMapping(
         method = RequestMethod.POST,

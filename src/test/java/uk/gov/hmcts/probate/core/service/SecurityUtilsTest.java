@@ -8,7 +8,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.test.context.TestSecurityContextHolder;
 import org.springframework.test.util.ReflectionTestUtils;
-import uk.gov.hmcts.probate.client.idam.IdamClient;
+import uk.gov.hmcts.probate.client.IdamClientApi;
 import uk.gov.hmcts.probate.model.idam.AuthenticateUserResponse;
 import uk.gov.hmcts.probate.model.idam.TokenExchangeResponse;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
@@ -37,7 +37,7 @@ public class SecurityUtilsTest {
     private AuthTokenGenerator authTokenGenerator;
 
     @Mock
-    private IdamClient idamClient;
+    private IdamClientApi idamClient;
 
     @InjectMocks
     private SecurityUtils securityUtils;

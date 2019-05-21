@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import uk.gov.hmcts.probate.client.idam.IdamClient;
+import uk.gov.hmcts.probate.client.IdamClientApi;
 import uk.gov.hmcts.probate.model.idam.AuthenticateUserResponse;
 import uk.gov.hmcts.probate.model.idam.TokenExchangeResponse;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
@@ -41,7 +41,7 @@ public class SecurityUtils {
     @Value("${auth.idam.caseworker.password}")
     private String caseworkerPassword;
 
-    private final IdamClient idamClient;
+    private final IdamClientApi idamClient;
 
     public String getServiceAuthorisation() {
         return authTokenGenerator.generate();

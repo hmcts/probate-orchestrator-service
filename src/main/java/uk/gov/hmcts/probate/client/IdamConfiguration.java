@@ -1,20 +1,40 @@
 package uk.gov.hmcts.probate.client;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import feign.Logger;
 import feign.codec.Decoder;
 import feign.jackson.JacksonDecoder;
+import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
-class SubmitServiceConfiguration {
+import java.util.Collections;
 
-    static final String SERVICE_AUTHORIZATION = "ServiceAuthorization";
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-    static final String APPLICATION_ID = "applicationId";
+class IdamConfiguration {
 
     @Bean
-    @Primary
-    Decoder feignDecoder(ObjectMapper objectMapper) {
-        return new JacksonDecoder(objectMapper);
+    public HttpMessageConverters customConverters() {
+        final AbstractJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter(customObjectMapper());
+        converter.setSupportedMediaTypes(Collections.singletonList(MediaType.valueOf(APPLICATION_JSON_VALUE)));
+        return new HttpMessageConverters(true, Collections.singletonList(converter));
+    }
+
+    private ObjectMapper customObjectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
+        objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
+        return objectMapper;
+    }
+
+    @Bean
+    Logger.Level feignLoggerLevel() {
+        return Logger.Level.FULL;
     }
 }
