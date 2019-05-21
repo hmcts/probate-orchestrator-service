@@ -1,4 +1,4 @@
-package uk.gov.hmcts.probate.client.idam;
+package uk.gov.hmcts.probate.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpHeaders;
@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import uk.gov.hmcts.probate.client.IdamConfiguration;
+import uk.gov.hmcts.probate.client.SubmitServiceConfiguration;
 import uk.gov.hmcts.probate.model.idam.AuthenticateUserResponse;
 import uk.gov.hmcts.probate.model.idam.TokenExchangeResponse;
 
@@ -13,9 +15,9 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE;
 
 @FeignClient(
-    name = "idamClient",
+    name = "idam-client-api",
     url = "${auth.idam.client.baseUrl}",
-    qualifier = "idamClient"
+    configuration = IdamConfiguration.class
 )
 public interface IdamClient {
 
