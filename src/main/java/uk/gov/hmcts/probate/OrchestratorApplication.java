@@ -7,6 +7,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import uk.gov.hmcts.probate.client.FeignErrorDecoder;
 import uk.gov.hmcts.reform.authorisation.healthcheck.ServiceAuthHealthIndicator;
 
 @EnableSwagger2
@@ -22,6 +23,12 @@ public class OrchestratorApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(OrchestratorApplication.class, args);
+    }
+
+
+    @Bean
+    public FeignErrorDecoder errorDecoder() {
+        return new FeignErrorDecoder();
     }
 }
                                                                               
