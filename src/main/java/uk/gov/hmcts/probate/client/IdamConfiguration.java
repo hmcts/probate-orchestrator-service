@@ -1,23 +1,16 @@
 package uk.gov.hmcts.probate.client;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import feign.Client;
 import feign.Logger;
+import feign.codec.Decoder;
 import feign.httpclient.ApacheHttpClient;
+import feign.jackson.JacksonDecoder;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-
-import java.util.Collections;
-
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import org.springframework.context.annotation.Primary;
 
 public class IdamConfiguration {
 
@@ -43,17 +36,9 @@ public class IdamConfiguration {
     }
 
     @Bean
-    public HttpMessageConverters customConverters() {
-        final AbstractJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter(customObjectMapper());
-        converter.setSupportedMediaTypes(Collections.singletonList(MediaType.valueOf(APPLICATION_JSON_VALUE)));
-        return new HttpMessageConverters(true, Collections.singletonList(converter));
-    }
-
-    private ObjectMapper customObjectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
-        objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
-        return objectMapper;
+    @Primary
+    Decoder feignDecoder(ObjectMapper objectMapper) {
+        return new JacksonDecoder(objectMapper);
     }
 
     @Bean
