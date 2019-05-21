@@ -3,12 +3,14 @@ package uk.gov.hmcts.probate.client;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import feign.Client;
 import feign.Logger;
-import feign.codec.Decoder;
-import feign.jackson.JacksonDecoder;
+import feign.httpclient.ApacheHttpClient;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -17,7 +19,28 @@ import java.util.Collections;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-class IdamConfiguration {
+public class IdamConfiguration {
+
+    @Bean
+    public Client getFeignHttpClient() {
+        return new ApacheHttpClient(getHttpClient());
+    }
+
+    private CloseableHttpClient getHttpClient() {
+        int timeout = 10000;
+        RequestConfig config = RequestConfig.custom()
+            .setConnectTimeout(timeout)
+            .setConnectionRequestTimeout(timeout)
+            .setSocketTimeout(timeout)
+            .build();
+
+        return HttpClientBuilder
+            .create()
+            .useSystemProperties()
+            .disableRedirectHandling()
+            .setDefaultRequestConfig(config)
+            .build();
+    }
 
     @Bean
     public HttpMessageConverters customConverters() {
