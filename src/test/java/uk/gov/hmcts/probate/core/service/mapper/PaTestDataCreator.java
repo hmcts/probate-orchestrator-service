@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import uk.gov.hmcts.reform.probate.model.IhtFormType;
 import uk.gov.hmcts.reform.probate.model.PaymentStatus;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
-import uk.gov.hmcts.reform.probate.model.cases.Address;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
@@ -17,6 +16,7 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepr
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.LegalStatement;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.LegalStatementExecutorApplying;
+import uk.gov.hmcts.reform.probate.model.forms.Address;
 import uk.gov.hmcts.reform.probate.model.forms.Copies;
 import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
@@ -64,7 +64,8 @@ public class PaTestDataCreator {
     private static final BigDecimal COST_OVERSEAS = BigDecimal.valueOf(0);
     private static final int NUMBER_OVERSEAS = 0;
     private static final boolean DECEASED_ALIAS = false;
-    private static final String DECEASED_ADDRESS = "Winterfell, North, Westeros, GOT123";
+    private static final Address DECEASED_ADDRESS = Address.builder().addressLine1("Winterfell")
+            .postTown("North Westeros").postCode("GOT123").build();
     private static final boolean MARRIED = false;
     private static final LocalDateTime DECEASED_DATE_OF_BIRTH = LocalDate.of(1900, 1, 1).atStartOfDay();
     private static final LocalDateTime DECEASED_DATE_OF_DEATH = LocalDate.of(2019, 1, 1).atStartOfDay();
@@ -73,7 +74,8 @@ public class PaTestDataCreator {
     private static final String MANCHESTER = "Manchester";
     private static final String APPLICANT_ALIAS = "King of the North";
     private static final String APPLICANT_ALIAS_REASON = "Title Given";
-    private static final String APPLICANT_ADDRESS = "The Wall, North, Westeros, GOT567";
+    private static final Address APPLICANT_ADDRESS = Address.builder().addressLine1("The Wall")
+            .postTown("North Westeros").postCode("GOT567").build();
     private static final String APPLICANT__LASTNAME = "Snow";
     private static final String APPLICANT_FIRSTNAME = "Jon";
     private static final String APPLICANT_PHONE_NUMBER = "3234324";
@@ -268,8 +270,10 @@ public class PaTestDataCreator {
     public static GrantOfRepresentationData createGrantOfRepresentation() {
         return GrantOfRepresentationData.builder()
             .grantType(GrantType.GRANT_OF_PROBATE)
-            .primaryApplicantAddress(Address.builder()
-                .addressLine1(APPLICANT_ADDRESS)
+            .primaryApplicantAddress(uk.gov.hmcts.reform.probate.model.cases.Address.builder()
+                .addressLine1(APPLICANT_ADDRESS.getAddressLine1())
+                    .postTown(APPLICANT_ADDRESS.getPostTown())
+                    .postCode(APPLICANT_ADDRESS.getPostCode())
                 .build())
             .primaryApplicantEmailAddress(APPLICANT_EMAIL)
             .applicationSubmittedDate(LocalDate.now())
@@ -295,8 +299,10 @@ public class PaTestDataCreator {
             .deceasedSurname(DECEASED_LAST_NAME)
             .deceasedForenames(DECEASED_FIRST_NAME)
             .deceasedMarriedAfterWillOrCodicilDate(MARRIED)
-            .deceasedAddress(Address.builder()
-                .addressLine1(DECEASED_ADDRESS)
+            .deceasedAddress(uk.gov.hmcts.reform.probate.model.cases.Address.builder()
+                .addressLine1(DECEASED_ADDRESS.getAddressLine1())
+                .postTown(DECEASED_ADDRESS.getPostTown())
+                .postCode(DECEASED_ADDRESS.getPostCode())
                 .build())
             .numberOfApplicants(Long.valueOf(EXECUTORS_NUMBER))
             .numberOfExecutors(Long.valueOf(EXECUTORS_NUMBER))
@@ -364,7 +370,7 @@ public class PaTestDataCreator {
                         .applyingExecutorName(FIRST_EXECUTOR_FULLNAME)
                         .applyingExecutorPhoneNumber(FIRST_EXECUTOR_MOBILE)
                         .applyingExecutorEmail(FIRST_EXECUTOR_EMAIL)
-                        .applyingExecutorAddress(Address.builder()
+                        .applyingExecutorAddress(uk.gov.hmcts.reform.probate.model.cases.Address.builder()
                             .addressLine1(FIRST_EXECUTOR_ADDRESS)
                             .build())
                         .applyingExecutorOtherNames(FIRST_EXECUTOR_CURRENT_NAME)
@@ -376,7 +382,7 @@ public class PaTestDataCreator {
                         .applyingExecutorName(SECOND_EXECUTOR_APPLYING)
                         .applyingExecutorPhoneNumber(SECOND_EXECUTOR_MOBILE)
                         .applyingExecutorEmail(SECOND_EXECUTOR_EMAIL)
-                        .applyingExecutorAddress(Address.builder()
+                        .applyingExecutorAddress(uk.gov.hmcts.reform.probate.model.cases.Address.builder()
                             .addressLine1(SECOND_EXECUTOR_ADDRESS)
                             .build())
                         .build())

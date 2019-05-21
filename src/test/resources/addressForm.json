@@ -1,0 +1,74 @@
+{
+  "type": "PA",
+  "deceased": {
+    "firstName": "Monica",
+    "lastName": "Brenchley-Smith",
+    "dob_date": "1900-01-01T00:00:00.000Z",
+    "dod_date": "2019-01-01T00:00:00.000Z",
+    "dod_year": 2019,
+    "dob_month": 1,
+    "dob_day": 1,
+    "dod_day": 1,
+    "dob_year": 1900,
+    "dob_formattedDate": "1 January 1900",
+    "dod_formattedDate": "1 January 2019",
+    "dod_month": 1,
+    "postcode": "VALID",
+    "addresses": [
+      {
+        "building_number": "102",
+        "organisation_name": "MINISTRY OF JUSTICE",
+        "post_town": "LONDON",
+        "postcode": "SW1H 9AJ",
+        "sub_building_name": "SEVENTH FLOOR",
+        "thoroughfare_name": "PETTY FRANCE",
+        "uprn": "10033604583",
+        "formatted_address": "Ministry of Justice\nSeventh Floor\n102 Petty France\nLondon\nSW1H 9AJ"
+      },
+      {
+        "building_number": "103",
+        "organisation_name": "MINISTRY OF JUSTICE",
+        "post_town": "LONDON",
+        "postcode": "SW1H 9AJ",
+        "sub_building_name": "SEVENTH FLOOR",
+        "thoroughfare_name": "PETTY FRANCE",
+        "uprn": "10033604583",
+        "formatted_address": "Ministry of Justice\nSeventh Floor\n103 Petty France\nLondon\nSW1H 9AJ"
+      },
+      {
+        "building_number": "104",
+        "organisation_name": "MINISTRY OF JUSTICE",
+        "post_town": "LONDON",
+        "postcode": "SW1H 9AJ",
+        "sub_building_name": "SEVENTH FLOOR",
+        "thoroughfare_name": "PETTY FRANCE",
+        "uprn": "10033604583",
+        "formatted_address": "Ministry of Justice\nSeventh Floor\n104 Petty France\nLondon\nSW1H 9AJ"
+      }
+    ],
+    "addressFound": "true",
+    "address": {
+      "addressLine1": "Ministry of Justice",
+      "addressLine2": "Seventh Floor",
+      "addressLine3": "102 Petty France",
+      "postTown": "London",
+      "postCode": "SW1H 9AJ",
+      "country": "United Kingdom",
+      "formattedAddress": "Ministry of Justice Seventh Floor 102 Petty France London SW1H 9AJ United Kingdom "
+    }
+  },
+  "applicant": {},
+  "registry": {},
+  "ccdCase": {
+    "id": 1558088184150638,
+    "state": "Draft"
+  },
+  "declaration": {},
+  "applicantEmail": "test3@test.com",
+  "executors": {},
+  "copies": {},
+  "assets": {},
+  "iht": {},
+  "will": {},
+  "applicationSubmittedDate": "2019-05-17"
+}
