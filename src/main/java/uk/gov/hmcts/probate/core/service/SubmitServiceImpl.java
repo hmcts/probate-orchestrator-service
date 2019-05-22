@@ -74,7 +74,6 @@ public class SubmitServiceImpl implements SubmitService {
             identifier,
             ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
         );
-        backOfficeService.sendNotification(submitResult.getProbateCaseDetails());
         return mapFromCase(formMapper, submitResult.getProbateCaseDetails());
     }
 
@@ -124,6 +123,7 @@ public class SubmitServiceImpl implements SubmitService {
             ProbatePaymentDetails.builder().caseType(form.getType().getCaseType())
                 .payment(casePayment)
                 .build());
+        backOfficeService.sendNotification(probateCaseDetails);
         return mapFromCase(formMapper, probateCaseDetails);
     }
 

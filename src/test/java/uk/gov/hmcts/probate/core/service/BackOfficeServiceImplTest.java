@@ -9,7 +9,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import uk.gov.hmcts.probate.client.backoffice.BackOfficeApi;
-import uk.gov.hmcts.reform.ccd.client.model.CaseDetails;
+import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackRequest;
 import uk.gov.hmcts.reform.probate.model.cases.CaseInfo;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
@@ -35,9 +35,6 @@ public class BackOfficeServiceImplTest {
     @Mock
     private SecurityUtils securityUtils;
 
-    @Mock
-    private ObjectMapper objectMapper;
-
     @InjectMocks
     private BackOfficeServiceImpl backOfficeService;
 
@@ -58,8 +55,7 @@ public class BackOfficeServiceImplTest {
 
         backOfficeService.sendNotification(probateCaseDetails);
 
-        verify(backOfficeApi).raiseCaveat(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(CaseDetails.class));
-        verify(objectMapper).convertValue(probateCaseDetails.getCaseData(), Map.class);
+        verify(backOfficeApi).raiseCaveat(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class));
     }
 
     @Test
@@ -73,7 +69,6 @@ public class BackOfficeServiceImplTest {
 
         backOfficeService.sendNotification(probateCaseDetails);
 
-        verify(backOfficeApi, never()).raiseCaveat(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(CaseDetails.class));
-        verify(objectMapper, never()).convertValue(probateCaseDetails.getCaseData(), Map.class);
+        verify(backOfficeApi, never()).raiseCaveat(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class));
     }
 }

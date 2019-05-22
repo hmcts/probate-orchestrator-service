@@ -38,9 +38,9 @@
   back.office.api.url: ${BACK_OFFICE_API_URL:http://localhost:4104}
 
   logging:
-  level:
-    org.springframework.web: ERROR
-    uk.gov.hmcts.probate: DEBUG
+    level:
+      org.springframework.web: ERROR
+      uk.gov.hmcts.probate.client.backoffice.BackOfficeApi: DEBUG
   pattern:
     console: "%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n"
 
