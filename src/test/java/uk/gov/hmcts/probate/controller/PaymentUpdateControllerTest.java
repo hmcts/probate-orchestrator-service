@@ -15,7 +15,7 @@ import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -34,7 +34,7 @@ public class PaymentUpdateControllerTest {
     public void shouldUpdatePayment() throws Exception {
         String paymentDtoJsonStr = TestUtils.getJSONFromFile("paymentDto.json");
 
-        mockMvc.perform(post(PAYMENT_UPDATES)
+        mockMvc.perform(put(PAYMENT_UPDATES)
             .content(paymentDtoJsonStr)
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
