@@ -33,7 +33,6 @@
       "dod_month" : 1,
       "firstName" : "Dee",
       "addressFound" : "none",
-      "freeTextAddress" : "Dee Ceased Address",
       "dob_formattedDate" : "1 January 1930",
       "dod_formattedDate" : "1 January 2018"
     },
@@ -44,7 +43,6 @@
       "firstName" : "Lead",
       "phoneNumber" : "07123456789",
       "addressFound" : "none",
-      "freeTextAddress" : "Lead Applicant Address",
       "nameAsOnTheWill" : "No",
       "alias": "Lead_Applicant_Alias",
       "aliasReason": "other",
@@ -62,7 +60,6 @@
         "address" : "Number 2 Address",
         "fullName" : "Number 2",
         "isApplying" : true,
-        "freeTextAddress" : "Number 2 Address"
       } ],
       "alias" : "No",
       "allalive" : "Yes",

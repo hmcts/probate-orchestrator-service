@@ -4,14 +4,12 @@
       "deceasedMartialStatus": "marriedCivilPartnership",
       "primaryApplicantPhoneNumber": "123455678",
       "childrenOverEighteenSurvived": "Yes",
-      "deceasedFreeTextAddress": "Winterfell, Westeros",
       "deceasedAddressFound": "Yes",
       "primaryApplicantAdoptionInEnglandOrWales": "Yes",
       "uploadDocumentUrl": "http://document-management/document/12345",
       "childrenDied": "No",
       "deceasedSpouseNotApplyingReason": "mentallyIncapable",
       "declarationCheckbox": "Yes",
-      "primaryApplicantFreeTextAddress": "Pret a Manger St. Georges Hospital Blackshaw Road",
       "ihtFormCompletedOnline": "Yes",
       "deceasedAliasNameList": [
         {
