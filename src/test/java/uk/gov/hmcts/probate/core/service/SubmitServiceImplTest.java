@@ -206,7 +206,6 @@ public class SubmitServiceImplTest {
             eq(identifier), any(ProbateCaseDetails.class));
         verify(securityUtils, times(1)).getAuthorisation();
         verify(securityUtils, times(1)).getServiceAuthorisation();
-        verify(backOfficeService, times(1)).sendNotification(caseDetails);
     }
 
 
@@ -263,6 +262,7 @@ public class SubmitServiceImplTest {
             eq(EMAIL_ADDRESS), any(ProbatePaymentDetails.class));
         verify(securityUtils, times(1)).getAuthorisation();
         verify(securityUtils, times(1)).getServiceAuthorisation();
+        verify(backOfficeService, times(1)).sendNotification(caseDetails);
     }
 
 

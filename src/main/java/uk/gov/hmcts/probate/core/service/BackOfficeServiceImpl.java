@@ -6,8 +6,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.probate.client.backoffice.BackOfficeApi;
+import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackRequest;
+import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaseDetails;
 import uk.gov.hmcts.probate.service.BackOfficeService;
-import uk.gov.hmcts.reform.ccd.client.model.CaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 
@@ -24,35 +25,36 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 
     private final SecurityUtils securityUtils;
 
-    private final ObjectMapper objectMapper;
-
-    private final Map<CaseType, Consumer<CaseDetails>> sendNotificationFunctions = ImmutableMap
-        .<CaseType, Consumer<CaseDetails>>builder()
+    private final Map<CaseType, Consumer<BackOfficeCallbackRequest>> sendNotificationFunctions = ImmutableMap
+        .<CaseType, Consumer<BackOfficeCallbackRequest>>builder()
         .put(CaseType.CAVEAT, raiseCaveat())
         .build();
 
     @Override
     public void sendNotification(ProbateCaseDetails probateCaseDetails) {
-        Optional<Consumer<CaseDetails>> caveatDataConsumer = Optional.ofNullable(
+        Optional<Consumer<BackOfficeCallbackRequest>> caveatDataConsumer = Optional.ofNullable(
             sendNotificationFunctions.get(CaseType.getCaseType(probateCaseDetails.getCaseData()))
         );
 
         if (caveatDataConsumer.isPresent()) {
-            CaseDetails caseDetails = CaseDetails.builder()
-                .id(Long.valueOf(probateCaseDetails.getCaseInfo().getCaseId()))
-                .data(objectMapper.convertValue(probateCaseDetails.getCaseData(), Map.class))
+            BackOfficeCallbackRequest backOfficeCallbackRequest = BackOfficeCallbackRequest.builder()
+                .caseDetails(BackOfficeCaseDetails.builder()
+                    .data(probateCaseDetails.getCaseData())
+                    .id(Long.valueOf(probateCaseDetails.getCaseInfo().getCaseId()))
+                    .build())
                 .build();
-            caveatDataConsumer.get().accept(caseDetails);
+
+            caveatDataConsumer.get().accept(backOfficeCallbackRequest);
         }
     }
 
-    private Consumer<CaseDetails> raiseCaveat() {
-        return caseDetails -> {
-            log.info("Sending caveat data to back-office for case id {}", caseDetails.getId());
+    private Consumer<BackOfficeCallbackRequest> raiseCaveat() {
+        return backOfficeCallbackRequest -> {
+            log.info("Sending caveat data to back-office for case id {}", backOfficeCallbackRequest.getCaseDetails().getId());
             backOfficeApi.raiseCaveat(
                 securityUtils.getAuthorisation(),
                 securityUtils.getServiceAuthorisation(),
-                caseDetails);
+                backOfficeCallbackRequest);
         };
     }
 }
