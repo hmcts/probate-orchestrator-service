@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import uk.gov.hmcts.probate.TestUtils;
@@ -94,7 +95,6 @@ public class FormsControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(intestacyFormJsonStr, true));
         verify(submitService, times(1)).update(eq(EMAIL_ADDRESS), eq(intestacyForm));
-
         mockMvc.perform(put(FORMS_ENDPOINT + "/" + EMAIL_ADDRESS+ "/" + SUBMISSIONS_ENDPOINT)
                 .content(caveatFormJsonStr)
                 .contentType(MediaType.APPLICATION_JSON))
