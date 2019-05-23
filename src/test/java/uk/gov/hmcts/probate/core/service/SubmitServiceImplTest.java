@@ -30,6 +30,7 @@ import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 
 import java.util.Map;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -271,5 +272,22 @@ public class SubmitServiceImplTest {
         intestacyForm.setPayments(null);
 
         submitService.updatePayments(EMAIL_ADDRESS, intestacyForm);
+    }
+
+    @Test
+    public void shouldUpdatePayments() {
+        String caseId = "234324";
+        CasePayment casePayment = CasePayment.builder().build();
+        ProbateCaseDetails probateCaseDetails = ProbateCaseDetails.builder().build();
+
+        when(submitServiceApi.updatePaymentsByCaseId(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(caseId), eq(ProbatePaymentDetails.builder()
+            .payment(casePayment)
+            .build()))).thenReturn(probateCaseDetails);
+
+        ProbateCaseDetails probateCaseDetailsResult = submitService.updatePaymentsByCaseId(caseId, casePayment);
+        assertThat(probateCaseDetails, equalTo(probateCaseDetailsResult));
+        verify(submitServiceApi).updatePaymentsByCaseId(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(caseId), eq(ProbatePaymentDetails.builder()
+            .payment(casePayment)
+            .build()));
     }
 }

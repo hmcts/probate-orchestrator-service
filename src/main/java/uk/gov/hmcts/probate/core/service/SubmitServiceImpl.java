@@ -84,10 +84,10 @@ public class SubmitServiceImpl implements SubmitService {
         FormMapper formMapper = mappers.get(form.getType());
         log.debug("calling update on submitserviceapi");
         SubmitResult submitResult = submitServiceApi.update(
-                securityUtils.getAuthorisation(),
-                securityUtils.getServiceAuthorisation(),
-                identifier,
-                ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
+            securityUtils.getAuthorisation(),
+            securityUtils.getServiceAuthorisation(),
+            identifier,
+            ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
         );
         return mapFromCase(formMapper, submitResult.getProbateCaseDetails());
     }
@@ -125,6 +125,18 @@ public class SubmitServiceImpl implements SubmitService {
                 .build());
         backOfficeService.sendNotification(probateCaseDetails);
         return mapFromCase(formMapper, probateCaseDetails);
+    }
+
+    @Override
+    public ProbateCaseDetails updatePaymentsByCaseId(String caseId, CasePayment casePayment) {
+        log.info("Call to submit service with id {} with payment reference {}", caseId, casePayment.getReference());
+        return submitServiceApi.updatePaymentsByCaseId(
+            securityUtils.getAuthorisation(),
+            securityUtils.getServiceAuthorisation(),
+            caseId,
+            ProbatePaymentDetails.builder()
+                .payment(casePayment)
+                .build());
     }
 
     private CaseData mapToCase(Form form, FormMapper formMapper) {
