@@ -49,6 +49,7 @@ public interface CaveatMapper extends FormMapper<CaveatData, CaveatForm> {
     @Mapping(target = "applicant.email", source = "caveatorEmailAddress")
     @Mapping(target = "deceased.otherNames", source = "deceasedFullAliasNameList", qualifiedBy = {FromCaveatCollectionMember.class})
     @Mapping(target = "registry.name", source ="registryLocation", qualifiedBy = {FromRegistryLocation.class})
+    @Mapping(target = "caveatRaisedEmailNotificationRequested", expression = "java(Boolean.TRUE)")
     @InheritInverseConfiguration
     CaveatForm fromCaseData(CaveatData caveatdata);
 }
