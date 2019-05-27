@@ -32,7 +32,7 @@ import uk.gov.hmcts.reform.probate.model.forms.pa.PaForm;
 import java.time.LocalDate;
 
 
-@Mapper(componentModel = "spring", uses = {PaPaymentMapper.class, AliasNameMapper.class, RegistryLocationMapper.class,
+@Mapper(componentModel = "spring", uses = {PaPaymentMapper.class, PaymentsMapper.class, AliasNameMapper.class, RegistryLocationMapper.class,
     PoundsConverter.class, IhtMethodConverter.class, LegalStatementMapper.class, ExecutorsMapper.class,
     ExecutorApplyingMapper.class, ExecutorNotApplyingMapper.class, MapConverter.class, LocalDateTimeMapper.class,
     AddressMapper.class, FeesMapper.class},
@@ -87,12 +87,14 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "ihtFormCompletedOnline", source = "iht.method", qualifiedBy = {FromIhtMethod.class})
     @Mapping(target = "ihtNetValue", source = "iht.netValue", qualifiedBy = {ToPennies.class})
     @Mapping(target = "ihtGrossValue", source = "iht.grossValue", qualifiedBy = {ToPennies.class})
+    @Mapping(target = "ihtGrossValueField", source = "iht.grossValueField")
+    @Mapping(target = "ihtNetValueField", source = "iht.netValueField")
+
     @Mapping(target = "extraCopiesOfGrant", source = "copies.uk")
-    @Mapping(target = "outsideUkGrantCopies", expression = "java(form.getAssets() != null && BooleanUtils.isTrue(form.getAssets().getAssetsoverseas()) ? "
-        + "form.getCopies().getOverseas() : null)")
+    @Mapping(target = "outsideUkGrantCopies", source = "copies.overseas")
     @Mapping(target = "legalDeclarationJson", source = "legalDeclaration", qualifiedBy = {FromMap.class})
     @Mapping(target = "checkAnswersSummaryJson", source = "checkAnswersSummary", qualifiedBy = {FromMap.class})
-    @Mapping(target = "payments", source = "payment", qualifiedBy = {ToCollectionMember.class})
+    @Mapping(target = "payments", source = "payment")
     GrantOfRepresentationData toCaseData(PaForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.PA)")
@@ -115,14 +117,14 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "iht.method", source = "ihtFormCompletedOnline", qualifiedBy = {ToIhtMethod.class})
     @Mapping(target = "iht.form", source = "ihtFormId")
     @Mapping(target = "copies.overseas", source = "outsideUkGrantCopies")
-    @Mapping(target = "assets.assetsoverseas", expression = "java(grantOfRepresentationData.getOutsideUkGrantCopies() == null ? null : " +
+    @Mapping(target = "assets.assetsoverseas", expression = "java(grantOfRepresentationData.getOutsideUkGrantCopies() != null && " +
         "grantOfRepresentationData.getOutsideUkGrantCopies() > 0L)")
     @Mapping(target = "applicant.address", source = "primaryApplicantAddress", qualifiedBy = {ToFormAddress.class})
     @Mapping(target = "applicant.addresses", source = "primaryApplicantAddresses", qualifiedBy = {ToMap.class})
     @Mapping(target = "legalDeclaration", source = "legalDeclarationJson", qualifiedBy = {ToMap.class})
     @Mapping(target = "checkAnswersSummary", source = "checkAnswersSummaryJson", qualifiedBy = {ToMap.class})
-    @Mapping(target = "payment", source = "payments", qualifiedBy = {FromCollectionMember.class})
-    @Mapping(target = "payments", ignore = true)
+    @Mapping(target = "payment", source = "payments")
+    @Mapping(target = "payments", source = "payments", qualifiedBy = {FromCollectionMember.class})
     @InheritInverseConfiguration
     PaForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 

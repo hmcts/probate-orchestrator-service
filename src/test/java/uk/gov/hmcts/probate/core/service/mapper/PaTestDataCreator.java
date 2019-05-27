@@ -50,7 +50,7 @@ public class PaTestDataCreator {
     private static final BigDecimal NET_VALUE = new BigDecimal("20000.00");
     private static final BigDecimal GROSS_VALUE = new BigDecimal("20000.00");
     private static final String IDENTIFIER = "IHT1234567";
-    private static final Long OVERSEAS = null;
+    private static final Long OVERSEAS = 5L;
     private static final Long UK = 1L;
     private static final boolean CODICILS = true;
     private static final Long ID = 1551365512754035L;
@@ -68,7 +68,7 @@ public class PaTestDataCreator {
     private static final int NUMBER_OVERSEAS = 0;
     private static final boolean DECEASED_ALIAS = false;
     private static final Address DECEASED_ADDRESS = Address.builder().addressLine1("Winterfell")
-            .postTown("North Westeros").postCode("GOT123").build();
+        .postTown("North Westeros").postCode("GOT123").build();
     private static final boolean MARRIED = false;
     private static final LocalDateTime DECEASED_DATE_OF_BIRTH = LocalDate.of(1900, 1, 1).atStartOfDay();
     private static final LocalDateTime DECEASED_DATE_OF_DEATH = LocalDate.of(2019, 1, 1).atStartOfDay();
@@ -78,7 +78,7 @@ public class PaTestDataCreator {
     private static final String APPLICANT_ALIAS = "King of the North";
     private static final String APPLICANT_ALIAS_REASON = "Title Given";
     private static final Address APPLICANT_ADDRESS = Address.builder().addressLine1("The Wall")
-            .postTown("North Westeros").postCode("GOT567").build();
+        .postTown("North Westeros").postCode("GOT567").build();
     private static final String APPLICANT__LASTNAME = "Snow";
     private static final String APPLICANT_FIRSTNAME = "Jon";
     private static final String APPLICANT_PHONE_NUMBER = "3234324";
@@ -141,10 +141,10 @@ public class PaTestDataCreator {
     private static final String SECOND_EXECUTOR_NOT_APPLYING = "Catlin Stark";
     private static final ExecutorNotApplyingReason FIRST_EXECUTOR_NOT_APPLYING_KEY = ExecutorNotApplyingReason.DIED_BEFORE;
     private static final ExecutorNotApplyingReason SECOND_EXECUTOR_NOT_APPLYING_KEY = ExecutorNotApplyingReason.DIED_BEFORE;
-    public static final BigDecimal UK_COPIES_FEE = BigDecimal.valueOf(100L).setScale( 2, RoundingMode.HALF_UP);
-    public static final BigDecimal OVERSEAS_COPIES_FEE = BigDecimal.valueOf(200L).setScale( 2, RoundingMode.HALF_UP);
-    public static final BigDecimal APPLICATION_FEE = BigDecimal.valueOf(300).setScale( 2, RoundingMode.HALF_UP);
-    public static final BigDecimal FEES_TOTAL = BigDecimal.valueOf(600L).setScale( 2, RoundingMode.HALF_UP);
+    public static final BigDecimal UK_COPIES_FEE = BigDecimal.valueOf(100L).setScale(2, RoundingMode.HALF_UP);
+    public static final BigDecimal OVERSEAS_COPIES_FEE = BigDecimal.valueOf(200L).setScale(2, RoundingMode.HALF_UP);
+    public static final BigDecimal APPLICATION_FEE = BigDecimal.valueOf(300).setScale(2, RoundingMode.HALF_UP);
+    public static final BigDecimal FEES_TOTAL = BigDecimal.valueOf(600L).setScale(2, RoundingMode.HALF_UP);
     public static final String OVERSEAS_COPIES_FEE_CODE = "OVERSEAS1";
     public static final String OVERSEAS_COPIES_FEE_VERSION = "22";
     public static final String UK_COPIES_FEE_CODE = "UK1";
@@ -178,7 +178,7 @@ public class PaTestDataCreator {
                     .build()
             )
             .assets(PaAssets.builder()
-                .assetsoverseas(null)
+                .assetsoverseas(true)
                 .build())
             .payment(Payment.builder()
                 .date(PAYMENT_DATE)
@@ -189,6 +189,16 @@ public class PaTestDataCreator {
                 .reference(REFERENCE)
                 .transactionId(TRANSACTION_ID)
                 .build()
+            )
+            .payments(Lists.newArrayList(Payment.builder()
+                .date(PAYMENT_DATE)
+                .amount(AMOUNT)
+                .siteId(SITE_ID)
+                .status(PAYMENT_STATUS)
+                .method(METHOD)
+                .reference(REFERENCE)
+                .transactionId(TRANSACTION_ID)
+                .build())
             )
             .deceased(PaDeceased.builder()
                 .alias(DECEASED_ALIAS)
@@ -297,8 +307,8 @@ public class PaTestDataCreator {
             .grantType(GrantType.GRANT_OF_PROBATE)
             .primaryApplicantAddress(uk.gov.hmcts.reform.probate.model.cases.Address.builder()
                 .addressLine1(APPLICANT_ADDRESS.getAddressLine1())
-                    .postTown(APPLICANT_ADDRESS.getPostTown())
-                    .postCode(APPLICANT_ADDRESS.getPostCode())
+                .postTown(APPLICANT_ADDRESS.getPostTown())
+                .postCode(APPLICANT_ADDRESS.getPostCode())
                 .build())
             .primaryApplicantEmailAddress(APPLICANT_EMAIL)
             .applicationSubmittedDate(LocalDate.now())

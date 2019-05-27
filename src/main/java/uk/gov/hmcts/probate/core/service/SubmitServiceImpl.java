@@ -10,6 +10,7 @@ import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.fees.FeesChangedException;
 import uk.gov.hmcts.probate.core.service.fees.FeesNotCalculatedException;
 import uk.gov.hmcts.probate.core.service.mapper.FormMapper;
+import uk.gov.hmcts.probate.core.service.mapper.PaymentMapper;
 import uk.gov.hmcts.probate.service.FeesService;
 import uk.gov.hmcts.probate.service.PaymentService;
 import uk.gov.hmcts.probate.service.SubmitService;
@@ -43,6 +44,8 @@ public class SubmitServiceImpl implements SubmitService {
     private final SecurityUtils securityUtils;
 
     private final Map<ProbateType, Function<Form, String>> formIdentifierFunctionMap;
+
+    private final PaymentMapper paymentMapper;
 
 //    private final PaymentService paymentService;
 //
@@ -129,14 +132,14 @@ public class SubmitServiceImpl implements SubmitService {
     private Form updatePayment(String identifier, Form form, PaymentDto paymentDto) {
         Payment payment = Payment.builder()
             .reference(paymentDto.getReference())
-            .status(PaymentStatus.valueOf(paymentDto.getStatus()))
+            .status(PaymentStatus.getPaymentStatusByName(paymentDto.getStatus()))
             .date(paymentDto.getDateCreated())
             .method(paymentDto.getMethod())
             .status(PaymentStatus.getPaymentStatusByName(paymentDto.getStatus()))
             .amount(paymentDto.getAmount())
             .total(paymentDto.getAmount())
             .build();
-        form.setPayments(Lists.newArrayList(payment));
+        form.setPayment(payment);
         return updatePayments(identifier, form);
     }
 
@@ -169,7 +172,7 @@ public class SubmitServiceImpl implements SubmitService {
     @Override
     public Form updatePayments(String identifier, Form form) {
         log.info("update Payments called");
-        Assert.isTrue(!CollectionUtils.isEmpty(form.getPayments()),
+        Assert.isTrue(!CollectionUtils.isEmpty(form.getPayments()) || form.getPayment() != null,
             "Cannot update case with no payments, there needs to be at least one payment");
         FormMapper formMapper = mappers.get(form.getType());
         CaseData caseData = formMapper.toCaseData(form);

@@ -13,6 +13,7 @@ import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.MaritalStatus;
 import uk.gov.hmcts.reform.probate.model.cases.RegistryLocation;
+import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.Declaration;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.SpouseNotApplyingReason;
@@ -25,6 +26,7 @@ import uk.gov.hmcts.reform.probate.model.forms.Registry;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyApplicant;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyAssets;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyDeceased;
+import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyDeclaration;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 
 import java.math.BigDecimal;
