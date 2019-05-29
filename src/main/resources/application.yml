@@ -28,7 +28,14 @@
 
   service.auth.provider.base.url: ${auth.provider.service.client.baseUrl}
 
-  auth.idam.client.baseUrl: ${AUTH_IDAM_CLIENT_BASEURL:http://localhost:4501}
+  auth.idam:
+    client.baseUrl: ${AUTH_IDAM_CLIENT_BASEURL:http://localhost:4501}
+    clientId: probate
+    clientSecret: ${AUTH2_CLIENT_SECRET:123456}
+    redirectUrl: ${IDAM_API_REDIRECT_URL:http://localhost:3451/oauth2redirect}
+    caseworker:
+      username: ${PAYMENT_CASEWORKER_USERNAME:probatebackoffice@gmail.com}
+      password: ${PAYMENT_CASEWORKER_PASSWORD:Monday01}
 
   s2s.auth.totp.secret: ${auth.provider.service.client.key}
   service.name: ${auth.provider.service.client.microservice}
@@ -44,3 +51,4 @@
     console: "%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n"
 
   logging.level.uk.gov.hmcts.probate.client.BusinessServiceApi: DEBUG
+  logging.level.uk.gov.hmcts.probate.client.idam.IdamClient: DEBUG
