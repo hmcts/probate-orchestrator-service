@@ -1,6 +1,6 @@
 package uk.gov.hmcts.probate.core.service;
 
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Sets;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -10,10 +10,10 @@ import uk.gov.hmcts.probate.client.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.mapper.FormMapper;
 import uk.gov.hmcts.probate.service.BackOfficeService;
 import uk.gov.hmcts.probate.service.SubmitService;
+import uk.gov.hmcts.reform.probate.model.PaymentStatus;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.CaseData;
 import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
-import uk.gov.hmcts.reform.probate.model.cases.CaseState;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.ProbatePaymentDetails;
@@ -23,8 +23,8 @@ import uk.gov.hmcts.reform.probate.model.forms.Form;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
-import java.util.function.Predicate;
 
 @Component
 @RequiredArgsConstructor
@@ -41,10 +41,7 @@ public class SubmitServiceImpl implements SubmitService {
 
     private final Map<ProbateType, Function<Form, String>> formIdentifierFunctionMap;
 
-    private final Map<CaseType, Predicate<ProbateCaseDetails>> notificationPreconditionsMap = ImmutableMap
-        .<CaseType, Predicate<ProbateCaseDetails>>builder()
-        .put(CaseType.CAVEAT, probateCaseDetails -> probateCaseDetails.getCaseInfo().getState().equals(CaseState.CAVEAT_RAISED.getName()))
-        .build();
+    private final Set<CaseType> caseTypesForNotifications = Sets.newHashSet(CaseType.CAVEAT);
 
     @Override
     public Form getCase(String identifier, ProbateType probateType) {
@@ -123,27 +120,25 @@ public class SubmitServiceImpl implements SubmitService {
             "Cannot update case with no payments, there needs to be at least one payment");
         FormMapper formMapper = mappers.get(form.getType());
         CaseData caseData = formMapper.toCaseData(form);
-        CasePayment casePayment = caseData.getPayments().get(0).getValue();
+        Optional<CaseData> optionalCaseData = sendNotification(caseData);
+        CaseData caseDataToSave = optionalCaseData.isPresent() ? optionalCaseData.get() : caseData;
         log.debug("calling update Payments in submitServiceApi");
-        ProbateCaseDetails probateCaseDetails = submitServiceApi.updatePayments(
+        ProbateCaseDetails probateCaseDetails = submitServiceApi.createCase(
             securityUtils.getAuthorisation(),
             securityUtils.getServiceAuthorisation(),
             identifier,
-            ProbatePaymentDetails.builder().caseType(form.getType().getCaseType())
-                .payment(casePayment)
-                .build());
-
-        sendNotification(probateCaseDetails);
+            ProbateCaseDetails.builder().caseData(caseDataToSave).build()
+        );
         return mapFromCase(formMapper, probateCaseDetails);
     }
 
-    public void sendNotification(ProbateCaseDetails probateCaseDetails) {
-        Optional<Predicate<ProbateCaseDetails>> probateCaseDetailsPredicate = Optional.ofNullable(
-            notificationPreconditionsMap.get(CaseType.getCaseType(probateCaseDetails.getCaseData()))
-        );
-        if (probateCaseDetailsPredicate.isPresent() && probateCaseDetailsPredicate.get().test(probateCaseDetails)) {
-            backOfficeService.sendNotification(probateCaseDetails);
+    public Optional<CaseData> sendNotification(CaseData caseData) {
+        CaseType caseType = CaseType.getCaseType(caseData);
+        CasePayment casePayment = caseData.getPayments().get(0).getValue();
+        if (caseTypesForNotifications.contains(caseType) && PaymentStatus.SUCCESS.equals(casePayment.getStatus())) {
+            return Optional.ofNullable(backOfficeService.sendNotification(caseData));
         }
+        return Optional.empty();
     }
 
     @Override
@@ -156,7 +151,6 @@ public class SubmitServiceImpl implements SubmitService {
             ProbatePaymentDetails.builder()
                 .payment(casePayment)
                 .build());
-        sendNotification(probateCaseDetails);
         return probateCaseDetails;
     }
 

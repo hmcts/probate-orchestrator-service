@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackRequest;
+import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackResponse;
 
 import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -27,7 +28,7 @@ public interface BackOfficeApi {
             ACCEPT + "=" + APPLICATION_JSON_VALUE
         }
     )
-    void raiseCaveat(
+    BackOfficeCallbackResponse raiseCaveat(
         @RequestHeader(AUTHORIZATION) String authorization,
         @RequestHeader(SERVICE_AUTHORIZATION) String serviceAuthorization,
         @RequestBody BackOfficeCallbackRequest backOfficeCallbackRequest

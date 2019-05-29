@@ -14,6 +14,7 @@ import uk.gov.hmcts.probate.core.service.mapper.CaveatMapper;
 import uk.gov.hmcts.probate.core.service.mapper.FormMapper;
 import uk.gov.hmcts.probate.core.service.mapper.IntestacyMapper;
 import uk.gov.hmcts.probate.service.BackOfficeService;
+import uk.gov.hmcts.reform.probate.model.PaymentStatus;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.CaseInfo;
 import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
@@ -116,6 +117,7 @@ public class SubmitServiceImplTest {
         String caveatFormStr = TestUtils.getJSONFromFile("caveatForm.json");
         caveatForm = objectMapper.readValue(caveatFormStr, CaveatForm.class);
         CasePayment caveatCasePayment = new CasePayment();
+        caveatCasePayment.setStatus(PaymentStatus.SUCCESS);
         caveatCaseData = CaveatData.builder().applicationId(CAVEAT_IDENTIFIER).payments(
             Lists.newArrayList(CollectionMember.<CasePayment>builder().value(caveatCasePayment).build())).build();
 
@@ -247,31 +249,32 @@ public class SubmitServiceImplTest {
     @Test
     public void shouldUpdateIntestacyPayments() {
         shouldUpdatePayments(intestacyForm, intestacyCaseDetails);
-        verify(backOfficeService, never()).sendNotification(intestacyCaseDetails);
+        verify(backOfficeService, never()).sendNotification(intestacyCaseDetails.getCaseData());
     }
 
     @Test
     public void shouldUpdateCaveatPaymentsAndSendNotification() {
         caveatCaseDetails.getCaseInfo().setState(CaseState.CAVEAT_RAISED.getName());
         shouldUpdatePayments(caveatForm, caveatCaseDetails);
-        verify(backOfficeService, times(1)).sendNotification(caveatCaseDetails);
+        verify(backOfficeService, times(1)).sendNotification(caveatCaseDetails.getCaseData());
     }
 
     @Test
     public void shouldUpdateCaveatPaymentsAndNotSendNotification() {
+        caveatCaseDetails.getCaseData().getPayments().get(0).getValue().setStatus(PaymentStatus.FAILED);
         shouldUpdatePayments(caveatForm, caveatCaseDetails);
-        verify(backOfficeService, never()).sendNotification(caveatCaseDetails);
+        verify(backOfficeService, never()).sendNotification(caveatCaseDetails.getCaseData());
     }
 
     private void shouldUpdatePayments(Form form, ProbateCaseDetails caseDetails) {
-        when(submitServiceApi.updatePayments(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-            eq(EMAIL_ADDRESS), any(ProbatePaymentDetails.class))).thenReturn(caseDetails);
+        when(submitServiceApi.createCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
+            eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class))).thenReturn(caseDetails);
 
         Form formResponse = submitService.updatePayments(EMAIL_ADDRESS, form);
 
         assertThat(formResponse, is(form));
-        verify(submitServiceApi, times(1)).updatePayments(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-            eq(EMAIL_ADDRESS), any(ProbatePaymentDetails.class));
+        verify(submitServiceApi, times(1)).createCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
+            eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class));
         verify(securityUtils, times(1)).getAuthorisation();
         verify(securityUtils, times(1)).getServiceAuthorisation();
     }
@@ -303,7 +306,7 @@ public class SubmitServiceImplTest {
         verify(submitServiceApi).updatePaymentsByCaseId(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(caseId), eq(ProbatePaymentDetails.builder()
             .payment(casePayment)
             .build()));
-        verify(backOfficeService, never()).sendNotification(caveatCaseDetails);
+        verify(backOfficeService, never()).sendNotification(caveatCaseDetails.getCaseData());
     }
 
     @Test
@@ -325,6 +328,5 @@ public class SubmitServiceImplTest {
         verify(submitServiceApi).updatePaymentsByCaseId(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(caseId), eq(ProbatePaymentDetails.builder()
             .payment(casePayment)
             .build()));
-        verify(backOfficeService, times(1)).sendNotification(probateCaseDetails);
     }
 }

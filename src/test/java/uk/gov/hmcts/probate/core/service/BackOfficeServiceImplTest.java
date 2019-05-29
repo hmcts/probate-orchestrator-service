@@ -9,14 +9,15 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import uk.gov.hmcts.probate.client.backoffice.BackOfficeApi;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackRequest;
-import uk.gov.hmcts.reform.probate.model.cases.CaseInfo;
-import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
+import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackResponse;
+import uk.gov.hmcts.reform.probate.model.cases.CaseData;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BackOfficeServiceImplTest {
@@ -31,6 +32,9 @@ public class BackOfficeServiceImplTest {
     @Mock
     private SecurityUtils securityUtils;
 
+    @Mock
+    private BackOfficeCallbackResponse backOfficeCallbackResponse;
+
     @InjectMocks
     private BackOfficeServiceImpl backOfficeService;
 
@@ -42,27 +46,18 @@ public class BackOfficeServiceImplTest {
 
     @Test
     public void shouldSendNotificationWhenCaseTypeIsCaveat() {
-        ProbateCaseDetails probateCaseDetails = ProbateCaseDetails.builder()
-            .caseInfo(CaseInfo.builder()
-                .caseId(CASE_ID)
-                .build())
-            .caseData(CaveatData.builder().build())
-            .build();
+        when(backOfficeApi.raiseCaveat(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class)))
+            .thenReturn(backOfficeCallbackResponse);
 
-        backOfficeService.sendNotification(probateCaseDetails);
+        CaveatData caveatData = CaveatData.builder().build();
+        backOfficeService.sendNotification(caveatData);
 
         verify(backOfficeApi).raiseCaveat(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowIllegalArgumentExceptionWhenCaseTypeIsGrantOfRepresentation() {
-        ProbateCaseDetails probateCaseDetails = ProbateCaseDetails.builder()
-            .caseInfo(CaseInfo.builder()
-                .caseId(CASE_ID)
-                .build())
-            .caseData(GrantOfRepresentationData.builder().build())
-            .build();
-
-        backOfficeService.sendNotification(probateCaseDetails);
+        CaseData caseData = GrantOfRepresentationData.builder().build();
+        backOfficeService.sendNotification(caseData);
     }
 }
