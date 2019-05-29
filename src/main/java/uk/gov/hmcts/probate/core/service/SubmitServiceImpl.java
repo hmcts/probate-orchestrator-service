@@ -1,5 +1,6 @@
 package uk.gov.hmcts.probate.core.service;
 
+import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,8 @@ import uk.gov.hmcts.probate.service.SubmitService;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.CaseData;
 import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
+import uk.gov.hmcts.reform.probate.model.cases.CaseState;
+import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.ProbatePaymentDetails;
 import uk.gov.hmcts.reform.probate.model.cases.SubmitResult;
@@ -21,6 +24,7 @@ import uk.gov.hmcts.reform.probate.model.forms.Form;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 @Component
 @RequiredArgsConstructor
@@ -36,6 +40,11 @@ public class SubmitServiceImpl implements SubmitService {
     private final SecurityUtils securityUtils;
 
     private final Map<ProbateType, Function<Form, String>> formIdentifierFunctionMap;
+
+    private final Map<CaseType, Predicate<ProbateCaseDetails>> notificationPreconditionsMap = ImmutableMap
+        .<CaseType, Predicate<ProbateCaseDetails>>builder()
+        .put(CaseType.CAVEAT, probateCaseDetails -> probateCaseDetails.getCaseInfo().getState().equals(CaseState.CAVEAT_RAISED.getName()))
+        .build();
 
     @Override
     public Form getCase(String identifier, ProbateType probateType) {
@@ -123,20 +132,32 @@ public class SubmitServiceImpl implements SubmitService {
             ProbatePaymentDetails.builder().caseType(form.getType().getCaseType())
                 .payment(casePayment)
                 .build());
-        backOfficeService.sendNotification(probateCaseDetails);
+
+        sendNotification(probateCaseDetails);
         return mapFromCase(formMapper, probateCaseDetails);
+    }
+
+    public void sendNotification(ProbateCaseDetails probateCaseDetails) {
+        Optional<Predicate<ProbateCaseDetails>> probateCaseDetailsPredicate = Optional.ofNullable(
+            notificationPreconditionsMap.get(CaseType.getCaseType(probateCaseDetails.getCaseData()))
+        );
+        if (probateCaseDetailsPredicate.isPresent() && probateCaseDetailsPredicate.get().test(probateCaseDetails)) {
+            backOfficeService.sendNotification(probateCaseDetails);
+        }
     }
 
     @Override
     public ProbateCaseDetails updatePaymentsByCaseId(String caseId, CasePayment casePayment) {
         log.info("Call to submit service with id {} with payment reference {}", caseId, casePayment.getReference());
-        return submitServiceApi.updatePaymentsByCaseId(
+        ProbateCaseDetails probateCaseDetails = submitServiceApi.updatePaymentsByCaseId(
             securityUtils.getAuthorisation(),
             securityUtils.getServiceAuthorisation(),
             caseId,
             ProbatePaymentDetails.builder()
                 .payment(casePayment)
                 .build());
+        sendNotification(probateCaseDetails);
+        return probateCaseDetails;
     }
 
     private CaseData mapToCase(Form form, FormMapper formMapper) {

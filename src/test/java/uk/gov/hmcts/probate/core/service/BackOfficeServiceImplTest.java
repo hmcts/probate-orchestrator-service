@@ -1,6 +1,5 @@
 package uk.gov.hmcts.probate.core.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,11 +14,8 @@ import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 
-import java.util.Map;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -58,8 +54,8 @@ public class BackOfficeServiceImplTest {
         verify(backOfficeApi).raiseCaveat(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class));
     }
 
-    @Test
-    public void shouldNotSendNotificationWhenCaseTypeIsGrantOfRepresentation() {
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenCaseTypeIsGrantOfRepresentation() {
         ProbateCaseDetails probateCaseDetails = ProbateCaseDetails.builder()
             .caseInfo(CaseInfo.builder()
                 .caseId(CASE_ID)
@@ -68,7 +64,5 @@ public class BackOfficeServiceImplTest {
             .build();
 
         backOfficeService.sendNotification(probateCaseDetails);
-
-        verify(backOfficeApi, never()).raiseCaveat(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class));
     }
 }
