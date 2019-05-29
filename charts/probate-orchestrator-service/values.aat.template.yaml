@@ -7,3 +7,4 @@ java:
     AUTH_IDAM_CLIENT_BASEURL : "https://idam-api.aat.platform.hmcts.net"
     SUBMIT_SERVICE_API_URL : "http://probate-submit-service-pr-178.service.core-compute-preview.internal"
     BUSINESS_SERVICE_API_URL : "http://probate-business-service-aat.service.core-compute-aat.internal"
+    BACK_OFFICE_API_URL: "http://probate-back-office-aat.service.core-compute-aat.internal"
