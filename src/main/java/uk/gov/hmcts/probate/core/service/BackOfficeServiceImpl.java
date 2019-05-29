@@ -11,6 +11,8 @@ import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaseDetails;
 import uk.gov.hmcts.probate.service.BackOfficeService;
 import uk.gov.hmcts.reform.probate.model.cases.CaseData;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
+import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
+import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
 
 import java.util.Map;
 import java.util.Optional;
@@ -25,36 +27,40 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 
     private final SecurityUtils securityUtils;
 
-    private final Map<CaseType, Function<CaseData, CaseData>> sendNotificationFunctions = ImmutableMap
-        .<CaseType, Function<CaseData, CaseData>>builder()
+    private final Map<CaseType, Function<ProbateCaseDetails, CaseData>> sendNotificationFunctions = ImmutableMap
+        .<CaseType, Function<ProbateCaseDetails, CaseData>>builder()
         .put(CaseType.CAVEAT, raiseCaveat())
         .build();
 
     @Override
-    public CaseData sendNotification(CaseData caseData) {
-        CaseType caseType = CaseType.getCaseType(caseData);
-        Function<CaseData, CaseData> sendNotificationFunction = Optional.ofNullable(
+    public CaseData sendNotification(ProbateCaseDetails probateCaseDetails) {
+        CaseType caseType = CaseType.getCaseType(probateCaseDetails.getCaseData());
+        Function<ProbateCaseDetails, CaseData> sendNotificationFunction = Optional.ofNullable(
             sendNotificationFunctions.get(caseType)
         ).orElseThrow(() -> new IllegalArgumentException("Cannot find notification function for case type: " + caseType));
-        return sendNotificationFunction.apply(caseData);
+        return sendNotificationFunction.apply(probateCaseDetails);
     }
 
-    private Function<CaseData, CaseData> raiseCaveat() {
-        return caseData -> {
-            BackOfficeCallbackRequest backOfficeCallbackRequest = createBackOfficeCallbackRequest(caseData);
+    private Function<ProbateCaseDetails, CaseData> raiseCaveat() {
+        return probateCaseDetails -> {
+            BackOfficeCallbackRequest backOfficeCallbackRequest = createBackOfficeCallbackRequest(probateCaseDetails);
             log.info("Sending caveat data to back-office for case id {}", backOfficeCallbackRequest.getCaseDetails().getId());
             BackOfficeCallbackResponse backOfficeCallbackResponse = backOfficeApi.raiseCaveat(
                 securityUtils.getAuthorisation(),
                 securityUtils.getServiceAuthorisation(),
                 backOfficeCallbackRequest);
-            return backOfficeCallbackResponse.getCaseData();
+            CaveatData boCaveatData = (CaveatData) backOfficeCallbackResponse.getCaseData();
+            CaveatData caveatData = (CaveatData) probateCaseDetails.getCaseData();
+            caveatData.setNotificationsGenerated(boCaveatData.getNotificationsGenerated());
+            return caveatData;
         };
     }
 
-    private BackOfficeCallbackRequest createBackOfficeCallbackRequest(CaseData caseData) {
+    private BackOfficeCallbackRequest createBackOfficeCallbackRequest(ProbateCaseDetails probateCaseDetails) {
         return BackOfficeCallbackRequest.builder()
             .caseDetails(BackOfficeCaseDetails.builder()
-                .data(caseData)
+                .data(probateCaseDetails.getCaseData())
+                .id(Long.valueOf(probateCaseDetails.getCaseInfo().getCaseId()))
                 .build())
             .build();
     }
