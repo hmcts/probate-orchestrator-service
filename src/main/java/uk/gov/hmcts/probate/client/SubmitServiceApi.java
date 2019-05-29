@@ -76,4 +76,15 @@ public interface SubmitServiceApi {
             @PathVariable(SubmitServiceConfiguration.APPLICATION_ID) String applicationId,
             @RequestBody ProbatePaymentDetails probatePaymentDetails
     );
+
+    @PostMapping(
+        value = "/ccd-case-payments/{caseId}",
+        headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+    )
+    ProbateCaseDetails updatePaymentsByCaseId(
+        @RequestHeader(AUTHORIZATION) String authorisation,
+        @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+        @PathVariable("caseId") String caseId,
+        @RequestBody ProbatePaymentDetails probatePaymentDetails
+    );
 }

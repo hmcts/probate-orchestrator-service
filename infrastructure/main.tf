@@ -14,34 +14,6 @@ provider "azurerm" {
 }
 
 
-# data "vault_generic_secret" "probate_mail_host" {
-#   path = "secret/${var.vault_section}/probate/probate_mail_host"
-# }
-
-# data "vault_generic_secret" "probate_mail_username" {
-#   path = "secret/${var.vault_section}/probate/probate_mail_username"
-# }
-
-# data "vault_generic_secret" "probate_mail_password" {
-#   path = "secret/${var.vault_section}/probate/probate_mail_password"
-# }
-
-# data "vault_generic_secret" "probate_mail_port" {
-#   path = "secret/${var.vault_section}/probate/probate_mail_port"
-# }
-
-# data "vault_generic_secret" "probate_mail_sender" {
-#   path = "secret/${var.vault_section}/probate/probate_mail_sender"
-# }
-
-# data "vault_generic_secret" "probate_mail_recipient" {
-#   path = "secret/${var.vault_section}/probate/probate_mail_recipient"
-# }
-
-
-# data "vault_generic_secret" "spring_application_json_submit_service" {
-#   path = "secret/${var.vault_section}/probate/spring_application_json_submit_service_azure"
-# }
 
 locals {
   aseName = "${data.terraform_remote_state.core_apps_compute.ase_name[0]}"
@@ -94,10 +66,20 @@ data "azurerm_key_vault_secret" "probate_mail_recipient" {
   vault_uri = "${data.azurerm_key_vault.probate_key_vault.vault_uri}"
 }
 
-//data "azurerm_key_vault_secret" "spring_application_json_submit_service" {
-//  name = "spring-application-json-submit-service-azure"
-//  vault_uri = "${data.azurerm_key_vault.probate_key_vault.vault_uri}"
-//}
+data "azurerm_key_vault_secret" "idamRedirectUrl" {
+  name = "idamRedirectUrl"
+  vault_uri = "${data.azurerm_key_vault.probate_key_vault.vault_uri}"
+}
+
+data "azurerm_key_vault_secret" "payCaseWorkerUser" {
+  name = "payCaseWorkerUser"
+  vault_uri = "${data.azurerm_key_vault.probate_key_vault.vault_uri}"
+}
+
+data "azurerm_key_vault_secret" "payCaseWorkerPass" {
+  name = "payCaseWorkerPass"
+  vault_uri = "${data.azurerm_key_vault.probate_key_vault.vault_uri}"
+}
 
 module "probate-orchestrator-service" {
   source = "git@github.com:hmcts/moj-module-webapp.git?ref=master"
@@ -138,8 +120,10 @@ module "probate-orchestrator-service" {
     MAIL_JAVAMAILPROPERTIES_RECIPIENT = "${data.azurerm_key_vault_secret.probate_mail_recipient.value}"
 
     AUTH_PROVIDER_SERVICE_CLIENT_KEY = "${data.azurerm_key_vault_secret.s2s_key.value}"
-//    SPRING_APPLICATION_JSON = "${data.azurerm_key_vault_secret.spring_application_json_submit_service.value}"
-   
+    IDAM_API_REDIRECT_URL = "${data.azurerm_key_vault_secret.idamRedirectUrl.value}"
+    PAYMENT_CASEWORKER_USERNAME = "${data.azurerm_key_vault_secret.payCaseWorkerUser.value}"
+    PAYMENT_CASEWORKER_PASSWORD = "${data.azurerm_key_vault_secret.payCaseWorkerPass.value}"
+  
     MAIL_JAVAMAILPROPERTIES_SUBJECT = "${var.probate_mail_subject}"
     MAIL_JAVAMAILPROPERTIES_MAIL_SMTP_AUTH = "${var.probate_mail_use_auth}"
     MAIL_JAVAMAILPROPERTIES_MAIL_SMTP_SSL_ENABLE = "${var.probate_mail_use_ssl}"
