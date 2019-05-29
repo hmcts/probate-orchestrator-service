@@ -11,6 +11,8 @@ import uk.gov.hmcts.probate.client.backoffice.BackOfficeApi;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackRequest;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackResponse;
 import uk.gov.hmcts.reform.probate.model.cases.CaseData;
+import uk.gov.hmcts.reform.probate.model.cases.CaseInfo;
+import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 
@@ -32,7 +34,6 @@ public class BackOfficeServiceImplTest {
     @Mock
     private SecurityUtils securityUtils;
 
-    @Mock
     private BackOfficeCallbackResponse backOfficeCallbackResponse;
 
     @InjectMocks
@@ -40,6 +41,8 @@ public class BackOfficeServiceImplTest {
 
     @Before
     public void setUp() {
+
+        backOfficeCallbackResponse = BackOfficeCallbackResponse.builder().caseData(new CaveatData()).build();
         Mockito.when(securityUtils.getAuthorisation()).thenReturn(AUTHORIZATION);
         Mockito.when(securityUtils.getServiceAuthorisation()).thenReturn(SERVICE_AUTHORIZATION);
     }
@@ -50,14 +53,13 @@ public class BackOfficeServiceImplTest {
             .thenReturn(backOfficeCallbackResponse);
 
         CaveatData caveatData = CaveatData.builder().build();
-        backOfficeService.sendNotification(caveatData);
+        backOfficeService.sendNotification(ProbateCaseDetails.builder().caseInfo(CaseInfo.builder().caseId("123132").build()).caseData(caveatData).build());
 
         verify(backOfficeApi).raiseCaveat(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowIllegalArgumentExceptionWhenCaseTypeIsGrantOfRepresentation() {
-        CaseData caseData = GrantOfRepresentationData.builder().build();
-        backOfficeService.sendNotification(caseData);
+        backOfficeService.sendNotification(ProbateCaseDetails.builder().caseData(GrantOfRepresentationData.builder().build()).build());
     }
 }
