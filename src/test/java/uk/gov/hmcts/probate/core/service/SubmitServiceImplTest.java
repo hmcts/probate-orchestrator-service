@@ -36,6 +36,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -248,22 +249,30 @@ public class SubmitServiceImplTest {
 
     @Test
     public void shouldUpdateIntestacyPayments() {
+        when(submitServiceApi.getCase(anyString(), anyString(),
+            anyString(), anyString())).thenReturn(caveatCaseDetails);;
         shouldUpdatePayments(intestacyForm, intestacyCaseDetails);
-        verify(backOfficeService, never()).sendNotification(intestacyCaseDetails.getCaseData());
+        verify(backOfficeService, never()).sendNotification(intestacyCaseDetails);
     }
 
     @Test
     public void shouldUpdateCaveatPaymentsAndSendNotification() {
+        when(submitServiceApi.getCase(anyString(), anyString(),
+            anyString(), anyString())).thenReturn(caveatCaseDetails);
+        
         caveatCaseDetails.getCaseInfo().setState(CaseState.CAVEAT_RAISED.getName());
         shouldUpdatePayments(caveatForm, caveatCaseDetails);
-        verify(backOfficeService, times(1)).sendNotification(caveatCaseDetails.getCaseData());
+        verify(backOfficeService, times(1)).sendNotification(caveatCaseDetails);
     }
 
     @Test
     public void shouldUpdateCaveatPaymentsAndNotSendNotification() {
+        when(submitServiceApi.getCase(anyString(), anyString(),
+            anyString(), anyString())).thenReturn(caveatCaseDetails);
+
         caveatCaseDetails.getCaseData().getPayments().get(0).getValue().setStatus(PaymentStatus.FAILED);
         shouldUpdatePayments(caveatForm, caveatCaseDetails);
-        verify(backOfficeService, never()).sendNotification(caveatCaseDetails.getCaseData());
+        verify(backOfficeService, never()).sendNotification(caveatCaseDetails);
     }
 
     private void shouldUpdatePayments(Form form, ProbateCaseDetails caseDetails) {
@@ -306,7 +315,7 @@ public class SubmitServiceImplTest {
         verify(submitServiceApi).updatePaymentsByCaseId(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(caseId), eq(ProbatePaymentDetails.builder()
             .payment(casePayment)
             .build()));
-        verify(backOfficeService, never()).sendNotification(caveatCaseDetails.getCaseData());
+        verify(backOfficeService, never()).sendNotification(caveatCaseDetails);
     }
 
     @Test
