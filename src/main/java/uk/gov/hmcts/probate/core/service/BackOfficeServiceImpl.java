@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.probate.client.backoffice.BackOfficeApi;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackRequest;
-import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackResponse;
+import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatResponse;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaseDetails;
 import uk.gov.hmcts.probate.service.BackOfficeService;
 import uk.gov.hmcts.reform.probate.model.cases.CaseData;
@@ -45,13 +45,12 @@ public class BackOfficeServiceImpl implements BackOfficeService {
         return probateCaseDetails -> {
             BackOfficeCallbackRequest backOfficeCallbackRequest = createBackOfficeCallbackRequest(probateCaseDetails);
             log.info("Sending caveat data to back-office for case id {}", backOfficeCallbackRequest.getCaseDetails().getId());
-            BackOfficeCallbackResponse backOfficeCallbackResponse = backOfficeApi.raiseCaveat(
+            BackOfficeCaveatResponse backOfficeCaveatResponse = backOfficeApi.raiseCaveat(
                 securityUtils.getAuthorisation(),
                 securityUtils.getServiceAuthorisation(),
                 backOfficeCallbackRequest);
-            CaveatData boCaveatData = (CaveatData) backOfficeCallbackResponse.getCaseData();
             CaveatData caveatData = (CaveatData) probateCaseDetails.getCaseData();
-            caveatData.setNotificationsGenerated(boCaveatData.getNotificationsGenerated());
+            caveatData.setNotificationsGenerated(backOfficeCaveatResponse.getCaseData().getNotificationsGenerated());
             return caveatData;
         };
     }

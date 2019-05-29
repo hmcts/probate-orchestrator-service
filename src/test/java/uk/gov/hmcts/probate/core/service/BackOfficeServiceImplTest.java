@@ -9,8 +9,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import uk.gov.hmcts.probate.client.backoffice.BackOfficeApi;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackRequest;
-import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackResponse;
-import uk.gov.hmcts.reform.probate.model.cases.CaseData;
+import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatData;
+import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatResponse;
 import uk.gov.hmcts.reform.probate.model.cases.CaseInfo;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
@@ -34,7 +34,7 @@ public class BackOfficeServiceImplTest {
     @Mock
     private SecurityUtils securityUtils;
 
-    private BackOfficeCallbackResponse backOfficeCallbackResponse;
+    private BackOfficeCaveatResponse backOfficeCaveatResponse;
 
     @InjectMocks
     private BackOfficeServiceImpl backOfficeService;
@@ -42,7 +42,8 @@ public class BackOfficeServiceImplTest {
     @Before
     public void setUp() {
 
-        backOfficeCallbackResponse = BackOfficeCallbackResponse.builder().caseData(new CaveatData()).build();
+        backOfficeCaveatResponse = BackOfficeCaveatResponse.builder().caseData(BackOfficeCaveatData.builder().build())
+            .build();
         Mockito.when(securityUtils.getAuthorisation()).thenReturn(AUTHORIZATION);
         Mockito.when(securityUtils.getServiceAuthorisation()).thenReturn(SERVICE_AUTHORIZATION);
     }
@@ -50,7 +51,7 @@ public class BackOfficeServiceImplTest {
     @Test
     public void shouldSendNotificationWhenCaseTypeIsCaveat() {
         when(backOfficeApi.raiseCaveat(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class)))
-            .thenReturn(backOfficeCallbackResponse);
+            .thenReturn(backOfficeCaveatResponse);
 
         CaveatData caveatData = CaveatData.builder().build();
         backOfficeService.sendNotification(ProbateCaseDetails.builder().caseInfo(CaseInfo.builder().caseId("123132").build()).caseData(caveatData).build());
