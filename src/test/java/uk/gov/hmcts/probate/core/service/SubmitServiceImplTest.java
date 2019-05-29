@@ -17,6 +17,7 @@ import uk.gov.hmcts.probate.service.BackOfficeService;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.CaseInfo;
 import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
+import uk.gov.hmcts.reform.probate.model.cases.CaseState;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
@@ -35,6 +36,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -245,11 +247,20 @@ public class SubmitServiceImplTest {
     @Test
     public void shouldUpdateIntestacyPayments() {
         shouldUpdatePayments(intestacyForm, intestacyCaseDetails);
+        verify(backOfficeService, never()).sendNotification(intestacyCaseDetails);
     }
 
     @Test
-    public void shouldUpdateCaveatPayments() {
+    public void shouldUpdateCaveatPaymentsAndSendNotification() {
+        caveatCaseDetails.getCaseInfo().setState(CaseState.CAVEAT_RAISED.getName());
         shouldUpdatePayments(caveatForm, caveatCaseDetails);
+        verify(backOfficeService, times(1)).sendNotification(caveatCaseDetails);
+    }
+
+    @Test
+    public void shouldUpdateCaveatPaymentsAndNotSendNotification() {
+        shouldUpdatePayments(caveatForm, caveatCaseDetails);
+        verify(backOfficeService, never()).sendNotification(caveatCaseDetails);
     }
 
     private void shouldUpdatePayments(Form form, ProbateCaseDetails caseDetails) {
@@ -263,7 +274,6 @@ public class SubmitServiceImplTest {
             eq(EMAIL_ADDRESS), any(ProbatePaymentDetails.class));
         verify(securityUtils, times(1)).getAuthorisation();
         verify(securityUtils, times(1)).getServiceAuthorisation();
-        verify(backOfficeService, times(1)).sendNotification(caseDetails);
     }
 
 
@@ -278,7 +288,11 @@ public class SubmitServiceImplTest {
     public void shouldUpdatePayments() {
         String caseId = "234324";
         CasePayment casePayment = CasePayment.builder().build();
-        ProbateCaseDetails probateCaseDetails = ProbateCaseDetails.builder().build();
+        ProbateCaseDetails probateCaseDetails = ProbateCaseDetails.builder().caseInfo(CaseInfo.builder()
+            .state(CaseState.PA_APP_CREATED.getName())
+            .build())
+            .caseData(CaveatData.builder().build())
+            .build();
 
         when(submitServiceApi.updatePaymentsByCaseId(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(caseId), eq(ProbatePaymentDetails.builder()
             .payment(casePayment)
@@ -289,5 +303,28 @@ public class SubmitServiceImplTest {
         verify(submitServiceApi).updatePaymentsByCaseId(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(caseId), eq(ProbatePaymentDetails.builder()
             .payment(casePayment)
             .build()));
+        verify(backOfficeService, never()).sendNotification(caveatCaseDetails);
+    }
+
+    @Test
+    public void shouldUpdatePaymentsAndSendNotification() {
+        String caseId = "234324";
+        CasePayment casePayment = CasePayment.builder().build();
+        ProbateCaseDetails probateCaseDetails = ProbateCaseDetails.builder().caseInfo(CaseInfo.builder()
+            .state(CaseState.CAVEAT_RAISED.getName())
+            .build())
+            .caseData(CaveatData.builder().build())
+            .build();
+
+        when(submitServiceApi.updatePaymentsByCaseId(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(caseId), eq(ProbatePaymentDetails.builder()
+            .payment(casePayment)
+            .build()))).thenReturn(probateCaseDetails);
+
+        ProbateCaseDetails probateCaseDetailsResult = submitService.updatePaymentsByCaseId(caseId, casePayment);
+        assertThat(probateCaseDetails, equalTo(probateCaseDetailsResult));
+        verify(submitServiceApi).updatePaymentsByCaseId(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(caseId), eq(ProbatePaymentDetails.builder()
+            .payment(casePayment)
+            .build()));
+        verify(backOfficeService, times(1)).sendNotification(probateCaseDetails);
     }
 }
