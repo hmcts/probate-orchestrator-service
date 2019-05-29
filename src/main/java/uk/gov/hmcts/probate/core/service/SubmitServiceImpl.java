@@ -118,25 +118,34 @@ public class SubmitServiceImpl implements SubmitService {
         log.info("update Payments called");
         Assert.isTrue(!CollectionUtils.isEmpty(form.getPayments()),
             "Cannot update case with no payments, there needs to be at least one payment");
+        String authorisation = securityUtils.getAuthorisation();
+        String serviceAuthorisation = securityUtils.getServiceAuthorisation();
+
+        ProbateCaseDetails existingCase = submitServiceApi.getCase(authorisation,
+            serviceAuthorisation, identifier, form.getType().getCaseType().name());
+
         FormMapper formMapper = mappers.get(form.getType());
         CaseData caseData = formMapper.toCaseData(form);
-        Optional<CaseData> optionalCaseData = sendNotification(caseData);
-        CaseData caseDataToSave = optionalCaseData.isPresent() ? optionalCaseData.get() : caseData;
+
+        existingCase.getCaseData().setPayments(caseData.getPayments());
+        Optional<CaseData> optionalCaseData = sendNotification(existingCase);
+        CaseData caseDataToSave = optionalCaseData.isPresent() ? optionalCaseData.get() : existingCase.getCaseData();
+        
         log.debug("calling update Payments in submitServiceApi");
         ProbateCaseDetails probateCaseDetails = submitServiceApi.createCase(
-            securityUtils.getAuthorisation(),
-            securityUtils.getServiceAuthorisation(),
+            authorisation,
+            serviceAuthorisation,
             identifier,
             ProbateCaseDetails.builder().caseData(caseDataToSave).build()
         );
         return mapFromCase(formMapper, probateCaseDetails);
     }
 
-    public Optional<CaseData> sendNotification(CaseData caseData) {
-        CaseType caseType = CaseType.getCaseType(caseData);
-        CasePayment casePayment = caseData.getPayments().get(0).getValue();
+    public Optional<CaseData> sendNotification(ProbateCaseDetails probateCaseDetails) {
+        CaseType caseType = CaseType.getCaseType(probateCaseDetails.getCaseData());
+        CasePayment casePayment = probateCaseDetails.getCaseData().getPayments().get(0).getValue();
         if (caseTypesForNotifications.contains(caseType) && PaymentStatus.SUCCESS.equals(casePayment.getStatus())) {
-            return Optional.ofNullable(backOfficeService.sendNotification(caseData));
+            return Optional.ofNullable(backOfficeService.sendNotification(probateCaseDetails));
         }
         return Optional.empty();
     }
