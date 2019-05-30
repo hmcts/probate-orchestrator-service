@@ -78,6 +78,7 @@ findbugs {
 
 sonarqube {
     properties {
+        property "sonar.exclusions", "**/AppInsights.java"
         property "sonar.projectName", "PROBATE :: Probate-Orchestrator-Service"
         property "sonar.projectKey", "Probate-Orchestrator-Service"
         property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
@@ -198,7 +199,7 @@ def versions = [
         jacksonDatabind                 : '2.9.8',
         pact_version                    : '3.5.24',
         feignHttpClient                 : '9.5.1'
-        
+
 ]
 
 jacocoTestReport {
