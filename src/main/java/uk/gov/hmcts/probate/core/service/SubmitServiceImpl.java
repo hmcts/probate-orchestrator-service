@@ -128,15 +128,14 @@ public class SubmitServiceImpl implements SubmitService {
         CaseData caseData = formMapper.toCaseData(form);
 
         existingCase.getCaseData().setPayments(caseData.getPayments());
-        Optional<CaseData> optionalCaseData = sendNotification(existingCase);
-        CaseData caseDataToSave = optionalCaseData.isPresent() ? optionalCaseData.get() : existingCase.getCaseData();
+        sendNotification(existingCase);
         
         log.debug("calling update Payments in submitServiceApi");
         ProbateCaseDetails probateCaseDetails = submitServiceApi.createCase(
             authorisation,
             serviceAuthorisation,
             identifier,
-            ProbateCaseDetails.builder().caseData(caseDataToSave).build()
+            existingCase
         );
         return mapFromCase(formMapper, probateCaseDetails);
     }
