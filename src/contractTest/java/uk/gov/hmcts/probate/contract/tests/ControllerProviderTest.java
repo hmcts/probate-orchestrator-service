@@ -40,7 +40,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRestPactRunner.class)
 @ExtendWith(SpringExtension.class)
-@PactBroker(scheme = "${pact.broker.scheme}", host = "${pact.broker.baseUrl}", port = "${pact.broker.port}", tags = {"${pact.broker.consumer.tag}"})
+@PactBroker(scheme = "${pact.broker.scheme}", host = "${pact.broker.baseUrl}", port = "${pact.broker.port}", tags={"${pact.broker.consumer.tag}", "latest", "master"})
 @IgnoreNoPactsToVerify
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 abstract public class ControllerProviderTest {
