@@ -78,6 +78,17 @@ public interface SubmitServiceApi {
     );
 
     @PostMapping(
+        value = "/payments/{applicationId}/cases",
+        headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+    )
+    ProbateCaseDetails createCase(
+        @RequestHeader(AUTHORIZATION) String authorisation,
+        @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+        @PathVariable(SubmitServiceConfiguration.APPLICATION_ID) String applicationId,
+        @RequestBody ProbateCaseDetails probateCaseDetails
+    );
+
+    @PostMapping(
         value = "/ccd-case-payments/{caseId}",
         headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )

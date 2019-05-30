@@ -1,5 +1,6 @@
 package uk.gov.hmcts.probate.core.service;
 
+import com.google.common.collect.Sets;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -7,10 +8,13 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import uk.gov.hmcts.probate.client.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.mapper.FormMapper;
+import uk.gov.hmcts.probate.service.BackOfficeService;
 import uk.gov.hmcts.probate.service.SubmitService;
+import uk.gov.hmcts.reform.probate.model.PaymentStatus;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.CaseData;
 import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
+import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.ProbatePaymentDetails;
 import uk.gov.hmcts.reform.probate.model.cases.SubmitResult;
@@ -19,6 +23,7 @@ import uk.gov.hmcts.reform.probate.model.forms.Form;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 
 @Component
@@ -30,9 +35,13 @@ public class SubmitServiceImpl implements SubmitService {
 
     private final SubmitServiceApi submitServiceApi;
 
+    private final BackOfficeService backOfficeService;
+
     private final SecurityUtils securityUtils;
 
     private final Map<ProbateType, Function<Form, String>> formIdentifierFunctionMap;
+
+    private final Set<CaseType> caseTypesForNotifications = Sets.newHashSet(CaseType.CAVEAT);
 
     @Override
     public Form getCase(String identifier, ProbateType probateType) {
@@ -109,30 +118,48 @@ public class SubmitServiceImpl implements SubmitService {
         log.info("update Payments called");
         Assert.isTrue(!CollectionUtils.isEmpty(form.getPayments()),
             "Cannot update case with no payments, there needs to be at least one payment");
+        String authorisation = securityUtils.getAuthorisation();
+        String serviceAuthorisation = securityUtils.getServiceAuthorisation();
+
+        ProbateCaseDetails existingCase = submitServiceApi.getCase(authorisation,
+            serviceAuthorisation, identifier, form.getType().getCaseType().name());
+
         FormMapper formMapper = mappers.get(form.getType());
         CaseData caseData = formMapper.toCaseData(form);
-        CasePayment casePayment = caseData.getPayments().get(0).getValue();
+
+        existingCase.getCaseData().setPayments(caseData.getPayments());
+        sendNotification(existingCase);
+        
         log.debug("calling update Payments in submitServiceApi");
-        ProbateCaseDetails probateCaseDetails = submitServiceApi.updatePayments(
-            securityUtils.getAuthorisation(),
-            securityUtils.getServiceAuthorisation(),
+        ProbateCaseDetails probateCaseDetails = submitServiceApi.createCase(
+            authorisation,
+            serviceAuthorisation,
             identifier,
-            ProbatePaymentDetails.builder().caseType(form.getType().getCaseType())
-                .payment(casePayment)
-                .build());
+            existingCase
+        );
         return mapFromCase(formMapper, probateCaseDetails);
+    }
+
+    public Optional<CaseData> sendNotification(ProbateCaseDetails probateCaseDetails) {
+        CaseType caseType = CaseType.getCaseType(probateCaseDetails.getCaseData());
+        CasePayment casePayment = probateCaseDetails.getCaseData().getPayments().get(0).getValue();
+        if (caseTypesForNotifications.contains(caseType) && PaymentStatus.SUCCESS.equals(casePayment.getStatus())) {
+            return Optional.ofNullable(backOfficeService.sendNotification(probateCaseDetails));
+        }
+        return Optional.empty();
     }
 
     @Override
     public ProbateCaseDetails updatePaymentsByCaseId(String caseId, CasePayment casePayment) {
         log.info("Call to submit service with id {} with payment reference {}", caseId, casePayment.getReference());
-        return submitServiceApi.updatePaymentsByCaseId(
+        ProbateCaseDetails probateCaseDetails = submitServiceApi.updatePaymentsByCaseId(
             securityUtils.getAuthorisation(),
             securityUtils.getServiceAuthorisation(),
             caseId,
             ProbatePaymentDetails.builder()
                 .payment(casePayment)
                 .build());
+        return probateCaseDetails;
     }
 
     private CaseData mapToCase(Form form, FormMapper formMapper) {

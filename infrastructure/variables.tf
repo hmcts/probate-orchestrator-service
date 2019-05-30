@@ -115,6 +115,10 @@ variable "business_service_api_url" {
 
 }
 
+variable "back_office_api_url" {
+
+}
+
 variable "asp_rg" {
 
 }
