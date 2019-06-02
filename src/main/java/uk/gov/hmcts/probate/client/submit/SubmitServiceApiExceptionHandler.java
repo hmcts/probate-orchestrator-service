@@ -1,4 +1,4 @@
-package uk.gov.hmcts.probate.client;
+package uk.gov.hmcts.probate.client.submit;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

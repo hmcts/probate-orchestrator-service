@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.ResponseEntity;
 import uk.gov.hmcts.probate.TestUtils;
+import uk.gov.hmcts.probate.client.submit.SubmitServiceApiExceptionHandler;
 import uk.gov.hmcts.reform.probate.model.client.ApiClientErrorResponse;
 import uk.gov.hmcts.reform.probate.model.client.ApiClientException;
 import uk.gov.hmcts.reform.probate.model.client.ErrorResponse;

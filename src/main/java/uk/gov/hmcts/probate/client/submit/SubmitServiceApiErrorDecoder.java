@@ -1,9 +1,10 @@
-package uk.gov.hmcts.probate.client;
+package uk.gov.hmcts.probate.client.submit;
 
 import feign.Response;
 import feign.codec.ErrorDecoder;
 import lombok.extern.slf4j.Slf4j;
 
+import uk.gov.hmcts.probate.client.ResponseDecorator;
 import uk.gov.hmcts.reform.probate.model.client.ApiClientException;
 import uk.gov.hmcts.reform.probate.model.client.ErrorResponse;
 

@@ -74,9 +74,11 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "registryEmail", source = "registry.email")
     @Mapping(target = "registrySequenceNumber", source = "registry.sequenceNumber")
     @Mapping(target = "assetsOverseasNetValue", source = "assets.assetsOverseasNetValue",
-        qualifiedBy = {ToPennies.class})
-    @Mapping(target = "primaryApplicantAddress", source = "applicant.address", qualifiedBy = {ToCaseAddress.class})
-    @Mapping(target = "primaryApplicantPostCode", source = "applicant.postCode")
+            qualifiedBy = {ToPennies.class})
+//    @Mapping(target = "primaryApplicantAddress.addressLine1", source = "applicant.address")
+//    @Mapping(target = "primaryApplicantAddress.postCode", source = "applicant.postCode")
+//    @Mapping(target = "primaryApplicantAddress", source = "applicant.address", qualifiedBy = {ToCaseAddress.class})
+//    @Mapping(target = "primaryApplicantPostCode", source = "applicant.postCode")
     @Mapping(target = "payments", source = "payments", qualifiedBy = {ToCollectionMember.class})
     GrantOfRepresentationData toCaseData(IntestacyForm form);
 
@@ -89,7 +91,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "deceased.otherNames", source = "deceasedAliasNameList", qualifiedBy = {FromCollectionMember.class})
     @Mapping(target = "registry.name", source ="registryLocation", qualifiedBy = {FromRegistryLocation.class})
     @Mapping(target = "deceased.address", source = "deceasedAddress", qualifiedBy = {ToFormAddress.class})
-    @Mapping(target = "applicant.address", source = "primaryApplicantAddress", qualifiedBy = {ToFormAddress.class})
+//    @Mapping(target = "applicant.address", source = "primaryApplicantAddress", qualifiedBy = {ToFormAddress.class})
     @InheritInverseConfiguration
     IntestacyForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 }

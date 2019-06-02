@@ -7,6 +7,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.springframework.http.HttpMethod;
+import uk.gov.hmcts.probate.client.submit.SubmitServiceApiErrorDecoder;
 import uk.gov.hmcts.reform.probate.model.client.ApiClientException;
 
 import java.util.Collection;

@@ -164,6 +164,8 @@ public class CaveatTestDataCreator {
         payment.setSiteId(PAYMENT_SITE_ID);
         paymentCollectionMember.setValue(payment);
         caveatData.setPayments(Lists.newArrayList(paymentCollectionMember));
+
+        caveatData.setCaveatRaisedEmailNotificationRequested(true);
         return caveatData;
     }
 

@@ -100,7 +100,7 @@ public class PaMapperTest {
         expectedPaForm.setType(ProbateType.PA);
         expectedPaForm.setCopies(new Copies());
         PaAssets paAssets = new PaAssets();
-        paAssets.setAssetsoverseas(null);
+        paAssets.setAssetsoverseas(false);
         expectedPaForm.setAssets(paAssets);
         expectedPaForm.setIht(new InheritanceTax());
         expectedPaForm.setRegistry(new Registry());
