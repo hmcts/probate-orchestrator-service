@@ -151,20 +151,20 @@ public class SubmitServiceImpl implements SubmitService {
         return updatePayments(identifier, form);
     }
 
-    public Form updateCaseState(String identifier, ProbateType probateType) {
-        SubmitResult submitResult = submitServiceApi.update(
-            securityUtils.getAuthorisation(),
-            securityUtils.getServiceAuthorisation(),
-            identifier,
-            ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
-            securityUtils.getAuthorisation(),
-            securityUtils.getServiceAuthorisation(),
-            identifier,
-            probateType.getCaseType().name()
-        );
-        FormMapper formMapper = mappers.get(probateType);
-        return mapFromCase(formMapper, submitResult.getProbateCaseDetails());
-    }
+//    public Form updateCaseState(String identifier, ProbateType probateType) {
+//        SubmitResult submitResult = submitServiceApi.update(
+//            securityUtils.getAuthorisation(),
+//            securityUtils.getServiceAuthorisation(),
+//            identifier,
+//            ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build())
+//            securityUtils.getAuthorisation(),
+//            securityUtils.getServiceAuthorisation(),
+//            identifier,
+//            probateType.getCaseType().name()
+//        );
+//        FormMapper formMapper = mappers.get(probateType);
+//        return mapFromCase(formMapper, submitResult.getProbateCaseDetails());
+//    }
 
     private void assertIdentifier(String identifier, Form form) {
         String identifierInForm = Optional.of(formIdentifierFunctionMap.get(form.getType()))
