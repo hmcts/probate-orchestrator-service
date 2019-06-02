@@ -1,13 +1,12 @@
-package uk.gov.hmcts.probate.client;
+package uk.gov.hmcts.probate.client.payment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import feign.Logger;
 import feign.codec.Decoder;
 import feign.jackson.JacksonDecoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 
-class SubmitServiceConfiguration {
+class PaymentConfiguration {
 
     static final String SERVICE_AUTHORIZATION = "ServiceAuthorization";
 
@@ -17,15 +16,5 @@ class SubmitServiceConfiguration {
     @Primary
     Decoder feignDecoder(ObjectMapper objectMapper) {
         return new JacksonDecoder(objectMapper);
-    }
-
-    @Bean
-    public SubmitServiceApiErrorDecoder submitServiceApiErrorDecoder() {
-        return new SubmitServiceApiErrorDecoder();
-    }
-
-    @Bean
-    public Logger.Level submitServiceApiLoggerLevel() {
-        return Logger.Level.FULL;
     }
 }

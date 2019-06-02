@@ -16,5 +16,6 @@ services_auth_provider_baseurl = "http://rpe-service-auth-provider-demo.service.
 auth_idam_client_baseurl = "https://preprod-idamapi.reform.hmcts.net:3511"
 submit_service_api_url = "http://probate-submit-service-demo.service.core-compute-demo.internal"
 business_service_api_url = "http://probate-business-service-demo.service.core-compute-demo.internal"
+back_office_api_url = "http://probate-back-office-demo.service.core-compute-demo.internal"
 asp_name = "probate-demo"
 asp_rg = "probate-demo"
