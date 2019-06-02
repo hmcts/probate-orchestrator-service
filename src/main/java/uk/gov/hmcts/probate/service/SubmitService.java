@@ -14,8 +14,6 @@ public interface SubmitService {
 
     Form submit(String identifier, Form form);
 
-    //Form update(String identifier, ProbateType probateType, String returnUrl);
-
     Form update(String identifier, ProbateType probateType, PaymentDto paymentDto);
 
     Form updatePayments(String identifier, Form form);

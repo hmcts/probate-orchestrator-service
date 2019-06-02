@@ -11,7 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
+import uk.gov.hmcts.probate.client.SubmitServiceApi;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.client.ApiClientException;

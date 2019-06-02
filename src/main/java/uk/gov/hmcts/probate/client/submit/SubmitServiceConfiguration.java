@@ -7,11 +7,11 @@ import feign.jackson.JacksonDecoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 
-class SubmitServiceConfiguration {
+public class SubmitServiceConfiguration {
 
-    static final String SERVICE_AUTHORIZATION = "ServiceAuthorization";
+    public static final String SERVICE_AUTHORIZATION = "ServiceAuthorization";
 
-    static final String APPLICATION_ID = "applicationId";
+    public static final String APPLICATION_ID = "applicationId";
 
     @Bean
     @Primary
