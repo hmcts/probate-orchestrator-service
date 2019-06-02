@@ -26,6 +26,7 @@ public interface PaymentApi {
     String CCD_CASE_NUMBER = "ccd_case_number";
     String SERVICE_NAME = "service_name";
     String RETURN_URL = "return-url";
+    String SERVICE_CALLBACK_URL = "service-callback-url";
     String PAYMENT_REFERENCE = "paymentReference";
 
     @GetMapping(
@@ -47,6 +48,7 @@ public interface PaymentApi {
         @RequestHeader(AUTHORIZATION) String authorisation,
         @RequestHeader(SERVICE_AUTHORIZATION) String serviceAuthorization,
         @RequestHeader(RETURN_URL) String returnUrl,
+        @RequestHeader(SERVICE_CALLBACK_URL) String serviceCallbackUrl,
         @RequestBody CardPaymentRequest cardPaymentRequest
     );
 

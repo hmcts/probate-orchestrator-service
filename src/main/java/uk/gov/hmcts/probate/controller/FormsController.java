@@ -6,8 +6,8 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.SwaggerDefinition;
 import io.swagger.annotations.Tag;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,18 +16,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import uk.gov.hmcts.probate.service.PaymentService;
 import uk.gov.hmcts.probate.service.SubmitService;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
+import uk.gov.hmcts.reform.probate.model.forms.PaymentSubmission;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
 @Api(tags = {"FormsController"})
 @SwaggerDefinition(tags = {@Tag(name = "FormsController", description = "Forms API")})
 @RestController
 @Slf4j
+@RequiredArgsConstructor
 public class FormsController {
 
     private static final String FORMS_ENDPOINT = "/forms/{identifier}";
@@ -35,13 +39,9 @@ public class FormsController {
     private static final String PAYMENTS_ENDPOINT = "/payments";
     private static final String PAYMENT_SUBMISSIONS_ENDPOINT = "/payment-submissions";
 
-
     private final SubmitService submitService;
 
-    @Autowired
-    private FormsController(SubmitService submitService) {
-        this.submitService = submitService;
-    }
+    private final PaymentService paymentService;
 
     @ApiOperation(value = "Save form data", notes = "Save form data")
     @ApiResponses(value = {
@@ -86,12 +86,32 @@ public class FormsController {
         return new ResponseEntity<>(submitService.submit(identifier, form), HttpStatus.OK);
     }
 
+
+    @PostMapping(path = FORMS_ENDPOINT + PAYMENT_SUBMISSIONS_ENDPOINT,
+        consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<PaymentSubmission> createPaymentAndSubmitForm(@RequestHeader("return-url") String returnUrl,
+                                                                        @RequestHeader("service-callback-url") String serviceCallbackUrl,
+                                                                        @PathVariable("identifier") String identifier,
+                                                                        @RequestParam("probateType") ProbateType probateType) {
+        return new ResponseEntity<>(paymentService.createPaymentSubmission(identifier, probateType, returnUrl, serviceCallbackUrl), HttpStatus.OK);
+    }
+
+    @PutMapping(path = FORMS_ENDPOINT + PAYMENT_SUBMISSIONS_ENDPOINT,
+        consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Form> updatePayment( @PathVariable("identifier") String identifier,
+                                                                        @RequestParam("probateType") ProbateType probateType) {
+        return new ResponseEntity<>(paymentService.updatePaymentSubmission(identifier, probateType), HttpStatus.OK);
+    }
+
+
     @PutMapping(path = FORMS_ENDPOINT + SUBMISSIONS_ENDPOINT,
         consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Form> submitPayments(@PathVariable("identifier") String identifier,
-                                           @RequestBody PaymentDto paymentDto,
-                                             @RequestParam("probateType") ProbateType probateType) {
+                                               @RequestBody PaymentDto paymentDto,
+                                               @RequestParam("probateType") ProbateType probateType) {
         return new ResponseEntity<>(submitService.update(identifier, probateType, paymentDto), HttpStatus.OK);
     }
 
