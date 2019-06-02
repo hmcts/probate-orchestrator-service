@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -86,18 +85,6 @@ public class FormsController {
         log.info("Submit form called");
         return new ResponseEntity<>(submitService.submit(identifier, form), HttpStatus.OK);
     }
-
-
-//    @PutMapping(path = FORMS_ENDPOINT + PAYMENT_SUBMISSIONS_ENDPOINT,
-//        consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseBody
-//    public ResponseEntity<Form> createPaymentAndSubmitForm(@RequestHeader("return-url") String returnUrl,
-//                                           @PathVariable("identifier") String identifier,
-//                                           @RequestParam("probateType") ProbateType probateType) {
-//        log.info("Submit form called");
-//        return new ResponseEntity<>(submitService.update(identifier, probateType, returnUrl), HttpStatus.OK);
-//    }
-
 
     @PutMapping(path = FORMS_ENDPOINT + SUBMISSIONS_ENDPOINT,
         consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
