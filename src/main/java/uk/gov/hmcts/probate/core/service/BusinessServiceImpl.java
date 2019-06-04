@@ -3,8 +3,8 @@ package uk.gov.hmcts.probate.core.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import uk.gov.hmcts.probate.client.BusinessServiceApi;
-import uk.gov.hmcts.probate.client.SubmitServiceApi;
+import uk.gov.hmcts.probate.client.business.BusinessServiceApi;
+import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.mapper.ExecutorApplyingToInvitationMapper;
 import uk.gov.hmcts.probate.service.BusinessService;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
@@ -29,7 +29,7 @@ public class BusinessServiceImpl implements BusinessService {
 
 
     @Override
-    public byte[] generateCheckAnswersSummaryPdf(CheckAnswersSummary checkAnswersSummary) {
+    public byte[] generateCheckAnswersSummaryPdf(CheckAnswersSummary checkAnswersSummary){
         log.info("generateCheckAnswersSummaryPdf");
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
@@ -41,7 +41,7 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
-    public byte[] generateLegalDeclarationPdf(LegalDeclaration legalDeclaration) {
+    public byte[] generateLegalDeclarationPdf(LegalDeclaration legalDeclaration){
         log.info("generateLegalDeclarationPdf");
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
@@ -52,8 +52,9 @@ public class BusinessServiceImpl implements BusinessService {
         );
     }
 
+
     @Override
-    public byte[] generateBulkScanCoverSheetPdf(BulkScanCoverSheet bulkScanCoverSheet) {
+    public byte[] generateBulkScanCoverSheetPdf(BulkScanCoverSheet bulkScanCoverSheet){
         log.info("generateBulkScanCoverSheetPdf");
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();

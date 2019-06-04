@@ -21,7 +21,10 @@ List<LinkedHashMap<String, Object>> secrets = [
         secret('probate-mail-password', 'PROBATE_SUB_MAIL_PASSWORD'),
         secret('probate-mail-port', 'PROBATE_SUB_MAIL_PORT'),
         secret('probate-mail-sender', 'PROBATE_SUB_MAIL_SENDER'),
-        secret('probate-mail-recipient', 'PROBATE_SUB_MAIL_REC')
+        secret('probate-mail-recipient', 'PROBATE_SUB_MAIL_REC'),
+        secret('idamRedirectUrl', 'IDAM_REDIRECT_URL'),
+        secret('payCaseWorkerUser','PAYMENT_CASEWORKER_USERNAME'),
+        secret('payCaseWorkerPass','PAYMENT_CASEWORKER_PASSWORD')
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
@@ -38,7 +41,7 @@ withPipeline("java", product, component) {
     loadVaultSecrets(secrets)
     enableSlackNotifications('#probate-jenkins')
     enableDockerBuild()
-//  enableDeployToAKS()
+////  enableDeployToAKS()
     installCharts()
 
 //    before('buildinfra:prod') {

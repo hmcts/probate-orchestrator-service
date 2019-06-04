@@ -4,10 +4,10 @@ import com.google.common.collect.Lists;
 import uk.gov.hmcts.reform.probate.model.IhtFormType;
 import uk.gov.hmcts.reform.probate.model.PaymentStatus;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
-import uk.gov.hmcts.reform.probate.model.cases.Address;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
+import uk.gov.hmcts.reform.probate.model.cases.ProbateCalculatedFees;
 import uk.gov.hmcts.reform.probate.model.cases.RegistryLocation;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.Declaration;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
@@ -17,7 +17,9 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepr
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.LegalStatement;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.LegalStatementExecutorApplying;
+import uk.gov.hmcts.reform.probate.model.forms.Address;
 import uk.gov.hmcts.reform.probate.model.forms.Copies;
+import uk.gov.hmcts.reform.probate.model.forms.Fees;
 import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
 import uk.gov.hmcts.reform.probate.model.forms.Payment;
@@ -35,6 +37,7 @@ import uk.gov.hmcts.reform.probate.model.forms.pa.PaLegalStatement;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaLegalStatementExecutorApplying;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -47,7 +50,7 @@ public class PaTestDataCreator {
     private static final BigDecimal NET_VALUE = new BigDecimal("20000.00");
     private static final BigDecimal GROSS_VALUE = new BigDecimal("20000.00");
     private static final String IDENTIFIER = "IHT1234567";
-    private static final Long OVERSEAS = null;
+    private static final Long OVERSEAS = 5L;
     private static final Long UK = 1L;
     private static final boolean CODICILS = true;
     private static final Long ID = 1551365512754035L;
@@ -64,7 +67,8 @@ public class PaTestDataCreator {
     private static final BigDecimal COST_OVERSEAS = BigDecimal.valueOf(0);
     private static final int NUMBER_OVERSEAS = 0;
     private static final boolean DECEASED_ALIAS = false;
-    private static final String DECEASED_ADDRESS = "Winterfell, North, Westeros, GOT123";
+    private static final Address DECEASED_ADDRESS = Address.builder().addressLine1("Winterfell")
+            .postTown("North Westeros").postCode("GOT123").formattedAddress("Winterfell North Westeros GOT123 ").build();
     private static final boolean MARRIED = false;
     private static final LocalDateTime DECEASED_DATE_OF_BIRTH = LocalDate.of(1900, 1, 1).atStartOfDay();
     private static final LocalDateTime DECEASED_DATE_OF_DEATH = LocalDate.of(2019, 1, 1).atStartOfDay();
@@ -73,7 +77,8 @@ public class PaTestDataCreator {
     private static final String MANCHESTER = "Manchester";
     private static final String APPLICANT_ALIAS = "King of the North";
     private static final String APPLICANT_ALIAS_REASON = "Title Given";
-    private static final String APPLICANT_ADDRESS = "The Wall, North, Westeros, GOT567";
+    private static final Address APPLICANT_ADDRESS = Address.builder().addressLine1("The Wall")
+            .postTown("North Westeros").postCode("GOT567").formattedAddress("The Wall North Westeros GOT567 ").build();
     private static final String APPLICANT__LASTNAME = "Snow";
     private static final String APPLICANT_FIRSTNAME = "Jon";
     private static final String APPLICANT_PHONE_NUMBER = "3234324";
@@ -136,6 +141,16 @@ public class PaTestDataCreator {
     private static final String SECOND_EXECUTOR_NOT_APPLYING = "Catlin Stark";
     private static final ExecutorNotApplyingReason FIRST_EXECUTOR_NOT_APPLYING_KEY = ExecutorNotApplyingReason.DIED_BEFORE;
     private static final ExecutorNotApplyingReason SECOND_EXECUTOR_NOT_APPLYING_KEY = ExecutorNotApplyingReason.DIED_BEFORE;
+    public static final BigDecimal UK_COPIES_FEE = BigDecimal.valueOf(100L).setScale(2, RoundingMode.HALF_UP);
+    public static final BigDecimal OVERSEAS_COPIES_FEE = BigDecimal.valueOf(200L).setScale(2, RoundingMode.HALF_UP);
+    public static final BigDecimal APPLICATION_FEE = BigDecimal.valueOf(300).setScale(2, RoundingMode.HALF_UP);
+    public static final BigDecimal FEES_TOTAL = BigDecimal.valueOf(600L).setScale(2, RoundingMode.HALF_UP);
+    public static final String OVERSEAS_COPIES_FEE_CODE = "OVERSEAS1";
+    public static final String OVERSEAS_COPIES_FEE_VERSION = "22";
+    public static final String UK_COPIES_FEE_CODE = "UK1";
+    public static final String UK_COPIES_FEE_VERSION = "1";
+    public static final String APPLICATION_FEE_CODE = "APP1";
+    public static final String APPLICATION_FEE_VERSION = "33";
 
     public static PaForm createPaForm() {
         return PaForm.builder()
@@ -163,7 +178,7 @@ public class PaTestDataCreator {
                     .build()
             )
             .assets(PaAssets.builder()
-                .assetsoverseas(null)
+                .assetsoverseas(true)
                 .build())
             .payment(Payment.builder()
                 .date(PAYMENT_DATE)
@@ -174,6 +189,16 @@ public class PaTestDataCreator {
                 .reference(REFERENCE)
                 .transactionId(TRANSACTION_ID)
                 .build()
+            )
+            .payments(Lists.newArrayList(Payment.builder()
+                .date(PAYMENT_DATE)
+                .amount(AMOUNT)
+                .siteId(SITE_ID)
+                .status(PAYMENT_STATUS)
+                .method(METHOD)
+                .reference(REFERENCE)
+                .transactionId(TRANSACTION_ID)
+                .build())
             )
             .deceased(PaDeceased.builder()
                 .alias(DECEASED_ALIAS)
@@ -262,14 +287,28 @@ public class PaTestDataCreator {
                     .deceasedEstateValue(DECEASED_ESTATE_VALUE)
                     .build())
                 .build())
+            .fees(Fees.builder()
+                .ukCopiesFee(UK_COPIES_FEE)
+                .ukCopiesFeeVersion(UK_COPIES_FEE_VERSION)
+                .ukCopiesFeeCode(UK_COPIES_FEE_CODE)
+                .overseasCopiesFee(OVERSEAS_COPIES_FEE)
+                .overseasCopiesFeeVersion(OVERSEAS_COPIES_FEE_VERSION)
+                .overseasCopiesFeeCode(OVERSEAS_COPIES_FEE_CODE)
+                .applicationFee(APPLICATION_FEE)
+                .applicationFeeCode(APPLICATION_FEE_CODE)
+                .applicationFeeVersion(APPLICATION_FEE_VERSION)
+                .total(FEES_TOTAL)
+                .build())
             .build();
     }
 
     public static GrantOfRepresentationData createGrantOfRepresentation() {
         return GrantOfRepresentationData.builder()
             .grantType(GrantType.GRANT_OF_PROBATE)
-            .primaryApplicantAddress(Address.builder()
-                .addressLine1(APPLICANT_ADDRESS)
+            .primaryApplicantAddress(uk.gov.hmcts.reform.probate.model.cases.Address.builder()
+                .addressLine1(APPLICANT_ADDRESS.getAddressLine1())
+                    .postTown(APPLICANT_ADDRESS.getPostTown())
+                    .postCode(APPLICANT_ADDRESS.getPostCode())
                 .build())
             .primaryApplicantEmailAddress(APPLICANT_EMAIL)
             .applicationSubmittedDate(LocalDate.now())
@@ -295,8 +334,10 @@ public class PaTestDataCreator {
             .deceasedSurname(DECEASED_LAST_NAME)
             .deceasedForenames(DECEASED_FIRST_NAME)
             .deceasedMarriedAfterWillOrCodicilDate(MARRIED)
-            .deceasedAddress(Address.builder()
-                .addressLine1(DECEASED_ADDRESS)
+            .deceasedAddress(uk.gov.hmcts.reform.probate.model.cases.Address.builder()
+                .addressLine1(DECEASED_ADDRESS.getAddressLine1())
+                .postTown(DECEASED_ADDRESS.getPostTown())
+                .postCode(DECEASED_ADDRESS.getPostCode())
                 .build())
             .numberOfApplicants(Long.valueOf(EXECUTORS_NUMBER))
             .numberOfExecutors(Long.valueOf(EXECUTORS_NUMBER))
@@ -364,7 +405,7 @@ public class PaTestDataCreator {
                         .applyingExecutorName(FIRST_EXECUTOR_FULLNAME)
                         .applyingExecutorPhoneNumber(FIRST_EXECUTOR_MOBILE)
                         .applyingExecutorEmail(FIRST_EXECUTOR_EMAIL)
-                        .applyingExecutorAddress(Address.builder()
+                        .applyingExecutorAddress(uk.gov.hmcts.reform.probate.model.cases.Address.builder()
                             .addressLine1(FIRST_EXECUTOR_ADDRESS)
                             .build())
                         .applyingExecutorOtherNames(FIRST_EXECUTOR_CURRENT_NAME)
@@ -376,12 +417,26 @@ public class PaTestDataCreator {
                         .applyingExecutorName(SECOND_EXECUTOR_APPLYING)
                         .applyingExecutorPhoneNumber(SECOND_EXECUTOR_MOBILE)
                         .applyingExecutorEmail(SECOND_EXECUTOR_EMAIL)
-                        .applyingExecutorAddress(Address.builder()
+                        .applyingExecutorAddress(uk.gov.hmcts.reform.probate.model.cases.Address.builder()
                             .addressLine1(SECOND_EXECUTOR_ADDRESS)
                             .build())
                         .build())
                     .build()
             ))
+            .fees(ProbateCalculatedFees.builder()
+                .ukCopiesFee(UK_COPIES_FEE.multiply(BigDecimal.valueOf(100)).longValue())
+                .ukCopiesFeeVersion(UK_COPIES_FEE_VERSION)
+                .ukCopiesFeeCode(UK_COPIES_FEE_CODE)
+                .overseasCopiesFee(OVERSEAS_COPIES_FEE.multiply(BigDecimal.valueOf(100)).longValue())
+                .overseasCopiesFeeVersion(OVERSEAS_COPIES_FEE_VERSION)
+                .overseasCopiesFeeCode(OVERSEAS_COPIES_FEE_CODE)
+                .applicationFee(APPLICATION_FEE.multiply(BigDecimal.valueOf(100)).longValue())
+                .applicationFeeCode(APPLICATION_FEE_CODE)
+                .applicationFeeVersion(APPLICATION_FEE_VERSION)
+                .total(FEES_TOTAL.multiply(BigDecimal.valueOf(100)).longValue())
+                .build()
+            )
+
             .build();
     }
 }

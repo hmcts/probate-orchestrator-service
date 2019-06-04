@@ -1,0 +1,39 @@
+{
+  "amount": 216.50,
+  "description": "Probate payment system update for CCD Grant of Representation.",
+  "reference": "RC-1554-3862-1252-2651",
+  "currency": "GBP",
+  "ccd_case_number": "1554131023277701",
+  "channel": "online",
+  "method": "card",
+  "external_provider": "gov pay",
+  "status": "success",
+  "external_reference": "06kd1v30vm45hqvggphdjqbeqa",
+  "site_id": "P223",
+  "service_name": "Probate",
+  "date_created": "2019-05-13T10:06:45.285+0000",
+  "date_updated": "2019-05-13T10:07:20.123+0000",
+  "payment_group_reference": "2019-15543862125",
+    "fees": [{
+      "code": "FEE0226",
+      "version": "1",
+      "volume": 1,
+      "calculated_amount": 215.00
+    }, {
+      "code": "FEE0003",
+      "version": "3",
+      "volume": 2,
+      "calculated_amount": 1.00
+    }, {
+      "code": "FEE0003",
+      "version": "3",
+      "volume": 1,
+      "calculated_amount": 0.50
+    }],
+  "_links": {
+    "self": {
+      "href": "http://payment.service.gov.uk",
+      "method": "GET"
+    }
+  }
+}

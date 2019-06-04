@@ -10,15 +10,15 @@ import uk.gov.hmcts.reform.probate.model.client.ErrorResponse;
 import java.io.IOException;
 
 @Slf4j
-class ResponseDecorator {
+public class ResponseDecorator {
 
     private Response response;
 
-    ResponseDecorator(Response response) {
-        this.response=response;
+    public ResponseDecorator(Response response) {
+        this.response = response;
     }
 
-    String bodyToString() {
+    public String bodyToString() {
         String apiError = "";
         try {
             if (this.response.body() != null) {
@@ -30,7 +30,7 @@ class ResponseDecorator {
         return apiError;
     }
 
-    ErrorResponse mapToErrorResponse() {
+    public ErrorResponse mapToErrorResponse() {
         ObjectMapper mapper = new ObjectMapper();
         ErrorResponse errorResponse = null;
         try {
