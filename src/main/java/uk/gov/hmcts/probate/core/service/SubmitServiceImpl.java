@@ -52,8 +52,10 @@ public class SubmitServiceImpl implements SubmitService {
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
         ProbateCaseDetails probateCaseDetails = submitServiceApi.getCase(authorisation,
-            serviceAuthorisation, identifier, probateType.getCaseType().getName());
-        return formMapper.fromCaseData(probateCaseDetails.getCaseData());
+            serviceAuthorisation, identifier, probateType.getCaseType().name());
+        Form form = formMapper.fromCaseData(probateCaseDetails.getCaseData());
+        updateCcdCase(probateCaseDetails, form);
+        return form;
     }
 
     @Override

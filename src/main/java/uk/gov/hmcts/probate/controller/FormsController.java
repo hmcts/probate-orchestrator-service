@@ -100,8 +100,8 @@ public class FormsController {
     @PutMapping(path = FORMS_ENDPOINT + PAYMENT_SUBMISSIONS_ENDPOINT,
         consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Form> updatePayment( @PathVariable("identifier") String identifier,
-                                                                        @RequestParam("probateType") ProbateType probateType) {
+    public ResponseEntity<PaymentSubmission> updatePayment(@PathVariable("identifier") String identifier,
+                                                           @RequestParam("probateType") ProbateType probateType) {
         return new ResponseEntity<>(paymentService.updatePaymentSubmission(identifier, probateType), HttpStatus.OK);
     }
 
