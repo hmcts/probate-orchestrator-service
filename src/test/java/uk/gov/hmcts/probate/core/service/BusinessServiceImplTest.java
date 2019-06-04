@@ -1,7 +1,8 @@
 package uk.gov.hmcts.probate.core.service;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hamcrest.*;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,9 +12,16 @@ import org.mockito.junit.MockitoJUnitRunner;
 import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.probate.client.BusinessServiceApi;
 import uk.gov.hmcts.probate.client.SubmitServiceApi;
+import uk.gov.hmcts.probate.core.service.mapper.ExecutorApplyingToInvitationMapper;
+import uk.gov.hmcts.reform.probate.model.ProbateType;
+import uk.gov.hmcts.reform.probate.model.cases.CaseType;
+import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
+import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
+import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
+import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -24,15 +32,27 @@ public class BusinessServiceImplTest {
 
     private static final String SERVICE_AUTHORIZATION = "SERVICEAUTH1234567";
     private static final String AUTHORIZATION = "AUTH1234567";
+    private final String phoneNumber = "phoneNumber";
+    private final String leadExecutorName = "leadExecutorName";
+    private final String formdataId = "12345";
+    private final String sessionId = "sessionId";
+    private final String invitationId = "54321";
+    private final String emailaddress = "emailaddress";
 
     @Mock
     private BusinessServiceApi businessServiceApi;
-
     @Mock
     private SubmitServiceApi submitServiceApi;
+    @Mock
+    private SecurityUtils securityUtils;
+    @Mock
+    private ExecutorApplyingToInvitationMapper mockExecutorApplyingToInvitationMapper;
 
     @Mock
-    SecurityUtils securityUtils;
+    private ProbateCaseDetails mockProbateCaseDetails;
+
+    @Mock
+    GrantOfRepresentationData mockGrantOfRepresentationData;
 
     private BusinessServiceImpl businessService;
 
@@ -40,15 +60,20 @@ public class BusinessServiceImplTest {
 
     private ObjectMapper objectMapper;
 
+
     @Before
     public void setUp() throws Exception {
         objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
 
-        Mockito.when(securityUtils.getAuthorisation()).thenReturn(AUTHORIZATION);
-        Mockito.when(securityUtils.getServiceAuthorisation()).thenReturn(SERVICE_AUTHORIZATION);
+        when(securityUtils.getAuthorisation()).thenReturn(AUTHORIZATION);
+        when(securityUtils.getServiceAuthorisation()).thenReturn(SERVICE_AUTHORIZATION);
+
+        when(submitServiceApi.getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
+                formdataId, ProbateType.PA.getCaseType().name())).thenReturn(mockProbateCaseDetails);
+        when(mockProbateCaseDetails.getCaseData()).thenReturn(mockGrantOfRepresentationData);
+
         pdfExample = new byte[10];
-        businessService = new BusinessServiceImpl(businessServiceApi, submitServiceApi, securityUtils);
+        businessService = new BusinessServiceImpl(businessServiceApi, submitServiceApi, securityUtils, mockExecutorApplyingToInvitationMapper);
     }
 
     @Test
@@ -93,5 +118,126 @@ public class BusinessServiceImplTest {
         verify(securityUtils, times(1)).getAuthorisation();
         verify(securityUtils, times(1)).getServiceAuthorisation();
         verify(businessServiceApi, times(1)).generateBulkScanCoverSheetPDF(AUTHORIZATION, SERVICE_AUTHORIZATION, bulkScanCoverSheet);
+    }
+
+
+    @Test
+    public void shouldSendInvitationAndUpdateProbateCaseDetails() {
+
+        Invitation invitation = getInvitation(formdataId);
+
+        when(businessServiceApi.invite(invitation, sessionId)).thenReturn(invitationId);
+
+        String result = businessService.sendInvitation(invitation, sessionId);
+
+        verify(businessServiceApi).invite(invitation, sessionId);
+        verifyGetCaseCalls();
+        verify(mockGrantOfRepresentationData).setInvitationDetailsForExecutorApplying(invitation.getEmail(), invitationId, invitation.getLeadExecutorName());
+        verify(submitServiceApi).saveDraft(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
+
+        Assert.assertThat(result, Matchers.equalTo(invitationId));
+    }
+
+    @Test
+    public void shouldResendInvitation() {
+        Invitation invitation = getInvitation(formdataId);
+        String result = businessService.resendInvitation(invitationId, invitation, sessionId);
+        verify(businessServiceApi).invite(invitationId, invitation, sessionId);
+
+    }
+
+    @Test
+    public void shouldDetermineIfAllInviteesHaveAgreedFromCase() {
+
+        when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.TRUE);
+        Boolean result = businessService.haveAllIniviteesAgreed(formdataId);
+        Assert.assertThat(result, Matchers.equalTo(Boolean.TRUE));
+    }
+
+    @Test
+    public void shouldUpdateContactDetailsOnCase() {
+
+        businessService.updateContactDetails(formdataId, getInvitation(formdataId));
+        verifyGetCaseCalls();
+        verify(mockGrantOfRepresentationData).updateInvitationContactDetailsForExecutorApplying(invitationId, emailaddress, phoneNumber);
+        verify(submitServiceApi).saveDraft(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
+
+    }
+
+    @Test
+    public void shouldSetInviteAgreedOnCase() {
+
+        Invitation invitation = getInvitation(formdataId);
+        businessService.inviteAgreed(formdataId, invitation);
+        verifyGetCaseCalls();
+        verify(mockGrantOfRepresentationData).setInvitationAgreedFlagForExecutorApplying(invitationId, invitation.getAgreed());
+        verify(submitServiceApi).saveDraft(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
+
+    }
+
+    @Test
+    public void shouldResetInviteAgreedOnCase() {
+
+        businessService.resetAgreedFlags(formdataId);
+        verifyGetCaseCalls();
+        verify(mockGrantOfRepresentationData).resetExecutorsApplyingAgreedFlags();
+        verify(submitServiceApi).saveDraft(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
+
+    }
+
+    @Test
+    public void shouldDeleteInviteOnCase() {
+
+        Invitation invitation = getInvitation(formdataId);
+        businessService.deleteInvite(formdataId, invitation);
+        verifyGetCaseCalls();
+        verify(mockGrantOfRepresentationData).deleteInvitation(invitationId);
+        verify(submitServiceApi).saveDraft(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
+
+    }
+
+    @Test
+    public void shouldGetPinNumber() {
+        businessService.getPinNumber(phoneNumber, sessionId);
+        verify(businessServiceApi).pinNumber(phoneNumber, sessionId);
+    }
+
+    @Test
+    public void shouldGetCaseByInvitationId() {
+
+        when(submitServiceApi.getCaseByInvitationId(AUTHORIZATION, SERVICE_AUTHORIZATION,
+                invitationId, CaseType.GRANT_OF_REPRESENTATION.getName())).thenReturn(mockProbateCaseDetails);
+        when(mockProbateCaseDetails.getCaseData()).thenReturn(mockGrantOfRepresentationData);
+        ExecutorApplying mockExecutorApplying = Mockito.mock(ExecutorApplying.class);
+        when(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(invitationId))
+                .thenReturn(mockExecutorApplying);
+        when(mockExecutorApplyingToInvitationMapper.map(mockExecutorApplying)).thenReturn(new Invitation());
+
+        Invitation invitation = getInvitation(formdataId);
+        businessService.getInviteData(invitationId);
+        verify(submitServiceApi).getCaseByInvitationId(AUTHORIZATION, SERVICE_AUTHORIZATION,
+                invitationId, CaseType.GRANT_OF_REPRESENTATION.getName());
+        verify(mockProbateCaseDetails).getCaseData();
+        verify(mockGrantOfRepresentationData).getExecutorApplyingByInviteId(invitationId);
+        verify(mockExecutorApplyingToInvitationMapper).map(mockExecutorApplying);
+
+    }
+
+    private void verifyGetCaseCalls() {
+        verify(submitServiceApi).getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
+                formdataId, ProbateType.PA.getCaseType().name());
+        verify(mockProbateCaseDetails).getCaseData();
+    }
+
+    private Invitation getInvitation(String formdataId) {
+
+        return Invitation.builder()
+                .inviteId(invitationId)
+                .email(emailaddress)
+                .phoneNumber(phoneNumber)
+                .leadExecutorName(leadExecutorName)
+                .formdataId(formdataId)
+                .agreed(Boolean.TRUE)
+                .build();
     }
 }

@@ -39,7 +39,7 @@
     "willNumberOfCodicils": 1,
     "executorsHaveAlias": "Yes",
     "executorsAllAlive": "Yes",
-    "otherExecutorsApplying" : "No",
+    "otherExecutorsApplying": "No",
     "numberOfExecutors": 2,
     "executorsApplying": [
       {
@@ -68,7 +68,7 @@
     "numberOfApplicants": 1,
     "outsideUKGrantCopies": 0,
     "caseType": "gop",
-    "declarationCheckbox" : "Yes"
+    "declarationCheckbox": "Yes"
   },
   "caseInfo": {
     "caseId": "1535574519543819",

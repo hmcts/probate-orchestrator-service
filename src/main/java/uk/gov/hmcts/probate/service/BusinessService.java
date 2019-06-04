@@ -15,7 +15,7 @@ public interface BusinessService {
 
     String sendInvitation(Invitation invitation, String sessionId);
 
-    String resendInvite(String inviteId, Invitation invitation, String sessionId);
+    String resendInvitation(String inviteId, Invitation invitation, String sessionId);
 
     Boolean haveAllIniviteesAgreed(String formdataId);
 
@@ -26,4 +26,8 @@ public interface BusinessService {
     void resetAgreedFlags(String formdataId);
 
     String deleteInvite(String formdataId, Invitation invitation);;
+
+    Invitation getInviteData(String inviteId);
+
+    String getPinNumber(String phoneNumber, String sessionId);
 }

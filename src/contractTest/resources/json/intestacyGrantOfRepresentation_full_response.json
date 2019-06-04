@@ -10,9 +10,7 @@
       "uploadDocumentUrl": "http://document-management/document/12345",
       "childrenDied": "No",
       "deceasedSpouseNotApplyingReason": "mentallyIncapable",
-      "declaration": {
-        "declarationCheckbox": "Yes"
-      },
+      "declarationCheckbox": "Yes",
       "primaryApplicantFreeTextAddress": "Pret a Manger St. Georges Hospital Blackshaw Road",
       "ihtFormCompletedOnline": "Yes",
       "deceasedAliasNameList": [

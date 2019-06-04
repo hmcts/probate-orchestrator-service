@@ -33,8 +33,8 @@ public class ProbateDocumentsControllerCheckAnswersProviderTest extends Controll
 
     }
 
-    @State({"probate_orchestrator_service generates check answers byte[] with validation errors",
-            "probate_orchestrator_service generates check answers byte[] with validation errors"})
+    @State({"probate_orchestrator_service returns with validation errors",
+            "probate_orchestrator_service returns with validation errors"})
     public void toReturnInvalidCheckAnswersSummaryWithError() throws IOException, JSONException {
 
     }

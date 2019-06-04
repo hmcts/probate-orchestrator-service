@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
@@ -80,6 +81,7 @@ public interface BusinessServiceApi {
                          @RequestBody Invitation invitation,
                          @RequestHeader("Session-Id") String sessionId);
 
-    @GetMapping(path = "/invite/allAgreed/{formdataId}")
-    public Boolean invitesAllAgreed(@PathVariable("formdataId") String formdataId);
+
+    @GetMapping(path = "/pin")
+    public String pinNumber(@RequestParam("phoneNumber") String phoneNumber, @RequestHeader("Session-Id") String sessionId);
 }

@@ -1,13 +1,16 @@
 package uk.gov.hmcts.probate.core.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.probate.client.BusinessServiceApi;
 import uk.gov.hmcts.probate.client.SubmitServiceApi;
+import uk.gov.hmcts.probate.core.service.mapper.ExecutorApplyingToInvitationMapper;
 import uk.gov.hmcts.probate.service.BusinessService;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
+import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
+import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
@@ -16,19 +19,14 @@ import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class BusinessServiceImpl implements BusinessService {
 
     private final BusinessServiceApi businessServiceApi;
     private final SubmitServiceApi submitServiceApi;
     private final SecurityUtils securityUtils;
+    private final ExecutorApplyingToInvitationMapper executorApplyingToInvitationMapper;
 
-    @Autowired
-    public BusinessServiceImpl(BusinessServiceApi businessServiceApi,
-                               SubmitServiceApi submitServiceApi, SecurityUtils securityUtils) {
-        this.businessServiceApi = businessServiceApi;
-        this.securityUtils = securityUtils;
-        this.submitServiceApi = submitServiceApi;
-    }
 
     @Override
     public byte[] generateCheckAnswersSummaryPdf(CheckAnswersSummary checkAnswersSummary) {
@@ -68,24 +66,24 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Override
     public String sendInvitation(Invitation invitation, String sessionId) {
-        String inviationId =businessServiceApi.invite(invitation, sessionId);
-        ProbateCaseDetails probateCaseDetails =getProbateCaseDetails(invitation.getFormdataId());
+        String invitationId = businessServiceApi.invite(invitation, sessionId);
+        ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(invitation.getFormdataId());
         GrantOfRepresentationData grantOfRepresentationData =
                 (GrantOfRepresentationData) probateCaseDetails.getCaseData();
-        grantOfRepresentationData.setInvitationDetailsForExecutorApplying(inviationId, invitation.getEmail(),
+        grantOfRepresentationData.setInvitationDetailsForExecutorApplying(invitation.getEmail(), invitationId,
                 invitation.getLeadExecutorName());
         updateCaseData(probateCaseDetails, invitation.getFormdataId());
-        return inviationId;
+        return invitationId;
     }
 
     @Override
-    public String resendInvite(String inviteId, Invitation invitation, String sessionId) {
+    public String resendInvitation(String inviteId, Invitation invitation, String sessionId) {
         return businessServiceApi.invite(inviteId, invitation, sessionId);
     }
 
     @Override
     public Boolean haveAllIniviteesAgreed(String formdataId) {
-        ProbateCaseDetails probateCaseDetails =getProbateCaseDetails(formdataId);
+        ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(formdataId);
         GrantOfRepresentationData grantOfRepresentationData =
                 (GrantOfRepresentationData) probateCaseDetails.getCaseData();
         return grantOfRepresentationData.haveAllExecutorsAgreed();
@@ -93,36 +91,29 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Override
     public String updateContactDetails(String formdataId, Invitation invitation) {
-        ProbateCaseDetails probateCaseDetails =getProbateCaseDetails(formdataId);
+        ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(formdataId);
         GrantOfRepresentationData grantOfRepresentationData =
                 (GrantOfRepresentationData) probateCaseDetails.getCaseData();
         grantOfRepresentationData.updateInvitationContactDetailsForExecutorApplying(invitation.getInviteId(),
                 invitation.getEmail(), invitation.getPhoneNumber());
-        updateCaseData(probateCaseDetails, invitation.getFormdataId());
+        updateCaseData(probateCaseDetails, formdataId);
         return invitation.getInviteId();
     }
 
-    private void updateCaseData(ProbateCaseDetails probateCaseDetails, String formdataId) {
-        String serviceAuthorisation = securityUtils.getServiceAuthorisation();
-        String authorisation = securityUtils.getAuthorisation();
-        submitServiceApi.update(authorisation, serviceAuthorisation, formdataId, probateCaseDetails);
-    }
-
-
     @Override
     public String inviteAgreed(String formdataId, Invitation invitation) {
-        ProbateCaseDetails probateCaseDetails =getProbateCaseDetails(invitation.getFormdataId());
+        ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(formdataId);
         GrantOfRepresentationData grantOfRepresentationData =
                 (GrantOfRepresentationData) probateCaseDetails.getCaseData();
         grantOfRepresentationData.setInvitationAgreedFlagForExecutorApplying(invitation.getInviteId(),
                 invitation.getAgreed());
-        updateCaseData(probateCaseDetails, invitation.getFormdataId());
+        updateCaseData(probateCaseDetails, formdataId);
         return invitation.getInviteId();
     }
 
     @Override
     public void resetAgreedFlags(String formdataId) {
-        ProbateCaseDetails probateCaseDetails =getProbateCaseDetails(formdataId);
+        ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(formdataId);
         GrantOfRepresentationData grantOfRepresentationData =
                 (GrantOfRepresentationData) probateCaseDetails.getCaseData();
         grantOfRepresentationData.resetExecutorsApplyingAgreedFlags();
@@ -132,7 +123,7 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Override
     public String deleteInvite(String formdataId, Invitation invitation) {
-        ProbateCaseDetails probateCaseDetails =getProbateCaseDetails(formdataId);
+        ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(formdataId);
         GrantOfRepresentationData grantOfRepresentationData =
                 (GrantOfRepresentationData) probateCaseDetails.getCaseData();
         grantOfRepresentationData.deleteInvitation(invitation.getInviteId());
@@ -140,6 +131,27 @@ public class BusinessServiceImpl implements BusinessService {
         return formdataId;
     }
 
+    @Override
+    public Invitation getInviteData(String inviteId) {
+
+        String serviceAuthorisation = securityUtils.getServiceAuthorisation();
+        String authorisation = securityUtils.getAuthorisation();
+
+        ProbateCaseDetails probateCaseDetails = submitServiceApi.getCaseByInvitationId(authorisation,
+                serviceAuthorisation, inviteId, CaseType.GRANT_OF_REPRESENTATION.name());
+        GrantOfRepresentationData grantOfRepresentationData =
+                (GrantOfRepresentationData) probateCaseDetails.getCaseData();
+
+        ExecutorApplying executorApplyingByInviteId = grantOfRepresentationData.getExecutorApplyingByInviteId(inviteId);
+        return executorApplyingToInvitationMapper.map(executorApplyingByInviteId);
+
+    }
+
+
+    @Override
+    public String getPinNumber(String phoneNumber, String sessionId) {
+        return businessServiceApi.pinNumber(phoneNumber, sessionId);
+    }
 
     private ProbateCaseDetails getProbateCaseDetails(String caseId) {
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
@@ -149,5 +161,11 @@ public class BusinessServiceImpl implements BusinessService {
         return probateCaseDetails;
     }
 
+    private void updateCaseData(ProbateCaseDetails probateCaseDetails, String formdataId) {
+        String serviceAuthorisation = securityUtils.getServiceAuthorisation();
+        String authorisation = securityUtils.getAuthorisation();
+        ProbateCaseDetails pcd = submitServiceApi.saveDraft(authorisation, serviceAuthorisation,
+                formdataId, probateCaseDetails);
+    }
 
 }

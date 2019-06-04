@@ -15,7 +15,7 @@ import java.io.IOException;
 import static org.mockito.Mockito.when;
 
 @Provider("probate_orchestrator_service_invite_allagreed")
-public class InvitationControllerProviderTest extends ControllerProviderTest {
+public class InviteAllAgreedControllerProviderTest extends ControllerProviderTest {
 
     @MockBean
     private BusinessServiceApi businessServiceApi;
