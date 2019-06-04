@@ -15,7 +15,6 @@ import uk.gov.hmcts.reform.probate.model.cases.CaseState;
 import uk.gov.hmcts.reform.probate.model.forms.Fees;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
 import uk.gov.hmcts.reform.probate.model.forms.PaymentSubmission;
-import uk.gov.hmcts.reform.probate.model.forms.PaymentSubmissionAction;
 import uk.gov.hmcts.reform.probate.model.payments.CardPaymentRequest;
 import uk.gov.hmcts.reform.probate.model.payments.FeeDto;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
@@ -59,16 +58,15 @@ public class PaymentServiceImpl implements PaymentService {
         if (form.getFees().getApplicationFee().compareTo(BigDecimal.ZERO) == 0
             && form.getCopies().getUk() == 0L && form.getCopies().getOverseas() == 0L) {
             Form updatedForm = submitService.update(identifier, probateType, PaymentDto.builder().status(PaymentStatus.NOT_REQUIRED.getName()).build());
-            return PaymentSubmission.builder().form(updatedForm).action(PaymentSubmissionAction.SKIP).build();
+            return PaymentSubmission.builder().form(updatedForm).redirect(false).build();
         }
 
         Optional<PaymentDto> paymentOptional = findNonFailedPaymentByCaseId(form.getCcdCase().getId().toString());
         if (paymentOptional.isPresent()) {
             PaymentDto paymentDto = paymentOptional.get();
-            PaymentSubmissionAction action = paymentDto.getStatus().equalsIgnoreCase(PaymentStatus.SUCCESS.getName())
-                ? PaymentSubmissionAction.SKIP : PaymentSubmissionAction.STOP;
+            Boolean redirect = !paymentDto.getStatus().equalsIgnoreCase(PaymentStatus.SUCCESS.getName());
             Form updatedForm = submitService.update(identifier, probateType, paymentDto);
-            return PaymentSubmission.builder().form(updatedForm).action(action).build();
+            return PaymentSubmission.builder().form(updatedForm).redirect(redirect).build();
         }
 
         Fees calculatedFees = feesService.calculateFees(form.getType(), form);
@@ -78,22 +76,26 @@ public class PaymentServiceImpl implements PaymentService {
 
         PaymentDto paymentDto = createPayment(form, returnUrl, callbackUrl);
         Form updatedForm = submitService.update(identifier, probateType, paymentDto);
-        return PaymentSubmission.builder().form(updatedForm).action(PaymentSubmissionAction.REDIRECT)
+        return PaymentSubmission.builder().form(updatedForm).redirect(true)
             .redirectUrl(paymentDto.getLinks().getNextUrl().getHref())
             .build();
     }
 
     @Override
-    public Form updatePaymentSubmission(String identifier, ProbateType probateType) {
+    public PaymentSubmission updatePaymentSubmission(String identifier, ProbateType probateType) {
         Form form = submitService.getCase(identifier, probateType);
         if (form.getCcdCase().getState().equals(CaseState.CASE_CREATED.getName())) {
-            return form;
+            return PaymentSubmission.builder().form(form).redirect(false).build();
         }
         String paymentReference = form.getPayment().getReference();
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
         PaymentDto paymentDto = paymentApi.getCardPayment(authorisation, serviceAuthorisation, paymentReference);
-        return submitService.update(identifier, probateType, paymentDto);
+        Form updatedForm = submitService.update(identifier, probateType, paymentDto);
+        if (!paymentDto.getStatus().equalsIgnoreCase(PaymentStatus.SUCCESS.getName())) {
+            return PaymentSubmission.builder().form(updatedForm).redirect(true).build();
+        }
+        return PaymentSubmission.builder().form(updatedForm).redirect(false).build();
     }
 
     private PaymentDto createPayment(Form form, String returnUrl, String callbackUrl) {
