@@ -41,6 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/health",
                 "/health/liveness",
                 "/info",
+                "/invite/data/**",
                 "/favicon.ico",
                 "/");
     }

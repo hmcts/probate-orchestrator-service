@@ -4,7 +4,6 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +21,19 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
         configuration = SubmitServiceConfiguration.class
 )
 public interface SubmitServiceApi {
+
+
+
+    @GetMapping(
+            value = "/cases/invitation/{invitationId}",
+            headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+    )
+    ProbateCaseDetails getCaseByInvitationId(
+            @RequestHeader(AUTHORIZATION) String authorisation,
+            @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+            @PathVariable(SubmitServiceConfiguration.INVITATION_ID) String invitationId,
+            @RequestParam("caseType") String caseType
+    );
 
     @GetMapping(
             value = "/cases/{applicationId}",
@@ -56,7 +68,7 @@ public interface SubmitServiceApi {
             @RequestBody ProbateCaseDetails probateCaseDetails
     );
 
-    @PutMapping(
+    @PostMapping(
             value = "/submissions/{applicationId}",
             headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )

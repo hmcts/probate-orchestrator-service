@@ -1,7 +1,7 @@
 {
   "caseData": {
     "type": "GrantOfRepresentation",
-    "caseType":"intestacy",
+    "caseType": "intestacy",
     "applicationType": "Personal",
     "primaryApplicantEmailAddress": "jsnow@bbc.co.uk",
     "primaryApplicantForenames": "Jon",
@@ -48,9 +48,7 @@
     "ihtGrossValue": "100000",
     "ihtNetValue": "100000",
     "ihtReferenceNumber": "GOT123456",
-    "declaration": {
-      "declarationCheckbox": "Yes"
-    },
+    "declarationCheckbox": "Yes",
     "extraCopiesOfGrant": 5,
     "outsideUKGrantCopies": 6,
     "uploadDocumentUrl": "http://document-management/document/12345"

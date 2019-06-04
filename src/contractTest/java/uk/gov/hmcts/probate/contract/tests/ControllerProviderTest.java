@@ -76,8 +76,8 @@ abstract public class ControllerProviderTest {
 
         User user = new User("123", new HashSet<>());
         when(userRequestAuthorizer.authorise(any(HttpServletRequest.class))).thenReturn(user);
-        System.getProperties().setProperty("pact.verifier.publishResults", "true");
-        System.getProperties().setProperty("pact.provider.version", providerVersion);
+        //System.getProperties().setProperty("pact.verifier.publishResults", "true");
+        //System.getProperties().setProperty("pact.provider.version", providerVersion);
     }
 
     protected JSONObject createJsonObject(String fileName) throws JSONException, IOException {
