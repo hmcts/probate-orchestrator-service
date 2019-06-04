@@ -8,7 +8,9 @@ import org.mapstruct.ReportingPolicy;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromIhtMethod;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromRegistryLocation;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCaseAddress;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCollectionMember;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToFormAddress;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToIhtMethod;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPennies;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPounds;
@@ -38,15 +40,13 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
         expression = "java(form.getApplicant() != null && form.getApplicant().getEmail() != null ? " +
             "form.getApplicant().getEmail().toLowerCase() : null)")
     @Mapping(target = "primaryApplicantAddressFound", source = "applicant.addressFound")
-    @Mapping(target = "primaryApplicantFreeTextAddress", source = "applicant.freeTextAddress")
-    @Mapping(target = "deceasedAddress.addressLine1", source = "deceased.address")
-    @Mapping(target = "deceasedAddress.postCode", source = "deceased.postCode")
+    @Mapping(target = "deceasedAddress", source = "deceased.address", qualifiedBy = {ToCaseAddress.class})
+    @Mapping(target = "deceasedPostCode", source = "deceased.postCode")
     @Mapping(target = "deceasedSurname", source = "deceased.lastName")
     @Mapping(target = "deceasedForenames", source = "deceased.firstName")
     @Mapping(target = "deceasedDateOfBirth", source = "deceased.dateOfBirth")
     @Mapping(target = "deceasedDateOfDeath", source = "deceased.dateOfDeath")
     @Mapping(target = "deceasedAddressFound", source = "deceased.addressFound")
-    @Mapping(target = "deceasedFreeTextAddress", source = "deceased.freeTextAddress")
     @Mapping(target = "deceasedAnyOtherNames", source = "deceased.alias")
     @Mapping(target = "deceasedMartialStatus", source = "deceased.maritalStatus")
     @Mapping(target = "deceasedDivorcedInEnglandOrWales", source = "deceased.divorcedInEnglandOrWales")
@@ -74,9 +74,11 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "registryEmail", source = "registry.email")
     @Mapping(target = "registrySequenceNumber", source = "registry.sequenceNumber")
     @Mapping(target = "assetsOverseasNetValue", source = "assets.assetsOverseasNetValue",
-        qualifiedBy = {ToPennies.class})
-    @Mapping(target = "primaryApplicantAddress.addressLine1", source = "applicant.address")
-    @Mapping(target = "primaryApplicantAddress.postCode", source = "applicant.postCode")
+            qualifiedBy = {ToPennies.class})
+//    @Mapping(target = "primaryApplicantAddress.addressLine1", source = "applicant.address")
+//    @Mapping(target = "primaryApplicantAddress.postCode", source = "applicant.postCode")
+//    @Mapping(target = "primaryApplicantAddress", source = "applicant.address", qualifiedBy = {ToCaseAddress.class})
+//    @Mapping(target = "primaryApplicantPostCode", source = "applicant.postCode")
     @Mapping(target = "payments", source = "payments", qualifiedBy = {ToCollectionMember.class})
     GrantOfRepresentationData toCaseData(IntestacyForm form);
 
@@ -88,10 +90,8 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "iht.grossValue", source = "ihtGrossValue", qualifiedBy = {ToPounds.class})
     @Mapping(target = "deceased.otherNames", source = "deceasedAliasNameList", qualifiedBy = {FromCollectionMember.class})
     @Mapping(target = "registry.name", source ="registryLocation", qualifiedBy = {FromRegistryLocation.class})
-    @Mapping(target = "deceased.address", expression = "java(grantOfRepresentationData.getDeceasedAddress() == null ? null : grantOfRepresentationData.getDeceasedAddress().getAddressLine1())")
-    @Mapping(target = "deceased.postCode", expression = "java(grantOfRepresentationData.getDeceasedAddress() == null ? null : grantOfRepresentationData.getDeceasedAddress().getPostCode())")
-    @Mapping(target = "applicant.address", expression = "java(grantOfRepresentationData.getPrimaryApplicantAddress() == null ? null : grantOfRepresentationData.getPrimaryApplicantAddress().getAddressLine1())")
-    @Mapping(target = "applicant.postCode", expression = "java(grantOfRepresentationData.getPrimaryApplicantAddress() == null ? null : grantOfRepresentationData.getPrimaryApplicantAddress().getPostCode())")
+    @Mapping(target = "deceased.address", source = "deceasedAddress", qualifiedBy = {ToFormAddress.class})
+//    @Mapping(target = "applicant.address", source = "primaryApplicantAddress", qualifiedBy = {ToFormAddress.class})
     @InheritInverseConfiguration
     IntestacyForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 }

@@ -15,7 +15,7 @@ public class ExecutorApplyingToInvitationMapper {
     public Invitation map(ExecutorApplying executorApplying) {
         return Invitation.builder()
                 .agreed(executorApplying.getApplyingExecutorAgreed())
-                .inviteId(executorApplying.getApplyingExecutorInvitiationId())
+                .inviteId(executorApplying.getApplyingExecutorInvitationId())
                 .phoneNumber(executorApplying.getApplyingExecutorPhoneNumber())
                 .executorName(executorApplying.getApplyingExecutorName())
                 .email(executorApplying.getApplyingExecutorEmail())

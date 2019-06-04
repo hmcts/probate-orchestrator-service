@@ -48,7 +48,7 @@
           "applyingExecutorPhoneNumber": "07981898999",
           "applyingExecutorAgreed": "Yes",
           "applyingExecutorEmail": "address@email.com",
-          "applyingExecutorInvitiationId": "54321",
+          "applyingExecutorInvitationId": "54321",
           "applyingExecutorLeadName":"Graham Garderner",
           "applyingExecutorAddress": {
             "AddressLine1": "12 West End Avenue"

@@ -1,4 +1,4 @@
-package uk.gov.hmcts.probate.client;
+package uk.gov.hmcts.probate.client.business;
 
 import feign.Logger;
 import org.springframework.context.annotation.Bean;

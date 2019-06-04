@@ -1,4 +1,4 @@
-package uk.gov.hmcts.probate.client;
+package uk.gov.hmcts.probate.client.submit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Logger;
@@ -7,16 +7,16 @@ import feign.jackson.JacksonDecoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 
-class SubmitServiceConfiguration {
+public class SubmitServiceConfiguration {
 
-    static final String SERVICE_AUTHORIZATION = "ServiceAuthorization";
+    public static final String SERVICE_AUTHORIZATION = "ServiceAuthorization";
 
     static final String APPLICATION_ID = "applicationId";
     static final String INVITATION_ID = "invitationId";
 
     @Bean
     @Primary
-    Decoder feignDecoder(ObjectMapper objectMapper) {
+    public Decoder feignDecoder(ObjectMapper objectMapper) {
         return new JacksonDecoder(objectMapper);
     }
 

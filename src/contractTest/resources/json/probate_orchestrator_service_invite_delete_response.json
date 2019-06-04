@@ -48,7 +48,7 @@
           "applyingExecutorPhoneNumber": "079898989898",
           "applyingExecutorAgreed": "Yes",
           "applyingExecutorEmail": "anotheremail@address.com",
-          "applyingExecutorInvitiationId" : "54321",
+          "applyingExecutorInvitationId" : "54321",
           "applyingExecutorAddress": {
             "AddressLine1": "12 West End Avenue"
           },

@@ -48,7 +48,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.addFilter(authCheckerServiceAndUserFilter)
+        http
+            .requestMatchers()
+            .antMatchers("/documents/**")
+            .antMatchers("/generate/**")
+            .antMatchers("/forms/**")
+            .and()
+            .addFilter(authCheckerServiceAndUserFilter)
                 .sessionManagement().sessionCreationPolicy(STATELESS).and()
                 .csrf().disable()
                 .formLogin().disable()
