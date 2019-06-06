@@ -10,6 +10,8 @@ public interface SubmitService {
 
     Form getCase(String identifier, ProbateType probateType);
 
+    Form saveCase(String identifier, Form form);
+
     Form saveDraft(String identifier, Form form);
 
     Form submit(String identifier, Form form);
