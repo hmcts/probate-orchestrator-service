@@ -55,8 +55,8 @@ public class PaymentServiceImpl implements PaymentService {
             throw new FeesNotCalculatedException();
         }
 
-        if (form.getFees().getApplicationFee().compareTo(BigDecimal.ZERO) == 0
-            && form.getCopies().getUk() == 0L && form.getCopies().getOverseas() == 0L) {
+        if (defaultNullToZero(form.getFees().getApplicationFee()).compareTo(BigDecimal.ZERO) == 0
+            && defaultNullToZero(form.getCopies().getUk()) == 0L && defaultNullToZero(form.getCopies().getOverseas()) == 0L) {
             Form updatedForm = submitService.update(identifier, probateType, PaymentDto.builder().status(PaymentStatus.NOT_REQUIRED.getName()).build());
             return PaymentSubmission.builder().form(updatedForm).redirect(false).build();
         }
@@ -70,7 +70,7 @@ public class PaymentServiceImpl implements PaymentService {
         }
 
         Fees calculatedFees = feesService.calculateFees(form.getType(), form);
-        if (!form.getFees().equals(calculatedFees)) {
+        if (form.getFees().getTotal().compareTo(calculatedFees.getTotal()) != 0) {
             throw new FeesChangedException();
         }
 
@@ -115,7 +115,7 @@ public class PaymentServiceImpl implements PaymentService {
                 return Optional.of(paymentDto);
             }
             if (paymentDto.getStatus().equals(INITIATED_STATUS)) {
-                return Optional.of(paymentApi.getCardPayment(serviceAuthorisation, authorisation, paymentDto.getReference()));
+                return Optional.of(paymentApi.getCardPayment(serviceAuthorisation, authorisation, paymentDto.getPaymentReference()));
             }
         }
         return Optional.empty();
@@ -172,5 +172,19 @@ public class PaymentServiceImpl implements PaymentService {
                 .build());
         }
         return feeDtos;
+    }
+
+    private BigDecimal defaultNullToZero(BigDecimal value) {
+        if (value == null) {
+            return BigDecimal.ZERO;
+        }
+        return value;
+    }
+
+    private Long defaultNullToZero(Long value) {
+        if (value == null) {
+            return 0L;
+        }
+        return value;
     }
 }

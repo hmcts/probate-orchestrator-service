@@ -25,7 +25,7 @@ public class FeesServiceImpl implements FeesService {
         Form form = submitService.getCase(correlationId, probateType);
         Fees fees = calculateFees(probateType, form);
         form.setFees(fees);
-        return submitService.saveDraft(correlationId, form);
+        return submitService.saveCase(correlationId, form);
     }
 
     public Fees calculateFees(ProbateType probateType, Form form) {
