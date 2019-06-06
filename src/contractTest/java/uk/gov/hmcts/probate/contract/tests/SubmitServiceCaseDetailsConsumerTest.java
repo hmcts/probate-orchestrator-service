@@ -6,6 +6,7 @@ import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.model.RequestResponsePact;
 import org.json.JSONException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,10 +47,15 @@ public class SubmitServiceCaseDetailsConsumerTest {
 
     private String SERVICE_AUTHORIZATION = "ServiceAuthorization";
 
+
+    @BeforeEach
+    public void setUpTest() throws InterruptedException{
+        Thread.sleep(2000);
+    }
+
     @Pact(state = "provider returns casedata with success", provider = "probate_submitService_cases", consumer = "probate_orchestratorService")
     public RequestResponsePact executeSuccessGetCaseDataPact(PactDslWithProvider builder) throws IOException, JSONException {
         // @formatter:off
-
         return builder
                 .given("provider returns casedata with success")
                 .uponReceiving("a request to GET casedata with success")

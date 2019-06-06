@@ -8,6 +8,7 @@ import au.com.dius.pact.model.RequestResponsePact;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,13 +53,19 @@ public class SubmitServiceSubmissionValidationConsumerTest {
 
     private String SERVICE_AUTHORIZATION = "ServiceAuthorization";
 
+    @BeforeEach
+    public void setUpTest() throws InterruptedException{
+        Thread.sleep(2000);
+    }
+
+
     @Pact(state = "provider POSTS submission with errors",
             provider = "probate_submitservice_submissions", consumer = "probate_orchestrator_service")
     public RequestResponsePact ExecutePostSubmissionWithClientErrors(PactDslWithProvider builder) throws IOException, JSONException {
         return builder
                 .given("provider POSTS submission with errors")
                 .uponReceiving("a request to PUT an invalid submission with client errors")
-                .path("/submissions/" + SOMEEMAILADDRESS_HOST_COM)
+                .path("/submissions/update/" + SOMEEMAILADDRESS_HOST_COM)
                 .method("POST")
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)
                 .matchHeader("Content-Type", "application/json")
