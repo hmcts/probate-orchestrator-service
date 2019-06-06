@@ -206,7 +206,7 @@ public class BusinessServiceImplTest {
     public void shouldGetCaseByInvitationId() {
 
         when(submitServiceApi.getCaseByInvitationId(AUTHORIZATION, SERVICE_AUTHORIZATION,
-                invitationId, CaseType.GRANT_OF_REPRESENTATION.getName())).thenReturn(mockProbateCaseDetails);
+                invitationId, CaseType.GRANT_OF_REPRESENTATION.name())).thenReturn(mockProbateCaseDetails);
         when(mockProbateCaseDetails.getCaseData()).thenReturn(mockGrantOfRepresentationData);
         ExecutorApplying mockExecutorApplying = Mockito.mock(ExecutorApplying.class);
         when(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(invitationId))
@@ -216,7 +216,7 @@ public class BusinessServiceImplTest {
         Invitation invitation = getInvitation(formdataId);
         businessService.getInviteData(invitationId);
         verify(submitServiceApi).getCaseByInvitationId(AUTHORIZATION, SERVICE_AUTHORIZATION,
-                invitationId, CaseType.GRANT_OF_REPRESENTATION.getName());
+                invitationId, CaseType.GRANT_OF_REPRESENTATION.name());
         verify(mockProbateCaseDetails).getCaseData();
         verify(mockGrantOfRepresentationData).getExecutorApplyingByInviteId(invitationId);
         verify(mockExecutorApplyingToInvitationMapper).map(mockExecutorApplying);

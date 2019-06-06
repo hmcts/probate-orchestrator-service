@@ -7,6 +7,7 @@ import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.model.RequestResponsePact;
 import org.json.JSONException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,11 @@ public class BusinessServiceInviteConsumerTest {
     ContractTestUtils contractTestUtils;
 
     public static final String SOME_SESSION_ID = "someSessionId";
+
+    @BeforeEach
+    public void setUpTest() throws InterruptedException{
+        Thread.sleep(2000);
+    }
 
     @Pact(state = "business service sends invitation", provider = "probate_business_service_invite", consumer = "probate_orchestrator_service")
     public RequestResponsePact executeSendInvitation(PactDslWithProvider builder) throws IOException, JSONException {

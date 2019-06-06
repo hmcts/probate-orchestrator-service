@@ -7,10 +7,10 @@ import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.model.RequestResponsePact;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import feign.FeignException;
 import io.pactfoundation.consumer.dsl.LambdaDslJsonArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +25,7 @@ import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.UndeclaredThrowableException;
 import java.nio.file.Files;
 
 import static io.pactfoundation.consumer.dsl.LambdaDsl.newJsonBody;
@@ -66,6 +67,12 @@ public class BusinessServiceConsumerTest {
     private String bulkScanCoverSheetBody = "{\"title\":\"Cover Sheet\",\"applicantAddressIntro\":\"The applicants address\",\"applicantAddress\":\"20 White City\\nLondon\\nW12 7PD\",\"caseReferenceIntro\":\"Your unique reference\\nnumber is\",\"caseReference\":\"1542-9021-4510-0350\",\"submitAddressIntro\":\"Please send this cover sheet along with your document(s) to the address shown below\",\"submitAddress\":\"Divorce Service\\nPO BOX 123\\nExela BSP Services\\nHarlow\\nCM19 5QS\"}";
 
     private String invalidBulkScanCoverSheetBody = "{\"title\":\"Download Cover Sheet\",\"applicantAddressIntro\":\"Your address\",\"applicantAddress\":\"addressLine1\",\"caseReferenceIntro\":\"Your unique reference\\nnumber is\",\"caseReference\":\"\",\"submitAddressIntro\":\"Please send this cover sheet along with your document(s) to the address shown below\",\"submitAddress\":null}";
+
+
+    @BeforeEach
+    public void setUpTest() throws InterruptedException{
+        Thread.sleep(2000);
+    }
 
     @Pact(state = "business service returns check your answers document request with success", provider = "probate_businessservice_documents", consumer = "probate_orchestrator_service")
     public RequestResponsePact executeSuccessGetCheckYoursAnswersSummaryPact(PactDslWithProvider builder) throws IOException, JSONException {
@@ -228,7 +235,7 @@ public class BusinessServiceConsumerTest {
     @Test
     @PactTestFor(pactMethod = "executeValidationErrorsCheckYoursAnswersSummaryPact")
     public void verifyExecuteValidationErrorsCheckYoursAnswersSummaryPact() throws JSONException, IOException {
-        assertThrows(FeignException.class, () -> {
+        assertThrows(UndeclaredThrowableException.class, () -> {
             businessServiceApi.generateCheckAnswersSummaryPdf(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, getCheckAnswersSummary("businessDocuments/invalidCheckAnswersSummary.json"));
         });
 
@@ -237,7 +244,7 @@ public class BusinessServiceConsumerTest {
     @Test
     @PactTestFor(pactMethod = "executeValidationErrorsLegalDeclarationPact")
     public void verifyExecuteValidationErrorsLegalDeclarationPact() throws JSONException, IOException {
-        assertThrows(FeignException.class, () -> {
+        assertThrows(UndeclaredThrowableException.class, () -> {
             businessServiceApi.generateLegalDeclarationPDF(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, getLegalDeclaration("businessDocuments/invalidLegalDeclaration.json"));
         });
 
@@ -260,7 +267,7 @@ public class BusinessServiceConsumerTest {
     @Test
     @PactTestFor(pactMethod = "executeValidationErrorsBulkScanCoversheetPact")
     public void verifyExecuteValidationErrorsBulkScanCoversheetPact() throws JSONException, IOException {
-        assertThrows(FeignException.class, () -> {
+        assertThrows(UndeclaredThrowableException.class, () -> {
             businessServiceApi.generateBulkScanCoverSheetPDF(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, getBulkScanCoverSheet("businessDocuments/invalidBulkScanCoverSheet.json"));
         });
 

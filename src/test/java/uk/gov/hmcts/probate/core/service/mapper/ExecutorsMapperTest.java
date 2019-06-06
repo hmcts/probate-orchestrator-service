@@ -32,7 +32,12 @@ public class ExecutorsMapperTest {
     public void setUptest(){
 
         grantOfRepresentation = PaTestDataCreator.createGrantOfRepresentation();
-        executorList.add(Executor.builder().isApplying(Boolean.TRUE).firstName("Bobby").lastName("Smith").build());
+        executorList.add(Executor.builder()
+                .isApplying(Boolean.TRUE)
+                .firstName("Bobby")
+                .lastName("Smith")
+                .inviteId("12345")
+                .build());
         executorList.add(Executor.builder().fullName("Jackie Smith").build());
     }
 
@@ -45,7 +50,9 @@ public class ExecutorsMapperTest {
 
         List<CollectionMember<ExecutorApplying>> collectionMembers = mapper.toExecutorApplyingCollectionMember(executorList);
         Assert.assertThat(collectionMembers.size(), equalTo(1));
-        Assert.assertThat(collectionMembers.get(0).getValue().getApplyingExecutorName(), equalTo("Bobby Smith"));
+        ExecutorApplying executorApplying = collectionMembers.get(0).getValue();
+        Assert.assertThat(executorApplying.getApplyingExecutorName(), equalTo("Bobby Smith"));
+        Assert.assertThat(executorApplying.getApplyingExecutorInvitationId(), equalTo("12345"));
     }
 
     @Test
