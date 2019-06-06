@@ -66,7 +66,6 @@ public class CaveatMapperTest {
         CaveatData expectedCaveatData = new CaveatData();
         expectedCaveatData.setApplicationType(ApplicationType.PERSONAL);
         expectedCaveatData.setCaveatRaisedEmailNotificationRequested(true);
-        expectedCaveatData.setPaperForm(false);
         CaveatData actualCaveatData = mapper.toCaseData(new CaveatForm());
         Assert.assertThat(actualCaveatData, equalTo(expectedCaveatData));
         assertThat(actualCaveatData).isEqualToComparingFieldByFieldRecursively(expectedCaveatData);

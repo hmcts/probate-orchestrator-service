@@ -44,7 +44,6 @@ public interface CaveatMapper extends FormMapper<CaveatData, CaveatForm> {
     @Mapping(target = "payments", source = "payments", qualifiedBy = {ToCollectionMember.class})
     @Mapping(target = "expiryDate", source = "expiryDate")
     @Mapping(target = "caveatRaisedEmailNotificationRequested", expression = "java(Boolean.TRUE)")
-    @Mapping(target = "paperForm", expression = "java(Boolean.FALSE)")
     CaveatData toCaseData(CaveatForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.CAVEAT)")
