@@ -73,7 +73,7 @@ data "azurerm_key_vault_secret" "probate_mail_recipient" {
   key_vault_id = "${data.azurerm_key_vault.probate_key_vault.id}"
 }
 
-data "azurerm_key_vault_secret" "idamRedirectUrl" {
+resource "azurerm_key_vault_secret" "idamRedirectUrl" {
   name = "idamRedirectUrl"
   key_vault_id = "${data.azurerm_key_vault.probate_key_vault.id}"
 }
