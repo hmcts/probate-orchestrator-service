@@ -10,7 +10,7 @@ provider "vault" {
 
 
 provider "azurerm" {
-  version = "1.19.0"
+  version = "1.22.1"
 }
 
 
@@ -73,7 +73,7 @@ data "azurerm_key_vault_secret" "probate_mail_recipient" {
   key_vault_id = "${data.azurerm_key_vault.probate_key_vault.id}"
 }
 
-resource "azurerm_key_vault_secret" "idamRedirectUrl" {
+data "azurerm_key_vault_secret" "idamRedirectUrl" {
   name = "idamRedirectUrl"
   key_vault_id = "${data.azurerm_key_vault.probate_key_vault.id}"
 }
