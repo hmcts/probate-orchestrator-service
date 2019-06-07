@@ -34,10 +34,6 @@ variable "component" {
 variable "subscription" {}
 
 
-variable "vault_section" {
-  type = "string"
-}
-
 // CNP settings
 variable "jenkins_AAD_objectId" {
   type                        = "string"
