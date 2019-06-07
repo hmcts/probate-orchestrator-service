@@ -24,7 +24,6 @@ locals {
   nonPreviewVaultName = "${var.raw_product}-${var.env}"
   vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.previewVaultName : local.nonPreviewVaultName}"
   localenv = "${(var.env == "preview" || var.env == "spreview") ? "aat": "${var.env}"}"
-  local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
 
 }
 
@@ -34,8 +33,8 @@ data "azurerm_key_vault" "probate_key_vault" {
 }
 
 data "azurerm_key_vault" "s2s_vault" {
-  name = "s2s-${local.local_env}"
-  resource_group_name = "rpe-service-auth-provider-${local.local_env}"
+  name = "s2s-${local.localenv}"
+  resource_group_name = "rpe-service-auth-provider-${local.localenv}"
 }
 
 data "azurerm_key_vault_secret" "s2s_key" {
