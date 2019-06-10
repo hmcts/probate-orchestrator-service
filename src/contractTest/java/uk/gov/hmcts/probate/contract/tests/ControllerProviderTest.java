@@ -31,7 +31,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashSet;
-import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -52,9 +51,6 @@ abstract public class ControllerProviderTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    @Autowired
-    Properties gitProperties;
-
     private static final String PRINCIPAL = "probate_backend";
 
     private static final String SERVICE_AUTHORIZATION = "ServiceAuthorization";
@@ -67,12 +63,10 @@ abstract public class ControllerProviderTest {
     @MockBean
     private RequestAuthorizer<User> userRequestAuthorizer;
 
-
     private Service service;
 
     @Value("${pact.broker.version}")
     private String providerVersion;
-
 
     @Before
     public void setUpTest() {

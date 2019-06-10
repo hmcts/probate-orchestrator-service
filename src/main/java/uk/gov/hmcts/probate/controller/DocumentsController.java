@@ -9,6 +9,7 @@ import io.swagger.annotations.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,7 +45,7 @@ public class DocumentsController {
     @ApiOperation(value = "Generate PDF for Check Answers Summary")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Check Answers Summary PDF generated successfully")})
-    @PostMapping(path = CHECK_ANSWERS_ENDPOINT, consumes = DocumentControllerConfiguration.APPLICATION_BUSINESSDOCUMENT_JSON)
+    @PostMapping(path = CHECK_ANSWERS_ENDPOINT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<byte[]> generateCheckAnswersSummaryPdf(@Valid @RequestBody CheckAnswersSummary checkAnswersSummary) {
         log.info("Check Answers generate pdf");
         return new ResponseEntity<>(businessService.generateCheckAnswersSummaryPdf(checkAnswersSummary), HttpStatus.OK);
@@ -53,7 +54,7 @@ public class DocumentsController {
     @ApiOperation(value = "Generate PDF for Legal Declaration")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Legal Declaration PDF generated successfully")})
-    @PostMapping(path = LEGAL_DECLARATION_ENDPOINT, consumes = DocumentControllerConfiguration.APPLICATION_BUSINESSDOCUMENT_JSON)
+    @PostMapping(path = LEGAL_DECLARATION_ENDPOINT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<byte[]> generateLegalDeclarationPdf(@Valid @RequestBody LegalDeclaration legalDeclaration) {
         log.info("Legal Declaration generate pdf");
         return new ResponseEntity<>(businessService.generateLegalDeclarationPdf(legalDeclaration), HttpStatus.OK);
@@ -63,7 +64,7 @@ public class DocumentsController {
     @ApiOperation(value = "Generate PDF for Bulk Scan Coversheet")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Bulk Scan Coversheet PDF generated successfully")})
-    @PostMapping(path = BULK_SCAN_COVERSHEET_ENDPOINT, consumes = DocumentControllerConfiguration.APPLICATION_BUSINESSDOCUMENT_JSON)
+    @PostMapping(path = BULK_SCAN_COVERSHEET_ENDPOINT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<byte[]> generateBulkScanCoversheet(@Valid @RequestBody BulkScanCoverSheet bulkScanCoverSheet) {
         log.info("Bulk Scan Coversheet generate pdf");
         return new ResponseEntity<>(businessService.generateBulkScanCoverSheetPdf(bulkScanCoverSheet), HttpStatus.OK);

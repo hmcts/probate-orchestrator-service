@@ -1,6 +1,5 @@
 {
-"bulkScanCoverSheet": {
-  "applicantAddress": "",
-  "caseReference": ""
-  }
+  "applicantAddress": "20 White City\nLondon\nW12 7PD",
+  "caseReference": "",
+  "submitAddress": ""
 }

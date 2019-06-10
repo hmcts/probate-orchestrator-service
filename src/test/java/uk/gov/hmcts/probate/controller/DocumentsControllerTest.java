@@ -1,8 +1,6 @@
 package uk.gov.hmcts.probate.controller;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,11 +41,6 @@ public class DocumentsControllerTest {
     private ObjectMapper objectMapper;
 
 
-    @Before
-    public void setUp() throws Exception {
-        objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
-    }
-
     @Test
     public void generateCheckAnswersSummaryPdf_withValidJson_shouldReturn200() throws Exception {
         when(businessService.generateCheckAnswersSummaryPdf(any(CheckAnswersSummary.class))).thenReturn(any(byte[].class));
@@ -56,7 +49,7 @@ public class DocumentsControllerTest {
 
         mockMvc.perform(post(CHECK_ANSWERS_SUMMARY_ENDPOINT)
                 .content(checkAnswersSummaryJson)
-                .contentType(MediaType.valueOf(DocumentControllerConfiguration.APPLICATION_BUSINESSDOCUMENT_JSON)))
+                .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
                 .andExpect(status().isOk());
         verify(businessService, times(1)).generateCheckAnswersSummaryPdf(any(CheckAnswersSummary.class));
     }
@@ -67,7 +60,7 @@ public class DocumentsControllerTest {
 
         mockMvc.perform(post(CHECK_ANSWERS_SUMMARY_ENDPOINT)
                 .content(invalidCheckAnswersSummaryJson)
-                .contentType(MediaType.valueOf(DocumentControllerConfiguration.APPLICATION_BUSINESSDOCUMENT_JSON)))
+                .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
                 .andExpect(status().isBadRequest());
     }
 
@@ -80,7 +73,7 @@ public class DocumentsControllerTest {
 
         mockMvc.perform(post(LEGAL_DECLARATION_ENDPOINT)
                 .content(legalDecJson)
-                .contentType(MediaType.valueOf(DocumentControllerConfiguration.APPLICATION_BUSINESSDOCUMENT_JSON)))
+                .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
                 .andExpect(status().isOk());
         verify(businessService, times(1)).generateLegalDeclarationPdf(any(LegalDeclaration.class));
     }
@@ -91,7 +84,7 @@ public class DocumentsControllerTest {
 
         mockMvc.perform(post(LEGAL_DECLARATION_ENDPOINT)
                 .content(invalidLegalDeclarationJson)
-                .contentType(MediaType.valueOf(DocumentControllerConfiguration.APPLICATION_BUSINESSDOCUMENT_JSON)))
+                .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
                 .andExpect(status().isBadRequest());
     }
 
@@ -104,7 +97,7 @@ public class DocumentsControllerTest {
 
         mockMvc.perform(post(BULKSCAN_COVERSHEET_ENDPOINT)
                 .content(bulkScanJosn)
-                .contentType(MediaType.valueOf(DocumentControllerConfiguration.APPLICATION_BUSINESSDOCUMENT_JSON)))
+                .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
                 .andExpect(status().isOk());
         verify(businessService, times(1)).generateBulkScanCoverSheetPdf(any(BulkScanCoverSheet.class));
     }
@@ -115,7 +108,7 @@ public class DocumentsControllerTest {
 
         mockMvc.perform(post(BULKSCAN_COVERSHEET_ENDPOINT)
                 .content(invalidBulkScanJosn)
-                .contentType(MediaType.valueOf(DocumentControllerConfiguration.APPLICATION_BUSINESSDOCUMENT_JSON)))
+                .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
                 .andExpect(status().isBadRequest());
     }
 }

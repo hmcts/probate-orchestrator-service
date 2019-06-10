@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
+import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,6 +24,12 @@ public class ContractTestUtils {
         File file = getFile(fileName);
         String jsonString = new String(Files.readAllBytes(file.toPath()));
         return new JSONObject(jsonString);
+    }
+
+    protected Invitation getInvitation(String fileName) throws JSONException, IOException {
+        File file = getFile(fileName);
+        Invitation invite = objectMapper.readValue(file, Invitation.class);
+        return invite;
     }
 
      protected ProbateCaseDetails getProbateCaseDetails(String fileName) throws JSONException, IOException {
