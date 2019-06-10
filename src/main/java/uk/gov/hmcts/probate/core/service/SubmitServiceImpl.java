@@ -45,6 +45,8 @@ public class SubmitServiceImpl implements SubmitService {
 
     private final Set<CaseType> caseTypesForNotifications = Sets.newHashSet(CaseType.CAVEAT);
 
+    private final CaseSubmissionUpdater caseSubmissionUpdater;
+
     @Override
     public Form getCase(String identifier, ProbateType probateType) {
         log.info("Get case called for : {}", probateType.getName());
@@ -153,6 +155,8 @@ public class SubmitServiceImpl implements SubmitService {
         existingCase.getCaseData().setPayments(caseData.getPayments());
         sendNotification(existingCase);
 
+        updateCaseForSubmission(existingCase);
+
         log.debug("calling update Payments in submitServiceApi");
         ProbateCaseDetails probateCaseDetails = submitServiceApi.createCase(
             authorisation,
@@ -170,6 +174,13 @@ public class SubmitServiceImpl implements SubmitService {
             return Optional.ofNullable(backOfficeService.sendNotification(probateCaseDetails));
         }
         return Optional.empty();
+    }
+
+    public void updateCaseForSubmission(ProbateCaseDetails probateCaseDetails) {
+        CasePayment casePayment = probateCaseDetails.getCaseData().getPayments().get(0).getValue();
+        if (PaymentStatus.SUCCESS.equals(casePayment.getStatus())) {
+            caseSubmissionUpdater.updateCaseForSubmission(probateCaseDetails.getCaseData());
+        }
     }
 
     @Override

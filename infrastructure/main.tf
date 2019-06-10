@@ -93,14 +93,15 @@ module "probate-orchestrator-service" {
   capacity     = "${var.capacity}"
   common_tags  = "${var.common_tags}"
   asp_rg       = "${var.asp_rg}"
-  
+  appinsights_instrumentation_key = "${var.appinsights_instrumentation_key}"
+
   app_settings = {
 
 	  // Logging vars
     REFORM_TEAM = "${var.product}"
     REFORM_SERVICE_NAME = "${var.microservice}"
     REFORM_ENVIRONMENT = "${var.env}"
-  
+
 
     DEPLOYMENT_ENV= "${var.deployment_env}"
     //JAVA_OPTS = "${local.java_proxy_variables}"
@@ -123,11 +124,11 @@ module "probate-orchestrator-service" {
     IDAM_API_REDIRECT_URL = "${data.azurerm_key_vault_secret.idamRedirectUrl.value}"
     PAYMENT_CASEWORKER_USERNAME = "${data.azurerm_key_vault_secret.payCaseWorkerUser.value}"
     PAYMENT_CASEWORKER_PASSWORD = "${data.azurerm_key_vault_secret.payCaseWorkerPass.value}"
-  
+
     MAIL_JAVAMAILPROPERTIES_SUBJECT = "${var.probate_mail_subject}"
     MAIL_JAVAMAILPROPERTIES_MAIL_SMTP_AUTH = "${var.probate_mail_use_auth}"
     MAIL_JAVAMAILPROPERTIES_MAIL_SMTP_SSL_ENABLE = "${var.probate_mail_use_ssl}"
-    SERVICES_PERSISTENCE_BASEURL = "${var.services_persistence_baseUrl}" 
+    SERVICES_PERSISTENCE_BASEURL = "${var.services_persistence_baseUrl}"
     AUTH_PROVIDER_SERVICE_CLIENT_BASEURL = "${var.idam_service_api}"
     SERVICES_CORECASEDATA_BASEURL = "${var.ccd_baseUrl}"
     SERVICES_CORECASEDATA_ENABLED = "${var.ccd_enabled}"
