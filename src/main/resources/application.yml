@@ -47,6 +47,7 @@
   logging:
     level:
       org.springframework.web: ERROR
+      uk.gov.hmcts.probate: DEBUG
       uk.gov.hmcts.probate.client.backoffice.BackOfficeApi: DEBUG
   pattern:
     console: "%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n"
@@ -75,3 +76,6 @@
       channel: default
       keywordCopies: DEF
       keywordIssue: pro1
+
+  azure:
+    app_insights_key: ${APPINSIGHTS_INSTRUMENTATIONKEY:false}

@@ -36,7 +36,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 
-check.dependsOn dependencyCheckAnalyze
+//check.dependsOn dependencyCheckAnalyze
 // make build fail on Checkstyle issues (https://github.com/gradle/gradle/issues/881)
 tasks.withType(Checkstyle).each { checkstyleTask ->
     checkstyleTask.doLast {
@@ -78,6 +78,7 @@ findbugs {
 
 sonarqube {
     properties {
+        property "sonar.exclusions", "**/AppInsights.java"
         property "sonar.projectName", "PROBATE :: Probate-Orchestrator-Service"
         property "sonar.projectKey", "Probate-Orchestrator-Service"
         property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
@@ -197,7 +198,7 @@ def versions = [
         jacksonDatabind                 : '2.9.8',
         pact_version                    : '3.5.24',
         feignHttpClient                 : '9.5.1'
-        
+
 ]
 
 jacocoTestReport {
