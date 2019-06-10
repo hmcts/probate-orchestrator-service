@@ -11,7 +11,8 @@ public class SubmitServiceConfiguration {
 
     public static final String SERVICE_AUTHORIZATION = "ServiceAuthorization";
 
-    public static final String APPLICATION_ID = "applicationId";
+    static final String APPLICATION_ID = "applicationId";
+    static final String INVITATION_ID = "invitationId";
 
     @Bean
     @Primary

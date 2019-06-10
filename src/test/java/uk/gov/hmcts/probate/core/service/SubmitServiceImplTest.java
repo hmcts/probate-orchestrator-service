@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import uk.gov.hmcts.probate.TestUtils;
-import uk.gov.hmcts.probate.client.SubmitServiceApi;
+import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.mapper.CaveatMapper;
 import uk.gov.hmcts.probate.core.service.mapper.FormMapper;
 import uk.gov.hmcts.probate.core.service.mapper.IntestacyMapper;
@@ -32,9 +32,8 @@ import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 
 import java.util.Map;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -131,13 +130,13 @@ public class SubmitServiceImplTest {
     @Test
     public void shouldGetIntestacyForm() {
         when(submitServiceApi.getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
-            EMAIL_ADDRESS, CaseType.GRANT_OF_REPRESENTATION.getName())).thenReturn(intestacyCaseDetails);
+            EMAIL_ADDRESS, CaseType.GRANT_OF_REPRESENTATION.name())).thenReturn(intestacyCaseDetails);
 
         Form formResponse = submitService.getCase(EMAIL_ADDRESS, ProbateType.INTESTACY);
 
         assertThat(formResponse, is(intestacyForm));
         verify(submitServiceApi, times(1)).getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
-            EMAIL_ADDRESS, CaseType.GRANT_OF_REPRESENTATION.getName());
+            EMAIL_ADDRESS, CaseType.GRANT_OF_REPRESENTATION.name());
         verify(securityUtils, times(1)).getAuthorisation();
         verify(securityUtils, times(1)).getServiceAuthorisation();
     }
@@ -145,13 +144,13 @@ public class SubmitServiceImplTest {
     @Test
     public void shouldGetCaveatForm() {
         when(submitServiceApi.getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
-            CAVEAT_IDENTIFIER, CaseType.CAVEAT.getName())).thenReturn(caveatCaseDetails);
+            CAVEAT_IDENTIFIER, CaseType.CAVEAT.name())).thenReturn(caveatCaseDetails);
 
         Form formResponse = submitService.getCase(CAVEAT_IDENTIFIER, ProbateType.CAVEAT);
 
         assertThat(formResponse, is(caveatForm));
         verify(submitServiceApi, times(1)).getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
-            CAVEAT_IDENTIFIER, CaseType.CAVEAT.getName());
+            CAVEAT_IDENTIFIER, CaseType.CAVEAT.name());
         verify(securityUtils, times(1)).getAuthorisation();
         verify(securityUtils, times(1)).getServiceAuthorisation();
     }

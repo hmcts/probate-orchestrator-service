@@ -1,5 +1,4 @@
 {
-  "legalDeclaration": {
     "headers": [
       "header0",
       "header1",
@@ -23,5 +22,4 @@
     ],
     "dateCreated": "date and time",
     "deceased": "deceased"
-  }
 }

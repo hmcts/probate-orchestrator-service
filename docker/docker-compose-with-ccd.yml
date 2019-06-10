@@ -5,55 +5,55 @@ services:
     image: docker.artifactory.reform.hmcts.net/auth/registration-web:latest
     container_name: registration-web
     environment:
-      - IDAM_API_URL=http://idam-api:8080
-      - IDAM_LOGIN_URL=https://authentication-web:8000/login
+    - IDAM_API_URL=http://idam-api:8080
+    - IDAM_LOGIN_URL=https://authentication-web:8000/login
     links:
-      - idam-api
-      - authentication-web
+    - idam-api
+    - authentication-web
     ports:
-      - 9000:9000
+    - 9000:9000
     depends_on:
-      - idam-api
+    - idam-api
 
   shared-database:
     image: postgres:9.6-alpine
     container_name: shared-database
     ports:
-      - 5342:5432
+    - 5342:5432
     healthcheck:
       test: psql -c 'select 1' -d postgres -U postgres
       retries: 2
     mem_limit: 160m
     memswap_limit: 0
     volumes:
-      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+    - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
 
   smtp-server:
     container_name: smtp-server
     image: mailhog/mailhog
     restart: always
     ports:
-      - 1025:1025
-      - 8025:8025
+    - 1025:1025
+    - 8025:8025
 
 
   authentication-web:
     image: docker.artifactory.reform.hmcts.net/auth/authentication-web:latest
     container_name: authentication-web
     environment:
-     - IDAM_API_URL=http://idam-api:8080
-     - IDAM_CONTINUE_URL_VALIDATOR_ENFORCE_TLS=false
-     - IDAM_API_OAUTH2_CLIENT_CLIENT_SECRETS_CMC_LEGAL=123456
-     - IDAM_API_OAUTH2_CLIENT_CLIENT_SECRETS_CCD_GATEWAY=123456
+    - IDAM_API_URL=http://idam-api:8080
+    - IDAM_CONTINUE_URL_VALIDATOR_ENFORCE_TLS=false
+    - IDAM_API_OAUTH2_CLIENT_CLIENT_SECRETS_CMC_LEGAL=123456
+    - IDAM_API_OAUTH2_CLIENT_CLIENT_SECRETS_CCD_GATEWAY=123456
     ports:
-     - 8000:8000
+    - 8000:8000
     links:
-     - idam-api
+    - idam-api
     depends_on:
-     - idam-api
+    - idam-api
 
   service-auth-provider-api:
-    image: hmcts/service-auth-provider-app:latest
+    image: hmcts.azurecr.io/hmcts/rpe-service-auth-provider
     container_name: service-auth-provider-api
     environment:
       - SERVER_PORT=8080
@@ -69,7 +69,7 @@ services:
       - MICROSERVICEKEYS_PROBATE_BACKEND=AAAAAAAAAAAAAAAA
       - MICROSERVICEKEYS_PROBATE_FRONTEND=AAAAAAAAAAAAAAAA
     ports:
-      - 4502:8080
+    - 4502:8080
 
   idam-api:
     image: docker.artifactory.reform.hmcts.net/auth/idam-api:latest
@@ -108,109 +108,114 @@ services:
       - https_proxy
       - no_proxy
     ports:
-      - 4501:8080
+    - 4501:8080
     depends_on:
       shared-database:
         condition: service_healthy
 
   ccd-user-profile-api:
-    image: hmcts/ccd-user-profile-api:latest
+    image: hmcts.azurecr.io/hmcts/ccd-user-profile-api:latest
     container_name: ccd-user-profile-api
     environment:
-      - JAVA_OPTS=-Xms8m -Xmx256m -Djava.security.egd=file:/dev/./urandom -XX:MaxMetaspaceSize=128m
-      - USER_PROFILE_DB_HOST=shared-database
-      - USER_PROFILE_DB_PORT=5432
-      - USER_PROFILE_DB_USERNAME
-      - USER_PROFILE_DB_PASSWORD
-      - USER_PROFILE_S2S_AUTHORISED_SERVICES=ccd_data,ccd_definition
-      - IDAM_S2S_URL=http://service-auth-provider-api:8080
-      - REFORM_SERVICE_NAME=ccd-user-profile-api
-      - REFORM_TEAM=ccd
-      - REFORM_ENVIRONMENT=local
-      - APPINSIGHTS_INSTRUMENTATIONKEY=fake-key
-      - USER_PROFILE_DB_USE_SSL=false
+    - JAVA_OPTS=-Xms8m -Xmx256m -Djava.security.egd=file:/dev/./urandom -XX:MaxMetaspaceSize=128m
+    - USER_PROFILE_DB_HOST=shared-database
+    - USER_PROFILE_DB_PORT=5432
+    - USER_PROFILE_DB_USERNAME
+    - USER_PROFILE_DB_PASSWORD
+    - USER_PROFILE_S2S_AUTHORISED_SERVICES=ccd_data,ccd_definition
+    - IDAM_S2S_URL=http://service-auth-provider-api:8080
+    - REFORM_SERVICE_NAME=ccd-user-profile-api
+    - REFORM_TEAM=ccd
+    - REFORM_ENVIRONMENT=local
+    - APPINSIGHTS_INSTRUMENTATIONKEY=fake-key
+    - USER_PROFILE_DB_USE_SSL=false
     ports:
-      - 4453:4453
+    - 4453:4453
     depends_on:
       shared-database:
         condition: service_healthy
     links:
-      - service-auth-provider-api
+    - service-auth-provider-api
 
   ccd-definition-store-api:
-    image: hmcts/ccd-definition-store-api:latest
+    image: hmcts.azurecr.io/hmcts/ccd-definition-store-api:latest
     container_name: ccd-definition-store-api
     environment:
-      - JAVA_OPTS=-Xms8m -Xmx256m -Djava.security.egd=file:/dev/./urandom -XX:MaxMetaspaceSize=128m
-      - DEFINITION_STORE_DB_HOST=shared-database
-      - DEFINITION_STORE_DB_PORT=5432
-      - DEFINITION_STORE_DB_USERNAME
-      - DEFINITION_STORE_DB_PASSWORD
-      - DEFINITION_STORE_IDAM_KEY=AAAAAAAAAAAAAAAA
-      - DEFINITION_STORE_S2S_AUTHORISED_SERVICES=ccd_data,ccd_gw,probate_backend,probate_frontend
-      - DEFINITION_STORE_DB_USE_SSL=false
-      - USER_PROFILE_HOST=http://ccd-user-profile-api:4453
-      - IDAM_USER_URL=http://idam-api:8080
-      - IDAM_S2S_URL=http://service-auth-provider-api:8080
-      - REFORM_SERVICE_NAME=ccd-definition-store-api
-      - REFORM_TEAM=ccd
-      - REFORM_ENVIRONMENT=local
-      - APPINSIGHTS_INSTRUMENTATIONKEY=fake-key
+    - JAVA_OPTS=-Xms8m -Xmx256m -Djava.security.egd=file:/dev/./urandom -XX:MaxMetaspaceSize=128m
+    - DEFINITION_STORE_DB_HOST=shared-database
+    - DEFINITION_STORE_DB_PORT=5432
+    - DEFINITION_STORE_DB_USERNAME
+    - DEFINITION_STORE_DB_PASSWORD
+    - DEFINITION_STORE_IDAM_KEY=AAAAAAAAAAAAAAAA
+    - DEFINITION_STORE_S2S_AUTHORISED_SERVICES=ccd_data,ccd_gw,probate_backend,probate_frontend,bulk_scan_orchestrator
+    - DEFINITION_STORE_DB_USE_SSL=false
+    - USER_PROFILE_HOST=http://ccd-user-profile-api:4453
+    - IDAM_USER_URL=http://idam-api:8080
+    - IDAM_S2S_URL=http://service-auth-provider-api:8080
+    - REFORM_SERVICE_NAME=ccd-definition-store-api
+    - REFORM_TEAM=ccd
+    - REFORM_ENVIRONMENT=local
+    - APPINSIGHTS_INSTRUMENTATIONKEY=fake-key
+    - ELASTIC_SEARCH_ENABLED=true
+    - ELASTIC_SEARCH_FAIL_ON_IMPORT=true
+    - ELASTIC_SEARCH_HOST=elasticsearch
     ports:
-      - 4451:4451
+    - 4451:4451
     depends_on:
       shared-database:
         condition: service_healthy
     links:
-      - ccd-user-profile-api
-      - idam-api
-      - service-auth-provider-api
+    - ccd-user-profile-api
+    - idam-api
+    - service-auth-provider-api
 
   ccd-data-store-api:
-    image: hmcts/ccd-data-store-api:latest
+    image: hmcts.azurecr.io/hmcts/ccd-data-store-api:latest
     container_name: ccd-data-store-api
     environment:
-      - JAVA_OPTS=-Xms8m -Xmx256m -Djava.security.egd=file:/dev/./urandom -XX:MaxMetaspaceSize=128m
-      - DATA_STORE_DB_HOST=shared-database
-      - DATA_STORE_DB_PORT=5432
-      - DATA_STORE_DB_USERNAME
-      - DATA_STORE_DB_PASSWORD
-      - DATA_STORE_IDAM_KEY=AAAAAAAAAAAAAAAA
-      - DATA_STORE_TOKEN_SECRET=iuasbcuasdcbasdgcasdgcuysachjsacyasdgjcgasdj
-      - DATA_STORE_S2S_AUTHORISED_SERVICES=ccd_gw,ccd_data,ccd_ps,probate_backend,probate_frontend
-      - DATA_STORE_DB_USE_SSL=false
-      - DEFINITION_STORE_HOST=http://ccd-definition-store-api:4451
-      - USER_PROFILE_HOST=http://ccd-user-profile-api:4453
-      - IDAM_USER_URL=http://idam-api:8080
-      - IDAM_S2S_URL=http://service-auth-provider-api:8080
-      - REFORM_SERVICE_NAME=ccd-data-store-api
-      - REFORM_TEAM=ccd
-      - REFORM_ENVIRONMENT=local
-      - APPINSIGHTS_INSTRUMENTATIONKEY=fake-key
-      - CCD_DM_DOMAIN=http://localhost:8080
-      - CCD_DEFAULTPRINTURL=http://localhost:3100/jurisdictions/:jid/case-types/:ctid/cases/:cid
+    - JAVA_OPTS=-Xms8m -Xmx256m -Djava.security.egd=file:/dev/./urandom -XX:MaxMetaspaceSize=128m
+    - DATA_STORE_DB_HOST=shared-database
+    - DATA_STORE_DB_PORT=5432
+    - DATA_STORE_DB_USERNAME
+    - DATA_STORE_DB_PASSWORD
+    - DATA_STORE_IDAM_KEY=AAAAAAAAAAAAAAAA
+    - DATA_STORE_TOKEN_SECRET=iuasbcuasdcbasdgcasdgcuysachjsacyasdgjcgasdj
+    - DATA_STORE_S2S_AUTHORISED_SERVICES=ccd_gw,ccd_data,ccd_ps,probate_backend,probate_frontend,bulk_scan_orchestrator
+    - DATA_STORE_DB_USE_SSL=false
+    - DEFINITION_STORE_HOST=http://ccd-definition-store-api:4451
+    - USER_PROFILE_HOST=http://ccd-user-profile-api:4453
+    - IDAM_USER_URL=http://idam-api:8080
+    - IDAM_S2S_URL=http://service-auth-provider-api:8080
+    - REFORM_SERVICE_NAME=ccd-data-store-api
+    - REFORM_TEAM=ccd
+    - REFORM_ENVIRONMENT=local
+    - APPINSIGHTS_INSTRUMENTATIONKEY=fake-key
+    - CCD_DM_DOMAIN=http://localhost:8080
+    - CCD_DEFAULTPRINTURL=http://localhost:3100/jurisdictions/:jid/case-types/:ctid/cases/:cid
+    - ELASTIC_SEARCH_HOSTS=http://elasticsearch:9200
+    - ELASTIC_SEARCH_DATA_NODES_HOSTS=http://elasticsearch:9200
     ports:
-      - 4452:4452
+    - 4452:4452
     depends_on:
       shared-database:
         condition: service_healthy
     links:
-      - ccd-user-profile-api
-      - ccd-definition-store-api
-      - idam-api
-      - service-auth-provider-api
+    - ccd-user-profile-api
+    - ccd-definition-store-api
+    - idam-api
+    - service-auth-provider-api
 
   ccd-case-management-web:
-    image: hmcts/ccd-case-management-web:latest
+    image: hmcts.azurecr.io/hmcts/ccd-case-management-web:latest
     container_name: ccd-case-management-web
     environment:
-      - IDAM_LOGIN_URL=https://localhost:8000/login
-      - CCD_GW_LOGOUT_URL=http://localhost:8000/logout
-      - CCD_GATEWAY_BASE_URL=http://localhost:3453
-      - DM_GATEWAY_BASE_URL=https://api-gateway.dev.dm.reform.hmcts.net
-      - OAUTH2_CLIENT_ID=ccd_gateway
+    - IDAM_LOGIN_URL=https://localhost:8000/login
+    - CCD_GW_LOGOUT_URL=http://localhost:8000/logout
+    - CCD_GATEWAY_BASE_URL=http://localhost:3453
+    - DM_GATEWAY_BASE_URL=https://api-gateway.dev.dm.reform.hmcts.net
+    - OAUTH2_CLIENT_ID=ccd_gateway
     ports:
-      - 3451:3451
+    - 3451:3451
     depends_on:
       ccd-api-gateway:
         condition: service_started
@@ -218,27 +223,27 @@ services:
         condition: service_started
 
   ccd-api-gateway:
-    image: hmcts/ccd-api-gateway:latest
+    image: hmcts.azurecr.io/hmcts/ccd-api-gateway/base:latest
     container_name: ccd-api-gateway
     environment:
-      - IDAM_BASE_URL=http://idam-api:8080
-      - IDAM_USER_URL=http://idam-api:8080
-      - IDAM_LOGOUT_URL=https://localhost:8000/login/logout
-      - IDAM_OAUTH2_TOKEN_ENDPOINT=http://idam-api:8080/oauth2/token
-      - IDAM_S2S_URL=http://service-auth-provider-api:8080
-      - IDAM_SERVICE_KEY=AAAAAAAAAAAAAAAA
-      - IDAM_SERVICE_NAME=ccd_gw
-      - IDAM_OAUTH2_CLIENT_SECRET=123456
-      - PROXY_AGGREGATED=http://ccd-data-store-api:4452
-      - PROXY_DATA=http://ccd-data-store-api:4452
-      - PROXY_DEFINITION_IMPORT=http://ccd-definition-store-api:4451
-      - PROXY_DEFINITION_DATA=http://ccd-definition-store-api:4451/api/data
-      - PROXY_DEFINITION_DISPLAY=http://ccd-definition-store-api:4451/api/display
-      # this NEEDS to be your local ip address
-      - PROXY_PRINT_SERVICE=http://172.16.10.81:3100
-      - PROXY_DOCUMENT_MANAGEMENT=http://document-management-store:8080
+    - IDAM_BASE_URL=http://idam-api:8080
+    - IDAM_USER_URL=http://idam-api:8080
+    - IDAM_LOGOUT_URL=https://localhost:8000/login/logout
+    - IDAM_OAUTH2_TOKEN_ENDPOINT=http://idam-api:8080/oauth2/token
+    - IDAM_S2S_URL=http://service-auth-provider-api:8080
+    - IDAM_SERVICE_KEY=AAAAAAAAAAAAAAAA
+    - IDAM_SERVICE_NAME=ccd_gw
+    - IDAM_OAUTH2_CLIENT_SECRET=123456
+    - PROXY_AGGREGATED=http://ccd-data-store-api:4452
+    - PROXY_DATA=http://ccd-data-store-api:4452
+    - PROXY_DEFINITION_IMPORT=http://ccd-definition-store-api:4451
+    - PROXY_DEFINITION_DATA=http://ccd-definition-store-api:4451/api/data
+    - PROXY_DEFINITION_DISPLAY=http://ccd-definition-store-api:4451/api/display
+    # this NEEDS to be your local ip address
+    - PROXY_PRINT_SERVICE=http://10.99.2.9:3100
+    - PROXY_DOCUMENT_MANAGEMENT=http://localhost:8080
     ports:
-      - 3453:3453
+    - 3453:3453
     depends_on:
       ccd-user-profile-api:
         condition: service_started
@@ -298,43 +303,54 @@ services:
       - https_proxy
       - no_proxy
     ports:
-     - 8383:8080
+    - 8383:8080
     links:
-     - payments-database
-     - service-auth-provider-api
-     - idam-api
+    - payments-database
+    - service-auth-provider-api
+    - idam-api
     depends_on:
-     - payments-database
-     - service-auth-provider-api
-     - idam-api
+    - payments-database
+    - service-auth-provider-api
+    - idam-api
 
 
   payments-database:
     image: docker.artifactory.reform.hmcts.net/common-components/payments-database
     container_name: payments-database
     ports:
-      - 5430:5432
+    - 5430:5432
 
 
   persistence-service:
     image: hmcts.azurecr.io/hmcts/probate-persistence-service
     container_name: persistence-service
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://shared-database:5432/probate
-      - PROBATE_POSTGRESQL_HOSTNAME=shared-database
-      - PROBATE_POSTGRESQL_PORT=5432
-      - PROBATE_POSTGRESQL_DATABASE=probate
-      - PROBATE_POSTGRESQL_USER=probate
-      - PROBATE_POSTGRESQL_PASSWORD=probate
-      - PROBATE_PERSISTENCE_PORT=8282
-      - http_proxy=
-      - https_proxy=
-      - no_proxy=
-      - LIQUIBASE_AT_STARTUP=true
+    - SPRING_DATASOURCE_URL=jdbc:postgresql://shared-database:5432/probate
+    - PROBATE_POSTGRESQL_HOSTNAME=shared-database
+    - PROBATE_POSTGRESQL_PORT=5432
+    - PROBATE_POSTGRESQL_DATABASE=probate
+    - PROBATE_POSTGRESQL_USER=probate
+    - PROBATE_POSTGRESQL_PASSWORD=probate
+    - PROBATE_PERSISTENCE_PORT=8282
+    - http_proxy=
+    - https_proxy=
+    - no_proxy=
+    - LIQUIBASE_AT_STARTUP=true
     ports:
-     - 8282:8282
+    - 8282:8282
     depends_on:
-      - shared-database
+    - elasticsearch
+
+  business-service:
+    image: hmcts/probate-business-service
+    container_name: business-service
+    environment:
+    - SERVER_PORT=8081
+    - http_proxy=
+    - https_proxy=
+    - no_proxy=
+    ports:
+    - 8081
 
   pdf-service-api:
     image: docker.artifactory.reform.hmcts.net/reform/pdf-service-api:f7969638ccd7c83e6ce70330fa3a16e8a6ab53ae
@@ -445,6 +461,48 @@ services:
       - service-auth-provider-api
     ports:
       - 8080:8080
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.3.0
+    container_name: elasticsearch
+    environment:
+      ES_JAVA_OPTS: "-Xms256m -Xmx256m"
+    ports:
+    - 9200:9200
+    - 9300:9300
+
+  logstash:
+    build: logstash/.
+    container_name: logstash
+    volumes:
+    - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+    - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    depends_on:
+    - elasticsearch
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.3.0
+    container_name: kibana
+    ports:
+    - 5601:5601
+    depends_on:
+    - elasticsearch
+
+  probate-man-database:
+    build:
+      context: ../docker/probateman
+    ports:
+    - 5344:5432
+    healthcheck:
+      test: psql -c 'select 1' -d postgres -U postgres
+      retries: 2
+    mem_limit: 160m
+    memswap_limit: 0
+
+
+
 
 volumes:
   shared-database-data:

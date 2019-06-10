@@ -1,0 +1,74 @@
+{
+  "caseData": {
+    "type": "GrantOfRepresentation",
+    "applicationType": "Personal",
+    "primaryApplicantEmailAddress": "someemailaddress@host.com",
+    "applicationSubmittedDate": "2019-04-02",
+    "extraCopiesOfGrant": 0,
+    "deceasedAddress": {
+      "AddressLine1": "12 Nowhere Road\r\nNotown"
+    },
+    "deceasedAddressFound": "No",
+    "deceasedMarriedAfterWillOrCodicilDate": "Yes",
+    "deceasedForenames": "Bob",
+    "deceasedSurname": "Smith",
+    "deceasedDateOfDeath": "2018-02-12",
+    "deceasedDateOfBirth": "1939-02-12",
+    "deceasedAnyOtherNames": "Yes",
+    "deceasedAliasNameList": [
+      {
+        "value": {
+          "Forenames": "Bobby",
+          "LastName": "Smith"
+        }
+      }
+    ],
+    "ihtFormId": "IHT205",
+    "ihtFormCompletedOnline": "No",
+    "ihtNetValue": "900001",
+    "ihtGrossValue": "1000001",
+    "ihtReferenceNumber": "Not applicable",
+    "primaryApplicantAddress": {
+      "AddressLine1": "12 Nowhere Avenue\r\nLondon"
+    },
+    "primaryApplicantForenames": "Jackie",
+    "primaryApplicantSurname": "Smith",
+    "primaryApplicantSameWillName": "Yes",
+    "primaryApplicantPhoneNumber": "07951058088",
+    "willHasCodicils": "No",
+    "willNumberOfCodicils": 1,
+    "executorsHaveAlias": "Yes",
+    "executorsAllAlive": "Yes",
+    "otherExecutorsApplying" : "No",
+    "numberOfExecutors": 2,
+    "executorsApplying": [
+      {
+        "value": {
+          "applyingExecutorName": "Jon Snw",
+          "applyingExecutorPhoneNumber": "07981898999",
+          "applyingExecutorAgreed": "Yes",
+          "applyingExecutorEmail": "address@email.com",
+          "applyingExecutorInvitationId": "54321",
+          "applyingExecutorLeadName":"Graham Garderner",
+          "applyingExecutorAddress": {
+            "AddressLine1": "12 West End Avenue"
+          },
+          "applyingExecutorOtherNames": "Graham Poll",
+          "applyingExecutorOtherNamesReason": "Divorce"
+        }
+      },
+      {
+        "value": {
+          "applyingExecutorName": "Jackie Smith",
+          "applyingExecutorAgreed": "Yes",
+          "applyingExecutorAddress": {}
+        }
+      }
+    ],
+    "executorsNotApplying": [
+    ],
+    "declarationCheckbox": "Yes",
+    "numberOfApplicants": 2,
+    "caseType": "gop"
+  }
+}
