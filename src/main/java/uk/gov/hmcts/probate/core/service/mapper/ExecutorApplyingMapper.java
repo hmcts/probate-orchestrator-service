@@ -15,6 +15,8 @@ import uk.gov.hmcts.reform.probate.model.forms.pa.Executor;
 public interface ExecutorApplyingMapper {
 
     @Mapping(target = "value.applyingExecutorName", expression = "java(ExecutorNamesMapper.getFullname(executor))")
+    @Mapping(target = "value.applyingExecutorFirstName", source = "firstName")
+    @Mapping(target = "value.applyingExecutorLastName", source = "lastName")
     @Mapping(target = "value.applyingExecutorPhoneNumber", source = "mobile")
     @Mapping(target = "value.applyingExecutorEmail", source = "email")
     @Mapping(target = "value.applyingExecutorAddress", source = "address", qualifiedBy = {ToCaseAddress.class})
@@ -24,6 +26,7 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "value.applyingExecutorInvitationId", source = "inviteId")
     @Mapping( target ="value.applyingExecutorLeadName", source ="leadExecutorName")
     @Mapping( target ="value.applyingExecutorAgreed", source ="executorAgreed")
+    @Mapping( target ="value.applyingExecutorApplicant", source ="isApplicant")
     CollectionMember<ExecutorApplying> toExecutorApplying(Executor executor);
 
 
