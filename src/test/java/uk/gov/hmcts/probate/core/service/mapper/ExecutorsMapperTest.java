@@ -37,6 +37,7 @@ public class ExecutorsMapperTest {
         grantOfRepresentation = PaTestDataCreator.createGrantOfRepresentation();
         executorList.add(Executor.builder()
                 .isApplying(Boolean.TRUE)
+                .isApplicant(Boolean.TRUE)
                 .firstName("Bobby")
                 .lastName("Smith")
                 .address(Address.builder()
@@ -59,17 +60,12 @@ public class ExecutorsMapperTest {
         Assert.assertThat(collectionMembers.size(), equalTo(1));
         ExecutorApplying executorApplying = collectionMembers.get(0).getValue();
         Assert.assertThat(executorApplying.getApplyingExecutorName(), equalTo("Bobby Smith"));
+        Assert.assertThat(executorApplying.getApplyingExecutorFirstName(), equalTo("Bobby"));
+        Assert.assertThat(executorApplying.getApplyingExecutorLastName(), equalTo("Smith"));
         Assert.assertThat(executorApplying.getApplyingExecutorInvitationId(), equalTo("12345"));
         Assert.assertThat(executorApplying.getApplyingExecutorAddress().getAddressLine1(), equalTo(ADDRESS_LINE_1));
         Assert.assertThat(executorApplying.getApplyingExecutorAddress().getPostCode(), equalTo(POSTCODE));
-    }
-
-    @Test
-    public void shouldMapFromCase() {
-        List<Executor> executors = mapper.fromCollectionMember(grantOfRepresentation);
-        Assert.assertThat(executors.size(), equalTo(4));
-        Assert.assertThat(executors.get(0).getAddress().getFormattedAddress(), equalTo("Address"));
-
+        Assert.assertThat(executorApplying.getApplyingExecutorApplicant(), equalTo(Boolean.TRUE));
     }
 
 }
