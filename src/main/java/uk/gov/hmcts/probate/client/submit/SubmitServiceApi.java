@@ -47,6 +47,17 @@ public interface SubmitServiceApi {
     );
 
     @PostMapping(
+        value = "/cases/{applicationId}",
+        headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+    )
+    ProbateCaseDetails saveCase(
+        @RequestHeader(AUTHORIZATION) String authorisation,
+        @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+        @PathVariable(SubmitServiceConfiguration.APPLICATION_ID) String applicationId,
+        @RequestBody ProbateCaseDetails probateCaseDetails
+    );
+
+    @PostMapping(
         value = "/drafts/{applicationId}",
         headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
