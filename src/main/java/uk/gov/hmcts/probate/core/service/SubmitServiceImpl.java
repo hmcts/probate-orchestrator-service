@@ -131,7 +131,7 @@ public class SubmitServiceImpl implements SubmitService {
 
         existingCase.getCaseData().setPayments(caseData.getPayments());
         sendNotification(existingCase);
-        updateCaseForSubmission(existingCase);
+        //TODO: PRO-5580 - Uncomment once applicationSubmittedDate has been re-added to the spreadsheet
 
         log.debug("calling update Payments in submitServiceApi");
         ProbateCaseDetails probateCaseDetails = submitServiceApi.createCase(
@@ -150,13 +150,6 @@ public class SubmitServiceImpl implements SubmitService {
             return Optional.ofNullable(backOfficeService.sendNotification(probateCaseDetails));
         }
         return Optional.empty();
-    }
-
-    public void updateCaseForSubmission(ProbateCaseDetails probateCaseDetails) {
-        CasePayment casePayment = probateCaseDetails.getCaseData().getPayments().get(0).getValue();
-        if (PaymentStatus.SUCCESS.equals(casePayment.getStatus())) {
-            caseSubmissionUpdater.updateCaseForSubmission(probateCaseDetails.getCaseData());
-        }
     }
 
     @Override
