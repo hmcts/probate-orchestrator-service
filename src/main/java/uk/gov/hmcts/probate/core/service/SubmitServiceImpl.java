@@ -150,15 +150,13 @@ public class SubmitServiceImpl implements SubmitService {
     }
 
     @Override
-    public ProbateCaseDetails updatePaymentsByCaseId(String caseId, CasePayment casePayment) {
-        log.info("Call to submit service with id {} with payment reference {}", caseId, casePayment.getReference());
-        ProbateCaseDetails probateCaseDetails = submitServiceApi.updatePaymentsByCaseId(
+    public ProbateCaseDetails updateByCaseId(String caseId, ProbateCaseDetails caseDetails) {
+        log.info("Call to submit service with id {}", caseId);
+        ProbateCaseDetails probateCaseDetails = submitServiceApi.updateByCaseId(
             securityUtils.getAuthorisation(),
             securityUtils.getServiceAuthorisation(),
             caseId,
-            ProbatePaymentDetails.builder()
-                .payment(casePayment)
-                .build());
+            caseDetails);
         return probateCaseDetails;
     }
 

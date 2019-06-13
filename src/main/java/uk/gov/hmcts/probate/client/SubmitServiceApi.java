@@ -33,6 +33,16 @@ public interface SubmitServiceApi {
             @RequestParam("caseType") String caseType
     );
 
+    @GetMapping(
+            value = "/cases/ccd/{caseId}",
+            headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+    )
+    ProbateCaseDetails getCaseById(
+            @RequestHeader(AUTHORIZATION) String authorisation,
+            @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+            @PathVariable(SubmitServiceConfiguration.CASE_ID) String caseId
+    );
+
     @PostMapping(
             value = "/drafts/{applicationId}",
             headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
@@ -89,13 +99,13 @@ public interface SubmitServiceApi {
     );
 
     @PostMapping(
-        value = "/ccd-case-payments/{caseId}",
-        headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+            value = "/ccd-case-update/{caseId}",
+            headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
-    ProbateCaseDetails updatePaymentsByCaseId(
+    ProbateCaseDetails updateByCaseId(
         @RequestHeader(AUTHORIZATION) String authorisation,
         @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
-        @PathVariable("caseId") String caseId,
-        @RequestBody ProbatePaymentDetails probatePaymentDetails
+        @PathVariable(SubmitServiceConfiguration.CASE_ID) String caseId,
+        @RequestBody ProbateCaseDetails probateCaseDetails
     );
 }
