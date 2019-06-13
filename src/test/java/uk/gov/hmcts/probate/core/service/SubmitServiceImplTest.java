@@ -288,7 +288,6 @@ public class SubmitServiceImplTest {
         verify(securityUtils, times(1)).getServiceAuthorisation();
     }
 
-
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowErrorOnUpdatePaymentsIfNoPaymentsOnForm() {
         intestacyForm.setPayments(null);
@@ -306,15 +305,11 @@ public class SubmitServiceImplTest {
             .caseData(CaveatData.builder().build())
             .build();
 
-        when(submitServiceApi.updatePaymentsByCaseId(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(caseId), eq(ProbatePaymentDetails.builder()
-            .payment(casePayment)
-            .build()))).thenReturn(probateCaseDetails);
+        when(submitServiceApi.updateByCaseId(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(caseId), eq(probateCaseDetails))).thenReturn(probateCaseDetails);
 
-        ProbateCaseDetails probateCaseDetailsResult = submitService.updatePaymentsByCaseId(caseId, casePayment);
+        ProbateCaseDetails probateCaseDetailsResult = submitService.updateByCaseId(caseId, probateCaseDetails);
         assertThat(probateCaseDetails, equalTo(probateCaseDetailsResult));
-        verify(submitServiceApi).updatePaymentsByCaseId(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(caseId), eq(ProbatePaymentDetails.builder()
-            .payment(casePayment)
-            .build()));
+        verify(submitServiceApi).updateByCaseId(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(caseId), eq(probateCaseDetails));
         verify(backOfficeService, never()).sendNotification(caveatCaseDetails);
     }
 
@@ -328,14 +323,10 @@ public class SubmitServiceImplTest {
             .caseData(CaveatData.builder().build())
             .build();
 
-        when(submitServiceApi.updatePaymentsByCaseId(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(caseId), eq(ProbatePaymentDetails.builder()
-            .payment(casePayment)
-            .build()))).thenReturn(probateCaseDetails);
+        when(submitServiceApi.updateByCaseId(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(caseId), eq(probateCaseDetails))).thenReturn(probateCaseDetails);
 
-        ProbateCaseDetails probateCaseDetailsResult = submitService.updatePaymentsByCaseId(caseId, casePayment);
+        ProbateCaseDetails probateCaseDetailsResult = submitService.updateByCaseId(caseId, probateCaseDetails);
         assertThat(probateCaseDetails, equalTo(probateCaseDetailsResult));
-        verify(submitServiceApi).updatePaymentsByCaseId(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(caseId), eq(ProbatePaymentDetails.builder()
-            .payment(casePayment)
-            .build()));
+        verify(submitServiceApi).updateByCaseId(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(caseId), eq(probateCaseDetails));
     }
 }
