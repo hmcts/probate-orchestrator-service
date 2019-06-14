@@ -34,13 +34,13 @@ public interface SubmitServiceApi {
     );
 
     @GetMapping(
-            value = "/cases/ccd/{caseId}",
+            value = "/cases",
             headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
     ProbateCaseDetails getCaseById(
             @RequestHeader(AUTHORIZATION) String authorisation,
             @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
-            @PathVariable(SubmitServiceConfiguration.CASE_ID) String caseId
+            @RequestParam(SubmitServiceConfiguration.CASE_ID) String caseId
     );
 
     @PostMapping(
