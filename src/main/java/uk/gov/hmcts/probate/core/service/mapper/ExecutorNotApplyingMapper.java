@@ -16,6 +16,8 @@ public interface ExecutorNotApplyingMapper {
     @Mapping(target = "value.notApplyingExecutorReason",
         expression = "java(executor.getNotApplyingKey() == null? null : ExecutorNotApplyingReason.getExecutorNotApplyingReasonByValue(executor.getNotApplyingKey()))")
     @Mapping(target = "value.notApplyingExecutorNotified", source = "executorNotified")
+    @Mapping(target = "value.notApplyingExecutorIsDead", source = "isDead")
+    @Mapping(target = "value.notApplyingExecutorDiedBefore", source = "diedBefore")
     CollectionMember<ExecutorNotApplying> toExecutorNotApplying(Executor executor);
 
     @Mapping(target = "notApplyingKey",

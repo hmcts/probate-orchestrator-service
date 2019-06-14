@@ -38,6 +38,7 @@ public class ExecutorsMapperTest {
         executorList.add(Executor.builder()
                 .isApplying(Boolean.TRUE)
                 .isApplicant(Boolean.TRUE)
+                .hasOtherName(Boolean.TRUE)
                 .firstName("Bobby")
                 .lastName("Smith")
                 .address(Address.builder()
@@ -46,15 +47,21 @@ public class ExecutorsMapperTest {
                         .build())
                 .inviteId("12345")
                 .build());
-        executorList.add(Executor.builder().fullName("Jackie Smith").build());
+        executorList.add(Executor.builder()
+                .fullName("Jackie Smith")
+                .isDead(Boolean.TRUE)
+                .diedBefore(Boolean.FALSE)
+                .build());
     }
 
     @Test
     public void shouldMapExecutors() {
         List<CollectionMember<ExecutorNotApplying>> collectionMembersNonApplying = mapper.toExecutorNotApplyingCollectionMember(executorList);
         Assert.assertThat(collectionMembersNonApplying.size(), equalTo(1));
-        Assert.assertThat(collectionMembersNonApplying.get(0).getValue().getNotApplyingExecutorName(), equalTo("Jackie Smith"));
-
+        ExecutorNotApplying executorNotApplying = collectionMembersNonApplying.get(0).getValue();
+        Assert.assertThat(executorNotApplying.getNotApplyingExecutorName(), equalTo("Jackie Smith"));
+        Assert.assertThat(executorNotApplying.getNotApplyingExecutorIsDead(), equalTo(Boolean.TRUE));
+        Assert.assertThat(executorNotApplying.getNotApplyingExecutorDiedBefore(), equalTo(Boolean.FALSE));
 
         List<CollectionMember<ExecutorApplying>> collectionMembers = mapper.toExecutorApplyingCollectionMember(executorList);
         Assert.assertThat(collectionMembers.size(), equalTo(1));
@@ -66,6 +73,14 @@ public class ExecutorsMapperTest {
         Assert.assertThat(executorApplying.getApplyingExecutorAddress().getAddressLine1(), equalTo(ADDRESS_LINE_1));
         Assert.assertThat(executorApplying.getApplyingExecutorAddress().getPostCode(), equalTo(POSTCODE));
         Assert.assertThat(executorApplying.getApplyingExecutorApplicant(), equalTo(Boolean.TRUE));
+        Assert.assertThat(executorApplying.getApplyingExecutorHasOtherName(), equalTo(Boolean.TRUE));
     }
 
+
+    @Test
+    public void shouldMapExecutorsApplyingAndPlaceApplicantFirstInList() {
+
+        List<Executor> executors = mapper.fromCollectionMember(PaTestDataCreator.createGrantOfRepresentation());
+        Assert.assertThat(executors.get(0).getIsApplicant(), equalTo(Boolean.TRUE));
+    }
 }

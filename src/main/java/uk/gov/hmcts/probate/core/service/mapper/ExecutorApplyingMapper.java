@@ -20,6 +20,7 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "value.applyingExecutorPhoneNumber", source = "mobile")
     @Mapping(target = "value.applyingExecutorEmail", source = "email")
     @Mapping(target = "value.applyingExecutorAddress", source = "address", qualifiedBy = {ToCaseAddress.class})
+    @Mapping(target = "value.applyingExecutorHasOtherName", source = "hasOtherName")
     @Mapping(target = "value.applyingExecutorOtherNames", expression = "java(BooleanUtils.isTrue(executor.getHasOtherName()) ? executor.getCurrentName() : null)")
     @Mapping(target = "value.applyingExecutorOtherNamesReason", expression = "java(BooleanUtils.isTrue(executor.getHasOtherName()) ? executor.getCurrentNameReason() : null)")
     @Mapping(target = "value.applyingExecutorOtherReason", expression = "java(BooleanUtils.isTrue(executor.getHasOtherName()) ? executor.getOtherReason() : null)")
@@ -30,7 +31,6 @@ public interface ExecutorApplyingMapper {
     CollectionMember<ExecutorApplying> toExecutorApplying(Executor executor);
 
 
-    @Mapping(target = "hasOtherName", expression = "java(executorApplyingCollectionMember.getValue().getApplyingExecutorOtherNames() != null)")
     @Mapping(target = "currentName", source = "value.applyingExecutorOtherNames")
     @Mapping(target = "currentNameReason", source = "value.applyingExecutorOtherNamesReason")
     @Mapping(target = "address", source = "value.applyingExecutorAddress", qualifiedBy = {ToFormAddress.class})

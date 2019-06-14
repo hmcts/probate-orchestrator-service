@@ -18,6 +18,8 @@ public class ExecutorApplyingToInvitationMapper {
                 .inviteId(executorApplying.getApplyingExecutorInvitationId())
                 .phoneNumber(executorApplying.getApplyingExecutorPhoneNumber())
                 .executorName(executorApplying.getApplyingExecutorName())
+                .firstName(executorApplying.getApplyingExecutorFirstName())
+                .lastName(executorApplying.getApplyingExecutorLastName())
                 .email(executorApplying.getApplyingExecutorEmail())
                 .leadExecutorName(executorApplying.getApplyingExecutorLeadName())
                 .build();
