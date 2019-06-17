@@ -4,7 +4,7 @@ import au.com.dius.pact.provider.junit.Provider;
 import au.com.dius.pact.provider.junit.State;
 import org.json.JSONException;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import uk.gov.hmcts.probate.client.SubmitServiceApi;
+import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.SecurityUtils;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.SubmitResult;
