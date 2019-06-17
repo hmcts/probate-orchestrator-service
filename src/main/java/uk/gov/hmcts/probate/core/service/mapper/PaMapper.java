@@ -128,5 +128,4 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "payments", source = "payments", qualifiedBy = {FromCollectionMember.class})
     @InheritInverseConfiguration
     PaForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
-
 }
