@@ -130,5 +130,4 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "payments", ignore = true)
     @InheritInverseConfiguration
     PaForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
-
 }
