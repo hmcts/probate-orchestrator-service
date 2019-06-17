@@ -23,9 +23,9 @@ public class MapperConfiguration {
     @Bean
     public Map<ProbateType, FormMapper> mappers() {
         return ImmutableMap.<ProbateType, FormMapper>builder()
-            .put(ProbateType.INTESTACY, intestacyMapper)
-            .put(ProbateType.CAVEAT, caveatMapper)
-            .put(ProbateType.PA, paMapper)
-            .build();
+                .put(ProbateType.INTESTACY, intestacyMapper)
+                .put(ProbateType.CAVEAT, caveatMapper)
+                .put(ProbateType.PA, paMapper)
+                .build();
     }
 }
