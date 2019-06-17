@@ -112,6 +112,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "iht.grossIht400421", expression = "java(IhtValuesMapper.getGrossIht400421(grantOfRepresentationData.getIhtFormId(), grantOfRepresentationData.getIhtGrossValue()))")
     @Mapping(target = "iht.netIht400421", expression = "java(IhtValuesMapper.getNetIht400421(grantOfRepresentationData.getIhtFormId(), grantOfRepresentationData.getIhtNetValue()))")
     @Mapping(target = "executors.list", source = ".", qualifiedBy = {FromCollectionMember.class})
+    @Mapping(target = "executors.invitesSent", expression = "java(grantOfRepresentationData.haveInvitesBeenSent())")
     @Mapping(target = "iht.identifier", expression = "java(grantOfRepresentationData.getIhtReferenceNumber() == null || grantOfRepresentationData.getIhtReferenceNumber().equals(\"Not applicable\") ? "
         + "null : grantOfRepresentationData.getIhtReferenceNumber())")
     @Mapping(target = "iht.method", source = "ihtFormCompletedOnline", qualifiedBy = {ToIhtMethod.class})
@@ -127,5 +128,4 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "payments", source = "payments", qualifiedBy = {FromCollectionMember.class})
     @InheritInverseConfiguration
     PaForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
-
 }
