@@ -13,24 +13,22 @@ import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.MaritalStatus;
 import uk.gov.hmcts.reform.probate.model.cases.RegistryLocation;
-import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.Declaration;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.SpouseNotApplyingReason;
 import uk.gov.hmcts.reform.probate.model.forms.AliasOtherNames;
 import uk.gov.hmcts.reform.probate.model.forms.Copies;
+import uk.gov.hmcts.reform.probate.model.forms.Declaration;
 import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
 import uk.gov.hmcts.reform.probate.model.forms.Payment;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyApplicant;
-import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyAssets;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyDeceased;
-import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyDeclaration;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Map;
 
@@ -54,8 +52,8 @@ public class IntestacyTestDataCreator {
             uk.gov.hmcts.reform.probate.model.forms.Address.builder().addressLine1("deceasedAddress").build();
     private static final Address CASE_DECEASED_ADDRESS = Address.builder()
             .addressLine1("deceasedAddress").build();
-    private static final LocalDate DATE_OF_BIRTH = LocalDate.of(1967, 12, 3);
-    private static final LocalDate DATE_OF_DEATH = LocalDate.of(2018, 12, 3);
+    private static final LocalDateTime DATE_OF_BIRTH = LocalDateTime.of(1967, 12, 3, 0, 0, 0);
+    private static final LocalDateTime DATE_OF_DEATH = LocalDateTime.of(2018, 12, 3, 0, 0, 0);
     private static final String DECEASED_FIRST_NAME = "deceasedFirstName";
     private static final String DECEASED_LAST_NAME = "deceasedLastName";
     //private static final long CASE_ID = 100001L;
@@ -82,6 +80,7 @@ public class IntestacyTestDataCreator {
 
     public static IntestacyForm createIntestacyForm() {
         return IntestacyForm.builder()
+            .applicantEmail(EMAIL)
             .type(ProbateType.INTESTACY)
             .uploadDocumentUrl(UPLOAD_DOCUMENT_URL)
             .applicant(
@@ -89,17 +88,11 @@ public class IntestacyTestDataCreator {
                     .address(ADDRESS)
                     .addressFound(Boolean.TRUE)
                     .adoptionInEnglandOrWales(Boolean.TRUE)
-                    .email(EMAIL)
                     .firstName(FIRST_NAME)
                     .lastName(LAST_NAME)
                     .phoneNumber(PHONE_NUMBER)
-                    .postCode(POSTCODE)
+                    .postcode(POSTCODE)
                     .relationshipToDeceased(Relationship.ADOPTED_CHILD)
-                    .build())
-            .assets(
-                IntestacyAssets.builder()
-                    .assetsOverseas(Boolean.TRUE)
-                    .assetsOverseasNetValue(ASSETS_OVERSEAS_NET_VALUE)
                     .build())
             .copies(Copies.builder()
                 .overseas(COPIES_OVERSEAS)
@@ -123,15 +116,17 @@ public class IntestacyTestDataCreator {
                 .otherChildren(Boolean.FALSE)
                 .otherNames(createAliasMap())
                 .spouseNotApplyingReason(SpouseNotApplyingReason.MENTALLY_INCAPABLE)
-                .postCode(POSTCODE)
+                .postcode(POSTCODE)
                 .build())
-            .declaration(IntestacyDeclaration.builder().build())
+            .declaration(Declaration.builder().build())
             .iht(InheritanceTax.builder()
                 .form(IhtFormType.IHT205)
                 .grossValue(GROSS_VALUE)
                 .identifier(IHT_IDENTIFIER)
                 .method(IhtMethod.BY_POST)
                 .netValue(NET_VALUE)
+                .assetsOutside(Boolean.TRUE)
+                .assetsOutsideNetValue(ASSETS_OVERSEAS_NET_VALUE)
                 .build())
             .payments(Lists.newArrayList(Payment.builder()
                 .amount(PAYMENT_AMOUNT)
@@ -176,8 +171,8 @@ public class IntestacyTestDataCreator {
         grantOfRepresentation.setDeceasedSpouseNotApplyingReason(SpouseNotApplyingReason.MENTALLY_INCAPABLE);
         grantOfRepresentation.setDeceasedSurname(DECEASED_LAST_NAME);
         grantOfRepresentation.setDeceasedForenames(DECEASED_FIRST_NAME);
-        grantOfRepresentation.setDeceasedDateOfBirth(DATE_OF_BIRTH);
-        grantOfRepresentation.setDeceasedDateOfDeath(DATE_OF_DEATH);
+        grantOfRepresentation.setDeceasedDateOfBirth(DATE_OF_BIRTH.toLocalDate());
+        grantOfRepresentation.setDeceasedDateOfDeath(DATE_OF_DEATH.toLocalDate());
         Address deceasedAddress = CASE_DECEASED_ADDRESS;
         grantOfRepresentation.setDeceasedAddress(deceasedAddress);
         grantOfRepresentation.setDeceasedPostCode(POSTCODE);
@@ -199,7 +194,7 @@ public class IntestacyTestDataCreator {
         grantOfRepresentation.setDeceasedAnyChildren(Boolean.TRUE);
         grantOfRepresentation.setDeceasedAnyOtherNames(Boolean.TRUE);
 
-        grantOfRepresentation.setDeclaration(Declaration.builder().build());
+        grantOfRepresentation.setDeclaration(uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.Declaration.builder().build());
 
         grantOfRepresentation.setRegistryLocation(RegistryLocation.BIRMINGHAM);
         grantOfRepresentation.setRegistryAddress(REG_ADDRESS);
@@ -207,7 +202,7 @@ public class IntestacyTestDataCreator {
         grantOfRepresentation.setRegistrySequenceNumber(Long.toString(SEQUENCE_NUMBER));
 
         grantOfRepresentation.setDeceasedHasAssetsOutsideUK(Boolean.TRUE);
-        grantOfRepresentation.setAssetsOverseasNetValue(ASSETS_OVERSEAS_NET_VALUE_LONG);
+        grantOfRepresentation.setAssetsOutsideNetValue(ASSETS_OVERSEAS_NET_VALUE_LONG);
         grantOfRepresentation.setIhtFormId(IhtFormType.IHT205);
         grantOfRepresentation.setIhtFormCompletedOnline(Boolean.FALSE);
         grantOfRepresentation.setIhtGrossValue(GROSS_VALUE_LONG);

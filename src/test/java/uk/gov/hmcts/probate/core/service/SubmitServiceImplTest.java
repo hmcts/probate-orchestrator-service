@@ -189,7 +189,7 @@ public class SubmitServiceImplTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowErrorOnSaveDraftIfEmailAddressDoesNotMatchForm() {
-        ((IntestacyForm) intestacyForm).getApplicant().setEmail("test@Test.com");
+        ((IntestacyForm) intestacyForm).setApplicantEmail("test@Test.com");
 
         submitService.saveDraft(EMAIL_ADDRESS, intestacyForm);
     }
@@ -245,7 +245,7 @@ public class SubmitServiceImplTest {
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowErrorOnSubmitIfEmailAddressDoesNotMatchForm() {
         //TODO Remove CAST
-        ((IntestacyForm) intestacyForm).getApplicant().setEmail("test@Test.com");
+        ((IntestacyForm) intestacyForm).setApplicantEmail("test@Test.com");
 
         submitService.submit(EMAIL_ADDRESS, intestacyForm);
     }
