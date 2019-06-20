@@ -122,6 +122,7 @@ public class PaTestDataCreator {
     private static final IhtMethod IHT_METHOD = IhtMethod.ONLINE;
     private static final String FIRST_EXECUTOR_FULLNAME = "Jon Snow";
     private static final String SECOND_EXECUTOR_APPLYING = "Sansa Stark";
+    private static final String SECOND_EXECUTOR_INVITE_ID = "123345547";
     private static final boolean SECOND_EXECUTOR_IS_APPLYING = true;
     private static final String FIRST_EXECUTOR_MOBILE = "123323454";
     private static final String SECOND_EXECUTOR_MOBILE = "8543958430985";
@@ -132,6 +133,7 @@ public class PaTestDataCreator {
     private static final String FIRST_EXECUTOR_OTHER_REASON = "Given for rule";
     private static final String FIRST_EXECUTOR_CURRENTNAME_REASON = "Given by everyone";
     private static final String FIRST_EXECUTOR_ADDRESS = "Winterfell";
+    private static final String FIRST_EXECUTOR_INVITE_ID = "123345546";
     private static final String SECOND_EXECUTOR_ADDRESS = "Winterfell";
     private static final boolean SECOND_EXECUTOR_HAS_OTHERNAME = false;
     private static final String FIRST_EXECUTOR_NOT_APPLYING = "Rob Stark";
@@ -221,35 +223,38 @@ public class PaTestDataCreator {
                 .executors(Executors.builder()
                         .list(Lists.newArrayList(
                                 Executor.builder()
-                                        .fullName(SECOND_EXECUTOR_NOT_APPLYING)
-                                        .notApplyingKey(SECOND_EXECUTOR_NOT_APPLYING_KEY.getOptionValue())
-                                        .build(),
-                                Executor.builder()
                                         .fullName(FIRST_EXECUTOR_FULLNAME)
                                         .isApplying(FIRST_EXECUTOR_IS_APPLYING)
                                         .mobile(FIRST_EXECUTOR_MOBILE)
                                         .email(FIRST_EXECUTOR_EMAIL)
                                         .address(uk.gov.hmcts.reform.probate.model.forms.Address.builder().addressLine1(FIRST_EXECUTOR_ADDRESS).build())
-                                        .isApplying(true)
                                         .hasOtherName(FIRST_EXECUTOR_HAS_OTHER_NAME)
                                         .currentName(FIRST_EXECUTOR_CURRENT_NAME)
                                         .currentNameReason(FIRST_EXECUTOR_CURRENTNAME_REASON)
                                         .otherReason(FIRST_EXECUTOR_OTHER_REASON)
-                                        .build(),
-                                Executor.builder()
-                                        .fullName(FIRST_EXECUTOR_NOT_APPLYING)
-                                        .notApplyingKey(FIRST_EXECUTOR_NOT_APPLYING_KEY.getOptionValue())
+                                        .inviteId(FIRST_EXECUTOR_INVITE_ID)
+                                        .isApplicant(Boolean.TRUE)
                                         .build(),
                                 Executor.builder()
                                         .fullName(SECOND_EXECUTOR_APPLYING)
                                         .isApplying(SECOND_EXECUTOR_IS_APPLYING)
                                         .mobile(SECOND_EXECUTOR_MOBILE)
                                         .email(SECOND_EXECUTOR_EMAIL)
+                                        .inviteId(SECOND_EXECUTOR_INVITE_ID)
                                         .address(uk.gov.hmcts.reform.probate.model.forms.Address.builder().addressLine1(SECOND_EXECUTOR_ADDRESS).build())
                                         .isApplying(true)
                                         .hasOtherName(SECOND_EXECUTOR_HAS_OTHERNAME)
+                                        .build(),
+                                Executor.builder()
+                                        .fullName(SECOND_EXECUTOR_NOT_APPLYING)
+                                        .notApplyingKey(SECOND_EXECUTOR_NOT_APPLYING_KEY.getOptionValue())
+                                        .build(),
+                                Executor.builder()
+                                        .fullName(FIRST_EXECUTOR_NOT_APPLYING)
+                                        .notApplyingKey(FIRST_EXECUTOR_NOT_APPLYING_KEY.getOptionValue())
                                         .build()
                         ))
+                        .invitesSent(Boolean.TRUE)
                         .executorsNumber(EXECUTORS_NUMBER)
                         .build())
                 .declaration(uk.gov.hmcts.reform.probate.model.forms.Declaration.builder()
@@ -408,12 +413,17 @@ public class PaTestDataCreator {
                                         .applyingExecutorOtherNames(FIRST_EXECUTOR_CURRENT_NAME)
                                         .applyingExecutorOtherNamesReason(FIRST_EXECUTOR_CURRENTNAME_REASON)
                                         .applyingExecutorOtherReason(FIRST_EXECUTOR_OTHER_REASON)
+                                        .applyingExecutorInvitationId(FIRST_EXECUTOR_INVITE_ID)
+                                        .applyingExecutorHasOtherName(Boolean.TRUE)
+                                        .applyingExecutorApplicant(Boolean.TRUE)
                                         .build()).build(),
                         CollectionMember.<ExecutorApplying>builder()
                                 .value(ExecutorApplying.builder()
                                         .applyingExecutorName(SECOND_EXECUTOR_APPLYING)
                                         .applyingExecutorPhoneNumber(SECOND_EXECUTOR_MOBILE)
                                         .applyingExecutorEmail(SECOND_EXECUTOR_EMAIL)
+                                        .applyingExecutorInvitationId(SECOND_EXECUTOR_INVITE_ID)
+                                        .applyingExecutorHasOtherName(Boolean.FALSE)
                                         .applyingExecutorAddress(uk.gov.hmcts.reform.probate.model.cases.Address.builder()
                                                 .addressLine1(SECOND_EXECUTOR_ADDRESS)
                                                 .build())
