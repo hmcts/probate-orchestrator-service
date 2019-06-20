@@ -57,17 +57,17 @@ public class ExecutorsMapper {
         }
         List<Executor> executors = new ArrayList<>();
 
+        if (grantOfRepresentationData.getExecutorsApplying() != null) {
+            executors.addAll(grantOfRepresentationData.getExecutorsApplying().stream()
+                    .map(e -> executorApplyingMapper.fromExecutorApplying(e))
+                    .sorted(Comparator.comparing(e -> e.getIsApplicant() == null || !e.getIsApplicant()))
+                    .collect(Collectors.toList()));
+        }
         if (grantOfRepresentationData.getExecutorsNotApplying() != null) {
             executors.addAll(grantOfRepresentationData.getExecutorsNotApplying().stream()
                     .map(e -> executorNotApplyingMapper.fromExecutorNotApplying(e))
                     .collect(Collectors.toList()));
         }
-        if (grantOfRepresentationData.getExecutorsApplying() != null) {
-            executors.addAll(grantOfRepresentationData.getExecutorsApplying().stream()
-                    .map(e -> executorApplyingMapper.fromExecutorApplying(e))
-                    .collect(Collectors.toList()));
-        }
-        executors.sort(Comparator.comparing(Executor::getFullName));
         return executors;
     }
 }
