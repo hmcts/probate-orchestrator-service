@@ -1,7 +1,7 @@
 {
   "type": "Intestacy",
+  "applicantEmail": "jon.snow@thenorth.com",
   "applicant": {
-    "email": "jon.snow@thenorth.com",
     "firstName": "Jon",
     "lastName": "Snow",
     "address": {
@@ -14,15 +14,15 @@
     },
     "postCode": "SW17 0QT",
     "phoneNumber": "123455678",
-    "addressFound": "Yes",
+    "addressFound": "true",
     "relationshipToDeceased": "adoptedChild",
     "adoptionInEnglandOrWales": "Yes"
   },
   "deceased": {
     "firstName": "Ned",
     "lastName": "Stark",
-    "dob_date": "1930-01-01",
-    "dod_date": "2018-01-01",
+    "dob_date": "1930-01-01T00:00:00.000Z",
+    "dod_date": "2018-01-01T00:00:00.000Z",
     "address": {
       "addressLine1": "Winterfell",
       "postTown": "Kings Landing",
@@ -30,7 +30,7 @@
       "country": "Westeros",
       "formattedAddress": "Winterfell Kings Landing Win1 Westeros"
     },
-    "addressFound": "Yes",
+    "addressFound": "true",
     "postCode": "SW17 0QT",
     "alias": "Yes",
     "otherNames": {
@@ -77,7 +77,7 @@
     "sequenceNumber": 20075
   },
   "declaration": {
-    "declarationCheckbox": "Yes"
+    "declarationCheckbox": "true"
   },
   "payments": [
     {

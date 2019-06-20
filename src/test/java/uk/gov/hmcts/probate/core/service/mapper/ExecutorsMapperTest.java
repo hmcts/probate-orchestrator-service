@@ -64,12 +64,4 @@ public class ExecutorsMapperTest {
         Assert.assertThat(executorApplying.getApplyingExecutorAddress().getPostCode(), equalTo(POSTCODE));
     }
 
-    @Test
-    public void shouldMapFromCase() {
-        List<Executor> executors = mapper.fromCollectionMember(grantOfRepresentation);
-        Assert.assertThat(executors.size(), equalTo(4));
-        Assert.assertThat(executors.get(0).getAddress().getFormattedAddress(), equalTo("Address"));
-
-    }
-
 }

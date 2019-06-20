@@ -13,7 +13,7 @@
     "dob_formattedDate": "1 January 1900",
     "dod_formattedDate": "1 January 2019",
     "dod_month": 1,
-    "postcode": "VALID",
+    "postCode": "VALID",
     "addresses": [
       {
         "building_number": "102",
