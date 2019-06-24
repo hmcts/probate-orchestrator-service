@@ -22,6 +22,7 @@ public interface ExecutorNotApplyingMapper {
 
     @Mapping(target = "notApplyingKey",
         expression = "java(executorNotApplyingCollectionMember.getValue().getNotApplyingExecutorReason() == null ? null : executorNotApplyingCollectionMember.getValue().getNotApplyingExecutorReason().getOptionValue())")
+    @Mapping(target = "isApplying", expression = "java(false)")
     @Mapping(target = "fullName", source = "value.notApplyingExecutorName")
     @InheritInverseConfiguration
     Executor fromExecutorNotApplying(CollectionMember<ExecutorNotApplying> executorNotApplyingCollectionMember);
