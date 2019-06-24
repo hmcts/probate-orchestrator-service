@@ -31,7 +31,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @ExtendWith(PactConsumerTestExt.class)
 @ExtendWith(SpringExtension.class)
-@PactTestFor(providerName = "probate_submitservice", port = "8890")
+@PactTestFor(providerName = "probate_submitService", port = "8890")
 @SpringBootTest({
         // overriding provider address
         "probate_submitservice.ribbon.listOfServers: localhost:8890",
@@ -60,7 +60,7 @@ public class SubmitServiceSubmissionValidationConsumerTest {
 
 
     @Pact(state = "provider POSTS submission with errors",
-            provider = "probate_submitservice_submissions", consumer = "probate_orchestrator_service")
+            provider = "probate_submitService_submissions", consumer = "probate_orchestrator_service")
     public RequestResponsePact ExecutePostSubmissionWithClientErrors(PactDslWithProvider builder) throws IOException, JSONException {
         return builder
                 .given("provider POSTS submission with errors")

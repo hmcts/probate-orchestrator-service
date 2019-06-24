@@ -1,0 +1,131 @@
+{
+  "type": "PA",
+  "deceased": {
+    "firstName": "Rob",
+    "lastName": "Stark",
+    "alias": "No",
+    "married": "No",
+    "address": {
+      "addressLine1": "Pret a Manger",
+      "addressLine2": "St. Georges Hospital",
+      "addressLine3": "Blackshaw Road",
+      "postTown": "London",
+      "postCode": "SW17 0QT",
+      "country": "United Kingdom",
+      "formattedAddress": "Pret a Manger St. Georges Hospital Blackshaw Road London SW17 0QT United Kingdom"
+    },
+    "postcode": "SW17 0QT",
+    "addressFound": "false",
+    "dob_date": "1900-01-01T00:00:00.000Z",
+    "dod_date": "2019-01-01T00:00:00.000Z",
+    "dod_day": 1,
+    "dod_month": 1,
+    "dod_year": 2019,
+    "dob_day": 1,
+    "dob_month": 1,
+    "dob_year": 1900,
+    "dob_formattedDate": "1 January 1900",
+    "dod_formattedDate": "1 January 2019"
+  },
+  "applicant": {
+    "firstName": "Sansa",
+    "lastName": "Stark",
+    "address": {
+      "addressLine1": "Ronald McDonald House",
+      "addressLine2": "St. Georges Hospital",
+      "addressLine3": "Blackshaw Road",
+      "postTown": "London",
+      "postCode": "SW17 0QT",
+      "country": "United Kingdom",
+      "formattedAddress": "Ronald McDonald House St. Georges Hospital Blackshaw Road London SW17 0QT United Kingdom"
+    },
+    "postcode": "SW17 0QT",
+    "addressFound": "false",
+    "phoneNumber": "23443224",
+    "nameAsOnTheWill": "Yes"
+  },
+  "registry": {},
+  "ccdCase": {
+    "id": 1561067463530426,
+    "state": "CaseCreated"
+  },
+  "payments": [
+    {
+      "reference": "RC-1561-0675-3177-2281",
+      "amount": 215.5,
+      "status": "Success",
+      "method": "card"
+    }
+  ],
+  "copies": {
+    "uk": 1
+  },
+  "payment": {
+    "reference": "RC-1561-0675-3177-2281",
+    "amount": 215.5,
+    "status": "Success",
+    "method": "card"
+  },
+  "declaration": {
+    "softStop": false,
+    "legalStatement": {
+      "applicant": "I, Sansa Stark of Ronald McDonald House St. Georges Hospital Blackshaw Road London SW17 0QT United Kingdom, make the following statement:",
+      "deceased": "Rob Stark was born on 1 January 1900 and died on 1 January 2019, domiciled in England and Wales.",
+      "deceasedOtherNames": "",
+      "executorsApplying": [
+        {
+          "name": "I am an executor named in the will as Sansa Stark, and I am applying for probate.",
+          "sign": "I will send to the probate registry what I believe to be the true and original last will and testament of Rob Stark."
+        }
+      ],
+      "deceasedEstateValue": "The gross value for the estate amounts to £20000.00 and the net value for the estate amounts to £20000.00.",
+      "deceasedEstateLand": "To the best of my knowledge, information and belief, there was no land vested in Rob Stark which was settled previously to the death (and not by the will) of Rob Stark and which remained settled land notwithstanding such death.",
+      "intro": "This statement is based on the information you&rsquo;ve given in your application. It will be stored as a public record."
+    },
+    "declaration": {
+      "confirm": "I confirm that I will administer the estate of Rob Stark, according to law. I will:",
+      "confirmItem1": "collect the whole estate",
+      "confirmItem2": "keep full details (an inventory) of the estate",
+      "confirmItem3": "keep a full account of how the estate has been administered",
+      "requests": "If the probate registry (court) asks me to do so, I will:",
+      "requestsItem1": "provide the full details of the estate and how it has been administered",
+      "requestsItem2": "return the grant of probate to the court",
+      "understand": "I understand that:",
+      "understandItem1": "my application will be rejected if I do not answer any questions about the information I have given",
+      "understandItem2": "criminal proceedings for fraud may be brought against me if I am found to have been deliberately untruthful or dishonest",
+      "accept": "I confirm that I will administer the estate of the person who died according to law, and that my application is truthful."
+    },
+    "declarationCheckbox": "true"
+  },
+  "applicantEmail": "t2@t.com",
+  "executors": {
+    "executorsNumber": 1,
+    "invitesSent": "No",
+    "list": [
+      {
+        "fullName": "Sansa Stark",
+        "lastName": "Stark",
+        "firstName": "Sansa",
+        "isApplying": true,
+        "isApplicant": true
+      }
+    ]
+  },
+  "assets": {
+    "assetsoverseas": "No"
+  },
+  "iht": {
+    "method": "Through the HMRC online service",
+    "identifier": "IHT1234567",
+    "grossValue": 20000,
+    "netValue": 20000,
+    "grossValueField": "20000",
+    "netValueField": "20000",
+    "grossValueOnline": "20000.00",
+    "netValueOnline": "20000.00"
+  },
+  "will": {
+    "codicils": "No"
+  },
+  "applicationSubmittedDate": "2019-06-20"
+}
