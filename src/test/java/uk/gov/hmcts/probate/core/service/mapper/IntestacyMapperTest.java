@@ -13,12 +13,11 @@ import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.forms.Copies;
+import uk.gov.hmcts.reform.probate.model.forms.Declaration;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyApplicant;
-import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyAssets;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyDeceased;
-import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyDeclaration;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -83,12 +82,11 @@ public class IntestacyMapperTest {
         IntestacyForm expectedIntestacyForm = new IntestacyForm();
         expectedIntestacyForm.setType(ProbateType.INTESTACY);
         expectedIntestacyForm.setCopies(new Copies());
-        expectedIntestacyForm.setAssets(new IntestacyAssets());
         expectedIntestacyForm.setIht(new InheritanceTax());
         expectedIntestacyForm.setRegistry(new Registry());
         expectedIntestacyForm.setApplicant(new IntestacyApplicant());
         expectedIntestacyForm.setDeceased(new IntestacyDeceased());
-        expectedIntestacyForm.setDeclaration(new IntestacyDeclaration());
+        expectedIntestacyForm.setDeclaration(new Declaration());
         IntestacyForm actualIntestacyForm = mapper.fromCaseData(new GrantOfRepresentationData());
         assertThat(actualIntestacyForm).isEqualToComparingFieldByFieldRecursively(expectedIntestacyForm);
     }

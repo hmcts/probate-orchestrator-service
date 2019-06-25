@@ -18,12 +18,11 @@ import uk.gov.hmcts.reform.probate.model.forms.Copies;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
 import uk.gov.hmcts.reform.probate.model.forms.Will;
-import uk.gov.hmcts.reform.probate.model.forms.caveat.CaveatForm;
 import uk.gov.hmcts.reform.probate.model.forms.pa.Executors;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaApplicant;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaAssets;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaDeceased;
-import uk.gov.hmcts.reform.probate.model.forms.pa.PaDeclaration;
+import uk.gov.hmcts.reform.probate.model.forms.Declaration;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaForm;
 
 import java.time.LocalDate;
@@ -51,7 +50,7 @@ public class PaMapperTest {
     }
 
     @Test
-    public void shouldJason() throws Exception {
+    public void shouldMapAddressFields() throws Exception {
         String jsonString  = TestUtils.getJSONFromFile("addressForm.json");
         PaForm paForm = objectMapper.readValue(jsonString, PaForm.class);
     }
@@ -108,7 +107,7 @@ public class PaMapperTest {
         expectedPaForm.setDeceased(new PaDeceased());
         expectedPaForm.setWill(new Will());
         expectedPaForm.setExecutors(new Executors());
-        expectedPaForm.setDeclaration(new PaDeclaration());
+        expectedPaForm.setDeclaration(new Declaration());
         PaForm actualPaForm = mapper.fromCaseData(new GrantOfRepresentationData());
         assertThat(actualPaForm).isEqualToComparingFieldByFieldRecursively(expectedPaForm);
     }

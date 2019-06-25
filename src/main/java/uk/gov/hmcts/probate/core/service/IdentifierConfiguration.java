@@ -27,7 +27,7 @@ public class IdentifierConfiguration {
     private Function<Form, String> intestacyFormIdentifierFunction() {
         return form -> {
             IntestacyForm intestacyForm = (IntestacyForm) form;
-            return intestacyForm.getApplicant().getEmail();
+            return intestacyForm.getApplicantEmail();
         };
     }
 
