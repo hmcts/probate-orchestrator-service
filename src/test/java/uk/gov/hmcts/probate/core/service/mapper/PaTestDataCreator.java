@@ -30,11 +30,8 @@ import uk.gov.hmcts.reform.probate.model.forms.pa.Executors;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaApplicant;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaAssets;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaDeceased;
-import uk.gov.hmcts.reform.probate.model.forms.pa.PaDeclaration;
-import uk.gov.hmcts.reform.probate.model.forms.pa.PaDeclarationDeclaration;
+import uk.gov.hmcts.reform.probate.model.forms.DeclarationDeclaration;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaForm;
-import uk.gov.hmcts.reform.probate.model.forms.pa.PaLegalStatement;
-import uk.gov.hmcts.reform.probate.model.forms.pa.PaLegalStatementExecutorApplying;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -260,10 +257,10 @@ public class PaTestDataCreator {
                         .invitesSent(Boolean.TRUE)
                         .executorsNumber(EXECUTORS_NUMBER)
                         .build())
-                .declaration(PaDeclaration.builder()
+                .declaration(uk.gov.hmcts.reform.probate.model.forms.Declaration.builder()
                         .softStop(SOFT_STOP)
                         .declaration(
-                                PaDeclarationDeclaration.builder()
+                                DeclarationDeclaration.builder()
                                         .accept(ACCEPT)
                                         .confirm(CONFIRM)
                                         .requests(REQUESTS)
@@ -277,12 +274,12 @@ public class PaTestDataCreator {
                                         .understandItem2(UNDERSTAND_ITEM_2)
                                         .build()
                         )
-                        .legalStatement(PaLegalStatement.builder()
+                        .legalStatement(uk.gov.hmcts.reform.probate.model.forms.LegalStatement.builder()
                                 .intro(INTRO)
                                 .deceased(DECEASED)
                                 .applicant(APPLICANT)
                                 .executorsApplying(Lists.newArrayList(
-                                        PaLegalStatementExecutorApplying.builder()
+                                        uk.gov.hmcts.reform.probate.model.forms.LegalStatementExecutorApplying.builder()
                                                 .name(NAME)
                                                 .sign(SIGN)
                                                 .build()
