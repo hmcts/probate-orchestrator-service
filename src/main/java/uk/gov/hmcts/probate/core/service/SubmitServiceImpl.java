@@ -43,6 +43,8 @@ public class SubmitServiceImpl implements SubmitService {
 
     private final Set<CaseType> caseTypesForNotifications = Sets.newHashSet(CaseType.CAVEAT);
 
+    private final CaseSubmissionUpdater caseSubmissionUpdater;
+
     @Override
     public Form getCase(String identifier, ProbateType probateType) {
         log.info("Get case called for : {}", probateType.getName());
@@ -129,7 +131,8 @@ public class SubmitServiceImpl implements SubmitService {
 
         existingCase.getCaseData().setPayments(caseData.getPayments());
         sendNotification(existingCase);
-        
+        //TODO: PRO-5580 - Uncomment once applicationSubmittedDate has been re-added to the spreadsheet
+
         log.debug("calling update Payments in submitServiceApi");
         ProbateCaseDetails probateCaseDetails = submitServiceApi.createCase(
             authorisation,
