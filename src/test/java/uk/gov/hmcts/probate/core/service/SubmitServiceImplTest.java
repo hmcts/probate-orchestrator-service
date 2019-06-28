@@ -16,6 +16,7 @@ import uk.gov.hmcts.probate.core.service.mapper.IntestacyMapper;
 import uk.gov.hmcts.probate.service.BackOfficeService;
 import uk.gov.hmcts.reform.probate.model.PaymentStatus;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
+import uk.gov.hmcts.reform.probate.model.cases.CaseData;
 import uk.gov.hmcts.reform.probate.model.cases.CaseInfo;
 import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
 import uk.gov.hmcts.reform.probate.model.cases.CaseState;
@@ -51,7 +52,7 @@ public class SubmitServiceImplTest {
     private static final String AUTHORIZATION = "AUTH1234567";
     private static final String CASE_ID = "1232234234";
     private static final String STATE = "DRAFT";
-    public static final String CAVEAT_IDENTIFIER = "Id";
+    private static final String CAVEAT_IDENTIFIER = "Id";
 
 
     private Map<ProbateType, FormMapper> mappers;
@@ -70,6 +71,9 @@ public class SubmitServiceImplTest {
 
     @Mock
     private CaveatMapper caveatMapper;
+
+    @Mock
+    private CaseSubmissionUpdater caseSubmissionUpdater;
 
     private SubmitServiceImpl submitService;
 
@@ -96,7 +100,7 @@ public class SubmitServiceImplTest {
             .put(ProbateType.CAVEAT, caveatMapper)
             .build();
         submitService = new SubmitServiceImpl(mappers, submitServiceApi, backOfficeService, securityUtils,
-            identifierConfiguration.formIdentifierFunctionMap());
+            identifierConfiguration.formIdentifierFunctionMap(), caseSubmissionUpdater);
 
         when(securityUtils.getAuthorisation()).thenReturn(AUTHORIZATION);
         when(securityUtils.getServiceAuthorisation()).thenReturn(SERVICE_AUTHORIZATION);
@@ -273,6 +277,7 @@ public class SubmitServiceImplTest {
         caveatCaseDetails.getCaseData().getPayments().get(0).getValue().setStatus(PaymentStatus.FAILED);
         shouldUpdatePayments(caveatForm, caveatCaseDetails);
         verify(backOfficeService, never()).sendNotification(caveatCaseDetails);
+        verify(caseSubmissionUpdater, never()).updateCaseForSubmission(any(CaseData.class));
     }
 
     private void shouldUpdatePayments(Form form, ProbateCaseDetails caseDetails) {
@@ -311,6 +316,7 @@ public class SubmitServiceImplTest {
         assertThat(probateCaseDetails, equalTo(probateCaseDetailsResult));
         verify(submitServiceApi).updateByCaseId(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(caseId), eq(probateCaseDetails));
         verify(backOfficeService, never()).sendNotification(caveatCaseDetails);
+        verify(caseSubmissionUpdater, never()).updateCaseForSubmission(any(CaseData.class));
     }
 
     @Test
