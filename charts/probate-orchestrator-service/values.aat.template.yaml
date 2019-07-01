@@ -5,6 +5,7 @@ java:
     SERVICES_CORECASEDATA_BASEURL : "http://ccd-data-store-api-aat.service.core-compute-aat.internal"
     SERVICES_AUTH_PROVIDER_BASEURL : "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
     AUTH_IDAM_CLIENT_BASEURL : "https://idam-api.aat.platform.hmcts.net"
-    SUBMIT_SERVICE_API_URL : "http://probate-submit-service-aat.service.core-compute-aat.internal"
+#    SUBMIT_SERVICE_API_URL : "http://probate-submit-service-aat.service.core-compute-aat.internal"
+    SUBMIT_SERVICE_API_URL: "http://probate-submit-service-pr-188.service.core-compute-preview.internal"
     BUSINESS_SERVICE_API_URL : "http://probate-business-service-aat.service.core-compute-aat.internal"
     BACK_OFFICE_API_URL: "http://probate-back-office-aat.service.core-compute-aat.internal"
