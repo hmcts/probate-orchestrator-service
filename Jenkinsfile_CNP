@@ -43,11 +43,11 @@ withPipeline("java", product, component) {
     enableDockerBuild()
 ////  enableDeployToAKS()
     installCharts()
-
+    /*
     before('buildinfra:prod') {
             error 'Deliberately breaking pipeline to prevent prod deployment'
     }
-
+    */
     after('test') {
 
 //        try {
