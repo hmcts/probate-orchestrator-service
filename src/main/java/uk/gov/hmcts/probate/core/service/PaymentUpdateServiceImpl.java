@@ -1,14 +1,20 @@
 package uk.gov.hmcts.probate.core.service;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Arrays;
+
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import uk.gov.hmcts.probate.client.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.mapper.PaymentDtoMapper;
 import uk.gov.hmcts.probate.service.PaymentUpdateService;
 import uk.gov.hmcts.probate.service.SubmitService;
 import uk.gov.hmcts.reform.probate.model.PaymentStatus;
 import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
+import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
+import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
 @Component
@@ -17,6 +23,8 @@ import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 public class PaymentUpdateServiceImpl implements PaymentUpdateService {
 
     private final SubmitService submitService;
+
+    private final SubmitServiceApi submitServiceApi;
 
     private final PaymentDtoMapper paymentDtoMapper;
 
@@ -36,8 +44,15 @@ public class PaymentUpdateServiceImpl implements PaymentUpdateService {
         }
         securityUtils.setSecurityContextUserAsCaseworker();
         CasePayment casePayment = paymentDtoMapper.toCasePayment(paymentDto);
+        ProbateCaseDetails existingCase = submitServiceApi.getCaseById(securityUtils.getAuthorisation(),
+                securityUtils.getServiceAuthorisation(), caseId);
+
+        CollectionMember<CasePayment> collectionMember = new CollectionMember<CasePayment>();
+        collectionMember.setValue(casePayment);
+        existingCase.getCaseData().setPayments(Arrays.asList(collectionMember));
+        submitService.sendNotification(existingCase);
 
         log.info("Submitting payment details for case Id {} with payment reference {}", caseId, reference);
-        submitService.updatePaymentsByCaseId(caseId, casePayment);
+        submitService.updateByCaseId(caseId, existingCase);
     }
 }
