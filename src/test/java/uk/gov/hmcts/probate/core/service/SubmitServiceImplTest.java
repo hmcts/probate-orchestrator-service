@@ -50,7 +50,7 @@ public class SubmitServiceImplTest {
     private static final String SERVICE_AUTHORIZATION = "SERVICEAUTH1234567";
     private static final String AUTHORIZATION = "AUTH1234567";
     private static final String CASE_ID = "1232234234";
-    private static final String STATE = "DRAFT";
+    private static final CaseState STATE = CaseState.DRAFT;
     private static final String CAVEAT_IDENTIFIER = "Id";
 
 
@@ -263,7 +263,7 @@ public class SubmitServiceImplTest {
         when(submitServiceApi.getCase(anyString(), anyString(),
             anyString(), anyString())).thenReturn(caveatCaseDetails);
 
-        caveatCaseDetails.getCaseInfo().setState(CaseState.CAVEAT_RAISED.getName());
+        caveatCaseDetails.getCaseInfo().setState(CaseState.CAVEAT_RAISED);
         shouldUpdatePayments(caveatForm, caveatCaseDetails);
         verify(backOfficeService, times(1)).sendNotification(caveatCaseDetails);
     }
@@ -305,7 +305,7 @@ public class SubmitServiceImplTest {
         String caseId = "234324";
         CasePayment casePayment = CasePayment.builder().build();
         ProbateCaseDetails probateCaseDetails = ProbateCaseDetails.builder().caseInfo(CaseInfo.builder()
-            .state(CaseState.PA_APP_CREATED.getName())
+            .state(CaseState.PA_APP_CREATED)
             .build())
             .caseData(CaveatData.builder().build())
             .build();
@@ -328,7 +328,7 @@ public class SubmitServiceImplTest {
         String caseId = "234324";
         CasePayment casePayment = CasePayment.builder().build();
         ProbateCaseDetails probateCaseDetails = ProbateCaseDetails.builder().caseInfo(CaseInfo.builder()
-            .state(CaseState.CAVEAT_RAISED.getName())
+            .state(CaseState.CAVEAT_RAISED)
             .build())
             .caseData(CaveatData.builder().build())
             .build();

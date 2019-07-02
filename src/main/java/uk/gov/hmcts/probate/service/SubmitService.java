@@ -22,4 +22,6 @@ public interface SubmitService {
 
     ProbateCaseDetails updatePaymentsByCaseId(String caseId, CasePayment casePayment);
 
+    Form validate(String identifier, ProbateType probateType);
+
 }

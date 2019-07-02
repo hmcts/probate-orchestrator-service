@@ -134,7 +134,7 @@ public class SubmitServiceImpl implements SubmitService {
     private void updateCcdCase(ProbateCaseDetails probateCaseDetails, Form formResponse) {
         formResponse.setCcdCase(CcdCase.builder()
             .id(Long.valueOf(probateCaseDetails.getCaseInfo().getCaseId()))
-            .state(probateCaseDetails.getCaseInfo().getState())
+            .state(probateCaseDetails.getCaseInfo().getState().getName())
             .build());
     }
 
@@ -194,6 +194,19 @@ public class SubmitServiceImpl implements SubmitService {
                 .payment(casePayment)
                 .build());
         return probateCaseDetails;
+    }
+
+    @Override
+    public Form validate(String identifier, ProbateType probateType) {
+        log.info("Validate case called for : {}", probateType.getName());
+        FormMapper formMapper = mappers.get(probateType);
+        String serviceAuthorisation = securityUtils.getServiceAuthorisation();
+        String authorisation = securityUtils.getAuthorisation();
+        ProbateCaseDetails probateCaseDetails = submitServiceApi.validate(authorisation,
+            serviceAuthorisation, identifier, probateType.getCaseType().name());
+        Form form = formMapper.fromCaseData(probateCaseDetails.getCaseData());
+        updateCcdCase(probateCaseDetails, form);
+        return form;
     }
 
     private CaseData mapToCase(Form form, FormMapper formMapper) {
