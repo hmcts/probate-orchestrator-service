@@ -36,6 +36,7 @@ public class FormsController {
 
     private static final String FORMS_ENDPOINT = "/forms/{identifier}";
     private static final String SUBMISSIONS_ENDPOINT = "/submissions";
+    private static final String VALIDATIONS_ENDPOINT = "/validations";
     private static final String PAYMENTS_ENDPOINT = "/payments";
     private static final String PAYMENT_SUBMISSIONS_ENDPOINT = "/payment-submissions";
 
@@ -128,5 +129,13 @@ public class FormsController {
                                                @PathVariable("identifier") String identifier) {
         log.info("Update payments called");
         return new ResponseEntity<>(submitService.updatePayments(identifier, form), HttpStatus.OK);
+    }
+
+    @PutMapping(path = FORMS_ENDPOINT + VALIDATIONS_ENDPOINT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Form> validate(@PathVariable("identifier") String identifier,
+                                         @RequestParam("probateType") ProbateType probateType) {
+        log.info("Validate form called");
+        return new ResponseEntity<>(submitService.validate(identifier, probateType), HttpStatus.OK);
     }
 }
