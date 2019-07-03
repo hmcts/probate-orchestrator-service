@@ -27,6 +27,7 @@ public class BackOfficeServiceImplTest {
     private static final String CASE_ID = "42343543";
     private static final String SERVICE_AUTHORIZATION = "SERVICEAUTH1234567";
     private static final String AUTHORIZATION = "AUTH1234567";
+    private static final String CAVEAT_EXPIRY_DATE = "2019-12-31";
 
     @Mock
     private BackOfficeApi backOfficeApi;
@@ -42,7 +43,8 @@ public class BackOfficeServiceImplTest {
     @Before
     public void setUp() {
 
-        backOfficeCaveatResponse = BackOfficeCaveatResponse.builder().caseData(BackOfficeCaveatData.builder().build())
+        backOfficeCaveatResponse = BackOfficeCaveatResponse.builder().caseData(BackOfficeCaveatData.builder()
+                .expiryDate(CAVEAT_EXPIRY_DATE).build())
             .build();
         Mockito.when(securityUtils.getAuthorisation()).thenReturn(AUTHORIZATION);
         Mockito.when(securityUtils.getServiceAuthorisation()).thenReturn(SERVICE_AUTHORIZATION);
