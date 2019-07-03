@@ -41,6 +41,7 @@
   service.name: ${auth.provider.service.client.microservice}
 
   submit.service.api.url: ${SUBMIT_SERVICE_API_URL:http://localhost:8181}
+  persistence.service.api.url: ${SERVICES_PERSISTENCE_BASEURL:http://localhost:8282}
   business.service.api.url: ${BUSINESS_SERVICE_API_URL:http://localhost:8081}
   back.office.api.url: ${BACK_OFFICE_API_URL:http://localhost:4104}
 

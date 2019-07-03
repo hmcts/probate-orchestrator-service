@@ -12,9 +12,9 @@
 //import org.springframework.test.web.servlet.MockMvc;
 //import uk.gov.hmcts.probate.TestUtils;
 //import uk.gov.hmcts.probate.service.SubmitService;
-//import uk.gov.hmcts.reform.probate.model.ProbateType;
-//import uk.gov.hmcts.reform.probate.model.forms.caveat.CaveatForm;
-//import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
+//import uk.gov.hmcts.reform.probate.persistence.ProbateType;
+//import uk.gov.hmcts.reform.probate.persistence.forms.caveat.CaveatForm;
+//import uk.gov.hmcts.reform.probate.persistence.forms.intestacy.IntestacyForm;
 //
 //import static org.mockito.ArgumentMatchers.eq;
 //import static org.mockito.Mockito.times;
