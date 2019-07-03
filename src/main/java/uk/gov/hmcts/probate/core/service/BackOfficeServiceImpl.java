@@ -14,6 +14,8 @@ import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -22,6 +24,8 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 @Component
 public class BackOfficeServiceImpl implements BackOfficeService {
+
+    private static final String CAVEAT_EXPIRY_DATE_FORMAT = "yyyy-MM-dd";
 
     private final BackOfficeApi backOfficeApi;
 
@@ -51,8 +55,14 @@ public class BackOfficeServiceImpl implements BackOfficeService {
                 backOfficeCallbackRequest);
             CaveatData caveatData = (CaveatData) probateCaseDetails.getCaseData();
             caveatData.setNotificationsGenerated(backOfficeCaveatResponse.getCaseData().getNotificationsGenerated());
+            caveatData.setExpiryDate(getFormattedCaveatExpiryDate(backOfficeCaveatResponse.getCaseData().getExpiryDate()));
             return caveatData;
         };
+    }
+
+    private LocalDate getFormattedCaveatExpiryDate(String expiryDate) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(CAVEAT_EXPIRY_DATE_FORMAT);
+        return LocalDate.parse(expiryDate, dateTimeFormatter);
     }
 
     private BackOfficeCallbackRequest createBackOfficeCallbackRequest(ProbateCaseDetails probateCaseDetails) {
