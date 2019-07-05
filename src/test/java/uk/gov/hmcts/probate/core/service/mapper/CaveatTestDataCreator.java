@@ -166,6 +166,7 @@ public class CaveatTestDataCreator {
         caveatData.setPayments(Lists.newArrayList(paymentCollectionMember));
 
         caveatData.setCaveatRaisedEmailNotificationRequested(true);
+        caveatData.setPaperForm(false);
         return caveatData;
     }
 

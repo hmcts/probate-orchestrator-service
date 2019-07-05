@@ -197,9 +197,6 @@ public class IntestacyTestDataCreator {
         grantOfRepresentation.setDeclaration(uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.Declaration.builder().build());
 
         grantOfRepresentation.setRegistryLocation(RegistryLocation.BIRMINGHAM);
-        grantOfRepresentation.setRegistryAddress(REG_ADDRESS);
-        grantOfRepresentation.setRegistryEmail(REG_EMAIL);
-        grantOfRepresentation.setRegistrySequenceNumber(Long.toString(SEQUENCE_NUMBER));
 
         grantOfRepresentation.setDeceasedHasAssetsOutsideUK(Boolean.TRUE);
         grantOfRepresentation.setAssetsOutsideNetValue(ASSETS_OVERSEAS_NET_VALUE_LONG);

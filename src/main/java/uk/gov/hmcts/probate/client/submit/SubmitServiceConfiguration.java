@@ -13,6 +13,7 @@ public class SubmitServiceConfiguration {
 
     static final String APPLICATION_ID = "applicationId";
     static final String INVITATION_ID = "invitationId";
+    static final String CASE_ID = "caseId";
 
     @Bean
     @Primary
