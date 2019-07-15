@@ -68,11 +68,11 @@ public class SubmitServiceSubmissionValidationConsumerTest {
                 .path("/submissions/update/" + SOMEEMAILADDRESS_HOST_COM)
                 .method("POST")
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)
-                .matchHeader("Content-Type", "application/json")
+                .matchHeader("FormDataContent-Type", "application/json")
                 .body(createJsonObject("intestacyGrantOfRepresentation_invalid_PAAPCREATED.json"))
                 .willRespondWith()
                 .status(400)
-                .matchHeader("Content-Type", "application/json;charset=UTF-8")
+                .matchHeader("FormDataContent-Type", "application/json;charset=UTF-8")
                 .body(newJsonBody((o) -> {
                     o.stringValue("type", "API_CLIENT");
                     o.object("error", (e) ->

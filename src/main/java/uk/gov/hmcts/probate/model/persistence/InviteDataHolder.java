@@ -1,19 +1,16 @@
 package uk.gov.hmcts.probate.model.persistence;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import uk.gov.hmcts.reform.probate.model.multiapplicant.InviteData;
 
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode
 @AllArgsConstructor
-@Builder
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class FormHolder {
+public class InviteDataHolder {
 
-    private LegacyForm formdata;
+    private InviteData inviteData;
 }

@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import uk.gov.hmcts.probate.model.persistence.FormDataResource;
 import uk.gov.hmcts.probate.client.persistence.PersistenceServiceApi;
-import uk.gov.hmcts.probate.service.FormDataMigrationService;
 
 import static org.hamcrest.Matchers.*;
 

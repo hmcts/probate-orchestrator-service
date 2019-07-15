@@ -1,19 +1,23 @@
 package uk.gov.hmcts.probate.model.persistence;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.Collection;
+
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class FormHolder {
+public class FormDataContent {
 
-    private LegacyForm formdata;
+    @JsonProperty("formdata")
+    private  Collection<FormHolder> formdata;
 }

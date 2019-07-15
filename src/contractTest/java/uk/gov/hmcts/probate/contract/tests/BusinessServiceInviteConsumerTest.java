@@ -58,7 +58,7 @@ public class BusinessServiceInviteConsumerTest {
                 .body(contractTestUtils.createJsonObject("/invite/invitation.json"))
                 .willRespondWith()
                 .status(200)
-                .matchHeader("Content-Type", "text/plain;charset=UTF-8")
+                .matchHeader("FormDataContent-Type", "text/plain;charset=UTF-8")
                 .body(PactDslRootValue.stringMatcher("^[0-9]*$", "12321321"))
                 .toPact();
 
@@ -77,7 +77,7 @@ public class BusinessServiceInviteConsumerTest {
                 .body(contractTestUtils.createJsonObject("/invite/invitationResend.json"))
                 .willRespondWith()
                 .status(200)
-                .matchHeader("Content-Type", "text/plain;charset=UTF-8")
+                .matchHeader("FormDataContent-Type", "text/plain;charset=UTF-8")
                 .body(PactDslRootValue.stringMatcher("^[0-9]*$", "54321"))
                 .toPact();
 
@@ -97,7 +97,7 @@ public class BusinessServiceInviteConsumerTest {
                 .headers("Session-Id", SOME_SESSION_ID)
                 .willRespondWith()
                 .status(200)
-                .matchHeader("Content-Type", "text/plain;charset=UTF-8")
+                .matchHeader("FormDataContent-Type", "text/plain;charset=UTF-8")
                 .body(PactDslRootValue.stringMatcher("^[0-9]*$", "54321"))
                 .toPact();
 

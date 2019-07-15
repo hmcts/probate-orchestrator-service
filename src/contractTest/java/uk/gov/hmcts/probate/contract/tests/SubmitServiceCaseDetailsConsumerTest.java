@@ -68,7 +68,7 @@ public class SubmitServiceCaseDetailsConsumerTest {
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)
                 .willRespondWith()
                 .status(200)
-                .matchHeader("Content-Type", "application/json;charset=UTF-8")
+                .matchHeader("FormDataContent-Type", "application/json;charset=UTF-8")
                 //.body(contractTestUtils.createJsonObject("intestacyGrantOfRepresentation_full.json"))
                 .body(buildCaseDataPactDsl(SOMEEMAILADDRESS_HOST_COM, false))
                 .toPact();
@@ -178,7 +178,7 @@ public class SubmitServiceCaseDetailsConsumerTest {
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)
                 .willRespondWith()
                 .status(200)
-                .matchHeader("Content-Type", "application/json;charset=UTF-8")
+                .matchHeader("FormDataContent-Type", "application/json;charset=UTF-8")
                 .body(buildCaseDataPactDsl(SOMEEMAILADDRESS_HOST_COM, true))
                 .toPact();
         // @formatter:on
@@ -211,11 +211,11 @@ public class SubmitServiceCaseDetailsConsumerTest {
                 .path("/drafts/" + SOMEEMAILADDRESS_HOST_COM)
                 .method("POST")
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)
-                .matchHeader("Content-Type", "application/json")
+                .matchHeader("FormDataContent-Type", "application/json")
                 .body(contractTestUtils.createJsonObject("intestacyGrantOfRepresentation_full.json"))
                 .willRespondWith()
                 .status(200)
-                .matchHeader("Content-Type", "application/json;charset=UTF-8")
+                .matchHeader("FormDataContent-Type", "application/json;charset=UTF-8")
                 .body(buildCaseDataPactDsl(SOMEEMAILADDRESS_HOST_COM, false))
                 .toPact();
         // @formatter:on
@@ -232,11 +232,11 @@ public class SubmitServiceCaseDetailsConsumerTest {
                 .path("/drafts/" + SOMEEMAILADDRESS_HOST_COM)
                 .method("POST")
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)
-                .matchHeader("Content-Type", "application/json")
+                .matchHeader("FormDataContent-Type", "application/json")
                 .body(contractTestUtils.createJsonObject("intestacyGrantOfRepresentation_partial_draft.json"))
                 .willRespondWith()
                 .status(200)
-                .matchHeader("Content-Type", "application/json;charset=UTF-8")
+                .matchHeader("FormDataContent-Type", "application/json;charset=UTF-8")
                 .body(contractTestUtils.createJsonObject("intestacyGrantOfRepresentation_partial_draft.json"))
                 .toPact();
         // @formatter:on

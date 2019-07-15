@@ -52,7 +52,7 @@ public class SubmitServiceImpl implements SubmitService {
     @Override
     public Form getCase(String identifier, ProbateType probateType) {
         log.info("Get case called for : {}", probateType.getName());
-        FormMapper formMapper = mappers.get(probateType);
+         FormMapper formMapper = mappers.get(probateType);
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
         ProbateCaseDetails probateCaseDetails = submitServiceApi.getCase(authorisation,
