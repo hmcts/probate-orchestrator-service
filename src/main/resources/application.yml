@@ -80,3 +80,7 @@
 
   azure:
     app_insights_key: ${APPINSIGHTS_INSTRUMENTATIONKEY:false}
+
+  migration.job:
+    schedule: false
+    startDateTime: '2019-07-14T10:36:55'
