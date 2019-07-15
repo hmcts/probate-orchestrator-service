@@ -29,7 +29,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @EqualsAndHashCode
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class LegacyPaForm {
+public class LegacyForm {
 
     private static final String DATE_FORMAT = "yyyy-MM-dd";
 
@@ -64,7 +64,6 @@ public class LegacyPaForm {
 
     private LegacyProbateType caseType;
 
-
     private LegacyDeceased deceased;
 
     private LegacyApplicant applicant;
@@ -82,13 +81,13 @@ public class LegacyPaForm {
     private Payment payment;
 
     @Builder
-    public LegacyPaForm(LegacyProbateType type, String applicantEmail, LegacyDeceased deceased, LegacyApplicant applicant,
-                        Declaration declaration, String uploadDocumentUrl, Registry registry,
-                        CcdCase ccdCase, List<Payment> payments, Copies copies, PaAssets assets,
-                        LegacyInheritanceTax iht, Will will, Summary summary, LegacyExecutors executors,
-                        LocalDate applicationSubmittedDate, Long submissionReference,
-                        Map<String, Object> legalDeclaration, Map<String, Object> checkAnswersSummary, Payment payment,
-                        Fees fees) {
+    public LegacyForm(LegacyProbateType type, String applicantEmail, LegacyDeceased deceased, LegacyApplicant applicant,
+                      Declaration declaration, String uploadDocumentUrl, Registry registry,
+                      CcdCase ccdCase, List<Payment> payments, Copies copies, PaAssets assets,
+                      LegacyInheritanceTax iht, Will will, Summary summary, LegacyExecutors executors,
+                      LocalDate applicationSubmittedDate, Long submissionReference,
+                      Map<String, Object> legalDeclaration, Map<String, Object> checkAnswersSummary, Payment payment,
+                      Fees fees) {
         this.applicantEmail = applicantEmail;
         this.declaration = declaration;
         this.uploadDocumentUrl = uploadDocumentUrl;

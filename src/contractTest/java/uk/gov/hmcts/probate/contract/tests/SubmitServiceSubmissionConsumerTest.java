@@ -60,11 +60,11 @@ public class SubmitServiceSubmissionConsumerTest {
                 .path("/submissions/update/" + SOMEEMAILADDRESS_HOST_COM)
                 .method("POST")
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)
-                .matchHeader("Content-Type", "application/json")
+                .matchHeader("FormDataContent-Type", "application/json")
                 .body(contractTestUtils.createJsonObject("intestacyGrantOfRepresentation_full.json"))
                 .willRespondWith()
                 .status(200)
-                .matchHeader("Content-Type", "application/json;charset=UTF-8")
+                .matchHeader("FormDataContent-Type", "application/json;charset=UTF-8")
                 .body(contractTestUtils.createJsonObject("intestacyGrantOfRepresentation_full_response.json"))
                 .toPact();
         // @formatter:on
