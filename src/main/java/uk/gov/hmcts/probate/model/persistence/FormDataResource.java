@@ -5,11 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.springframework.hateoas.PagedResources;
 
 
 @Data
 @EqualsAndHashCode
+@NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FormDataResource  extends AbstractResource{
 

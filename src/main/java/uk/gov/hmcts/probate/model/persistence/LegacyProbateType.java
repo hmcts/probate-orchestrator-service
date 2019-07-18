@@ -12,7 +12,6 @@ public enum LegacyProbateType {
 
     @JsonProperty("intestacy") INTESTACY_LEGACY("intestacy", CaseType.GRANT_OF_REPRESENTATION),
     @JsonProperty("gop") PROBATE_LEGACY("gop", CaseType.GRANT_OF_REPRESENTATION);
-
     @Getter
     private final String name;
 

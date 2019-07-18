@@ -54,10 +54,10 @@ public class ScheduledConfiguration implements SchedulingConfigurer {
         migrationJob = scheduler.schedule(new Runnable() {
             @Override
             public void run() {
-                log.info(Thread.currentThread().getName() + " The migrationJob executed at " + new Date());
                 securityUtils.setSecurityContextUserAsCaseworker();
                 try {
                     Thread.sleep(10000);
+                    log.info(Thread.currentThread().getName() + " The migrationJob executed at " + new Date());
                     formDataMigrator.migrateFormData();
                     inviteDataMigrator.migrateInviteData();
                     log.info(Thread.currentThread().getName() + "MigrationJob complete at " + new Date());

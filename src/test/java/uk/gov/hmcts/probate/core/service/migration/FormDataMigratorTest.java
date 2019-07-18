@@ -82,7 +82,7 @@ public class FormDataMigratorTest {
 
         GrantOfRepresentationData intestacy_gop = GrantOfRepresentationData.builder().build();
         GrantOfRepresentationData pa_gop = GrantOfRepresentationData.builder().build();
-        when(legacyIntestacyMapperMock.toCaseData(legacyFormPaMock)).thenReturn(intestacy_gop);
+        when(legacyIntestacyMapperMock.toCaseData(legacyFormIntestacyMock)).thenReturn(intestacy_gop);
         when(legacyPaMapperMock.toCaseData(legacyFormPaMock)).thenReturn(pa_gop);
 
         when(securityUtilsMock.getAuthorisation()).thenReturn(AUTH_TOKEN);
@@ -93,11 +93,11 @@ public class FormDataMigratorTest {
 
         ProbateCaseDetails intestacyPcd = ProbateCaseDetails.builder().build();
         when(submitServiceApiMock.getCase(AUTH_TOKEN, SERVICE_AUTH_TOKEN,
-                INTESTACY_EMAIL, ProbateType.INTESTACY.getCaseType().getName()))
+                INTESTACY_EMAIL, ProbateType.INTESTACY.getCaseType().name()))
                 .thenReturn(intestacyPcd);
 
         when(submitServiceApiMock.getCase(AUTH_TOKEN, SERVICE_AUTH_TOKEN,
-                PA_EMAIL, ProbateType.PA.getCaseType().getName()))
+                PA_EMAIL, ProbateType.PA.getCaseType().name()))
                 .thenThrow(new ApiClientException(HttpStatus.NOT_FOUND.value(), errorResponseMock));
 
         formDataMigrator.migrateFormData();
@@ -109,9 +109,9 @@ public class FormDataMigratorTest {
         verify(legacyIntestacyMapperMock).toCaseData(legacyFormIntestacyMock);
 
         verify(submitServiceApiMock).getCase(AUTH_TOKEN, SERVICE_AUTH_TOKEN, INTESTACY_EMAIL,
-                ProbateType.INTESTACY.getCaseType().getName());
+                ProbateType.INTESTACY.getCaseType().name());
         verify(submitServiceApiMock).getCase(AUTH_TOKEN,SERVICE_AUTH_TOKEN,PA_EMAIL,
-                ProbateType.PA.getCaseType().getName());
+                ProbateType.PA.getCaseType().name());
         verify(submitServiceApiMock).saveDraft(anyString(),anyString(),anyString(),
                 any(ProbateCaseDetails.class));
     }
