@@ -25,7 +25,7 @@ import java.util.function.Function;
 @Component
 public class BackOfficeServiceImpl implements BackOfficeService {
 
-    private static final String CAVEAT_EXPIRY_DATE_FORMAT = "yyyy-MM-dd";
+    private static final String CAVEAT_DATE_FORMAT = "yyyy-MM-dd";
 
     private final BackOfficeApi backOfficeApi;
 
@@ -62,7 +62,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
     }
 
     private LocalDate getFormattedCaveatDate(String expiryDate) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(CAVEAT_EXPIRY_DATE_FORMAT);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(CAVEAT_DATE_FORMAT);
         return LocalDate.parse(expiryDate, dateTimeFormatter);
     }
 
