@@ -17,7 +17,6 @@ import uk.gov.hmcts.reform.probate.model.forms.Fees;
 import uk.gov.hmcts.reform.probate.model.forms.Payment;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
 import uk.gov.hmcts.reform.probate.model.forms.Will;
-import uk.gov.hmcts.reform.probate.model.forms.pa.PaAssets;
 import uk.gov.hmcts.reform.probate.model.forms.pa.Summary;
 
 import java.time.LocalDate;
@@ -42,7 +41,7 @@ public class LegacyForm {
 
     private String uploadDocumentUrl;
 
-    private PaAssets assets;
+    private LegacyPaAssets assets;
 
     private LegacyInheritanceTax iht;
 
@@ -83,7 +82,7 @@ public class LegacyForm {
     @Builder
     public LegacyForm(LegacyProbateType type, String applicantEmail, LegacyDeceased deceased, LegacyApplicant applicant,
                       Declaration declaration, String uploadDocumentUrl, Registry registry,
-                      CcdCase ccdCase, List<Payment> payments, Copies copies, PaAssets assets,
+                      CcdCase ccdCase, List<Payment> payments, Copies copies, LegacyPaAssets assets,
                       LegacyInheritanceTax iht, Will will, Summary summary, LegacyExecutors executors,
                       LocalDate applicationSubmittedDate, Long submissionReference,
                       Map<String, Object> legalDeclaration, Map<String, Object> checkAnswersSummary, Payment payment,

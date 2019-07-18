@@ -19,6 +19,7 @@ import uk.gov.hmcts.reform.probate.model.client.ApiClientException;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.stream.IntStream;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,37 +34,56 @@ public class FormDataMigrator {
 
     public void migrateFormData() {
 
+        log.info("In migrateFormData!");
         LocalDate sixMonthsAgo = LocalDate.now().minusMonths(6);
-        FormDataResource formDatas = persistenceServiceApi.getFormDataByAfterCreateDate(sixMonthsAgo);
+        //FormDataResource formDatas = persistenceServiceApi.getFormDataByAfterCreateDate(sixMonthsAgo);
+        FormDataResource formDatas = persistenceServiceApi.getFormDatas();
         long totalPages = formDatas.getPageMetadata().getTotalPages();
+        log.info("Returned from persistence call with " + totalPages + " pages");
+        System.out.println("Total Pages: " + totalPages);
         long size = formDatas.getPageMetadata().getSize();
-        for (int i = 0; i < totalPages; i++) {
-            FormDataResource formDataSet = persistenceServiceApi.getPagedFormDataByAfterCreateDate(sixMonthsAgo,
-                    Integer.toString(i + 1), Long.toString(size));
+        IntStream.range(0, (int) totalPages).forEach(idx -> {
+            int pageNo = idx +1;
+            log.info("Getting form data for page " + (pageNo));
+            FormDataResource formDataSet = persistenceServiceApi.getFormDataWithPageAndSize(
+                   Integer.toString(pageNo), Long.toString(size));
             Collection<FormHolder> formHolders = formDataSet.getContent().getFormdata();
             formHolders.forEach(f -> {
-                LegacyForm formdata = f.getFormdata();
-                GrantOfRepresentationData grantOfRepresentationData = null;
-                if (formdata.getCaseType() != null && formdata.getCaseType().getName().equals("intestacy")) {
-                    grantOfRepresentationData = legacyIntestacyMapper.toCaseData(formdata);
-                    saveDraftCaseIfOneDoesntExist(formdata, grantOfRepresentationData,
-                            ProbateType.INTESTACY.getCaseType().getName());
-                } else {
-                    grantOfRepresentationData = legacyPaMapper.toCaseData(formdata);
-                    saveDraftCaseIfOneDoesntExist(formdata, grantOfRepresentationData,
-                            ProbateType.PA.getCaseType().getName());
-                }
+                processFormData(f);
             });
+        });
+        log.info("Finished Migrating formdata");
+    }
+
+    private void processFormData(FormHolder f) {
+        LegacyForm formdata = f.getFormdata();
+        if (formdata != null) {
+            log.info("Processing form data for  " + formdata.getApplicantEmail());
+            GrantOfRepresentationData grantOfRepresentationData = null;
+            if (formdata.getCaseType() != null && formdata.getCaseType().getName().equals("intestacy")) {
+                grantOfRepresentationData = legacyIntestacyMapper.toCaseData(formdata);
+                log.info("Intestacy gop returned");
+                saveDraftCaseIfOneDoesntExist(formdata, grantOfRepresentationData,
+                        ProbateType.INTESTACY.getCaseType().name());
+            } else {
+                grantOfRepresentationData = legacyPaMapper.toCaseData(formdata);
+                log.info("PA gop returned");
+                saveDraftCaseIfOneDoesntExist(formdata, grantOfRepresentationData,
+                        ProbateType.PA.getCaseType().name());
+            }
         }
     }
 
     private void saveDraftCaseIfOneDoesntExist(LegacyForm formdata, GrantOfRepresentationData grantOfRepresentationData,
                                                String caseTypeName) {
         try {
-            ProbateCaseDetails pcd = submitServiceApi.getCase(securityUtils.getAuthorisation(),
-                    securityUtils.getServiceAuthorisation(), formdata.getApplicantEmail(),
-                    caseTypeName);
-            log.info("Case found for formdata applicant email :  " + formdata.getApplicantEmail());
+            log.info("Check if case created in ccd for formdata with applicantEmail: " + formdata.getApplicantEmail());
+            if (formdata.getApplicantEmail() != null && !formdata.getApplicantEmail().isEmpty()) {
+                ProbateCaseDetails pcd = submitServiceApi.getCase(securityUtils.getAuthorisation(),
+                        securityUtils.getServiceAuthorisation(), formdata.getApplicantEmail(),
+                        caseTypeName);
+                log.info("Case found for formdata applicant email :  " + formdata.getApplicantEmail());
+            }
         } catch (ApiClientException apiClientException) {
             if (apiClientException.getStatus() == HttpStatus.NOT_FOUND.value()) {
                 submitServiceApi.saveDraft(securityUtils.getAuthorisation(),
@@ -72,7 +92,8 @@ public class FormDataMigrator {
                         ProbateCaseDetails.builder().caseData(grantOfRepresentationData).build());
                 log.info("Draft Case saved for formdata applicant email :  " + formdata.getApplicantEmail());
             } else {
-                log.error(apiClientException.getMessage());
+                log.error("Error with Status code: " + apiClientException.getStatus() + " and error response "
+                        + apiClientException.getMessage());
             }
         }
     }

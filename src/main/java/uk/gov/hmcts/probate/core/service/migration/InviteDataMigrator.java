@@ -15,6 +15,7 @@ import uk.gov.hmcts.reform.probate.model.client.ApiClientException;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.InviteData;
 
 import java.util.Collection;
+import java.util.stream.IntStream;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -30,34 +31,44 @@ public class InviteDataMigrator {
         InviteDataResource inviteDataResource = persistenceServiceApi.getInviteDatas();
         long totalPages = inviteDataResource.getPageMetadata().getTotalPages();
         long size = inviteDataResource.getPageMetadata().getSize();
-        for (int i = 0; i < totalPages; i++) {
+        log.info("Total Pages: " + totalPages);
+        IntStream.range(0, (int) totalPages).forEach(idx -> {
+            int pageNo = idx +1;
             InviteDataResource inviteDataSet = persistenceServiceApi.getInviteDataWithPageAndSize(
-                    Integer.toString(i+1), Long.toString(size));
+                    Integer.toString(pageNo), Long.toString(size));
             Collection<InviteData> inviteDatas = inviteDataSet.getContent().getInvitedata();
             inviteDatas.forEach(inviteData -> {
-                try {
-                    ProbateCaseDetails pcd = submitServiceApi.getCase(securityUtils.getAuthorisation(),
-                            securityUtils.getServiceAuthorisation(), inviteData.getFormdataId(),
-                            ProbateType.PA.getCaseType().getName());
-                    if (pcd.getCaseInfo().getState().equals("Draft")) {
-                        GrantOfRepresentationData grantOfRepresentationData =
-                                (GrantOfRepresentationData) pcd.getCaseData();
-                        grantOfRepresentationData.setInvitationDetailsForExecutorApplying(inviteData.getEmail(),
-                                inviteData.getId(), inviteData.getAgreed());
-                        submitServiceApi.saveCase(securityUtils.getAuthorisation(),
-                                securityUtils.getServiceAuthorisation(), ((GrantOfRepresentationData) pcd.getCaseData()).getPrimaryApplicantEmailAddress(), pcd);
-                        log.info("Case found and invite details migrated for formdata id: "
-                                + inviteData.getFormdataId());
-                    }
-                } catch (ApiClientException apiClientException) {
-                    if (apiClientException.getStatus() == HttpStatus.NOT_FOUND.value()) {
-                        log.info("No case found for invite data with form data id: " + inviteData.getFormdataId());
-                    } else {
-                        log.error("ApiClientException thrown for InviteData: " + inviteData.getId());
-                        log.error(apiClientException.getMessage());
-                    }
-                }
+                processInviteData(inviteData);
             });
+        });
+        System.out.println("Finished Migrating formdata");
+    }
+
+    private void processInviteData(InviteData inviteData) {
+        try {
+            log.info("Migration started for InviteData with formDataId: "
+                    + inviteData.getFormdataId());
+            ProbateCaseDetails pcd = submitServiceApi.getCase(securityUtils.getAuthorisation(),
+                    securityUtils.getServiceAuthorisation(), inviteData.getFormdataId(),
+                    ProbateType.PA.getCaseType().getName());
+            if (pcd.getCaseInfo().getState().equals("Draft")) {
+                log.info("Draft case found for formDataId");
+                GrantOfRepresentationData grantOfRepresentationData =
+                        (GrantOfRepresentationData) pcd.getCaseData();
+                grantOfRepresentationData.setInvitationDetailsForExecutorApplying(inviteData.getEmail(),
+                        inviteData.getId(), inviteData.getAgreed());
+                submitServiceApi.saveCase(securityUtils.getAuthorisation(),
+                        securityUtils.getServiceAuthorisation(), ((GrantOfRepresentationData) pcd.getCaseData()).getPrimaryApplicantEmailAddress(), pcd);
+                log.info("Invite details migrated for formdata id: "
+                        + inviteData.getFormdataId());
+            }
+        } catch (ApiClientException apiClientException) {
+            if (apiClientException.getStatus() == HttpStatus.NOT_FOUND.value()) {
+                log.info("No case found for invite data with form data id: " + inviteData.getFormdataId());
+            } else {
+                log.error("ApiClientException thrown for InviteData: " + inviteData.getId());
+                throw apiClientException;
+            }
         }
     }
 }
