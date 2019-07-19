@@ -29,6 +29,7 @@ public class BackOfficeCaveatData {
     private final Address caveatorAddress;
 
     private final String expiryDate;
+    private final String applicationSubmittedDate;
     private final String messageContent;
     private final String caveatReopenReason;
 
