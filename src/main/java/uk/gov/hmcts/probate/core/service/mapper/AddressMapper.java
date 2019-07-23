@@ -60,6 +60,6 @@ public class AddressMapper {
         if (address.getCountry() != null) {
             formattedAddress.append(address.getCountry());
         };
-        return formattedAddress.toString();
+        return formattedAddress.toString().trim();
     }
 }

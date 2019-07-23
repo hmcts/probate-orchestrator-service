@@ -7,7 +7,9 @@
     "extraCopiesOfGrant": 0,
     "deceasedAddressFound": "No",
     "deceasedAddress": {
-      "AddressLine1": "12 Nowhere Road\r\nNotown"
+      "AddressLine1": "12 Nowhere Avenue",
+      "PostTown": "Notown",
+      "PostCode": "EC1 2AF"
     },
     "deceasedMarriedAfterWillOrCodicilDate": "Yes",
     "deceasedForenames": "Bob",
@@ -29,7 +31,9 @@
     "ihtGrossValue": "1000001",
     "ihtReferenceNumber": "Not applicable",
     "primaryApplicantAddress": {
-      "AddressLine1": "12 Nowhere Avenue\r\nLondon"
+      "AddressLine1": "12 Nowhere Avenue",
+      "PostTown": "Notown",
+      "PostCode": "EC1 2AF"
     },
     "primaryApplicantForenames": "Jackie",
     "primaryApplicantSurname": "Smith",
@@ -48,22 +52,25 @@
           "applyingExecutorName": "Graham Smith",
           "applyingExecutorPhoneNumber": "079898989898",
           "applyingExecutorEmail": "anotheremail@address.com",
+          "applyingExecutorApplicant": "Yes",
           "applyingExecutorAddress": {
-            "AddressLine1": "12 West End Avenue"
+            "AddressLine1": "12 Nowhere Avenue",
+            "PostTown": "Notown",
+            "PostCode": "EC1 2AF"
           },
+          "applyingExecutorHasOtherName": "Yes",
           "applyingExecutorOtherNames": "Graham Poll",
           "applyingExecutorOtherNamesReason": "Divorce"
-        }
-      },
-      {
-        "id": "f55172d2-4ee8-4223-a0df-2ad726f671cb",
-        "value": {
-          "applyingExecutorName": "Jackie Smith",
-          "applyingExecutorAddress": {}
         }
       }
     ],
     "executorsNotApplying": [
+      {
+        "id": "f55172d2-4ee8-4223-a0df-2ad726f671cb",
+        "value": {
+          "notApplyingExecutorName": "Jackie Smith"
+        }
+      }
     ],
     "numberOfApplicants": 1,
     "outsideUKGrantCopies": 0,

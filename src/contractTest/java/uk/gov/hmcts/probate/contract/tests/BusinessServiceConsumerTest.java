@@ -86,7 +86,7 @@ public class BusinessServiceConsumerTest {
                 .body(checkAnswersSummaryBody)
                 .willRespondWith()
                 .status(200)
-                .matchHeader("Content-Type", "application/octet-stream")
+                .matchHeader("FormDataContent-Type", "application/octet-stream")
                 .toPact();
         // @formatter:on
     }
@@ -104,7 +104,7 @@ public class BusinessServiceConsumerTest {
                 .body(invalidCheckAnswersSummaryBody)
                 .willRespondWith()
                 .status(400)
-                .matchHeader("Content-Type", "application/json;charset=UTF-8")
+                .matchHeader("FormDataContent-Type", "application/json;charset=UTF-8")
                 .body(newJsonBody((o) -> {
                     o.stringValue("path", "/businessDocument/generateCheckAnswersSummaryPDF");
                     o.numberType("timestamp");
@@ -136,7 +136,7 @@ public class BusinessServiceConsumerTest {
                 .body(legalDeclarationBody)
                 .willRespondWith()
                 .status(200)
-                .matchHeader("Content-Type", "application/octet-stream")
+                .matchHeader("FormDataContent-Type", "application/octet-stream")
                 .toPact();
         // @formatter:on
     }
@@ -154,7 +154,7 @@ public class BusinessServiceConsumerTest {
                 .body(invalidLegalDeclarationBody)
                 .willRespondWith()
                 .status(400)
-                .matchHeader("Content-Type", "application/json;charset=UTF-8")
+                .matchHeader("FormDataContent-Type", "application/json;charset=UTF-8")
                 .body(newJsonBody((o) -> {
                     o.stringValue("path", "/businessDocument/generateLegalDeclarationPDF");
                     o.numberType("timestamp");
@@ -187,7 +187,7 @@ public class BusinessServiceConsumerTest {
                 .body(bulkScanCoverSheetBody)
                 .willRespondWith()
                 .status(200)
-                .matchHeader("Content-Type", "application/octet-stream")
+                .matchHeader("FormDataContent-Type", "application/octet-stream")
                 .toPact();
         // @formatter:on
     }
@@ -205,7 +205,7 @@ public class BusinessServiceConsumerTest {
                 .body(invalidBulkScanCoverSheetBody)
                 .willRespondWith()
                 .status(400)
-                .matchHeader("Content-Type", "application/json;charset=UTF-8")
+                .matchHeader("FormDataContent-Type", "application/json;charset=UTF-8")
                 .body(newJsonBody((o) -> {
                     o.stringValue("path", "/businessDocument/generateBulkScanCoverSheetPDF");
                     o.numberType("timestamp");

@@ -2,13 +2,14 @@
   "caseData":{
     "type":"GrantOfRepresentation",
     "applicationType":"Personal",
-    "primaryApplicantEmailAddress":"someemailaddress@host.com",
+    "primaryApplicantEmailAddress":"ccdcasedata1@gmail.com",
     "registryLocation":"Birmingham",
     "extraCopiesOfGrant":5,
     "deceasedDomicileInEngWales":"Yes",
-    "deceasedAddress":{
-      "AddressLine1":"Winterfell, Westeros",
-      "PostCode":"SW17 0QT"
+    "deceasedAddress": {
+      "AddressLine1": "4 Neville Road",
+      "AddressLine2": "London",
+      "PostCode": "E7 9QX"
     },
     "deceasedFreeTextAddress":"Winterfell, Westeros",
     "deceasedAddressFound":"Yes",
@@ -38,9 +39,10 @@
     "ihtNetValue":"1000099",
     "ihtGrossValue":"1000099",
     "ihtReferenceNumber":"GOT123456",
-    "primaryApplicantAddress":{
-      "AddressLine1":"Pret a Manger St. Georges Hospital Blackshaw Road London SW17 0QT",
-      "PostCode":"SW17 0QT"
+    "primaryApplicantAddress": {
+      "AddressLine1": "126 caulfield road",
+      "AddressLine2": "London",
+      "PostCode": "ne7 9qx"
     },
     "primaryApplicantFreeTextAddress":"Pret a Manger St. Georges Hospital Blackshaw Road",
     "primaryApplicantAddressFound":"Yes",
