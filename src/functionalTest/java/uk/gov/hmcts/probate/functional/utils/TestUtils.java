@@ -31,13 +31,13 @@ public class TestUtils {
 
     public Headers getHeaders(String sessionId) {
         return Headers.headers(
-            new Header("Content-Type", ContentType.JSON.toString()),
+            new Header("FormDataContent-Type", ContentType.JSON.toString()),
             new Header("Session-ID", sessionId));
     }
 
     public Headers submitHeaders(String sessionId) {
         return Headers.headers(
-            new Header("Content-Type", ContentType.JSON.toString()),
+            new Header("FormDataContent-Type", ContentType.JSON.toString()),
             new Header("UserId", sessionId),
             new Header("Authorization", "DUMMY_KEY"));
     }
@@ -45,7 +45,7 @@ public class TestUtils {
     public Headers getHeaders(String userName, String password) {
         return Headers.headers(
             new Header("ServiceAuthorization", testAuthTokenGenerator.generateServiceAuthorisation()),
-            new Header("Content-Type", ContentType.JSON.toString()),
+            new Header("FormDataContent-Type", ContentType.JSON.toString()),
             new Header("Authorization", testAuthTokenGenerator.generateAuthorisation(userName, password)));
     }
 }

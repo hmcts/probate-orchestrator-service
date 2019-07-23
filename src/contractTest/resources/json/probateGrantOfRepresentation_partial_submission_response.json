@@ -7,14 +7,15 @@
     "softStop": "Yes",
     "extraCopiesOfGrant": 2,
     "deceasedAddress": {
-      "AddressLine1": "4 Neville Road London E7 9QX",
+      "AddressLine1": "4 Neville Road",
+      "AddressLine2": "London",
       "PostCode": "E7 9QX"
     },
     "deceasedAddressFound": "Yes",
     "deceasedMarriedAfterWillOrCodicilDate": "Yes",
     "deceasedForenames": "partial application ",
     "deceasedSurname": "partial application ",
-    "deceasedDateOfDeath": "2000-02-02",
+    "deceasedDateOfDeath": "2000-02-22",
     "deceasedDateOfBirth": "1900-01-01",
     "deceasedAnyOtherNames": "Yes",
     "deceasedAliasNameList": [
@@ -37,7 +38,9 @@
     "ihtGrossValue": "3243232400",
     "ihtReferenceNumber": "Not applicable",
     "primaryApplicantAddress": {
-      "AddressLine1": "126 caulfield road\r\ne7 9qx\r\nLondon"
+      "AddressLine1": "126 caulfield road",
+      "AddressLine2": "London",
+      "PostCode": "ne7 9qx"
     },
     "primaryApplicantAddressFound": "No",
     "primaryApplicantForenames": "First Executor FirstName",
@@ -109,6 +112,18 @@
         "value": {
           "notApplyingExecutorName": "7th ExeFNLN",
           "notApplyingExecutorReason": "DiedAfter"
+        }
+      }
+    ],
+    "payments": [
+      {
+        "value": {
+          "status": "Initiated",
+          "date": "2019-03-13",
+          "reference": "RC-1552-4770-6567-1463",
+          "amount": "21750",
+          "transactionId": "gg3k24f6jobl2qsds2ncg1k66p",
+          "siteId": "P223"
         }
       }
     ],

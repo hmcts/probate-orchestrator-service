@@ -1,5 +1,7 @@
 package uk.gov.hmcts.probate.core.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Sets;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +52,7 @@ public class SubmitServiceImpl implements SubmitService {
     @Override
     public Form getCase(String identifier, ProbateType probateType) {
         log.info("Get case called for : {}", probateType.getName());
-        FormMapper formMapper = mappers.get(probateType);
+         FormMapper formMapper = mappers.get(probateType);
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
         ProbateCaseDetails probateCaseDetails = submitServiceApi.getCase(authorisation,
@@ -215,6 +217,30 @@ public class SubmitServiceImpl implements SubmitService {
     private Form mapFromCase(FormMapper formMapper, ProbateCaseDetails probateCaseDetails) {
         Form formResponse = formMapper.fromCaseData(probateCaseDetails.getCaseData());
         updateCcdCase(probateCaseDetails, formResponse);
+        String output  = outputAsString(formResponse);
         return formResponse;
+    }
+
+    private String outputAsString(Form form) {
+        ObjectMapper mapper = new ObjectMapper();
+        String s = null;
+        try {
+            s = mapper.writeValueAsString(form);
+        } catch (JsonProcessingException e) {
+
+        }
+        return s;
+    }
+
+
+    private String outputAsString(ProbateCaseDetails pcdEntered) {
+        ObjectMapper mapper = new ObjectMapper();
+        String s = null;
+        try {
+            s = mapper.writeValueAsString(pcdEntered);
+        } catch (JsonProcessingException e) {
+
+        }
+        return s;
     }
 }
