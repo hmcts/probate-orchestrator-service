@@ -31,7 +31,7 @@ import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
     IhtMethodConverter.class, MapConverter.class, LegalStatementMapper.class, LocalDateTimeMapper.class},
     imports = {ApplicationType.class, GrantType.class, ProbateType.class, IhtMethod.class},
     unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
-public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, IntestacyForm> {
+public interface  IntestacyMapper extends FormMapper<GrantOfRepresentationData, IntestacyForm> {
 
     @Mapping(target = "applicationType", expression = "java(ApplicationType.PERSONAL)")
     @Mapping(target = "grantType", expression = "java(GrantType.INTESTACY)")

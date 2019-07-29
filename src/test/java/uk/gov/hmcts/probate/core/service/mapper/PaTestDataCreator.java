@@ -248,10 +248,12 @@ public class PaTestDataCreator {
                                 Executor.builder()
                                         .fullName(SECOND_EXECUTOR_NOT_APPLYING)
                                         .notApplyingKey(SECOND_EXECUTOR_NOT_APPLYING_KEY.getOptionValue())
+                                        .isApplying(false)
                                         .build(),
                                 Executor.builder()
                                         .fullName(FIRST_EXECUTOR_NOT_APPLYING)
                                         .notApplyingKey(FIRST_EXECUTOR_NOT_APPLYING_KEY.getOptionValue())
+                                        .isApplying(false)
                                         .build()
                         ))
                         .invitesSent(Boolean.TRUE)
