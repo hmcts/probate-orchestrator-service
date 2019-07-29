@@ -53,7 +53,7 @@ services:
     - idam-api
 
   service-auth-provider-api:
-    image: hmcts.azurecr.io/hmcts/rpe-service-auth-provider
+    image: hmctspublic.azurecr.io/rpe/service-auth-provider
     container_name: service-auth-provider-api
     environment:
       - SERVER_PORT=8080
@@ -114,7 +114,7 @@ services:
         condition: service_healthy
 
   ccd-user-profile-api:
-    image: hmcts.azurecr.io/hmcts/ccd-user-profile-api:latest
+    image: hmctspublic.azurecr.io/ccd/user-profile-api:latest
     container_name: ccd-user-profile-api
     environment:
     - JAVA_OPTS=-Xms8m -Xmx256m -Djava.security.egd=file:/dev/./urandom -XX:MaxMetaspaceSize=128m
@@ -138,7 +138,7 @@ services:
     - service-auth-provider-api
 
   ccd-definition-store-api:
-    image: hmcts.azurecr.io/hmcts/ccd-definition-store-api:latest
+    image: hmctspublic.azurecr.io/ccd/definition-store-api:latest
     container_name: ccd-definition-store-api
     environment:
     - JAVA_OPTS=-Xms8m -Xmx256m -Djava.security.egd=file:/dev/./urandom -XX:MaxMetaspaceSize=128m
@@ -170,7 +170,7 @@ services:
     - service-auth-provider-api
 
   ccd-data-store-api:
-    image: hmcts.azurecr.io/hmcts/ccd-data-store-api:latest
+    image: hmctspublic.azurecr.io/ccd/data-store-api:latest
     container_name: ccd-data-store-api
     environment:
     - JAVA_OPTS=-Xms8m -Xmx256m -Djava.security.egd=file:/dev/./urandom -XX:MaxMetaspaceSize=128m
@@ -206,7 +206,7 @@ services:
     - service-auth-provider-api
 
   ccd-case-management-web:
-    image: hmcts.azurecr.io/hmcts/ccd-case-management-web:latest
+    image: hmctspublic.azurecr.io/ccd/case-management-web:latest
     container_name: ccd-case-management-web
     environment:
     - IDAM_LOGIN_URL=https://localhost:8000/login
@@ -223,7 +223,7 @@ services:
         condition: service_started
 
   ccd-api-gateway:
-    image: hmcts.azurecr.io/hmcts/ccd-api-gateway/base:latest
+    image: hmctspublic.azurecr.io/ccd/api-gateway/base:latest
     container_name: ccd-api-gateway
     environment:
     - IDAM_BASE_URL=http://idam-api:8080
@@ -258,7 +258,7 @@ services:
 
 
   payments-api:
-    image: docker.artifactory.reform.hmcts.net/common-components/payments-api:latest
+    image: hmctspublic.azurecr.io/common-components/payments-api:latest
     container_name: payments-api
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://172.18.7.81:5430/payment
@@ -322,7 +322,7 @@ services:
 
 
   persistence-service:
-    image: hmcts.azurecr.io/hmcts/probate-persistence-service
+    image: hmctspublic.azurecr.io/probate/persistence-service
     container_name: persistence-service
     environment:
     - SPRING_DATASOURCE_URL=jdbc:postgresql://shared-database:5432/probate
@@ -353,8 +353,7 @@ services:
     - 8081
 
   pdf-service-api:
-    image: docker.artifactory.reform.hmcts.net/reform/pdf-service-api:f7969638ccd7c83e6ce70330fa3a16e8a6ab53ae
-#    image: hmcts.azurecr.io/hmcts/cmc-pdf-service:latest
+    image: hmctspublic.azurecr.io/cmc/pdf-service:latest
     container_name: pdf-service-api
     environment:
       - JAVA_OPTS=-Xms8m -Xmx256m -Djava.security.egd=file:/dev/./urandom -XX:MaxMetaspaceSize=128m
@@ -375,7 +374,7 @@ services:
         - http_proxy
         - https_proxy
         - no_proxy
-    image: hmcts.azurecr.io/hmcts/fees-register-api
+    image: hmctspublic.azurecr.io/fees/register-api
     container_name: fees-api
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://shared-database:5432/fees_register
@@ -401,7 +400,7 @@ services:
     image: docker.artifactory.reform.hmcts.net/evidence/document-management-store-database:latest
 
   dm-store:
-    image: hmcts/dm-store:latest
+    image: hmcts.azurecr.io/hmcts/dm-store:latest
     command: --wait-for-database 30
     environment:
       - SERVER_PORT=8080
