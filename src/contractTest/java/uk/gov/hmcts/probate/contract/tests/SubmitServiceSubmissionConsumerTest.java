@@ -24,7 +24,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @ExtendWith(PactConsumerTestExt.class)
 @ExtendWith(SpringExtension.class)
-@PactTestFor(providerName = "probate_submitservice", port = "8891")
+@PactTestFor(providerName = "probate_submitService", port = "8891")
 @SpringBootTest({
         // overriding provider address
         "probate_submitservice.ribbon.listOfServers: localhost:8891",
@@ -50,7 +50,7 @@ public class SubmitServiceSubmissionConsumerTest {
     }
 
 
-    @Pact(state = "provider PUTS submission with success", provider = "probate_submitservice_submissions", consumer = "probate_orchestrator_service")
+    @Pact(state = "provider PUTS submission with success", provider = "probate_submitService_submissions", consumer = "probate_orchestrator_service")
     public RequestResponsePact executePostSubmissionWithSuccessPact(PactDslWithProvider builder) throws IOException, JSONException {
         // @formatter:off
 
@@ -60,11 +60,11 @@ public class SubmitServiceSubmissionConsumerTest {
                 .path("/submissions/update/" + SOMEEMAILADDRESS_HOST_COM)
                 .method("POST")
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)
-                .matchHeader("Content-Type", "application/json")
+                .matchHeader("FormDataContent-Type", "application/json")
                 .body(contractTestUtils.createJsonObject("intestacyGrantOfRepresentation_full.json"))
                 .willRespondWith()
                 .status(200)
-                .matchHeader("Content-Type", "application/json;charset=UTF-8")
+                .matchHeader("FormDataContent-Type", "application/json;charset=UTF-8")
                 .body(contractTestUtils.createJsonObject("intestacyGrantOfRepresentation_full_response.json"))
                 .toPact();
         // @formatter:on

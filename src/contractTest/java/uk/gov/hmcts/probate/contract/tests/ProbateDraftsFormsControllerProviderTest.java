@@ -3,6 +3,8 @@ package uk.gov.hmcts.probate.contract.tests;
 import au.com.dius.pact.provider.junit.Provider;
 import au.com.dius.pact.provider.junit.State;
 import org.json.JSONException;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.SecurityUtils;
@@ -13,17 +15,18 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepr
 import java.io.IOException;
 import java.time.LocalDate;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 
 @Provider("probate_orchestrator_service_probate_forms")
-public class ProbateDraftsFormsControllerProviderTest extends ControllerProviderTest{
+public class ProbateDraftsFormsControllerProviderTest extends ControllerProviderTest {
 
     @MockBean
     private SubmitServiceApi submitServiceApi;
     @MockBean
     private SecurityUtils securityUtils;
-
 
 
     @State({"probate_orchestrator_service gets formdata with success",
@@ -43,10 +46,25 @@ public class ProbateDraftsFormsControllerProviderTest extends ControllerProvider
         when(securityUtils.getAuthorisation()).thenReturn("authToken");
         when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorization");
         ProbateCaseDetails probateCaseDetails = getProbateCaseDetails("probate_orchestrator_service_probate_forms_persist_with_success_response.json");
-        GrantOfRepresentationData grantOfRepresentationData = (GrantOfRepresentationData)probateCaseDetails.getCaseData();
+        GrantOfRepresentationData grantOfRepresentationData = (GrantOfRepresentationData) probateCaseDetails.getCaseData();
         grantOfRepresentationData.setApplicationSubmittedDate(LocalDate.now());
-        ProbateCaseDetails probateCaseDetailsResponse = getProbateCaseDetails("probate_orchestrator_service_probate_forms_persist_with_success_ccdInfo.json");
-        when(submitServiceApi.saveDraft("authToken", "someServiceAuthorization", "someemailaddress@host.com", probateCaseDetails)).thenReturn(probateCaseDetailsResponse);
+        when(submitServiceApi.saveDraft(
+                anyString(),
+                anyString(),
+                anyString(),
+                any(ProbateCaseDetails.class))).then(createCaseByIdentifierAnswer);
 
     }
+
+    private Answer<ProbateCaseDetails> createCaseByIdentifierAnswer = new Answer<ProbateCaseDetails>() {
+        @Override
+        public ProbateCaseDetails answer(InvocationOnMock invocation) throws Throwable {
+            Object[] args = invocation.getArguments();
+            String id = ((String) args[2]); // Cast to int for switch.
+            if (id.equals("someemailaddress@host.com")) {
+                return getProbateCaseDetails("probate_orchestrator_service_probate_forms_persist_with_success_ccdInfo.json");
+            }
+            return null;
+        }
+    };
 }

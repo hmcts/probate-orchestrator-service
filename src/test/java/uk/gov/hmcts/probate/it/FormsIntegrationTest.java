@@ -76,14 +76,14 @@ public class FormsIntegrationTest {
         idamServer.stubFor(get(DETAILS_ENDPOINT)
             .withHeader("Authorization", equalTo(AUTHORIZATION))
             .willReturn(aResponse()
-                .withHeader("Content-type", "application/json")
+                .withHeader("FormDataContent-type", "application/json")
                 .withBody(TestUtils.getJSONFromFile("idamDetails.json"))
                 .withStatus(200)));
 
         serviceAuthServer.stubFor(get(DETAILS_ENDPOINT)
             .withHeader("Authorization", equalTo("Bearer " + SERVICE_AUTHORIZATION))
             .willReturn(aResponse()
-                .withHeader("Content-type", "application/json")
+                .withHeader("FormDataContent-type", "application/json")
                 .withBody("probate_frontend")
                 .withStatus(200)));
 
@@ -113,7 +113,7 @@ public class FormsIntegrationTest {
             .headers(Headers.headers(
                 new Header("Authorization", AUTHORIZATION),
                 new Header("ServiceAuthorization", SERVICE_AUTHORIZATION),
-                new Header("Content-Type", ContentType.JSON.toString())))
+                new Header("FormDataContent-Type", ContentType.JSON.toString())))
             .when().urlEncodingEnabled(false)
             .pathParam("email", "jon.snow@thenorth.com")
             .post(FORMS_ENDPOINT)
