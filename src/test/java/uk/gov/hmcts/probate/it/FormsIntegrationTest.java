@@ -113,7 +113,7 @@ public class FormsIntegrationTest {
             .headers(Headers.headers(
                 new Header("Authorization", AUTHORIZATION),
                 new Header("ServiceAuthorization", SERVICE_AUTHORIZATION),
-                new Header("FormDataContent-Type", ContentType.JSON.toString())))
+                new Header("Content-Type", ContentType.JSON.toString())))
             .when().urlEncodingEnabled(false)
             .pathParam("email", "jon.snow@thenorth.com")
             .post(FORMS_ENDPOINT)

@@ -1,5 +1,5 @@
 {
-  "type": "Intestacy",
+  "type": "intestacy",
   "applicantEmail": "jon.snow@thenorth.com",
   "applicant": {
     "firstName": "Jon",
