@@ -65,7 +65,7 @@ public class PaTestDataCreator {
     private static final int NUMBER_OVERSEAS = 0;
     private static final boolean DECEASED_ALIAS = false;
     private static final Address DECEASED_ADDRESS = Address.builder().addressLine1("Winterfell")
-            .postTown("North Westeros").postCode("GOT123").formattedAddress("Winterfell North Westeros GOT123 ").build();
+            .postTown("North Westeros").postCode("GOT123").formattedAddress("Winterfell North Westeros GOT123").build();
     private static final boolean MARRIED = false;
     private static final LocalDateTime DECEASED_DATE_OF_BIRTH = LocalDate.of(1900, 1, 1).atStartOfDay();
     private static final LocalDateTime DECEASED_DATE_OF_DEATH = LocalDate.of(2019, 1, 1).atStartOfDay();
@@ -75,7 +75,7 @@ public class PaTestDataCreator {
     private static final String APPLICANT_ALIAS = "King of the North";
     private static final String APPLICANT_ALIAS_REASON = "Title Given";
     private static final Address APPLICANT_ADDRESS = Address.builder().addressLine1("The Wall")
-            .postTown("North Westeros").postCode("GOT567").formattedAddress("The Wall North Westeros GOT567 ").build();
+            .postTown("North Westeros").postCode("GOT567").formattedAddress("The Wall North Westeros GOT567").build();
     private static final String APPLICANT__LASTNAME = "Snow";
     private static final String APPLICANT_FIRSTNAME = "Jon";
     private static final String APPLICANT_PHONE_NUMBER = "3234324";
