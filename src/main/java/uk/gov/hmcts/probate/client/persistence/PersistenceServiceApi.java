@@ -28,10 +28,10 @@ public interface PersistenceServiceApi {
     @GetMapping(path = "/formdata/search/findByCreatedAfterDate?sort_by=creationTime-asc")
     FormDataResource getPagedFormDataByAfterCreateDate(@RequestParam("startDate") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate startDate,@RequestParam("page") String pageNumber, @RequestParam("size") String size);
 
-    @GetMapping(path = "/invitedata")
+    @GetMapping(path = "/invitedata?sort_by=creationTime-asc")
     InviteDataResource getInviteDatas();
 
-    @GetMapping(path = "/invitedata")
+    @GetMapping(path = "/invitedata?sort_by=creationTime-asc")
     InviteDataResource  getInviteDataWithPageAndSize(@RequestParam("page") String pageNumber, @RequestParam("size") String size);
 
 }
