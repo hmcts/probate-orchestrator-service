@@ -9,6 +9,7 @@ import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.SecurityUtils;
 import uk.gov.hmcts.probate.model.persistence.InviteDataResource;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
+import uk.gov.hmcts.reform.probate.model.cases.CaseState;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.client.ApiClientException;
@@ -41,7 +42,7 @@ public class InviteDataMigrator {
                 processInviteData(inviteData);
             });
         });
-        System.out.println("Finished Migrating formdata");
+        log.info("Finished Migrating formdata");
     }
 
     private void processInviteData(InviteData inviteData) {
@@ -51,7 +52,7 @@ public class InviteDataMigrator {
             ProbateCaseDetails pcd = submitServiceApi.getCase(securityUtils.getAuthorisation(),
                     securityUtils.getServiceAuthorisation(), inviteData.getFormdataId(),
                     ProbateType.PA.getCaseType().getName());
-            if (pcd.getCaseInfo().getState().equals("Draft")) {
+            if (pcd.getCaseInfo().getState().equals(CaseState.DRAFT)) {
                 log.info("Draft case found for formDataId");
                 GrantOfRepresentationData grantOfRepresentationData =
                         (GrantOfRepresentationData) pcd.getCaseData();
