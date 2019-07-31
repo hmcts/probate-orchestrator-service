@@ -36,8 +36,7 @@ public class FormDataMigrator {
 
         log.info("In migrateFormData!");
         LocalDate sixMonthsAgo = LocalDate.now().minusMonths(6);
-        //FormDataResource formDatas = persistenceServiceApi.getFormDataByAfterCreateDate(sixMonthsAgo);
-        FormDataResource formDatas = persistenceServiceApi.getFormDatas();
+        FormDataResource formDatas = persistenceServiceApi.getFormDataByAfterCreateDate(sixMonthsAgo);
         long totalPages = formDatas.getPageMetadata().getTotalPages();
         log.info("Returned from persistence call with " + totalPages + " pages");
         System.out.println("Total Pages: " + totalPages);
@@ -45,7 +44,7 @@ public class FormDataMigrator {
         IntStream.range(0, (int) totalPages).forEach(idx -> {
             int pageNo = idx +1;
             log.info("Getting form data for page " + (pageNo));
-            FormDataResource formDataSet = persistenceServiceApi.getFormDataWithPageAndSize(
+            FormDataResource formDataSet = persistenceServiceApi.getPagedFormDataByAfterCreateDate(sixMonthsAgo,
                    Integer.toString(pageNo), Long.toString(size));
             Collection<FormHolder> formHolders = formDataSet.getContent().getFormdata();
             formHolders.forEach(f -> {
