@@ -34,7 +34,7 @@ public class FormsIntegrationTest {
 
     private static final String FORMS_ENDPOINT = "/forms/{email}";
 
-    private static final String DRAFTS_ENDPOINT = "/drafts/jon.snow%40thenorth.com";
+    private static final String DRAFTS_ENDPOINT = "/cases/jon.snow%40thenorth.com";
 
 
     private static final String AUTHORIZATION = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI4c28yYzVlajF0bTI0cDNub" +

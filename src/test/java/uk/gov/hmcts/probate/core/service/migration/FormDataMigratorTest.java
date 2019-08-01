@@ -113,7 +113,7 @@ public class FormDataMigratorTest {
                 ProbateType.INTESTACY.getCaseType().name());
         verify(submitServiceApiMock).getCase(AUTH_TOKEN, SERVICE_AUTH_TOKEN, PA_EMAIL,
                 ProbateType.PA.getCaseType().name());
-        verify(submitServiceApiMock).saveDraft(anyString(), anyString(), anyString(),
+        verify(submitServiceApiMock).saveCase(anyString(), anyString(), anyString(),
                 any(ProbateCaseDetails.class));
     }
 }

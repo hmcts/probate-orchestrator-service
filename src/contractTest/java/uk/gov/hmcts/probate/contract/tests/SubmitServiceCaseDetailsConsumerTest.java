@@ -263,7 +263,7 @@ public class SubmitServiceCaseDetailsConsumerTest {
     @PactTestFor(pactMethod = "executeSuccessPostPartialDraftCaseDataPact")
     public void verifyExecuteSuccessPostPartialDraftCaseDataPact() throws IOException, JSONException {
 
-        ProbateCaseDetails caseDetails = submitServiceApi.saveDraft(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, contractTestUtils.getProbateCaseDetails("intestacyGrantOfRepresentation_partial_draft.json"));
+        ProbateCaseDetails caseDetails = submitServiceApi.saveCase(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, contractTestUtils.getProbateCaseDetails("intestacyGrantOfRepresentation_partial_draft.json"));
         assertThat(caseDetails.getCaseInfo().getCaseId(), equalTo(CASE_ID));
     }
 
@@ -271,7 +271,7 @@ public class SubmitServiceCaseDetailsConsumerTest {
     @PactTestFor(pactMethod = "executeSuccessPostDraftCaseDataPact")
     public void verifyExecuteSuccessPostDraftCaseDataPact() throws IOException, JSONException {
 
-        ProbateCaseDetails caseDetails = submitServiceApi.saveDraft(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, contractTestUtils.getProbateCaseDetails("intestacyGrantOfRepresentation_full.json"));
+        ProbateCaseDetails caseDetails = submitServiceApi.saveCase(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, contractTestUtils.getProbateCaseDetails("intestacyGrantOfRepresentation_full.json"));
         assertThat(caseDetails.getCaseInfo().getCaseId(), equalTo(CASE_ID));
     }
 

@@ -165,7 +165,7 @@ public class BusinessServiceImpl implements BusinessService {
     private void updateCaseData(ProbateCaseDetails probateCaseDetails, String formdataId) {
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
-        ProbateCaseDetails pcd = submitServiceApi.saveDraft(authorisation, serviceAuthorisation,
+        ProbateCaseDetails pcd = submitServiceApi.saveCase(authorisation, serviceAuthorisation,
                 formdataId, probateCaseDetails);
     }
 

@@ -85,7 +85,7 @@ public class FormDataMigrator {
             }
         } catch (ApiClientException apiClientException) {
             if (apiClientException.getStatus() == HttpStatus.NOT_FOUND.value()) {
-                submitServiceApi.saveDraft(securityUtils.getAuthorisation(),
+                submitServiceApi.saveCase(securityUtils.getAuthorisation(),
                         securityUtils.getServiceAuthorisation(),
                         formdata.getApplicantEmail(),
                         ProbateCaseDetails.builder().caseData(grantOfRepresentationData).build());

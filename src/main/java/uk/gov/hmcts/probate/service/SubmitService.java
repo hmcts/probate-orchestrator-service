@@ -15,8 +15,6 @@ public interface SubmitService {
 
     Form saveCase(String identifier, Form form);
 
-    Form saveDraft(String identifier, Form form);
-
     Form submit(String identifier, Form form);
 
     Form update(String identifier, ProbateType probateType, PaymentDto paymentDto);

@@ -170,13 +170,13 @@ public class SubmitServiceImplTest {
     }
 
     private void shouldSaveDraftForm(Form form, ProbateCaseDetails caseDetails, String identifier) {
-        when(submitServiceApi.saveDraft(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
+        when(submitServiceApi.saveCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
             eq(identifier), any(ProbateCaseDetails.class))).thenReturn(caseDetails);
 
-        Form formResponse = submitService.saveDraft(identifier, form);
+        Form formResponse = submitService.saveCase(identifier, form);
 
         assertThat(formResponse, is(form));
-        verify(submitServiceApi, times(1)).saveDraft(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
+        verify(submitServiceApi, times(1)).saveCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
             eq(identifier), any(ProbateCaseDetails.class));
         verify(securityUtils, times(1)).getAuthorisation();
         verify(securityUtils, times(1)).getServiceAuthorisation();
@@ -191,7 +191,7 @@ public class SubmitServiceImplTest {
     public void shouldThrowErrorOnSaveDraftIfEmailAddressDoesNotMatchForm() {
         ((IntestacyForm) intestacyForm).setApplicantEmail("test@Test.com");
 
-        submitService.saveDraft(EMAIL_ADDRESS, intestacyForm);
+        submitService.saveCase(EMAIL_ADDRESS, intestacyForm);
     }
 
     @Test
