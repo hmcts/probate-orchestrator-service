@@ -30,7 +30,7 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
 @ExtendWith(PactConsumerTestExt.class)
 @ExtendWith(SpringExtension.class)
-@PactTestFor(providerName = "sidamService", port = "8891")
+@PactTestFor(providerName = "sidam", port = "8891")
 @SpringBootTest({
         "auth.idam.client.baseUrl : localhost:8891"
 })
@@ -61,7 +61,7 @@ public class SidamConsumerTest {
         Executor.closeIdleConnections();
     }
 
-    @Pact(state = "Authorised user requests code", provider = "sidamService", consumer = "probate_orchestratorService")
+    @Pact(state = "Authorised user requests code", provider = "sidam", consumer = "probate_orchestratorService")
     RequestResponsePact authorizeUserByCodePact(PactDslWithProvider builder) {
         // @formatter:off
         return builder
@@ -82,7 +82,7 @@ public class SidamConsumerTest {
     }
 
 
-    @Pact(state = "Authorised user has been issued a code", provider = "sidamService", consumer = "probate_orchestratorService")
+    @Pact(state = "Authorised user has been issued a code", provider = "sidam", consumer = "probate_orchestratorService")
     RequestResponsePact exchangeTokenPact(PactDslWithProvider builder) {
         // @formatter:off
         return builder
