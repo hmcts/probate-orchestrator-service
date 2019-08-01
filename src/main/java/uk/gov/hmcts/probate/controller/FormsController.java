@@ -56,7 +56,7 @@ public class FormsController {
     public ResponseEntity<Form> saveForm(@RequestBody Form form,
                                          @PathVariable("identifier") String identifier) {
         log.info("Save form called");
-        return new ResponseEntity<>(submitService.saveDraft(identifier, form), HttpStatus.OK);
+        return new ResponseEntity<>(submitService.saveCase(identifier, form), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Get form data", notes = "Get form data")

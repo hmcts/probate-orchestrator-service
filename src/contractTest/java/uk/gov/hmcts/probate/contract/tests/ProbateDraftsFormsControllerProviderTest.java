@@ -48,7 +48,7 @@ public class ProbateDraftsFormsControllerProviderTest extends ControllerProvider
         ProbateCaseDetails probateCaseDetails = getProbateCaseDetails("probate_orchestrator_service_probate_forms_persist_with_success_response.json");
         GrantOfRepresentationData grantOfRepresentationData = (GrantOfRepresentationData) probateCaseDetails.getCaseData();
         grantOfRepresentationData.setApplicationSubmittedDate(LocalDate.now());
-        when(submitServiceApi.saveDraft(
+        when(submitServiceApi.saveCase(
                 anyString(),
                 anyString(),
                 anyString(),
