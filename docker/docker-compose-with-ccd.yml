@@ -368,13 +368,13 @@ services:
       - 5500:5500
 
   fees-api:
+    image: hmctspublic.azurecr.io/fees-register/api:latest
     build:
       context: .
       args:
         - http_proxy
         - https_proxy
         - no_proxy
-    image: hmctspublic.azurecr.io/fees-register/api
     container_name: fees-api
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://shared-database:5432/fees_register
