@@ -223,7 +223,7 @@ services:
         condition: service_started
 
   ccd-api-gateway:
-    image: hmctspublic.azurecr.io/ccd/api-gateway/base:latest
+    image: hmctspublic.azurecr.io/ccd/api-gateway-web:latest
     container_name: ccd-api-gateway
     environment:
     - IDAM_BASE_URL=http://idam-api:8080
@@ -258,7 +258,7 @@ services:
 
 
   payments-api:
-    image: hmctspublic.azurecr.io/payments/api:latest
+    image: hmctspublic.azurecr.io/payment/api:latest
     container_name: payments/api
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://172.18.7.81:5430/payment
@@ -322,7 +322,7 @@ services:
 
 
   persistence-service:
-    image: hmctspublic.azurecr.io/probate/persistence-service
+    image: hmctspublic.azurecr.io/probate/persistence-service:pro-5125_persistence_to_orchestrator
     container_name: persistence-service
     environment:
     - SPRING_DATASOURCE_URL=jdbc:postgresql://shared-database:5432/probate
@@ -342,7 +342,7 @@ services:
     - elasticsearch
 
   business-service:
-    image: hmcts/probate-business-service
+    image: hmctspublic.azurecr.io/probate/business-service
     container_name: business-service
     environment:
     - SERVER_PORT=8081
@@ -374,7 +374,7 @@ services:
         - http_proxy
         - https_proxy
         - no_proxy
-    image: hmctspublic.azurecr.io/fees/register-api
+    image: hmctspublic.azurecr.io/fees-register/api
     container_name: fees-api
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://shared-database:5432/fees_register
