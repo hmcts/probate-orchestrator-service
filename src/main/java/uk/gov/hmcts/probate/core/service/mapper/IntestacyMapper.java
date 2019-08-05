@@ -6,12 +6,14 @@ import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromCollectionMember;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromDocumentLink;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromIhtMethod;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromLocalDate;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromMap;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromRegistryLocation;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCaseAddress;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCollectionMember;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToDocumentLink;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToFormAddress;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToIhtMethod;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToLocalDate;
@@ -80,6 +82,7 @@ public interface  IntestacyMapper extends FormMapper<GrantOfRepresentationData, 
     @Mapping(target = "legalDeclarationJson", source = "legalDeclaration", qualifiedBy = {FromMap.class})
     @Mapping(target = "checkAnswersSummaryJson", source = "checkAnswersSummary", qualifiedBy = {FromMap.class})
     @Mapping(target = "payments", source = "payment")
+    //@Mapping(target = "statementOfTruthDocument", source = "statementOfTruthDocument", qualifiedBy = {ToDocumentLink.class})
     GrantOfRepresentationData toCaseData(IntestacyForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.INTESTACY)")
@@ -99,6 +102,7 @@ public interface  IntestacyMapper extends FormMapper<GrantOfRepresentationData, 
     @Mapping(target = "checkAnswersSummary", source = "checkAnswersSummaryJson", qualifiedBy = {ToMap.class})
     @Mapping(target = "payment", source = "payments")
     @Mapping(target = "payments", source = "payments", qualifiedBy = {FromCollectionMember.class})
+    //@Mapping(target = "statementOfTruthDocument", source = "statementOfTruthDocument", qualifiedBy = {FromDocumentLink.class})
     @InheritInverseConfiguration
     IntestacyForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 }

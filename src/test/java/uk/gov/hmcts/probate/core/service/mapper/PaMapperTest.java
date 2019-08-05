@@ -2,6 +2,7 @@ package uk.gov.hmcts.probate.core.service.mapper;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -87,8 +88,8 @@ public class PaMapperTest {
         expectedGrantOfRepresentation.setApplicationSubmittedDate(LocalDate.now());
         expectedGrantOfRepresentation.setNumberOfApplicants(0L);
         expectedGrantOfRepresentation.setIhtReferenceNumber("Not applicable");
+        expectedGrantOfRepresentation.setBoDocumentsUploaded(Lists.newArrayList());
         GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(new PaForm());
-        Assert.assertThat(actualGrantOfRepresentation, equalTo(expectedGrantOfRepresentation));
         assertThat(actualGrantOfRepresentation).isEqualToComparingFieldByFieldRecursively(expectedGrantOfRepresentation);
 
     }
@@ -99,7 +100,7 @@ public class PaMapperTest {
         expectedPaForm.setType(ProbateType.PA);
         expectedPaForm.setCopies(new Copies());
         PaAssets paAssets = new PaAssets();
-        paAssets.setAssetsoverseas(false);
+        paAssets.setAssetsoverseas(null);
         expectedPaForm.setAssets(paAssets);
         expectedPaForm.setIht(new InheritanceTax());
         expectedPaForm.setRegistry(new Registry());

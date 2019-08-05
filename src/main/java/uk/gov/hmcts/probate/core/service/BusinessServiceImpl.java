@@ -3,7 +3,9 @@ package uk.gov.hmcts.probate.core.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 import uk.gov.hmcts.probate.client.business.BusinessServiceApi;
+import uk.gov.hmcts.probate.client.business.BusinessServiceDocumentsApi;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.mapper.ExecutorApplyingToInvitationMapper;
 import uk.gov.hmcts.probate.service.BusinessService;
@@ -17,12 +19,15 @@ import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
+import java.util.List;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class BusinessServiceImpl implements BusinessService {
 
     private final BusinessServiceApi businessServiceApi;
+    private final BusinessServiceDocumentsApi businessServiceDocumentsApi;
     private final SubmitServiceApi submitServiceApi;
     private final SecurityUtils securityUtils;
     private final ExecutorApplyingToInvitationMapper executorApplyingToInvitationMapper;
@@ -152,6 +157,19 @@ public class BusinessServiceImpl implements BusinessService {
     @Override
     public String getPinNumber(String phoneNumber, String sessionId) {
         return businessServiceApi.pinNumber(phoneNumber, sessionId);
+    }
+
+    @Override
+    public List<String> uploadDocument(String authorizationToken, String userID, List<MultipartFile> files) {
+        if (files.isEmpty()) {
+            throw new IllegalArgumentException("There needs to be at least one file") ;
+        }
+        return businessServiceDocumentsApi.uploadDocument(userID, authorizationToken, files.get(0));
+    }
+
+    @Override
+    public String delete(String userID, String documentId) {
+        return businessServiceDocumentsApi.delete(userID, documentId);
     }
 
     private ProbateCaseDetails getProbateCaseDetails(String caseId) {

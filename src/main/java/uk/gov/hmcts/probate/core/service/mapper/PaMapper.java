@@ -7,12 +7,15 @@ import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromCollectionMember;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromDocumentLink;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromIhtMethod;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromLocalDate;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromMap;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromRegistryLocation;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromUploadDocs;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCaseAddress;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCollectionMember;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToDocumentLink;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToExecutorApplyingCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToExecutorNotApplyingCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToFormAddress;
@@ -22,6 +25,7 @@ import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToMap;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPennies;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPounds;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToRegistryLocation;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToUploadDocs;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
@@ -35,9 +39,9 @@ import java.time.LocalDate;
 @Mapper(componentModel = "spring", uses = {PaPaymentMapper.class, PaymentsMapper.class, AliasNameMapper.class, RegistryLocationMapper.class,
     PoundsConverter.class, IhtMethodConverter.class, LegalStatementMapper.class, ExecutorsMapper.class,
     ExecutorApplyingMapper.class, ExecutorNotApplyingMapper.class, MapConverter.class, LocalDateTimeMapper.class,
-    AddressMapper.class, FeesMapper.class},
+    AddressMapper.class, FeesMapper.class, DocumentsMapper.class, StatementOfTruthMapper.class},
     imports = {ApplicationType.class, GrantType.class, ProbateType.class, IhtMethod.class,
-        LocalDate.class, ExecutorsMapper.class, BooleanUtils.class, AddressMapper.class},
+        LocalDate.class, ExecutorsMapper.class, BooleanUtils.class, AddressMapper.class, OverseasCopiesMapper.class},
     unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> {
 
@@ -91,10 +95,12 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "ihtNetValueField", source = "iht.netValueField")
 
     @Mapping(target = "extraCopiesOfGrant", source = "copies.uk")
-    @Mapping(target = "outsideUkGrantCopies", source = "copies.overseas")
+    @Mapping(target = "outsideUkGrantCopies", expression = "java(OverseasCopiesMapper.mapOverseasCopies(form))")
     @Mapping(target = "legalDeclarationJson", source = "legalDeclaration", qualifiedBy = {FromMap.class})
     @Mapping(target = "checkAnswersSummaryJson", source = "checkAnswersSummary", qualifiedBy = {FromMap.class})
     @Mapping(target = "payments", source = "payment")
+    @Mapping(target = "boDocumentsUploaded", source = "documents", qualifiedBy = {ToUploadDocs.class})
+    @Mapping(target = "statementOfTruthDocument", source = "statementOfTruthDocument", qualifiedBy = {ToDocumentLink.class})
     GrantOfRepresentationData toCaseData(PaForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.PA)")
@@ -118,14 +124,15 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "iht.method", source = "ihtFormCompletedOnline", qualifiedBy = {ToIhtMethod.class})
     @Mapping(target = "iht.form", source = "ihtFormId")
     @Mapping(target = "copies.overseas", source = "outsideUkGrantCopies")
-    @Mapping(target = "assets.assetsoverseas", expression = "java(grantOfRepresentationData.getOutsideUkGrantCopies() != null && " +
-        "grantOfRepresentationData.getOutsideUkGrantCopies() > 0L)")
+    @Mapping(target = "assets.assetsoverseas", expression = "java(grantOfRepresentationData.getOutsideUkGrantCopies() == null ? null : grantOfRepresentationData.getOutsideUkGrantCopies() > 0L)")
     @Mapping(target = "applicant.address", source = "primaryApplicantAddress", qualifiedBy = {ToFormAddress.class})
     @Mapping(target = "applicant.addresses", source = "primaryApplicantAddresses", qualifiedBy = {ToMap.class})
     @Mapping(target = "legalDeclaration", source = "legalDeclarationJson", qualifiedBy = {ToMap.class})
     @Mapping(target = "checkAnswersSummary", source = "checkAnswersSummaryJson", qualifiedBy = {ToMap.class})
     @Mapping(target = "payment", source = "payments")
     @Mapping(target = "payments", source = "payments", qualifiedBy = {FromCollectionMember.class})
+    @Mapping(target = "documents", source = "boDocumentsUploaded", qualifiedBy = {FromUploadDocs.class})
+    @Mapping(target = "statementOfTruthDocument", source = "statementOfTruthDocument", qualifiedBy = {FromDocumentLink.class})
     @InheritInverseConfiguration
     PaForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 }
