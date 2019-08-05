@@ -350,7 +350,7 @@ services:
     - https_proxy=
     - no_proxy=
     ports:
-    - 8081
+    - 8081:8081
 
   pdf-service-api:
     image: hmctspublic.azurecr.io/cmc/pdf-service:latest
@@ -400,7 +400,7 @@ services:
     image: docker.artifactory.reform.hmcts.net/evidence/document-management-store-database:latest
 
   dm-store:
-    image: hmcts.azurecr.io/hmcts/dm-store:latest
+    image: hmcts/dm-store:latest
     command: --wait-for-database 30
     environment:
       - SERVER_PORT=8080

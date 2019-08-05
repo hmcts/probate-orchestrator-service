@@ -35,7 +35,7 @@ public class HealthConfiguration {
     }
 
     @Bean
-    public ProbateHealthIndicator serviceAuthHealthIndicator(RestTemplate restTemplate) {
+    public ProbateHealthIndicator serviceAuthorisationHealthIndicator(RestTemplate restTemplate) {
         return new ProbateHealthIndicator(serviceAuthUrl, restTemplate, HEALTH_ENDPOINT);
     }
 

@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.probate.client.business.BusinessServiceApi;
+import uk.gov.hmcts.probate.client.business.BusinessServiceDocumentsApi;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.mapper.ExecutorApplyingToInvitationMapper;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
@@ -41,6 +42,10 @@ public class BusinessServiceImplTest {
 
     @Mock
     private BusinessServiceApi businessServiceApi;
+
+    @Mock
+    private BusinessServiceDocumentsApi businessServiceDocumentsApi;
+
     @Mock
     private SubmitServiceApi submitServiceApi;
     @Mock
@@ -73,7 +78,8 @@ public class BusinessServiceImplTest {
         when(mockProbateCaseDetails.getCaseData()).thenReturn(mockGrantOfRepresentationData);
 
         pdfExample = new byte[10];
-        businessService = new BusinessServiceImpl(businessServiceApi, submitServiceApi, securityUtils, mockExecutorApplyingToInvitationMapper);
+        businessService = new BusinessServiceImpl(businessServiceApi, businessServiceDocumentsApi,
+            submitServiceApi, securityUtils, mockExecutorApplyingToInvitationMapper);
     }
 
     @Test

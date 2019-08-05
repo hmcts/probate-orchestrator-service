@@ -82,7 +82,6 @@ public class IntestacyTestDataCreator {
         return IntestacyForm.builder()
             .applicantEmail(EMAIL)
             .type(ProbateType.INTESTACY)
-            .uploadDocumentUrl(UPLOAD_DOCUMENT_URL)
             .applicant(
                 IntestacyApplicant.builder()
                     .address(ADDRESS)
@@ -220,7 +219,6 @@ public class IntestacyTestDataCreator {
         payment.setSiteId(PAYMENT_SITE_ID);
         paymentCollectionMember.setValue(payment);
         grantOfRepresentation.setPayments(Lists.newArrayList(paymentCollectionMember));
-        grantOfRepresentation.setUploadDocumentUrl(UPLOAD_DOCUMENT_URL);
         return grantOfRepresentation;
     }
 

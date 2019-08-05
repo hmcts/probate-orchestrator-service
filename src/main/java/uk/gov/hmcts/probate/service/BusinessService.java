@@ -1,9 +1,12 @@
 package uk.gov.hmcts.probate.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
+
+import java.util.List;
 
 public interface BusinessService {
 
@@ -30,4 +33,8 @@ public interface BusinessService {
     Invitation getInviteData(String inviteId);
 
     String getPinNumber(String phoneNumber, String sessionId);
+
+    List<String> uploadDocument(String authorizationToken, String userID, List<MultipartFile> files);
+
+    String delete(String userID, String documentId);
 }
