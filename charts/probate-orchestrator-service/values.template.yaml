@@ -26,7 +26,7 @@ java:
     PAYMENT_CASEWORKER_USERNAME: ${PAYMENT_CASEWORKER_USERNAME}
     PAYMENT_CASEWORKER_PASSWORD:  ${PAYMENT_CASEWORKER_PASSWORD}
   # Don't modify below here
-  image: ${IMAGE_NAME}
+  image: hmctspublic.azurecr.io/probate/orchestrator-service:latest
   ingressHost: ${SERVICE_FQDN}
 
 idam-pr:
