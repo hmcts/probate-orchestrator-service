@@ -56,28 +56,6 @@
   logging.level.uk.gov.hmcts.probate.client.BusinessServiceApi: DEBUG
   logging.level.uk.gov.hmcts.probate.client.idam.IdamClient: DEBUG
 
-  payment:
-    api.url: http://localhost:8383
-    serviceId: PROBATE
-    siteId: P223
-    version: 1
-    currency: GBP
-
-  fees:
-    api.url: http://localhost:4411
-    ihtMinAmount: 5000
-    version: v1
-    lookup:
-      service: probate
-      jurisdiction1: family
-      jurisdiction2: probate registry
-      eventCopies: copies
-      eventIssue: issue
-      applicantType: all
-      channel: default
-      keywordCopies: DEF
-      keywordIssue: pro1
-
   azure:
     app_insights_key: ${APPINSIGHTS_INSTRUMENTATIONKEY:false}
 
