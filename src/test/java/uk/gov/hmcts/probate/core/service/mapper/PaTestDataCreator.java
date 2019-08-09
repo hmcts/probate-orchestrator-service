@@ -159,6 +159,9 @@ public class PaTestDataCreator {
     private static final String DOCUMENT_FILENAME = "document_filename.png";
     private static final String SOT_DOCUMENT_URL = "http://sot-doc-url";
     private static final String SOT_DOCUMENT_FILENAME = "sot_document_filename.png";
+    public static final String REGISTRY_ADDRESS = "old trafford";
+    public static final String REGISTRY_EMAIL_ADDRESS = "manchester@hmcts.com";
+    public static final long REGISTRY_SEQUENCE_NUMBER = 1L;
 
     public static PaForm createPaForm() {
         return PaForm.builder()
@@ -219,6 +222,9 @@ public class PaTestDataCreator {
                 .build())
             .registry(Registry.builder()
                 .name(MANCHESTER)
+                .email(REGISTRY_EMAIL_ADDRESS)
+                .address(REGISTRY_ADDRESS)
+                .sequenceNumber(REGISTRY_SEQUENCE_NUMBER)
                 .build())
             .applicant(PaApplicant.builder()
                 .alias(APPLICANT_ALIAS)
@@ -342,6 +348,9 @@ public class PaTestDataCreator {
             .primaryApplicantEmailAddress(APPLICANT_EMAIL)
             .applicationSubmittedDate(LocalDate.now())
             .registryLocation(RegistryLocation.findRegistryLocationByName(MANCHESTER))
+            .registryAddress(REGISTRY_ADDRESS)
+            .registryEmailAddress(REGISTRY_EMAIL_ADDRESS)
+            .registrySequenceNumber(REGISTRY_SEQUENCE_NUMBER)
             .softStop(SOFT_STOP)
             .willHasCodicils(CODICILS)
             .willNumberOfCodicils(CODICILS_NUMBER)
