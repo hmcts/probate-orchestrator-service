@@ -3,6 +3,7 @@ package uk.gov.hmcts.probate.contract.tests;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 @SpringBootTest({
         "persistence.service.api.url : probate-persistence-service-aat.service.core-compute-aat.internal"
 })
+@Ignore //NOSONAR
 public class PersistenceApiTest {
 
     @Autowired
