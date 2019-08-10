@@ -42,7 +42,7 @@ public class DocumentsController {
     protected static final String LEGAL_DECLARATION_ENDPOINT = "/generate/legalDeclaration";
     protected static final String BULK_SCAN_COVERSHEET_ENDPOINT = "/generate/bulkScanCoversheet";
     protected static final String DOCUMENT_UPLOAD_ENDPOINT = "/upload";
-    protected static final String DOCUMENT_DELETE_ENDPOINT = "/delete";
+    protected static final String DOCUMENT_DELETE_ENDPOINT = "/delete/{documentId}";
 
     private final BusinessService businessService;
 
@@ -98,7 +98,7 @@ public class DocumentsController {
     @DeleteMapping(path = DOCUMENT_DELETE_ENDPOINT)
     public ResponseEntity<String> delete(@RequestHeader("user-id") String userID,
                                                @PathVariable("documentId") String documentId) {
-        log.info("Uploading document");
+        log.info("Deleting document {}", documentId);
         return new ResponseEntity<>(businessService.delete(userID, documentId), HttpStatus.OK);
     }
 }
