@@ -3,6 +3,7 @@ package uk.gov.hmcts.probate.contract.tests;
 import au.com.dius.pact.provider.junit.Provider;
 import au.com.dius.pact.provider.junit.State;
 import org.json.JSONException;
+import org.junit.Ignore;
 import org.mockito.ArgumentMatchers;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import uk.gov.hmcts.probate.client.business.BusinessServiceApi;
@@ -19,6 +20,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @Provider("probate_orchestrator_service_invitelink")
+@Ignore //NOSONAR
 public class InviteLinkControllerProviderTest extends ControllerProviderTest {
 
     @MockBean

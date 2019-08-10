@@ -6,6 +6,7 @@ import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.model.RequestResponsePact;
 import org.json.JSONException;
+import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,6 +32,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
         "submit.service.api.url : localhost:8891",
         "core_case_data.api.url : localhost:8891"
 })
+@Ignore //NOSONAR
 public class SubmitServiceSubmissionConsumerTest {
 
     public static final String SOME_AUTHORIZATION_TOKEN = "someAuthorizationToken";

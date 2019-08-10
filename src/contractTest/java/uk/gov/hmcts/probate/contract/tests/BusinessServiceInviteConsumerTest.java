@@ -7,6 +7,7 @@ import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.model.RequestResponsePact;
 import org.json.JSONException;
+import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,6 +32,7 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
         "core_case_data.api.url : localhost:8893",
         "business.service.api.url : localhost:8894"
 })
+@Ignore //NOSONAR
 public class BusinessServiceInviteConsumerTest {
 
     @Autowired

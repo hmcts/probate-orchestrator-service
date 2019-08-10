@@ -3,6 +3,7 @@ package uk.gov.hmcts.probate.contract.tests;
 import au.com.dius.pact.provider.junit.Provider;
 import au.com.dius.pact.provider.junit.State;
 import org.json.JSONException;
+import org.junit.Ignore;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import uk.gov.hmcts.probate.client.business.BusinessServiceApi;
 import uk.gov.hmcts.probate.core.service.SecurityUtils;
@@ -16,6 +17,7 @@ import static org.mockito.Mockito.when;
 
 
 @Provider("probate_orchestrator_service_documents_cover_sheet")
+@Ignore //NOSONAR
 public class ProbateDocumentsControllerCoverSheetProviderTest extends ControllerProviderTest{
 
     @MockBean

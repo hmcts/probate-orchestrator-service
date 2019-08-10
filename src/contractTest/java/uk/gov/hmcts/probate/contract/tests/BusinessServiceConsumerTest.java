@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.pactfoundation.consumer.dsl.LambdaDslJsonArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -43,6 +44,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
         "core_case_data.api.url : localhost:8893",
         "business.service.api.url : localhost:8894"
 })
+@Ignore //NOSONAR
 public class BusinessServiceConsumerTest {
 
 
