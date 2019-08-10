@@ -156,18 +156,18 @@ task functional(type: Test) {
     finalizedBy aggregate
 }
 
-task runProviderPactTests(type: Test) {
-    description = "Runs Contract Tests"
-    testClassesDirs = sourceSets.testContract.output.classesDirs
-    classpath = sourceSets.testContract.runtimeClasspath
-}
-
-task runConsumerPactTests(type: Test) {
-    description = "Runs Contract Tests"
-    useJUnitPlatform()
-    testClassesDirs = sourceSets.testContract.output.classesDirs
-    classpath = sourceSets.testContract.runtimeClasspath
-}
+//task runProviderPactTests(type: Test) {
+//    description = "Runs Contract Tests"
+//    testClassesDirs = sourceSets.testContract.output.classesDirs
+//    classpath = sourceSets.testContract.runtimeClasspath
+//}
+//
+//task runConsumerPactTests(type: Test) {
+//    description = "Runs Contract Tests"
+//    useJUnitPlatform()
+//    testClassesDirs = sourceSets.testContract.output.classesDirs
+//    classpath = sourceSets.testContract.runtimeClasspath
+//}
 
 gitProperties {
     gitPropertiesDir = new File("${project.rootDir}/src/contractTest/resources")
