@@ -22,7 +22,7 @@ public class LegacyYesNoDeserializer extends JsonDeserializer<Boolean> {
             } else if (NO.getDescription().equalsIgnoreCase(text)) {
                 return Boolean.FALSE;
             } else if (text == null || text.isEmpty()) {
-                return null;
+                return null; //NOSONAR
             }
             throw context.weirdStringException(text, Boolean.class, "String value needs to be 'yes' or 'no' or empty");
         }

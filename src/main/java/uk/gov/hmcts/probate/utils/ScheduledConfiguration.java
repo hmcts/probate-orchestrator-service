@@ -22,60 +22,63 @@ import java.util.concurrent.ScheduledFuture;
 @Configuration
 @EnableScheduling
 public class ScheduledConfiguration implements SchedulingConfigurer {
-    TaskScheduler taskScheduler;
+
+    private TaskScheduler taskScheduler;
 
     @Autowired
-    FormDataMigrator formDataMigrator;
+    private FormDataMigrator formDataMigrator;
+
     @Autowired
-    InviteDataMigrator inviteDataMigrator;
+    private InviteDataMigrator inviteDataMigrator;
 
     @Value("${migration.job.startDateTime}")
     private String migrationJobStartDateTime;
+
     @Value("${migration.job.schedule}")
     private Boolean migrationJobSchedule;
 
     @Autowired
-    SecurityUtils securityUtils;
+    private SecurityUtils securityUtils;
 
     private ScheduledFuture<?> migrationJob;
+
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        ThreadPoolTaskScheduler threadPoolTaskScheduler =new ThreadPoolTaskScheduler();
+        ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
         threadPoolTaskScheduler.setPoolSize(10);
         threadPoolTaskScheduler.setThreadNamePrefix("scheduler-thread");
         threadPoolTaskScheduler.initialize();
-        if(migrationJobSchedule) {
+        if (migrationJobSchedule) {
             migrationJob(threadPoolTaskScheduler);
         }
-        this.taskScheduler=threadPoolTaskScheduler;
+        this.taskScheduler = threadPoolTaskScheduler;
         taskRegistrar.setTaskScheduler(threadPoolTaskScheduler);
     }
+
     private void migrationJob(TaskScheduler scheduler) {
-        migrationJob = scheduler.schedule(new Runnable() {
-            @Override
-            public void run() {
-                securityUtils.setSecurityContextUserAsCaseworker();
-                try {
-                    Thread.sleep(10000);
-                    log.info(Thread.currentThread().getName() + " The migrationJob executed at " + new Date());
-                    formDataMigrator.migrateFormData();
-                    inviteDataMigrator.migrateInviteData();
-                    log.info(Thread.currentThread().getName() + "MigrationJob complete at " + new Date());
-                } catch (RuntimeException e) {
-                    log.error(e.getMessage());
-                    e.printStackTrace();
-                }
-                catch (InterruptedException e){
-                    log.error(e.getMessage());
-                    e.printStackTrace();
-                }
-            }
-        }, getStartTime());
+        migrationJob = scheduler.schedule(this::runMigrateTask, getStartTime());
     }
 
-    private Date getStartTime(){
+    private Date getStartTime() {
         LocalDateTime dateTime = LocalDateTime.parse(migrationJobStartDateTime);
-        Date date = Date.from( dateTime.atZone( ZoneId.systemDefault()).toInstant());
-        return date;
+        return Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    private void runMigrateTask() {
+        securityUtils.setSecurityContextUserAsCaseworker();
+        try {
+            Thread.sleep(10000);
+            log.info(Thread.currentThread().getName() + " The migrationJob executed at " + new Date());
+            formDataMigrator.migrateFormData();
+            inviteDataMigrator.migrateInviteData();
+            log.info(Thread.currentThread().getName() + "MigrationJob complete at " + new Date());
+        } catch (RuntimeException e) {
+            log.error(e.getMessage());
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            log.error(e.getMessage());
+            e.printStackTrace();
+            Thread.currentThread().interrupt();
+        }
     }
 }
