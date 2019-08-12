@@ -10,10 +10,10 @@ import org.springframework.hateoas.PagedResources;
 
 
 @Data
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class FormDataResource  extends AbstractResource{
+public class FormDataResource extends AbstractResource {
 
     @JsonProperty("_embedded")
     private FormDataContent content;

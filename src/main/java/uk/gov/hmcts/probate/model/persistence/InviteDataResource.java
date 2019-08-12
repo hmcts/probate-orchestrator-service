@@ -10,7 +10,7 @@ import org.springframework.hateoas.PagedResources;
 
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class InviteDataResource extends AbstractResource {
 

@@ -1,7 +1,5 @@
 package uk.gov.hmcts.probate.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,9 +16,7 @@ import javax.validation.Valid;
 
 @RestController
 public class InvitationController {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(InvitationController.class);
-
+    
     protected static final String INVITE_BASEURL = "/invite";
     protected static final String INVITE_ALLAGREED_URL = INVITE_BASEURL + "/allAgreed";
     protected static final String INVITE_AGREED_URL = INVITE_BASEURL + "/agreed";

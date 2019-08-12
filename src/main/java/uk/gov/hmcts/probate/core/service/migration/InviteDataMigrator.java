@@ -38,9 +38,7 @@ public class InviteDataMigrator {
             InviteDataResource inviteDataSet = persistenceServiceApi.getInviteDataWithPageAndSize(
                     Integer.toString(pageNo), Long.toString(size));
             Collection<InviteData> inviteDatas = inviteDataSet.getContent().getInvitedata();
-            inviteDatas.forEach(inviteData -> {
-                processInviteData(inviteData);
-            });
+            inviteDatas.forEach(this::processInviteData);
         });
         log.info("Finished Migrating formdata");
     }

@@ -32,7 +32,7 @@ public class ExecutorsMapper {
         }
         return executors.stream()
                 .filter(executor -> executor.getIsApplying() == null || BooleanUtils.isFalse(executor.getIsApplying()))
-                .map(executor -> executorNotApplyingMapper.toExecutorNotApplying(executor))
+                .map(executorNotApplyingMapper::toExecutorNotApplying)
                 .sorted(Comparator.comparing(e -> e.getValue().getNotApplyingExecutorName()))
                 .collect(Collectors.toList());
     }
@@ -44,7 +44,7 @@ public class ExecutorsMapper {
         }
         return executors.stream()
                 .filter(executor ->  BooleanUtils.isTrue(executor.getIsApplying()))
-                .map(executor -> executorApplyingMapper.toExecutorApplying(executor))
+                .map(executorApplyingMapper::toExecutorApplying)
                 .sorted(Comparator.comparing(e -> e.getValue().getApplyingExecutorName()))
                 .collect(Collectors.toList());
     }
@@ -59,13 +59,13 @@ public class ExecutorsMapper {
 
         if (grantOfRepresentationData.getExecutorsApplying() != null) {
             executors.addAll(grantOfRepresentationData.getExecutorsApplying().stream()
-                    .map(e -> executorApplyingMapper.fromExecutorApplying(e))
+                    .map(executorApplyingMapper::fromExecutorApplying)
                     .sorted(Comparator.comparing(e -> e.getIsApplicant() == null || !e.getIsApplicant()))
                     .collect(Collectors.toList()));
         }
         if (grantOfRepresentationData.getExecutorsNotApplying() != null) {
             executors.addAll(grantOfRepresentationData.getExecutorsNotApplying().stream()
-                    .map(e -> executorNotApplyingMapper.fromExecutorNotApplying(e))
+                    .map(executorNotApplyingMapper::fromExecutorNotApplying)
                     .collect(Collectors.toList()));
         }
         return executors;

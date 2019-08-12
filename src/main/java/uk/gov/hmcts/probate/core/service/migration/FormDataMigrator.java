@@ -39,7 +39,7 @@ public class FormDataMigrator {
         FormDataResource formDatas = persistenceServiceApi.getFormDataByAfterCreateDate(sixMonthsAgo);
         long totalPages = formDatas.getPageMetadata().getTotalPages();
         log.info("Returned from persistence call with " + totalPages + " pages");
-        System.out.println("Total Pages: " + totalPages);
+        log.info("Total Pages: {}", totalPages);
         long size = formDatas.getPageMetadata().getSize();
         IntStream.range(0, (int) totalPages).forEach(idx -> {
             int pageNo = idx +1;
@@ -47,9 +47,7 @@ public class FormDataMigrator {
             FormDataResource formDataSet = persistenceServiceApi.getPagedFormDataByAfterCreateDate(sixMonthsAgo,
                    Integer.toString(pageNo), Long.toString(size));
             Collection<FormHolder> formHolders = formDataSet.getContent().getFormdata();
-            formHolders.forEach(f -> {
-                processFormData(f);
-            });
+            formHolders.forEach(this::processFormData);
         });
         log.info("Finished Migrating formdata");
     }
@@ -76,12 +74,12 @@ public class FormDataMigrator {
     private void saveDraftCaseIfOneDoesntExist(LegacyForm formdata, GrantOfRepresentationData grantOfRepresentationData,
                                                String caseTypeName) {
         try {
-            log.info("Check if case created in ccd for formdata with applicantEmail: " + formdata.getApplicantEmail());
+            log.info("Check if case created in ccd for formdata with applicantEmail: {}", formdata.getApplicantEmail());
             if (formdata.getApplicantEmail() != null && !formdata.getApplicantEmail().isEmpty()) {
-                ProbateCaseDetails pcd = submitServiceApi.getCase(securityUtils.getAuthorisation(),
+                submitServiceApi.getCase(securityUtils.getAuthorisation(),
                         securityUtils.getServiceAuthorisation(), formdata.getApplicantEmail(),
                         caseTypeName);
-                log.info("Case found for formdata applicant email :  " + formdata.getApplicantEmail());
+                log.info("Case found for formdata applicant email :  {}", formdata.getApplicantEmail());
             }
         } catch (ApiClientException apiClientException) {
             if (apiClientException.getStatus() == HttpStatus.NOT_FOUND.value()) {
