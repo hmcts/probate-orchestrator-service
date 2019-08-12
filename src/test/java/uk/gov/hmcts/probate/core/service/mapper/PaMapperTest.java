@@ -24,6 +24,7 @@ import uk.gov.hmcts.reform.probate.model.forms.pa.PaAssets;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaDeceased;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaForm;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -41,7 +42,7 @@ public class PaMapperTest {
     private GrantOfRepresentationData grantOfRepresentation;
 
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
         paForm = PaTestDataCreator.createPaForm();
         grantOfRepresentation = PaTestDataCreator.createGrantOfRepresentation();
     }

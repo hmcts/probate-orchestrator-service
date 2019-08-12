@@ -1,5 +1,7 @@
 package uk.gov.hmcts.probate.core.service.mapper;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import uk.gov.hmcts.reform.probate.model.IhtFormType;
 import uk.gov.hmcts.reform.probate.model.PaymentStatus;
@@ -38,15 +40,17 @@ import uk.gov.hmcts.reform.probate.model.forms.pa.PaDeceased;
 import uk.gov.hmcts.reform.probate.model.forms.DeclarationDeclaration;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaForm;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
+import java.util.Map;
 
 public class PaTestDataCreator {
-
 
     private static final String APPLICANT_EMAIL = "jon.snow.got1234@gmail.com";
     private static final BigDecimal NET_VALUE = new BigDecimal("20000.00");
@@ -163,7 +167,22 @@ public class PaTestDataCreator {
     public static final String REGISTRY_EMAIL_ADDRESS = "manchester@hmcts.com";
     public static final long REGISTRY_SEQUENCE_NUMBER = 1L;
 
-    public static PaForm createPaForm() {
+
+    private static String LEGAL_DECLARATION_JSON = "{\"legalDeclaration\":{\"headers\":[\"header0\",\"header1\",\"header2\"]," +
+        "\"sections\":[{\"headingType\":\"large\",\"title\":\"section title\",\"declarationItems\":[{\"title\":\"declaration title\"," +
+        "\"values\":[\"value0\",\"value1\",\"value2\"]}]}],\"dateCreated\":\"date and time\",\"deceased\":\"deceased\"}}";
+
+    private static String CHECK_ANSWERS_JSON = "{\"checkAnswersSummary\":{\"sections\":[{\"title\":\"section title\"," +
+        "\"type\":\"heading-medium\",\"questionAndAnswers\":[{\"question\":\"question 1\",\"answers\":[\"answer 1\"]}," +
+        "{\"question\":\"question 2\",\"answers\":[\"\"]}]}],\"mainParagraph\":\"main paragraph\",\"pageTitle\":\"page title\"}}";
+
+    private static String DECEASED_ADDRESSES = "[{\"formatted_address\":\"Adam & Eve 81 Petty France London SW1H 9EX\"}]";
+
+    private static String APPLICANT_ADDRESSES = "[{\"formatted_address\":\"102 Petty France London SW1H 9EX\"}]";
+
+    public static PaForm createPaForm() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
         return PaForm.builder()
             .type(ProbateType.PA)
             .applicantEmail(APPLICANT_EMAIL)
@@ -219,6 +238,7 @@ public class PaTestDataCreator {
                 .dateOfDeath(DECEASED_DATE_OF_DEATH)
                 .lastName(DECEASED_LAST_NAME)
                 .firstName(DECEASED_FIRST_NAME)
+                .addresses(objectMapper.readValue(DECEASED_ADDRESSES, new TypeReference<List<Map<String, Object>>>() {}))
                 .build())
             .registry(Registry.builder()
                 .name(MANCHESTER)
@@ -234,6 +254,7 @@ public class PaTestDataCreator {
                 .firstName(APPLICANT_FIRSTNAME)
                 .phoneNumber(APPLICANT_PHONE_NUMBER)
                 .nameAsOnTheWill(APPLICANT_NAME_AS_ON_THE_WILL)
+                .addresses(objectMapper.readValue(APPLICANT_ADDRESSES, new TypeReference<List<Map<String, Object>>>() {}))
                 .build())
             .executors(Executors.builder()
                 .list(Lists.newArrayList(
@@ -334,6 +355,8 @@ public class PaTestDataCreator {
                     .url(SOT_DOCUMENT_URL)
                     .build()
             )
+            .legalDeclaration(objectMapper.readValue(LEGAL_DECLARATION_JSON, new TypeReference<Map<String, Object>>() {}))
+            .checkAnswersSummary(objectMapper.readValue(CHECK_ANSWERS_JSON, new TypeReference<Map<String, Object>>() {}))
             .build();
     }
 
@@ -498,6 +521,10 @@ public class PaTestDataCreator {
                 .documentUrl(SOT_DOCUMENT_URL)
                 .documentFilename(SOT_DOCUMENT_FILENAME)
                 .build())
+            .legalDeclarationJson(LEGAL_DECLARATION_JSON)
+            .checkAnswersSummaryJson(CHECK_ANSWERS_JSON)
+            .deceasedAddresses(DECEASED_ADDRESSES)
+            .primaryApplicantAddresses(APPLICANT_ADDRESSES)
             .build();
     }
 }

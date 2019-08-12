@@ -54,20 +54,6 @@ public class SecurityUtils {
             .getCredentials();
     }
 
-    public String getUserId() {
-        checkSecurityContext();
-        return ((ServiceAndUserDetails) SecurityContextHolder.getContext()
-            .getAuthentication()
-            .getPrincipal())
-            .getUsername();
-    }
-
-    private void checkSecurityContext() {
-        if (SecurityContextHolder.getContext().getAuthentication() == null) {
-            throw new NoSecurityContextException();
-        }
-    }
-
     public void setSecurityContextUserAsCaseworker() {
         SecurityContextHolder.getContext()
             .setAuthentication(new UsernamePasswordAuthenticationToken(caseworkerUserName, getCaseworkerToken()));
@@ -105,13 +91,5 @@ public class SecurityUtils {
     private String getBasicAuthHeader(String username, String password) {
         String authorisation = username + ":" + password;
         return BASIC + Base64.getEncoder().encodeToString(authorisation.getBytes());
-    }
-
-    public String getBearToken(String token) {
-        if (StringUtils.isBlank(token)) {
-            return token;
-        }
-
-        return token.startsWith(BEARER) ? token : BEARER.concat(token);
     }
 }

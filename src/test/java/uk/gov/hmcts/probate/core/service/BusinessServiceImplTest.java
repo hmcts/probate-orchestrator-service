@@ -1,7 +1,8 @@
 package uk.gov.hmcts.probate.core.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.*;
+import com.google.common.collect.Lists;
+import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +10,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.probate.client.business.BusinessServiceApi;
 import uk.gov.hmcts.probate.client.business.BusinessServiceDocumentsApi;
@@ -48,8 +51,10 @@ public class BusinessServiceImplTest {
 
     @Mock
     private SubmitServiceApi submitServiceApi;
+
     @Mock
     private SecurityUtils securityUtils;
+
     @Mock
     private ExecutorApplyingToInvitationMapper mockExecutorApplyingToInvitationMapper;
 
@@ -74,7 +79,7 @@ public class BusinessServiceImplTest {
         when(securityUtils.getServiceAuthorisation()).thenReturn(SERVICE_AUTHORIZATION);
 
         when(submitServiceApi.getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
-                formdataId, ProbateType.PA.getCaseType().name())).thenReturn(mockProbateCaseDetails);
+            formdataId, ProbateType.PA.getCaseType().name())).thenReturn(mockProbateCaseDetails);
         when(mockProbateCaseDetails.getCaseData()).thenReturn(mockGrantOfRepresentationData);
 
         pdfExample = new byte[10];
@@ -212,17 +217,17 @@ public class BusinessServiceImplTest {
     public void shouldGetCaseByInvitationId() {
 
         when(submitServiceApi.getCaseByInvitationId(AUTHORIZATION, SERVICE_AUTHORIZATION,
-                invitationId, CaseType.GRANT_OF_REPRESENTATION.name())).thenReturn(mockProbateCaseDetails);
+            invitationId, CaseType.GRANT_OF_REPRESENTATION.name())).thenReturn(mockProbateCaseDetails);
         when(mockProbateCaseDetails.getCaseData()).thenReturn(mockGrantOfRepresentationData);
         ExecutorApplying mockExecutorApplying = Mockito.mock(ExecutorApplying.class);
         when(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(invitationId))
-                .thenReturn(mockExecutorApplying);
+            .thenReturn(mockExecutorApplying);
         when(mockExecutorApplyingToInvitationMapper.map(mockExecutorApplying)).thenReturn(new Invitation());
 
         Invitation invitation = getInvitation(formdataId);
         businessService.getInviteData(invitationId);
         verify(submitServiceApi).getCaseByInvitationId(AUTHORIZATION, SERVICE_AUTHORIZATION,
-                invitationId, CaseType.GRANT_OF_REPRESENTATION.name());
+            invitationId, CaseType.GRANT_OF_REPRESENTATION.name());
         verify(mockProbateCaseDetails).getCaseData();
         verify(mockGrantOfRepresentationData).getExecutorApplyingByInviteId(invitationId);
         verify(mockExecutorApplyingToInvitationMapper).map(mockExecutorApplying);
@@ -231,19 +236,40 @@ public class BusinessServiceImplTest {
 
     private void verifyGetCaseCalls() {
         verify(submitServiceApi).getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
-                formdataId, ProbateType.PA.getCaseType().name());
+            formdataId, ProbateType.PA.getCaseType().name());
         verify(mockProbateCaseDetails).getCaseData();
     }
 
     private Invitation getInvitation(String formdataId) {
 
         return Invitation.builder()
-                .inviteId(invitationId)
-                .email(emailaddress)
-                .phoneNumber(phoneNumber)
-                .leadExecutorName(leadExecutorName)
-                .formdataId(formdataId)
-                .agreed(Boolean.TRUE)
-                .build();
+            .inviteId(invitationId)
+            .email(emailaddress)
+            .phoneNumber(phoneNumber)
+            .leadExecutorName(leadExecutorName)
+            .formdataId(formdataId)
+            .agreed(Boolean.TRUE)
+            .build();
+    }
+
+    @Test
+    public void shouldUploadSuccessfully() {
+        MockMultipartFile file = new MockMultipartFile("file", "orig", MediaType.IMAGE_PNG_VALUE, "bar".getBytes());
+        String authorizationToken = "AUTHTOKEN12345";
+        String userId = "USERID12345";
+
+        businessService.uploadDocument(authorizationToken, userId, Lists.newArrayList(file));
+
+        verify(businessServiceDocumentsApi).uploadDocument(userId, authorizationToken, file);
+    }
+
+    @Test
+    public void shouldDeleteSuccessfully() {
+        String documentId = "DOC12345";
+        String userId = "USERID12345";
+
+        businessService.delete(userId, documentId);
+
+        verify(businessServiceDocumentsApi).delete(userId, documentId);
     }
 }
