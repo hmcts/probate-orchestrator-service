@@ -31,8 +31,7 @@ public class MapConverter {
         if (mapStr == null) {
             return null; //NOSONAR
         }
-        return objectMapper.readValue(mapStr, new TypeReference<List<Map<String, Object>>>() {
-        });
+        return objectMapper.readValue(mapStr, new TypeReference<List<Map<String, Object>>>() {});
     }
 
     @FromMap
@@ -48,7 +47,6 @@ public class MapConverter {
         if (mapStr == null) {
             return null; //NOSONAR
         }
-        return objectMapper.readValue(mapStr, new TypeReference<Map<String, Object>>() {
-        });
+        return objectMapper.readValue(mapStr, new TypeReference<Map<String, Object>>() {});
     }
 }
