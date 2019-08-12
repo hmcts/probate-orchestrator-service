@@ -23,7 +23,7 @@ import java.util.concurrent.ScheduledFuture;
 @EnableScheduling
 public class ScheduledConfiguration implements SchedulingConfigurer {
 
-    private TaskScheduler taskScheduler;
+    private TaskScheduler taskScheduler;//NOSONAR
 
     @Autowired
     private FormDataMigrator formDataMigrator;
@@ -40,7 +40,7 @@ public class ScheduledConfiguration implements SchedulingConfigurer {
     @Autowired
     private SecurityUtils securityUtils;
 
-    private ScheduledFuture<?> migrationJob;
+    private ScheduledFuture<?> migrationJob;//NOSONAR
 
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
@@ -74,10 +74,8 @@ public class ScheduledConfiguration implements SchedulingConfigurer {
             log.info(Thread.currentThread().getName() + "MigrationJob complete at " + new Date());
         } catch (RuntimeException e) {
             log.error(e.getMessage());
-            e.printStackTrace();
         } catch (InterruptedException e) {
             log.error(e.getMessage());
-            e.printStackTrace();
             Thread.currentThread().interrupt();
         }
     }

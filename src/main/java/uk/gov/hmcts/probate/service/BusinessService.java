@@ -28,7 +28,7 @@ public interface BusinessService {
 
     void resetAgreedFlags(String formdataId);
 
-    String deleteInvite(String formdataId, Invitation invitation);;
+    String deleteInvite(String formdataId, Invitation invitation);
 
     Invitation getInviteData(String inviteId);
 
