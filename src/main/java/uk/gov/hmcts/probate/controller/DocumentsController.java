@@ -56,6 +56,7 @@ public class DocumentsController {
     @PostMapping(path = LEGAL_DECLARATION_ENDPOINT, consumes = DocumentControllerConfiguration.APPLICATION_BUSINESSDOCUMENT_JSON)
     public ResponseEntity<byte[]> generateLegalDeclarationPdf(@Valid @RequestBody LegalDeclaration legalDeclaration) {
         log.info("Legal Declaration generate pdf");
+
         return new ResponseEntity<>(businessService.generateLegalDeclarationPdf(legalDeclaration), HttpStatus.OK);
     }
 
