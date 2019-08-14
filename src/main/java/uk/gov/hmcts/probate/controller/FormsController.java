@@ -105,6 +105,7 @@ public class FormsController {
         return new ResponseEntity<>(submitService.updatePayments(identifier, form), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Validate case data", notes = "validate case data via identifier and probate type")
     @PutMapping(path = FORMS_ENDPOINT + VALIDATIONS_ENDPOINT, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Form> validate(@PathVariable("identifier") String identifier,
