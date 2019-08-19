@@ -1,0 +1,25 @@
+package uk.gov.hmcts.probate.core.service.mapper;
+
+import org.junit.Assert;
+import org.junit.jupiter.api.Test;
+import uk.gov.hmcts.reform.probate.model.forms.Copies;
+import uk.gov.hmcts.reform.probate.model.forms.pa.PaAssets;
+import uk.gov.hmcts.reform.probate.model.forms.pa.PaForm;
+
+import static org.hamcrest.Matchers.*;
+
+
+public class OverseasCopiesMapperTest {
+    @Test
+    void testMapOverseasCopies() {
+
+        PaForm paForm = PaForm.builder().copies(Copies.builder().overseas(3L).build()).build();
+        Long result = OverseasCopiesMapper.mapOverseasCopies(paForm);
+
+        Assert.assertThat(result, equalTo(3L));
+
+        PaForm paFormA = PaForm.builder().assets(PaAssets.builder().assetsoverseas(Boolean.FALSE).build()).build();
+        result = OverseasCopiesMapper.mapOverseasCopies(paFormA);
+        Assert.assertThat(result, equalTo(0L));
+    }
+}
