@@ -1,0 +1,65 @@
+{
+  "caseData":{
+    "type":"GrantOfRepresentation",
+    "applicationType":"Personal",
+    "primaryApplicantEmailAddress":"ccdcasedata1@gmail.com",
+    "registryLocation":"Birmingham",
+    "extraCopiesOfGrant":5,
+    "deceasedDomicileInEngWales":"Yes",
+    "deceasedAddress": {
+      "AddressLine1": "4 Neville Road",
+      "AddressLine2": "London",
+      "PostCode": "E7 9QX"
+    },
+    "deceasedFreeTextAddress":"Winterfell, Westeros",
+    "deceasedAddressFound":"Yes",
+    "deceasedForenames":"Ned",
+    "deceasedSurname":"Stark",
+    "deceasedDateOfDeath":"2018-01-01",
+    "deceasedDateOfBirth":"1930-01-01",
+    "deceasedMartialStatus":"marriedCivilPartnership",
+    "deceasedAnyOtherNames":"Yes",
+    "deceasedAliasNameList":[
+      {
+        "value":{
+          "Forenames":"King",
+          "LastName":"North"
+        }
+      }
+    ],
+    "deceasedSpouseNotApplyingReason":"mentallyIncapable",
+    "deceasedDivorcedInEnglandOrWales":"No",
+    "deceasedOtherChildren":"Yes",
+    "deceasedAnyChildren":"No",
+    "childrenDied":"No",
+    "childrenOverEighteenSurvived":"Yes",
+    "grandChildrenSurvivedUnderEighteen":"No",
+    "ihtFormId":"IHT205",
+    "ihtFormCompletedOnline":"Yes",
+    "ihtNetValue":"1000099",
+    "ihtGrossValue":"1000099",
+    "ihtReferenceNumber":"GOT123456",
+    "primaryApplicantAddress": {
+      "AddressLine1": "126 caulfield road",
+      "AddressLine2": "London",
+      "PostCode": "ne7 9qx"
+    },
+    "primaryApplicantFreeTextAddress":"Pret a Manger St. Georges Hospital Blackshaw Road",
+    "primaryApplicantAddressFound":"Yes",
+    "primaryApplicantForenames":"Jon",
+    "primaryApplicantSurname":"Snow",
+    "primaryApplicantPhoneNumber":"123455678",
+    "primaryApplicantRelationshipToDeceased":"adoptedChild",
+    "primaryApplicantAdoptionInEnglandOrWales":"Yes",
+    "declaration": {},
+    "deceasedHasAssetsOutsideUK":"Yes",
+    "assetsOverseasNetValue":"10099",
+    "uploadDocumentUrl":"http://document-management/document/12345",
+    "registryAddress":"Line 1 Bham\nLine 2 Bham\nLine 3 Bham\nPostCode Bham",
+    "registryEmail":"birmingham@email.com",
+    "registrySequenceNumber":"20075",
+    "declarationCheckbox": "Yes",
+    "outsideUKGrantCopies":6,
+    "caseType":"intestacy"
+  }
+}

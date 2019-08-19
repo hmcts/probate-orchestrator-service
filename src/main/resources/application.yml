@@ -34,14 +34,15 @@
     clientSecret: ${AUTH2_CLIENT_SECRET:123456}
     redirectUrl: ${IDAM_API_REDIRECT_URL:http://localhost:3451/oauth2redirect}
     caseworker:
-      username: ${PAYMENT_CASEWORKER_USERNAME:probatebackoffice@gmail.com}
-      password: ${PAYMENT_CASEWORKER_PASSWORD:Monday01}
+      username: ${PAYMENT_CASEWORKER_USERNAME:test4@test.com}
+      password: ${PAYMENT_CASEWORKER_PASSWORD:password}
 
   s2s.auth.totp.secret: ${auth.provider.service.client.key}
   service.name: ${auth.provider.service.client.microservice}
 
   submit.service.api.url: ${SUBMIT_SERVICE_API_URL:http://localhost:8181}
-  business.service.api.url: ${BUSINESS_SERVICE_API_URL:http://localhost:8080}
+  persistence.service.api.url: ${SERVICES_PERSISTENCE_BASEURL:probate-persistence-service-aat.service.core-compute-aat.internal}
+  business.service.api.url: ${BUSINESS_SERVICE_API_URL:http://localhost:8081}
   back.office.api.url: ${BACK_OFFICE_API_URL:http://localhost:4104}
 
   logging:
@@ -57,3 +58,7 @@
 
   azure:
     app_insights_key: ${APPINSIGHTS_INSTRUMENTATIONKEY:false}
+
+  migration.job:
+    schedule: false
+    startDateTime: '2019-07-14T10:36:55'

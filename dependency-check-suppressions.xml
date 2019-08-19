@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.1.xsd">
     <suppress>
+        <notes><![CDATA[file name: tomcat-9.0.12.jar]]></notes>
+        <cve>CVE-2019-0199</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[file name: tomcat-emded-websocket-9.0.12.jar]]></notes>
+        <cve>CVE-2019-0199</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[file name: apache_tomcat-9.0.12.jar]]></notes>
+        <cve>CVE-2019-0199</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[file name: apache_tomcat-9.0.12.jar]]></notes>
+        <cve>CVE-2019-0199</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[file name: tomcat-9.0.12.jar]]></notes>
+        <cve>CVE-2019-0232</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[file name: tomcat-emded-websocket-9.0.12.jar]]></notes>
+        <cve>CVE-2019-0232</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[file name: apache_tomcat-9.0.12.jar]]></notes>
+        <cve>CVE-2019-0232</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[file name: apache_tomcat-9.0.12.jar]]></notes>
+        <cve>CVE-2019-0232</cve>
+    </suppress>
+    <suppress>
         <notes><![CDATA[
        file name: bcprov-jdk15on-1.56.jar
        ]]></notes>
@@ -140,18 +172,19 @@
 
     <suppress>
         <notes><![CDATA[
-    file name: spring-security-core-5.1.1.RELEASE.jar
+    file name: spring-security-core-5.1.2.RELEASE.jar
     ]]></notes>
         <gav regex="true">^org\.springframework:spring-security:.*$</gav>
-        <cve>CVE-2018-1258</cve>
+        <cve>CVE-2019-3795</cve>
     </suppress>
 
     <suppress>
         <notes><![CDATA[
-   file name: spring-security-core-5.1.1.RELEASE.jar
+   file name: spring-security-core-5.1.2.RELEASE.jar
    ]]></notes>
         <gav regex="true">^org\.springframework\.security:spring-security-core:.*$</gav>
         <cpe>cpe:/a:pivotal_software:spring_security</cpe>
+        <cve>CVE-2019-3795</cve>
     </suppress>
 
     <suppress>
@@ -199,6 +232,16 @@
         <cve>CVE-2018-10237</cve>
     </suppress>
     <suppress>
+        <notes><![CDATA[ https://github.com/jeremylong/DependencyCheck/issues/1827 ]]></notes>
+        <gav regex="true">^org\.springframework\.boot:spring-boot-starter-security:.*$</gav>
+        <cve>CVE-2018-1258</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[ https://github.com/jeremylong/DependencyCheck/issues/1827 ]]></notes>
+        <gav regex="true">^org\.springframework\.security:spring-security-core:.*$</gav>
+        <cve>CVE-2018-1258</cve>
+    </suppress>
+    <suppress>
         <notes><![CDATA[
    file name: tomcat-embed-websocket-9.0.13.jar
    ]]></notes>
@@ -229,5 +272,61 @@
     <suppress>
         <notes><![CDATA[file name: jackson-databind-2.9.8.jar]]></notes>
         <cve>CVE-2019-12086</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: jackson-databind-2.9.8.jar
+   ]]></notes>
+        <gav regex="true">^com\.fasterxml\.jackson\.core:jackson-databind:.*$</gav>
+        <cve>CVE-2019-14379</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: jackson-databind-2.9.8.jar
+   ]]></notes>
+        <gav regex="true">^com\.fasterxml\.jackson\.core:jackson-databind:.*$</gav>
+        <cve>CVE-2019-14439</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: tomcat-embed-core-9.0.13.jar
+   ]]></notes>
+        <gav regex="true">^org\.apache\.tomcat\.embed:tomcat-embed-core:.*$</gav>
+        <cve>CVE-2019-0199</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: tomcat-embed-core-9.0.13.jar
+   ]]></notes>
+        <gav regex="true">^org\.apache\.tomcat\.embed:tomcat-embed-core:.*$</gav>
+        <cve>CVE-2019-0221</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: bcprov-jdk15on-1.56.jar
+   ]]></notes>
+        <gav regex="true">^org\.bouncycastle:bcprov-jdk15on:.*$</gav>
+        <cve>CVE-2018-1000613</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: jackson-databind-2.9.8.jar
+   ]]></notes>
+        <gav regex="true">^com\.fasterxml\.jackson\.core:jackson-databind:.*$</gav>
+        <cve>CVE-2019-12384</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: jackson-databind-2.9.8.jar
+   ]]></notes>
+        <gav regex="true">^com\.fasterxml\.jackson\.core:jackson-databind:.*$</gav>
+        <cve>CVE-2019-12814</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: tomcat-embed-core-9.0.13.jar
+   ]]></notes>
+        <gav regex="true">^org\.apache\.tomcat\.embed:tomcat-embed-core:.*$</gav>
+        <cve>CVE-2019-10072</cve>
     </suppress>
 </suppressions>

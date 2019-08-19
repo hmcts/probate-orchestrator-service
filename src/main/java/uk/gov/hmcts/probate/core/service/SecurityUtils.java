@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import uk.gov.hmcts.probate.client.IdamClientApi;
 import uk.gov.hmcts.probate.model.idam.AuthenticateUserResponse;
 import uk.gov.hmcts.probate.model.idam.TokenExchangeResponse;
+import uk.gov.hmcts.reform.auth.checker.spring.serviceanduser.ServiceAndUserDetails;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 
 import java.util.Base64;
@@ -90,13 +91,5 @@ public class SecurityUtils {
     private String getBasicAuthHeader(String username, String password) {
         String authorisation = username + ":" + password;
         return BASIC + Base64.getEncoder().encodeToString(authorisation.getBytes());
-    }
-
-    public String getBearToken(String token) {
-        if (StringUtils.isBlank(token)) {
-            return token;
-        }
-
-        return token.startsWith(BEARER) ? token : BEARER.concat(token);
     }
 }

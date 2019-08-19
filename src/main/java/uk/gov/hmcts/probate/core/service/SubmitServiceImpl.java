@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
-import uk.gov.hmcts.probate.client.SubmitServiceApi;
+import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.mapper.FormMapper;
 import uk.gov.hmcts.probate.service.BackOfficeService;
 import uk.gov.hmcts.probate.service.SubmitService;
@@ -16,10 +16,11 @@ import uk.gov.hmcts.reform.probate.model.cases.CaseData;
 import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
-import uk.gov.hmcts.reform.probate.model.cases.ProbatePaymentDetails;
 import uk.gov.hmcts.reform.probate.model.cases.SubmitResult;
 import uk.gov.hmcts.reform.probate.model.forms.CcdCase;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
+import uk.gov.hmcts.reform.probate.model.forms.Payment;
+import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
 import java.util.Map;
 import java.util.Optional;
@@ -43,23 +44,27 @@ public class SubmitServiceImpl implements SubmitService {
 
     private final Set<CaseType> caseTypesForNotifications = Sets.newHashSet(CaseType.CAVEAT);
 
+    private final CaseSubmissionUpdater caseSubmissionUpdater;
+
     @Override
     public Form getCase(String identifier, ProbateType probateType) {
         log.info("Get case called for : {}", probateType.getName());
-        FormMapper formMapper = mappers.get(probateType);
+         FormMapper formMapper = mappers.get(probateType);
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
         ProbateCaseDetails probateCaseDetails = submitServiceApi.getCase(authorisation,
-            serviceAuthorisation, identifier, probateType.getCaseType().getName());
-        return formMapper.fromCaseData(probateCaseDetails.getCaseData());
+            serviceAuthorisation, identifier, probateType.getCaseType().name());
+        Form form = formMapper.fromCaseData(probateCaseDetails.getCaseData());
+        updateCcdCase(probateCaseDetails, form);
+        return form;
     }
 
     @Override
-    public Form saveDraft(String identifier, Form form) {
-        log.info("Save draft called");
+    public Form saveCase(String identifier, Form form) {
+        log.info("Save case called");
         assertIdentifier(identifier, form);
         FormMapper formMapper = mappers.get(form.getType());
-        ProbateCaseDetails probateCaseDetails = submitServiceApi.saveDraft(
+        ProbateCaseDetails probateCaseDetails = submitServiceApi.saveCase(
             securityUtils.getAuthorisation(),
             securityUtils.getServiceAuthorisation(),
             identifier,
@@ -84,18 +89,23 @@ public class SubmitServiceImpl implements SubmitService {
     }
 
     @Override
-    public Form update(String identifier, Form form) {
-        log.info("Update called for");
-        assertIdentifier(identifier, form);
-        FormMapper formMapper = mappers.get(form.getType());
-        log.debug("calling update on submitserviceapi");
-        SubmitResult submitResult = submitServiceApi.update(
-            securityUtils.getAuthorisation(),
-            securityUtils.getServiceAuthorisation(),
-            identifier,
-            ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
-        );
-        return mapFromCase(formMapper, submitResult.getProbateCaseDetails());
+    public Form update(String identifier, ProbateType probateType, PaymentDto paymentDto) {
+        Form form = getCase(identifier, probateType);
+        return updatePayment(identifier, form, paymentDto);
+    }
+
+    private Form updatePayment(String identifier, Form form, PaymentDto paymentDto) {
+        Payment payment = Payment.builder()
+            .reference(paymentDto.getReference())
+            .status(PaymentStatus.getPaymentStatusByName(paymentDto.getStatus()))
+            .date(paymentDto.getDateCreated())
+            .method(paymentDto.getMethod())
+            .status(PaymentStatus.getPaymentStatusByName(paymentDto.getStatus()))
+            .amount(paymentDto.getAmount())
+            .total(paymentDto.getAmount())
+            .build();
+        form.setPayment(payment);
+        return updatePayments(identifier, form);
     }
 
     private void assertIdentifier(String identifier, Form form) {
@@ -109,14 +119,14 @@ public class SubmitServiceImpl implements SubmitService {
     private void updateCcdCase(ProbateCaseDetails probateCaseDetails, Form formResponse) {
         formResponse.setCcdCase(CcdCase.builder()
             .id(Long.valueOf(probateCaseDetails.getCaseInfo().getCaseId()))
-            .state(probateCaseDetails.getCaseInfo().getState())
+            .state(probateCaseDetails.getCaseInfo().getState().getName())
             .build());
     }
 
     @Override
     public Form updatePayments(String identifier, Form form) {
         log.info("update Payments called");
-        Assert.isTrue(!CollectionUtils.isEmpty(form.getPayments()),
+        Assert.isTrue(!CollectionUtils.isEmpty(form.getPayments()) || form.getPayment() != null,
             "Cannot update case with no payments, there needs to be at least one payment");
         String authorisation = securityUtils.getAuthorisation();
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
@@ -129,7 +139,10 @@ public class SubmitServiceImpl implements SubmitService {
 
         existingCase.getCaseData().setPayments(caseData.getPayments());
         sendNotification(existingCase);
-        
+
+        updateCaseForSubmission(existingCase);
+        //TODO: PRO-5580 - Uncomment once applicationSubmittedDate has been re-added to the spreadsheet
+
         log.debug("calling update Payments in submitServiceApi");
         ProbateCaseDetails probateCaseDetails = submitServiceApi.createCase(
             authorisation,
@@ -149,17 +162,35 @@ public class SubmitServiceImpl implements SubmitService {
         return Optional.empty();
     }
 
+    public void updateCaseForSubmission(ProbateCaseDetails probateCaseDetails) {
+        CasePayment casePayment = probateCaseDetails.getCaseData().getPayments().get(0).getValue();
+        if (PaymentStatus.SUCCESS.equals(casePayment.getStatus())) {
+            caseSubmissionUpdater.updateCaseForSubmission(probateCaseDetails.getCaseData());
+        }
+    }
+
     @Override
-    public ProbateCaseDetails updatePaymentsByCaseId(String caseId, CasePayment casePayment) {
-        log.info("Call to submit service with id {} with payment reference {}", caseId, casePayment.getReference());
-        ProbateCaseDetails probateCaseDetails = submitServiceApi.updatePaymentsByCaseId(
+    public ProbateCaseDetails updateByCaseId(String caseId, ProbateCaseDetails caseDetails) {
+        log.info("Call to submit service with id {}", caseId);
+        ProbateCaseDetails probateCaseDetails = submitServiceApi.updateByCaseId(
             securityUtils.getAuthorisation(),
             securityUtils.getServiceAuthorisation(),
             caseId,
-            ProbatePaymentDetails.builder()
-                .payment(casePayment)
-                .build());
+            caseDetails);
         return probateCaseDetails;
+    }
+
+    @Override
+    public Form validate(String identifier, ProbateType probateType) {
+        log.info("Validate case called for : {}", probateType.getName());
+        FormMapper formMapper = mappers.get(probateType);
+        String serviceAuthorisation = securityUtils.getServiceAuthorisation();
+        String authorisation = securityUtils.getAuthorisation();
+        ProbateCaseDetails probateCaseDetails = submitServiceApi.validate(authorisation,
+            serviceAuthorisation, identifier, probateType.getCaseType().name());
+        Form form = formMapper.fromCaseData(probateCaseDetails.getCaseData());
+        updateCcdCase(probateCaseDetails, form);
+        return form;
     }
 
     private CaseData mapToCase(Form form, FormMapper formMapper) {
