@@ -1,7 +1,7 @@
 {
   "caseData": {
     "type": "GrantOfRepresentation",
-    "caseType":"intestacy",
+    "caseType": "intestacy",
     "applicationType": "Personal",
     "primaryApplicantEmailAddress": "jsnow@bbc.co.uk",
     "primaryApplicantForenames": "Jon",
@@ -9,7 +9,6 @@
     "primaryApplicantAddress": {
       "AddressLine1": "Pret a Manger St. Georges Hospital Blackshaw Road London SW17 0QT"
     },
-    "primaryApplicantFreeTextAddress": "Pret a Manger St. Georges Hospital Blackshaw Road",
     "primaryApplicantAddressFound": "Yes",
     "primaryApplicantPhoneNumber": "123455678",
     "primaryApplicantRelationshipToDeceased": "adoptedChild",
@@ -21,7 +20,6 @@
     "deceasedAddress": {
       "AddressLine1": "Winterfell, Westeros"
     },
-    "deceasedFreeTextAddress": "Winterfell, Westeros",
     "deceasedAddressFound": "Yes",
     "deceasedAnyOtherNames": "No",
     "deceasedAliasNameList": [

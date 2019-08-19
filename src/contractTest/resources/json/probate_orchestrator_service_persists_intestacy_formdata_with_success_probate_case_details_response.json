@@ -1,0 +1,36 @@
+{
+  "caseData": {
+    "type": "GrantOfRepresentation",
+    "applicationType": "Personal",
+    "primaryApplicantEmailAddress": "someemailaddress@host.com",
+    "deceasedAddress": {
+      "AddressLine1": "Winterfell, Westeros",
+      "PostCode": "SW17 0QT"
+    },
+    "deceasedAddressFound": "Yes",
+    "deceasedForenames": "Ned",
+    "deceasedSurname": "Stark",
+    "deceasedDateOfDeath": "2018-01-01",
+    "deceasedDateOfBirth": "1930-01-01",
+    "deceasedAnyOtherNames": "Yes",
+    "deceasedAnyChildren": "No",
+    "childrenDied": "No",
+    "childrenOverEighteenSurvived": "Yes",
+    "grandChildrenSurvivedUnderEighteen": "No",
+    "primaryApplicantAddress": {
+      "AddressLine1": "Pret a Manger St. Georges Hospital Blackshaw Road London SW17 0QT",
+      "PostCode": "SW17 0QT"
+    },
+    "primaryApplicantAddressFound": "Yes",
+    "primaryApplicantForenames": "Jon",
+    "primaryApplicantSurname": "Snow",
+    "primaryApplicantPhoneNumber": "123455678",
+    "primaryApplicantAdoptionInEnglandOrWales": "Yes",
+    "declarationCheckbox": "Yes",
+    "caseType": "intestacy"
+  },
+  "caseInfo": {
+    "caseId": "1535574519543819",
+    "state": "Draft"
+  }
+}

@@ -7,6 +7,7 @@ import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
 import uk.gov.hmcts.reform.probate.model.forms.caveat.CaveatForm;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
+import uk.gov.hmcts.reform.probate.model.forms.pa.PaForm;
 
 import java.util.Map;
 import java.util.function.Function;
@@ -19,13 +20,14 @@ public class IdentifierConfiguration {
         return ImmutableMap.<ProbateType, Function<Form, String>>builder()
             .put(ProbateType.INTESTACY, intestacyFormIdentifierFunction())
             .put(ProbateType.CAVEAT, caveatFormIdentifierFunction())
+            .put(ProbateType.PA, paFormIdentifierFunction())
             .build();
     }
 
     private Function<Form, String> intestacyFormIdentifierFunction() {
         return form -> {
             IntestacyForm intestacyForm = (IntestacyForm) form;
-            return intestacyForm.getApplicant().getEmail();
+            return intestacyForm.getApplicantEmail();
         };
     }
 
@@ -33,6 +35,13 @@ public class IdentifierConfiguration {
         return form -> {
             CaveatForm caveatForm = (CaveatForm) form;
             return caveatForm.getApplicationId();
+        };
+    }
+
+    private Function<Form, String> paFormIdentifierFunction() {
+        return form -> {
+            PaForm paForm = (PaForm) form;
+            return paForm.getApplicantEmail();
         };
     }
 }

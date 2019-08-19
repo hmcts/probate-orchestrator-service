@@ -8,7 +8,6 @@
     "postCode": "SW17 0QT",
     "phoneNumber": "123455678",
     "addressFound": "Yes",
-    "freeTextAddress": "Pret a Manger St. Georges Hospital Blackshaw Road",
     "adoptionInEnglandOrWales": "Yes"
   },
   "deceased": {
@@ -19,7 +18,6 @@
     "address": "Winterfell, Westeros",
     "addressFound": "Yes",
     "postCode": "SW17 0QT",
-    "freeTextAddress": "Winterfell, Westeros",
     "alias": "Yes",
     "allDeceasedChildrenOverEighteen": "Yes",
     "anyDeceasedChildrenDieBeforeDeceased": "No",

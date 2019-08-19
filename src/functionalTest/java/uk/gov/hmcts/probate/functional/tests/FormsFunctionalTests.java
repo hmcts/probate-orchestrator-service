@@ -56,7 +56,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
 
         SerenityRest.given()
             .relaxedHTTPSValidation()
-            .headers(Headers.headers(new Header("Content-Type", ContentType.JSON.toString())))
+            .headers(Headers.headers(new Header("FormDataContent-Type", ContentType.JSON.toString())))
             .baseUri(idamUrl)
             .body(objectMapper.writeValueAsString(idamData))
             .when()

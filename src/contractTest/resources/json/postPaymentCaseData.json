@@ -1,0 +1,108 @@
+{
+  "caseData": {
+    "type": "GrantOfRepresentation",
+    "applicationType": "Personal",
+    "primaryApplicantEmailAddress": "t2@t.com",
+    "applicationSubmittedDate": "2019-06-20",
+    "softStop": "No",
+    "extraCopiesOfGrant": 1,
+    "deceasedAddress": {
+      "AddressLine1": "Pret a Manger",
+      "AddressLine2": "St. Georges Hospital",
+      "AddressLine3": "Blackshaw Road",
+      "PostTown": "London",
+      "PostCode": "SW17 0QT",
+      "Country": "United Kingdom"
+    },
+    "deceasedAddressFound": "No",
+    "deceasedMarriedAfterWillOrCodicilDate": "No",
+    "deceasedForenames": "Rob",
+    "deceasedSurname": "Stark",
+    "deceasedPostCode": "SW17 0QT",
+    "deceasedDateOfDeath": "2019-01-01",
+    "deceasedDateOfBirth": "1900-01-01",
+    "deceasedAnyOtherNames": "No",
+    "ihtFormCompletedOnline": "Yes",
+    "ihtNetValue": "2000000",
+    "ihtGrossValue": "2000000",
+    "ihtReferenceNumber": "IHT1234567",
+    "primaryApplicantAddress": {
+      "AddressLine1": "Ronald McDonald House",
+      "AddressLine2": "St. Georges Hospital",
+      "AddressLine3": "Blackshaw Road",
+      "PostTown": "London",
+      "PostCode": "SW17 0QT",
+      "Country": "United Kingdom"
+    },
+    "primaryApplicantAddressFound": "No",
+    "primaryApplicantPostCode": "SW17 0QT",
+    "primaryApplicantForenames": "Sansa",
+    "primaryApplicantSurname": "Stark",
+    "primaryApplicantSameWillName": "Yes",
+    "primaryApplicantPhoneNumber": "23443224",
+    "willHasCodicils": "No",
+    "numberOfExecutors": 1,
+    "executorsApplying": [
+      {
+        "id": "86737125-5f96-4968-a368-207661e6835d",
+        "value": {
+          "applyingExecutorName": "Sansa Stark",
+          "applyingExecutorFirstName": "Sansa",
+          "applyingExecutorLastName": "Stark",
+          "applyingExecutorApplicant": "Yes"
+        }
+      }
+    ],
+    "executorsNotApplying": [],
+    "declaration": {
+      "accept": "I confirm that I will administer the estate of the person who died according to law, and that my application is truthful.",
+      "confirm": "I confirm that I will administer the estate of Rob Stark, according to law. I will:",
+      "requests": "If the probate registry (court) asks me to do so, I will:",
+      "understand": "I understand that:",
+      "confirmItem1": "collect the whole estate",
+      "confirmItem2": "keep full details (an inventory) of the estate",
+      "confirmItem3": "keep a full account of how the estate has been administered",
+      "requestsItem1": "provide the full details of the estate and how it has been administered",
+      "requestsItem2": "return the grant of probate to the court",
+      "understandItem1": "my application will be rejected if I do not answer any questions about the information I have given",
+      "understandItem2": "criminal proceedings for fraud may be brought against me if I am found to have been deliberately untruthful or dishonest"
+    },
+    "legalStatement": {
+      "intro": "This statement is based on the information you&rsquo;ve given in your application. It will be stored as a public record.",
+      "applicant": "I, Sansa Stark of Ronald McDonald House St. Georges Hospital Blackshaw Road London SW17 0QT United Kingdom, make the following statement:",
+      "deceased": "Rob Stark was born on 1 January 1900 and died on 1 January 2019, domiciled in England and Wales.",
+      "deceasedOtherNames": "",
+      "deceasedEstateValue": "The gross value for the estate amounts to £20000.00 and the net value for the estate amounts to £20000.00.",
+      "deceasedEstateLand": "To the best of my knowledge, information and belief, there was no land vested in Rob Stark which was settled previously to the death (and not by the will) of Rob Stark and which remained settled land notwithstanding such death.",
+      "executorsApplying": [
+        {
+          "id": "cd5424ec-e76d-4bdf-89d1-180c64b6cca7",
+          "value": {
+            "name": "I am an executor named in the will as Sansa Stark, and I am applying for probate.",
+            "sign": "I will send to the probate registry what I believe to be the true and original last will and testament of Rob Stark."
+          }
+        }
+      ]
+    },
+    "numberOfApplicants": 1,
+    "payments": [
+      {
+        "id": "0b1a198b-aa40-486c-8553-1bec5a703691",
+        "value": {
+          "status": "Success",
+          "reference": "RC-1561-0675-3177-2281",
+          "amount": "21550",
+          "method": "card"
+        }
+      }
+    ],
+    "declarationCheckbox": "Yes",
+    "ihtGrossValueField": "20000",
+    "ihtNetValueField": "20000",
+    "caseType": "gop"
+  },
+  "caseInfo": {
+    "caseId": "1561067463530426",
+    "state": "CaseCreated"
+  }
+}

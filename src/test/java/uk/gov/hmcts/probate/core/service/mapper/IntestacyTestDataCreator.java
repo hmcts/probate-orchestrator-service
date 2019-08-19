@@ -13,33 +13,34 @@ import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.MaritalStatus;
 import uk.gov.hmcts.reform.probate.model.cases.RegistryLocation;
-import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.Declaration;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.SpouseNotApplyingReason;
 import uk.gov.hmcts.reform.probate.model.forms.AliasOtherNames;
 import uk.gov.hmcts.reform.probate.model.forms.Copies;
+import uk.gov.hmcts.reform.probate.model.forms.Declaration;
 import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
 import uk.gov.hmcts.reform.probate.model.forms.Payment;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyApplicant;
-import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyAssets;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyDeceased;
-import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyDeclaration;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Map;
 
 public class IntestacyTestDataCreator {
 
     private static final String FIRST_NAME = "firstName";
-    private static final String ADDRESS = "address";
+    private static final uk.gov.hmcts.reform.probate.model.forms.Address ADDRESS =
+            uk.gov.hmcts.reform.probate.model.forms.Address.builder()
+                .addressLine1("address").build();
+    private static final Address CASE_ADDRESS = Address.builder()
+            .addressLine1("address").build();
     private static final String EMAIL = "email";
-    private static final String FREE_TEXT_ADDRESS = "freeTextAddress";
     private static final String LAST_NAME = "lastName";
     private static final String PHONE_NUMBER = "phoneNumber";
     private static final String POSTCODE = "postcode";
@@ -47,11 +48,13 @@ public class IntestacyTestDataCreator {
     private static final Long ASSETS_OVERSEAS_NET_VALUE_LONG = 100000L;
     private static final long COPIES_OVERSEAS = 5l;
     private static final long COPIES_UK = 100000L;
-    private static final String DECEASED_ADDRESS = "deceasedAddress";
-    private static final LocalDate DATE_OF_BIRTH = LocalDate.of(1967, 12, 3);
-    private static final LocalDate DATE_OF_DEATH = LocalDate.of(2018, 12, 3);
+    private static final uk.gov.hmcts.reform.probate.model.forms.Address DECEASED_ADDRESS =
+            uk.gov.hmcts.reform.probate.model.forms.Address.builder().addressLine1("deceasedAddress").build();
+    private static final Address CASE_DECEASED_ADDRESS = Address.builder()
+            .addressLine1("deceasedAddress").build();
+    private static final LocalDateTime DATE_OF_BIRTH = LocalDateTime.of(1967, 12, 3, 0, 0, 0);
+    private static final LocalDateTime DATE_OF_DEATH = LocalDateTime.of(2018, 12, 3, 0, 0, 0);
     private static final String DECEASED_FIRST_NAME = "deceasedFirstName";
-    private static final String DECEASED_FREE_TEXT_ADDRESS = "deceasedFreeTextAddress";
     private static final String DECEASED_LAST_NAME = "deceasedLastName";
     //private static final long CASE_ID = 100001L;
     //private static final String STATE = "state";
@@ -77,25 +80,18 @@ public class IntestacyTestDataCreator {
 
     public static IntestacyForm createIntestacyForm() {
         return IntestacyForm.builder()
+            .applicantEmail(EMAIL)
             .type(ProbateType.INTESTACY)
-            .uploadDocumentUrl(UPLOAD_DOCUMENT_URL)
             .applicant(
                 IntestacyApplicant.builder()
                     .address(ADDRESS)
                     .addressFound(Boolean.TRUE)
                     .adoptionInEnglandOrWales(Boolean.TRUE)
-                    .email(EMAIL)
                     .firstName(FIRST_NAME)
-                    .freeTextAddress(FREE_TEXT_ADDRESS)
                     .lastName(LAST_NAME)
                     .phoneNumber(PHONE_NUMBER)
-                    .postCode(POSTCODE)
+                    .postcode(POSTCODE)
                     .relationshipToDeceased(Relationship.ADOPTED_CHILD)
-                    .build())
-            .assets(
-                IntestacyAssets.builder()
-                    .assetsOverseas(Boolean.TRUE)
-                    .assetsOverseasNetValue(ASSETS_OVERSEAS_NET_VALUE)
                     .build())
             .copies(Copies.builder()
                 .overseas(COPIES_OVERSEAS)
@@ -113,37 +109,40 @@ public class IntestacyTestDataCreator {
                 .divorcedInEnglandOrWales(Boolean.FALSE)
                 .domiciledInEnglandOrWales(Boolean.TRUE)
                 .firstName(DECEASED_FIRST_NAME)
-                .freeTextAddress(DECEASED_FREE_TEXT_ADDRESS)
                 .lastName(DECEASED_LAST_NAME)
                 .maritalStatus(MaritalStatus.MARRIED)
                 .anyDeceasedGrandchildrenUnderEighteen(Boolean.FALSE)
                 .otherChildren(Boolean.FALSE)
                 .otherNames(createAliasMap())
                 .spouseNotApplyingReason(SpouseNotApplyingReason.MENTALLY_INCAPABLE)
+                .postcode(POSTCODE)
                 .build())
+            .declaration(Declaration.builder().build())
             .iht(InheritanceTax.builder()
                 .form(IhtFormType.IHT205)
                 .grossValue(GROSS_VALUE)
                 .identifier(IHT_IDENTIFIER)
                 .method(IhtMethod.BY_POST)
                 .netValue(NET_VALUE)
+                .assetsOutside(Boolean.TRUE)
+                .assetsOutsideNetValue(ASSETS_OVERSEAS_NET_VALUE)
                 .build())
-                .payments(Lists.newArrayList(Payment.builder()
-                        .amount(PAYMENT_AMOUNT)
-                        .method(PAYMENT_CHANNEL)
-                        .date(DATE)
-                        .reference(PAYMENT_REFERENCE)
-                        .siteId(PAYMENT_SITE_ID)
-                        .status(PaymentStatus.SUCCESS)
-                        .transactionId(PAYMENT_TRANSACTION_ID)
-                        .build()))
-                .registry(Registry.builder()
-                        .address(REG_ADDRESS)
-                        .email(REG_EMAIL)
-                        .name(REGNAME)
-                        .sequenceNumber(SEQUENCE_NUMBER)
-                        .build())
-                .build();
+            .payments(Lists.newArrayList(Payment.builder()
+                .amount(PAYMENT_AMOUNT)
+                .method(PAYMENT_CHANNEL)
+                .date(DATE)
+                .reference(PAYMENT_REFERENCE)
+                .siteId(PAYMENT_SITE_ID)
+                .status(PaymentStatus.SUCCESS)
+                .transactionId(PAYMENT_TRANSACTION_ID)
+                .build()))
+            .registry(Registry.builder()
+                .address(REG_ADDRESS)
+                .email(REG_EMAIL)
+                .name(REGNAME)
+                .sequenceNumber(SEQUENCE_NUMBER)
+                .build())
+            .build();
     }
 
     private static Map<String, AliasOtherNames> createAliasMap() {
@@ -160,12 +159,10 @@ public class IntestacyTestDataCreator {
         grantOfRepresentation.setPrimaryApplicantEmailAddress(EMAIL);
         grantOfRepresentation.setPrimaryApplicantForenames(FIRST_NAME);
         grantOfRepresentation.setPrimaryApplicantSurname(LAST_NAME);
-        Address primaryApplicantAddress = new Address();
-        primaryApplicantAddress.setAddressLine1(ADDRESS);
-        primaryApplicantAddress.setPostCode(POSTCODE);
+        Address primaryApplicantAddress = CASE_ADDRESS;
         grantOfRepresentation.setPrimaryApplicantAddress(primaryApplicantAddress);
         grantOfRepresentation.setPrimaryApplicantAddressFound(Boolean.TRUE);
-        grantOfRepresentation.setPrimaryApplicantFreeTextAddress(FREE_TEXT_ADDRESS);
+        grantOfRepresentation.setPrimaryApplicantPostCode(POSTCODE);
         grantOfRepresentation.setPrimaryApplicantPhoneNumber(PHONE_NUMBER);
         grantOfRepresentation.setPrimaryApplicantRelationshipToDeceased(Relationship.ADOPTED_CHILD);
         grantOfRepresentation.setPrimaryApplicantAdoptionInEnglandOrWales(Boolean.TRUE);
@@ -173,12 +170,11 @@ public class IntestacyTestDataCreator {
         grantOfRepresentation.setDeceasedSpouseNotApplyingReason(SpouseNotApplyingReason.MENTALLY_INCAPABLE);
         grantOfRepresentation.setDeceasedSurname(DECEASED_LAST_NAME);
         grantOfRepresentation.setDeceasedForenames(DECEASED_FIRST_NAME);
-        grantOfRepresentation.setDeceasedDateOfBirth(DATE_OF_BIRTH);
-        grantOfRepresentation.setDeceasedDateOfDeath(DATE_OF_DEATH);
-        Address deceasedAddress = new Address();
-        deceasedAddress.setAddressLine1(DECEASED_ADDRESS);
+        grantOfRepresentation.setDeceasedDateOfBirth(DATE_OF_BIRTH.toLocalDate());
+        grantOfRepresentation.setDeceasedDateOfDeath(DATE_OF_DEATH.toLocalDate());
+        Address deceasedAddress = CASE_DECEASED_ADDRESS;
         grantOfRepresentation.setDeceasedAddress(deceasedAddress);
-        grantOfRepresentation.setDeceasedFreeTextAddress(DECEASED_FREE_TEXT_ADDRESS);
+        grantOfRepresentation.setDeceasedPostCode(POSTCODE);
         grantOfRepresentation.setDeceasedAddressFound(Boolean.TRUE);
         grantOfRepresentation.setDeceasedAnyOtherNames(Boolean.TRUE);
         CollectionMember<AliasName> aliasNameCollectionMember = new CollectionMember<>();
@@ -196,15 +192,13 @@ public class IntestacyTestDataCreator {
         grantOfRepresentation.setChildrenOverEighteenSurvived(Boolean.FALSE);
         grantOfRepresentation.setDeceasedAnyChildren(Boolean.TRUE);
         grantOfRepresentation.setDeceasedAnyOtherNames(Boolean.TRUE);
-        grantOfRepresentation.setDeceasedFreeTextAddress(DECEASED_FREE_TEXT_ADDRESS);
+
+        grantOfRepresentation.setDeclaration(uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.Declaration.builder().build());
 
         grantOfRepresentation.setRegistryLocation(RegistryLocation.BIRMINGHAM);
-        grantOfRepresentation.setRegistryAddress(REG_ADDRESS);
-        grantOfRepresentation.setRegistryEmail(REG_EMAIL);
-        grantOfRepresentation.setRegistrySequenceNumber(Long.toString(SEQUENCE_NUMBER));
 
         grantOfRepresentation.setDeceasedHasAssetsOutsideUK(Boolean.TRUE);
-        grantOfRepresentation.setAssetsOverseasNetValue(ASSETS_OVERSEAS_NET_VALUE_LONG);
+        grantOfRepresentation.setAssetsOutsideNetValue(ASSETS_OVERSEAS_NET_VALUE_LONG);
         grantOfRepresentation.setIhtFormId(IhtFormType.IHT205);
         grantOfRepresentation.setIhtFormCompletedOnline(Boolean.FALSE);
         grantOfRepresentation.setIhtGrossValue(GROSS_VALUE_LONG);
@@ -225,7 +219,6 @@ public class IntestacyTestDataCreator {
         payment.setSiteId(PAYMENT_SITE_ID);
         paymentCollectionMember.setValue(payment);
         grantOfRepresentation.setPayments(Lists.newArrayList(paymentCollectionMember));
-        grantOfRepresentation.setUploadDocumentUrl(UPLOAD_DOCUMENT_URL);
         return grantOfRepresentation;
     }
 
@@ -242,13 +235,10 @@ public class IntestacyTestDataCreator {
         grantOfRepresentation.setPrimaryApplicantEmailAddress(EMAIL);
         grantOfRepresentation.setPrimaryApplicantForenames(FIRST_NAME);
         grantOfRepresentation.setPrimaryApplicantSurname(LAST_NAME);
-        Address primaryApplicantAddress = new Address();
-        primaryApplicantAddress.setAddressLine1(ADDRESS);
-        primaryApplicantAddress.setPostCode(POSTCODE);
-        Address deceasedAddress = new Address();
-        deceasedAddress.setAddressLine1(DECEASED_ADDRESS);
+        Address primaryApplicantAddress = CASE_ADDRESS;
+        grantOfRepresentation.setPrimaryApplicantAddress(primaryApplicantAddress);
+        Address deceasedAddress = CASE_DECEASED_ADDRESS;
         grantOfRepresentation.setDeceasedAddress(deceasedAddress);
-        grantOfRepresentation.setDeceasedFreeTextAddress(DECEASED_FREE_TEXT_ADDRESS);
         grantOfRepresentation.setDeceasedAddressFound(Boolean.TRUE);
         grantOfRepresentation.setDeceasedAnyOtherNames(Boolean.TRUE);
         return grantOfRepresentation;
