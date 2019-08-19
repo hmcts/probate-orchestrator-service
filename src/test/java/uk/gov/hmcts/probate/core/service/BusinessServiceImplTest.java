@@ -6,6 +6,7 @@ import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -261,6 +262,15 @@ public class BusinessServiceImplTest {
         businessService.uploadDocument(authorizationToken, userId, Lists.newArrayList(file));
 
         verify(businessServiceDocumentsApi).uploadDocument(userId, authorizationToken, file);
+    }
+
+    @Test()
+    public void shouldThrowExceptoinIfFilesAreEmpty() {
+        String authorizationToken = "AUTHTOKEN12345";
+        String userId = "USERID12345";
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            businessService.uploadDocument(authorizationToken, userId, Lists.newArrayList());
+        });
     }
 
     @Test
