@@ -26,7 +26,7 @@ def secrets = [
         secret('idamRedirectUrl', 'IDAM_REDIRECT_URL'),
         secret('payCaseWorkerUser','PAYMENT_CASEWORKER_USERNAME'),
         secret('payCaseWorkerPass','PAYMENT_CASEWORKER_PASSWORD')
-]
+]]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     [$class     : 'AzureKeyVaultSecret',
