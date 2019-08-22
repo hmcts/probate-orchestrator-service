@@ -5,7 +5,8 @@
 String product = "probate"
 String component = "orchestrator-service"
 
-List<LinkedHashMap<String, Object>> secrets = [
+def secrets = [
+        'probate-${env}'      : [
         secret('probatePersistenceUrl', 'TEST_PERSISTENCE_URL'),
         secret('probateBusinessUrl', 'TEST_BUSINESS_URL'),
         secret('s2sAuthTotpSecret', 'S2S_AUTH_TOTP_SECRET'),
@@ -37,7 +38,6 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 }
 
 withPipeline("java", product, component) {
-    setVaultName('probate')
     loadVaultSecrets(secrets)
     enableSlackNotifications('#probate-jenkins')
     enableDockerBuild()
