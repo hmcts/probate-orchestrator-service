@@ -93,8 +93,6 @@ public interface LegacyPaMapper extends LegacyFormMapper{
     @Mapping(target = "ihtFormCompletedOnline", source = "iht.method", qualifiedBy = {FromIhtMethod.class})
     @Mapping(target = "ihtNetValue", source = "iht.netValue", qualifiedBy = {ToPennies.class})
     @Mapping(target = "ihtGrossValue", source = "iht.grossValue", qualifiedBy = {ToPennies.class})
-    @Mapping(target = "ihtGrossValueField", source = "iht.grossValueField")
-    @Mapping(target = "ihtNetValueField", source = "iht.netValueField")
 
     @Mapping(target = "extraCopiesOfGrant", source = "copies.uk")
     @Mapping(target = "outsideUkGrantCopies", source = "copies.overseas")
