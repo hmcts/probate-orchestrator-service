@@ -164,9 +164,7 @@
     "grossValue": 32432324.00,
     "netValue": 343243.00,
     "grossValueOnline": "32432324.00",
-    "netValueOnline": "343243.00",
-    "grossValueFieldIHT205": "32432324.00",
-    "netValueFieldIHT205": "343243.00"
+    "netValueOnline": "343243.00"
   },
   "will": {
     "codicils": "Yes",
