@@ -100,7 +100,7 @@
   "applicantEmail": "t2@t.com",
   "executors": {
     "executorsNumber": 1,
-    "invitesSent": "No",
+    "invitesSent": "false",
     "list": [
       {
         "fullName": "Sansa Stark",
