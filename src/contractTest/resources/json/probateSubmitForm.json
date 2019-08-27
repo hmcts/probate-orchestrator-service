@@ -106,7 +106,7 @@
     "allalive": "No",
     "otherExecutorsApplying": "Yes",
     "alias": "Yes",
-    "invitesSent": "No",
+    "invitesSent": "false",
     "list": [
       {
         "fullName": "2nd ExeFNLN",
