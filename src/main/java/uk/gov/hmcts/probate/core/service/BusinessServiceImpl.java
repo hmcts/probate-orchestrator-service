@@ -2,6 +2,7 @@ package uk.gov.hmcts.probate.core.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import uk.gov.hmcts.probate.client.business.BusinessServiceApi;
@@ -72,7 +73,8 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Override
     public String sendInvitation(Invitation invitation, String sessionId) {
-        String invitationId = businessServiceApi.invite(invitation, sessionId);
+        //String invitationId = businessServiceApi.invite(invitation, sessionId);
+        String invitationId = "" + RandomUtils.nextLong();
         ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(invitation.getFormdataId());
         GrantOfRepresentationData grantOfRepresentationData =
                 (GrantOfRepresentationData) probateCaseDetails.getCaseData();
@@ -141,6 +143,7 @@ public class BusinessServiceImpl implements BusinessService {
     @Override
     public Invitation getInviteData(String inviteId) {
 
+        securityUtils.setSecurityContextUserAsCaseworker();
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
 
