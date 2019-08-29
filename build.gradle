@@ -179,7 +179,7 @@ gitProperties {
 
 def versions = [
         commonsIO                       : '2.6',
-        hmctsJavaLogging                : '3.0.2',
+        hmctsJavaLogging                : '5.0.1',
         lombok                          : '1.16.18',
         restAssured                     : '3.0.3',
         serviceTokenGenerator           : '0.6.0',
@@ -187,12 +187,12 @@ def versions = [
         springCloudWiremock             : '1.2.4.RELEASE',
         mapStruct                       : '1.2.0.Final',
         authCheckerLib                  : '2.1.2',
-        springCloudStarterNetflixHystrix: '2.0.2.RELEASE',
+        springCloudStarterNetflixHystrix: '2.1.1.RELEASE',
         serenityBdd                     : '2.0.30',
         serenitySpring                  : '1.0.26',
         serentity                       : '2.0.17',
         jjwt                            : '0.9.0',
-        serviceAuthProviderClient       : '1.0.4',
+        serviceAuthProviderClient       : '3.0.0',
         restAssured                     : '3.0.7',
         piTest                          : '1.3.2',
         commonMark                      : '0.11.0',
@@ -281,7 +281,9 @@ dependencies {
     annotationProcessor group:'org.projectlombok', name :'lombok' , version: versions.lombok
     annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
 
-    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    testCompile("org.springframework.boot:spring-boot-starter-test") {
+        exclude group: "com.vaadin.external.google", module:"android-json"
+    }
     testCompile group: 'org.springframework.security', name: 'spring-security-test'
     testCompile group: 'org.springframework.cloud', name: 'spring-cloud-contract-wiremock', version: versions.springCloudWiremock
     testCompile group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
