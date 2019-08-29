@@ -34,7 +34,7 @@
     clientSecret: ${AUTH2_CLIENT_SECRET:123456}
     redirectUrl: ${IDAM_API_REDIRECT_URL:http://localhost:3451/oauth2redirect}
     caseworker:
-      username: ${PAYMENT_CASEWORKER_USERNAME:test5@test.com}
+      username: ${PAYMENT_CASEWORKER_USERNAME:test4@test.com}
       password: ${PAYMENT_CASEWORKER_PASSWORD:password}
 
   s2s.auth.totp.secret: ${auth.provider.service.client.key}
