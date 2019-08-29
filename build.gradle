@@ -176,6 +176,7 @@ gitProperties {
     dateFormatTimeZone = "GMT"
 }
 
+
 def versions = [
         commonsIO                       : '2.6',
         hmctsJavaLogging                : '3.0.2',
