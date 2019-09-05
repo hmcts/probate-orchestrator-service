@@ -20,6 +20,7 @@ import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Component
@@ -34,7 +35,7 @@ public class BusinessServiceImpl implements BusinessService {
 
 
     @Override
-    public byte[] generateCheckAnswersSummaryPdf(CheckAnswersSummary checkAnswersSummary){
+    public byte[] generateCheckAnswersSummaryPdf(CheckAnswersSummary checkAnswersSummary) {
         log.info("generateCheckAnswersSummaryPdf");
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
@@ -46,7 +47,7 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
-    public byte[] generateLegalDeclarationPdf(LegalDeclaration legalDeclaration){
+    public byte[] generateLegalDeclarationPdf(LegalDeclaration legalDeclaration) {
         log.info("generateLegalDeclarationPdf");
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
@@ -59,7 +60,7 @@ public class BusinessServiceImpl implements BusinessService {
 
 
     @Override
-    public byte[] generateBulkScanCoverSheetPdf(BulkScanCoverSheet bulkScanCoverSheet){
+    public byte[] generateBulkScanCoverSheetPdf(BulkScanCoverSheet bulkScanCoverSheet) {
         log.info("generateBulkScanCoverSheetPdf");
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
@@ -77,10 +78,37 @@ public class BusinessServiceImpl implements BusinessService {
         GrantOfRepresentationData grantOfRepresentationData =
                 (GrantOfRepresentationData) probateCaseDetails.getCaseData();
         grantOfRepresentationData.setInvitationDetailsForExecutorApplying(invitation.getEmail(), invitationId,
-                invitation.getLeadExecutorName());
+                invitation.getLeadExecutorName(), invitation.getExecutorName());
         updateCaseData(probateCaseDetails, invitation.getFormdataId());
         return invitationId;
     }
+
+    @Override
+    public List<Invitation> sendInvitations(List<Invitation> invitations, String sessionId) {
+
+        Optional<Invitation> optionalInvitation = invitations.stream().findFirst();
+        if (optionalInvitation.isPresent()) {
+            final ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(optionalInvitation.get().getFormdataId());
+            String formDataId = optionalInvitation.get().getFormdataId();
+            GrantOfRepresentationData grantOfRepresentationData =
+                    (GrantOfRepresentationData) probateCaseDetails.getCaseData();
+            invitations.stream().forEach(invitation -> {
+                if(invitation.getInviteId()==null) {
+                    invitation.setInviteId(businessServiceApi.invite(invitation, sessionId));
+                    grantOfRepresentationData.setInvitationDetailsForExecutorApplying(invitation.getEmail(),
+                            invitation.getInviteId(),
+                            invitation.getLeadExecutorName(), invitation.getExecutorName());
+                }
+                else{
+                    businessServiceApi.invite(invitation.getInviteId(), invitation, sessionId);
+                }
+
+            });
+            updateCaseData(probateCaseDetails, formDataId);
+        }
+        return invitations;
+    }
+
 
     @Override
     public String resendInvitation(String inviteId, Invitation invitation, String sessionId) {
@@ -89,6 +117,7 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Override
     public Boolean haveAllIniviteesAgreed(String formdataId) {
+        securityUtils.setSecurityContextUserAsCaseworker();
         ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(formdataId);
         GrantOfRepresentationData grantOfRepresentationData =
                 (GrantOfRepresentationData) probateCaseDetails.getCaseData();
@@ -166,7 +195,7 @@ public class BusinessServiceImpl implements BusinessService {
     @Override
     public List<String> uploadDocument(String authorizationToken, String userID, List<MultipartFile> files) {
         if (files.isEmpty()) {
-            throw new IllegalArgumentException("There needs to be at least one file") ;
+            throw new IllegalArgumentException("There needs to be at least one file");
         }
         return businessServiceDocumentsApi.uploadDocument(userID, authorizationToken, files.get(0));
     }
@@ -175,6 +204,7 @@ public class BusinessServiceImpl implements BusinessService {
     public String delete(String userID, String documentId) {
         return businessServiceDocumentsApi.delete(userID, documentId);
     }
+
 
     private ProbateCaseDetails getProbateCaseDetails(String caseId) {
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();

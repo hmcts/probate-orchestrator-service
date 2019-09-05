@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.probate.service.BusinessService;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
+import uk.gov.hmcts.reform.probate.model.multiapplicant.InvitationsResult;
 
+import java.util.List;
 import javax.validation.Valid;
 
 @RestController
@@ -31,18 +33,11 @@ public class InvitationController {
 
     @PostMapping(path = INVITE_BASEURL,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String invite(@Valid @RequestBody Invitation invitation,
-                         @RequestHeader("Session-Id") String sessionId) {
-        return businessService.sendInvitation(invitation, sessionId);
+    public InvitationsResult invite(@Valid @RequestBody List<Invitation> invitations,
+                                    @RequestHeader("Session-Id") String sessionId) {
+        return InvitationsResult.builder().invitations(businessService.sendInvitations(invitations, sessionId)).build();
     }
 
-    @PostMapping(path = INVITE_BASEURL + "/{inviteId}",
-            consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String invite(@PathVariable("inviteId") String inviteId,
-                         @Valid @RequestBody Invitation invitation,
-                         @RequestHeader("Session-Id") String sessionId) {
-        return businessService.resendInvitation(inviteId, invitation, sessionId);
-    }
 
     @GetMapping(path = INVITE_ALLAGREED_URL + "/{formdataId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Boolean invitesAllAgreed(@PathVariable("formdataId") String formdataId) {
