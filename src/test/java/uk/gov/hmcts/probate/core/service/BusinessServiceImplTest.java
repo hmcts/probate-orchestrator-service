@@ -2,7 +2,7 @@ package uk.gov.hmcts.probate.core.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
-import org.hamcrest.Matchers;
+import org.hamcrest.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +28,8 @@ import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
+import java.util.List;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -43,6 +45,9 @@ public class BusinessServiceImplTest {
     private final String sessionId = "sessionId";
     private final String invitationId = "54321";
     private final String emailaddress = "emailaddress";
+    private final String firstName = "Rob";
+    private final String lastName ="Beckett";
+    private final String executorName ="Sally Matthews";
 
     @Mock
     private BusinessServiceApi businessServiceApi;
@@ -80,12 +85,12 @@ public class BusinessServiceImplTest {
         when(securityUtils.getServiceAuthorisation()).thenReturn(SERVICE_AUTHORIZATION);
 
         when(submitServiceApi.getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
-            formdataId, ProbateType.PA.getCaseType().name())).thenReturn(mockProbateCaseDetails);
+                formdataId, ProbateType.PA.getCaseType().name())).thenReturn(mockProbateCaseDetails);
         when(mockProbateCaseDetails.getCaseData()).thenReturn(mockGrantOfRepresentationData);
 
         pdfExample = new byte[10];
         businessService = new BusinessServiceImpl(businessServiceApi, businessServiceDocumentsApi,
-            submitServiceApi, securityUtils, mockExecutorApplyingToInvitationMapper);
+                submitServiceApi, securityUtils, mockExecutorApplyingToInvitationMapper);
     }
 
     @Test
@@ -144,10 +149,33 @@ public class BusinessServiceImplTest {
 
         verify(businessServiceApi).invite(invitation, sessionId);
         verifyGetCaseCalls();
-        verify(mockGrantOfRepresentationData).setInvitationDetailsForExecutorApplying(invitation.getEmail(), invitationId, invitation.getLeadExecutorName());
+        verify(mockGrantOfRepresentationData).setInvitationDetailsForExecutorApplying(invitation.getEmail(), invitationId, invitation.getLeadExecutorName(), executorName);
         verify(submitServiceApi).saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
 
         Assert.assertThat(result, Matchers.equalTo(invitationId));
+    }
+
+    @Test
+    public void shouldSendInvitationsAndUpdateProbateCaseDetails() {
+
+        Invitation newInvitation = getInvitation(formdataId);
+        newInvitation.setInviteId(null);
+        Invitation resendInvitation = Invitation.builder().inviteId("inviteId").lastName("RsLastName").firstName("RsFirstName")
+                .leadExecutorName("RsLeadExecName").email("rsEmailAddress").formdataId(formdataId).build();
+
+        when(businessServiceApi.invite(newInvitation, sessionId)).thenReturn(invitationId);
+        when(businessServiceApi.invite(resendInvitation.getInviteId(), resendInvitation, sessionId)).thenReturn(resendInvitation.getInviteId());
+
+        List<Invitation> results = businessService.sendInvitations(Lists.newArrayList(newInvitation,resendInvitation), sessionId);
+
+        verify(businessServiceApi).invite(newInvitation, sessionId);
+        verify(businessServiceApi).invite( resendInvitation.getInviteId(), resendInvitation, sessionId);
+        verifyGetCaseCalls();
+        verify(mockGrantOfRepresentationData).setInvitationDetailsForExecutorApplying(newInvitation.getEmail(), invitationId, newInvitation.getLeadExecutorName(), executorName);
+        verify(submitServiceApi).saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
+
+        Assert.assertThat(newInvitation.getInviteId(), Matchers.equalTo(invitationId));
+
     }
 
     @Test
@@ -218,17 +246,17 @@ public class BusinessServiceImplTest {
     public void shouldGetCaseByInvitationId() {
 
         when(submitServiceApi.getCaseByInvitationId(AUTHORIZATION, SERVICE_AUTHORIZATION,
-            invitationId, CaseType.GRANT_OF_REPRESENTATION.name())).thenReturn(mockProbateCaseDetails);
+                invitationId, CaseType.GRANT_OF_REPRESENTATION.name())).thenReturn(mockProbateCaseDetails);
         when(mockProbateCaseDetails.getCaseData()).thenReturn(mockGrantOfRepresentationData);
         ExecutorApplying mockExecutorApplying = Mockito.mock(ExecutorApplying.class);
         when(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(invitationId))
-            .thenReturn(mockExecutorApplying);
+                .thenReturn(mockExecutorApplying);
         when(mockExecutorApplyingToInvitationMapper.map(mockExecutorApplying)).thenReturn(new Invitation());
 
         Invitation invitation = getInvitation(formdataId);
         businessService.getInviteData(invitationId);
         verify(submitServiceApi).getCaseByInvitationId(AUTHORIZATION, SERVICE_AUTHORIZATION,
-            invitationId, CaseType.GRANT_OF_REPRESENTATION.name());
+                invitationId, CaseType.GRANT_OF_REPRESENTATION.name());
         verify(mockProbateCaseDetails).getCaseData();
         verify(mockGrantOfRepresentationData).getExecutorApplyingByInviteId(invitationId);
         verify(mockExecutorApplyingToInvitationMapper).map(mockExecutorApplying);
@@ -237,20 +265,23 @@ public class BusinessServiceImplTest {
 
     private void verifyGetCaseCalls() {
         verify(submitServiceApi).getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
-            formdataId, ProbateType.PA.getCaseType().name());
+                formdataId, ProbateType.PA.getCaseType().name());
         verify(mockProbateCaseDetails).getCaseData();
     }
 
     private Invitation getInvitation(String formdataId) {
 
         return Invitation.builder()
-            .inviteId(invitationId)
-            .email(emailaddress)
-            .phoneNumber(phoneNumber)
-            .leadExecutorName(leadExecutorName)
-            .formdataId(formdataId)
-            .agreed(Boolean.TRUE)
-            .build();
+                .inviteId(invitationId)
+                .firstName(firstName)
+                .lastName(lastName)
+                .executorName(executorName)
+                .email(emailaddress)
+                .phoneNumber(phoneNumber)
+                .leadExecutorName(leadExecutorName)
+                .formdataId(formdataId)
+                .agreed(Boolean.TRUE)
+                .build();
     }
 
     @Test

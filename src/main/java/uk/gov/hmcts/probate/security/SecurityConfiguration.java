@@ -43,6 +43,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/info",
                 "/invite/data/**",
                 "/invite/pin/**",
+                "/invite/allAgreed/**",
+                "/invite/agreed/**",
                 "/favicon.ico",
                 "/");
     }

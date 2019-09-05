@@ -37,4 +37,7 @@ public interface BusinessService {
     List<String> uploadDocument(String authorizationToken, String userID, List<MultipartFile> files);
 
     String delete(String userID, String documentId);
+
+    List<Invitation> sendInvitations(List<Invitation> invitations, String sessionId);
 }
+

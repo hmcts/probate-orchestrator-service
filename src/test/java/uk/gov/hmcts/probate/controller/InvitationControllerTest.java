@@ -14,6 +14,8 @@ import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.probate.service.BusinessService;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
+import java.util.Arrays;
+
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -40,13 +42,17 @@ public class InvitationControllerTest {
     private Invitation invitation;
     private String invitationResendStr;
     private Invitation invitationResend;
+    private String invitationArrayStr;
+    private String invitationResendArrayStr;
 
     @Before
     public void setUp() throws Exception {
         invitationStr = TestUtils.getJSONFromFile("invite/invitation.json");
         this.invitation = objectMapper.readValue(invitationStr, Invitation.class);
+        invitationArrayStr = new StringBuilder("[").append(invitationStr).append("]").toString();
 
         invitationResendStr = TestUtils.getJSONFromFile("invite/invitationResend.json");
+        invitationResendArrayStr = new StringBuilder("[").append(invitationResendStr).append("]").toString();
         this.invitationResend = objectMapper.readValue(invitationResendStr, Invitation.class);
     }
 
@@ -57,10 +63,10 @@ public class InvitationControllerTest {
 
         mockMvc.perform(post(InvitationController.INVITE_BASEURL)
                 .header("Session-Id", "someSessionId")
-                .content(invitationStr)
+                .content(invitationArrayStr)
                 .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
                 .andExpect(status().isOk());
-        verify(businessService, times(1)).sendInvitation(eq(invitation), eq("someSessionId"));
+        verify(businessService, times(1)).sendInvitations(eq(Arrays.asList(invitation)), eq("someSessionId"));
     }
 
     @Test
@@ -68,12 +74,12 @@ public class InvitationControllerTest {
 
         when(businessService.resendInvitation(eq("12345"), eq(invitationResend), eq("someSessionId"))).thenReturn("12345");
 
-        mockMvc.perform(post(InvitationController.INVITE_BASEURL + "/12345")
+        mockMvc.perform(post(InvitationController.INVITE_BASEURL)
                 .header("Session-Id", "someSessionId")
-                .content(invitationResendStr)
+                .content(invitationResendArrayStr)
                 .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
                 .andExpect(status().isOk());
-        verify(businessService, times(1)).resendInvitation(eq("12345"), eq(invitationResend), eq("someSessionId"));
+        verify(businessService, times(1)).sendInvitations(eq(Arrays.asList(invitationResend)), eq("someSessionId"));
     }
 
     @Test
