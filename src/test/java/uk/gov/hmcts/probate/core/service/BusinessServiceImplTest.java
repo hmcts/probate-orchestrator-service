@@ -211,7 +211,7 @@ public class BusinessServiceImplTest {
         businessService.inviteAgreed(formdataId, invitation);
         verifyGetCaseCalls();
         verify(mockGrantOfRepresentationData).setInvitationAgreedFlagForExecutorApplying(invitationId, invitation.getAgreed());
-        verify(submitServiceApi).saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
+        verify(submitServiceApi).updateCaseAsCaseWorker(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
 
     }
 

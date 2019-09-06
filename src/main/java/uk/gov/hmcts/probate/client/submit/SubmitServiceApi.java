@@ -58,6 +58,17 @@ public interface SubmitServiceApi {
         @RequestBody ProbateCaseDetails probateCaseDetails
     );
 
+    @PostMapping(
+            value = "/cases/caseworker/{applicationId}",
+            headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+    )
+    ProbateCaseDetails updateCaseAsCaseWorker(
+            @RequestHeader(AUTHORIZATION) String authorisation,
+            @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+            @PathVariable(SubmitServiceConfiguration.APPLICATION_ID) String applicationId,
+            @RequestBody ProbateCaseDetails probateCaseDetails
+    );
+
     @PutMapping(
         value = "/cases/{applicationId}/validations",
         headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
@@ -91,14 +102,14 @@ public interface SubmitServiceApi {
     );
 
     @PostMapping (
-        value = "/submissions/update/{applicationId}",
-        headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+            value = "/submissions/update/{applicationId}",
+            headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
     SubmitResult update(
-        @RequestHeader(AUTHORIZATION) String authorisation,
-        @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
-        @PathVariable(SubmitServiceConfiguration.APPLICATION_ID) String applicationId,
-        @RequestBody ProbateCaseDetails probateCaseDetails
+            @RequestHeader(AUTHORIZATION) String authorisation,
+            @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+            @PathVariable(SubmitServiceConfiguration.APPLICATION_ID) String applicationId,
+            @RequestBody ProbateCaseDetails probateCaseDetails
     );
 
     @PostMapping(
