@@ -1,3 +1,6 @@
+tags:
+  ccd-idam-pr: false
+
 java:
   environment:
     SERVICES_PERSISTENCE_BASEURL : "http://probate-persistence-service-aat.service.core-compute-aat.internal"
