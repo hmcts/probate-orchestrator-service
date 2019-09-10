@@ -53,7 +53,7 @@ public interface LegacyIntestacyMapper extends LegacyFormMapper{
     @Mapping(target = "deceasedDateOfBirth", source = "deceased.dateOfBirth", qualifiedBy = {ToLocalDate.class})
     @Mapping(target = "deceasedDateOfDeath", source = "deceased.dateOfDeath", qualifiedBy = {ToLocalDate.class})
     @Mapping(target = "deceasedAnyOtherNames", source = "deceased.alias")
-    @Mapping(target = "deceasedMartialStatus", source = "deceased.maritalStatus")
+    @Mapping(target = "deceasedMaritalStatus", source = "deceased.maritalStatus")
     @Mapping(target = "deceasedDivorcedInEnglandOrWales", source = "deceased.divorcedInEnglandOrWales")
     @Mapping(target = "deceasedOtherChildren", source = "deceased.otherChildren")
     @Mapping(target = "declarationCheckbox", source = "declaration.declarationCheckbox")

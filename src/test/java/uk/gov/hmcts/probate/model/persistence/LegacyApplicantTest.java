@@ -1,15 +1,13 @@
 package uk.gov.hmcts.probate.model.persistence;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
-import uk.gov.hmcts.reform.probate.model.Relationship;
 
 import java.io.IOException;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 public class LegacyApplicantTest {
 
@@ -26,13 +24,8 @@ public class LegacyApplicantTest {
 
         LegacyApplicant legacyApplicant = objectMapper.readValue(legacyApplicantStr, LegacyApplicant.class);
 
-        assertThat(legacyApplicant.getRelationshipToDeceased(), equalTo(Relationship.PARTNER));
+        assertThat(legacyApplicant.getRelationshipToDeceased(), equalTo("partner"));
     }
 
-    @Test(expected = JsonMappingException.class)
-    public void shouldDeserializeLegacyApplicantWithInvalidRelationship() throws IOException {
-        String legacyApplicantStr = "{ \"relationshipToDeceased\" : 10000}";
 
-        objectMapper.readValue(legacyApplicantStr, LegacyApplicant.class);
-    }
 }
