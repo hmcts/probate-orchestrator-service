@@ -39,6 +39,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 
 withPipeline("java", product, component) {
     loadVaultSecrets(secrets)
+    enableAksStagingDeployment()
     enableSlackNotifications('#probate-jenkins')
     enableDockerBuild()
 ////  enableDeployToAKS()
