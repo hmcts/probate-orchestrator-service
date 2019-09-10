@@ -16,6 +16,7 @@ java:
 
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
+  aadIdentityName: probate
   keyVaults:
     "probate":
       resourceGroup: probate
