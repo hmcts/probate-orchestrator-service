@@ -81,6 +81,7 @@ public class IntestacyMapperTest {
     public void shouldMapEmptyGrantOfRepresentationToGrantOfIntestacyForm() {
         IntestacyForm expectedIntestacyForm = new IntestacyForm();
         expectedIntestacyForm.setType(ProbateType.INTESTACY);
+        expectedIntestacyForm.setCaseType(GrantType.INTESTACY.getName());
         expectedIntestacyForm.setCopies(new Copies());
         expectedIntestacyForm.setIht(new InheritanceTax());
         expectedIntestacyForm.setRegistry(new Registry());

@@ -89,6 +89,7 @@ public class PaMapperTest {
     public void shouldMapEmptyGrantOfRepresentationToGrantOfPaForm() {
         PaForm expectedPaForm = new PaForm();
         expectedPaForm.setType(ProbateType.PA);
+        expectedPaForm.setCaseType(GrantType.GRANT_OF_PROBATE.getName());
         expectedPaForm.setCopies(new Copies());
         PaAssets paAssets = new PaAssets();
         paAssets.setAssetsoverseas(null);
