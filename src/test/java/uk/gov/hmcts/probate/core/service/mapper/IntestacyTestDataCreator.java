@@ -92,7 +92,7 @@ public class IntestacyTestDataCreator {
                     .lastName(LAST_NAME)
                     .phoneNumber(PHONE_NUMBER)
                     .postcode(POSTCODE)
-                    .relationshipToDeceased(Relationship.ADOPTED_CHILD)
+                    .relationshipToDeceased(Relationship.ADOPTED_CHILD.getDescription())
                     .build())
             .copies(Copies.builder()
                 .overseas(COPIES_OVERSEAS)
@@ -111,11 +111,11 @@ public class IntestacyTestDataCreator {
                 .domiciledInEnglandOrWales(Boolean.TRUE)
                 .firstName(DECEASED_FIRST_NAME)
                 .lastName(DECEASED_LAST_NAME)
-                .maritalStatus(MaritalStatus.MARRIED)
+                .maritalStatus(MaritalStatus.MARRIED.getDescription())
                 .anyDeceasedGrandchildrenUnderEighteen(Boolean.FALSE)
                 .otherChildren(Boolean.FALSE)
                 .otherNames(createAliasMap())
-                .spouseNotApplyingReason(SpouseNotApplyingReason.MENTALLY_INCAPABLE)
+                .spouseNotApplyingReason(SpouseNotApplyingReason.MENTALLY_INCAPABLE.getDescription())
                 .postcode(POSTCODE)
                 .build())
             .declaration(Declaration.builder().build())
@@ -185,7 +185,7 @@ public class IntestacyTestDataCreator {
         aliasNameCollectionMember.setValue(aliasName);
         grantOfRepresentation.setDeceasedDomicileInEngWales(Boolean.TRUE);
         grantOfRepresentation.setDeceasedAliasNameList(Lists.newArrayList(aliasNameCollectionMember));
-        grantOfRepresentation.setDeceasedMartialStatus(MaritalStatus.MARRIED);
+        grantOfRepresentation.setDeceasedMaritalStatus(MaritalStatus.MARRIED);
         grantOfRepresentation.setDeceasedDivorcedInEnglandOrWales(Boolean.FALSE);
         grantOfRepresentation.setDeceasedOtherChildren(Boolean.FALSE);
         grantOfRepresentation.setChildrenDied(Boolean.FALSE);
