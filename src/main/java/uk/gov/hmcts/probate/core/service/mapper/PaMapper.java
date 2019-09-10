@@ -107,7 +107,8 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     GrantOfRepresentationData toCaseData(PaForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.PA)")
-    @Mapping(target = "deceased.address", source = "deceasedAddress")
+    @Mapping(target = "caseType", expression = "java(GrantType.GRANT_OF_PROBATE.getName())")
+    @Mapping(target = "deceased.address", source = "deceasedAddress", qualifiedBy = {ToFormAddress.class})
     @Mapping(target = "deceased.addresses", source = "deceasedAddresses", qualifiedBy = {ToMap.class})
     @Mapping(target = "deceased.dateOfBirth", source = "deceasedDateOfBirth", qualifiedBy = {FromLocalDate.class})
     @Mapping(target = "deceased.dateOfDeath", source = "deceasedDateOfDeath", qualifiedBy = {FromLocalDate.class})

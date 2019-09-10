@@ -82,6 +82,7 @@ public class IntestacyTestDataCreator {
         return IntestacyForm.builder()
             .applicantEmail(EMAIL)
             .type(ProbateType.INTESTACY)
+                .caseType(GrantType.INTESTACY.getName())
             .applicant(
                 IntestacyApplicant.builder()
                     .address(ADDRESS)
