@@ -24,6 +24,7 @@ import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyApplicant;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyDeceased;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -74,6 +75,7 @@ public class IntestacyMapperTest {
     public void shouldMapEmptyIntestacyFormToGrantOfRepresentation() {
         GrantOfRepresentationData expectedGrantOfRepresentation = new GrantOfRepresentationData();
         expectedGrantOfRepresentation.setBoDocumentsUploaded(new ArrayList<>());
+        expectedGrantOfRepresentation.setApplicationSubmittedDate(LocalDate.now());
         expectedGrantOfRepresentation.setApplicationType(ApplicationType.PERSONAL);
         expectedGrantOfRepresentation.setGrantType(GrantType.INTESTACY);
         expectedGrantOfRepresentation.setDeceasedMaritalStatus(MaritalStatus.MARRIED);
