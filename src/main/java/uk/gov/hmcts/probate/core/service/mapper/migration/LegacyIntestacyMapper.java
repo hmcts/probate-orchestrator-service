@@ -61,7 +61,7 @@ public interface LegacyIntestacyMapper extends LegacyFormMapper{
     @Mapping(target = "childrenDied", source = "deceased.anyDeceasedChildrenDieBeforeDeceased")
     @Mapping(target = "grandChildrenSurvivedUnderEighteen",
         source = "deceased.anyDeceasedGrandchildrenUnderEighteen")
-    @Mapping(target = "deceasedSpouseNotApplyingReason", source = "deceased.spouseNotApplyingReason")
+    @Mapping(target = "deceasedSpouseNotApplyingReason", source = "applicant.spouseNotApplyingReason")
     @Mapping(target = "deceasedAnyChildren", source = "deceased.anyChildren")
     @Mapping(target = "deceasedAliasNameList", source = "deceased.otherNames",
         qualifiedBy = {ToCollectionMember.class})
