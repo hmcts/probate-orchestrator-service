@@ -9,6 +9,7 @@
       "phoneNumber": "123455678",
       "addressFound": "Yes",
       "relationshipToDeceased": "adoptedChild",
+      "spouseNotApplyingReason": "mentallyIncapable",
       "adoptionPlace": "Yes"
     },
     "deceased": {
@@ -29,7 +30,6 @@
       "maritalStatus": "marriedCivilPartnership",
       "divorcePlace": "No",
       "domiciledInEnglandOrWales": "Yes",
-      "spouseNotApplyingReason": "mentallyIncapable",
       "anyOtherChildren": "Yes",
       "allChildrenOver18": "Yes",
       "anyDeceasedChildren": "No",
