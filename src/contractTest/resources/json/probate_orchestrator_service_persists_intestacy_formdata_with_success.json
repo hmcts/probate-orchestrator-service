@@ -8,7 +8,7 @@
     "postCode": "SW17 0QT",
     "phoneNumber": "123455678",
     "addressFound": "Yes",
-    "adoptionInEnglandOrWales": "Yes"
+    "adoptionPlace": "Yes"
   },
   "deceased": {
     "firstName": "Ned",
@@ -19,9 +19,9 @@
     "addressFound": "Yes",
     "postCode": "SW17 0QT",
     "alias": "Yes",
-    "allDeceasedChildrenOverEighteen": "Yes",
-    "anyDeceasedChildrenDieBeforeDeceased": "No",
-    "anyDeceasedGrandchildrenUnderEighteen": "No",
+    "allChildrenOver18": "Yes",
+    "anyDeceasedChildren": "No",
+    "anyGrandchildrenUnder18": "No",
     "anyChildren": "No"
   },
   "declarationCheckbox": "Yes",
