@@ -16,7 +16,7 @@
     "phoneNumber": "123455678",
     "addressFound": "true",
     "relationshipToDeceased": "adoptedChild",
-    "adoptionInEnglandOrWales": "Yes"
+    "adoptionPlace": "Yes"
   },
   "deceased": {
     "firstName": "Ned",
@@ -70,12 +70,12 @@
       }
     },
     "maritalStatus": "marriedCivilPartnership",
-    "divorcedInEnglandOrWales": "No",
+    "divorcePlace": "No",
     "spouseNotApplyingReason": "mentallyIncapable",
-    "otherChildren": "Yes",
-    "allDeceasedChildrenOverEighteen": "Yes",
-    "anyDeceasedChildrenDieBeforeDeceased": "No",
-    "anyDeceasedGrandchildrenUnderEighteen": "No",
+    "anyOtherChildren": "Yes",
+    "allChildrenOver18": "Yes",
+    "anyDeceasedChildren": "No",
+    "anyGrandchildrenUnder18": "No",
     "anyChildren": "No",
     "domiciledInEnglandOrWales": "Yes"
   },
@@ -87,7 +87,7 @@
     "netValueOnline": "100000",
     "grossValueOnline": "100000",
     "identifier": "GOT123456",
-    "assetsOutsideNetValue": 100.50,
+    "netValueAssetsOutside": 100.50,
     "assetsOutside": "Yes"
   },
   "copies": {

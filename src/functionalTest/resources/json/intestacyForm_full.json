@@ -9,7 +9,7 @@
     "phoneNumber": "123455678",
     "addressFound": "Yes",
     "relationshipToDeceased": "adoptedChild",
-    "adoptionInEnglandOrWales": "Yes"
+    "adoptionPlace": "Yes"
   },
   "deceased": {
     "firstName": "Ned",
@@ -27,13 +27,13 @@
       }
     },
     "maritalStatus": "marriedCivilPartnership",
-    "divorcedInEnglandOrWales": "No",
+    "divorcePlace": "No",
     "domiciledInEnglandOrWales": "Yes",
     "spouseNotApplyingReason": "mentallyIncapable",
-    "otherChildren": "Yes",
-    "allDeceasedChildrenOverEighteen": "Yes",
-    "anyDeceasedChildrenDieBeforeDeceased": "No",
-    "anyDeceasedGrandchildrenUnderEighteen": "No",
+    "anyOtherChildren": "Yes",
+    "allChildrenOver18": "Yes",
+    "anyDeceasedChildren": "No",
+    "anyGrandchildrenUnder18": "No",
     "anyChildren": "No"
   },
   "iht": {

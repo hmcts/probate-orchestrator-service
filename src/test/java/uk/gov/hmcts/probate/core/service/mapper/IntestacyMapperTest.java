@@ -21,6 +21,8 @@ import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyApplicant;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyDeceased;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 
+import java.util.ArrayList;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -70,6 +72,7 @@ public class IntestacyMapperTest {
     @Test
     public void shouldMapEmptyIntestacyFormToGrantOfRepresentation() {
         GrantOfRepresentationData expectedGrantOfRepresentation = new GrantOfRepresentationData();
+        expectedGrantOfRepresentation.setBoDocumentsUploaded(new ArrayList<>());
         expectedGrantOfRepresentation.setApplicationType(ApplicationType.PERSONAL);
         expectedGrantOfRepresentation.setGrantType(GrantType.INTESTACY);
         expectedGrantOfRepresentation.setDeceasedMaritalStatus(MaritalStatus.MARRIED);
