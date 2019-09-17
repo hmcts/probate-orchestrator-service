@@ -11,7 +11,7 @@ import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.forms.pa.Executor;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, imports = {BooleanUtils.class})
+@Mapper(componentModel = "spring", uses ={AddressMapper.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE, imports = {BooleanUtils.class, AddressMapper.class})
 public interface ExecutorApplyingMapper {
 
     @Mapping(target = "value.applyingExecutorName", expression = "java(ExecutorNamesMapper.getFullname(executor))")
