@@ -266,7 +266,7 @@ public class PaTestDataCreator {
                                         .isApplying(FIRST_EXECUTOR_IS_APPLYING)
                                         .mobile(FIRST_EXECUTOR_MOBILE)
                                         .email(FIRST_EXECUTOR_EMAIL)
-                                        .address(Address.builder().addressLine1(FIRST_EXECUTOR_ADDRESS).build())
+                                        .address(Address.builder().addressLine1(FIRST_EXECUTOR_ADDRESS).formattedAddress(FIRST_EXECUTOR_ADDRESS).build())
                                         .hasOtherName(FIRST_EXECUTOR_HAS_OTHER_NAME)
                                         .currentName(FIRST_EXECUTOR_CURRENT_NAME)
                                         .currentNameReason(FIRST_EXECUTOR_CURRENTNAME_REASON)
@@ -280,7 +280,7 @@ public class PaTestDataCreator {
                                         .mobile(SECOND_EXECUTOR_MOBILE)
                                         .email(SECOND_EXECUTOR_EMAIL)
                                         .inviteId(SECOND_EXECUTOR_INVITE_ID)
-                                        .address(Address.builder().addressLine1(SECOND_EXECUTOR_ADDRESS).build())
+                                        .address(Address.builder().addressLine1(SECOND_EXECUTOR_ADDRESS).formattedAddress(SECOND_EXECUTOR_ADDRESS).build())
                                         .isApplying(true)
                                         .hasOtherName(SECOND_EXECUTOR_HAS_OTHERNAME)
                                         .build(),

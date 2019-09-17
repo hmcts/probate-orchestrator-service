@@ -57,6 +57,7 @@ public class PaMapperTest {
     public void shouldMapGrantOfRepresentationToPaForm() {
         PaForm actualPaForm = mapper.fromCaseData(grantOfRepresentation);
         assertThat(actualPaForm).isEqualToComparingFieldByFieldRecursively(paForm);
+        assertThat(actualPaForm.getExecutors().getList()).isNotEmpty();
     }
 
     @Test

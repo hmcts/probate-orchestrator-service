@@ -21,6 +21,7 @@ import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToLocalDate;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToMap;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPennies;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPounds;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPoundsString;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToRegistryLocation;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToUploadDocs;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
@@ -37,8 +38,8 @@ import java.time.LocalDate;
 
 
 @Mapper(componentModel = "spring", uses = {PaPaymentMapper.class, PaymentsMapper.class, AliasNameMapper.class, RegistryLocationMapper.class, PoundsConverter.class,
-        IhtMethodConverter.class, MapConverter.class, LegalStatementMapper.class, LocalDateTimeMapper.class, DocumentsMapper.class, StatementOfTruthMapper.class},
-        imports = {ApplicationType.class, GrantType.class, LocalDate.class, ProbateType.class, IhtMethod.class, MaritalStatus.class, Relationship.class, SpouseNotApplyingReason.class},
+        IhtMethodConverter.class, MapConverter.class, LegalStatementMapper.class, LocalDateTimeMapper.class, DocumentsMapper.class, StatementOfTruthMapper.class, AddressMapper.class},
+        imports = {ApplicationType.class, GrantType.class, LocalDate.class, ProbateType.class, IhtMethod.class, MaritalStatus.class, Relationship.class, SpouseNotApplyingReason.class, AddressMapper.class},
         unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, IntestacyForm> {
 
@@ -122,6 +123,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "applicant.addresses", source = "primaryApplicantAddresses", qualifiedBy = {ToMap.class})
     @Mapping(target = "applicant.relationshipToDeceased", expression = "java(grantOfRepresentationData.getPrimaryApplicantRelationshipToDeceased()!=null ? grantOfRepresentationData.getPrimaryApplicantRelationshipToDeceased().getDescription() : null)")
     @Mapping(target = "iht.assetsOutsideNetValue", source = "assetsOutsideNetValue", qualifiedBy = {ToPounds.class})
+    @Mapping(target = "iht.netValueAssetsOutsideField", source = "assetsOutsideNetValue", qualifiedBy = {ToPoundsString.class})
     @Mapping(target = "legalDeclaration", source = "legalDeclarationJson", qualifiedBy = {ToMap.class})
     @Mapping(target = "checkAnswersSummary", source = "checkAnswersSummaryJson", qualifiedBy = {ToMap.class})
     @Mapping(target = "payment", source = "payments")

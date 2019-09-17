@@ -10,29 +10,35 @@ public class AddressMapper {
 
     @ToCaseAddress
     public Address toCaseAddress(uk.gov.hmcts.reform.probate.model.forms.Address formAddress) {
-        return Address.builder()
-            .addressLine1(formAddress.getAddressLine1())
-            .addressLine2(formAddress.getAddressLine2())
-            .addressLine3(formAddress.getAddressLine3())
-            .postTown(formAddress.getPostTown())
-            .county(formAddress.getCounty())
-            .postCode(formAddress.getPostCode())
-            .country(formAddress.getCountry())
-            .build();
+        if(formAddress!=null) {
+            return Address.builder()
+                    .addressLine1(formAddress.getAddressLine1())
+                    .addressLine2(formAddress.getAddressLine2())
+                    .addressLine3(formAddress.getAddressLine3())
+                    .postTown(formAddress.getPostTown())
+                    .county(formAddress.getCounty())
+                    .postCode(formAddress.getPostCode())
+                    .country(formAddress.getCountry())
+                    .build();
+        }
+        return null;
     }
 
     @ToFormAddress
     public uk.gov.hmcts.reform.probate.model.forms.Address toFormAddress(Address address) {
-        return uk.gov.hmcts.reform.probate.model.forms.Address.builder()
-            .addressLine1(address.getAddressLine1())
-            .addressLine2(address.getAddressLine2())
-            .addressLine3(address.getAddressLine3())
-            .postTown(address.getPostTown())
-            .county(address.getCounty())
-            .postCode(address.getPostCode())
-            .country(address.getCountry())
-            .formattedAddress(getFormattedAddress(address))
-            .build();
+        if(address!=null) {
+            return uk.gov.hmcts.reform.probate.model.forms.Address.builder()
+                    .addressLine1(address.getAddressLine1())
+                    .addressLine2(address.getAddressLine2())
+                    .addressLine3(address.getAddressLine3())
+                    .postTown(address.getPostTown())
+                    .county(address.getCounty())
+                    .postCode(address.getPostCode())
+                    .country(address.getCountry())
+                    .formattedAddress(getFormattedAddress(address))
+                    .build();
+        }
+        return null;
     }
 
     private String getFormattedAddress(Address address) {
