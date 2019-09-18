@@ -79,7 +79,8 @@ findbugs {
 sonarqube {
     properties {
         property "sonar.exclusions", "**/AppInsights.java, **/LegacyPaMapper.java, **/LegacyIntestacyMapper.java, " +
-                "**/LegacyFormMapper.java, **/PaMapper.java, **/IntestacyMapper.java , **/ScheduledConfiguration.java"
+                "**/LegacyFormMapper.java, **/PaMapper.java, **/IntestacyMapper.java , **/ScheduledConfiguration.java, " +
+        "**/AuthenticateUserResponse.java, **/TokenExchangeResponse.java"
         property "sonar.projectName", "PROBATE :: Probate-Orchestrator-Service"
         property "sonar.projectKey", "Probate-Orchestrator-Service"
         property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
@@ -268,7 +269,7 @@ dependencies {
 
     compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: versions.springCloudStarterNetflixHystrix
     compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix-dashboard', version: versions.springCloudStarterNetflixHystrix
-    compile (group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: versions.springCloudStarterNetflixHystrix) {
+    compile(group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: versions.springCloudStarterNetflixHystrix) {
         force = true
     }
     compile group: 'org.springframework.hateoas', name: 'spring-hateoas'
@@ -349,7 +350,6 @@ dependencies {
     testContractRuntime(group: 'io.github.openfeign', name: 'feign-core', version: '9.7.0') {
         force = true
     }
- 
 
 
 }
