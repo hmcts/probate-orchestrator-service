@@ -1,11 +1,11 @@
 package uk.gov.hmcts.probate.core.service.mapper;
 
-import org.junit.Before;
+import io.jsonwebtoken.lang.Assert;
 import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.probate.model.cases.Address;
 
-import static org.junit.Assert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 
 public class AddressMapperTest {
@@ -36,6 +36,12 @@ public class AddressMapperTest {
     }
 
     @Test
+    void shouldHandleNullValuMapCaseAddressToFormAddress(){
+        uk.gov.hmcts.reform.probate.model.forms.Address formAddress  = addressMapper.toFormAddress(null);
+        Assert.isNull(formAddress);
+    }
+
+    @Test
     void mapFormAddressToCaseAddress() {
         uk.gov.hmcts.reform.probate.model.forms.Address formAddress =
                 new uk.gov.hmcts.reform.probate.model.forms.Address();
@@ -54,5 +60,11 @@ public class AddressMapperTest {
         assertThat(caseAddress.getPostCode(), is("postCode"));
         assertThat(caseAddress.getCounty(), is("county"));
         assertThat(caseAddress.getCountry(), is("country"));
+    }
+
+    @Test
+    void shouldHandleNullValuMapFormAddressToCaseAddress(){
+        Address caseAddress  = addressMapper.toCaseAddress(null);
+       Assert.isNull(caseAddress);
     }
 }
