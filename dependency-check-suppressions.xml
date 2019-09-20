@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.1.xsd">
+
     <suppress>
         <notes><![CDATA[
    file name: commons-beanutils-1.9.3.jar
@@ -244,6 +245,8 @@
     <suppress>
         <notes><![CDATA[file name: jackson-databind-2.9.8.jar]]></notes>
         <cve>CVE-2019-12086</cve>
+        <cve>CVE-2019-14540</cve>
+        <cve>CVE-2019-16335</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[
