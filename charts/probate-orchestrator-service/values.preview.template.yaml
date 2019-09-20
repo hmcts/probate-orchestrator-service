@@ -1,4 +1,5 @@
 java:
+  aadIdentityName:
   environment:
     SERVICES_PERSISTENCE_BASEURL : "http://probate-persistence-service-aat.service.core-compute-aat.internal"
     AUTH_PROVIDER_SERVICE_CLIENT_BASEURL : "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"

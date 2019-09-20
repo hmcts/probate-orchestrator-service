@@ -1,6 +1,6 @@
 dependencies:
   - name: java
-    version: '2.2.2'
+    version: '2.6.0'
     repository: '@hmctspublic'
   - name: idam-pr
     version: ~2.1.3
