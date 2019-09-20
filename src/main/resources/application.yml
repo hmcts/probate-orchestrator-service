@@ -29,9 +29,9 @@
   service.auth.provider.base.url: ${auth.provider.service.client.baseUrl}
 
   auth.idam:
-    client.baseUrl: ${AUTH_IDAM_CLIENT_BASEURL:http://localhost:4501}
-    clientId: probate
-    clientSecret: ${AUTH2_CLIENT_SECRET:123456}
+    client.baseUrl: ${AUTH_IDAM_CLIENT_BASEURL:http://localhost:5000}
+    clientId: ccd_gateway
+    clientSecret: ${AUTH2_CLIENT_SECRET:ccd_gateway_secret}
     redirectUrl: ${IDAM_API_REDIRECT_URL:http://localhost:3451/oauth2redirect}
     caseworker:
       username: ${PAYMENT_CASEWORKER_USERNAME:probatebackoffice@gmail.com}
