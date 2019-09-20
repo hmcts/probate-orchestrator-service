@@ -14,6 +14,7 @@
    ]]></notes>
         <gav regex="true">^info\.solidsoft\.gradle\.pitest:gradle-pitest-plugin:.*$</gav>
         <cve>CVE-2019-15052</cve>
+        <cve>CVE-2019-16370</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[
