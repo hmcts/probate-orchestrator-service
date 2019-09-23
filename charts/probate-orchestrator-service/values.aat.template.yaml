@@ -1,5 +1,3 @@
-tags:
-  idam-pr: false
 
 java:
   environment:
@@ -19,28 +17,4 @@ java:
 
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
-  aadIdentityName: probate
-  keyVaults:
-    "probate":
-      resourceGroup: probate
-      secrets:
-        - s2sAuthTotpSecret
-        - probateIdamSecret
-        - probateIdamUserName
-        - probateIdamPassword
-        - probate-notify-invite-apikey
-        - s2s-probate-backend
-        - AppInsightsInstrumentationKey
-        - probateCcdDataStoreApi
-        - serviceAuthProviderBaseUrl
-        - probateUserAuthUrl
-        - probateIdamOauthRedirectUrl
-        - probate-mail-host
-        - probate-mail-username
-        - probate-mail-password
-        - probate-mail-port
-        - probate-mail-sender
-        - probate-mail-recipient
-        - payCaseWorkerUser
-        - payCaseWorkerPass
-        - idamRedirectUrl
+
