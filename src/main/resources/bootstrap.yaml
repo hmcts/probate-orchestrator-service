@@ -4,9 +4,9 @@ spring:
       prefixed: false
       paths: /mnt/secrets/probate
       aliases:
-        AppInsightsInstrumentationKey: azure.app_insights_key
-        s2s-probate-backend: auth.provider.service.client.key
-        idamRedirectUrl:   auth.idam.redirectUrl
-        payCaseWorkerUser: auth.idam.caseworker.username
-        payCaseWorkerPass: auth.idam.caseworker.password
-        ccidam-idam-api-secrets-probate: auth.idam.clientSecret
+        AppInsightsInstrumentationKey: APPINSIGHTS_INSTRUMENTATIONKEY
+        s2s-probate-backend: AUTH_PROVIDER_SERVICE_CLIENT_KEY
+        idamRedirectUrl:   IDAM_API_REDIRECT_URL
+        payCaseWorkerUser: PAYMENT_CASEWORKER_USERNAME
+        payCaseWorkerPass: PAYMENT_CASEWORKER_PASSWORD
+        ccidam-idam-api-secrets-probate: AUTH2_CLIENT_SECRET
