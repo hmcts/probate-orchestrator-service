@@ -14,23 +14,10 @@ java:
     "probate":
       resourceGroup: probate
       secrets:
-        - s2sAuthTotpSecret
-        - probateIdamSecret
-        - probateIdamUserName
-        - probateIdamPassword
-        - probate-notify-invite-apikey
-        - s2s-probate-backend
         - AppInsightsInstrumentationKey
-        - probateCcdDataStoreApi
-        - serviceAuthProviderBaseUrl
-        - probateUserAuthUrl
-        - probateIdamOauthRedirectUrl
-        - probate-mail-host
-        - probate-mail-username
-        - probate-mail-password
-        - probate-mail-port
-        - probate-mail-sender
-        - probate-mail-recipient
+        - s2s-probate-backend
+        - idamRedirectUrl
         - payCaseWorkerUser
         - payCaseWorkerPass
-        - idamRedirectUrl
+        - ccidam-idam-api-secrets-probate
+        
