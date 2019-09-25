@@ -4,25 +4,9 @@ spring:
       prefixed: false
       paths: /mnt/secrets/probate
       aliases:
-        probateIdamSecret: IDAM_SECRET
-        probateIdamUserName: IDAM_USERNAME
-        probateIdamPassword: IDAM_USERPASSWORD
-        probate-notify-invite-apikey: services.notify.apiKey
-        s2s-probate-backend: services.auth.provider.totp_secret
         AppInsightsInstrumentationKey: azure.app_insights_key
-        probatePersistenceUrl: TEST_PERSISTENCE_URL
-        probateBusinessUrl: TEST_BUSINESS_URL
-        s2sAuthTotpSecret: S2S_AUTH_TOTP_SECRET
-        probateCcdDataStoreApi: CCD_DATA_STORE_API_URL
-        serviceAuthProviderBaseUrl: SERVICE_AUTH_PROVIDER_BASE_URL
-        probateUserAuthUrl: USER_AUTH_PROVIDER_OAUTH2_URL
-        probateIdamOauthRedirectUrl: IDAM_OAUTH2_REDIRECT_URI
-        probate-mail-host: PROBATE_SUB_MAIL_HOST
-        probate-mail-username: PROBATE_SUB_MAIL_USERNAME
-        probate-mail-password: PROBATE_SUB_MAIL_PASSWORD
-        probate-mail-port: PROBATE_SUB_MAIL_PORT
-        probate-mail-sender: PROBATE_SUB_MAIL_SENDER
-        probate-mail-recipient: PROBATE_SUB_MAIL_REC
-        payCaseWorkerUser: PAYMENT_CASEWORKER_USERNAME
-        payCaseWorkerPass: PAYMENT_CASEWORKER_PASSWORD
-        idamRedirectUrl: IDAM_REDIRECT_URL
+        s2s-probate-backend: auth.provider.service.client.key
+        idamRedirectUrl:   auth.idam.redirectUrl
+        payCaseWorkerUser: auth.idam.caseworker.username
+        payCaseWorkerPass: auth.idam.caseworker.password
+        ccidam-idam-api-secrets-probate: auth.idam.clientSecret
