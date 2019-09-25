@@ -3,6 +3,7 @@ package uk.gov.hmcts.probate.core.service.mapper;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPennies;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPounds;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPoundsString;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -27,5 +28,14 @@ public class PoundsConverter {
         }
         return BigDecimal.valueOf(value).divide(ONE_HUNDRED, 2, RoundingMode.HALF_UP);
     }
+
+    @ToPoundsString
+    public String penniesToPoundsString(Long value) {
+        if (value == null) {
+            return null;
+        }
+        return penniesToPounds(value).toPlainString();
+    }
+
 
 }
