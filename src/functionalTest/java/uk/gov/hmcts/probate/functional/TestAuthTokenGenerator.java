@@ -21,10 +21,10 @@ public class TestAuthTokenGenerator {
     @Value("${idam.oauth2.redirect_uri}")
     private String redirectUri;
 
-    @Value("${service.name}")
+    @Value("${auth.provider.service.client.microservice}")
     private String serviceName;
 
-    @Value("${service.auth.provider.base.url}")
+    @Value("${auth.provider.service.client.baseUrl}")
     private String baseServiceAuthUrl;
 
     @Value("${user.auth.provider.oauth2.url}")

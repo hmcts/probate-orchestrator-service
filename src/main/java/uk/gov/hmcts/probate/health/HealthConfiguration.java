@@ -12,7 +12,7 @@ public class HealthConfiguration {
 
     private static final String HEALTH_ENDPOINT = "/health";
 
-    @Value("${service.auth.provider.base.url}")
+    @Value("${auth.provider.service.client.baseUrl}")
     private String serviceAuthUrl;
 
     @Value("${auth.idam.client.baseUrl}")
