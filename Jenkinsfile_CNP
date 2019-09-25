@@ -42,6 +42,7 @@ withPipeline("java", product, component) {
     enableAksStagingDeployment()
     enableSlackNotifications('#probate-jenkins')
     enableDockerBuild()
+    disableLegacyDeployment()
 ////  enableDeployToAKS()
     installCharts()
     /*
