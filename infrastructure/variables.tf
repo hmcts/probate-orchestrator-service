@@ -17,7 +17,7 @@ variable "env" {
   type = "string"
 }
 
-variable "ilbIp" { }
+variable "ilbIp" {}
 
 variable "deployment_env" {
   type = "string"
@@ -33,17 +33,15 @@ variable "component" {
 
 variable "subscription" {}
 
-
 variable "vault_section" {
   type = "string"
 }
 
 // CNP settings
 variable "jenkins_AAD_objectId" {
-  type                        = "string"
-  description                 = "(Required) The Azure AD object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies."
+  type        = "string"
+  description = "(Required) The Azure AD object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies."
 }
-
 
 variable "outbound_proxy" {
   default = "http://proxyout.reform.hmcts.net:8080/"
@@ -55,13 +53,12 @@ variable "no_proxy" {
 
 variable "appinsights_instrumentation_key" {
   description = "Instrumentation key of the App Insights instance this webapp should use. Module will create own App Insights resource if this is not provided"
-  default = ""
+  default     = ""
 }
 
 variable "services_persistence_baseUrl" {
   default = "/"
 }
-
 
 variable "idam_service_api" {
   type = "string"
@@ -99,30 +96,16 @@ variable "common_tags" {
   type = "map"
 }
 
-variable "services_auth_provider_baseurl" {
+variable "services_auth_provider_baseurl" {}
 
-}
+variable "auth_idam_client_baseurl" {}
 
-variable "auth_idam_client_baseurl" {
+variable "submit_service_api_url" {}
 
-}
+variable "business_service_api_url" {}
 
-variable "submit_service_api_url" {
+variable "back_office_api_url" {}
 
-}
+variable "asp_rg" {}
 
-variable "business_service_api_url" {
-
-}
-
-variable "back_office_api_url" {
-
-}
-
-variable "asp_rg" {
-
-}
-
-variable "asp_name" {
-
-}
+variable "asp_name" {}
