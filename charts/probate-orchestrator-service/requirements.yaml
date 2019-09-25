@@ -2,8 +2,8 @@ dependencies:
   - name: java
     version: ~2.7.1
     repository: '@hmctspublic'
-  - name: idam-pr
-    version: ~2.1.3
-    repository: '@hmctspublic'
-    tags:
-      - idam-pr
+  # - name: idam-pr
+  #   version: ~2.1.3
+  #   repository: '@hmctspublic'
+  #   tags:
+  #     - idam-pr
