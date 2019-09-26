@@ -21,7 +21,7 @@
   auth.provider.service.client:
     baseUrl: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
     microservice: 'probate_backend'
-    key: ${AUTH_PROVIDER_SERVICE_CLIENT_KEY:'AAAAAAAAAAAAAAAA'}
+    key: ${S2S_AUTH_TOTP_SECRET:'AAAAAAAAAAAAAAAA'}
     tokenTimeToLiveInSeconds: '900'
 
   idam.s2s-auth.url: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
@@ -37,7 +37,7 @@
       username: ${PAYMENT_CASEWORKER_USERNAME:probatebackoffice@gmail.com}
       password: ${PAYMENT_CASEWORKER_PASSWORD:Monday01}
 
-  s2s.auth.totp.secret: ${AUTH_PROVIDER_SERVICE_CLIENT_KEY:'AAAAAAAAAAAAAAAA'}
+  s2s.auth.totp.secret: ${S2S_AUTH_TOTP_SECRET:'AAAAAAAAAAAAAAAA'}
   service.name: ${auth.provider.service.client.microservice}
 
   submit.service.api.url: ${SUBMIT_SERVICE_API_URL:http://localhost:8181}

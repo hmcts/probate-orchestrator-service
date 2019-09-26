@@ -16,6 +16,7 @@ public class ServiceAuthConfiguration {
     public ServiceAuthTokenGenerator serviceAuthTokenGenerator(@Value("${service.auth.provider.base.url}") String s2sUrl,
                                                                @Value("${s2s.auth.totp.secret}") String secret,
                                                                @Value("${service.name}") String microservice) {
+
         final ServiceAuthorisationApi serviceAuthorisationApi = Feign.builder()
                 .encoder(new JacksonEncoder())
                 .contract(new SpringMvcContract())

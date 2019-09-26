@@ -42,14 +42,14 @@ withPipeline("java", product, component) {
     enableAksStagingDeployment()
     enableSlackNotifications('#probate-jenkins')
     enableDockerBuild()
-    //disableLegacyDeployment()
+    disableLegacyDeployment()
 ////  enableDeployToAKS()
     installCharts()
-    /*
+    
     before('buildinfra:prod') {
             error 'Deliberately breaking pipeline to prevent prod deployment'
     }
-    */
+    
     after('test') {
 
 //        try {

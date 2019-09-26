@@ -5,7 +5,7 @@ spring:
       paths: /mnt/secrets/probate
       aliases:
         AppInsightsInstrumentationKey: APPINSIGHTS_INSTRUMENTATIONKEY
-        s2s-probate-backend: AUTH_PROVIDER_SERVICE_CLIENT_KEY
+        s2s-probate-backend: S2S_AUTH_TOTP_SECRET
         idamRedirectUrl:   IDAM_API_REDIRECT_URL
         payCaseWorkerUser: PAYMENT_CASEWORKER_USERNAME
         payCaseWorkerPass: PAYMENT_CASEWORKER_PASSWORD
