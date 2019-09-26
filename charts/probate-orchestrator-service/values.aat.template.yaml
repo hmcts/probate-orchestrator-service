@@ -9,7 +9,7 @@ java:
     SUBMIT_SERVICE_API_URL : "http://probate-submit-service-aat.service.core-compute-aat.internal"
     BUSINESS_SERVICE_API_URL : "http://probate-business-service-aat.service.core-compute-aat.internal"
     BACK_OFFICE_API_URL: "http://probate-back-office-aat.service.core-compute-aat.internal"
-    LOG_LEVEL: DEBUG
+    LOG_LEVEL: INFO
     MAIL_JAVAMAILPROPERTIES_MAIL_SMTP_SSL_ENABLE: false
     MAIL_JAVAMAILPROPERTIES_MAIL_SMTP_AUTH: false
     SERVICES_CORECASEDATA_ENABLED: true
