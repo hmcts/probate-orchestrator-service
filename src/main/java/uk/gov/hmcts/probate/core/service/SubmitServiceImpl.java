@@ -20,6 +20,7 @@ import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.SubmitResult;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
+import uk.gov.hmcts.reform.probate.model.forms.CaseSummary;
 import uk.gov.hmcts.reform.probate.model.forms.CaseSummaryHolder;
 import uk.gov.hmcts.reform.probate.model.forms.CcdCase;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
@@ -28,6 +29,7 @@ import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaForm;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -74,13 +76,12 @@ public class SubmitServiceImpl implements SubmitService {
     @Override
     public CaseSummaryHolder getAllCases() {
         log.info("Get all cases called");
-
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
         List<ProbateCaseDetails> probateCaseDetails = submitServiceApi.getAllCases(authorisation,
                 serviceAuthorisation, CaseType.GRANT_OF_REPRESENTATION.name());
-
-        return new CaseSummaryHolder(probateCaseDetails.stream().map(caseSummaryMapper::createCaseSummary).collect(Collectors.toList()));
+        List<CaseSummary> caseSummaries = probateCaseDetails.stream().map(caseSummaryMapper::createCaseSummary).sorted(Comparator.comparing(CaseSummary::getDateCreated)).collect(Collectors.toList());
+        return new CaseSummaryHolder(caseSummaries);
     }
 
 
