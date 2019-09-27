@@ -12,6 +12,8 @@ import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.ProbatePaymentDetails;
 import uk.gov.hmcts.reform.probate.model.cases.SubmitResult;
 
+import java.util.List;
+
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -47,6 +49,16 @@ public interface SubmitServiceApi {
         @RequestParam("caseType") String caseType
     );
 
+    @GetMapping(
+            value = "/cases/all",
+            headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+    )
+    List<ProbateCaseDetails> getAllCases(
+            @RequestHeader(AUTHORIZATION) String authorisation,
+            @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+            @RequestParam("caseType") String caseType
+    );
+
     @PostMapping(
         value = "/cases/{applicationId}",
         headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
@@ -56,6 +68,16 @@ public interface SubmitServiceApi {
         @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
         @PathVariable(SubmitServiceConfiguration.APPLICATION_ID) String applicationId,
         @RequestBody ProbateCaseDetails probateCaseDetails
+    );
+
+    @PostMapping(
+            value = "/cases/initate",
+            headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+    )
+    ProbateCaseDetails initiateCase(
+            @RequestHeader(AUTHORIZATION) String authorisation,
+            @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+            @RequestBody ProbateCaseDetails probateCaseDetails
     );
 
     @PostMapping(
