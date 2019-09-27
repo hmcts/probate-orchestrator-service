@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.probate.service.SubmitService;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
+import uk.gov.hmcts.reform.probate.model.forms.CaseSummaryHolder;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
@@ -31,12 +32,30 @@ import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 @RequiredArgsConstructor
 public class FormsController {
 
-    private static final String FORMS_ENDPOINT = "/forms/{identifier}";
+    private static final String FORMS_ENDPOINT = "/forms/case/{identifier}";
+    private static final String FORMS_CASES_ENDPOINT = "/forms/cases";
+    private static final String FORMS_NEW_CASE_ENDPOINT = "/forms/newcase";
     private static final String SUBMISSIONS_ENDPOINT = "/submissions";
     private static final String VALIDATIONS_ENDPOINT = "/validations";
     private static final String PAYMENTS_ENDPOINT = "/payments";
 
     private final SubmitService submitService;
+
+
+
+    @ApiOperation(value = "Initiate form data", notes = "Initiate form data")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Form initiated successfully"),
+            @ApiResponse(code = 400, message = "Initate form failed"),
+            @ApiResponse(code = 422, message = "Invalid or missing attribute")
+    })
+    @PostMapping(path = FORMS_NEW_CASE_ENDPOINT, consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<CaseSummaryHolder> initiateForm(@RequestParam("probateType") ProbateType probateType) {
+        log.info("Initiate form called");
+        return new ResponseEntity<>(submitService.initiateCase(probateType), HttpStatus.OK);
+    }
 
     @ApiOperation(value = "Save form data", notes = "Save form data")
     @ApiResponses(value = {
@@ -65,6 +84,20 @@ public class FormsController {
         log.info("Get form called");
         return new ResponseEntity<>(submitService.getCase(identifier, probateType), HttpStatus.OK);
     }
+
+
+    @ApiOperation(value = "Get form data", notes = "Get form data")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Retrieved form successfully"),
+            @ApiResponse(code = 400, message = "Retrieving form failed")
+    })
+    @GetMapping(path = FORMS_CASES_ENDPOINT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<CaseSummaryHolder> getAllForms() {
+        log.info("Get form called");
+        return new ResponseEntity<>(submitService.getAllCases(), HttpStatus.OK);
+    }
+
 
     @ApiOperation(value = "Submit form data", notes = "Submit form data")
     @ApiResponses(value = {

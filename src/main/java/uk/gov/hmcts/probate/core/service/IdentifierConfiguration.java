@@ -27,7 +27,7 @@ public class IdentifierConfiguration {
     private Function<Form, String> intestacyFormIdentifierFunction() {
         return form -> {
             IntestacyForm intestacyForm = (IntestacyForm) form;
-            return intestacyForm.getApplicantEmail();
+            return intestacyForm.getCcdCase().getId().toString();
         };
     }
 
@@ -41,7 +41,7 @@ public class IdentifierConfiguration {
     private Function<Form, String> paFormIdentifierFunction() {
         return form -> {
             PaForm paForm = (PaForm) form;
-            return paForm.getApplicantEmail();
+            return paForm.getCcdCase().getId().toString();
         };
     }
 }

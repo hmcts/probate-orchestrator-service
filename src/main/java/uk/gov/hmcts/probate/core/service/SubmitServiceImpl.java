@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
+import uk.gov.hmcts.probate.core.service.mapper.CaseSummaryMapper;
 import uk.gov.hmcts.probate.core.service.mapper.FormMapper;
 import uk.gov.hmcts.probate.service.BackOfficeService;
 import uk.gov.hmcts.probate.service.SubmitService;
@@ -19,15 +20,20 @@ import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.SubmitResult;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
+import uk.gov.hmcts.reform.probate.model.forms.CaseSummaryHolder;
 import uk.gov.hmcts.reform.probate.model.forms.CcdCase;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
 import uk.gov.hmcts.reform.probate.model.forms.Payment;
+import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
+import uk.gov.hmcts.reform.probate.model.forms.pa.PaForm;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -48,6 +54,8 @@ public class SubmitServiceImpl implements SubmitService {
 
     private final CaseSubmissionUpdater caseSubmissionUpdater;
 
+    private final CaseSummaryMapper caseSummaryMapper;
+
     @Override
     public Form getCase(String identifier, ProbateType probateType) {
         log.info("Get case called for : {}", probateType.getName());
@@ -63,6 +71,19 @@ public class SubmitServiceImpl implements SubmitService {
         return form;
     }
 
+    @Override
+    public CaseSummaryHolder getAllCases() {
+        log.info("Get all cases called");
+
+        String serviceAuthorisation = securityUtils.getServiceAuthorisation();
+        String authorisation = securityUtils.getAuthorisation();
+        List<ProbateCaseDetails> probateCaseDetails = submitServiceApi.getAllCases(authorisation,
+                serviceAuthorisation, CaseType.GRANT_OF_REPRESENTATION.name());
+
+        return new CaseSummaryHolder(probateCaseDetails.stream().map(caseSummaryMapper::createCaseSummary).collect(Collectors.toList()));
+    }
+
+
     private FormMapper getFormMapper(ProbateType probateType, ProbateCaseDetails probateCaseDetails) {
         FormMapper formMapper = null;
         if (probateType.equals(ProbateType.CAVEAT)) {
@@ -75,6 +96,32 @@ public class SubmitServiceImpl implements SubmitService {
         }
         return formMapper;
     }
+
+    @Override
+    public CaseSummaryHolder initiateCase(ProbateType probateType) {
+
+        CaseSummaryHolder allCases = getAllCases();
+        log.info("Initiate case called");
+        FormMapper formMapper = mappers.get(probateType);
+        ProbateCaseDetails probateCaseDetails = submitServiceApi.initiateCase(
+                securityUtils.getAuthorisation(),
+                securityUtils.getServiceAuthorisation(),
+                ProbateCaseDetails.builder().caseData(mapToCase(initiateForm(probateType), formMapper)).build()
+        );
+        allCases.getApplications().add(caseSummaryMapper.createCaseSummary(probateCaseDetails));
+        return allCases;
+    }
+
+    private Form initiateForm(ProbateType probateType) {
+
+        if (ProbateType.INTESTACY.equals(probateType)) {
+            return IntestacyForm.builder().build();
+        } else if (ProbateType.PA.equals(probateType)) {
+            return PaForm.builder().build();
+        }
+        return null;
+    }
+
 
     @Override
     public Form saveCase(String identifier, Form form) {

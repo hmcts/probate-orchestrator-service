@@ -1,17 +1,21 @@
 package uk.gov.hmcts.probate.service;
 
-import java.util.Optional;
-
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.CaseData;
-import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
+import uk.gov.hmcts.reform.probate.model.forms.CaseSummaryHolder;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
+import java.util.Optional;
+
 public interface SubmitService {
 
+    CaseSummaryHolder initiateCase(ProbateType probateType);
+
     Form getCase(String identifier, ProbateType probateType);
+
+    CaseSummaryHolder getAllCases();
 
     Form saveCase(String identifier, Form form);
 
