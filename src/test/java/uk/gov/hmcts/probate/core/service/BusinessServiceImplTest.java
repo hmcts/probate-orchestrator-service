@@ -19,6 +19,7 @@ import uk.gov.hmcts.probate.client.business.BusinessServiceDocumentsApi;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.mapper.ExecutorApplyingToInvitationMapper;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
+import uk.gov.hmcts.reform.probate.model.cases.CaseInfo;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
@@ -70,11 +71,15 @@ public class BusinessServiceImplTest {
     @Mock
     GrantOfRepresentationData mockGrantOfRepresentationData;
 
+    @Mock
+    CaseInfo mockCaseInfo;
+
     private BusinessServiceImpl businessService;
 
     private byte[] pdfExample;
 
     private ObjectMapper objectMapper;
+
 
 
     @Before
@@ -87,6 +92,8 @@ public class BusinessServiceImplTest {
         when(submitServiceApi.getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
                 formdataId, ProbateType.PA.getCaseType().name())).thenReturn(mockProbateCaseDetails);
         when(mockProbateCaseDetails.getCaseData()).thenReturn(mockGrantOfRepresentationData);
+        when(mockProbateCaseDetails.getCaseInfo()).thenReturn(mockCaseInfo);
+        when(mockCaseInfo.getCaseId()).thenReturn("123456789101112");
 
         pdfExample = new byte[10];
         businessService = new BusinessServiceImpl(businessServiceApi, businessServiceDocumentsApi,

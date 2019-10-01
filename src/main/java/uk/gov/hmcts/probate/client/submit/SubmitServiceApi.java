@@ -49,6 +49,18 @@ public interface SubmitServiceApi {
         @RequestParam("caseType") String caseType
     );
 
+
+    @GetMapping(
+            value = "/cases/applicantEmail/{applicantEmail}",
+            headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+    )
+    ProbateCaseDetails getCaseByApplicantEmail(
+            @RequestHeader(AUTHORIZATION) String authorisation,
+            @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+            @PathVariable(SubmitServiceConfiguration.APPLICATION_EMAIL) String applicantEmail,
+            @RequestParam("caseType") String caseType
+    );
+
     @GetMapping(
             value = "/cases/all",
             headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE

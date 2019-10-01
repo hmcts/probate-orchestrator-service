@@ -80,15 +80,13 @@ public class InviteDataMigratorTest {
         when(persistenceServiceApiMock.getInviteDataWithPageAndSize("1", "20"))
                 .thenReturn(inviteDataResource);
 
-        when(gopMock.getPrimaryApplicantEmailAddress()).thenReturn(FORMDATA_ID);
-
         ProbateCaseDetails probateCaseDetails = ProbateCaseDetails.builder()
-                .caseInfo(CaseInfo.builder().state(CaseState.DRAFT)
+                .caseInfo(CaseInfo.builder().state(CaseState.DRAFT).caseId(FORMDATA_ID)
                         .build())
                 .caseData(gopMock)
                 .build();
 
-        when(submitServiceApiMock.getCase(AUTH_TOKEN, SERVICE_AUTH_TOKEN,
+        when(submitServiceApiMock.getCaseByApplicantEmail(AUTH_TOKEN, SERVICE_AUTH_TOKEN,
                 FORMDATA_ID, ProbateType.PA.getCaseType().getName()))
                 .thenReturn(probateCaseDetails);
 
@@ -98,7 +96,7 @@ public class InviteDataMigratorTest {
         verify(persistenceServiceApiMock).getInviteDatas();
         verify(persistenceServiceApiMock).getInviteDataWithPageAndSize("1", "20");
 
-        verify(submitServiceApiMock).getCase(AUTH_TOKEN, SERVICE_AUTH_TOKEN, FORMDATA_ID,
+        verify(submitServiceApiMock).getCaseByApplicantEmail(AUTH_TOKEN, SERVICE_AUTH_TOKEN, FORMDATA_ID,
                 ProbateType.PA.getCaseType().getName());
 
         verify(gopMock).setInvitationDetailsForExecutorApplying(EMAIL, "id", Boolean.TRUE);

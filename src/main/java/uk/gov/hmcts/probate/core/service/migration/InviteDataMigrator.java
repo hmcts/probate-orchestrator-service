@@ -47,7 +47,7 @@ public class InviteDataMigrator {
         try {
             log.info("Migration started for InviteData with formDataId: "
                     + inviteData.getFormdataId());
-            ProbateCaseDetails pcd = submitServiceApi.getCase(securityUtils.getAuthorisation(),
+            ProbateCaseDetails pcd = submitServiceApi.getCaseByApplicantEmail(securityUtils.getAuthorisation(),
                     securityUtils.getServiceAuthorisation(), inviteData.getFormdataId(),
                     ProbateType.PA.getCaseType().getName());
             if (pcd.getCaseInfo().getState().equals(CaseState.DRAFT)) {
@@ -57,7 +57,7 @@ public class InviteDataMigrator {
                 grantOfRepresentationData.setInvitationDetailsForExecutorApplying(inviteData.getEmail(),
                         inviteData.getId(), inviteData.getAgreed());
                 submitServiceApi.saveCase(securityUtils.getAuthorisation(),
-                        securityUtils.getServiceAuthorisation(), ((GrantOfRepresentationData) pcd.getCaseData()).getPrimaryApplicantEmailAddress(), pcd);
+                        securityUtils.getServiceAuthorisation(),  pcd.getCaseInfo().getCaseId(), pcd);
                 log.info("Invite details migrated for formdata id: "
                         + inviteData.getFormdataId());
             }

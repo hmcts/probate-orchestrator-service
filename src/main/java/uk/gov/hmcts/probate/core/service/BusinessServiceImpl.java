@@ -200,7 +200,7 @@ public class BusinessServiceImpl implements BusinessService {
         ExecutorApplying executorApplyingByInviteId = grantOfRepresentationData.getExecutorApplyingByInviteId(inviteId);
         Invitation invitation = executorApplyingToInvitationMapper.map(executorApplyingByInviteId);
         log.info("Got invite data for executor applying", executorApplyingByInviteId.getApplyingExecutorName());
-        invitation.setFormdataId(grantOfRepresentationData.getPrimaryApplicantEmailAddress());
+        invitation.setFormdataId(probateCaseDetails.getCaseInfo().getCaseId());
         return invitation;
 
     }

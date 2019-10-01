@@ -12,6 +12,7 @@ public class SubmitServiceConfiguration {
     public static final String SERVICE_AUTHORIZATION = "ServiceAuthorization";
 
     static final String APPLICATION_ID = "applicationId";
+    static final String APPLICATION_EMAIL = "applicantEmail";
     static final String INVITATION_ID = "invitationId";
     static final String CASE_ID = "caseId";
 
