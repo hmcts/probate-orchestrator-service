@@ -179,7 +179,7 @@ gitProperties {
 
 def versions = [
         commonsIO                       : '2.6',
-        hmctsJavaLogging                : '5.0.1',
+        hmctsJavaLogging                : '5.1.0',
         lombok                          : '1.16.18',
         restAssured                     : '3.0.3',
         serviceTokenGenerator           : '0.6.0',
@@ -257,9 +257,9 @@ dependencies {
     compile group: 'org.springframework.hateoas', name: 'spring-hateoas'
     compile group: 'io.github.openfeign', name: 'feign-httpclient', version: versions.feignHttpClient
 
-    compile group: 'uk.gov.hmcts.reform', name: 'java-logging-spring', version: versions.hmctsJavaLogging
-  compile group: 'uk.gov.hmcts.reform', name: 'java-logging-httpcomponents', version: versions.hmctsJavaLogging
-  compile group: 'uk.gov.hmcts.reform', name: 'java-logging-appinsights', version: versions.hmctsJavaLogging
+    compile group: 'uk.gov.hmcts.reform', name: 'logging-spring', version: versions.hmctsJavaLogging
+  compile group: 'uk.gov.hmcts.reform', name: 'logging-httpcomponents', version: versions.hmctsJavaLogging
+  compile group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.hmctsJavaLogging
     compile group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version: '0.0.3'
   compile group: 'uk.gov.hmcts.reform.auth', name: 'auth-checker-lib', version: versions.authCheckerLib
   compile group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceAuthProviderClient
