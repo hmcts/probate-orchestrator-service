@@ -127,10 +127,11 @@ module "probate-orchestrator-service" {
     SUBMIT_SERVICE_API_URL = "${var.submit_service_api_url}"
     BUSINESS_SERVICE_API_URL = "${var.business_service_api_url}"
     BACK_OFFICE_API_URL = "${var.back_office_api_url}"
-
+    
     java_app_name = "${var.microservice}"
     LOG_LEVEL = "${var.log_level}"
     //ROOT_APPENDER = "JSON_CONSOLE" //Remove json logging
+    TESTING = "TESTING"
 
   }
 }
