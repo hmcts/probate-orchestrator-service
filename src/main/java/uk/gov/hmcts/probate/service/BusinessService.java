@@ -5,6 +5,7 @@ import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
+import uk.gov.hmcts.reform.probate.model.multiapplicant.InvitationsResult;
 
 import java.util.List;
 
@@ -31,6 +32,8 @@ public interface BusinessService {
     String deleteInvite(String formdataId, Invitation invitation);
 
     Invitation getInviteData(String inviteId);
+
+    List<Invitation> getAllInviteData(String formdataId);
 
     String getPinNumber(String phoneNumber, String sessionId);
 
