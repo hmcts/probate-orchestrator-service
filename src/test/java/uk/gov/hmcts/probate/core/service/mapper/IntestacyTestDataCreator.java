@@ -77,6 +77,7 @@ public class IntestacyTestDataCreator {
     private static final String ALIAS_LASTNAME = "aliasLastname";
     private static final Date DATE = new Date();
     public static final String UPLOAD_DOCUMENT_URL = "http://document-management/document/12345";
+    private static final String YES = "Yes";
 
     public static IntestacyForm createIntestacyForm() {
         return IntestacyForm.builder()
@@ -125,7 +126,7 @@ public class IntestacyTestDataCreator {
                         .identifier(IHT_IDENTIFIER)
                         .method(IhtMethod.BY_POST)
                         .netValue(NET_VALUE)
-                        .assetsOutside(Boolean.TRUE)
+                        .assetsOutside(YES)
                         .assetsOutsideNetValue(ASSETS_OVERSEAS_NET_VALUE)
                         .build())
                 .payments(Lists.newArrayList(Payment.builder()
@@ -198,7 +199,7 @@ public class IntestacyTestDataCreator {
 
         grantOfRepresentation.setRegistryLocation(RegistryLocation.BIRMINGHAM);
 
-        grantOfRepresentation.setDeceasedHasAssetsOutsideUK(Boolean.TRUE);
+        grantOfRepresentation.setDeceasedHasAssetsOutsideUK(YES);
         grantOfRepresentation.setAssetsOutsideNetValue(ASSETS_OVERSEAS_NET_VALUE_LONG);
         grantOfRepresentation.setIhtFormId(IhtFormType.IHT205);
         grantOfRepresentation.setIhtFormCompletedOnline(Boolean.FALSE);
