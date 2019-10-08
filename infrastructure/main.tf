@@ -132,7 +132,6 @@ module "probate-orchestrator-service" {
     LOG_LEVEL = "${var.log_level}"
     //ROOT_APPENDER = "JSON_CONSOLE" //Remove json logging
     TESTING = "TESTING"
-    TESTING2 = "TESTING"
 
   }
 }
