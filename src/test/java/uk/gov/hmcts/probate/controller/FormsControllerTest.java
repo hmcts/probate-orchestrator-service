@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(value = {FormsController.class}, secure = false)
 public class FormsControllerTest {
 
-    private static final String EMAIL_ADDRESS = "test@test.com";
+    private static final String EMAIL_ADDRESS = "1570130475566595";
 
     private static final String FORMS_ENDPOINT = "/forms/case";
     private static final String FORMS_CASES_ENDPOINT = "/forms/cases";
