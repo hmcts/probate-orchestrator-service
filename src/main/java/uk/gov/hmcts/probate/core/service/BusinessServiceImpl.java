@@ -210,11 +210,6 @@ public class BusinessServiceImpl implements BusinessService {
     @Override
     public List<Invitation> getAllInviteData(String formdataId) {
 
-        log.info("Get invite data as case worker");
-        securityUtils.setSecurityContextUserAsCaseworker();
-        String serviceAuthorisation = securityUtils.getServiceAuthorisation();
-        String authorisation = securityUtils.getAuthorisation();
-
         ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(formdataId);
         GrantOfRepresentationData grantOfRepresentationData =
                 (GrantOfRepresentationData) probateCaseDetails.getCaseData();

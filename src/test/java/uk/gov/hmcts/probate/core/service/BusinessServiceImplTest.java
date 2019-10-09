@@ -21,6 +21,7 @@ import uk.gov.hmcts.probate.core.service.mapper.ExecutorApplyingToInvitationMapp
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.CaseInfo;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
+import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
@@ -29,6 +30,8 @@ import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.Mockito.times;
@@ -261,7 +264,7 @@ public class BusinessServiceImplTest {
         when(mockExecutorApplyingToInvitationMapper.map(mockExecutorApplying)).thenReturn(new Invitation());
 
         Invitation invitation = getInvitation(formdataId);
-        businessService.getInviteData(invitationId);
+        businessService.getInviteData(invitation.getInviteId());
         verify(submitServiceApi).getCaseByInvitationId(AUTHORIZATION, SERVICE_AUTHORIZATION,
                 invitationId, CaseType.GRANT_OF_REPRESENTATION.name());
         verify(mockProbateCaseDetails).getCaseData();
