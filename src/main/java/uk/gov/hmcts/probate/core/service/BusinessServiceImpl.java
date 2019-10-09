@@ -20,6 +20,7 @@ import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -209,18 +210,13 @@ public class BusinessServiceImpl implements BusinessService {
     @Override
     public List<Invitation> getAllInviteData(String formdataId) {
 
-        log.info("Get invite data as case worker");
-        securityUtils.setSecurityContextUserAsCaseworker();
-        String serviceAuthorisation = securityUtils.getServiceAuthorisation();
-        String authorisation = securityUtils.getAuthorisation();
-
         ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(formdataId);
         GrantOfRepresentationData grantOfRepresentationData =
                 (GrantOfRepresentationData) probateCaseDetails.getCaseData();
         log.info("Found case for invite data as case worker");
 
         List<CollectionMember<ExecutorApplying>> executorsApplying = grantOfRepresentationData.getExecutorsApplying();
-        List<Invitation> executorInvitations = null;
+        List<Invitation> executorInvitations = new ArrayList();
 
         for (CollectionMember<ExecutorApplying> executorApplying: executorsApplying) {
             Invitation executorInvite = getInviteData(executorApplying.getValue().getApplyingExecutorInvitationId());
