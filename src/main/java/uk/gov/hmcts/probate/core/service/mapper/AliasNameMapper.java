@@ -9,6 +9,7 @@ import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.forms.AliasOtherNames;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -40,7 +41,7 @@ public class AliasNameMapper {
             .map(aliasName -> AliasOtherNames.builder().firstName(aliasName.getForenames())
                 .lastName(aliasName.getLastName()).build())
             .collect(Collectors.toList());
-        Map<String, AliasOtherNames> aliasOtherNamesMap = new HashMap<>();
+        Map<String, AliasOtherNames> aliasOtherNamesMap = new LinkedHashMap<>();
         int count = 0;
         for (AliasOtherNames aliasOtherNames : aliasOtherNamesList) {
             aliasOtherNamesMap.put("name_" + count, aliasOtherNames);
