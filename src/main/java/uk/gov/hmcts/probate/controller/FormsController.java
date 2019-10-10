@@ -120,6 +120,7 @@ public class FormsController {
     public ResponseEntity<Form> submitPayments(@PathVariable("identifier") String identifier,
                                                @RequestBody PaymentDto paymentDto,
                                                @RequestParam("probateType") ProbateType probateType) {
+        log.info("Submit payments called");
         return new ResponseEntity<>(submitService.update(identifier, probateType, paymentDto), HttpStatus.OK);
     }
 
