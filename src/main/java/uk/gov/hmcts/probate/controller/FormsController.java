@@ -32,10 +32,11 @@ import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 @RequiredArgsConstructor
 public class FormsController {
 
-    private static final String FORMS_ENDPOINT = "/forms/case/{identifier}";
+    private static final String FORMS_ENDPOINT = "/forms/cases/{identifier}";
     private static final String FORMS_CASES_ENDPOINT = "/forms/cases";
     private static final String FORMS_NEW_CASE_ENDPOINT = "/forms/newcase";
     private static final String SUBMISSIONS_ENDPOINT = "/submissions";
+    private static final String FORMS_SUBMISSIONS_ENDPOINT = "/forms/{identifier}";
     private static final String VALIDATIONS_ENDPOINT = "/validations";
     private static final String PAYMENTS_ENDPOINT = "/payments";
 
@@ -105,7 +106,7 @@ public class FormsController {
         @ApiResponse(code = 400, message = "Submitting form failed"),
         @ApiResponse(code = 422, message = "Invalid or missing attribute")
     })
-    @PostMapping(path = FORMS_ENDPOINT + SUBMISSIONS_ENDPOINT,
+    @PostMapping(path = FORMS_SUBMISSIONS_ENDPOINT + SUBMISSIONS_ENDPOINT,
         consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Form> submitForm(@RequestBody Form form,
@@ -114,7 +115,7 @@ public class FormsController {
         return new ResponseEntity<>(submitService.submit(identifier, form), HttpStatus.OK);
     }
 
-    @PutMapping(path = FORMS_ENDPOINT + SUBMISSIONS_ENDPOINT,
+    @PutMapping(path = FORMS_SUBMISSIONS_ENDPOINT + SUBMISSIONS_ENDPOINT,
         consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Form> submitPayments(@PathVariable("identifier") String identifier,
@@ -130,7 +131,7 @@ public class FormsController {
         @ApiResponse(code = 400, message = "Saving payment failed"),
         @ApiResponse(code = 422, message = "Invalid or missing attribute")
     })
-    @PostMapping(path = FORMS_ENDPOINT + PAYMENTS_ENDPOINT,
+    @PostMapping(path = FORMS_SUBMISSIONS_ENDPOINT + PAYMENTS_ENDPOINT,
         consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Form> updatePayments(@RequestBody Form form,
@@ -140,7 +141,7 @@ public class FormsController {
     }
 
     @ApiOperation(value = "Validate case data", notes = "validate case data via identifier and probate type")
-    @PutMapping(path = FORMS_ENDPOINT + VALIDATIONS_ENDPOINT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = FORMS_SUBMISSIONS_ENDPOINT + VALIDATIONS_ENDPOINT, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Form> validate(@PathVariable("identifier") String identifier,
                                          @RequestParam("probateType") ProbateType probateType) {
