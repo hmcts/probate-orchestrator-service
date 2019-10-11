@@ -32,7 +32,7 @@ import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 @RequiredArgsConstructor
 public class FormsController {
 
-    private static final String FORMS_ENDPOINT = "/forms/cases/{identifier}";
+    private static final String FORMS_CASE_ENDPOINT = "/forms/case/{identifier}";
     private static final String FORMS_CASES_ENDPOINT = "/forms/cases";
     private static final String FORMS_NEW_CASE_ENDPOINT = "/forms/newcase";
     private static final String SUBMISSIONS_ENDPOINT = "/submissions";
@@ -64,7 +64,7 @@ public class FormsController {
         @ApiResponse(code = 400, message = "Saving form failed"),
         @ApiResponse(code = 422, message = "Invalid or missing attribute")
     })
-    @PostMapping(path = FORMS_ENDPOINT, consumes = MediaType.APPLICATION_JSON_VALUE,
+    @PostMapping(path = FORMS_CASE_ENDPOINT, consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Form> saveForm(@RequestBody Form form,
@@ -78,7 +78,7 @@ public class FormsController {
         @ApiResponse(code = 200, message = "Retrieved form successfully"),
         @ApiResponse(code = 400, message = "Retrieving form failed")
     })
-    @GetMapping(path = FORMS_ENDPOINT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = FORMS_CASE_ENDPOINT, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Form> getForm(@PathVariable("identifier") String identifier,
                                         @RequestParam("probateType") ProbateType probateType) {
