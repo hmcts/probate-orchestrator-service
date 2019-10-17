@@ -218,10 +218,16 @@ public class BusinessServiceImpl implements BusinessService {
         List<CollectionMember<ExecutorApplying>> executorsApplying = grantOfRepresentationData.getExecutorsApplying();
         List<Invitation> executorInvitations = new ArrayList();
 
-        for (CollectionMember<ExecutorApplying> executorApplying: executorsApplying) {
-            Invitation executorInvite = getInviteData(executorApplying.getValue().getApplyingExecutorInvitationId());
-            executorInvitations.add(executorInvite);
-        }
+        executorsApplying
+                .stream()
+                .filter(e -> e.getValue()
+                        .getApplyingExecutorApplicant() == null || !e.getValue()
+                        .getApplyingExecutorApplicant().booleanValue())
+                .forEach( ea -> {
+                            Invitation invitation = getInviteData(ea.getValue().getApplyingExecutorInvitationId());
+                            executorInvitations.add(invitation);
+                        }
+                );
 
         return executorInvitations;
     }
