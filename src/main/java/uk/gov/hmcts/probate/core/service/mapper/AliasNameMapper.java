@@ -8,7 +8,6 @@ import uk.gov.hmcts.reform.probate.model.cases.AliasName;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.forms.AliasOtherNames;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,11 +22,11 @@ public class AliasNameMapper {
             return null;//NOSONAR
         }
         return otherNames.values()
-            .stream()
-            .map(aliasOtherNames -> AliasName.builder().forenames(aliasOtherNames.getFirstName())
-                .lastName(aliasOtherNames.getLastName()).build())
-            .map(aliasName -> CollectionMember.<AliasName>builder().value(aliasName).build())
-            .collect(Collectors.toList());
+                .stream()
+                .map(aliasOtherNames -> AliasName.builder().forenames(aliasOtherNames.getFirstName())
+                        .lastName(aliasOtherNames.getLastName()).build())
+                .map(aliasName -> CollectionMember.<AliasName>builder().value(aliasName).build())
+                .collect(Collectors.toList());
     }
 
     @FromCollectionMember
@@ -36,11 +35,11 @@ public class AliasNameMapper {
             return null;//NOSONAR
         }
         List<AliasOtherNames> aliasOtherNamesList = collectionMembers
-            .stream()
-            .map(CollectionMember::getValue)
-            .map(aliasName -> AliasOtherNames.builder().firstName(aliasName.getForenames())
-                .lastName(aliasName.getLastName()).build())
-            .collect(Collectors.toList());
+                .stream()
+                .map(CollectionMember::getValue)
+                .map(aliasName -> AliasOtherNames.builder().firstName(aliasName.getForenames())
+                        .lastName(aliasName.getLastName()).build())
+                .collect(Collectors.toList());
         Map<String, AliasOtherNames> aliasOtherNamesMap = new LinkedHashMap<>();
         int count = 0;
         for (AliasOtherNames aliasOtherNames : aliasOtherNamesList) {
