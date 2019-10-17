@@ -57,6 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/generate/**")
                 .antMatchers("/forms/**")
                 .antMatchers("/invite/**")
+                .antMatchers("/invites/**")
                 .and()
                 .addFilter(authCheckerServiceAndUserFilter)
                 .sessionManagement().sessionCreationPolicy(STATELESS).and()
