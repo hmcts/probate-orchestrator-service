@@ -42,7 +42,7 @@ public class FormDataMigrator {
         log.info("Total Pages: {}", totalPages);
         long size = formDatas.getPageMetadata().getSize();
         IntStream.range(0, (int) totalPages).forEach(idx -> {
-            int pageNo = idx +1;
+            int pageNo = idx;
             log.info("Getting form data for page " + (pageNo));
             FormDataResource formDataSet = persistenceServiceApi.getPagedFormDataByAfterCreateDate(sixMonthsAgo,
                    Integer.toString(pageNo), Long.toString(size));
@@ -76,16 +76,15 @@ public class FormDataMigrator {
         try {
             log.info("Check if case created in ccd for formdata with applicantEmail: {}", formdata.getApplicantEmail());
             if (formdata.getApplicantEmail() != null && !formdata.getApplicantEmail().isEmpty()) {
-                submitServiceApi.getCase(securityUtils.getAuthorisation(),
+                submitServiceApi.getCaseByApplicantEmail(securityUtils.getAuthorisation(),
                         securityUtils.getServiceAuthorisation(), formdata.getApplicantEmail(),
                         caseTypeName);
                 log.info("Case found for formdata applicant email :  {}", formdata.getApplicantEmail());
             }
         } catch (ApiClientException apiClientException) {
             if (apiClientException.getStatus() == HttpStatus.NOT_FOUND.value()) {
-                submitServiceApi.saveCase(securityUtils.getAuthorisation(),
+                submitServiceApi.initiateCaseAsCaseWorker(securityUtils.getAuthorisation(),
                         securityUtils.getServiceAuthorisation(),
-                        formdata.getApplicantEmail(),
                         ProbateCaseDetails.builder().caseData(grantOfRepresentationData).build());
                 log.info("Draft Case saved for formdata applicant email :  " + formdata.getApplicantEmail());
             } else {

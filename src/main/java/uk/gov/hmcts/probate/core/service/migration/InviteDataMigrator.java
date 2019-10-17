@@ -11,6 +11,7 @@ import uk.gov.hmcts.probate.model.persistence.InviteDataResource;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.CaseState;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
+import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.client.ApiClientException;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.InviteData;
@@ -32,42 +33,54 @@ public class InviteDataMigrator {
         InviteDataResource inviteDataResource = persistenceServiceApi.getInviteDatas();
         long totalPages = inviteDataResource.getPageMetadata().getTotalPages();
         long size = inviteDataResource.getPageMetadata().getSize();
-        log.info("Total Pages: " + totalPages);
+        log.info("Total Pages: {} ", totalPages);
         IntStream.range(0, (int) totalPages).forEach(idx -> {
-            int pageNo = idx +1;
+            int pageNo = idx;
             InviteDataResource inviteDataSet = persistenceServiceApi.getInviteDataWithPageAndSize(
                     Integer.toString(pageNo), Long.toString(size));
             Collection<InviteData> inviteDatas = inviteDataSet.getContent().getInvitedata();
             inviteDatas.forEach(this::processInviteData);
         });
-        log.info("Finished Migrating formdata");
+        log.info("Finished Migrating invitedata");
     }
 
     private void processInviteData(InviteData inviteData) {
         try {
-            log.info("Migration started for InviteData with formDataId: "
-                    + inviteData.getFormdataId());
+            log.info("Migration started for InviteData with formDataId: {}", inviteData.getFormdataId());
             ProbateCaseDetails pcd = submitServiceApi.getCaseByApplicantEmail(securityUtils.getAuthorisation(),
                     securityUtils.getServiceAuthorisation(), inviteData.getFormdataId(),
-                    ProbateType.PA.getCaseType().getName());
+                    ProbateType.PA.getCaseType().name());
             if (pcd.getCaseInfo().getState().equals(CaseState.DRAFT)) {
                 log.info("Draft case found for formDataId");
                 GrantOfRepresentationData grantOfRepresentationData =
                         (GrantOfRepresentationData) pcd.getCaseData();
-                grantOfRepresentationData.setInvitationDetailsForExecutorApplying(inviteData.getEmail(),
+                log.info("Set invite data for inviteEmail: {} inviteId: {} inviteAgreed: {}", inviteData.getEmail(),
                         inviteData.getId(), inviteData.getAgreed());
-                submitServiceApi.saveCase(securityUtils.getAuthorisation(),
-                        securityUtils.getServiceAuthorisation(),  pcd.getCaseInfo().getCaseId(), pcd);
-                log.info("Invite details migrated for formdata id: "
-                        + inviteData.getFormdataId());
+                ExecutorApplying e = grantOfRepresentationData.getExecutorApplyingByInviteId(inviteData.getId());
+                if(e!=null) {
+                    updateExecutorWIthInviteDataOnCase(inviteData, pcd, e);
+                }
+                else{
+                    log.info("No executor applying found on case with inviteId: {}", inviteData.getId());
+                }
+
             }
         } catch (ApiClientException apiClientException) {
             if (apiClientException.getStatus() == HttpStatus.NOT_FOUND.value()) {
                 log.info("No case found for invite data with form data id: " + inviteData.getFormdataId());
             } else {
-                log.error("ApiClientException thrown for InviteData: " + inviteData.getId());
-                throw apiClientException;
+                log.error("Error with Status code: " + apiClientException.getStatus() + " and error response "
+                        + apiClientException.getMessage());
             }
         }
+    }
+
+    private void updateExecutorWIthInviteDataOnCase(InviteData inviteData, ProbateCaseDetails pcd, ExecutorApplying e) {
+        e.setApplyingExecutorInvitationId(inviteData.getId());
+        e.setApplyingExecutorAgreed(inviteData.getAgreed());
+        submitServiceApi.updateCaseAsCaseWorker(securityUtils.getAuthorisation(),
+                securityUtils.getServiceAuthorisation(), pcd.getCaseInfo().getCaseId(), pcd);
+        log.info("Invite details migrated for formdataId:{} ",
+                inviteData.getFormdataId());
     }
 }

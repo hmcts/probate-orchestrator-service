@@ -1,11 +1,15 @@
 package uk.gov.hmcts.probate.core.service.mapper.migration;
 
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
+import uk.gov.hmcts.probate.core.service.mapper.AddressMapper;
 import uk.gov.hmcts.probate.core.service.mapper.AliasNameMapper;
+import uk.gov.hmcts.probate.core.service.mapper.DocumentsMapper;
 import uk.gov.hmcts.probate.core.service.mapper.IhtMethodConverter;
+import uk.gov.hmcts.probate.core.service.mapper.IhtValuesMapper;
 import uk.gov.hmcts.probate.core.service.mapper.LegalStatementMapper;
 import uk.gov.hmcts.probate.core.service.mapper.LocalDateTimeMapper;
 import uk.gov.hmcts.probate.core.service.mapper.MapConverter;
@@ -13,25 +17,37 @@ import uk.gov.hmcts.probate.core.service.mapper.PaPaymentMapper;
 import uk.gov.hmcts.probate.core.service.mapper.PaymentsMapper;
 import uk.gov.hmcts.probate.core.service.mapper.PoundsConverter;
 import uk.gov.hmcts.probate.core.service.mapper.RegistryLocationMapper;
+import uk.gov.hmcts.probate.core.service.mapper.StatementOfTruthMapper;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromIhtMethod;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromLocalDate;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromMap;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromRegistryLocation;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromUploadDocs;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCaseAddress;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCollectionMember;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToFormAddress;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToIhtMethod;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToLocalDate;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToMap;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPennies;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPounds;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPoundsString;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToRegistryLocation;
-import uk.gov.hmcts.probate.model.persistence.LegacyForm;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToUploadDocs;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
+import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
+
 
 @Mapper(componentModel = "spring", uses = {PaPaymentMapper.class, PaymentsMapper.class, AliasNameMapper.class, RegistryLocationMapper.class, PoundsConverter.class,
-    IhtMethodConverter.class, MapConverter.class, LegalStatementMapper.class, LocalDateTimeMapper.class},
-    imports = {ApplicationType.class, GrantType.class, ProbateType.class, IhtMethod.class},
-    unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
-public interface LegacyIntestacyMapper extends LegacyFormMapper{
+        IhtMethodConverter.class, MapConverter.class, LegalStatementMapper.class, LocalDateTimeMapper.class ,DocumentsMapper.class, StatementOfTruthMapper.class, AddressMapper.class},
+        imports = {ApplicationType.class, GrantType.class, ProbateType.class, IhtMethod.class, IhtValuesMapper.class},
+        unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+public interface LegacyIntestacyMapper extends LegacyFormMapper {
 
     @Mapping(target = "applicationType", expression = "java(ApplicationType.PERSONAL)")
     @Mapping(target = "grantType", expression = "java(GrantType.INTESTACY)")
@@ -41,7 +57,7 @@ public interface LegacyIntestacyMapper extends LegacyFormMapper{
     @Mapping(target = "primaryApplicantAdoptionInEnglandOrWales", source = "applicant.adoptionInEnglandOrWales")
     @Mapping(target = "primaryApplicantPhoneNumber", source = "applicant.phoneNumber")
     @Mapping(target = "primaryApplicantEmailAddress",
-        expression = "java(form.getApplicantEmail() != null ? form.getApplicantEmail().toLowerCase() : null)")
+            expression = "java(form.getApplicantEmail() != null ? form.getApplicantEmail().toLowerCase() : null)")
     @Mapping(target = "primaryApplicantAddress", source = "applicant.address", qualifiedBy = {ToCaseAddress.class})
     @Mapping(target = "primaryApplicantAddresses", source = "applicant.addresses", qualifiedBy = {FromMap.class})
     @Mapping(target = "primaryApplicantPostCode", source = "applicant.postCode")
@@ -57,14 +73,15 @@ public interface LegacyIntestacyMapper extends LegacyFormMapper{
     @Mapping(target = "deceasedDivorcedInEnglandOrWales", source = "deceased.divorcedInEnglandOrWales")
     @Mapping(target = "deceasedOtherChildren", source = "deceased.otherChildren")
     @Mapping(target = "declarationCheckbox", source = "declaration.declarationCheckbox")
+    @Mapping(target = "legalStatement", source = "declaration.legalStatement")
     @Mapping(target = "childrenOverEighteenSurvived", source = "deceased.allDeceasedChildrenOverEighteen")
     @Mapping(target = "childrenDied", source = "deceased.anyDeceasedChildrenDieBeforeDeceased")
     @Mapping(target = "grandChildrenSurvivedUnderEighteen",
-        source = "deceased.anyDeceasedGrandchildrenUnderEighteen")
+            source = "deceased.anyDeceasedGrandchildrenUnderEighteen")
     @Mapping(target = "deceasedSpouseNotApplyingReason", source = "applicant.spouseNotApplyingReason")
     @Mapping(target = "deceasedAnyChildren", source = "deceased.anyChildren")
     @Mapping(target = "deceasedAliasNameList", source = "deceased.otherNames",
-        qualifiedBy = {ToCollectionMember.class})
+            qualifiedBy = {ToCollectionMember.class})
     @Mapping(target = "outsideUkGrantCopies", source = "copies.overseas")
     @Mapping(target = "extraCopiesOfGrant", source = "copies.uk")
     @Mapping(target = "deceasedHasAssetsOutsideUK", source = "iht.assetsOutside")
@@ -74,11 +91,49 @@ public interface LegacyIntestacyMapper extends LegacyFormMapper{
     @Mapping(target = "ihtFormCompletedOnline", source = "iht.method", qualifiedBy = {FromIhtMethod.class})
     @Mapping(target = "ihtNetValue", source = "iht.netValue", qualifiedBy = {ToPennies.class})
     @Mapping(target = "ihtGrossValue", source = "iht.grossValue", qualifiedBy = {ToPennies.class})
+    @Mapping(target = "ihtGrossValueField", source = "iht.grossValueField")
+    @Mapping(target = "ihtNetValueField", source = "iht.netValueField")
     @Mapping(target = "registryLocation", source = "registry.name", qualifiedBy = {ToRegistryLocation.class})
     @Mapping(target = "assetsOutsideNetValue", source = "iht.assetsOutsideNetValue",
-        qualifiedBy = {ToPennies.class})
+            qualifiedBy = {ToPennies.class})
     @Mapping(target = "legalDeclarationJson", source = "legalDeclaration", qualifiedBy = {FromMap.class})
     @Mapping(target = "checkAnswersSummaryJson", source = "checkAnswersSummary", qualifiedBy = {FromMap.class})
     @Mapping(target = "payments", source = "payment")
-    GrantOfRepresentationData toCaseData(LegacyForm form);
+    @Mapping(target = "boDocumentsUploaded", source = "documents", qualifiedBy = {ToUploadDocs.class})
+    GrantOfRepresentationData toCaseData(IntestacyForm form);
+
+    @Mapping(target = "type", expression = "java(ProbateType.INTESTACY)")
+    @Mapping(target = "caseType", expression = "java(GrantType.INTESTACY.getName())")
+    @Mapping(target = "deceased.address", source = "deceasedAddress", qualifiedBy = {ToFormAddress.class})
+    @Mapping(target = "deceased.addresses", source = "deceasedAddresses", qualifiedBy = {ToMap.class})
+    @Mapping(target = "deceased.dateOfBirth", source = "deceasedDateOfBirth", qualifiedBy = {FromLocalDate.class})
+    @Mapping(target = "deceased.dateOfDeath", source = "deceasedDateOfDeath", qualifiedBy = {FromLocalDate.class})
+    @Mapping(target = "deceased.otherNames", source = "deceasedAliasNameList", qualifiedBy = {FromCollectionMember.class})
+    @Mapping(target = "deceased.maritalStatus", expression = "java(grantOfRepresentationData.getDeceasedMaritalStatus()!=null ? grantOfRepresentationData.getDeceasedMaritalStatus().getDescription() : null)")
+    @Mapping(target = "applicant.spouseNotApplyingReason", expression = "java(grantOfRepresentationData.getDeceasedSpouseNotApplyingReason()!=null ? grantOfRepresentationData.getDeceasedSpouseNotApplyingReason().getDescription() : null)")
+    @Mapping(target = "registry.name", source = "registryLocation", qualifiedBy = {FromRegistryLocation.class})
+    @Mapping(target = "iht.netValue", source = "ihtNetValue", qualifiedBy = {ToPounds.class})
+    @Mapping(target = "iht.grossValue", source = "ihtGrossValue", qualifiedBy = {ToPounds.class})
+    @Mapping(target = "iht.grossIht205", expression = "java(IhtValuesMapper.getGrossIht205(grantOfRepresentationData.getIhtFormId(), grantOfRepresentationData.getIhtGrossValue()))")
+    @Mapping(target = "iht.netIht205", expression = "java(IhtValuesMapper.getNetIht205(grantOfRepresentationData.getIhtFormId(), grantOfRepresentationData.getIhtNetValue()))")
+    @Mapping(target = "iht.grossIht207", expression = "java(IhtValuesMapper.getGrossIht207(grantOfRepresentationData.getIhtFormId(), grantOfRepresentationData.getIhtGrossValue()))")
+    @Mapping(target = "iht.netIht207", expression = "java(IhtValuesMapper.getNetIht207(grantOfRepresentationData.getIhtFormId(), grantOfRepresentationData.getIhtNetValue()))")
+    @Mapping(target = "iht.grossIht400421", expression = "java(IhtValuesMapper.getGrossIht400421(grantOfRepresentationData.getIhtFormId(), grantOfRepresentationData.getIhtGrossValue()))")
+    @Mapping(target = "iht.netIht400421", expression = "java(IhtValuesMapper.getNetIht400421(grantOfRepresentationData.getIhtFormId(), grantOfRepresentationData.getIhtNetValue()))")
+    @Mapping(target = "iht.form", source = "ihtFormId")
+    @Mapping(target = "iht.method", source = "ihtFormCompletedOnline", qualifiedBy = {ToIhtMethod.class})
+    @Mapping(target = "iht.identifier", expression = "java(grantOfRepresentationData.getIhtReferenceNumber() == null || grantOfRepresentationData.getIhtReferenceNumber().equals(\"Not applicable\") ? "
+            + "null : grantOfRepresentationData.getIhtReferenceNumber())")
+    @Mapping(target = "applicant.address", source = "primaryApplicantAddress", qualifiedBy = {ToFormAddress.class})
+    @Mapping(target = "applicant.addresses", source = "primaryApplicantAddresses", qualifiedBy = {ToMap.class})
+    @Mapping(target = "applicant.relationshipToDeceased", expression = "java(grantOfRepresentationData.getPrimaryApplicantRelationshipToDeceased()!=null ? grantOfRepresentationData.getPrimaryApplicantRelationshipToDeceased().getDescription() : null)")
+    @Mapping(target = "iht.assetsOutsideNetValue", source = "assetsOutsideNetValue", qualifiedBy = {ToPounds.class})
+    @Mapping(target = "iht.netValueAssetsOutsideField", source = "assetsOutsideNetValue", qualifiedBy = {ToPoundsString.class})
+    @Mapping(target = "legalDeclaration", source = "legalDeclarationJson", qualifiedBy = {ToMap.class})
+    @Mapping(target = "checkAnswersSummary", source = "checkAnswersSummaryJson", qualifiedBy = {ToMap.class})
+    @Mapping(target = "payment", source = "payments")
+    @Mapping(target = "payments", source = "payments", qualifiedBy = {FromCollectionMember.class})
+    @Mapping(target = "documents", source = "boDocumentsUploaded", qualifiedBy = {FromUploadDocs.class})
+    @InheritInverseConfiguration
+    IntestacyForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 }

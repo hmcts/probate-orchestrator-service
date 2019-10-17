@@ -1,6 +1,7 @@
 package uk.gov.hmcts.probate.model.persistence;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -13,6 +14,8 @@ import lombok.NoArgsConstructor;
 import uk.gov.hmcts.reform.probate.model.forms.CcdCase;
 import uk.gov.hmcts.reform.probate.model.forms.Copies;
 import uk.gov.hmcts.reform.probate.model.forms.Declaration;
+import uk.gov.hmcts.reform.probate.model.forms.DocumentUpload;
+import uk.gov.hmcts.reform.probate.model.forms.Documents;
 import uk.gov.hmcts.reform.probate.model.forms.Fees;
 import uk.gov.hmcts.reform.probate.model.forms.Payment;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
@@ -28,6 +31,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @EqualsAndHashCode
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class LegacyForm {
 
     private static final String DATE_FORMAT = "yyyy-MM-dd";
@@ -40,6 +44,8 @@ public class LegacyForm {
     private LegacyExecutors executors;
 
     private String uploadDocumentUrl;
+
+    private Documents documents;
 
     private LegacyPaAssets assets;
 
@@ -78,6 +84,9 @@ public class LegacyForm {
     private Copies copies;
 
     private Payment payment;
+
+    private DocumentUpload statementOfTruthDocument;
+
 
     @Builder
     public LegacyForm(LegacyProbateType type, String applicantEmail, LegacyDeceased deceased, LegacyApplicant applicant,

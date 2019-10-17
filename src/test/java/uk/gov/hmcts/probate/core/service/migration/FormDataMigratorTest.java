@@ -71,14 +71,14 @@ public class FormDataMigratorTest {
                         Arrays.asList(FormHolder.builder().formdata(legacyFormPaMock)
                                 .build(), FormHolder.builder().formdata(legacyFormIntestacyMock).build())
                 ).build()
-        ).pageMetadata(new PagedResources.PageMetadata(20, 1, 2, 1))
+        ).pageMetadata(new PagedResources.PageMetadata(20, 0, 2, 1))
                 .build();
 
         when(legacyFormPaMock.getCaseType()).thenReturn(LegacyProbateType.PROBATE_LEGACY);
         when(legacyFormIntestacyMock.getCaseType()).thenReturn(LegacyProbateType.INTESTACY_LEGACY);
 
         when(persistenceServiceApiMock.getFormDataByAfterCreateDate(sixMonthsAgo)).thenReturn(formDataResource);
-        when(persistenceServiceApiMock.getPagedFormDataByAfterCreateDate(sixMonthsAgo, "1", "20"))
+        when(persistenceServiceApiMock.getPagedFormDataByAfterCreateDate(sixMonthsAgo, "0", "20"))
                 .thenReturn(formDataResource);
 
         GrantOfRepresentationData intestacy_gop = GrantOfRepresentationData.builder().build();
@@ -93,27 +93,27 @@ public class FormDataMigratorTest {
         when(legacyFormIntestacyMock.getApplicantEmail()).thenReturn(PA_EMAIL);
 
         ProbateCaseDetails intestacyPcd = ProbateCaseDetails.builder().build();
-        when(submitServiceApiMock.getCase(AUTH_TOKEN, SERVICE_AUTH_TOKEN,
+        when(submitServiceApiMock.getCaseByApplicantEmail(AUTH_TOKEN, SERVICE_AUTH_TOKEN,
                 INTESTACY_EMAIL, ProbateType.INTESTACY.getCaseType().name()))
                 .thenReturn(intestacyPcd);
 
-        when(submitServiceApiMock.getCase(AUTH_TOKEN, SERVICE_AUTH_TOKEN,
+        when(submitServiceApiMock.getCaseByApplicantEmail(AUTH_TOKEN, SERVICE_AUTH_TOKEN,
                 PA_EMAIL, ProbateType.PA.getCaseType().name()))
                 .thenThrow(new ApiClientException(HttpStatus.NOT_FOUND.value(), errorResponseMock));
 
         formDataMigrator.migrateFormData();
 
         verify(persistenceServiceApiMock).getFormDataByAfterCreateDate(sixMonthsAgo);
-        verify(persistenceServiceApiMock).getPagedFormDataByAfterCreateDate(sixMonthsAgo, "1", "20");
+        verify(persistenceServiceApiMock).getPagedFormDataByAfterCreateDate(sixMonthsAgo, "0", "20");
 
         verify(legacyPaMapperMock).toCaseData(legacyFormPaMock);
         verify(legacyIntestacyMapperMock).toCaseData(legacyFormIntestacyMock);
 
-        verify(submitServiceApiMock).getCase(AUTH_TOKEN, SERVICE_AUTH_TOKEN, INTESTACY_EMAIL,
+        verify(submitServiceApiMock).getCaseByApplicantEmail(AUTH_TOKEN, SERVICE_AUTH_TOKEN, INTESTACY_EMAIL,
                 ProbateType.INTESTACY.getCaseType().name());
-        verify(submitServiceApiMock).getCase(AUTH_TOKEN, SERVICE_AUTH_TOKEN, PA_EMAIL,
+        verify(submitServiceApiMock).getCaseByApplicantEmail(AUTH_TOKEN, SERVICE_AUTH_TOKEN, PA_EMAIL,
                 ProbateType.PA.getCaseType().name());
-        verify(submitServiceApiMock).saveCase(anyString(), anyString(), anyString(),
+        verify(submitServiceApiMock).initiateCaseAsCaseWorker(anyString(), anyString(),
                 any(ProbateCaseDetails.class));
     }
 }

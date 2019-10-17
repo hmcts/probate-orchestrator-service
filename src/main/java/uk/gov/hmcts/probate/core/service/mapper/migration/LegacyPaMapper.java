@@ -7,6 +7,7 @@ import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
 import uk.gov.hmcts.probate.core.service.mapper.AddressMapper;
 import uk.gov.hmcts.probate.core.service.mapper.AliasNameMapper;
+import uk.gov.hmcts.probate.core.service.mapper.DocumentsMapper;
 import uk.gov.hmcts.probate.core.service.mapper.ExecutorApplyingMapper;
 import uk.gov.hmcts.probate.core.service.mapper.ExecutorNotApplyingMapper;
 import uk.gov.hmcts.probate.core.service.mapper.ExecutorsMapper;
@@ -19,15 +20,18 @@ import uk.gov.hmcts.probate.core.service.mapper.PaPaymentMapper;
 import uk.gov.hmcts.probate.core.service.mapper.PaymentsMapper;
 import uk.gov.hmcts.probate.core.service.mapper.PoundsConverter;
 import uk.gov.hmcts.probate.core.service.mapper.RegistryLocationMapper;
+import uk.gov.hmcts.probate.core.service.mapper.StatementOfTruthMapper;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromIhtMethod;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromMap;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCaseAddress;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCollectionMember;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToDocumentLink;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToExecutorApplyingCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToExecutorNotApplyingCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToLocalDate;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPennies;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToRegistryLocation;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToUploadDocs;
 import uk.gov.hmcts.probate.model.persistence.LegacyForm;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
@@ -40,7 +44,7 @@ import java.time.LocalDate;
 @Mapper(componentModel = "spring", uses = {PaPaymentMapper.class, PaymentsMapper.class, AliasNameMapper.class, RegistryLocationMapper.class,
     PoundsConverter.class, IhtMethodConverter.class, LegalStatementMapper.class, ExecutorsMapper.class,
     ExecutorApplyingMapper.class, ExecutorNotApplyingMapper.class, MapConverter.class, LocalDateTimeMapper.class,
-    AddressMapper.class, FeesMapper.class},
+    AddressMapper.class, FeesMapper.class, DocumentsMapper.class, StatementOfTruthMapper.class},
     imports = {ApplicationType.class, GrantType.class, ProbateType.class, IhtMethod.class,
         LocalDate.class, ExecutorsMapper.class, BooleanUtils.class, AddressMapper.class},
     unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
@@ -76,6 +80,9 @@ public interface LegacyPaMapper extends LegacyFormMapper{
     @Mapping(target = "primaryApplicantPhoneNumber", source = "applicant.phoneNumber")
     @Mapping(target = "primaryApplicantOtherReason", source = "applicant.otherReason")
     @Mapping(target = "registryLocation", source = "registry.name", qualifiedBy = {ToRegistryLocation.class})
+    @Mapping(target = "registryAddress", source = "registry.address")
+    @Mapping(target = "registryEmailAddress", source = "registry.email")
+    @Mapping(target = "registrySequenceNumber", source = "registry.sequenceNumber")
     @Mapping(target = "softStop", source = "declaration.softStop")
     @Mapping(target = "legalStatement", source = "declaration.legalStatement")
     @Mapping(target = "declaration", source = "declaration.declaration")
@@ -101,5 +108,7 @@ public interface LegacyPaMapper extends LegacyFormMapper{
     @Mapping(target = "legalDeclarationJson", source = "legalDeclaration", qualifiedBy = {FromMap.class})
     @Mapping(target = "checkAnswersSummaryJson", source = "checkAnswersSummary", qualifiedBy = {FromMap.class})
     @Mapping(target = "payments", source = "payment")
+    @Mapping(target = "boDocumentsUploaded", source = "documents", qualifiedBy = {ToUploadDocs.class})
+    @Mapping(target = "statementOfTruthDocument", source = "statementOfTruthDocument", qualifiedBy = {ToDocumentLink.class})
     GrantOfRepresentationData toCaseData(LegacyForm form);
 }
