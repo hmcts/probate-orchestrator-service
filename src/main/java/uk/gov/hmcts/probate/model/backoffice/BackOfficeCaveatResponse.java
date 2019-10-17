@@ -13,5 +13,5 @@ import lombok.NoArgsConstructor;
 public class BackOfficeCaveatResponse {
 
     @JsonProperty(value = "data")
-    private  BackOfficeCaveatData caseData;
+    private BackOfficeCaveatData caseData;
 }
