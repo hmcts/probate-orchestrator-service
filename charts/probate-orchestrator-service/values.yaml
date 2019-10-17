@@ -19,7 +19,7 @@ java:
     MAIL_JAVAMAILPROPERTIES_MAIL_SMTP_SSL_ENABLE: false
     MAIL_JAVAMAILPROPERTIES_MAIL_SMTP_AUTH: false
     SERVICES_CORECASEDATA_ENABLED: true
-    MAIL_JAVAMAILPROPERTIES_SUBJECT: Probate Application
+    MAIL_JAVAMAILPROPERTIES_SUBJECT: "Probate Application"
   image: hmctspublic.azurecr.io/probate/orchestrator-service:latest
   aadIdentityName: probate
   keyVaults:
