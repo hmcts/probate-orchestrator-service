@@ -30,6 +30,7 @@ import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -270,6 +271,27 @@ public class BusinessServiceImplTest {
         verify(mockProbateCaseDetails).getCaseData();
         verify(mockGrantOfRepresentationData).getExecutorApplyingByInviteId(invitationId);
         verify(mockExecutorApplyingToInvitationMapper).map(mockExecutorApplying);
+
+    }
+
+    @Test
+    public void shouldGetAllInviteData() {
+        CollectionMember<ExecutorApplying> mockExecutorApplying = CollectionMember
+                .<ExecutorApplying>builder().build();
+        CollectionMember<ExecutorApplying> mockExecutorApplying2 = CollectionMember
+                .<ExecutorApplying>builder().build();
+        List<CollectionMember<ExecutorApplying>> mockExecutorsApplying = Arrays
+                .asList(mockExecutorApplying, mockExecutorApplying2);
+
+        when(mockProbateCaseDetails.getCaseData()).thenReturn(mockGrantOfRepresentationData);
+
+        when(mockGrantOfRepresentationData.getExecutorsApplying())
+                .thenReturn(mockExecutorsApplying);
+
+        businessService.getAllInviteData(formdataId);
+
+        verify(mockProbateCaseDetails).getCaseData();
+        verify(mockGrantOfRepresentationData).getExecutorApplyingByInviteId(invitationId);
 
     }
 
