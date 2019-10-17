@@ -11,6 +11,7 @@ import uk.gov.hmcts.probate.core.service.mapper.ExecutorApplyingToInvitationMapp
 import uk.gov.hmcts.probate.service.BusinessService;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
+import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
@@ -19,6 +20,7 @@ import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -203,6 +205,31 @@ public class BusinessServiceImpl implements BusinessService {
         invitation.setFormdataId(probateCaseDetails.getCaseInfo().getCaseId());
         return invitation;
 
+    }
+
+    @Override
+    public List<Invitation> getAllInviteData(String formdataId) {
+
+        ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(formdataId);
+        GrantOfRepresentationData grantOfRepresentationData =
+                (GrantOfRepresentationData) probateCaseDetails.getCaseData();
+        log.info("Found case for invite data as case worker");
+
+        List<CollectionMember<ExecutorApplying>> executorsApplying = grantOfRepresentationData.getExecutorsApplying();
+        List<Invitation> executorInvitations = new ArrayList();
+
+        executorsApplying
+                .stream()
+                .filter(e -> e.getValue()
+                        .getApplyingExecutorApplicant() == null || !e.getValue()
+                        .getApplyingExecutorApplicant().booleanValue())
+                .forEach( ea -> {
+                            Invitation invitation = getInviteData(ea.getValue().getApplyingExecutorInvitationId());
+                            executorInvitations.add(invitation);
+                        }
+                );
+
+        return executorInvitations;
     }
 
 

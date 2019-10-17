@@ -13,8 +13,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.probate.service.BusinessService;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
+import uk.gov.hmcts.reform.probate.model.multiapplicant.InvitationsResult;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
@@ -40,6 +43,8 @@ public class InvitationControllerTest {
 
     private String invitationStr;
     private Invitation invitation;
+    private Invitation invitation2;
+    private List<Invitation> invitationsResult;
     private String invitationResendStr;
     private Invitation invitationResend;
     private String invitationArrayStr;
@@ -49,7 +54,11 @@ public class InvitationControllerTest {
     public void setUp() throws Exception {
         invitationStr = TestUtils.getJSONFromFile("invite/invitation.json");
         this.invitation = objectMapper.readValue(invitationStr, Invitation.class);
+        this.invitation2 = objectMapper.readValue(invitationStr, Invitation.class);
         invitationArrayStr = new StringBuilder("[").append(invitationStr).append("]").toString();
+        invitationsResult = new ArrayList();
+        invitationsResult.add(invitation);
+        invitationsResult.add(invitation2);
 
         invitationResendStr = TestUtils.getJSONFromFile("invite/invitationResend.json");
         invitationResendArrayStr = new StringBuilder("[").append(invitationResendStr).append("]").toString();
@@ -153,6 +162,15 @@ public class InvitationControllerTest {
         mockMvc.perform(get(InvitationController.INVITE_DATA_URL + "/12345"))
                 .andExpect(status().isOk());
         verify(businessService, times(1)).getInviteData(eq("12345"));
+    }
+
+    @Test
+    public void getAllInviteData_shouldReturn200() throws Exception {
+
+        when(businessService.getAllInviteData(eq("12345"))).thenReturn(invitationsResult);
+        mockMvc.perform(get(InvitationController.INVITES_BASEURL + "/12345"))
+                .andExpect(status().isOk());
+        verify(businessService, times(1)).getAllInviteData(eq("12345"));
     }
 
 }

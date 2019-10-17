@@ -20,6 +20,7 @@ import javax.validation.Valid;
 public class InvitationController {
     
     protected static final String INVITE_BASEURL = "/invite";
+    protected static final String INVITES_BASEURL = "/invites";
     protected static final String INVITE_ALLAGREED_URL = INVITE_BASEURL + "/allAgreed";
     protected static final String INVITE_AGREED_URL = INVITE_BASEURL + "/agreed";
     protected static final String INVITE_RESET_AGREED_URL = INVITE_BASEURL + "/resetAgreed";
@@ -75,6 +76,11 @@ public class InvitationController {
     @GetMapping(path = INVITE_DATA_URL + "/{inviteId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Invitation invitedata(@PathVariable String inviteId) {
         return businessService.getInviteData(inviteId);
+    }
+
+    @GetMapping(path = INVITES_BASEURL + "/{formdataId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public InvitationsResult getAllInviteData(@PathVariable String formdataId) {
+        return InvitationsResult.builder().invitations(businessService.getAllInviteData(formdataId)).build();
     }
 
     @GetMapping(path = INVITE_PIN_URL)
