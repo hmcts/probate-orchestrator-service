@@ -1,64 +1,59 @@
-  spring:
-    application:
-      name: probate-orchestrator-service
+spring:
+  application:
+    name: probate-orchestrator-service
 
-  server:
-    port: 8888
+server:
+  port: 8888
 
-  management:
-    endpoints:
-      web:
-        exposure:
-          include: health,info,liveness,health/liveness
-        base-path: /
-    endpoint:
-      health:
-        show-details: always
-        enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,liveness,health/liveness
+      base-path: /
+  endpoint:
+    health:
+      show-details: always
+      enabled: true
 
-  authorised.services: probate_backend,probate_frontend
+authorised.services: probate_backend,probate_frontend
 
-  auth.provider.service.client:
-    baseUrl: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
-    microservice: 'probate_backend'
-    key: ${AUTH_PROVIDER_SERVICE_CLIENT_KEY:'AAAAAAAAAAAAAAAA'}
-    tokenTimeToLiveInSeconds: '900'
+auth.provider.service.client:
+  baseUrl: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
+  microservice: 'probate_backend'
+  key: ${S2S_AUTH_TOTP_SECRET:'AAAAAAAAAAAAAAAA'}
+  tokenTimeToLiveInSeconds: '900'
 
-  idam.s2s-auth.url: ${auth.provider.service.client.baseUrl}
+idam.s2s-auth.url: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
 
-  service.auth.provider.base.url: ${auth.provider.service.client.baseUrl}
+service.auth.provider.base.url: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
 
-  auth.idam:
-    client.baseUrl: ${AUTH_IDAM_CLIENT_BASEURL:http://localhost:5000}
-    clientId: probate
-    clientSecret: ${AUTH2_CLIENT_SECRET:ccd_gateway_secret}
-    redirectUrl: ${IDAM_API_REDIRECT_URL:http://localhost:3451/oauth2redirect}
-    caseworker:
-      username: ${PAYMENT_CASEWORKER_USERNAME:probatebackoffice@gmail.com}
-      password: ${PAYMENT_CASEWORKER_PASSWORD:Monday01}
+auth.idam:
+  client.baseUrl: ${AUTH_IDAM_CLIENT_BASEURL:http://localhost:4501}
+  clientId: probate
+  clientSecret: ${AUTH2_CLIENT_SECRET:123456}
+  redirectUrl: ${IDAM_API_REDIRECT_URL:http://localhost:3451/oauth2redirect}
+  caseworker:
+    username: ${PAYMENT_CASEWORKER_USERNAME:probatebackoffice@gmail.com}
+    password: ${PAYMENT_CASEWORKER_PASSWORD:Monday01}
 
-  s2s.auth.totp.secret: ${auth.provider.service.client.key}
-  service.name: ${auth.provider.service.client.microservice}
+s2s.auth.totp.secret: ${S2S_AUTH_TOTP_SECRET:'AAAAAAAAAAAAAAAA'}
+service.name: ${auth.provider.service.client.microservice}
 
-  submit.service.api.url: ${SUBMIT_SERVICE_API_URL:http://localhost:8181}
-  persistence.service.api.url: ${SERVICES_PERSISTENCE_BASEURL:probate-persistence-service-aat.service.core-compute-aat.internal}
-  business.service.api.url: ${BUSINESS_SERVICE_API_URL:http://localhost:8081}
-  back.office.api.url: ${BACK_OFFICE_API_URL:http://localhost:4104}
+submit.service.api.url: ${SUBMIT_SERVICE_API_URL:http://localhost:8181}
+business.service.api.url: ${BUSINESS_SERVICE_API_URL:http://localhost:8080}
+back.office.api.url: ${BACK_OFFICE_API_URL:http://localhost:4104}
 
-  logging:
-    level:
-      org.springframework.web: ERROR
-      uk.gov.hmcts.probate: DEBUG
-      uk.gov.hmcts.probate.client.backoffice.BackOfficeApi: DEBUG
-  pattern:
-    console: "%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n"
+logging:
+  level:
+    org.springframework.web: ERROR
+    uk.gov.hmcts.probate: DEBUG
+    uk.gov.hmcts.probate.client.backoffice.BackOfficeApi: DEBUG
+pattern:
+  console: "%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n"
 
-  logging.level.uk.gov.hmcts.probate.client.BusinessServiceApi: DEBUG
-  logging.level.uk.gov.hmcts.probate.client.idam.IdamClient: DEBUG
+logging.level.uk.gov.hmcts.probate.client.BusinessServiceApi: DEBUG
+logging.level.uk.gov.hmcts.probate.client.idam.IdamClient: DEBUG
 
-  azure:
-    app_insights_key: ${APPINSIGHTS_INSTRUMENTATIONKEY:false}
-
-  migration.job:
-    schedule: false
-    startDateTime: '2019-07-14T10:36:55'
+azure:
+  app_insights_key: ${APPINSIGHTS_INSTRUMENTATIONKEY:false}
