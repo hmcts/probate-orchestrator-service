@@ -7,6 +7,7 @@
    ]]></notes>
         <gav regex="true">^commons-beanutils:commons-beanutils:.*$</gav>
         <cpe>cpe:/a:apache:commons_beanutils</cpe>
+        <cve>CVE-2019-10086</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[
@@ -290,13 +291,11 @@
    ]]></notes>
         <gav regex="true">^com\.fasterxml\.jackson\.core:jackson-databind:.*$</gav>
         <cve>CVE-2019-12384</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-   file name: jackson-databind-2.9.8.jar
-   ]]></notes>
-        <gav regex="true">^com\.fasterxml\.jackson\.core:jackson-databind:.*$</gav>
         <cve>CVE-2019-12814</cve>
+        <cve>CVE-2019-16942</cve>
+        <cve>CVE-2019-16943</cve>
+        <cve>CVE-2019-17267</cve>
+        <cve>CVE-2019-17531</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[
