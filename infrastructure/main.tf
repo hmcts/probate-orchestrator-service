@@ -109,7 +109,7 @@ module "probate-orchestrator-service" {
     MAIL_JAVAMAILPROPERTIES_SENDER = "${data.azurerm_key_vault_secret.probate_mail_sender.value}"
     MAIL_JAVAMAILPROPERTIES_RECIPIENT = "${data.azurerm_key_vault_secret.probate_mail_recipient.value}"
 
-    S2S_SECRET = "${data.azurerm_key_vault_secret.s2s_key.value}"
+    S2S_AUTH_TOTP_SECRET = "${data.azurerm_key_vault_secret.s2s_key.value}"
     IDAM_API_REDIRECT_URL = "${data.azurerm_key_vault_secret.idamRedirectUrl.value}"
     PAYMENT_CASEWORKER_USERNAME = "${data.azurerm_key_vault_secret.payCaseWorkerUser.value}"
     PAYMENT_CASEWORKER_PASSWORD = "${data.azurerm_key_vault_secret.payCaseWorkerPass.value}"
