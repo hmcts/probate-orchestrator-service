@@ -1,6 +1,6 @@
 name: probate-orchestrator-service
 home: https://github.com/hmcts/probate-orchestrator-service
-version: 0.0.12
+version: 0.0.13
 description: HMCTS Probate Orchestrator Service 
 maintainers:
   - name: HMCTS Probate Team

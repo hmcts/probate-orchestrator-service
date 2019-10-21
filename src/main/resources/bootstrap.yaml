@@ -4,7 +4,7 @@ spring:
       prefixed: false
       paths: /mnt/secrets/probate
       aliases:
-        AppInsightsInstrumentationKey: APPINSIGHTS_INSTRUMENTATIONKEY
+        AppInsightsInstrumentationKey: azure.application-insights.instrumentation-key
         s2s-probate-backend: S2S_AUTH_TOTP_SECRET
         idamRedirectUrl:   IDAM_API_REDIRECT_URL
         payCaseWorkerUser: PAYMENT_CASEWORKER_USERNAME

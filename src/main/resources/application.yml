@@ -55,5 +55,3 @@
   logging.level.uk.gov.hmcts.probate.client.BusinessServiceApi: DEBUG
   logging.level.uk.gov.hmcts.probate.client.idam.IdamClient: DEBUG
 
-  azure:
-    app_insights_key: ${APPINSIGHTS_INSTRUMENTATIONKEY:false}
