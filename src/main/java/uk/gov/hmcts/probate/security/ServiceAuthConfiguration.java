@@ -8,7 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import uk.gov.hmcts.reform.authorisation.ServiceAuthorisationApi;
 import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
+import lombok.extern.slf4j.Slf4j;
 
+
+@Slf4j
 @Configuration
 public class ServiceAuthConfiguration {
 
@@ -16,7 +19,8 @@ public class ServiceAuthConfiguration {
     public ServiceAuthTokenGenerator serviceAuthTokenGenerator(@Value("${service.auth.provider.base.url}") String s2sUrl,
                                                                @Value("${s2s.auth.totp.secret}") String secret,
                                                                @Value("${service.name}") String microservice) {
-
+        log.info("s2s.auth.totp.secret {} with service.name {}", secret, microservice);
+        log.info("service.auth.provider.base.url {}",  s2sUrl);
         final ServiceAuthorisationApi serviceAuthorisationApi = Feign.builder()
                 .encoder(new JacksonEncoder())
                 .contract(new SpringMvcContract())
