@@ -20,7 +20,7 @@
 
   auth.provider.service.client:
     baseUrl: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
-    microservice: ${AUTH_S2S_CLIENT_ID:'probate_backend'}
+    microservice: ${AUTH_S2S_CLIENT_ID:probate_backend}
     # key: ${S2S_AUTH_TOTP_SECRET:'AAAAAAAAAAAAAAAA'}
     tokenTimeToLiveInSeconds: '900'
 
