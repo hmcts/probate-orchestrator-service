@@ -8,6 +8,8 @@ java:
     REFORM_SERVICE_NAME: orchestrator-service
     PACT_BROKER_URL: pact-broker.platform.hmcts.net
     PACT_BROKER_PORT: 80
+    REFORM_ENVIRONMENT : "{{ .Values.global.environment }}"
+    DEPLOYMENT_ENV : "{{ .Values.global.environment }}"
     SERVICES_PERSISTENCE_BASEURL : "http://probate-persistence-service-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
     AUTH_PROVIDER_SERVICE_CLIENT_BASEURL : "http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
     SERVICES_CORECASEDATA_BASEURL : "http://ccd-data-store-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
@@ -20,6 +22,8 @@ java:
     MAIL_JAVAMAILPROPERTIES_MAIL_SMTP_AUTH: false
     SERVICES_CORECASEDATA_ENABLED: true
     MAIL_JAVAMAILPROPERTIES_SUBJECT: Probate Application
+    java_app_name : "orchestrator-service"
+    LOG_LEVEL : "INFO"
   image: hmctspublic.azurecr.io/probate/orchestrator-service:latest
   aadIdentityName: probate
   keyVaults:

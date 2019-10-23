@@ -1,18 +1,19 @@
 package uk.gov.hmcts.probate.core.service;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Base64;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import uk.gov.hmcts.probate.client.IdamClientApi;
 import uk.gov.hmcts.probate.model.idam.AuthenticateUserResponse;
 import uk.gov.hmcts.probate.model.idam.TokenExchangeResponse;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
-
-import java.util.Base64;
 
 @Component
 @Slf4j
@@ -59,13 +60,14 @@ public class SecurityUtils {
     }
 
     private String getCaseworkerToken() {
+        log.info("auth.idam.caseworker.username: {} & auth.idam.caseworker.password :{}...", caseworkerUserName, caseworkerPassword);
         return getIdamOauth2Token(caseworkerUserName, caseworkerPassword);
     }
 
     private String getIdamOauth2Token(String username, String password) {
         String basicAuthHeader = getBasicAuthHeader(username, password);
-
-        log.info("Client ID: {} . Authenticating...", authClientId);
+        
+        log.info("Client ID: {} .authRedirectUrl {} Authenticating...", authClientId, authRedirectUrl);
 
         AuthenticateUserResponse authenticateUserResponse = idamClient.authenticateUser(
             basicAuthHeader,
@@ -74,7 +76,7 @@ public class SecurityUtils {
             authRedirectUrl
         );
 
-        log.info("Authenticated. Exchanging...");
+        log.info("Authenticated. Exchanging... authClientSecret : {}", authClientSecret);
         TokenExchangeResponse tokenExchangeResponse = idamClient.exchangeCode(
             authenticateUserResponse.getCode(),
             AUTHORIZATION_CODE,
