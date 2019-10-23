@@ -126,8 +126,7 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Override
     public Boolean haveAllIniviteesAgreed(String formdataId) {
-        log.info("Setting security context as caseWorker");
-        securityUtils.setSecurityContextUserAsCaseworker();
+        log.info("Have all invitees agreed");
         ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(formdataId);
         GrantOfRepresentationData grantOfRepresentationData =
                 (GrantOfRepresentationData) probateCaseDetails.getCaseData();
@@ -148,15 +147,14 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Override
     public String inviteAgreed(String formdataId, Invitation invitation) {
-        log.info("Setting security context as caseWorker to agree invite");
-        securityUtils.setSecurityContextUserAsCaseworker();
+        log.info("Setting invite agreed");
         ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(formdataId);
         GrantOfRepresentationData grantOfRepresentationData =
                 (GrantOfRepresentationData) probateCaseDetails.getCaseData();
         log.info("Got the case details now set agreed flag: {}", formdataId);
+        log.info("Updating case with  agreed flag for {}", invitation.getInviteId());
         grantOfRepresentationData.setInvitationAgreedFlagForExecutorApplying(invitation.getInviteId(),
                 invitation.getAgreed());
-        log.info("Updating case with  agreed flag");
         updateCaseDataAsCaseWorker(probateCaseDetails, formdataId);
         return invitation.getInviteId();
     }
@@ -188,8 +186,7 @@ public class BusinessServiceImpl implements BusinessService {
     @Override
     public Invitation getInviteData(String inviteId) {
 
-        log.info("Get invite data as case worker");
-        securityUtils.setSecurityContextUserAsCaseworker();
+        log.info("Get invite data");
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
 
