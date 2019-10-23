@@ -60,14 +60,13 @@ public class SecurityUtils {
     }
 
     private String getCaseworkerToken() {
-        log.info("auth.idam.caseworker.username: {} & auth.idam.caseworker.password :{}...", caseworkerUserName, caseworkerPassword);
         return getIdamOauth2Token(caseworkerUserName, caseworkerPassword);
     }
 
     private String getIdamOauth2Token(String username, String password) {
         String basicAuthHeader = getBasicAuthHeader(username, password);
         
-        log.info("Client ID: {} .authRedirectUrl {} Authenticating...", authClientId, authRedirectUrl);
+        log.info("Client ID: {} . Authenticating...", authClientId);
 
         AuthenticateUserResponse authenticateUserResponse = idamClient.authenticateUser(
             basicAuthHeader,
@@ -76,7 +75,7 @@ public class SecurityUtils {
             authRedirectUrl
         );
 
-        log.info("Authenticated. Exchanging... authClientSecret : {}", authClientSecret);
+        log.info("Authenticated. Exchanging...");
         TokenExchangeResponse tokenExchangeResponse = idamClient.exchangeCode(
             authenticateUserResponse.getCode(),
             AUTHORIZATION_CODE,

@@ -22,8 +22,10 @@ java:
     MAIL_JAVAMAILPROPERTIES_MAIL_SMTP_AUTH: false
     SERVICES_CORECASEDATA_ENABLED: true
     MAIL_JAVAMAILPROPERTIES_SUBJECT: Probate Application
-    java_app_name : "orchestrator-service"
-    LOG_LEVEL : "INFO"
+    java_app_name: "orchestrator-service"
+    LOG_LEVEL: "INFO"
+    IDAM_CLIENT_ID: "probate"
+    AUTH_S2S_CLIENT_ID: "probate_backend"
   image: hmctspublic.azurecr.io/probate/orchestrator-service:latest
   aadIdentityName: probate
   keyVaults:
