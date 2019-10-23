@@ -18,7 +18,7 @@ public class AliasNameMapper {
 
     @ToCollectionMember
     public List<CollectionMember<AliasName>> toCollectionMember(Map<String, AliasOtherNames> otherNames) {
-        if (CollectionUtils.isEmpty(otherNames)) {
+        if (otherNames == null) {
             return null;//NOSONAR
         }
         return otherNames.values()
