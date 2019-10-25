@@ -52,7 +52,7 @@ public class InviteDataMigrator {
                  inviteDataSet = persistenceServiceApi.getInviteDataByAfterCreateDate(sixMonthsAgo,
                         Integer.toString(pageNo), Long.toString(size));
             } catch (RuntimeException e) {
-                e.printStackTrace();
+                log.error("Oops!", e);
                 log.info("Could not process invitedata for page {} so skipping!", (pageNo));
                 return;
             }

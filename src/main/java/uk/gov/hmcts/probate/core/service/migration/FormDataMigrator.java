@@ -50,7 +50,7 @@ public class FormDataMigrator {
                         Integer.toString(pageNo), Long.toString(size));
             }
             catch (RuntimeException e){
-                e.printStackTrace();
+                log.error("Oops!", e);
                 log.info("Could not process formdatas for page {} so skipping!",  (pageNo));
                 return;
             }
