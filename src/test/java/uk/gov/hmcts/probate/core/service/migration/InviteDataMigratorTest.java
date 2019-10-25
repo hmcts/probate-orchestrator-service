@@ -74,12 +74,13 @@ public class InviteDataMigratorTest {
         ).pageMetadata(new PagedResources.PageMetadata(20, 0, 1, 1))
                 .build();
 
+        LocalDate sixMonthsAgo = LocalDate.now().minusMonths(6);
 
         when(securityUtilsMock.getAuthorisation()).thenReturn(AUTH_TOKEN);
         when(securityUtilsMock.getServiceAuthorisation()).thenReturn(SERVICE_AUTH_TOKEN);
 
-        when(persistenceServiceApiMock.getInviteDatas()).thenReturn(inviteDataResource);
-        when(persistenceServiceApiMock.getInviteDataWithPageAndSize("0", "20"))
+        when(persistenceServiceApiMock.getInviteDataByAfterCreateDate(sixMonthsAgo)).thenReturn(inviteDataResource);
+        when(persistenceServiceApiMock.getInviteDataByAfterCreateDate(sixMonthsAgo, "0", "20"))
                 .thenReturn(inviteDataResource);
 
         ProbateCaseDetails probateCaseDetails = ProbateCaseDetails.builder()
@@ -98,8 +99,8 @@ public class InviteDataMigratorTest {
 
         inviteDataMigrator.migrateInviteData();
 
-        verify(persistenceServiceApiMock).getInviteDatas();
-        verify(persistenceServiceApiMock).getInviteDataWithPageAndSize("0", "20");
+        verify(persistenceServiceApiMock).getInviteDataByAfterCreateDate(sixMonthsAgo);
+        verify(persistenceServiceApiMock).getInviteDataByAfterCreateDate(sixMonthsAgo, "0", "20");
 
         verify(submitServiceApiMock).getCaseByApplicantEmail(AUTH_TOKEN, SERVICE_AUTH_TOKEN, FORMDATA_ID,
                 ProbateType.PA.getCaseType().name());

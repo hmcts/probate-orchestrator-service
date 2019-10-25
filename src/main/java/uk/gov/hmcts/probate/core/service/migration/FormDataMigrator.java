@@ -36,18 +36,28 @@ public class FormDataMigrator {
 
         log.info("In migrateFormData!");
         LocalDate sixMonthsAgo = LocalDate.now().minusMonths(6);
+        log.info("Get formData with createDate > " + sixMonthsAgo);
         FormDataResource formDatas = persistenceServiceApi.getFormDataByAfterCreateDate(sixMonthsAgo);
         long totalPages = formDatas.getPageMetadata().getTotalPages();
-        log.info("Returned from persistence call with " + totalPages + " pages");
-        log.info("Total Pages: {}", totalPages);
         long size = formDatas.getPageMetadata().getSize();
+        log.info("Returned from persistence call with {} total pages and size {} ", totalPages, size);
         IntStream.range(0, (int) totalPages).forEach(idx -> {
             int pageNo = idx;
-            log.info("Getting form data for page " + (pageNo));
-            FormDataResource formDataSet = persistenceServiceApi.getPagedFormDataByAfterCreateDate(sixMonthsAgo,
-                   Integer.toString(pageNo), Long.toString(size));
+            log.info("Getting form data for page {}", (pageNo));
+            FormDataResource formDataSet = null;
+            try {
+                 formDataSet = persistenceServiceApi.getPagedFormDataByAfterCreateDate(sixMonthsAgo,
+                        Integer.toString(pageNo), Long.toString(size));
+            }
+            catch (RuntimeException e){
+                log.error("Oops!", e);
+                log.info("Could not process formdatas for page {} so skipping!",  (pageNo));
+                return;
+            }
             Collection<FormHolder> formHolders = formDataSet.getContent().getFormdata();
             formHolders.forEach(this::processFormData);
+            log.info("Completed formdata migration for page {}", (pageNo));
+
         });
         log.info("Finished Migrating formdata");
     }
@@ -55,7 +65,7 @@ public class FormDataMigrator {
     private void processFormData(FormHolder f) {
         LegacyForm formdata = f.getFormdata();
         if (formdata != null) {
-            log.info("Processing form data for  " + formdata.getApplicantEmail());
+            log.info("Processing form data for {} ", formdata.getApplicantEmail());
             GrantOfRepresentationData grantOfRepresentationData = null;
             if (formdata.getCaseType() != null && formdata.getCaseType().getName().equals("intestacy")) {
                 grantOfRepresentationData = legacyIntestacyMapper.toCaseData(formdata);
@@ -79,17 +89,21 @@ public class FormDataMigrator {
                 submitServiceApi.getCaseByApplicantEmail(securityUtils.getAuthorisation(),
                         securityUtils.getServiceAuthorisation(), formdata.getApplicantEmail(),
                         caseTypeName);
-                log.info("Case found for formdata applicant email :  {}", formdata.getApplicantEmail());
+                log.info("Case found for formdata applicant email:  {}", formdata.getApplicantEmail());
             }
         } catch (ApiClientException apiClientException) {
             if (apiClientException.getStatus() == HttpStatus.NOT_FOUND.value()) {
-                submitServiceApi.initiateCaseAsCaseWorker(securityUtils.getAuthorisation(),
+                ProbateCaseDetails pcd = submitServiceApi.initiateCaseAsCaseWorker(securityUtils.getAuthorisation(),
                         securityUtils.getServiceAuthorisation(),
                         ProbateCaseDetails.builder().caseData(grantOfRepresentationData).build());
-                log.info("Draft Case saved for formdata applicant email :  " + formdata.getApplicantEmail());
+                if(pcd!=null) {
+                    log.info("Draft Case saved for formdata applicant email: {}", formdata.getApplicantEmail());
+                }
+                else{
+                    log.info("Could not save case for formdata applicant email: {}", formdata.getApplicantEmail());
+                }
             } else {
-                log.error("Error with Status code: " + apiClientException.getStatus() + " and error response "
-                        + apiClientException.getMessage());
+                log.info("Error getting formdata applicant email: {}  with Status code: {} and error message: {}" , formdata.getApplicantEmail(), apiClientException.getStatus() , apiClientException.getMessage());
             }
         }
     }
