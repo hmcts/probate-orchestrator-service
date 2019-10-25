@@ -111,4 +111,5 @@ public class LegacyForm {
         this.deceased = deceased;
         this.applicant =applicant;
     }
+
 }

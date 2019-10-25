@@ -1,5 +1,6 @@
 package uk.gov.hmcts.probate.model.persistence;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -13,6 +14,7 @@ import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
 import java.math.BigDecimal;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class LegacyInheritanceTax extends InheritanceTax {
 
     @JsonDeserialize(using = IhtTypeDeserializer.class)
