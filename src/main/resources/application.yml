@@ -60,5 +60,5 @@
     app_insights_key: ${APPINSIGHTS_INSTRUMENTATIONKEY:false}
 
   migration.job:
-    schedule: false
+    schedule: ${MIGRATION_JOB_SCHEDULER:false}
     startDateTime: '2019-07-14T10:36:55'
