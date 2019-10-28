@@ -21,11 +21,11 @@ import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromIhtMethod;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromMap;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCaseAddress;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCollectionMember;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToDocumentLink;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToLocalDate;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPennies;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToRegistryLocation;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToUploadDocs;
-import uk.gov.hmcts.probate.model.persistence.LegacyForm;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.Relationship;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
@@ -34,6 +34,7 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepr
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.SpouseNotApplyingReason;
 import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
+import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 
 
 @Mapper(componentModel = "spring", uses = {PaPaymentMapper.class, PaymentsMapper.class, AliasNameMapper.class, RegistryLocationMapper.class, PoundsConverter.class,
@@ -92,6 +93,7 @@ public interface LegacyIntestacyMapper extends LegacyFormMapper {
     @Mapping(target = "checkAnswersSummaryJson", source = "checkAnswersSummary", qualifiedBy = {FromMap.class})
     @Mapping(target = "payments", source = "payment")
     @Mapping(target = "boDocumentsUploaded", source = "documents", qualifiedBy = {ToUploadDocs.class})
-    GrantOfRepresentationData toCaseData(LegacyForm form);
+    @Mapping(target = "statementOfTruthDocument", source = "statementOfTruthDocument", qualifiedBy = {ToDocumentLink.class})
+    GrantOfRepresentationData toCaseData(IntestacyForm form);
 
 }
