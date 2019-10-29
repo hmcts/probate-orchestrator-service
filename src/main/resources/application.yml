@@ -41,7 +41,8 @@
   service.name: ${auth.provider.service.client.microservice}
 
   submit.service.api.url: ${SUBMIT_SERVICE_API_URL:http://localhost:8181}
-  business.service.api.url: ${BUSINESS_SERVICE_API_URL:http://localhost:8080}
+  persistence.service.api.url: ${SERVICES_PERSISTENCE_BASEURL:probate-persistence-service-aat.service.core-compute-aat.internal}
+  business.service.api.url: ${BUSINESS_SERVICE_API_URL:http://localhost:8081}
   back.office.api.url: ${BACK_OFFICE_API_URL:http://localhost:4104}
 
   logging:
@@ -55,3 +56,7 @@
   logging.level.uk.gov.hmcts.probate.client.BusinessServiceApi: ${LOG_LEVEL:DEBUG}
   logging.level.uk.gov.hmcts.probate.client.idam.IdamClient: ${LOG_LEVEL:DEBUG}
 
+
+  migration.job:
+    schedule: ${MIGRATION_JOB_SCHEDULER:false}
+    startDateTime: '2019-07-14T10:36:55'

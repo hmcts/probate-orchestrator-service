@@ -1,0 +1,64 @@
+{
+    "type": "Intestacy",
+    "applicant": {
+      "email": "someemailaddress@host.com",
+      "firstName": "Jon",
+      "lastName": "Snow",
+      "address": "Pret a Manger St. Georges Hospital Blackshaw Road London SW17 0QT",
+      "postCode": "SW17 0QT",
+      "phoneNumber": "123455678",
+      "addressFound": "Yes",
+      "relationshipToDeceased": "adoptedChild",
+      "spouseNotApplyingReason": "mentallyIncapable",
+      "adoptionPlace": "Yes"
+    },
+    "deceased": {
+      "firstName": "Ned",
+      "lastName": "Stark",
+      "dob-date": "1930-01-01",
+      "dod-date": "2018-01-01",
+      "address": "Winterfell, Westeros",
+      "addressFound": "Yes",
+      "postCode": "SW17 0QT",
+      "alias": "Yes",
+      "otherNames": {
+        "name_0": {
+          "lastName": "North",
+          "firstName": "King"
+        }
+      },
+      "maritalStatus": "marriedCivilPartnership",
+      "divorcePlace": "No",
+      "domiciledInEnglandOrWales": "Yes",
+      "anyOtherChildren": "Yes",
+      "allChildrenOver18": "Yes",
+      "anyDeceasedChildren": "No",
+      "anyGrandchildrenUnder18": "No",
+      "anyChildren": "No"
+    },
+    "iht": {
+      "form": "IHT205",
+      "method": "Through the HMRC online service",
+      "netValue": 100000,
+      "grossValue": 100000,
+      "identifier": "GOT123456"
+    },
+    "assets": {
+      "assetsOverseasNetValue": 100.5,
+      "assetsOverseas": "Yes"
+    },
+    "copies": {
+      "uk": 5,
+      "overseas": 6
+    },
+    "registry": {
+      "name": "Birmingham",
+      "email": "birmingham@email.com",
+      "address": "Line 1 Bham\nLine 2 Bham\nLine 3 Bham\nPostCode Bham",
+      "sequenceNumber": 20075
+    },
+    "declaration": {
+      "declarationCheckbox": "Yes"
+    },
+    "uploadDocumentUrl": "http://document-management/document/12345"
+}

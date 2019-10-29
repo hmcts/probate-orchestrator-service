@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import uk.gov.hmcts.probate.client.SubmitServiceApi;
+import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.mapper.PaymentDtoMapper;
 import uk.gov.hmcts.probate.service.PaymentUpdateService;
 import uk.gov.hmcts.probate.service.SubmitService;

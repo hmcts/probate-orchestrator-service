@@ -29,8 +29,13 @@ public class PoundsConverterTest {
     }
 
     @Test
+    public void shouldConvertPoundsToString() {
+        assertThat(poundsConverter.penniesToPoundsString(null), is(nullValue()));
+    }
+
+    @Test
     public void shouldConvertPenniesToPounds() {
-        assertThat(poundsConverter.penniesToPounds(longValue), equalTo(bigDecimalValue));
+        assertThat(poundsConverter.penniesToPoundsString(longValue), equalTo(bigDecimalValue.toPlainString()));
     }
 
     @Test

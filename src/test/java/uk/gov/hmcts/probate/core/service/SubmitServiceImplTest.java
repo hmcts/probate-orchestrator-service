@@ -9,7 +9,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import uk.gov.hmcts.probate.TestUtils;
-import uk.gov.hmcts.probate.client.SubmitServiceApi;
+import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
+import uk.gov.hmcts.probate.core.service.mapper.CaseSummaryMapper;
 import uk.gov.hmcts.probate.core.service.mapper.CaveatMapper;
 import uk.gov.hmcts.probate.core.service.mapper.FormMapper;
 import uk.gov.hmcts.probate.core.service.mapper.IntestacyMapper;
@@ -23,19 +24,26 @@ import uk.gov.hmcts.reform.probate.model.cases.CaseState;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
-import uk.gov.hmcts.reform.probate.model.cases.ProbatePaymentDetails;
 import uk.gov.hmcts.reform.probate.model.cases.SubmitResult;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
+import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
+import uk.gov.hmcts.reform.probate.model.forms.CaseSummary;
+import uk.gov.hmcts.reform.probate.model.forms.CaseSummaryHolder;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
 import uk.gov.hmcts.reform.probate.model.forms.caveat.CaveatForm;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
+import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -51,8 +59,9 @@ public class SubmitServiceImplTest {
     private static final String SERVICE_AUTHORIZATION = "SERVICEAUTH1234567";
     private static final String AUTHORIZATION = "AUTH1234567";
     private static final String CASE_ID = "1232234234";
-    private static final String STATE = "DRAFT";
+    private static final CaseState STATE = CaseState.DRAFT;
     private static final String CAVEAT_IDENTIFIER = "Id";
+    public static final String EXTERNAL_REFERENCE = "EXT2213214";
 
 
     private Map<ProbateType, FormMapper> mappers;
@@ -75,6 +84,9 @@ public class SubmitServiceImplTest {
     @Mock
     private CaseSubmissionUpdater caseSubmissionUpdater;
 
+    @Mock
+    private CaseSummaryMapper caseSummaryMapper;
+
     private SubmitServiceImpl submitService;
 
     private IntestacyForm intestacyForm;
@@ -91,16 +103,18 @@ public class SubmitServiceImplTest {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
+    private PaymentDto paymentDto;
+
     @Before
     public void setUp() throws Exception {
         IdentifierConfiguration identifierConfiguration = new IdentifierConfiguration();
 
         mappers = ImmutableMap.<ProbateType, FormMapper>builder()
-            .put(ProbateType.INTESTACY, intestacyMapper)
-            .put(ProbateType.CAVEAT, caveatMapper)
-            .build();
+                .put(ProbateType.INTESTACY, intestacyMapper)
+                .put(ProbateType.CAVEAT, caveatMapper)
+                .build();
         submitService = new SubmitServiceImpl(mappers, submitServiceApi, backOfficeService, securityUtils,
-            identifierConfiguration.formIdentifierFunctionMap(), caseSubmissionUpdater);
+                identifierConfiguration.formIdentifierFunctionMap(), caseSubmissionUpdater, caseSummaryMapper);
 
         when(securityUtils.getAuthorisation()).thenReturn(AUTHORIZATION);
         when(securityUtils.getServiceAuthorisation()).thenReturn(SERVICE_AUTHORIZATION);
@@ -110,8 +124,8 @@ public class SubmitServiceImplTest {
         String intestacyFormStr = TestUtils.getJSONFromFile("intestacyForm.json");
         intestacyForm = objectMapper.readValue(intestacyFormStr, IntestacyForm.class);
         CasePayment intestacyCasePayment = new CasePayment();
-        intestacyCaseData = GrantOfRepresentationData.builder().payments(
-            Lists.newArrayList(CollectionMember.<CasePayment>builder().value(intestacyCasePayment).build())).build();
+        intestacyCaseData = GrantOfRepresentationData.builder().grantType(GrantType.INTESTACY).payments(
+                Lists.newArrayList(CollectionMember.<CasePayment>builder().value(intestacyCasePayment).build())).build();
 
         intestacyCaseDetails = ProbateCaseDetails.builder().caseData(intestacyCaseData).caseInfo(caseInfo).build();
 
@@ -124,45 +138,85 @@ public class SubmitServiceImplTest {
         CasePayment caveatCasePayment = new CasePayment();
         caveatCasePayment.setStatus(PaymentStatus.SUCCESS);
         caveatCaseData = CaveatData.builder().applicationId(CAVEAT_IDENTIFIER).payments(
-            Lists.newArrayList(CollectionMember.<CasePayment>builder().value(caveatCasePayment).build())).build();
+                Lists.newArrayList(CollectionMember.<CasePayment>builder().value(caveatCasePayment).build())).build();
 
         caveatCaseDetails = ProbateCaseDetails.builder().caseData(caveatCaseData).caseInfo(caseInfo).build();
 
         when(caveatMapper.toCaseData(caveatForm)).thenReturn(caveatCaseData);
         when(caveatMapper.fromCaseData(caveatCaseData)).thenReturn(caveatForm);
+
+        paymentDto = PaymentDto.builder()
+                .externalReference(EXTERNAL_REFERENCE)
+                .ccdCaseNumber("1232142")
+                .status("Success")
+                .amount(BigDecimal.valueOf(1000L))
+                .reference("REF13423")
+                .channel("Online")
+                .currency("GBP")
+                .dateCreated(Date.from(LocalDate.of(2019, 1, 1).atStartOfDay()
+                        .atZone(ZoneId.systemDefault())
+                        .toInstant()))
+                .build();
+
+
     }
 
     @Test
     public void shouldGetIntestacyForm() {
         when(submitServiceApi.getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
-            EMAIL_ADDRESS, CaseType.GRANT_OF_REPRESENTATION.getName())).thenReturn(intestacyCaseDetails);
+                EMAIL_ADDRESS, CaseType.GRANT_OF_REPRESENTATION.name())).thenReturn(intestacyCaseDetails);
 
         Form formResponse = submitService.getCase(EMAIL_ADDRESS, ProbateType.INTESTACY);
 
         assertThat(formResponse, is(intestacyForm));
         verify(submitServiceApi, times(1)).getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
-            EMAIL_ADDRESS, CaseType.GRANT_OF_REPRESENTATION.getName());
+                EMAIL_ADDRESS, CaseType.GRANT_OF_REPRESENTATION.name());
         verify(securityUtils, times(1)).getAuthorisation();
         verify(securityUtils, times(1)).getServiceAuthorisation();
     }
 
     @Test
+    public void shouldGetAllCasesForm() {
+        when(submitServiceApi.getAllCases(AUTHORIZATION, SERVICE_AUTHORIZATION, CaseType.GRANT_OF_REPRESENTATION.name())).thenReturn(Arrays.asList(intestacyCaseDetails));
+
+        when(caseSummaryMapper.createCaseSummary(intestacyCaseDetails)).thenReturn(CaseSummary.builder().build());
+        CaseSummaryHolder caseSummaryHolderResponse = submitService.getAllCases();
+
+        verify(submitServiceApi, times(1)).getAllCases(AUTHORIZATION, SERVICE_AUTHORIZATION, CaseType.GRANT_OF_REPRESENTATION.name());
+        verify(securityUtils, times(1)).getAuthorisation();
+        verify(securityUtils, times(1)).getServiceAuthorisation();
+        verify(caseSummaryMapper).createCaseSummary(intestacyCaseDetails);
+    }
+
+
+    @Test
+    public void shouldInitiateCase() {
+        when(submitServiceApi.initiateCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(ProbateCaseDetails.class))).thenReturn(intestacyCaseDetails);
+
+        CaseSummaryHolder caseSummaryHolder = submitService.initiateCase(ProbateType.INTESTACY);
+        verify(submitServiceApi, times(1)).initiateCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(ProbateCaseDetails.class));
+        verify(securityUtils, times(2)).getAuthorisation();
+        verify(securityUtils, times(2)).getServiceAuthorisation();
+        verify(caseSummaryMapper).createCaseSummary(any(ProbateCaseDetails.class));
+    }
+
+    @Test
     public void shouldGetCaveatForm() {
         when(submitServiceApi.getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
-            CAVEAT_IDENTIFIER, CaseType.CAVEAT.getName())).thenReturn(caveatCaseDetails);
+                CAVEAT_IDENTIFIER, CaseType.CAVEAT.name())).thenReturn(caveatCaseDetails);
 
         Form formResponse = submitService.getCase(CAVEAT_IDENTIFIER, ProbateType.CAVEAT);
 
         assertThat(formResponse, is(caveatForm));
         verify(submitServiceApi, times(1)).getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
-            CAVEAT_IDENTIFIER, CaseType.CAVEAT.getName());
+                CAVEAT_IDENTIFIER, CaseType.CAVEAT.name());
         verify(securityUtils, times(1)).getAuthorisation();
         verify(securityUtils, times(1)).getServiceAuthorisation();
     }
 
     @Test
     public void shouldSaveDraftIntestacyForm() {
-        shouldSaveDraftForm(intestacyForm, intestacyCaseDetails, EMAIL_ADDRESS);
+        shouldSaveDraftForm(intestacyForm, intestacyCaseDetails, "1535574519543819");
     }
 
     @Test
@@ -171,14 +225,14 @@ public class SubmitServiceImplTest {
     }
 
     private void shouldSaveDraftForm(Form form, ProbateCaseDetails caseDetails, String identifier) {
-        when(submitServiceApi.saveDraft(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-            eq(identifier), any(ProbateCaseDetails.class))).thenReturn(caseDetails);
+        when(submitServiceApi.saveCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
+                eq(identifier), any(ProbateCaseDetails.class))).thenReturn(caseDetails);
 
-        Form formResponse = submitService.saveDraft(identifier, form);
+        Form formResponse = submitService.saveCase(identifier, form);
 
         assertThat(formResponse, is(form));
-        verify(submitServiceApi, times(1)).saveDraft(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-            eq(identifier), any(ProbateCaseDetails.class));
+        verify(submitServiceApi, times(1)).saveCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
+                eq(identifier), any(ProbateCaseDetails.class));
         verify(securityUtils, times(1)).getAuthorisation();
         verify(securityUtils, times(1)).getServiceAuthorisation();
     }
@@ -190,63 +244,48 @@ public class SubmitServiceImplTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowErrorOnSaveDraftIfEmailAddressDoesNotMatchForm() {
-        ((IntestacyForm) intestacyForm).getApplicant().setEmail("test@Test.com");
+        ((CaveatForm) caveatForm).setApplicationId("test@Test.com");
 
-        submitService.saveDraft(EMAIL_ADDRESS, intestacyForm);
-    }
-
-    @Test
-    public void shouldSubmitIntestacyForm() {
-        shouldSubmitForm(intestacyForm, intestacyCaseDetails, EMAIL_ADDRESS);
+        submitService.saveCase(EMAIL_ADDRESS, caveatForm);
     }
 
     @Test
     public void shouldSubmitCaveatForm() {
-        shouldSubmitForm(caveatForm, caveatCaseDetails, CAVEAT_IDENTIFIER);
-    }
-
-    private void shouldSubmitForm(Form form, ProbateCaseDetails caseDetails, String identifier) {
         when(submitServiceApi.submit(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-            eq(identifier), any(ProbateCaseDetails.class))).thenReturn(new SubmitResult(caseDetails, null));
+                eq(CAVEAT_IDENTIFIER), any(ProbateCaseDetails.class))).thenReturn(new SubmitResult(caveatCaseDetails, null));
 
-        Form formResponse = submitService.submit(identifier, form);
+        Form formResponse = submitService.submit(CAVEAT_IDENTIFIER, caveatForm);
 
-        assertThat(formResponse, is(form));
+        assertThat(formResponse, is(caveatForm));
         verify(submitServiceApi, times(1)).submit(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-            eq(identifier), any(ProbateCaseDetails.class));
+                eq(CAVEAT_IDENTIFIER), any(ProbateCaseDetails.class));
         verify(securityUtils, times(1)).getAuthorisation();
         verify(securityUtils, times(1)).getServiceAuthorisation();
     }
 
-
     @Test
-    public void shouldUpdateCaveatForm() {
-        shouldUpdatetForm(caveatForm, caveatCaseDetails, CAVEAT_IDENTIFIER);
-    }
+    public void shouldUpdateForm() {
+        when(submitServiceApi.getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
+                EMAIL_ADDRESS, CaseType.GRANT_OF_REPRESENTATION.name())).thenReturn(intestacyCaseDetails);
+        when(submitServiceApi.createCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
+                eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class))).thenReturn(intestacyCaseDetails);
 
-    @Test
-    public void shouldUpdateIntestacyForm() {
-        shouldUpdatetForm(intestacyForm, intestacyCaseDetails, EMAIL_ADDRESS);
-    }
+        Form formResponse = submitService.update(EMAIL_ADDRESS, ProbateType.INTESTACY, paymentDto);
 
-    private void shouldUpdatetForm(Form form, ProbateCaseDetails caseDetails, String identifier) {
-        when(submitServiceApi.update(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-            eq(identifier), any(ProbateCaseDetails.class))).thenReturn(new SubmitResult(caseDetails, null));
-
-        Form formResponse = submitService.update(identifier, form);
-
-        assertThat(formResponse, is(form));
-        verify(submitServiceApi, times(1)).update(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-            eq(identifier), any(ProbateCaseDetails.class));
-        verify(securityUtils, times(1)).getAuthorisation();
-        verify(securityUtils, times(1)).getServiceAuthorisation();
+        assertThat(formResponse, is(intestacyForm));
+        verify(submitServiceApi, times(2)).getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
+                EMAIL_ADDRESS, CaseType.GRANT_OF_REPRESENTATION.name());
+        verify(submitServiceApi, times(1)).createCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
+                eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class));
+        verify(securityUtils, times(2)).getAuthorisation();
+        verify(securityUtils, times(2)).getServiceAuthorisation();
     }
 
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowErrorOnSubmitIfEmailAddressDoesNotMatchForm() {
         //TODO Remove CAST
-        ((IntestacyForm) intestacyForm).getApplicant().setEmail("test@Test.com");
+        ((IntestacyForm) intestacyForm).setApplicantEmail("test@Test.com");
 
         submitService.submit(EMAIL_ADDRESS, intestacyForm);
     }
@@ -254,7 +293,8 @@ public class SubmitServiceImplTest {
     @Test
     public void shouldUpdateIntestacyPayments() {
         when(submitServiceApi.getCase(anyString(), anyString(),
-            anyString(), anyString())).thenReturn(caveatCaseDetails);;
+                anyString(), anyString())).thenReturn(caveatCaseDetails);
+
         shouldUpdatePayments(intestacyForm, intestacyCaseDetails);
         verify(backOfficeService, never()).sendNotification(intestacyCaseDetails);
     }
@@ -262,9 +302,9 @@ public class SubmitServiceImplTest {
     @Test
     public void shouldUpdateCaveatPaymentsAndSendNotification() {
         when(submitServiceApi.getCase(anyString(), anyString(),
-            anyString(), anyString())).thenReturn(caveatCaseDetails);
-        
-        caveatCaseDetails.getCaseInfo().setState(CaseState.CAVEAT_RAISED.getName());
+                anyString(), anyString())).thenReturn(caveatCaseDetails);
+
+        caveatCaseDetails.getCaseInfo().setState(CaseState.CAVEAT_RAISED);
         shouldUpdatePayments(caveatForm, caveatCaseDetails);
         verify(backOfficeService, times(1)).sendNotification(caveatCaseDetails);
     }
@@ -272,7 +312,7 @@ public class SubmitServiceImplTest {
     @Test
     public void shouldUpdateCaveatPaymentsAndNotSendNotification() {
         when(submitServiceApi.getCase(anyString(), anyString(),
-            anyString(), anyString())).thenReturn(caveatCaseDetails);
+                anyString(), anyString())).thenReturn(caveatCaseDetails);
 
         caveatCaseDetails.getCaseData().getPayments().get(0).getValue().setStatus(PaymentStatus.FAILED);
         shouldUpdatePayments(caveatForm, caveatCaseDetails);
@@ -282,13 +322,13 @@ public class SubmitServiceImplTest {
 
     private void shouldUpdatePayments(Form form, ProbateCaseDetails caseDetails) {
         when(submitServiceApi.createCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-            eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class))).thenReturn(caseDetails);
+                eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class))).thenReturn(caseDetails);
 
         Form formResponse = submitService.updatePayments(EMAIL_ADDRESS, form);
 
         assertThat(formResponse, is(form));
         verify(submitServiceApi, times(1)).createCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-            eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class));
+                eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class));
         verify(securityUtils, times(1)).getAuthorisation();
         verify(securityUtils, times(1)).getServiceAuthorisation();
     }
@@ -305,10 +345,10 @@ public class SubmitServiceImplTest {
         String caseId = "234324";
         CasePayment casePayment = CasePayment.builder().build();
         ProbateCaseDetails probateCaseDetails = ProbateCaseDetails.builder().caseInfo(CaseInfo.builder()
-            .state(CaseState.PA_APP_CREATED.getName())
-            .build())
-            .caseData(CaveatData.builder().build())
-            .build();
+                .state(CaseState.PA_APP_CREATED)
+                .build())
+                .caseData(CaveatData.builder().build())
+                .build();
 
         when(submitServiceApi.updateByCaseId(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(caseId), eq(probateCaseDetails))).thenReturn(probateCaseDetails);
 
@@ -324,10 +364,10 @@ public class SubmitServiceImplTest {
         String caseId = "234324";
         CasePayment casePayment = CasePayment.builder().build();
         ProbateCaseDetails probateCaseDetails = ProbateCaseDetails.builder().caseInfo(CaseInfo.builder()
-            .state(CaseState.CAVEAT_RAISED.getName())
-            .build())
-            .caseData(CaveatData.builder().build())
-            .build();
+                .state(CaseState.CAVEAT_RAISED)
+                .build())
+                .caseData(CaveatData.builder().build())
+                .build();
 
         when(submitServiceApi.updateByCaseId(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(caseId), eq(probateCaseDetails))).thenReturn(probateCaseDetails);
 
@@ -335,4 +375,17 @@ public class SubmitServiceImplTest {
         assertThat(probateCaseDetails, equalTo(probateCaseDetailsResult));
         verify(submitServiceApi).updateByCaseId(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(caseId), eq(probateCaseDetails));
     }
+
+
+    @Test
+    public void shouldValidate() {
+        when(submitServiceApi.validate(AUTHORIZATION, SERVICE_AUTHORIZATION,
+                EMAIL_ADDRESS, CaseType.GRANT_OF_REPRESENTATION.name())).thenReturn(intestacyCaseDetails);
+
+        submitService.validate(EMAIL_ADDRESS, ProbateType.INTESTACY);
+
+        verify(submitServiceApi).validate(AUTHORIZATION, SERVICE_AUTHORIZATION,
+                EMAIL_ADDRESS, CaseType.GRANT_OF_REPRESENTATION.name());
+    }
+
 }

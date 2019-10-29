@@ -1,5 +1,5 @@
 provider "azurerm" {
-  version = "1.19.0"
+  version = "1.22.1"
 }
 
 
@@ -13,6 +13,7 @@ locals {
   nonPreviewVaultName = "${var.raw_product}-${var.env}"
   vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.previewVaultName : local.nonPreviewVaultName}"
   localenv = "${(var.env == "preview" || var.env == "spreview") ? "aat": "${var.env}"}"
+
 }
 
 data "azurerm_key_vault" "probate_key_vault" {
@@ -20,53 +21,63 @@ data "azurerm_key_vault" "probate_key_vault" {
   resource_group_name = "${local.vaultName}"
 }
 
+data "azurerm_key_vault" "s2s_vault" {
+  name = "s2s-${local.localenv}"
+  resource_group_name = "rpe-service-auth-provider-${local.localenv}"
+}
+
 data "azurerm_key_vault_secret" "s2s_key" {
   name      = "microservicekey-probate-backend"
-  vault_uri = "https://s2s-${local.localenv}.vault.azure.net/"
+  key_vault_id = "${data.azurerm_key_vault.s2s_vault.id}"
 }
 
 data "azurerm_key_vault_secret" "probate_mail_host" {
   name = "probate-mail-host"
-  vault_uri = "${data.azurerm_key_vault.probate_key_vault.vault_uri}"
+  key_vault_id = "${data.azurerm_key_vault.probate_key_vault.id}"
 }
 
 data "azurerm_key_vault_secret" "probate_mail_username" {
   name = "probate-mail-username"
-  vault_uri = "${data.azurerm_key_vault.probate_key_vault.vault_uri}"
+  key_vault_id = "${data.azurerm_key_vault.probate_key_vault.id}"
 }
 
 data "azurerm_key_vault_secret" "probate_mail_password" {
   name = "probate-mail-password"
-  vault_uri = "${data.azurerm_key_vault.probate_key_vault.vault_uri}"
+  key_vault_id = "${data.azurerm_key_vault.probate_key_vault.id}"
 }
 
 data "azurerm_key_vault_secret" "probate_mail_port" {
   name = "probate-mail-port"
-  vault_uri = "${data.azurerm_key_vault.probate_key_vault.vault_uri}"
+  key_vault_id = "${data.azurerm_key_vault.probate_key_vault.id}"
 }
 
 data "azurerm_key_vault_secret" "probate_mail_sender" {
   name = "probate-mail-sender"
-  vault_uri = "${data.azurerm_key_vault.probate_key_vault.vault_uri}"
+  key_vault_id = "${data.azurerm_key_vault.probate_key_vault.id}"
 }
 
 data "azurerm_key_vault_secret" "probate_mail_recipient" {
   name = "probate-mail-recipient"
-  vault_uri = "${data.azurerm_key_vault.probate_key_vault.vault_uri}"
+  key_vault_id = "${data.azurerm_key_vault.probate_key_vault.id}"
 }
 
 data "azurerm_key_vault_secret" "idamRedirectUrl" {
   name = "idamRedirectUrl"
-  vault_uri = "${data.azurerm_key_vault.probate_key_vault.vault_uri}"
+  key_vault_id = "${data.azurerm_key_vault.probate_key_vault.id}"
 }
 
 data "azurerm_key_vault_secret" "payCaseWorkerUser" {
   name = "payCaseWorkerUser"
-  vault_uri = "${data.azurerm_key_vault.probate_key_vault.vault_uri}"
+  key_vault_id = "${data.azurerm_key_vault.probate_key_vault.id}"
 }
 
 data "azurerm_key_vault_secret" "payCaseWorkerPass" {
   name = "payCaseWorkerPass"
+  key_vault_id = "${data.azurerm_key_vault.probate_key_vault.id}"
+}
+
+data "azurerm_key_vault_secret" "idam_secret_probate" {
+  name = "ccidam-idam-api-secrets-probate"
   vault_uri = "${data.azurerm_key_vault.probate_key_vault.vault_uri}"
 }
 
@@ -93,14 +104,6 @@ module "probate-orchestrator-service" {
 
 
     DEPLOYMENT_ENV= "${var.deployment_env}"
-    //JAVA_OPTS = "${local.java_proxy_variables}"
-
-    # MAIL_USERNAME = "${data.vault_generic_secret.probate_mail_username.data["value"]}"
-    # MAIL_PASSWORD = "${data.vault_generic_secret.probate_mail_password.data["value"]}"
-    # MAIL_HOST = "${data.vault_generic_secret.probate_mail_host.data["value"]}"
-    # MAIL_PORT = "${data.vault_generic_secret.probate_mail_port.data["value"]}"
-    # MAIL_JAVAMAILPROPERTIES_SENDER = "${data.vault_generic_secret.probate_mail_sender.data["value"]}"
-    # MAIL_JAVAMAILPROPERTIES_RECIPIENT = "${data.vault_generic_secret.probate_mail_recipient.data["value"]}"
 
     MAIL_USERNAME = "${data.azurerm_key_vault_secret.probate_mail_username.value}"
     MAIL_PASSWORD = "${data.azurerm_key_vault_secret.probate_mail_password.value}"
@@ -113,6 +116,7 @@ module "probate-orchestrator-service" {
     IDAM_API_REDIRECT_URL = "${data.azurerm_key_vault_secret.idamRedirectUrl.value}"
     PAYMENT_CASEWORKER_USERNAME = "${data.azurerm_key_vault_secret.payCaseWorkerUser.value}"
     PAYMENT_CASEWORKER_PASSWORD = "${data.azurerm_key_vault_secret.payCaseWorkerPass.value}"
+    AUTH2_CLIENT_SECRET= "${data.azurerm_key_vault_secret.idam_secret_probate.value}"
 
     MAIL_JAVAMAILPROPERTIES_SUBJECT = "${var.probate_mail_subject}"
     MAIL_JAVAMAILPROPERTIES_MAIL_SMTP_AUTH = "${var.probate_mail_use_auth}"
@@ -127,7 +131,9 @@ module "probate-orchestrator-service" {
     SUBMIT_SERVICE_API_URL = "${var.submit_service_api_url}"
     BUSINESS_SERVICE_API_URL = "${var.business_service_api_url}"
     BACK_OFFICE_API_URL = "${var.back_office_api_url}"
-    
+    MIGRATION_JOB_SCHEDULER = "false"
+
+
     java_app_name = "${var.microservice}"
     LOG_LEVEL = "${var.log_level}"
     //ROOT_APPENDER = "JSON_CONSOLE" //Remove json logging

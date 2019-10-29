@@ -7,6 +7,7 @@ import org.springframework.util.Assert;
 import uk.gov.hmcts.reform.probate.model.cases.CaseData;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
+import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 
 import java.time.LocalDate;
 import java.util.Map;
@@ -20,6 +21,7 @@ public class CaseSubmissionUpdater {
     private Map<CaseType, Function<CaseData, CaseData>> caseTypeUpdateFunctionMap =
         ImmutableMap.<CaseType, Function<CaseData, CaseData>>builder()
             .put(CaseType.CAVEAT, this::updateCaveat)
+            .put(CaseType.GRANT_OF_REPRESENTATION, this::updateGrantOfRepresentation)
             .build();
 
     public CaseData updateCaseForSubmission(CaseData caseData) {
@@ -36,5 +38,11 @@ public class CaseSubmissionUpdater {
         CaveatData caveatData = (CaveatData) caseData;
         caveatData.setApplicationSubmittedDate(LocalDate.now());
         return caveatData;
+    }
+
+    private CaseData updateGrantOfRepresentation(CaseData caseData) {
+        GrantOfRepresentationData grantOfRepresentationData = (GrantOfRepresentationData) caseData;
+        grantOfRepresentationData.setApplicationSubmittedDate(LocalDate.now());
+        return grantOfRepresentationData;
     }
 }

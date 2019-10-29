@@ -18,6 +18,8 @@
 *.ipr
 *.plantuml
 *.puml
+*.hprof
+
 
 .DS_store
 

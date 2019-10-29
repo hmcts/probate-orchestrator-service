@@ -1,0 +1,615 @@
+{
+  "type": "PA",
+  "deceased": {
+    "firstName": "partial application ",
+    "lastName": "partial application ",
+    "alias": "Yes",
+    "otherNames": {
+      "name_1": {
+        "firstName": "2nd other partial name FN",
+        "lastName": "2nd other partial name FN"
+      },
+      "name_0": {
+        "firstName": "1st other partial name FN",
+        "lastName": "1st other partial name LN"
+      }
+    },
+    "married": "Yes",
+    "address": {
+      "addressLine1": "4 Neville Road London E7 9QX",
+      "postCode": "E7 9QX",
+      "formattedAddress": "4 Neville Road London E7 9QX E7 9QX "
+    },
+    "addressFound": "true",
+    "dob-date": "1900-01-01T00:00:00.000Z",
+    "dod-date": "2000-02-02T00:00:00.000Z",
+    "dod-day": 2,
+    "dod-month": 2,
+    "dod-year": 2000,
+    "dob-day": 1,
+    "dob-month": 1,
+    "dob-year": 1900,
+    "dob-formattedDate": "1 January 1900",
+    "dod-formattedDate": "2 February 2000"
+  },
+  "applicant": {
+    "firstName": "First Executor FirstName",
+    "lastName": "First Executor LastName",
+    "alias": "diff Frist exe Name",
+    "aliasReason": "other",
+    "address": {
+      "addressLine1": "126 caulfield road\r\ne7 9qx\r\nLondon",
+      "formattedAddress": "126 caulfield road\r\ne7 9qx\r\nLondon "
+    },
+    "addressFound": "false",
+    "phoneNumber": "1233232323",
+    "nameAsOnTheWill": "No",
+    "otherReason": "Other reason for the 1st exe name difference"
+  },
+  "registry": {},
+  "ccdCase": {
+    "id": 1535574519543819,
+    "state": "PAAppCreated"
+  },
+  "copies": {
+    "uk": 2,
+    "overseas": 2
+  },
+  "declaration": {
+    "softStop": true,
+    "legalStatement": {
+      "applicant": "We, First Executor FirstName First Executor LastName of 126 caulfield road\r\ne7 9qx\r\nLondon, diff 2nd ExeFNLN of 6 Neville Road London E7 9QX and diff 3rd ExeFNLN of 6 Neville Road London E7 9QX, make the following statement:",
+      "deceased": "partial application  partial application was born on 1 January 1900 and died on 2 February 2000, domiciled in England and Wales.",
+      "deceasedOtherNames": "They were also known as 1st other partial name FN 1st other partial name LN and 2nd other partial name FN 2nd other partial name FN.",
+      "executorsApplying": [
+        {
+          "name": "First Executor FirstName First Executor LastName, an executor named in the will or codicils as diff Frist exe Name, is applying for probate. Their name is different because First Executor FirstName First Executor LastName: Other reason for the 1st exe name difference.",
+          "sign": "First Executor FirstName First Executor LastName will send to the probate registry what we have seen and believe to be the true and original last will and testament, and 7 codicils of partial application  partial application."
+        },
+        {
+          "name": "diff 2nd ExeFNLN, an executor named in the will or codicils as 2nd ExeFNLN, is applying for probate. Their name is different because diff 2nd ExeFNLN changed their name by deed poll.",
+          "sign": ""
+        },
+        {
+          "name": "diff 3rd ExeFNLN, an executor named in the will or codicils as 3rd ExeFNLN, is applying for probate. Their name is different because diff 3rd ExeFNLN changed their name by deed poll.",
+          "sign": ""
+        }
+      ],
+      "deceasedEstateValue": "The gross value for the estate amounts to £32432324 and the net value for the estate amounts to £343243.",
+      "deceasedEstateLand": "To the best of our knowledge, information and belief, there was no land vested in partial application  partial application which was settled previously to the death (and not by the will) of partial application  partial application and which remained settled land notwithstanding such death.",
+      "executorsNotApplying": [
+        "4th ExeFNLN, an executor named in the will or codicils, is not making this application but reserves power to do so at a later date. They have been notified in writing.",
+        "5nd ExeFNLN, an executor named in the will or codicils, is not making this application now and gives up the right to do so in the future.",
+        "6th ExeFNLN, an executor named in the will or codicils, is not making this application because they died before partial application  partial application died.",
+        "7th ExeFNLN, an executor named in the will or codicils, is not making this application because they died after partial application  partial application died."
+      ],
+      "intro": "This statement is based on the information First Executor FirstName First Executor LastName has given in their application. It will be stored as a public record."
+    },
+    "declaration": {
+      "confirm": "We confirm that we will administer the estate of partial application  partial application, according to law. We will:",
+      "confirmItem1": "collect the whole estate",
+      "confirmItem2": "keep full details (an inventory) of the estate",
+      "confirmItem3": "keep a full account of how the estate has been administered",
+      "requests": "If the probate registry (court) asks us to do so, we will:",
+      "requestsItem1": "provide the full details of the estate and how it has been administered",
+      "requestsItem2": "return the grant of probate to the court",
+      "understand": "We understand that:",
+      "understandItem1": "our application will be rejected if we do not answer any questions about the information we have given",
+      "understandItem2": "criminal proceedings for fraud may be brought against us if we are found to have been deliberately untruthful or dishonest",
+      "accept": "I confirm that I will administer the estate of the person who died according to law, and that my application is truthful."
+    },
+    "declarationCheckbox": "true"
+  },
+  "applicantEmail": "payment.test8@gmail.com",
+  "executors": {
+    "executorsNumber": 7,
+    "allalive": "No",
+    "otherExecutorsApplying": "Yes",
+    "alias": "Yes",
+    "invitesSent": "false",
+    "list": [
+      {
+        "fullName": "2nd ExeFNLN",
+        "isApplying": true,
+        "currentName": "diff 2nd ExeFNLN",
+        "currentNameReason": "Change by deed poll",
+        "email": "venkatd648@gmail.com",
+        "mobile": "07483845749",
+        "address": {
+          "addressLine1": "6 Neville Road London E7 9QX"
+        }
+      },
+      {
+        "fullName": "3rd ExeFNLN",
+        "isApplying": true,
+        "currentName": "diff 3rd ExeFNLN",
+        "currentNameReason": "Change by deed poll",
+        "email": "venkatd648@gmail.com",
+        "mobile": "07483845749",
+        "address": {
+          "addressLine1": "6 Neville Road London E7 9QX"
+        }
+      },
+      {
+        "fullName": "First Executor FirstName First Executor LastName",
+        "isApplying": true,
+        "address": {}
+      },
+      {
+        "fullName": "4th ExeFNLN",
+        "notApplyingKey": "optionPowerReserved",
+        "executorNotified": "Yes"
+      },
+      {
+        "fullName": "5nd ExeFNLN",
+        "notApplyingKey": "optionRenunciated"
+      },
+      {
+        "fullName": "6th ExeFNLN",
+        "notApplyingKey": "optionDiedBefore"
+      },
+      {
+        "fullName": "7th ExeFNLN",
+        "notApplyingKey": "optionDiedAfter"
+      }
+    ]
+  },
+  "assets": {
+    "assetsoverseas": "Yes"
+  },
+  "iht": {
+    "method": "By post",
+    "ihtFormId": "IHT205",
+    "form": "IHT205",
+    "grossValue": 32432324.00,
+    "netValue": 343243.00,
+    "grossValueOnline": "32432324.00",
+    "netValueOnline": "343243.00",
+    "grossValueFieldIHT205": "32432324.00",
+    "netValueFieldIHT205": "343243.00"
+  },
+  "will": {
+    "codicils": "Yes",
+    "codicilsNumber": 7
+  },
+  "applicationSubmittedDate": "2019-04-30",
+  "legalDeclaration": {
+    "headers": [
+      "In the High Court of Justice",
+      "Family Division",
+      "(Probate)"
+    ],
+    "deceased": "partial application  partial application",
+    "sections": [
+      {
+        "title": "Legal statement",
+        "headingType": "large",
+        "declarationItems": [
+          {
+            "title": "We, First Executor FirstName First Executor LastName of 126 caulfield road\ne7 9qx\nLondon, diff 2nd ExeFNLN of 6 Neville Road London E7 9QX and diff 3rd ExeFNLN of 6 Neville Road London E7 9QX, make the following statement:"
+          }
+        ]
+      },
+      {
+        "title": "The person who died",
+        "headingType": "small",
+        "declarationItems": [
+          {
+            "title": "partial application  partial application was born on 1 January 1900 and died on 2 February 2000, domiciled in England and Wales. They were also known as 1st other partial name FN 1st other partial name LN and 2nd other partial name FN 2nd other partial name FN."
+          }
+        ]
+      },
+      {
+        "title": "The estate of the person who died",
+        "headingType": "small",
+        "declarationItems": [
+          {
+            "title": "The gross value for the estate amounts to £32432324 and the net value for the estate amounts to £343243."
+          },
+          {
+            "title": "To the best of our knowledge, information and belief, there was no land vested in partial application  partial application which was settled previously to the death (and not by the will) of partial application  partial application and which remained settled land notwithstanding such death."
+          }
+        ]
+      },
+      {
+        "title": "Executors applying for probate",
+        "headingType": "small",
+        "declarationItems": [
+          {
+            "title": "First Executor FirstName First Executor LastName, an executor named in the will or codicils as diff Frist exe Name, is applying for probate. Their name is different because First Executor FirstName First Executor LastName: Other reason for the 1st exe name difference."
+          },
+          {
+            "title": "First Executor FirstName First Executor LastName will send to the probate registry what we have seen and believe to be the true and original last will and testament, and 7 codicils of partial application  partial application."
+          },
+          {
+            "title": "diff 2nd ExeFNLN, an executor named in the will or codicils as 2nd ExeFNLN, is applying for probate. Their name is different because diff 2nd ExeFNLN changed their name by deed poll."
+          },
+          {
+            "title": "diff 3rd ExeFNLN, an executor named in the will or codicils as 3rd ExeFNLN, is applying for probate. Their name is different because diff 3rd ExeFNLN changed their name by deed poll."
+          }
+        ]
+      },
+      {
+        "title": "Executors not applying for probate",
+        "headingType": "small",
+        "declarationItems": [
+          {
+            "title": "4th ExeFNLN, an executor named in the will or codicils, is not making this application but reserves power to do so at a later date. They have been notified in writing."
+          },
+          {
+            "title": "5nd ExeFNLN, an executor named in the will or codicils, is not making this application now and gives up the right to do so in the future."
+          },
+          {
+            "title": "6th ExeFNLN, an executor named in the will or codicils, is not making this application because they died before partial application  partial application died."
+          },
+          {
+            "title": "7th ExeFNLN, an executor named in the will or codicils, is not making this application because they died after partial application  partial application died."
+          }
+        ]
+      },
+      {
+        "title": "Declaration",
+        "headingType": "large",
+        "declarationItems": [
+          {
+            "title": "We confirm that we will administer the estate of partial application  partial application, according to law. We will:",
+            "values": [
+              "collect the whole estate",
+              "keep full details (an inventory) of the estate",
+              "keep a full account of how the estate has been administered"
+            ]
+          },
+          {
+            "title": "If the probate registry (court) asks us to do so, we will:",
+            "values": [
+              "provide the full details of the estate and how it has been administered",
+              "return the grant of probate to the court"
+            ]
+          },
+          {
+            "title": "We understand that:",
+            "values": [
+              "our application will be rejected if we do not answer any questions about the information we have given",
+              "criminal proceedings for fraud may be brought against us if we are found to have been deliberately untruthful or dishonest"
+            ]
+          }
+        ]
+      }
+    ],
+    "dateCreated": "4/30/2019, 9:39:52 AM"
+  },
+  "checkAnswersSummary": {
+    "sections": [
+      {
+        "type": "heading-medium",
+        "title": "About the person who died",
+        "questionAndAnswers": [
+          {
+            "answers": [
+              "partial application "
+            ],
+            "question": "First name and any middle names"
+          },
+          {
+            "answers": [
+              "partial application "
+            ],
+            "question": "Last name"
+          },
+          {
+            "answers": [
+              "Yes"
+            ],
+            "question": "Did partial application  partial application have assets in another name?"
+          },
+          {
+            "answers": [
+              "\n                1st other partial name FN 1st other partial name LN\n            ",
+              "\n                2nd other partial name FN 2nd other partial name FN\n            "
+            ],
+            "question": "Names used by the deceased"
+          },
+          {
+            "answers": [
+              "Yes"
+            ],
+            "question": "Did partial application  partial application get married or enter into a civil partnership after the latest codicil was signed?"
+          },
+          {
+            "answers": [
+              "1 January 1900"
+            ],
+            "question": "What was their date of birth?"
+          },
+          {
+            "answers": [
+              "2 February 2000"
+            ],
+            "question": "What was the date that they died?"
+          },
+          {
+            "answers": [
+              "4 Neville Road London E7 9QX"
+            ],
+            "question": "What was the permanent address at the time of their death?"
+          },
+          {
+            "answers": [
+              "Yes"
+            ],
+            "question": "Were any updates (‘codicils’) made to the will?"
+          },
+          {
+            "answers": [
+              "7"
+            ],
+            "question": "How many updates (‘codicils’) were made to the will?"
+          }
+        ]
+      },
+      {
+        "type": "heading-medium",
+        "title": "Uploaded documents",
+        "questionAndAnswers": [
+          {
+            "answers": [
+              "\n                                    Screenshot 2019-04-28 at 16.31.09.png\n                                "
+            ],
+            "question": "Death Certificate"
+          }
+        ]
+      },
+      {
+        "type": "heading-medium",
+        "title": "Inheritance tax",
+        "questionAndAnswers": [
+          {
+            "answers": [
+              "By post"
+            ],
+            "question": "How was the Inheritance Tax (IHT) form submitted?"
+          },
+          {
+            "answers": [
+              "IHT 205 - there was no inheritance tax to pay"
+            ],
+            "question": "Which paper form was filled in?"
+          },
+          {
+            "answers": [
+              "32432324"
+            ],
+            "question": "Gross value of the estate in £"
+          },
+          {
+            "answers": [
+              "343243"
+            ],
+            "question": "Net value of the estate in £"
+          }
+        ]
+      },
+      {
+        "type": "heading-medium",
+        "title": "The executors",
+        "questionAndAnswers": [
+          {
+            "answers": [
+              "7"
+            ],
+            "question": "How many past and present executors are named on the will and any updates (‘codicils’)?"
+          },
+          {
+            "answers": [
+              "No"
+            ],
+            "question": "Are all the executors alive?"
+          },
+          {
+            "answers": [
+              "\n                                    6th ExeFNLN\n                                ",
+              "\n                                    7th ExeFNLN\n                                "
+            ],
+            "question": "Which executors have died?"
+          },
+          {
+            "answers": [
+              "Yes"
+            ],
+            "question": "Did 6th ExeFNLN die before the person who died?"
+          },
+          {
+            "answers": [
+              "No"
+            ],
+            "question": "Did 7th ExeFNLN die before the person who died?"
+          }
+        ]
+      },
+      {
+        "type": "heading-small",
+        "title": "About you",
+        "questionAndAnswers": [
+          {
+            "answers": [
+              "First Executor FirstName"
+            ],
+            "question": "First name and any middle names"
+          },
+          {
+            "answers": [
+              "First Executor LastName"
+            ],
+            "question": "Last name"
+          },
+          {
+            "answers": [
+              "No"
+            ],
+            "question": "Is your name ‘First Executor FirstName First Executor LastName’ exactly what appears on the will?"
+          },
+          {
+            "answers": [
+              "diff Frist exe Name"
+            ],
+            "question": "Name on will"
+          },
+          {
+            "answers": [
+              "Other reason for the 1st exe name difference"
+            ],
+            "question": "Reason for name change"
+          },
+          {
+            "answers": [
+              "1233232323"
+            ],
+            "question": "Phone number"
+          },
+          {
+            "answers": [
+              "126 caulfield road\ne7 9qx\nLondon"
+            ],
+            "question": "What is your address?"
+          }
+        ]
+      },
+      {
+        "type": "heading-small",
+        "title": "Other executors applying for probate",
+        "questionAndAnswers": [
+          {
+            "answers": [
+              "Yes"
+            ],
+            "question": "Will any of the other executors be dealing with the estate?"
+          },
+          {
+            "answers": [
+              "\n                                    2nd ExeFNLN\n                                ",
+              "\n                                    3rd ExeFNLN\n                                "
+            ],
+            "question": "Which executors will be dealing with the estate?"
+          },
+          {
+            "answers": [
+              "\n                                    2nd ExeFNLN\n                                ",
+              "\n                                    3rd ExeFNLN\n                                "
+            ],
+            "question": "Which executors have different names?"
+          }
+        ]
+      },
+      {
+        "type": "heading-small",
+        "title": "Second executor applying for probate",
+        "questionAndAnswers": [
+          {
+            "answers": [
+              "2nd ExeFNLN"
+            ],
+            "question": "Name on will"
+          },
+          {
+            "answers": [
+              "diff 2nd ExeFNLN"
+            ],
+            "question": "Current name"
+          },
+          {
+            "answers": [
+              "Change by deed poll"
+            ],
+            "question": "Reason for name change"
+          },
+          {
+            "answers": [
+              "6 Neville Road London E7 9QX"
+            ],
+            "question": "Address"
+          },
+          {
+            "answers": [
+              "07483845749"
+            ],
+            "question": "Mobile number"
+          },
+          {
+            "answers": [
+              "venkatd648@gmail.com"
+            ],
+            "question": "Email address"
+          }
+        ]
+      },
+      {
+        "type": "heading-small",
+        "title": "Fourth executor applying for probate",
+        "questionAndAnswers": [
+          {
+            "answers": [
+              "3rd ExeFNLN"
+            ],
+            "question": "Name on will"
+          },
+          {
+            "answers": [
+              "diff 3rd ExeFNLN"
+            ],
+            "question": "Current name"
+          },
+          {
+            "answers": [
+              "Change by deed poll"
+            ],
+            "question": "Reason for name change"
+          },
+          {
+            "answers": [
+              "6 Neville Road London E7 9QX"
+            ],
+            "question": "Address"
+          },
+          {
+            "answers": [
+              "07483845749"
+            ],
+            "question": "Mobile number"
+          },
+          {
+            "answers": [
+              "venkatd648@gmail.com"
+            ],
+            "question": "Email address"
+          }
+        ]
+      },
+      {
+        "type": "heading-small",
+        "title": "Executors not applying for probate",
+        "questionAndAnswers": [
+          {
+            "answers": [
+              "This executor doesn’t want to apply now, but may do in the future (this is also known as power reserved)"
+            ],
+            "question": "Why isn’t 4th ExeFNLN applying for probate?"
+          },
+          {
+            "answers": [
+              "Yes"
+            ],
+            "question": "Have you notified 4th ExeFNLN in writing that you are applying?"
+          },
+          {
+            "answers": [
+              "This executor doesn’t want to apply now, and gives up the right to do so in the future (this is also known as renunciation, and the executor will need to fill in a form)"
+            ],
+            "question": "Why isn’t 5nd ExeFNLN applying for probate?"
+          }
+        ]
+      }
+    ],
+    "pageTitle": "Check your answers",
+    "mainParagraph": "Check the information below carefully. This will form a record of your application for probate. It will also be stored as a public record, and will be able to be viewed online."
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "type": "Intestacy",
+  "applicant": {
+    "email": "someemailaddress@host.com",
+    "firstName": "Jon",
+    "lastName": "Snow",
+    "address": "Pret a Manger St. Georges Hospital Blackshaw Road London SW17 0QT",
+    "postCode": "SW17 0QT",
+    "phoneNumber": "123455678",
+    "addressFound": "Yes",
+    "adoptionPlace": "Yes"
+  },
+  "deceased": {
+    "firstName": "Ned",
+    "lastName": "Stark",
+    "dob-date": "1930-01-01",
+    "dod-date": "2018-01-01",
+    "address": "Winterfell, Westeros",
+    "addressFound": "Yes",
+    "postCode": "SW17 0QT",
+    "alias": "Yes",
+    "allChildrenOver18": "Yes",
+    "anyDeceasedChildren": "No",
+    "anyGrandchildrenUnder18": "No",
+    "anyChildren": "No"
+  },
+  "declarationCheckbox": "Yes",
+  "ccdCase": {
+    "id": 1535574519543819,
+    "state": "Draft"
+  }
+}
