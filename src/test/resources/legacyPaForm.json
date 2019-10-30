@@ -1,0 +1,304 @@
+{
+  "formdata": {
+    "iht": {
+      "form": "IHT205",
+      "method": "By post",
+      "netValue": 1,
+      "ihtFormId": "IHT205",
+      "grossValue": 1,
+      "netValueFieldIHT205": "1",
+      "grossValueFieldIHT205": "1"
+    },
+    "will": {
+      "codicils": "No"
+    },
+    "summary": {
+      "readyToDeclare": false
+    },
+    "caseType": "gop",
+    "deceased": {
+      "alias": "No",
+      "address": {
+        "country": "United Kingdom",
+        "postCode": "SW1A 1AA",
+        "postTown": "London",
+        "addressLine1": "Buckingham Palace",
+        "formattedAddress": "Buckingham Palace London SW1A 1AA United Kingdom "
+      },
+      "dob-day": 1,
+      "dod-day": 4,
+      "married": "No",
+      "dob-date": "1953-02-01T00:00:00.000Z",
+      "dob-year": 1953,
+      "dod-date": "2017-05-04T00:00:00.000Z",
+      "dod-year": 2017,
+      "lastName": "deceased_lname",
+      "postcode": "SW1A 1AA",
+      "addresses": [
+        {
+          "uprn": "10033544614",
+          "point": {
+            "type": "Point",
+            "coordinates": [
+              529090,
+              179645
+            ]
+          },
+          "postCode": "SW1A 1AA",
+          "postTown": "London",
+          "postcodeType": "D",
+          "formattedAddress": "Buckingham Palace,London,SW1A 1AA",
+          "organisationName": "BUCKINGHAM PALACE"
+        }
+      ],
+      "dob-month": 2,
+      "dod-month": 5,
+      "firstName": "deceased_fname",
+      "addressFound": "true",
+      "dob-formattedDate": "1 February 1953",
+      "dod-formattedDate": "4 May 2017"
+    },
+    "applicant": {
+      "address": {
+        "country": "United Kingdom",
+        "postCode": "SW1A 1AA",
+        "postTown": "London",
+        "addressLine1": "Buckingham Palace",
+        "formattedAddress": "Buckingham Palace London SW1A 1AA United Kingdom "
+      },
+      "lastName": "applicant_lname",
+      "postcode": "SW1A 1AA",
+      "addresses": [
+        {
+          "uprn": "10033544614",
+          "point": {
+            "type": "Point",
+            "coordinates": [
+              529090,
+              179645
+            ]
+          },
+          "postCode": "SW1A 1AA",
+          "postTown": "London",
+          "postcodeType": "D",
+          "formattedAddress": "Buckingham Palace,London,SW1A 1AA",
+          "organisationName": "BUCKINGHAM PALACE"
+        }
+      ],
+      "firstName": "applicant_fname",
+      "phoneNumber": "1234567890",
+      "addressFound": "true",
+      "nameAsOnTheWill": "Yes"
+    },
+    "documents": {
+      "uploads": [
+        {
+          "url": "http://dm-store-aat.service.core-compute-aat.internal/documents/5b55cc45-9b8c-4047-804d-0311ec3f01ff",
+          "filename": "DEATH CERTIFICATE TEST IMAGE.pdf"
+        }
+      ]
+    },
+    "executors": {
+      "list": [
+        {
+          "lastName": "applicant_lname",
+          "firstName": "applicant_fname",
+          "isApplying": true,
+          "isApplicant": true
+        },
+        {
+          "fullName": "executor2",
+          "inviteId": "deceased_fname-deceased_lname-bb0125ed-9739-41bc-92cc-57f0eed80553",
+          "addresses": [
+            {
+              "uprn": "10033544614",
+              "point": {
+                "type": "Point",
+                "coordinates": [
+                  529090,
+                  179645
+                ]
+              },
+              "postCode": "SW1A 1AA",
+              "postTown": "London",
+              "postcodeType": "D",
+              "formattedAddress": "Buckingham Palace,London,SW1A 1AA",
+              "organisationName": "BUCKINGHAM PALACE"
+            }
+          ],
+          "emailSent": true,
+          "isApplying": false,
+          "notApplyingKey": "optionPowerReserved",
+          "executorNotified": "Yes",
+          "notApplyingReason": "This executor doesn&rsquo;t want to apply now, but may do in the future (this is also known as power reserved)"
+        }
+      ],
+      "alias": "No",
+      "allalive": "Yes",
+      "invitesSent": "true",
+      "executorsNumber": 2,
+      "executorsEmailChanged": false,
+      "otherExecutorsApplying": "No"
+    },
+    "declaration": {
+      "softStop": false,
+      "declaration": {
+        "accept": "I confirm that I will administer the estate of the person who died according to law, and that my application is truthful.",
+        "confirm": "We confirm that we will administer the estate of generic_fname generic_lname, according to law. We will:",
+        "requests": "If the probate registry (court) asks us to do so, we will:",
+        "understand": "We understand that:",
+        "confirmItem1": "collect the whole estate",
+        "confirmItem2": "keep full details (an inventory) of the estate",
+        "confirmItem3": "keep a full account of how the estate has been administered",
+        "requestsItem1": "provide the full details of the estate and how it has been administered",
+        "requestsItem2": "return the grant of probate to the court",
+        "submitWarning": "Once everyone has agreed the legal statement and made their declaration, this information can&rsquo;t be changed.",
+        "understandItem1": "our application will be rejected if we do not answer any questions about the information we have given",
+        "understandItem2": "criminal proceedings for fraud may be brought against us if we are found to have been deliberately untruthful or dishonest"
+      },
+      "hasDataChanged": true,
+      "legalStatement": {
+        "intro": "This statement is based on the information generic_fname generic_lname has given in their application. It will be stored as a public record.",
+        "deceased": "generic_fname generic_lname was born on 1 February 1953 and died on 4 May 2017, domiciled in England and Wales.",
+        "applicant": "We, generic_fname generic_lname of Buckingham Palace London SW1A 1AA United Kingdom  and executor2 of Buckingham Palace London SW1A 1AA United Kingdom , make the following statement:",
+        "executorsApplying": [
+          {
+            "name": "generic_fname generic_lname, an executor named in the will, is applying for probate.",
+            "sign": "generic_fname generic_lname will send to the probate registry what we have seen and believe to be the true and original last will and testament of generic_fname generic_lname."
+          },
+          {
+            "name": "executor2, an executor named in the will, is applying for probate.",
+            "sign": ""
+          }
+        ],
+        "deceasedEstateLand": "To the best of our knowledge, information and belief, there was no land vested in generic_fname generic_lname which was settled previously to the death (and not by the will) of generic_fname generic_lname and which remained settled land notwithstanding such death.",
+        "deceasedOtherNames": "",
+        "deceasedEstateValue": "The gross value for the estate amounts to &pound;1.00 and the net value for the estate amounts to &pound;1.00.",
+        "executorsNotApplying": []
+      },
+      "hasEmailChanged": false
+    },
+    "ihtNetValue": "1.00",
+    "deceasedName": "generic_fname generic_lname",
+    "applicantName": "generic_fname generic_lname",
+    "ihtGrossValue": "1.00",
+    "applicantEmail": "TESTRUN03_RECORD_1@hmcts.net",
+    "documentupload": {},
+    "payloadVersion": "4.1.1",
+    "deceasedAddress": {
+      "country": "United Kingdom",
+      "postCode": "SW1A 1AA",
+      "postTown": "London",
+      "addressLine1": "Buckingham Palace",
+      "formattedAddress": "Buckingham Palace London SW1A 1AA United Kingdom "
+    },
+    "applicantAddress": {
+      "country": "United Kingdom",
+      "postCode": "SW1A 1AA",
+      "postTown": "London",
+      "addressLine1": "Buckingham Palace",
+      "formattedAddress": "Buckingham Palace London SW1A 1AA United Kingdom "
+    },
+    "dobFormattedDate": "1 February 1953",
+    "dodFormattedDate": "4 May 2017",
+    "ihtTotalNetValue": 1,
+    "legalDeclaration": {
+      "headers": [
+        "In the High Court of Justice",
+        "Family Division",
+        "(Probate)"
+      ],
+      "deceased": "generic_fname generic_lname",
+      "sections": [
+        {
+          "title": "Legal statement",
+          "headingType": "large",
+          "declarationItems": [
+            {
+              "title": "We, generic_fname generic_lname of Buckingham Palace London SW1A 1AA United Kingdom  and executor2 of Buckingham Palace London SW1A 1AA United Kingdom , make the following statement:"
+            }
+          ]
+        },
+        {
+          "title": "The person who died",
+          "headingType": "small",
+          "declarationItems": [
+            {
+              "title": "generic_fname generic_lname was born on 1 February 1953 and died on 4 May 2017, domiciled in England and Wales. "
+            }
+          ]
+        },
+        {
+          "title": "The estate of the person who died",
+          "headingType": "small",
+          "declarationItems": [
+            {
+              "title": "The gross value for the estate amounts to £1.00 and the net value for the estate amounts to £1.00."
+            },
+            {
+              "title": "To the best of our knowledge, information and belief, there was no land vested in generic_fname generic_lname which was settled previously to the death (and not by the will) of generic_fname generic_lname and which remained settled land notwithstanding such death."
+            }
+          ]
+        },
+        {
+          "title": "Executors applying for probate",
+          "headingType": "small",
+          "declarationItems": [
+            {
+              "title": "generic_fname generic_lname, an executor named in the will, is applying for probate."
+            },
+            {
+              "title": "generic_fname generic_lname will send to the probate registry what we have seen and believe to be the true and original last will and testament of generic_fname generic_lname."
+            },
+            {
+              "title": "executor2, an executor named in the will, is applying for probate."
+            }
+          ]
+        },
+        {
+          "title": "Declaration",
+          "headingType": "large",
+          "declarationItems": [
+            {
+              "title": "We confirm that we will administer the estate of generic_fname generic_lname, according to law. We will:",
+              "values": [
+                "collect the whole estate",
+                "keep full details (an inventory) of the estate",
+                "keep a full account of how the estate has been administered"
+              ]
+            },
+            {
+              "title": "If the probate registry (court) asks us to do so, we will:",
+              "values": [
+                "provide the full details of the estate and how it has been administered",
+                "return the grant of probate to the court"
+              ]
+            },
+            {
+              "title": "We understand that:",
+              "values": [
+                "our application will be rejected if we do not answer any questions about the information we have given",
+                "criminal proceedings for fraud may be brought against us if we are found to have been deliberately untruthful or dishonest"
+              ]
+            }
+          ]
+        }
+      ],
+      "dateCreated": "10/18/2019, 2:19:17 PM"
+    },
+    "ihtNetValueAssetsOutside": 0,
+    "statementOfTruthDocument": {
+      "url": "http://dm-store-aat.service.core-compute-aat.internal/documents/d4a1231d-e245-40f1-a17a-f6b2b8d777f5",
+      "filename": "SOT.pdf"
+    }
+  },
+  "submissionReference": 0,
+  "_links": {
+    "self": {
+      "href": "http://probate-persistence-service-demo.service.core-compute-demo.internal/formdata/TESTRUN03_RECORD_1@hmcts.net"
+    },
+    "formdata": {
+      "href": "http://probate-persistence-service-demo.service.core-compute-demo.internal/formdata/TESTRUN03_RECORD_1@hmcts.net"
+    }
+  }
+}

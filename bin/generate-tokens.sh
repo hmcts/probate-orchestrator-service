@@ -7,7 +7,7 @@
 ##
 ## Login an IDAM user using Basic auth.
 
-email={$1:-test4@test.com}
+email={$1:-testusername1@test.com}
 password=${2:-password}
 redirectUrl=${3:-http://localhost:3451/oauth2redirect}
 
@@ -18,7 +18,7 @@ suffix='"}'
 tokenPrefix='{"access_token":"'
 tokenSuffix='","token_type":"Bearer","expires_in":28800}'
 
-authString=$(echo -n 'test4@test.com:password' | base64)
+authString=$(echo -n 'testusername1@test.com:password' | base64)
 code=$(curl --silent -XPOST \
   -H "Authorization: Basic ${authString}" \
   http://localhost:4501/oauth2/authorize  \

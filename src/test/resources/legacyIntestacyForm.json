@@ -1,0 +1,276 @@
+{
+  "formdata" : {
+    "iht" : {
+      "method" : "Through the HMRC online service",
+      "netValue" : 550000,
+      "grossValue" : 600000,
+      "identifier" : "A1234567890Z",
+      "netValueField" : "550000",
+      "grossValueField" : "600000"
+    },
+    "assets" : {
+      "assetsoverseas" : "No"
+    },
+    "copies" : {
+      "uk" : 2
+    },
+    "summary" : {
+      "readyToDeclare" : false
+    },
+    "caseType" : "intestacy",
+    "deceased" : {
+      "alias" : "No",
+      "address" : {
+        "country" : "United Kingdom",
+        "postCode" : "SW1A 1AA",
+        "postTown" : "London",
+        "addressLine1" : "Buckingham Palace",
+        "formattedAddress" : "Buckingham Palace London SW1A 1AA United Kingdom "
+      },
+      "dob-day" : 1,
+      "dod-day" : 4,
+      "dob-date" : "1953-02-01T00:00:00.000Z",
+      "dob-year" : 1953,
+      "dod-date" : "2017-05-04T00:00:00.000Z",
+      "dod-year" : 2017,
+      "lastName" : "deceased_lname",
+      "postcode" : "SW1A 1AA",
+      "dob-month" : 2,
+      "dod-month" : 5,
+      "firstName" : "deceased_fname",
+      "anyChildren" : "No",
+      "addressFound" : "true",
+      "maritalStatus" : "Married or in a civil partnership",
+      "dob-formattedDate" : "1 February 1953",
+      "dod-formattedDate" : "4 May 2017"
+    },
+    "applicant" : {
+      "address" : {
+        "country" : "United Kingdom",
+        "postCode" : "SW1A 1AA",
+        "postTown" : "London",
+        "addressLine1" : "Buckingham Palace",
+        "formattedAddress" : "Buckingham Palace London SW1A 1AA United Kingdom "
+      },
+      "lastName" : "applicant_lname",
+      "postcode" : "SW1A 1AA",
+      "firstName" : "applicant_fname",
+      "phoneNumber" : "1234567890",
+      "addressFound" : "true",
+      "deceasedMaritalStatus" : "Married or in a civil partnership",
+      "relationshipToDeceased" : "Husband, wife or civil partner (this does not include common law partners even if you lived together)"
+    },
+    "documents" : {
+      "uploads" : [ {
+        "url" : "http://dm-store-aat.service.core-compute-aat.internal/documents/5b55cc45-9b8c-4047-804d-0311ec3f01ff",
+        "filename" : "DEATH CERTIFICATE TEST IMAGE.pdf"
+      } ]
+    },
+    "screeners" : {
+      "related" : "Yes",
+      "domicile" : "Yes",
+      "completed" : "Yes",
+      "diedAfter" : "Yes",
+      "otherApplicants" : "No",
+      "deathCertificate" : "Yes"
+    },
+    "anyChildren" : "No",
+    "declaration" : {
+      "softStop" : false,
+      "declaration" : {
+        "accept" : "I confirm that I will administer the estate of the person who died according to law, and that my application is truthful.",
+        "confirm" : "I confirm that I will administer the estate of generic_fname generic_lname, according to law. I will:",
+        "requests" : "If the probate registry (court) asks me to do so, I will:",
+        "understand" : "I understand that:",
+        "confirmItem1" : "collect the whole estate",
+        "confirmItem2" : "keep full details (an inventory) of the estate",
+        "confirmItem3" : "keep a full account of how the estate has been distributed",
+        "requestsItem1" : "provide the full details of the estate and how it has been distributed",
+        "requestsItem2" : "return the letters of administration to the court",
+        "submitWarning" : "Once you click &lsquo;Save and continue&rsquo;, you cannot change your answers.",
+        "understandItem1" : "my application will be rejected if I do not provide information (if asked)",
+        "understandItem2" : "criminal proceedings for fraud may be brought against me if I am found to have been deliberately untruthful or dishonest"
+      },
+      "legalStatement" : {
+        "intro" : "This statement is based on the information you&rsquo;ve given in your application. It will be stored as a public record.",
+        "applying" : "I am applying for letters of administration. I have provided what I believe to be true and accurate information about generic_fname generic_lname.",
+        "deceased" : "That generic_fname generic_lname, of Buckingham Palace London SW1A 1AA United Kingdom , was born on 1 February 1953 and died on 4 May 2017 intestate.",
+        "applicant" : "I, generic_fname generic_lname of Buckingham Palace London SW1A 1AA United Kingdom , make the following statement:",
+        "applicant2" : "I am the lawful spouse or civil partner of generic_fname generic_lname and the only person now entitled to the estate.",
+        "deceasedChildren" : "No children under 18 are entitled to the estate.",
+        "deceasedEstateLand" : "To the best of my knowledge, information and belief, there was no land vested in generic_fname generic_lname which was settled previously to the death of generic_fname generic_lname and which remained settled land notwithstanding such death.",
+        "deceasedOtherNames" : "",
+        "deceasedEstateValue" : "The gross value for the estate amounts to &pound;600000.00 and the net value for the estate amounts to &pound;550000.00.",
+        "deceasedMaritalStatus" : "They were married or in a civil partnership and domiciled in England and Wales.",
+        "deceasedEstateAssetsOverseas" : "The deceased had assets overseas amounting to a net value of &pound;0."
+      },
+      "declarationCheckbox" : "true"
+    },
+    "ihtNetValue" : "550000.00",
+    "deceasedName" : "generic_fname generic_lname",
+    "applicantName" : "generic_fname generic_lname",
+    "ihtGrossValue" : "600000.00",
+    "maritalStatus" : "Married or in a civil partnership",
+    "applicantEmail" : "TESTRUN02_RECORD_2@hmcts.net",
+    "documentupload" : { },
+    "payloadVersion" : "4.1.1",
+    "deceasedAddress" : {
+      "country" : "United Kingdom",
+      "postCode" : "SW1A 1AA",
+      "postTown" : "London",
+      "addressLine1" : "Buckingham Palace",
+      "formattedAddress" : "Buckingham Palace London SW1A 1AA United Kingdom "
+    },
+    "applicantAddress" : {
+      "country" : "United Kingdom",
+      "postCode" : "SW1A 1AA",
+      "postTown" : "London",
+      "addressLine1" : "Buckingham Palace",
+      "formattedAddress" : "Buckingham Palace London SW1A 1AA United Kingdom "
+    },
+    "dobFormattedDate" : "1 February 1953",
+    "dodFormattedDate" : "4 May 2017",
+    "ihtTotalNetValue" : 550000,
+    "legalDeclaration" : {
+      "headers" : [ "In the High Court of Justice", "Family Division", "(Intestacy)" ],
+      "deceased" : "generic_fname generic_lname",
+      "sections" : [ {
+        "title" : "Legal statement",
+        "headingType" : "large",
+        "declarationItems" : [ {
+          "title" : "I, generic_fname generic_lname of Buckingham Palace London SW1A 1AA United Kingdom , make the following statement:"
+        } ]
+      }, {
+        "title" : "The person who died",
+        "headingType" : "small",
+        "declarationItems" : [ {
+          "title" : "That generic_fname generic_lname, of Buckingham Palace London SW1A 1AA United Kingdom , was born on 1 February 1953 and died on 4 May 2017 intestate. "
+        }, {
+          "title" : "They were married or in a civil partnership and domiciled in England and Wales."
+        }, {
+          "title" : "No children under 18 are entitled to the estate."
+        } ]
+      }, {
+        "title" : "The estate of the person who died",
+        "headingType" : "small",
+        "declarationItems" : [ {
+          "title" : "The gross value for the estate amounts to £600000.00 and the net value for the estate amounts to £550000.00."
+        }, {
+          "title" : "To the best of my knowledge, information and belief, there was no land vested in generic_fname generic_lname which was settled previously to the death of generic_fname generic_lname and which remained settled land notwithstanding such death."
+        }, {
+          "title" : "I am the lawful spouse or civil partner of generic_fname generic_lname and the only person now entitled to the estate."
+        }, {
+          "title" : "I am applying for letters of administration. I have provided what I believe to be true and accurate information about generic_fname generic_lname."
+        } ]
+      }, {
+        "title" : "Declaration",
+        "headingType" : "large",
+        "declarationItems" : [ {
+          "title" : "I confirm that I will administer the estate of generic_fname generic_lname, according to law. I will:",
+          "values" : [ "collect the whole estate", "keep full details (an inventory) of the estate", "keep a full account of how the estate has been distributed" ]
+        }, {
+          "title" : "If the probate registry (court) asks me to do so, I will:",
+          "values" : [ "provide the full details of the estate and how it has been distributed", "return the letters of administration to the court" ]
+        }, {
+          "title" : "I understand that:",
+          "values" : [ "my application will be rejected if I do not provide information (if asked)", "criminal proceedings for fraud may be brought against me if I am found to have been deliberately untruthful or dishonest" ]
+        } ]
+      } ],
+      "dateCreated" : "10/18/2019, 3:07:46 PM"
+    },
+    "checkAnswersSummary" : {
+      "sections" : [ {
+        "type" : "govuk-heading-m",
+        "title" : "About the person who died",
+        "questionAndAnswers" : [ {
+          "answers" : [ "generic_fname" ],
+          "question" : "First name and any middle names"
+        }, {
+          "answers" : [ "generic_lname" ],
+          "question" : "Last name"
+        }, {
+          "answers" : [ "No" ],
+          "question" : "Did generic_fname generic_lname have assets in another name?"
+        }, {
+          "answers" : [ "1 February 1953" ],
+          "question" : "What was their date of birth?"
+        }, {
+          "answers" : [ "4 May 2017" ],
+          "question" : "What was the date that they died?"
+        }, {
+          "answers" : [ "Married or in a civil partnership" ],
+          "question" : "What was generic_fname generic_lname’s marital status?"
+        }, {
+          "answers" : [ "Buckingham Palace London SW1A 1AA United Kingdom " ],
+          "question" : "What was the permanent address at the time of their death?"
+        } ]
+      }, {
+        "type" : "govuk-heading-m",
+        "title" : "Uploaded documents",
+        "questionAndAnswers" : [ {
+          "answers" : [ "1MB PDF SAMPLE.PDF" ],
+          "question" : "Death Certificate"
+        } ]
+      }, {
+        "type" : "govuk-heading-m",
+        "title" : "Inheritance tax",
+        "questionAndAnswers" : [ {
+          "answers" : [ "Through the HMRC online service" ],
+          "question" : "How was the Inheritance Tax (IHT) form submitted?"
+        }, {
+          "answers" : [ "IHT112233" ],
+          "question" : "Inheritance Tax identifier (IHT)"
+        }, {
+          "answers" : [ "600000" ],
+          "question" : "Gross value of the estate in £"
+        }, {
+          "answers" : [ "550000" ],
+          "question" : "Net value of the estate in £"
+        } ]
+      }, {
+        "type" : "govuk-heading-m",
+        "title" : "About the people applying",
+        "questionAndAnswers" : [ {
+          "answers" : [ "Husband, wife or civil partner (this does not include common law partners even if you lived together)" ],
+          "question" : "What was your relationship to the person who died?"
+        }, {
+          "answers" : [ "No" ],
+          "question" : "Did generic_fname generic_lname have any children?"
+        } ]
+      }, {
+        "type" : "govuk-heading-s",
+        "title" : "About you",
+        "questionAndAnswers" : [ {
+          "answers" : [ "generic_fname" ],
+          "question" : "First name and any middle names"
+        }, {
+          "answers" : [ "generic_lname" ],
+          "question" : "Last name"
+        }, {
+          "answers" : [ "1234567890" ],
+          "question" : "Phone number"
+        }, {
+          "answers" : [ "Buckingham Palace London SW1A 1AA United Kingdom " ],
+          "question" : "What is your address?"
+        } ]
+      } ],
+      "pageTitle" : "Check your answers",
+      "mainParagraph" : "Check the information below carefully. This will form a record of your application for probate. It will also be stored as a public record, and will be able to be viewed online."
+    },
+    "relationshipToDeceased" : "Husband, wife or civil partner (this does not include common law partners even if you lived together)",
+    "ihtNetValueAssetsOutside" : 0,
+    "statementOfTruthDocument" : {
+      "url" : "http://dm-store-aat.service.core-compute-aat.internal/documents/d4a1231d-e245-40f1-a17a-f6b2b8d777f5",
+      "filename" : "SOT.pdf"
+    }
+  },
+  "submissionReference" : 0,
+  "_links" : {
+    "self" : {
+      "href" : "http://probate-persistence-service-demo.service.core-compute-demo.internal/formdata/TESTRUN02_RECORD_2@hmcts.net"
+    },
+    "formdata" : {
+      "href" : "http://probate-persistence-service-demo.service.core-compute-demo.internal/formdata/TESTRUN02_RECORD_2@hmcts.net"
+    }
+  }
+}

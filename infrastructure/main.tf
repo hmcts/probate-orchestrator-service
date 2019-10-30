@@ -1,14 +1,3 @@
-provider "vault" {
-  //  # It is strongly recommended to configure this provider through the
-  //  ## environment variables described above, so that each user can have
-  //  # separate credentials set in the environment.
-  //  #
-  //  # This will default to using $VAULT_ADDR
-  //  # But can be set explicitly
-  address = "https://vault.reform.hmcts.net:6200"
-}
-
-
 provider "azurerm" {
   version = "1.22.1"
 }
@@ -123,7 +112,7 @@ module "probate-orchestrator-service" {
     MAIL_JAVAMAILPROPERTIES_SENDER = "${data.azurerm_key_vault_secret.probate_mail_sender.value}"
     MAIL_JAVAMAILPROPERTIES_RECIPIENT = "${data.azurerm_key_vault_secret.probate_mail_recipient.value}"
 
-    AUTH_PROVIDER_SERVICE_CLIENT_KEY = "${data.azurerm_key_vault_secret.s2s_key.value}"
+    S2S_AUTH_TOTP_SECRET = "${data.azurerm_key_vault_secret.s2s_key.value}"
     IDAM_API_REDIRECT_URL = "${data.azurerm_key_vault_secret.idamRedirectUrl.value}"
     PAYMENT_CASEWORKER_USERNAME = "${data.azurerm_key_vault_secret.payCaseWorkerUser.value}"
     PAYMENT_CASEWORKER_PASSWORD = "${data.azurerm_key_vault_secret.payCaseWorkerPass.value}"
@@ -142,12 +131,13 @@ module "probate-orchestrator-service" {
     SUBMIT_SERVICE_API_URL = "${var.submit_service_api_url}"
     BUSINESS_SERVICE_API_URL = "${var.business_service_api_url}"
     BACK_OFFICE_API_URL = "${var.back_office_api_url}"
-
+    MIGRATION_JOB_SCHEDULER = "false"
 
 
     java_app_name = "${var.microservice}"
     LOG_LEVEL = "${var.log_level}"
     //ROOT_APPENDER = "JSON_CONSOLE" //Remove json logging
+    TESTING = "TESTING"
 
   }
 }
