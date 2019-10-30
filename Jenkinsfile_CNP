@@ -45,7 +45,6 @@ withPipeline("java", product, component) {
     
 ////  enableDeployToAKS()
     installCharts()
-
     //disableLegacyDeployment()
      
     before('buildinfra:prod') {
