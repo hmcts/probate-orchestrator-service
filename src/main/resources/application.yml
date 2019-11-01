@@ -29,7 +29,7 @@
   service.auth.provider.base.url: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
 
   auth.idam:
-    client.baseUrl: ${AUTH_IDAM_CLIENT_BASEURL:http://localhost:4501}
+    client.baseUrl: ${AUTH_IDAM_CLIENT_BASEURL:http://localhost:5000}
     clientId: ${IDAM_CLIENT_ID:probate}
     clientSecret: ${AUTH2_CLIENT_SECRET:123456}
     redirectUrl: ${IDAM_API_REDIRECT_URL:http://localhost:3451/oauth2redirect}
