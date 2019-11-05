@@ -63,22 +63,29 @@ public class FormDataMigrator {
     }
 
     private void processFormData(FormHolder f) {
-        LegacyForm formdata = f.getFormdata();
-        if (formdata != null) {
-            log.info("Processing form data for {} ", formdata.getApplicantEmail());
-            GrantOfRepresentationData grantOfRepresentationData = null;
-            if (formdata.getCaseType() != null && formdata.getCaseType().getName().equals("intestacy")) {
-                grantOfRepresentationData = legacyIntestacyMapper.toCaseData(formdata);
-                log.info("Intestacy gop returned");
-                saveDraftCaseIfOneDoesntExist(formdata, grantOfRepresentationData,
-                        ProbateType.INTESTACY.getCaseType().name());
-            } else {
-                grantOfRepresentationData = legacyPaMapper.toCaseData(formdata);
-                log.info("PA gop returned");
-                saveDraftCaseIfOneDoesntExist(formdata, grantOfRepresentationData,
-                        ProbateType.PA.getCaseType().name());
-            }
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        LegacyForm formdata = f.getFormdata();
+            if (formdata != null) {
+                log.info("Processing form data for {} ", formdata.getApplicantEmail());
+                GrantOfRepresentationData grantOfRepresentationData = null;
+                if (formdata.getCaseType() != null && formdata.getCaseType().getName().equals("intestacy")) {
+                    grantOfRepresentationData = legacyIntestacyMapper.toCaseData(formdata);
+                    log.info("Intestacy gop returned");
+                    saveDraftCaseIfOneDoesntExist(formdata, grantOfRepresentationData,
+                            ProbateType.INTESTACY.getCaseType().name());
+                } else {
+                    grantOfRepresentationData = legacyPaMapper.toCaseData(formdata);
+                    log.info("PA gop returned");
+                    saveDraftCaseIfOneDoesntExist(formdata, grantOfRepresentationData,
+                            ProbateType.PA.getCaseType().name());
+                }
+            }
+
     }
 
     private void saveDraftCaseIfOneDoesntExist(LegacyForm formdata, GrantOfRepresentationData grantOfRepresentationData,
@@ -98,12 +105,16 @@ public class FormDataMigrator {
                         ProbateCaseDetails.builder().caseData(grantOfRepresentationData).build());
                 if(pcd!=null) {
                     log.info("Draft Case saved for formdata applicant email: {}", formdata.getApplicantEmail());
+                    submitServiceApi.grantCaseAccessToUserAsCaseWorker(securityUtils.getAuthorisation(),
+                            securityUtils.getServiceAuthorisation(),pcd.getCaseInfo().getCaseId(), formdata.getApplicantEmail());
+                    log.info("Granted access as caseworker for case id :{} and applicantEmail :{}",pcd.getCaseInfo().getCaseId(), formdata.getApplicantEmail());
                 }
                 else{
                     log.info("Could not save case for formdata applicant email: {}", formdata.getApplicantEmail());
                 }
             } else {
                 log.info("Error getting formdata applicant email: {}  with Status code: {} and error message: {}" , formdata.getApplicantEmail(), apiClientException.getStatus() , apiClientException.getMessage());
+                apiClientException.printStackTrace();
             }
         }
     }
