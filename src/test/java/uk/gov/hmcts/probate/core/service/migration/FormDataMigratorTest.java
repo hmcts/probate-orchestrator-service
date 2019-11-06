@@ -39,8 +39,8 @@ public class FormDataMigratorTest {
 
     public static final String AUTH_TOKEN = "authToken";
     public static final String SERVICE_AUTH_TOKEN = "serviceAuthToken";
-    public static final String INTESTACY_EMAIL = "intestacyEmail";
-    public static final String PA_EMAIL = "paEmail";
+    public static final String INTESTACY_EMAIL = "intestacyEmail@email.com";
+    public static final String PA_EMAIL = "paEmail@email.com";
     @InjectMocks
     FormDataMigrator formDataMigrator;
     @Mock
@@ -59,6 +59,8 @@ public class FormDataMigratorTest {
     private LegacyForm legacyFormIntestacyMock;
     @Mock
     private ErrorResponse errorResponseMock;
+    @Mock
+    private IdamUsersCsvLoader mockIdamUsersCsvLoader;
 
 
     LocalDate sixMonthsAgo = LocalDate.now().minusMonths(6);
@@ -104,6 +106,8 @@ public class FormDataMigratorTest {
 
         when(submitServiceApiMock.initiateCaseAsCaseWorker(anyString(), anyString(),
                 any(ProbateCaseDetails.class))).thenReturn(intestacyPcd);
+
+        when(mockIdamUsersCsvLoader.loadIdamUserList("idam_ids.csv")).thenReturn(Arrays.asList(new IdamUserEmail(PA_EMAIL, "idamApi")));
 
         formDataMigrator.migrateFormData();
 

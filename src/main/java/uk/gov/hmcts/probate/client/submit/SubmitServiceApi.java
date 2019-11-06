@@ -114,14 +114,14 @@ public interface SubmitServiceApi {
     );
 
     @PostMapping(
-            value = "/cases/{caseId}/caseworker/grantaccess/applicant/{applicantEmail}",
+            value = "/cases/{caseId}/caseworker/grantaccess/applicant/{userId}",
             headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
     void grantCaseAccessToUserAsCaseWorker(
             @RequestHeader(AUTHORIZATION) String authorisation,
             @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
             @PathVariable(SubmitServiceConfiguration.CASE_ID) String caseId,
-            @PathVariable(SubmitServiceConfiguration.APPLICATION_EMAIL) String applicantEmail
+            @PathVariable(SubmitServiceConfiguration.USER_ID) String userId
     );
 
     @PutMapping(
