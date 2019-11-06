@@ -29,13 +29,13 @@
   service.auth.provider.base.url: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
 
   auth.idam:
-    client.baseUrl: ${AUTH_IDAM_CLIENT_BASEURL:http://localhost:4501}
-    clientId: ${IDAM_CLIENT_ID:probate}
-    clientSecret: ${AUTH2_CLIENT_SECRET:123456}
+    client.baseUrl: ${AUTH_IDAM_CLIENT_BASEURL:http://localhost:5000}
+    clientId: ${IDAM_CLIENT_ID:ccd_gateway}
+    clientSecret: ${AUTH2_CLIENT_SECRET:ccd_gateway_secret}
     redirectUrl: ${IDAM_API_REDIRECT_URL:http://localhost:3451/oauth2redirect}
     caseworker:
-      username: ${PAYMENT_CASEWORKER_USERNAME:probatebackoffice@gmail.com}
-      password: ${PAYMENT_CASEWORKER_PASSWORD:Monday01}
+      username: ${PAYMENT_CASEWORKER_USERNAME:ProbateSuperuser@gmail.com}
+      password: ${PAYMENT_CASEWORKER_PASSWORD:Pa55word11}
 
   s2s.auth.totp.secret: ${S2S_AUTH_TOTP_SECRET:'AAAAAAAAAAAAAAAA'}
   service.name: ${auth.provider.service.client.microservice}
