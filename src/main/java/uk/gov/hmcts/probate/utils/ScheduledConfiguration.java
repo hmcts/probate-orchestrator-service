@@ -11,7 +11,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import uk.gov.hmcts.probate.core.service.SecurityUtils;
 import uk.gov.hmcts.probate.core.service.migration.FormDataMigrator;
-import uk.gov.hmcts.probate.core.service.migration.InviteDataMigrator;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -27,9 +26,6 @@ public class ScheduledConfiguration implements SchedulingConfigurer {
 
     @Autowired
     private FormDataMigrator formDataMigrator;
-
-    @Autowired
-    private InviteDataMigrator inviteDataMigrator;
 
     @Value("${migration.job.startDateTime}")
     private String migrationJobStartDateTime;
@@ -66,14 +62,12 @@ public class ScheduledConfiguration implements SchedulingConfigurer {
 
     private void runMigrateTask() {
         securityUtils.setSecurityContextUserAsCaseworker();
-//        System.setProperty("http.proxyHost", "proxyout.reform.hmcts.net");
-//        System.setProperty("http.proxyPort", "8080");
+        System.setProperty("http.proxyHost", "proxyout.reform.hmcts.net");
+        System.setProperty("http.proxyPort", "8080");
         try {
             Thread.sleep(10000);
             log.info(Thread.currentThread().getName() + " The migrationJob executed at " + new Date());
             formDataMigrator.migrateFormData();
-            Thread.sleep(10000);
-            inviteDataMigrator.migrateInviteData();
             log.info(Thread.currentThread().getName() + "MigrationJob complete at " + new Date());
         } catch (RuntimeException e) {
             e.printStackTrace();
