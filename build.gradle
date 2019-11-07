@@ -78,9 +78,7 @@ findbugs {
 
 sonarqube {
     properties {
-        property "sonar.exclusions", "**/AppInsights.java, **/LegacyPaMapper.java, **/LegacyIntestacyMapper.java, " +
-                "**/LegacyFormMapper.java, **/PaMapper.java, **/IntestacyMapper.java , **/ScheduledConfiguration.java, " +
-        "**/AuthenticateUserResponse.java, **/TokenExchangeResponse.java"
+        property "sonar.exclusions", "**/AppInsights.java, **/LegacyPaMapper.java, **/LegacyIntestacyMapper.java, **/LegacyFormMapper.java, **/PaMapper.java, **/IntestacyMapper.java , **/ScheduledConfiguration.java, **/AuthenticateUserResponse.java, **/TokenExchangeResponse.java, **/FormDataMigrator.java, **/IdamUserEmail.java, **/IdamUsersCsvLoader.java" 
         property "sonar.projectName", "PROBATE :: Probate-Orchestrator-Service"
         property "sonar.projectKey", "Probate-Orchestrator-Service"
         property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
@@ -293,6 +291,7 @@ dependencies {
     compile group: 'io.springfox', name: 'springfox-swagger2', version: versions.springfoxSwagger
     compile group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     compile group: 'org.mapstruct', name: 'mapstruct-jdk8', version: versions.mapStruct
+    compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: versions.jacksonDatabind
 
     compile group: 'org.pitest', name: 'pitest', version: versions.piTest
     compile group: 'com.atlassian.commonmark', name: 'commonmark', version: versions.commonMark
@@ -313,6 +312,7 @@ dependencies {
     testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
     testCompile group: 'org.mapstruct', name: 'mapstruct-jdk8', version: versions.mapStruct
     testCompile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
+    testCompile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: versions.jacksonDatabind
     testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     testAnnotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
 
