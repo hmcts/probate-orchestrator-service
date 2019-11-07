@@ -121,7 +121,7 @@ public class SubmitServiceImplTest {
         caseInfo = CaseInfo.builder().state(STATE).caseId(CASE_ID).build();
 
         // Intestacy setup
-        String intestacyFormStr = TestUtils.getJSONFromFile("intestacyForm.json");
+        String intestacyFormStr = TestUtils.getJSONFromFile("intestacyFormTest.json");
         intestacyForm = objectMapper.readValue(intestacyFormStr, IntestacyForm.class);
         CasePayment intestacyCasePayment = new CasePayment();
         intestacyCaseData = GrantOfRepresentationData.builder().grantType(GrantType.INTESTACY).payments(
