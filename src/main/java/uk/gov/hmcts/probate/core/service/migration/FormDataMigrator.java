@@ -40,10 +40,10 @@ public class FormDataMigrator {
     private List<IdamUserEmail> idamUserEmailList;
 
 
-    public void migrateFormData() throws InterruptedException{
+    public void migrateFormData(){
 
         log.info("In migrateFormData!");
-        LocalDate sixMonthsAgo = LocalDate.now().minusMonths(18);
+        LocalDate sixMonthsAgo = LocalDate.now().minusMonths(6);
         log.info("Get formData with createDate > " + sixMonthsAgo);
         FormDataResource formDatas = persistenceServiceApi.getFormDataByAfterCreateDate(sixMonthsAgo);
         long totalPages = formDatas.getPageMetadata().getTotalPages();

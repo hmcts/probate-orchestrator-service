@@ -216,7 +216,7 @@ public class SubmitServiceImplTest {
 
     @Test
     public void shouldSaveDraftIntestacyForm() {
-        shouldSaveDraftForm(intestacyForm, intestacyCaseDetails, "1535574519543819");
+        shouldSaveDraftForm(intestacyForm, intestacyCaseDetails, "1535574519543818");
     }
 
     @Test
