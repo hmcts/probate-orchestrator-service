@@ -132,7 +132,7 @@ module "probate-orchestrator-service" {
     BUSINESS_SERVICE_API_URL = "${var.business_service_api_url}"
     BACK_OFFICE_API_URL = "${var.back_office_api_url}"
     MIGRATION_JOB_SCHEDULER = "false"
-
+    IDAM_CLIENT_ID = "probate"
 
     java_app_name = "${var.microservice}"
     LOG_LEVEL = "${var.log_level}"
