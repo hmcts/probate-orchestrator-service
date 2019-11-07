@@ -20,6 +20,7 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepr
 import uk.gov.hmcts.reform.probate.model.client.ApiClientException;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -39,10 +40,10 @@ public class FormDataMigrator {
     private List<IdamUserEmail> idamUserEmailList;
 
 
-    public void migrateFormData() {
+    public void migrateFormData() throws InterruptedException{
 
         log.info("In migrateFormData!");
-        LocalDate sixMonthsAgo = LocalDate.now().minusMonths(6);
+        LocalDate sixMonthsAgo = LocalDate.now().minusMonths(18);
         log.info("Get formData with createDate > " + sixMonthsAgo);
         FormDataResource formDatas = persistenceServiceApi.getFormDataByAfterCreateDate(sixMonthsAgo);
         long totalPages = formDatas.getPageMetadata().getTotalPages();
@@ -50,6 +51,7 @@ public class FormDataMigrator {
         log.info("Returned from persistence call with {} total pages and size {} ", totalPages, size);
 
         idamUserEmailList = csvLoader.loadIdamUserList("idam_ids.csv");
+        List<String> processedCases = new ArrayList<>();
         IntStream.range(0, (int) totalPages).forEach(idx -> {
             int pageNo = idx;
             log.info("Getting form data for page {}", (pageNo));
@@ -63,16 +65,25 @@ public class FormDataMigrator {
                 return;
             }
             Collection<FormHolder> formHolders = formDataSet.getContent().getFormdata();
-            formHolders.forEach(this::processFormData);
+            formHolders.forEach( formHolder -> {
+                if(!processedCases.contains(formHolder.getFormdata().getApplicantEmail())) {
+                    try {
+                        processFormData(formHolder, idamUserEmailList);
+                        processedCases.add(formHolder.getFormdata().getApplicantEmail());
+                    }
+                    catch (InterruptedException ie){
+                        log.error("Thread execption!", ie);
+                    }
+                }
+            } );
             log.info("Completed formdata migration for page {}", (pageNo));
 
         });
         log.info("Finished Migrating formdata");
+        log.info("Processed {} casedatas : {}", processedCases.size(), processedCases);
     }
 
-    private void processFormData(FormHolder f) {
-        try {
-            Thread.sleep(1000);
+    private void processFormData(FormHolder f, List<IdamUserEmail> idamUserEmailList) throws  InterruptedException{
             LegacyForm formdata = f.getFormdata();
             if (formdata != null) {
                 log.info("Processing form data for {} ", formdata.getApplicantEmail());
@@ -89,11 +100,6 @@ public class FormDataMigrator {
                             ProbateType.PA.getCaseType().name());
                 }
             }
-        }catch (InterruptedException ie){
-            ie.printStackTrace();
-
-        }
-
     }
 
     private void saveDraftCaseIfOneDoesntExist(LegacyForm formdata, GrantOfRepresentationData grantOfRepresentationData,
@@ -102,37 +108,40 @@ public class FormDataMigrator {
             log.info("Check if case created in ccd for formdata with applicantEmail: {}", formdata.getApplicantEmail());
             if (formdata.getApplicantEmail() != null && !formdata.getApplicantEmail().isEmpty()) {
                 submitServiceApi.getCaseByApplicantEmail(securityUtils.getAuthorisation(),
-                        securityUtils.getServiceAuthorisation(), formdata.getApplicantEmail(),
+                        securityUtils.getServiceAuthorisation(), formdata.getApplicantEmail().toLowerCase(),
                         caseTypeName);
                 log.info("Case found for formdata applicant email:  {}", formdata.getApplicantEmail());
             }
         } catch (ApiClientException apiClientException) {
             if (apiClientException.getStatus() == HttpStatus.NOT_FOUND.value()) {
-                setInviteDataForCase(formdata, grantOfRepresentationData);
-                Thread.sleep(1000);
-                ProbateCaseDetails pcd = submitServiceApi.initiateCaseAsCaseWorker(securityUtils.getAuthorisation(),
-                        securityUtils.getServiceAuthorisation(),
-                        ProbateCaseDetails.builder().caseData(grantOfRepresentationData).build());
-                if (pcd != null) {
-                    log.info("Draft Case saved for formdata applicant email: {}", formdata.getApplicantEmail());
-                    Optional<IdamUserEmail> userIdFromEmailAddress = getUserIdFromEmailAddress(formdata.getApplicantEmail());
-                    if (userIdFromEmailAddress.isPresent()) {
-                        Thread.sleep(1000);
-                        IdamUserEmail idamUserEmail = userIdFromEmailAddress.get();
-                        submitServiceApi.grantCaseAccessToUserAsCaseWorker(securityUtils.getAuthorisation(),
-                                securityUtils.getServiceAuthorisation(), pcd.getCaseInfo().getCaseId(), idamUserEmail.getIdamId().trim());
-                        log.info("Granted access as caseworker for case id :{} and applicantEmail :{} and userId: {}", pcd.getCaseInfo().getCaseId(), formdata.getApplicantEmail(), idamUserEmail.getIdamId());
-                    }else {
-                        log.info("Could not find UserID for: {}", formdata.getApplicantEmail());
-                    }
-
-                } else {
-                    log.info("Could not save case for formdata applicant email: {}", formdata.getApplicantEmail());
-                }
+                saveCaseInCcd(formdata, grantOfRepresentationData);
             } else {
                 log.info("Error getting formdata applicant email: {}  with Status code: {} and error message: {}", formdata.getApplicantEmail(), apiClientException.getStatus(), apiClientException.getMessage());
                 apiClientException.printStackTrace();
             }
+        }
+    }
+
+    private void saveCaseInCcd(LegacyForm formdata, GrantOfRepresentationData grantOfRepresentationData) throws InterruptedException {
+        setInviteDataForCase(formdata, grantOfRepresentationData);
+        ProbateCaseDetails pcd = submitServiceApi.initiateCaseAsCaseWorker(securityUtils.getAuthorisation(),
+                securityUtils.getServiceAuthorisation(),
+                ProbateCaseDetails.builder().caseData(grantOfRepresentationData).build());
+        if (pcd != null) {
+            log.info("Draft Case saved for formdata applicant email: {}", formdata.getApplicantEmail());
+            Optional<IdamUserEmail> userIdFromEmailAddress = getUserIdFromEmailAddress(formdata.getApplicantEmail());
+            if (userIdFromEmailAddress.isPresent()) {
+                Thread.sleep(1000);
+                IdamUserEmail idamUserEmail = userIdFromEmailAddress.get();
+                submitServiceApi.grantCaseAccessToUserAsCaseWorker(securityUtils.getAuthorisation(),
+                        securityUtils.getServiceAuthorisation(), pcd.getCaseInfo().getCaseId(), idamUserEmail.getIdamId().trim());
+                log.info("Granted access as caseworker for case id :{} and applicantEmail :{} and userId: {}", pcd.getCaseInfo().getCaseId(), formdata.getApplicantEmail(), idamUserEmail.getIdamId());
+            }else {
+                log.info("Could not find UserID for: {}", formdata.getApplicantEmail());
+            }
+
+        } else {
+            log.info("Could not save case for formdata applicant email: {}", formdata.getApplicantEmail());
         }
     }
 
