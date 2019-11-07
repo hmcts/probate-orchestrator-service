@@ -132,7 +132,7 @@ public class SubmitServiceImplTest {
         when(intestacyMapper.toCaseData(intestacyForm)).thenReturn(intestacyCaseData);
         when(intestacyMapper.fromCaseData(intestacyCaseData)).thenReturn(intestacyForm);
 
-        // Intestacy setup
+        // Caveat setup
         String caveatFormStr = TestUtils.getJSONFromFile("caveatForm.json");
         caveatForm = objectMapper.readValue(caveatFormStr, CaveatForm.class);
         CasePayment caveatCasePayment = new CasePayment();
