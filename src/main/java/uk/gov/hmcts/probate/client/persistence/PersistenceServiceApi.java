@@ -40,5 +40,8 @@ public interface PersistenceServiceApi {
     @GetMapping(path = "/invitedata/search/findByCreatedAfterDate?sort_by=creationTime-asc")
     InviteDataResource getInviteDataByAfterCreateDate(@RequestParam("startDate") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate startDate,@RequestParam("page") String pageNumber, @RequestParam("size") String size);
 
+    @GetMapping(path = "/invitedata/search/findByFormDataId?sort_by=creationTime-asc")
+    InviteDataResource getInviteDataByFormDataId(@RequestParam("formdataId") String formdataId);
+
 
 }

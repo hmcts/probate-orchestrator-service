@@ -11,9 +11,11 @@ import uk.gov.hmcts.probate.core.service.mapper.migration.LegacyIntestacyMapper;
 import uk.gov.hmcts.probate.core.service.mapper.migration.LegacyPaMapper;
 import uk.gov.hmcts.probate.model.persistence.FormDataResource;
 import uk.gov.hmcts.probate.model.persistence.FormHolder;
+import uk.gov.hmcts.probate.model.persistence.InviteDataResource;
 import uk.gov.hmcts.probate.model.persistence.LegacyForm;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
+import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.client.ApiClientException;
 
@@ -70,8 +72,7 @@ public class FormDataMigrator {
 
     private void processFormData(FormHolder f) {
         try {
-            Thread.sleep(2000);
-
+            Thread.sleep(1000);
             LegacyForm formdata = f.getFormdata();
             if (formdata != null) {
                 log.info("Processing form data for {} ", formdata.getApplicantEmail());
@@ -107,7 +108,8 @@ public class FormDataMigrator {
             }
         } catch (ApiClientException apiClientException) {
             if (apiClientException.getStatus() == HttpStatus.NOT_FOUND.value()) {
-                Thread.sleep(2000);
+                setInviteDataForCase(formdata, grantOfRepresentationData);
+                Thread.sleep(1000);
                 ProbateCaseDetails pcd = submitServiceApi.initiateCaseAsCaseWorker(securityUtils.getAuthorisation(),
                         securityUtils.getServiceAuthorisation(),
                         ProbateCaseDetails.builder().caseData(grantOfRepresentationData).build());
@@ -115,13 +117,14 @@ public class FormDataMigrator {
                     log.info("Draft Case saved for formdata applicant email: {}", formdata.getApplicantEmail());
                     Optional<IdamUserEmail> userIdFromEmailAddress = getUserIdFromEmailAddress(formdata.getApplicantEmail());
                     if (userIdFromEmailAddress.isPresent()) {
-                        Thread.sleep(2000);
+                        Thread.sleep(1000);
                         IdamUserEmail idamUserEmail = userIdFromEmailAddress.get();
                         submitServiceApi.grantCaseAccessToUserAsCaseWorker(securityUtils.getAuthorisation(),
                                 securityUtils.getServiceAuthorisation(), pcd.getCaseInfo().getCaseId(), idamUserEmail.getIdamId().trim());
                         log.info("Granted access as caseworker for case id :{} and applicantEmail :{} and userId: {}", pcd.getCaseInfo().getCaseId(), formdata.getApplicantEmail(), idamUserEmail.getIdamId());
+                    }else {
+                        log.info("Could not find UserID for: {}", formdata.getApplicantEmail());
                     }
-
 
                 } else {
                     log.info("Could not save case for formdata applicant email: {}", formdata.getApplicantEmail());
@@ -130,6 +133,23 @@ public class FormDataMigrator {
                 log.info("Error getting formdata applicant email: {}  with Status code: {} and error message: {}", formdata.getApplicantEmail(), apiClientException.getStatus(), apiClientException.getMessage());
                 apiClientException.printStackTrace();
             }
+        }
+    }
+
+    private void setInviteDataForCase(LegacyForm formdata, GrantOfRepresentationData grantOfRepresentationData) {
+        InviteDataResource inviteDataResource = persistenceServiceApi.getInviteDataByFormDataId(formdata.getApplicantEmail());
+
+        if(inviteDataResource!=null && !inviteDataResource.getContent().getInvitedata().isEmpty()){
+            inviteDataResource.getContent().getInvitedata().stream().forEach(inviteData -> {
+                log.info("Find executor for for inviteEmail: {} inviteId: {} inviteAgreed: {}", inviteData.getEmail(),
+                        inviteData.getId(), inviteData.getAgreed());
+                ExecutorApplying e = grantOfRepresentationData.getExecutorApplyingByInviteId(inviteData.getId());
+                e.setApplyingExecutorInvitationId(inviteData.getId());
+                e.setApplyingExecutorAgreed(inviteData.getAgreed());
+                log.info("Invite details set for formdataId:{} and inviteId:{} and agreed flag:{}",
+                        inviteData.getFormdataId(), inviteData.getId(), inviteData.getAgreed());
+
+            });
         }
     }
 
