@@ -12,7 +12,7 @@
       "postTown": "London",
       "postCode": "SW17 0QT"
     },
-    "postcode": "SW17 0QT",
+    "postCode": "SW17 0QT",
     "phoneNumber": "123455678",
     "addressFound": "true",
     "relationshipToDeceased": "adoptedChild",
@@ -62,7 +62,7 @@
       }
     ],
     "addressFound": "true",
-    "postcode": "SW17 0QT",
+    "postCode": "SW17 0QT",
     "alias": "Yes",
     "otherNames": {
       "name_0": {
