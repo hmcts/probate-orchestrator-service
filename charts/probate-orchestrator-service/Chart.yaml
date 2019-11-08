@@ -1,3 +1,4 @@
+apiVersion: v1
 name: probate-orchestrator-service
 home: https://github.com/hmcts/probate-orchestrator-service
 version: 0.1.0
