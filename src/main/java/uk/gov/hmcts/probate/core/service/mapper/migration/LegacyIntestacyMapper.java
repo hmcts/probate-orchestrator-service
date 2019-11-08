@@ -51,7 +51,7 @@ public interface LegacyIntestacyMapper extends LegacyFormMapper {
     @Mapping(target = "primaryApplicantAdoptionInEnglandOrWales", source = "applicant.adoptionInEnglandOrWales")
     @Mapping(target = "primaryApplicantPhoneNumber", source = "applicant.phoneNumber")
     @Mapping(target = "primaryApplicantEmailAddress",
-            expression = "java(form.getApplicantEmail() != null ? form.getApplicantEmail().toLowerCase() : null)")
+            expression = "java(form.getApplicantEmail() != null ? form.getApplicantEmail() : null)")
     @Mapping(target = "primaryApplicantAddress", source = "applicant.address", qualifiedBy = {ToCaseAddress.class})
     @Mapping(target = "primaryApplicantAddresses", source = "applicant.addresses", qualifiedBy = {FromMap.class})
     @Mapping(target = "primaryApplicantPostCode", source = "applicant.postCode")
