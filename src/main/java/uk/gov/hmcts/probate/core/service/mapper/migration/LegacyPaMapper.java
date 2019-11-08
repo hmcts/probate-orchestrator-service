@@ -69,7 +69,7 @@ public interface LegacyPaMapper extends LegacyFormMapper{
     @Mapping(target = "deceasedPostCode", source = "deceased.postCode")
     @Mapping(target = "primaryApplicantForenames", source = "applicant.firstName")
     @Mapping(target = "primaryApplicantSurname", source = "applicant.lastName")
-    @Mapping(target = "primaryApplicantEmailAddress", expression = "java(form.getApplicantEmail()!=null ? form.getApplicantEmail().toLowerCase() : null)")
+    @Mapping(target = "primaryApplicantEmailAddress", expression = "java(form.getApplicantEmail()!=null ? form.getApplicantEmail() : null)")
     @Mapping(target = "primaryApplicantAlias", source = "applicant.alias")
     @Mapping(target = "primaryApplicantAliasReason", source = "applicant.aliasReason")
     @Mapping(target = "primaryApplicantAddress", source = "applicant.address", qualifiedBy = {ToCaseAddress.class})
