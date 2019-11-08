@@ -97,11 +97,11 @@ public class FormDataMigratorTest {
 
         ProbateCaseDetails intestacyPcd = ProbateCaseDetails.builder().caseInfo(CaseInfo.builder().caseId("1232342342").build()).build();
         when(submitServiceApiMock.getCaseByApplicantEmail(AUTH_TOKEN, SERVICE_AUTH_TOKEN,
-                INTESTACY_EMAIL.toLowerCase(), ProbateType.INTESTACY.getCaseType().name()))
+                INTESTACY_EMAIL, ProbateType.INTESTACY.getCaseType().name()))
                 .thenReturn(intestacyPcd);
 
         when(submitServiceApiMock.getCaseByApplicantEmail(AUTH_TOKEN, SERVICE_AUTH_TOKEN,
-                PA_EMAIL.toLowerCase(), ProbateType.PA.getCaseType().name()))
+                PA_EMAIL, ProbateType.PA.getCaseType().name()))
                 .thenThrow(new ApiClientException(HttpStatus.NOT_FOUND.value(), errorResponseMock));
 
         when(submitServiceApiMock.initiateCaseAsCaseWorker(anyString(), anyString(),
@@ -117,9 +117,9 @@ public class FormDataMigratorTest {
         verify(legacyPaMapperMock).toCaseData(legacyFormPaMock);
         verify(legacyIntestacyMapperMock).toCaseData(legacyFormIntestacyMock);
 
-        verify(submitServiceApiMock).getCaseByApplicantEmail(AUTH_TOKEN, SERVICE_AUTH_TOKEN, INTESTACY_EMAIL.toLowerCase(),
+        verify(submitServiceApiMock).getCaseByApplicantEmail(AUTH_TOKEN, SERVICE_AUTH_TOKEN, INTESTACY_EMAIL,
                 ProbateType.INTESTACY.getCaseType().name());
-        verify(submitServiceApiMock).getCaseByApplicantEmail(AUTH_TOKEN, SERVICE_AUTH_TOKEN, PA_EMAIL.toLowerCase(),
+        verify(submitServiceApiMock).getCaseByApplicantEmail(AUTH_TOKEN, SERVICE_AUTH_TOKEN, PA_EMAIL,
                 ProbateType.PA.getCaseType().name());
         verify(submitServiceApiMock).initiateCaseAsCaseWorker(anyString(), anyString(),
                 any(ProbateCaseDetails.class));
