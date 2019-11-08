@@ -108,7 +108,7 @@ public class FormDataMigrator {
             log.info("Check if case created in ccd for formdata with applicantEmail: {}", formdata.getApplicantEmail());
             if (formdata.getApplicantEmail() != null && !formdata.getApplicantEmail().isEmpty()) {
                 submitServiceApi.getCaseByApplicantEmail(securityUtils.getAuthorisation(),
-                        securityUtils.getServiceAuthorisation(), formdata.getApplicantEmail().toLowerCase(),
+                        securityUtils.getServiceAuthorisation(), formdata.getApplicantEmail(),
                         caseTypeName);
                 log.info("Case found for formdata applicant email:  {}", formdata.getApplicantEmail());
             }
