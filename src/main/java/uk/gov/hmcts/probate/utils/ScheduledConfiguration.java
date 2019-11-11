@@ -62,8 +62,8 @@ public class ScheduledConfiguration implements SchedulingConfigurer {
 
     private void runMigrateTask() {
         securityUtils.setSecurityContextUserAsCaseworker();
-//        System.setProperty("http.proxyHost", "proxyout.reform.hmcts.net");
-//        System.setProperty("http.proxyPort", "8080");
+        System.setProperty("http.proxyHost", "proxyout.reform.hmcts.net");
+        System.setProperty("http.proxyPort", "8080");
         try {
             Thread.sleep(10000);
             log.info(Thread.currentThread().getName() + " The migrationJob executed at " + new Date());
