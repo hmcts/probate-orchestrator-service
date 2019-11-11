@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import uk.gov.hmcts.probate.TestUtils;
-import uk.gov.hmcts.probate.core.service.mapper.migration.LegacyIntestacyMapper;
 import uk.gov.hmcts.probate.core.service.mapper.migration.LegacyPaMapper;
 import uk.gov.hmcts.probate.model.persistence.FormHolder;
 import uk.gov.hmcts.probate.model.persistence.LegacyForm;

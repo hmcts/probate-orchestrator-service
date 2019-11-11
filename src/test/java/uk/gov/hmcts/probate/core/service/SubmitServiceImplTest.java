@@ -121,7 +121,7 @@ public class SubmitServiceImplTest {
         caseInfo = CaseInfo.builder().state(STATE).caseId(CASE_ID).build();
 
         // Intestacy setup
-        String intestacyFormStr = TestUtils.getJSONFromFile("intestacyForm.json");
+        String intestacyFormStr = TestUtils.getJSONFromFile("intestacyFormTest.json");
         intestacyForm = objectMapper.readValue(intestacyFormStr, IntestacyForm.class);
         CasePayment intestacyCasePayment = new CasePayment();
         intestacyCaseData = GrantOfRepresentationData.builder().grantType(GrantType.INTESTACY).payments(
@@ -132,7 +132,7 @@ public class SubmitServiceImplTest {
         when(intestacyMapper.toCaseData(intestacyForm)).thenReturn(intestacyCaseData);
         when(intestacyMapper.fromCaseData(intestacyCaseData)).thenReturn(intestacyForm);
 
-        // Intestacy setup
+        // Caveat setup
         String caveatFormStr = TestUtils.getJSONFromFile("caveatForm.json");
         caveatForm = objectMapper.readValue(caveatFormStr, CaveatForm.class);
         CasePayment caveatCasePayment = new CasePayment();
@@ -216,7 +216,7 @@ public class SubmitServiceImplTest {
 
     @Test
     public void shouldSaveDraftIntestacyForm() {
-        shouldSaveDraftForm(intestacyForm, intestacyCaseDetails, "1535574519543819");
+        shouldSaveDraftForm(intestacyForm, intestacyCaseDetails, "1535574519543818");
     }
 
     @Test
