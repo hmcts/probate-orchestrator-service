@@ -10,12 +10,12 @@ import uk.gov.hmcts.probate.core.service.mapper.AliasNameMapper;
 import uk.gov.hmcts.probate.core.service.mapper.DocumentsMapper;
 import uk.gov.hmcts.probate.core.service.mapper.ExecutorApplyingMapper;
 import uk.gov.hmcts.probate.core.service.mapper.ExecutorNotApplyingMapper;
-import uk.gov.hmcts.probate.core.service.mapper.ExecutorsMapper;
 import uk.gov.hmcts.probate.core.service.mapper.FeesMapper;
 import uk.gov.hmcts.probate.core.service.mapper.IhtMethodConverter;
 import uk.gov.hmcts.probate.core.service.mapper.LegalStatementMapper;
 import uk.gov.hmcts.probate.core.service.mapper.LocalDateTimeMapper;
 import uk.gov.hmcts.probate.core.service.mapper.MapConverter;
+import uk.gov.hmcts.probate.core.service.mapper.OverseasCopiesMapper;
 import uk.gov.hmcts.probate.core.service.mapper.PaPaymentMapper;
 import uk.gov.hmcts.probate.core.service.mapper.PaymentsMapper;
 import uk.gov.hmcts.probate.core.service.mapper.PoundsConverter;
@@ -26,8 +26,6 @@ import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromMap;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCaseAddress;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToDocumentLink;
-import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToExecutorApplyingCollectionMember;
-import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToExecutorNotApplyingCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToLocalDate;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPennies;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToRegistryLocation;
@@ -42,12 +40,12 @@ import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
 import java.time.LocalDate;
 
 @Mapper(componentModel = "spring", uses = {PaPaymentMapper.class, PaymentsMapper.class, AliasNameMapper.class, RegistryLocationMapper.class,
-    PoundsConverter.class, IhtMethodConverter.class, LegalStatementMapper.class, ExecutorsMapper.class,
-    ExecutorApplyingMapper.class, ExecutorNotApplyingMapper.class, MapConverter.class, LocalDateTimeMapper.class,
-    AddressMapper.class, FeesMapper.class, DocumentsMapper.class, StatementOfTruthMapper.class},
-    imports = {ApplicationType.class, GrantType.class, ProbateType.class, IhtMethod.class,
-        LocalDate.class, ExecutorsMapper.class, BooleanUtils.class, AddressMapper.class},
-    unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+        PoundsConverter.class, IhtMethodConverter.class, LegalStatementMapper.class, LegacyExecutorsMapper.class,
+        ExecutorApplyingMapper.class, ExecutorNotApplyingMapper.class, MapConverter.class, LocalDateTimeMapper.class,
+        AddressMapper.class, FeesMapper.class, DocumentsMapper.class, StatementOfTruthMapper.class},
+        imports = {ApplicationType.class, GrantType.class, ProbateType.class, IhtMethod.class,
+                LocalDate.class, LegacyExecutorsMapper.class, BooleanUtils.class, AddressMapper.class, OverseasCopiesMapper.class},
+        unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface LegacyPaMapper extends LegacyFormMapper{
 
 
@@ -87,8 +85,8 @@ public interface LegacyPaMapper extends LegacyFormMapper{
     @Mapping(target = "legalStatement", source = "declaration.legalStatement")
     @Mapping(target = "declaration", source = "declaration.declaration")
     @Mapping(target = "declarationCheckbox", source = "declaration.declarationCheckbox")
-    @Mapping(target = "executorsApplying", source = "executors.list", qualifiedBy = {ToExecutorApplyingCollectionMember.class})
-    @Mapping(target = "executorsNotApplying", source = "executors.list", qualifiedBy = {ToExecutorNotApplyingCollectionMember.class})
+    @Mapping(target = "executorsApplying", source = "executors.list", qualifiedBy = {ToLegacyExecutorApplyingCollectionMember.class})
+    @Mapping(target = "executorsNotApplying", source = "executors.list", qualifiedBy = {ToLegacyExecutorNotApplyingCollectionMember.class})
     @Mapping(target = "numberOfApplicants", expression = "java(form.getExecutors() == null || form.getExecutors().getList() == null ? 0L : Long.valueOf(form.getExecutors().getList().size()))")
     @Mapping(target = "numberOfExecutors", source = "executors.executorsNumber")
     @Mapping(target = "executorsAllAlive", source = "executors.allalive")
@@ -102,7 +100,6 @@ public interface LegacyPaMapper extends LegacyFormMapper{
     @Mapping(target = "ihtGrossValue", source = "iht.grossValue", qualifiedBy = {ToPennies.class})
     @Mapping(target = "ihtGrossValueField", source = "iht.grossValueField")
     @Mapping(target = "ihtNetValueField", source = "iht.netValueField")
-
     @Mapping(target = "extraCopiesOfGrant", source = "copies.uk")
     @Mapping(target = "outsideUkGrantCopies", source = "copies.overseas")
     @Mapping(target = "legalDeclarationJson", source = "legalDeclaration", qualifiedBy = {FromMap.class})
@@ -111,4 +108,6 @@ public interface LegacyPaMapper extends LegacyFormMapper{
     @Mapping(target = "boDocumentsUploaded", source = "documents", qualifiedBy = {ToUploadDocs.class})
     @Mapping(target = "statementOfTruthDocument", source = "statementOfTruthDocument", qualifiedBy = {ToDocumentLink.class})
     GrantOfRepresentationData toCaseData(LegacyForm form);
+
+
 }
