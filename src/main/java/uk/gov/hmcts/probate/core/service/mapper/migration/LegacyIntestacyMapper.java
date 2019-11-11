@@ -38,7 +38,7 @@ import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
 
 
 @Mapper(componentModel = "spring", uses = {PaPaymentMapper.class, PaymentsMapper.class, AliasNameMapper.class, RegistryLocationMapper.class, PoundsConverter.class,
-        IhtMethodConverter.class, MapConverter.class, LegalStatementMapper.class, LocalDateTimeMapper.class ,DocumentsMapper.class, StatementOfTruthMapper.class, AddressMapper.class},
+        IhtMethodConverter.class, MapConverter.class, LegalStatementMapper.class, LocalDateTimeMapper.class , DocumentsMapper.class, StatementOfTruthMapper.class, AddressMapper.class},
         imports = {ApplicationType.class, GrantType.class, ProbateType.class, IhtMethod.class, IhtValuesMapper.class, MaritalStatus.class, Relationship.class, SpouseNotApplyingReason.class},
         unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface LegacyIntestacyMapper extends LegacyFormMapper {
