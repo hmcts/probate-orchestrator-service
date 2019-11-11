@@ -73,7 +73,7 @@ public class FormsControllerTest {
 
     @Before
     public void setUp() throws Exception {
-        this.intestacyFormJsonStr = TestUtils.getJSONFromFile("intestacyForm.json");
+        this.intestacyFormJsonStr = TestUtils.getJSONFromFile("intestacyFormTest.json");
         this.intestacyForm = objectMapper.readValue(intestacyFormJsonStr, IntestacyForm.class);
 
         this.caveatFormJsonStr = TestUtils.getJSONFromFile("caveatForm.json");

@@ -19,6 +19,7 @@ import uk.gov.hmcts.probate.model.persistence.FormHolder;
 import uk.gov.hmcts.probate.model.persistence.LegacyForm;
 import uk.gov.hmcts.probate.model.persistence.LegacyProbateType;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
+import uk.gov.hmcts.reform.probate.model.cases.CaseInfo;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.client.ApiClientException;
@@ -38,8 +39,8 @@ public class FormDataMigratorTest {
 
     public static final String AUTH_TOKEN = "authToken";
     public static final String SERVICE_AUTH_TOKEN = "serviceAuthToken";
-    public static final String INTESTACY_EMAIL = "intestacyEmail";
-    public static final String PA_EMAIL = "paEmail";
+    public static final String INTESTACY_EMAIL = "intestacyEmail@email.com";
+    public static final String PA_EMAIL = "paEmail@email.com";
     @InjectMocks
     FormDataMigrator formDataMigrator;
     @Mock
@@ -58,6 +59,8 @@ public class FormDataMigratorTest {
     private LegacyForm legacyFormIntestacyMock;
     @Mock
     private ErrorResponse errorResponseMock;
+    @Mock
+    private IdamUsersCsvLoader mockIdamUsersCsvLoader;
 
 
     LocalDate sixMonthsAgo = LocalDate.now().minusMonths(6);
@@ -92,7 +95,7 @@ public class FormDataMigratorTest {
         when(legacyFormPaMock.getApplicantEmail()).thenReturn(INTESTACY_EMAIL);
         when(legacyFormIntestacyMock.getApplicantEmail()).thenReturn(PA_EMAIL);
 
-        ProbateCaseDetails intestacyPcd = ProbateCaseDetails.builder().build();
+        ProbateCaseDetails intestacyPcd = ProbateCaseDetails.builder().caseInfo(CaseInfo.builder().caseId("1232342342").build()).build();
         when(submitServiceApiMock.getCaseByApplicantEmail(AUTH_TOKEN, SERVICE_AUTH_TOKEN,
                 INTESTACY_EMAIL, ProbateType.INTESTACY.getCaseType().name()))
                 .thenReturn(intestacyPcd);
@@ -100,6 +103,11 @@ public class FormDataMigratorTest {
         when(submitServiceApiMock.getCaseByApplicantEmail(AUTH_TOKEN, SERVICE_AUTH_TOKEN,
                 PA_EMAIL, ProbateType.PA.getCaseType().name()))
                 .thenThrow(new ApiClientException(HttpStatus.NOT_FOUND.value(), errorResponseMock));
+
+        when(submitServiceApiMock.initiateCaseAsCaseWorker(anyString(), anyString(),
+                any(ProbateCaseDetails.class))).thenReturn(intestacyPcd);
+
+        when(mockIdamUsersCsvLoader.loadIdamUserList("idam_ids.csv")).thenReturn(Arrays.asList(new IdamUserEmail(PA_EMAIL, "idamApi")));
 
         formDataMigrator.migrateFormData();
 
