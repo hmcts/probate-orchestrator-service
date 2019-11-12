@@ -60,3 +60,11 @@
   migration.job:
     schedule: ${MIGRATION_JOB_SCHEDULER:false}
     startDateTime: '2019-07-14T10:36:55'
+
+  feign:
+    client:
+      config:
+        submit-service-api:
+          connectTimeout: 10000
+          readTimeout: 10000
+          loggerLevel: basic
