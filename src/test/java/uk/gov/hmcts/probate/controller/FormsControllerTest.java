@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import uk.gov.hmcts.probate.TestUtils;
+import uk.gov.hmcts.probate.core.service.migration.FormDataMigrator;
 import uk.gov.hmcts.probate.service.SubmitService;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.forms.CaseSummaryHolder;
@@ -44,9 +45,13 @@ public class FormsControllerTest {
     private static final String SUBMISSIONS_ENDPOINT = "/submissions";
     private static final String PAYMENTS_ENDPOINT = "/payments";
     private static final String VALIDATIONS_ENDPOINT = "/validations";
+    private static final String MIGRATE_DATA_ENDPOINT = "/migrateData";
 
     @MockBean
     private SubmitService submitService;
+
+    @MockBean
+    private FormDataMigrator formDataMigrator;
 
     @Autowired
     private MockMvc mockMvc;
@@ -236,5 +241,15 @@ public class FormsControllerTest {
                 .andExpect(content().json(paFormJsonStr, true));
 
         verify(submitService, times(1)).validate(eq(EMAIL_ADDRESS), eq(ProbateType.PA));
+    }
+
+    @Test
+    public void shouldMigrateData() throws Exception {
+
+        mockMvc.perform(post(MIGRATE_DATA_ENDPOINT)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(formDataMigrator, times(1)).migrateFormData();
     }
 }
