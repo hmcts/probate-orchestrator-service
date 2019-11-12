@@ -39,10 +39,19 @@ public class FormDataMigrator {
     private final IdamUsersCsvLoader csvLoader;
     private List<IdamUserEmail> idamUserEmailList;
 
+    private boolean isRunning= false;
 
-    public void migrateFormData(){
 
+    public synchronized void migrateFormData(){
         log.info("In migrateFormData!");
+        if(Boolean.TRUE.equals(isRunning)){
+            log.info("Migrate data job is already running so returning");
+            return;
+        }
+        else{
+            isRunning = true;
+        }
+        securityUtils.setSecurityContextUserAsCaseworker();
         LocalDate sixMonthsAgo = LocalDate.now().minusMonths(6);
         log.info("Get formData with createDate > " + sixMonthsAgo);
         FormDataResource formDatas = persistenceServiceApi.getFormDataByAfterCreateDate(sixMonthsAgo);
