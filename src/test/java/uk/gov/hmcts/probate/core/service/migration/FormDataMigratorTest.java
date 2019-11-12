@@ -111,6 +111,7 @@ public class FormDataMigratorTest {
 
         formDataMigrator.migrateFormData();
 
+        verify(securityUtilsMock).setSecurityContextUserAsCaseworker();
         verify(persistenceServiceApiMock).getFormDataByAfterCreateDate(sixMonthsAgo);
         verify(persistenceServiceApiMock).getPagedFormDataByAfterCreateDate(sixMonthsAgo, "0", "20");
 
