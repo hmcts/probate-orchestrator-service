@@ -39,19 +39,12 @@ public class FormDataMigrator {
     private final IdamUsersCsvLoader csvLoader;
     private List<IdamUserEmail> idamUserEmailList;
 
-    private boolean isRunning= false;
-
 
     public synchronized void migrateFormData(){
         log.info("In migrateFormData!");
-        if(Boolean.TRUE.equals(isRunning)){
-            log.info("Migrate data job is already running so returning");
-            return;
-        }
-        else{
-            isRunning = true;
-        }
         securityUtils.setSecurityContextUserAsCaseworker();
+//        System.setProperty("http.proxyHost", "proxyout.reform.hmcts.net");
+//        System.setProperty("http.proxyPort", "8080");
         LocalDate sixMonthsAgo = LocalDate.now().minusMonths(6);
         log.info("Get formData with createDate > " + sixMonthsAgo);
         FormDataResource formDatas = persistenceServiceApi.getFormDataByAfterCreateDate(sixMonthsAgo);
@@ -94,6 +87,7 @@ public class FormDataMigrator {
 
     private void processFormData(FormHolder f, List<IdamUserEmail> idamUserEmailList) throws  InterruptedException{
             LegacyForm formdata = f.getFormdata();
+            Thread.sleep(1000);
             if (formdata != null) {
                 log.info("Processing form data for {} ", formdata.getApplicantEmail());
                 GrantOfRepresentationData grantOfRepresentationData = null;
@@ -140,7 +134,6 @@ public class FormDataMigrator {
             log.info("Draft Case saved for formdata applicant email: {}", formdata.getApplicantEmail());
             Optional<IdamUserEmail> userIdFromEmailAddress = getUserIdFromEmailAddress(formdata.getApplicantEmail());
             if (userIdFromEmailAddress.isPresent()) {
-                Thread.sleep(1000);
                 IdamUserEmail idamUserEmail = userIdFromEmailAddress.get();
                 submitServiceApi.grantCaseAccessToUserAsCaseWorker(securityUtils.getAuthorisation(),
                         securityUtils.getServiceAuthorisation(), pcd.getCaseInfo().getCaseId(), idamUserEmail.getIdamId().trim());
@@ -162,10 +155,15 @@ public class FormDataMigrator {
                 log.info("Find executor for for inviteEmail: {} inviteId: {} inviteAgreed: {}", inviteData.getEmail(),
                         inviteData.getId(), inviteData.getAgreed());
                 ExecutorApplying e = grantOfRepresentationData.getExecutorApplyingByInviteId(inviteData.getId());
-                e.setApplyingExecutorInvitationId(inviteData.getId());
-                e.setApplyingExecutorAgreed(inviteData.getAgreed());
-                log.info("Invite details set for formdataId:{} and inviteId:{} and agreed flag:{}",
-                        inviteData.getFormdataId(), inviteData.getId(), inviteData.getAgreed());
+                if(e!=null) {
+                    e.setApplyingExecutorInvitationId(inviteData.getId());
+                    e.setApplyingExecutorAgreed(inviteData.getAgreed());
+                    log.info("Invite details set for formdataId:{} and inviteId:{} and agreed flag:{}",
+                            inviteData.getFormdataId(), inviteData.getId(), inviteData.getAgreed());
+                }
+                else{
+                    log.info("ExecutorApplying not found for formdataId:{} and inviteId:{}", inviteData.getFormdataId(), inviteData.getId());
+                }
 
             });
         }
