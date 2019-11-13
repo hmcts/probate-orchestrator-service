@@ -14,6 +14,6 @@ public class IdamUsersCsvLoaderTest {
     @Test
     public void shouldLoadCsvFile() throws IOException {
         List<IdamUserEmail> idamUserEmails = csvLoader.loadIdamUserList("idam_ids.csv");
-        Assert.assertThat(idamUserEmails.size(), Is.is(5));
+        Assert.assertThat(idamUserEmails.size(), Is.is(994));
     }
 }
