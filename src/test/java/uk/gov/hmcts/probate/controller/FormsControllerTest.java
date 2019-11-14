@@ -248,8 +248,6 @@ public class FormsControllerTest {
 
         mockMvc.perform(post(MIGRATE_DATA_ENDPOINT)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-
-        verify(formDataMigrator, times(1)).migrateFormData();
+                .andExpect(status().isAccepted());
     }
 }
