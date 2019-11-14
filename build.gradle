@@ -78,9 +78,9 @@ findbugs {
 
 sonarqube {
     properties {
-        property "sonar.exclusions", "**/AppInsights.java, **/LegacyPaMapper.java, **/LegacyIntestacyMapper.java, " +
-                "**/LegacyFormMapper.java, **/PaMapper.java, **/IntestacyMapper.java , **/ScheduledConfiguration.java, " +
-        "**/AuthenticateUserResponse.java, **/TokenExchangeResponse.java"
+        property "sonar.exclusions", "**/AppInsights.java, **/LegacyPaMapper.java, **/LegacyIntestacyMapper.java, **/LegacyFormMapper.java," +
+                " **/PaMapper.java, **/IntestacyMapper.java , **/ScheduledConfiguration.java, **/AuthenticateUserResponse.java, **/TokenExchangeResponse.java," +
+                " **/FormDataMigrator.java, **/IdamUserEmail.java, **/IdamUsersCsvLoader.java, **/LegacyExecutorsMapper.java"
         property "sonar.projectName", "PROBATE :: Probate-Orchestrator-Service"
         property "sonar.projectKey", "Probate-Orchestrator-Service"
         property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
@@ -285,7 +285,7 @@ dependencies {
     compile group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.0.4'
     compile group: 'uk.gov.hmcts.reform.auth', name: 'auth-checker-lib', version: versions.authCheckerLib
     compile group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceAuthProviderClient
-    compile group: 'uk.gov.hmcts.reform.probate', name : 'probate-commons', version: versions.probateCommons
+    compile group: 'uk.gov.hmcts.reform.probate', name: 'probate-commons', version: versions.probateCommons
 
     compile group: 'commons-io', name: 'commons-io', version: versions.commonsIO
 
@@ -305,7 +305,7 @@ dependencies {
     annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
 
     testCompile("org.springframework.boot:spring-boot-starter-test") {
-        exclude group: "com.vaadin.external.google", module:"android-json"
+        exclude group: "com.vaadin.external.google", module: "android-json"
     }
     testCompile group: 'org.springframework.security', name: 'spring-security-test'
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-hateoas'
