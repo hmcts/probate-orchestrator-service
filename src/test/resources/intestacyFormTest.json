@@ -13,7 +13,7 @@
       "postCode": "SW17 0QT"
     },
     "phoneNumber": "123455678",
-    "postCode": "SW17 0QT",
+    "postcode": "SW17 0QT",
     "addressFound": "true",
     "relationshipToDeceased": "adoptedChild",
     "spouseNotApplyingReason": "mentallyIncapable",
@@ -69,7 +69,7 @@
         "firstName": "King"
       }
     },
-    "postCode": "SW17 0QT",
+    "postcode": "SW17 0QT",
     "maritalStatus": "marriedCivilPartnership",
     "divorcePlace": "No",
     "anyOtherChildren": "Yes",
