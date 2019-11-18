@@ -40,7 +40,7 @@ public class FormDataMigrator {
     private List<IdamUserEmail> idamUserEmailList;
 
 
-    public synchronized void migrateFormData(){
+    public synchronized void migrateFormData() {
         log.info("In migrateFormData!");
         securityUtils.setSecurityContextUserAsCaseworker();
 //        System.setProperty("http.proxyHost", "proxyout.reform.hmcts.net");
@@ -67,17 +67,16 @@ public class FormDataMigrator {
                 return;
             }
             Collection<FormHolder> formHolders = formDataSet.getContent().getFormdata();
-            formHolders.forEach( formHolder -> {
-                if(!processedCases.contains(formHolder.getFormdata().getApplicantEmail())) {
+            formHolders.forEach(formHolder -> {
+                if (!processedCases.contains(formHolder.getFormdata().getApplicantEmail())) {
                     try {
                         processFormData(formHolder, idamUserEmailList);
                         processedCases.add(formHolder.getFormdata().getApplicantEmail());
-                    }
-                    catch (InterruptedException ie){
+                    } catch (InterruptedException ie) {
                         log.error("Thread execption!", ie);
                     }
                 }
-            } );
+            });
             log.info("Completed formdata migration for page {}", (pageNo));
 
         });
@@ -85,35 +84,40 @@ public class FormDataMigrator {
         log.info("Processed {} casedatas : {}", processedCases.size(), processedCases);
     }
 
-    private void processFormData(FormHolder f, List<IdamUserEmail> idamUserEmailList) throws  InterruptedException{
-            LegacyForm formdata = f.getFormdata();
-            Thread.sleep(1000);
-            if (formdata != null) {
-                log.info("Processing form data for {} ", formdata.getApplicantEmail());
-                GrantOfRepresentationData grantOfRepresentationData = null;
-                if (formdata.getCaseType() != null && formdata.getCaseType().getName().equals("intestacy")) {
-                    grantOfRepresentationData = legacyIntestacyMapper.toCaseData(formdata);
-                    log.info("Intestacy gop returned");
-                    saveDraftCaseIfOneDoesntExist(formdata, grantOfRepresentationData,
-                            ProbateType.INTESTACY.getCaseType().name());
-                } else {
-                    grantOfRepresentationData = legacyPaMapper.toCaseData(formdata);
-                    log.info("PA gop returned");
-                    saveDraftCaseIfOneDoesntExist(formdata, grantOfRepresentationData,
-                            ProbateType.PA.getCaseType().name());
-                }
+    private void processFormData(FormHolder f, List<IdamUserEmail> idamUserEmailList) throws InterruptedException {
+        LegacyForm formdata = f.getFormdata();
+        Thread.sleep(1000);
+        if (formdata != null) {
+            log.info("Processing form data for {} ", formdata.getApplicantEmail());
+            GrantOfRepresentationData grantOfRepresentationData = null;
+            if (formdata.getCaseType() != null && formdata.getCaseType().getName().equals("intestacy")) {
+                grantOfRepresentationData = legacyIntestacyMapper.toCaseData(formdata);
+                log.info("Intestacy gop returned");
+                saveDraftCaseIfOneDoesntExist(formdata, grantOfRepresentationData,
+                        ProbateType.INTESTACY.getCaseType().name());
+            } else {
+                grantOfRepresentationData = legacyPaMapper.toCaseData(formdata);
+                log.info("PA gop returned");
+                saveDraftCaseIfOneDoesntExist(formdata, grantOfRepresentationData,
+                        ProbateType.PA.getCaseType().name());
             }
+        }
     }
 
     private void saveDraftCaseIfOneDoesntExist(LegacyForm formdata, GrantOfRepresentationData grantOfRepresentationData,
                                                String caseTypeName) throws InterruptedException {
         try {
             log.info("Check if case created in ccd for formdata with applicantEmail: {}", formdata.getApplicantEmail());
-            if (formdata.getApplicantEmail() != null && !formdata.getApplicantEmail().isEmpty()) {
-                submitServiceApi.getCaseByApplicantEmail(securityUtils.getAuthorisation(),
-                        securityUtils.getServiceAuthorisation(), formdata.getApplicantEmail(),
-                        caseTypeName);
-                log.info("Case found for formdata applicant email:  {}", formdata.getApplicantEmail());
+            if (formdata.getCcdCase() == null || formdata.getCcdCase().getId() == null) {
+                if (formdata.getApplicantEmail() != null && !formdata.getApplicantEmail().isEmpty()) {
+                    submitServiceApi.getCaseByApplicantEmail(securityUtils.getAuthorisation(),
+                            securityUtils.getServiceAuthorisation(), formdata.getApplicantEmail(),
+                            caseTypeName);
+                    log.info("Case found for formdata applicant email:  {}", formdata.getApplicantEmail());
+                }
+            }
+            else{
+                log.info("Case already created in CCD with caseId: {} and state: {}", formdata.getCcdCase().getId(), formdata.getCcdCase().getState());
             }
         } catch (ApiClientException apiClientException) {
             if (apiClientException.getStatus() == HttpStatus.NOT_FOUND.value()) {
@@ -138,7 +142,7 @@ public class FormDataMigrator {
                 submitServiceApi.grantCaseAccessToUserAsCaseWorker(securityUtils.getAuthorisation(),
                         securityUtils.getServiceAuthorisation(), pcd.getCaseInfo().getCaseId(), idamUserEmail.getIdamId().trim());
                 log.info("Granted access as caseworker for case id :{} and applicantEmail :{} and userId: {}", pcd.getCaseInfo().getCaseId(), formdata.getApplicantEmail(), idamUserEmail.getIdamId());
-            }else {
+            } else {
                 log.info("Could not find UserID for: {}", formdata.getApplicantEmail());
             }
 
@@ -150,18 +154,17 @@ public class FormDataMigrator {
     private void setInviteDataForCase(LegacyForm formdata, GrantOfRepresentationData grantOfRepresentationData) {
         InviteDataResource inviteDataResource = persistenceServiceApi.getInviteDataByFormDataId(formdata.getApplicantEmail());
 
-        if(inviteDataResource!=null && !inviteDataResource.getContent().getInvitedata().isEmpty()){
+        if (inviteDataResource != null && !inviteDataResource.getContent().getInvitedata().isEmpty()) {
             inviteDataResource.getContent().getInvitedata().stream().forEach(inviteData -> {
                 log.info("Find executor for for inviteEmail: {} inviteId: {} inviteAgreed: {}", inviteData.getEmail(),
                         inviteData.getId(), inviteData.getAgreed());
                 ExecutorApplying e = grantOfRepresentationData.getExecutorApplyingByInviteId(inviteData.getId());
-                if(e!=null) {
+                if (e != null) {
                     e.setApplyingExecutorInvitationId(inviteData.getId());
                     e.setApplyingExecutorAgreed(inviteData.getAgreed());
                     log.info("Invite details set for formdataId:{} and inviteId:{} and agreed flag:{}",
                             inviteData.getFormdataId(), inviteData.getId(), inviteData.getAgreed());
-                }
-                else{
+                } else {
                     log.info("ExecutorApplying not found for formdataId:{} and inviteId:{}", inviteData.getFormdataId(), inviteData.getId());
                 }
 
