@@ -87,7 +87,7 @@ public class FormDataMigrator {
 
     private void processFormData(FormHolder f, List<IdamUserEmail> idamUserEmailList) throws  InterruptedException{
             LegacyForm formdata = f.getFormdata();
-            Thread.sleep(1000);
+            Thread.sleep(500);
             if (formdata != null) {
                 log.info("Processing form data for {} ", formdata.getApplicantEmail());
                 GrantOfRepresentationData grantOfRepresentationData = null;
