@@ -18,6 +18,6 @@ import java.util.Collection;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FormDataContent {
 
-    @JsonProperty("formdata")
+    @JsonProperty("formdata_vw")
     private  Collection<FormHolder> formdata;
 }
