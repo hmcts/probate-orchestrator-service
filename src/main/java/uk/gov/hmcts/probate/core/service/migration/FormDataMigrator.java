@@ -84,22 +84,23 @@ public class FormDataMigrator {
         log.info("Processed {} casedatas : {}", processedCases.size(), processedCases);
     }
 
-    private void processFormData(FormHolder f, List<IdamUserEmail> idamUserEmailList) throws InterruptedException {
-        LegacyForm formdata = f.getFormdata();
-        Thread.sleep(1000);
-        if (formdata != null) {
-            log.info("Processing form data for {} ", formdata.getApplicantEmail());
-            GrantOfRepresentationData grantOfRepresentationData = null;
-            if (formdata.getCaseType() != null && formdata.getCaseType().getName().equals("intestacy")) {
-                grantOfRepresentationData = legacyIntestacyMapper.toCaseData(formdata);
-                log.info("Intestacy gop returned");
-                saveDraftCaseIfOneDoesntExist(formdata, grantOfRepresentationData,
-                        ProbateType.INTESTACY.getCaseType().name());
-            } else {
-                grantOfRepresentationData = legacyPaMapper.toCaseData(formdata);
-                log.info("PA gop returned");
-                saveDraftCaseIfOneDoesntExist(formdata, grantOfRepresentationData,
-                        ProbateType.PA.getCaseType().name());
+    private void processFormData(FormHolder f, List<IdamUserEmail> idamUserEmailList) throws  InterruptedException{
+            LegacyForm formdata = f.getFormdata();
+            Thread.sleep(500);
+            if (formdata != null) {
+                log.info("Processing form data for {} ", formdata.getApplicantEmail());
+                GrantOfRepresentationData grantOfRepresentationData = null;
+                if (formdata.getCaseType() != null && formdata.getCaseType().getName().equals("intestacy")) {
+                    grantOfRepresentationData = legacyIntestacyMapper.toCaseData(formdata);
+                    log.info("Intestacy gop returned");
+                    saveDraftCaseIfOneDoesntExist(formdata, grantOfRepresentationData,
+                            ProbateType.INTESTACY.getCaseType().name());
+                } else {
+                    grantOfRepresentationData = legacyPaMapper.toCaseData(formdata);
+                    log.info("PA gop returned");
+                    saveDraftCaseIfOneDoesntExist(formdata, grantOfRepresentationData,
+                            ProbateType.PA.getCaseType().name());
+                }
             }
         }
     }
