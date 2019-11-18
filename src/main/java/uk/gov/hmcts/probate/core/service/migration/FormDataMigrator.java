@@ -103,7 +103,6 @@ public class FormDataMigrator {
                 }
             }
         }
-    }
 
     private void saveDraftCaseIfOneDoesntExist(LegacyForm formdata, GrantOfRepresentationData grantOfRepresentationData,
                                                String caseTypeName) throws InterruptedException {
