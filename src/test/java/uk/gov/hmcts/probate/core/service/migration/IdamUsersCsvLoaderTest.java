@@ -13,6 +13,6 @@ public class IdamUsersCsvLoaderTest {
     @Test
     public void shouldLoadCsvFile() {
         List<IdamUserEmail> idamUserEmails = csvLoader.loadIdamUserList("idam_ids.csv");
-        Assert.assertThat(idamUserEmails.size(), Is.is(994));
+        Assert.assertThat(idamUserEmails.size(), Is.is(3313));
     }
 }
