@@ -43,7 +43,7 @@ public class FormDataMigrator {
     public synchronized void migrateFormData() {
         log.info("In migrateFormData!");
         securityUtils.setSecurityContextUserAsCaseworker();
-//        System.setProperty("http.proxyHost", "proxyout.reform.hmcts.net");
+//        System.setProperty("http.proxyHost", "proxyout.reform.hmcts.net");z
 //        System.setProperty("http.proxyPort", "8080");
         LocalDate sixMonthsAgo = LocalDate.now().minusMonths(6);
         log.info("Get formData with createDate > " + sixMonthsAgo);
@@ -72,8 +72,10 @@ public class FormDataMigrator {
                     try {
                         processFormData(formHolder, idamUserEmailList);
                         processedCases.add(formHolder.getFormdata().getApplicantEmail());
-                    } catch (InterruptedException ie) {
-                        log.error("Thread execption!", ie);
+                    } catch (Throwable ie) {
+                        log.error("Uh oh! Exception!!", ie);
+                        log.info("Error processing formdata for {}",  formHolder.getFormdata().getApplicantEmail());
+                        return;
                     }
                 }
             });
