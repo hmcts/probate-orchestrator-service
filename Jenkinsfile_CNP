@@ -45,7 +45,7 @@ withPipeline("java", product, component) {
     
 ////  enableDeployToAKS()
     installCharts()
-    disableLegacyDeployment()
+    //disableLegacyDeployment()
      
 //    before('buildinfra:prod') {
 //            error 'Deliberately breaking pipeline to prevent prod deployment'
