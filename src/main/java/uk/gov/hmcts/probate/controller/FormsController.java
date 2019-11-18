@@ -26,7 +26,10 @@ import uk.gov.hmcts.reform.probate.model.forms.CaseSummaryHolder;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
-import static org.springframework.http.HttpStatus.OK;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import static org.springframework.http.HttpStatus.ACCEPTED;
 
 @Api(tags = {"FormsController"})
 @SwaggerDefinition(tags = {@Tag(name = "FormsController", description = "Forms API")})
@@ -158,8 +161,13 @@ public class FormsController {
     @PostMapping(path = MIGRATE_DATA_ENDPOINT, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity migrateData() {
+
+        ExecutorService executor = Executors.newFixedThreadPool(1);
+        executor.submit(() -> {
+            formDataMigrator.migrateFormData();
+        });
         log.info("Migrate data called");
-        formDataMigrator.migrateFormData();
-        return new ResponseEntity(OK);
+
+        return new ResponseEntity("Migrate data called", ACCEPTED);
     }
 }
