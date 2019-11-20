@@ -3,7 +3,7 @@
       name: probate-orchestrator-service
     servlet:
       multipart:
-        max-file-size:  10240KB
+        max-file-size: 10240KB
         max-request-size: 10240KB
 
   server:
