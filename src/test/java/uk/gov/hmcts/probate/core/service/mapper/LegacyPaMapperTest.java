@@ -44,8 +44,4 @@ public class LegacyPaMapperTest {
         assertThat(actualGrantOfRepresentation).isNotNull();
     }
 
-
-
-
-
 }

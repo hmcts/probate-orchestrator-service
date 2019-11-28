@@ -83,6 +83,7 @@ public class IntestacyTestDataCreator {
                 .applicantEmail(EMAIL)
                 .type(ProbateType.INTESTACY)
                 .caseType(GrantType.INTESTACY.getName())
+                .languagePreferenceWelsh(Boolean.TRUE)
                 .applicant(
                         IntestacyApplicant.builder()
                                 .address(ADDRESS)
@@ -167,6 +168,7 @@ public class IntestacyTestDataCreator {
         grantOfRepresentation.setPrimaryApplicantPhoneNumber(PHONE_NUMBER);
         grantOfRepresentation.setPrimaryApplicantRelationshipToDeceased(Relationship.ADOPTED_CHILD);
         grantOfRepresentation.setPrimaryApplicantAdoptionInEnglandOrWales(Boolean.TRUE);
+        grantOfRepresentation.setLanguagePreferenceWelsh(Boolean.TRUE);
 
         grantOfRepresentation.setDeceasedSpouseNotApplyingReason(SpouseNotApplyingReason.MENTALLY_INCAPABLE);
         grantOfRepresentation.setDeceasedSurname(DECEASED_LAST_NAME);
