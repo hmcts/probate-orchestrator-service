@@ -195,7 +195,7 @@ public class PaTestDataCreator {
                 .languagePreferenceWelsh(Boolean.TRUE)
                 .iht(InheritanceTax.builder()
                         .ihtFormId(IHT_FORM_ID)
-                        .form(IhtFormType.IHT205)
+                        .form(IhtFormType.IHT205.getDescription())
                         .method(IHT_METHOD)
                         .netValue(NET_VALUE)
                         .grossValue(GROSS_VALUE)

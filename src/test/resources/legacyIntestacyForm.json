@@ -1,7 +1,7 @@
 {
   "formdata" : {
     "iht" : {
-      "method" : "Through the HMRC online service",
+      "method" : "optionOnline",
       "netValue" : 550000,
       "grossValue" : 600000,
       "identifier" : "A1234567890Z",
@@ -9,7 +9,7 @@
       "grossValueField" : "600000"
     },
     "assets" : {
-      "assetsoverseas" : "No"
+      "assetsoverseas" : "optionNo"
     },
     "copies" : {
       "uk" : 2
@@ -19,7 +19,7 @@
     },
     "caseType" : "intestacy",
     "deceased" : {
-      "alias" : "No",
+      "alias" : "optionNo",
       "address" : {
         "country" : "United Kingdom",
         "postCode" : "SW1A 1AA",
@@ -38,7 +38,7 @@
       "dob-month" : 2,
       "dod-month" : 5,
       "firstName" : "deceased_fname",
-      "anyChildren" : "No",
+      "anyChildren" : "optionNo",
       "addressFound" : "true",
       "maritalStatus" : "Married or in a civil partnership",
       "dob-formattedDate" : "1 February 1953",
@@ -67,14 +67,14 @@
       } ]
     },
     "screeners" : {
-      "related" : "Yes",
-      "domicile" : "Yes",
-      "completed" : "Yes",
-      "diedAfter" : "Yes",
-      "otherApplicants" : "No",
-      "deathCertificate" : "Yes"
+      "related" : "optionYes",
+      "domicile" : "optionYes",
+      "completed" : "optionYes",
+      "diedAfter" : "optionYes",
+      "otherApplicants" : "optionNo",
+      "deathCertificate" : "optionYes"
     },
-    "anyChildren" : "No",
+    "anyChildren" : "optionNo",
     "declaration" : {
       "softStop" : false,
       "declaration" : {
@@ -189,7 +189,7 @@
           "answers" : [ "generic_lname" ],
           "question" : "Last name"
         }, {
-          "answers" : [ "No" ],
+          "answers" : [ "optionNo" ],
           "question" : "Did generic_fname generic_lname have assets in another name?"
         }, {
           "answers" : [ "1 February 1953" ],
@@ -234,7 +234,7 @@
           "answers" : [ "Husband, wife or civil partner (this does not include common law partners even if you lived together)" ],
           "question" : "What was your relationship to the person who died?"
         }, {
-          "answers" : [ "No" ],
+          "answers" : [ "optionNo" ],
           "question" : "Did generic_fname generic_lname have any children?"
         } ]
       }, {
