@@ -121,7 +121,7 @@ public class IntestacyTestDataCreator {
                         .build())
                 .declaration(Declaration.builder().build())
                 .iht(InheritanceTax.builder()
-                        .form(IhtFormType.IHT205)
+                        .form(IhtFormType.IHT205.getDescription())
                         .grossValue(GROSS_VALUE)
                         .identifier(IHT_IDENTIFIER)
                         .method(IhtMethod.BY_POST)

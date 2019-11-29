@@ -9,14 +9,14 @@
       "grossValueField": "93010"
     },
     "will": {
-      "codicils": "No"
+      "codicils": "optionNo"
     },
     "summary": {
       "readyToDeclare": false
     },
     "caseType": "gop",
     "deceased": {
-      "alias": "No",
+      "alias": "optionNo",
       "address": {
         "country": "United Kingdom",
         "postCode": "SW1A 1AA",
@@ -26,7 +26,7 @@
       },
       "dob-day": 1,
       "dod-day": 4,
-      "married": "No",
+      "married": "optionNo",
       "dob-date": "1953-02-01T00:00:00.000Z",
       "dob-year": 1953,
       "dod-date": "2017-05-04T00:00:00.000Z",
@@ -91,7 +91,7 @@
       "otherReason": "other_reason",
       "phoneNumber": "1234567890",
       "addressFound": "true",
-      "nameAsOnTheWill": "No",
+      "nameAsOnTheWill": "optionNo",
       "postcodeAddress": "3"
     },
     "documents": {
@@ -147,14 +147,14 @@
           "isApplying": true
         }
       ],
-      "alias": "No",
-      "allalive": "Yes",
+      "alias": "optionNo",
+      "allalive": "optionYes",
       "inviteId": "deceased_fname-deceased_lname-54af8f79-a267-4fc9-901b-c97c30793013",
       "invitesSent": "true",
       "executorsNumber": 2,
       "postcodeAddress": "21",
       "executorsEmailChanged": false,
-      "otherExecutorsApplying": "Yes"
+      "otherExecutorsApplying": "optionYes"
     },
     "declaration": {
       "softStop": true,

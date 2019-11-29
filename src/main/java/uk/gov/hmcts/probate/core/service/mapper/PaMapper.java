@@ -104,7 +104,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "payments", source = "payment")
     @Mapping(target = "boDocumentsUploaded", source = "documents", qualifiedBy = {ToUploadDocs.class})
     @Mapping(target = "statementOfTruthDocument", source = "statementOfTruthDocument", qualifiedBy = {ToDocumentLink.class})
-    @Mapping(target = "languagePreferenceWelsh", source = "languagePreferenceWelsh", qualifiedBy = {ToDocumentLink.class})
+    @Mapping(target = "languagePreferenceWelsh", source = "language.bilingual")
     GrantOfRepresentationData toCaseData(PaForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.PA)")
@@ -131,7 +131,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "iht.identifier", expression = "java(grantOfRepresentationData.getIhtReferenceNumber() == null || grantOfRepresentationData.getIhtReferenceNumber().equals(\"Not applicable\") ? "
         + "null : grantOfRepresentationData.getIhtReferenceNumber())")
     @Mapping(target = "iht.method", source = "ihtFormCompletedOnline", qualifiedBy = {ToIhtMethod.class})
-    @Mapping(target = "iht.form", source = "ihtFormId")
+    @Mapping(target = "iht.form", expression = "java(grantOfRepresentationData.getIhtFormId()!=null ? grantOfRepresentationData.getIhtFormId().getDescription() : null)")
     @Mapping(target = "copies.overseas", source = "outsideUkGrantCopies")
     @Mapping(target = "assets.assetsoverseas", expression = "java(grantOfRepresentationData.getOutsideUkGrantCopies() == null ? null : grantOfRepresentationData.getOutsideUkGrantCopies() > 0L)")
     @Mapping(target = "applicant.address", source = "primaryApplicantAddress", qualifiedBy = {ToFormAddress.class})
