@@ -21,6 +21,7 @@ import uk.gov.hmcts.reform.probate.model.forms.Copies;
 import uk.gov.hmcts.reform.probate.model.forms.Declaration;
 import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
+import uk.gov.hmcts.reform.probate.model.forms.Language;
 import uk.gov.hmcts.reform.probate.model.forms.Payment;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyApplicant;
@@ -83,7 +84,7 @@ public class IntestacyTestDataCreator {
                 .applicantEmail(EMAIL)
                 .type(ProbateType.INTESTACY)
                 .caseType(GrantType.INTESTACY.getName())
-                .languagePreferenceWelsh(Boolean.TRUE)
+                .language(Language.builder().bilingual(Boolean.TRUE).build())
                 .applicant(
                         IntestacyApplicant.builder()
                                 .address(ADDRESS)
