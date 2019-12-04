@@ -30,6 +30,7 @@ import uk.gov.hmcts.reform.probate.model.forms.Documents;
 import uk.gov.hmcts.reform.probate.model.forms.Fees;
 import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
+import uk.gov.hmcts.reform.probate.model.forms.Language;
 import uk.gov.hmcts.reform.probate.model.forms.Payment;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
 import uk.gov.hmcts.reform.probate.model.forms.Will;
@@ -192,7 +193,7 @@ public class PaTestDataCreator {
                 .caseType(GrantType.GRANT_OF_PROBATE.getName())
                 .applicantEmail(APPLICANT_EMAIL)
                 .applicationSubmittedDate(LocalDate.now())
-                .languagePreferenceWelsh(Boolean.TRUE)
+                .language(Language.builder().bilingual(Boolean.TRUE).build())
                 .iht(InheritanceTax.builder()
                         .ihtFormId(IHT_FORM_ID)
                         .form(IhtFormType.IHT205.getDescription())
