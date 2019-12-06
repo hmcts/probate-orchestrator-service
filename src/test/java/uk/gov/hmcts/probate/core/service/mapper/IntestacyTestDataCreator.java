@@ -122,7 +122,7 @@ public class IntestacyTestDataCreator {
                         .build())
                 .declaration(Declaration.builder().build())
                 .iht(InheritanceTax.builder()
-                        .form(IhtFormType.IHT205.getDescription())
+                        .form(IhtFormType.optionIHT205.toString())
                         .grossValue(GROSS_VALUE)
                         .identifier(IHT_IDENTIFIER)
                         .method(IhtMethod.BY_POST)
@@ -203,7 +203,7 @@ public class IntestacyTestDataCreator {
 
         grantOfRepresentation.setDeceasedHasAssetsOutsideUK(Boolean.TRUE);
         grantOfRepresentation.setAssetsOutsideNetValue(ASSETS_OVERSEAS_NET_VALUE_LONG);
-        grantOfRepresentation.setIhtFormId(IhtFormType.IHT205);
+        grantOfRepresentation.setIhtFormId(IhtFormType.optionIHT205);
         grantOfRepresentation.setIhtFormCompletedOnline(Boolean.FALSE);
         grantOfRepresentation.setIhtGrossValue(GROSS_VALUE_LONG);
         grantOfRepresentation.setIhtNetValue(NET_VALUE_LONG);
