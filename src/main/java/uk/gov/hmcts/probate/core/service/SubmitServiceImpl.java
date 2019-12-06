@@ -155,7 +155,9 @@ public class SubmitServiceImpl implements SubmitService {
 
     @Override
     public Form update(String identifier, ProbateType probateType, PaymentDto paymentDto) {
+        log.info("Update called for payments");
         Form form = getCase(identifier, probateType);
+        log.info("Case returned now update payment");
         return updatePayment(identifier, form, paymentDto);
     }
 
@@ -170,6 +172,7 @@ public class SubmitServiceImpl implements SubmitService {
                 .total(paymentDto.getAmount())
                 .build();
         form.setPayment(payment);
+        log.info("Payment built - update on form");
         return updatePayments(identifier, form);
     }
 
@@ -195,20 +198,22 @@ public class SubmitServiceImpl implements SubmitService {
                 "Cannot update case with no payments, there needs to be at least one payment");
         String authorisation = securityUtils.getAuthorisation();
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
-
+        log.info("Get existing case from submit service");
         ProbateCaseDetails existingCase = submitServiceApi.getCase(authorisation,
                 serviceAuthorisation, identifier, form.getType().getCaseType().name());
-
+        log.info("Got existing case now set payment on this case");
         FormMapper formMapper = mappers.get(form.getType());
         CaseData caseData = formMapper.toCaseData(form);
 
         existingCase.getCaseData().setPayments(caseData.getPayments());
+        log.info("Send notification");
         sendNotification(existingCase);
 
+        log.info("Update case for submission");
         updateCaseForSubmission(existingCase);
         //TODO: PRO-5580 - Uncomment once applicationSubmittedDate has been re-added to the spreadsheet
 
-        log.debug("calling update Payments in submitServiceApi");
+        log.debug("calling create case in submitServiceApi");
         ProbateCaseDetails probateCaseDetails = submitServiceApi.createCase(
                 authorisation,
                 serviceAuthorisation,
@@ -220,6 +225,7 @@ public class SubmitServiceImpl implements SubmitService {
 
     public Optional<CaseData> sendNotification(ProbateCaseDetails probateCaseDetails) {
         CaseType caseType = CaseType.getCaseType(probateCaseDetails.getCaseData());
+        log.info("Send notification with case type {}" , caseType.getName());
         CasePayment casePayment = probateCaseDetails.getCaseData().getPayments().get(0).getValue();
         if (caseTypesForNotifications.contains(caseType) && PaymentStatus.SUCCESS.equals(casePayment.getStatus())) {
             return Optional.ofNullable(backOfficeService.sendNotification(probateCaseDetails));

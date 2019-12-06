@@ -16,6 +16,7 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.forms.Copies;
 import uk.gov.hmcts.reform.probate.model.forms.Declaration;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
+import uk.gov.hmcts.reform.probate.model.forms.Language;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
 import uk.gov.hmcts.reform.probate.model.forms.Will;
 import uk.gov.hmcts.reform.probate.model.forms.pa.Executors;
@@ -92,6 +93,7 @@ public class PaMapperTest {
         expectedPaForm.setType(ProbateType.PA);
         expectedPaForm.setCaseType(GrantType.GRANT_OF_PROBATE.getName());
         expectedPaForm.setCopies(new Copies());
+        expectedPaForm.setLanguage(new Language());
         PaAssets paAssets = new PaAssets();
         paAssets.setAssetsoverseas(null);
         expectedPaForm.setAssets(paAssets);

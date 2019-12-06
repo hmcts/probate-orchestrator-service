@@ -30,6 +30,7 @@ import uk.gov.hmcts.reform.probate.model.forms.Documents;
 import uk.gov.hmcts.reform.probate.model.forms.Fees;
 import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
+import uk.gov.hmcts.reform.probate.model.forms.Language;
 import uk.gov.hmcts.reform.probate.model.forms.Payment;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
 import uk.gov.hmcts.reform.probate.model.forms.Will;
@@ -80,6 +81,7 @@ public class PaTestDataCreator {
     private static final LocalDateTime DECEASED_DATE_OF_DEATH = LocalDate.of(2019, 1, 1).atStartOfDay();
     private static final String DECEASED_LAST_NAME = "Stark";
     private static final String DECEASED_FIRST_NAME = "Ned";
+    private static final String DECEASED_POSTCODE = "HA6";
     private static final String MANCHESTER = "Manchester";
     private static final String APPLICANT_ALIAS = "King of the North";
     private static final String APPLICANT_ALIAS_REASON = "Title Given";
@@ -88,6 +90,7 @@ public class PaTestDataCreator {
     private static final String APPLICANT__LASTNAME = "Snow";
     private static final String APPLICANT_FIRSTNAME = "Jon";
     private static final String APPLICANT_PHONE_NUMBER = "3234324";
+    private static final String APPLICANT_POSTCODE = "HA5";
     private static final boolean APPLICANT_NAME_AS_ON_THE_WILL = true;
     private static final boolean FIRST_EXECUTOR_IS_APPLYING = true;
     private static final int EXECUTORS_NUMBER = 4;
@@ -132,6 +135,7 @@ public class PaTestDataCreator {
     private static final String FIRST_EXECUTOR_FULLNAME = "Jon Snow";
     private static final String SECOND_EXECUTOR_APPLYING = "Sansa Stark";
     private static final String SECOND_EXECUTOR_INVITE_ID = "123345547";
+    private static final String SECOND_EXECUTOR_POSTCODE = "HA8";
     private static final boolean SECOND_EXECUTOR_IS_APPLYING = true;
     private static final String FIRST_EXECUTOR_MOBILE = "123323454";
     private static final String SECOND_EXECUTOR_MOBILE = "8543958430985";
@@ -143,6 +147,7 @@ public class PaTestDataCreator {
     private static final String FIRST_EXECUTOR_CURRENTNAME_REASON = "Given by everyone";
     private static final String FIRST_EXECUTOR_ADDRESS = "Winterfell";
     private static final String FIRST_EXECUTOR_INVITE_ID = "123345546";
+    private static final String FIRST_EXECUTOR_POSTCODE = "HA7";
     private static final String SECOND_EXECUTOR_ADDRESS = "Winterfell";
     private static final boolean SECOND_EXECUTOR_HAS_OTHERNAME = false;
     private static final String FIRST_EXECUTOR_NOT_APPLYING = "Rob Stark";
@@ -188,9 +193,10 @@ public class PaTestDataCreator {
                 .caseType(GrantType.GRANT_OF_PROBATE.getName())
                 .applicantEmail(APPLICANT_EMAIL)
                 .applicationSubmittedDate(LocalDate.now())
+                .language(Language.builder().bilingual(Boolean.TRUE).build())
                 .iht(InheritanceTax.builder()
                         .ihtFormId(IHT_FORM_ID)
-                        .form(IhtFormType.IHT205)
+                        .form(IhtFormType.IHT205.getDescription())
                         .method(IHT_METHOD)
                         .netValue(NET_VALUE)
                         .grossValue(GROSS_VALUE)
@@ -241,6 +247,7 @@ public class PaTestDataCreator {
                         .firstName(DECEASED_FIRST_NAME)
                         .addresses(objectMapper.readValue(DECEASED_ADDRESSES, new TypeReference<List<Map<String, Object>>>() {
                         }))
+                        .postcode(DECEASED_POSTCODE)
                         .build())
                 .registry(Registry.builder()
                         .name(MANCHESTER)
@@ -255,6 +262,7 @@ public class PaTestDataCreator {
                         .lastName(APPLICANT__LASTNAME)
                         .firstName(APPLICANT_FIRSTNAME)
                         .phoneNumber(APPLICANT_PHONE_NUMBER)
+                        .postcode(APPLICANT_POSTCODE)
                         .nameAsOnTheWill(APPLICANT_NAME_AS_ON_THE_WILL)
                         .addresses(objectMapper.readValue(APPLICANT_ADDRESSES, new TypeReference<List<Map<String, Object>>>() {
                         }))
@@ -272,6 +280,7 @@ public class PaTestDataCreator {
                                         .currentNameReason(FIRST_EXECUTOR_CURRENTNAME_REASON)
                                         .otherReason(FIRST_EXECUTOR_OTHER_REASON)
                                         .inviteId(FIRST_EXECUTOR_INVITE_ID)
+                                        .postcode(FIRST_EXECUTOR_POSTCODE)
                                         .isApplicant(Boolean.TRUE)
                                         .build(),
                                 Executor.builder()
@@ -280,6 +289,7 @@ public class PaTestDataCreator {
                                         .mobile(SECOND_EXECUTOR_MOBILE)
                                         .email(SECOND_EXECUTOR_EMAIL)
                                         .inviteId(SECOND_EXECUTOR_INVITE_ID)
+                                        .postcode(SECOND_EXECUTOR_POSTCODE)
                                         .address(Address.builder().addressLine1(SECOND_EXECUTOR_ADDRESS).formattedAddress(SECOND_EXECUTOR_ADDRESS).build())
                                         .isApplying(true)
                                         .hasOtherName(SECOND_EXECUTOR_HAS_OTHERNAME)
@@ -374,7 +384,9 @@ public class PaTestDataCreator {
                         .postCode(APPLICANT_ADDRESS.getPostCode())
                         .build())
                 .primaryApplicantEmailAddress(APPLICANT_EMAIL)
+                .primaryApplicantPostCode(APPLICANT_POSTCODE)
                 .applicationSubmittedDate(LocalDate.now())
+                .languagePreferenceWelsh(Boolean.TRUE)
                 .registryLocation(RegistryLocation.findRegistryLocationByName(MANCHESTER))
                 .registryAddress(REGISTRY_ADDRESS)
                 .registryEmailAddress(REGISTRY_EMAIL_ADDRESS)
@@ -405,6 +417,7 @@ public class PaTestDataCreator {
                         .postTown(DECEASED_ADDRESS.getPostTown())
                         .postCode(DECEASED_ADDRESS.getPostCode())
                         .build())
+                .deceasedPostCode(DECEASED_POSTCODE)
                 .numberOfApplicants(Long.valueOf(EXECUTORS_NUMBER))
                 .numberOfExecutors(Long.valueOf(EXECUTORS_NUMBER))
                 .applicationType(ApplicationType.PERSONAL)
@@ -470,6 +483,7 @@ public class PaTestDataCreator {
                                 .value(ExecutorApplying.builder()
                                         .applyingExecutorName(FIRST_EXECUTOR_FULLNAME)
                                         .applyingExecutorPhoneNumber(FIRST_EXECUTOR_MOBILE)
+                                        .applyingExecutorPostCode(FIRST_EXECUTOR_POSTCODE)
                                         .applyingExecutorEmail(FIRST_EXECUTOR_EMAIL)
                                         .applyingExecutorAddress(uk.gov.hmcts.reform.probate.model.cases.Address.builder()
                                                 .addressLine1(FIRST_EXECUTOR_ADDRESS)
@@ -485,6 +499,7 @@ public class PaTestDataCreator {
                                 .value(ExecutorApplying.builder()
                                         .applyingExecutorName(SECOND_EXECUTOR_APPLYING)
                                         .applyingExecutorPhoneNumber(SECOND_EXECUTOR_MOBILE)
+                                        .applyingExecutorPostCode(SECOND_EXECUTOR_POSTCODE)
                                         .applyingExecutorEmail(SECOND_EXECUTOR_EMAIL)
                                         .applyingExecutorInvitationId(SECOND_EXECUTOR_INVITE_ID)
                                         .applyingExecutorHasOtherName(Boolean.FALSE)

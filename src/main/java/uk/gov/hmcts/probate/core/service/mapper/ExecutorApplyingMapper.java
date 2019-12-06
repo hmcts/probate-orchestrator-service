@@ -28,6 +28,7 @@ public interface ExecutorApplyingMapper {
     @Mapping( target ="value.applyingExecutorLeadName", source ="leadExecutorName")
     @Mapping( target ="value.applyingExecutorAgreed", source ="executorAgreed")
     @Mapping( target ="value.applyingExecutorApplicant", source ="isApplicant")
+    @Mapping( target ="value.applyingExecutorPostCode", source ="postcode")
     CollectionMember<ExecutorApplying> toExecutorApplying(Executor executor);
 
 

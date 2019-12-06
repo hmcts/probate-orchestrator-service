@@ -17,7 +17,8 @@ public class BigDecimalDeserializer extends JsonDeserializer<BigDecimal> {
         if (currentToken.equals(JsonToken.VALUE_STRING)) {
             String text = jsonParser.getText().trim();
             String replacedCommasText = text.replace(",", "");
-            return new BigDecimal(replacedCommasText);
+            String replacedPoundSignText = replacedCommasText.replace("£", "");
+            return new BigDecimal(replacedPoundSignText);
         }
         throw new IllegalArgumentException("Cannot deserialize for non string value");
     }
