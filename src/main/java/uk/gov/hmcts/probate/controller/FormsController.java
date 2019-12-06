@@ -32,15 +32,16 @@ import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 @RequiredArgsConstructor
 public class FormsController {
 
-    private static final String FORMS_ENDPOINT = "/forms/case/{identifier}";
+    private static final String FORMS_CASE_ENDPOINT = "/forms/case/{identifier}";
     private static final String FORMS_CASES_ENDPOINT = "/forms/cases";
     private static final String FORMS_NEW_CASE_ENDPOINT = "/forms/newcase";
     private static final String SUBMISSIONS_ENDPOINT = "/submissions";
+    private static final String FORMS_SUBMISSIONS_ENDPOINT = "/forms/{identifier}";
     private static final String VALIDATIONS_ENDPOINT = "/validations";
     private static final String PAYMENTS_ENDPOINT = "/payments";
+    private static final String MIGRATE_DATA_ENDPOINT = "/migrateData";
 
     private final SubmitService submitService;
-
 
 
     @ApiOperation(value = "Initiate form data", notes = "Initiate form data")
@@ -63,7 +64,7 @@ public class FormsController {
         @ApiResponse(code = 400, message = "Saving form failed"),
         @ApiResponse(code = 422, message = "Invalid or missing attribute")
     })
-    @PostMapping(path = FORMS_ENDPOINT, consumes = MediaType.APPLICATION_JSON_VALUE,
+    @PostMapping(path = FORMS_CASE_ENDPOINT, consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Form> saveForm(@RequestBody Form form,
@@ -77,7 +78,7 @@ public class FormsController {
         @ApiResponse(code = 200, message = "Retrieved form successfully"),
         @ApiResponse(code = 400, message = "Retrieving form failed")
     })
-    @GetMapping(path = FORMS_ENDPOINT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = FORMS_CASE_ENDPOINT, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Form> getForm(@PathVariable("identifier") String identifier,
                                         @RequestParam("probateType") ProbateType probateType) {
@@ -105,7 +106,7 @@ public class FormsController {
         @ApiResponse(code = 400, message = "Submitting form failed"),
         @ApiResponse(code = 422, message = "Invalid or missing attribute")
     })
-    @PostMapping(path = FORMS_ENDPOINT + SUBMISSIONS_ENDPOINT,
+    @PostMapping(path = FORMS_SUBMISSIONS_ENDPOINT + SUBMISSIONS_ENDPOINT,
         consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Form> submitForm(@RequestBody Form form,
@@ -114,12 +115,13 @@ public class FormsController {
         return new ResponseEntity<>(submitService.submit(identifier, form), HttpStatus.OK);
     }
 
-    @PutMapping(path = FORMS_ENDPOINT + SUBMISSIONS_ENDPOINT,
+    @PutMapping(path = FORMS_SUBMISSIONS_ENDPOINT + SUBMISSIONS_ENDPOINT,
         consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Form> submitPayments(@PathVariable("identifier") String identifier,
                                                @RequestBody PaymentDto paymentDto,
                                                @RequestParam("probateType") ProbateType probateType) {
+        log.info("Submit payments called");
         return new ResponseEntity<>(submitService.update(identifier, probateType, paymentDto), HttpStatus.OK);
     }
 
@@ -129,7 +131,7 @@ public class FormsController {
         @ApiResponse(code = 400, message = "Saving payment failed"),
         @ApiResponse(code = 422, message = "Invalid or missing attribute")
     })
-    @PostMapping(path = FORMS_ENDPOINT + PAYMENTS_ENDPOINT,
+    @PostMapping(path = FORMS_SUBMISSIONS_ENDPOINT + PAYMENTS_ENDPOINT,
         consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Form> updatePayments(@RequestBody Form form,
@@ -139,11 +141,12 @@ public class FormsController {
     }
 
     @ApiOperation(value = "Validate case data", notes = "validate case data via identifier and probate type")
-    @PutMapping(path = FORMS_ENDPOINT + VALIDATIONS_ENDPOINT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = FORMS_SUBMISSIONS_ENDPOINT + VALIDATIONS_ENDPOINT, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Form> validate(@PathVariable("identifier") String identifier,
                                          @RequestParam("probateType") ProbateType probateType) {
         log.info("Validate form called");
         return new ResponseEntity<>(submitService.validate(identifier, probateType), HttpStatus.OK);
     }
+
 }

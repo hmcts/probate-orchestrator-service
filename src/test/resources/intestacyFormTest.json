@@ -1,0 +1,121 @@
+{
+  "type": "intestacy",
+  "applicantEmail": "jon.snow@thenorth.com",
+  "applicant": {
+    "firstName": "Jon",
+    "lastName": "Snow",
+    "address": {
+      "addressLine1": "Pret a Manger",
+      "addressLine2": "St. Georges Hospital",
+      "addressLine3": "Blackshaw Road",
+      "formattedAddress": "Pret a Manger St. Georges Hospital Blackshaw Road London SW17 0QT",
+      "postTown": "London",
+      "postCode": "SW17 0QT"
+    },
+    "phoneNumber": "123455678",
+    "postcode": "SW17 0QT",
+    "addressFound": "true",
+    "relationshipToDeceased": "optionAdoptedChild",
+    "spouseNotApplyingReason": "optionRenouncing",
+    "adoptionPlace": "optionYes"
+  },
+  "deceased": {
+    "firstName": "Ned",
+    "lastName": "Stark",
+    "dob-day": 1,
+    "dob-month": 1,
+    "dob-year": 1930,
+    "dod-day": 1,
+    "dod-month": 1,
+    "dod-year": 2018,
+    "dob-date": "1930-01-01T00:00:00.000Z",
+    "dob-formattedDate": "1 January 1930",
+    "dod-date": "2018-01-01T00:00:00.000Z",
+    "dod-formattedDate": "1 January 2018",
+    "address": {
+      "addressLine1": "Winterfell",
+      "formattedAddress": "Winterfell Kings Landing Win1 Westeros",
+      "postTown": "Kings Landing",
+      "postCode": "Win1",
+      "country": "Westeros"
+    },
+    "addresses": [
+      {
+        "building_number": "102",
+        "organisation_name": "MINISTRY OF JUSTICE",
+        "post_town": "LONDON",
+        "postcode": "SW1H 9AJ",
+        "sub_building_name": "SEVENTH FLOOR",
+        "thoroughfare_name": "PETTY FRANCE",
+        "uprn": "10033604583",
+        "formatted_address": "Ministry of Justice\nSeventh Floor\n102 Petty France\nLondon\nSW1H 9AJ"
+      },
+      {
+        "building_number": "103",
+        "organisation_name": "MINISTRY OF JUSTICE",
+        "post_town": "LONDON",
+        "postcode": "SW1H 9AJ",
+        "sub_building_name": "SEVENTH FLOOR",
+        "thoroughfare_name": "PETTY FRANCE",
+        "uprn": "10033604583",
+        "formatted_address": "Ministry of Justice\nSeventh Floor\n103 Petty France\nLondon\nSW1H 9AJ"
+      }
+    ],
+    "addressFound": "true",
+    "alias": "optionYes",
+    "otherNames": {
+      "name_0": {
+        "lastName": "North",
+        "firstName": "King"
+      }
+    },
+    "postcode": "SW17 0QT",
+    "maritalStatus": "marriedCivilPartnership",
+    "divorcePlace": "optionNo",
+    "anyOtherChildren": "optionYes",
+    "allChildrenOver18": "optionYes",
+    "anyDeceasedChildren": "optionNo",
+    "anyGrandchildrenUnder18": "optionNo",
+    "anyChildren": "optionNo",
+    "domiciledInEnglandOrWales": "optionYes"
+  },
+  "iht": {
+    "form": "optionIHT205",
+    "method": "optionOnline",
+    "netValue": 100000,
+    "grossValue": 100000,
+    "netValueOnline": "100000",
+    "grossValueOnline": "100000",
+    "identifier": "GOT123456",
+    "netValueAssetsOutside": 100.50,
+    "assetsOutside": "optionYes"
+  },
+  "copies": {
+    "uk": 5,
+    "overseas": 6
+  },
+  "ccdCase": {
+    "id": 1535574519543818,
+    "state": "CaseCreated"
+  },
+  "registry": {
+    "name": "Birmingham",
+    "email": "birmingham@email.com",
+    "address": "Line 1 Bham\nLine 2 Bham\nLine 3 Bham\nPostCode Bham",
+    "sequenceNumber": 20075
+  },
+  "declaration": {
+    "declarationCheckbox": "true"
+  },
+  "payments": [
+    {
+      "date": "2018-12-03T15:58:44.954+0000",
+      "amount": 220.5,
+      "siteId": "P223",
+      "status": "Success",
+      "method": "online",
+      "reference": "RC-1543-8527-2465-2900",
+      "transactionId": "v5bf26kn5rq9rvdq7gsvn7v11d"
+    }
+  ]
+}

@@ -13,6 +13,7 @@ public class SubmitServiceConfiguration {
 
     static final String APPLICATION_ID = "applicationId";
     static final String APPLICATION_EMAIL = "applicantEmail";
+    static final String USER_ID = "userId";
     static final String INVITATION_ID = "invitationId";
     static final String CASE_ID = "caseId";
 
@@ -28,7 +29,7 @@ public class SubmitServiceConfiguration {
     }
 
     @Bean
-    public Logger.Level submitServiceApiLoggerLevel() {
+    Logger.Level feignLoggerLevel() {
         return Logger.Level.FULL;
     }
 }

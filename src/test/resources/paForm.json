@@ -3,8 +3,8 @@
   "deceased": {
     "firstName": "Ned",
     "lastName": "Stark",
-    "alias": "No",
-    "married": "No",
+    "alias": "optionNo",
+    "married": "optionNo",
     "address": {
       "addressLine1": "Winterfell",
       "postTown": "North Westeros",
@@ -32,7 +32,7 @@
       "postCode": "GOT567"
     },
     "phoneNumber": "3234324",
-    "nameAsOnTheWill": "Yes"
+    "nameAsOnTheWill": "optionYes"
   },
   "registry": {
     "name": "Manchester",
@@ -115,7 +115,7 @@
     "overseas": 0
   },
   "iht": {
-    "method": "Through the HMRC online service",
+    "method": "optionOnline",
     "identifier": "IHT1234567",
     "grossValue": 20000,
     "netValue": 20000,
@@ -123,7 +123,7 @@
     "netValueOnline": "20000"
   },
   "will": {
-    "codicils": "No"
+    "codicils": "optionNo"
   },
   "summary": {
     "readyToDeclare": true

@@ -46,7 +46,7 @@ public class InvitationController {
     }
 
     @PostMapping(path = INVITE_AGREED_URL + "/{formdataId}",
-            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
     public String inviteAgreed(@PathVariable("formdataId") String formdataId,
                                @Valid @RequestBody Invitation invitation) {
         return businessService.inviteAgreed(formdataId, invitation);

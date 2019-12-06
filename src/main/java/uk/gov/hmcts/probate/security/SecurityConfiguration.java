@@ -41,10 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/health",
                 "/health/liveness",
                 "/info",
-                "/invite/data/**",
-                "/invite/pin/**",
-                "/invite/allAgreed/**",
-                "/invite/agreed/**",
+                "/migrateData",
                 "/favicon.ico",
                 "/");
     }
@@ -57,6 +54,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/generate/**")
                 .antMatchers("/forms/**")
                 .antMatchers("/invite/**")
+                .antMatchers("/invites/**")
                 .and()
                 .addFilter(authCheckerServiceAndUserFilter)
                 .sessionManagement().sessionCreationPolicy(STATELESS).and()
