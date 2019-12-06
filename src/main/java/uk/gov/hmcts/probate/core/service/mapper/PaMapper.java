@@ -131,7 +131,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "iht.identifier", expression = "java(grantOfRepresentationData.getIhtReferenceNumber() == null || grantOfRepresentationData.getIhtReferenceNumber().equals(\"Not applicable\") ? "
         + "null : grantOfRepresentationData.getIhtReferenceNumber())")
     @Mapping(target = "iht.method", source = "ihtFormCompletedOnline", qualifiedBy = {ToIhtMethod.class})
-    @Mapping(target = "iht.form", expression = "java(grantOfRepresentationData.getIhtFormId()!=null ? grantOfRepresentationData.getIhtFormId().getDescription() : null)")
+    @Mapping(target = "iht.form", expression = "java(grantOfRepresentationData.getIhtFormId()!=null ? grantOfRepresentationData.getIhtFormId().name() : null)")
     @Mapping(target = "copies.overseas", source = "outsideUkGrantCopies")
     @Mapping(target = "assets.assetsoverseas", expression = "java(grantOfRepresentationData.getOutsideUkGrantCopies() == null ? null : grantOfRepresentationData.getOutsideUkGrantCopies() > 0L)")
     @Mapping(target = "applicant.address", source = "primaryApplicantAddress", qualifiedBy = {ToFormAddress.class})
