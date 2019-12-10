@@ -1,25 +1,29 @@
 {
-    "headers": [
-      "header0",
-      "header1",
-      "header2"
-    ],
-    "sections": [
-      {
-        "headingType": "large",
-        "title": "section title",
-        "declarationItems": [
-          {
-            "title": "declaration title",
-            "values": [
-              "value0",
-              "value1",
-              "value2"
-            ]
-          }
-        ]
-      }
-    ],
-    "dateCreated": "date and time",
-    "deceased": "deceased"
+  "declarations": [
+    {
+      "headers": [
+        "header0",
+        "header1",
+        "header2"
+      ],
+      "sections": [
+        {
+          "headingType": "large",
+          "title": "section title",
+          "declarationItems": [
+            {
+              "title": "declaration title",
+              "values": [
+                "value0",
+                "value1",
+                "value2"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "dateCreated": "date and time",
+  "deceased": "deceased"
 }
