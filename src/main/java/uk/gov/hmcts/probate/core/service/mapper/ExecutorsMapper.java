@@ -43,7 +43,7 @@ public class ExecutorsMapper {
             return null;//NOSONAR
         }
         return executors.stream()
-                .filter(executor ->  BooleanUtils.isTrue(executor.getIsApplying()))
+            .filter(executor -> BooleanUtils.isTrue(executor.getIsApplying()) && !BooleanUtils.isTrue(executor.getIsApplicant()))
                 .map(executorApplyingMapper::toExecutorApplying)
                 .sorted(Comparator.comparing(e -> e.getValue().getApplyingExecutorName()))
                 .collect(Collectors.toList());
@@ -57,17 +57,35 @@ public class ExecutorsMapper {
         }
         List<Executor> executors = new ArrayList<>();
 
+        List<Executor> applyingExecutors = new ArrayList<>();
         if (grantOfRepresentationData.getExecutorsApplying() != null) {
-            executors.addAll(grantOfRepresentationData.getExecutorsApplying().stream()
+            applyingExecutors.addAll(grantOfRepresentationData.getExecutorsApplying().stream()
                     .map(executorApplyingMapper::fromExecutorApplying)
-                    .sorted(Comparator.comparing(e -> e.getIsApplicant() == null || !e.getIsApplicant()))
                     .collect(Collectors.toList()));
         }
+        
+        addPrimaryApplicantExecutor(grantOfRepresentationData, applyingExecutors);
+        executors = applyingExecutors.stream().sorted(Comparator.comparing(e -> e.getIsApplicant() == null || !e.getIsApplicant()))
+            .collect(Collectors.toList());
+        
         if (grantOfRepresentationData.getExecutorsNotApplying() != null) {
             executors.addAll(grantOfRepresentationData.getExecutorsNotApplying().stream()
                     .map(executorNotApplyingMapper::fromExecutorNotApplying)
                     .collect(Collectors.toList()));
         }
+
         return executors;
+    }
+
+    private void addPrimaryApplicantExecutor(GrantOfRepresentationData grantOfRepresentationData, List<Executor> executors) {
+        Executor primaryApplicant = Executor.builder()
+            .isApplying(Boolean.TRUE)
+            .fullName(grantOfRepresentationData.getPrimaryApplicantForenames() + " " + grantOfRepresentationData.getPrimaryApplicantSurname())
+            .firstName(grantOfRepresentationData.getPrimaryApplicantForenames())
+            .lastName(grantOfRepresentationData.getPrimaryApplicantSurname())
+            .isApplicant(Boolean.TRUE)
+            .build();
+        
+        executors.add(primaryApplicant);
     }
 }
