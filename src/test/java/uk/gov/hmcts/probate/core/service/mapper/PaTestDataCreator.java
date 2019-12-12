@@ -25,12 +25,14 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.LegalStatem
 import uk.gov.hmcts.reform.probate.model.forms.Address;
 import uk.gov.hmcts.reform.probate.model.forms.Copies;
 import uk.gov.hmcts.reform.probate.model.forms.DeclarationDeclaration;
+import uk.gov.hmcts.reform.probate.model.forms.DeclarationHolder;
 import uk.gov.hmcts.reform.probate.model.forms.DocumentUpload;
 import uk.gov.hmcts.reform.probate.model.forms.Documents;
 import uk.gov.hmcts.reform.probate.model.forms.Fees;
 import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
 import uk.gov.hmcts.reform.probate.model.forms.Language;
+import uk.gov.hmcts.reform.probate.model.forms.LegalStatementHolder;
 import uk.gov.hmcts.reform.probate.model.forms.Payment;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
 import uk.gov.hmcts.reform.probate.model.forms.Will;
@@ -304,20 +306,36 @@ public class PaTestDataCreator {
                         .softStop(SOFT_STOP)
                         .declaration(
                                 DeclarationDeclaration.builder()
-                                        .accept(ACCEPT)
-                                        .confirm(CONFIRM)
-                                        .requests(REQUESTS)
-                                        .understand(UNDERSTAND)
-                                        .confirmItem1(CONFIRM_ITEM_1)
-                                        .confirmItem2(CONFIRM_ITEM_2)
-                                        .confirmItem3(CONFIRM_ITEM_3)
-                                        .requestsItem1(REQUESTS_ITEM_1)
-                                        .requestsItem2(REQUESTS_ITEM_2)
-                                        .understandItem1(UNDERSTAND_ITEM_1)
-                                        .understandItem2(UNDERSTAND_ITEM_2)
+                                        .en(DeclarationHolder.builder()
+                                            .accept(ACCEPT)
+                                            .confirm(CONFIRM)
+                                            .requests(REQUESTS)
+                                            .understand(UNDERSTAND)
+                                            .confirmItem1(CONFIRM_ITEM_1)
+                                            .confirmItem2(CONFIRM_ITEM_2)
+                                            .confirmItem3(CONFIRM_ITEM_3)
+                                            .requestsItem1(REQUESTS_ITEM_1)
+                                            .requestsItem2(REQUESTS_ITEM_2)
+                                            .understandItem1(UNDERSTAND_ITEM_1)
+                                            .understandItem2(UNDERSTAND_ITEM_2)
+                                        .build())
+                                        .cy(DeclarationHolder.builder()
+                                                .accept(ACCEPT)
+                                                .confirm(CONFIRM)
+                                                .requests(REQUESTS)
+                                                .understand(UNDERSTAND)
+                                                .confirmItem1(CONFIRM_ITEM_1)
+                                                .confirmItem2(CONFIRM_ITEM_2)
+                                                .confirmItem3(CONFIRM_ITEM_3)
+                                                .requestsItem1(REQUESTS_ITEM_1)
+                                                .requestsItem2(REQUESTS_ITEM_2)
+                                                .understandItem1(UNDERSTAND_ITEM_1)
+                                                .understandItem2(UNDERSTAND_ITEM_2)
+                                                .build())
                                         .build()
                         )
-                        .legalStatement(uk.gov.hmcts.reform.probate.model.forms.LegalStatement.builder()
+                        .legalStatement(uk.gov.hmcts.reform.probate.model.forms.LegalStatement.builder().en(
+                                LegalStatementHolder.builder()
                                 .intro(INTRO)
                                 .deceased(DECEASED)
                                 .applicant(APPLICANT)
@@ -330,7 +348,7 @@ public class PaTestDataCreator {
                                 .deceasedEstateLand(DECEASED_ESTATE_LAND)
                                 .deceasedOtherNames(DECEASED_OTHER_NAMES)
                                 .deceasedEstateValue(DECEASED_ESTATE_VALUE)
-                                .build())
+                                .build()).build())
                         .build())
                 .fees(Fees.builder()
                         .ukCopiesFee(UK_COPIES_FEE)
@@ -443,6 +461,19 @@ public class PaTestDataCreator {
                         .executorsNotApplying(null)
                         .build())
                 .declaration(Declaration.builder()
+                        .accept(ACCEPT)
+                        .confirm(CONFIRM)
+                        .confirmItem1(CONFIRM_ITEM_1)
+                        .confirmItem2(CONFIRM_ITEM_2)
+                        .confirmItem3(CONFIRM_ITEM_3)
+                        .requests(REQUESTS)
+                        .requestsItem1(REQUESTS_ITEM_1)
+                        .requestsItem2(REQUESTS_ITEM_2)
+                        .understand(UNDERSTAND)
+                        .understandItem1(UNDERSTAND_ITEM_1)
+                        .understandItem2(UNDERSTAND_ITEM_2)
+                        .build())
+                .welshDeclaration(Declaration.builder()
                         .accept(ACCEPT)
                         .confirm(CONFIRM)
                         .confirmItem1(CONFIRM_ITEM_1)
