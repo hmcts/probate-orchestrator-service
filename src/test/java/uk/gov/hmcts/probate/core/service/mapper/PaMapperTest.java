@@ -1,6 +1,7 @@
 package uk.gov.hmcts.probate.core.service.mapper;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,8 +16,10 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepr
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.forms.Copies;
 import uk.gov.hmcts.reform.probate.model.forms.Declaration;
+import uk.gov.hmcts.reform.probate.model.forms.DeclarationDeclaration;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
 import uk.gov.hmcts.reform.probate.model.forms.Language;
+import uk.gov.hmcts.reform.probate.model.forms.LegalStatement;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
 import uk.gov.hmcts.reform.probate.model.forms.Will;
 import uk.gov.hmcts.reform.probate.model.forms.pa.Executors;
@@ -29,8 +32,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -42,14 +44,18 @@ public class PaMapperTest {
     private PaForm paForm;
     private GrantOfRepresentationData grantOfRepresentation;
 
+    private ObjectMapper objectMapper = new ObjectMapper();
+
     @Before
     public void setUp() throws IOException {
         paForm = PaTestDataCreator.createPaForm();
         grantOfRepresentation = PaTestDataCreator.createGrantOfRepresentation();
+
+
     }
 
     @Test
-    public void shouldMapPaFormToGrantOfRepresentation() {
+    public void shouldMapPaFormToGrantOfRepresentation() throws IOException{
         GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(paForm);
         assertThat(actualGrantOfRepresentation).isEqualToComparingFieldByFieldRecursively(grantOfRepresentation);
     }
@@ -103,7 +109,10 @@ public class PaMapperTest {
         expectedPaForm.setDeceased(new PaDeceased());
         expectedPaForm.setWill(new Will());
         expectedPaForm.setExecutors(new Executors());
-        expectedPaForm.setDeclaration(new Declaration());
+        Declaration declaration = new Declaration();
+        declaration.setDeclaration(DeclarationDeclaration.builder().build());
+        declaration.setLegalStatement(LegalStatement.builder().build());
+        expectedPaForm.setDeclaration(declaration);
         PaForm actualPaForm = mapper.fromCaseData(new GrantOfRepresentationData());
         assertThat(actualPaForm).isEqualToComparingFieldByFieldRecursively(expectedPaForm);
     }
