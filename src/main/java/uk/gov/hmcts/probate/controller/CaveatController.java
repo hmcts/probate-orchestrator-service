@@ -34,9 +34,9 @@ public class CaveatController {
     }
 
     private ResponseEntity expireCaveats(String date) {
-        int numxpiredCaveats = caveatExpiryUpdater.expireCaveats("2020-06-12").size();
+        int numxpiredCaveats = caveatExpiryUpdater.expireCaveats(date).size();
 
-        return ResponseEntity.ok(numxpiredCaveats + " caveats expired");
+        return ResponseEntity.ok(numxpiredCaveats + " caveats expired for date: "+date);
     }
 
 

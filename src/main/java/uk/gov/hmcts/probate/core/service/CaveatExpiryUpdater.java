@@ -35,7 +35,7 @@ public class CaveatExpiryUpdater {
         try {
             LocalDate.parse(date, DATE_FORMAT);
         } catch (DateTimeParseException e) {
-            log.error("Error parsing date for caveat expiry, use the format of 'yyyy-MM-dd': ");
+            log.error("Error parsing date for caveat expiry, use the format of 'yyyy-MM-dd': "+date);
             throw new IllegalArgumentException("Error parsing date for caveat expiry, use the format of 'yyyy-MM-dd': " + e.getMessage());
         }
     }
