@@ -72,3 +72,6 @@
           connectTimeout: 10000
           readTimeout: 10000
           loggerLevel: basic
+
+  cron:
+    caveat_expiry: "0 0/2 * * * *"
