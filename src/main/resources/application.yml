@@ -74,4 +74,4 @@
           loggerLevel: basic
 
   cron:
-    caveat_expiry: "0 0/2 * * * *"
+    caveat_expiry: "0 0 2 * * *"
