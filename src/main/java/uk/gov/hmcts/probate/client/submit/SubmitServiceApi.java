@@ -70,6 +70,18 @@ public interface SubmitServiceApi {
             @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
             @RequestParam("caseType") String caseType
     );
+    
+    
+    @GetMapping(
+        value = "/cases/caveats/expire",
+        headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+    )
+    List<ProbateCaseDetails> expireCaveats(
+        @RequestHeader(AUTHORIZATION) String authorisation,
+        @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+        @RequestParam("expiryDate") String expiryDate
+    );
+
 
     @PostMapping(
         value = "/cases/{applicationId}",
