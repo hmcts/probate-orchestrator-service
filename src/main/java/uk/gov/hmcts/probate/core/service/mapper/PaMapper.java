@@ -26,6 +26,7 @@ import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPennies;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPounds;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToRegistryLocation;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToUploadDocs;
+import uk.gov.hmcts.reform.probate.model.AliasReason;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
@@ -41,7 +42,7 @@ import java.time.LocalDate;
     ExecutorApplyingMapper.class, ExecutorNotApplyingMapper.class, MapConverter.class, LocalDateTimeMapper.class,
     AddressMapper.class, FeesMapper.class, DocumentsMapper.class, StatementOfTruthMapper.class},
     imports = {ApplicationType.class, GrantType.class, ProbateType.class, IhtMethod.class,
-        LocalDate.class, ExecutorsMapper.class, BooleanUtils.class, AddressMapper.class, OverseasCopiesMapper.class},
+        LocalDate.class, ExecutorsMapper.class, BooleanUtils.class, AddressMapper.class, OverseasCopiesMapper.class, AliasReason.class},
     unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> {
 
@@ -65,7 +66,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "primaryApplicantSurname", source = "applicant.lastName")
     @Mapping(target = "primaryApplicantEmailAddress", source = "applicantEmail")
     @Mapping(target = "primaryApplicantAlias", source = "applicant.alias")
-    @Mapping(target = "primaryApplicantAliasReason", source = "applicant.aliasReason")
+    @Mapping(target = "primaryApplicantAliasReason", expression = "java(form.getApplicant()!= null && form.getApplicant().getAliasReason() != null ? AliasReason.fromString(form.getApplicant().getAliasReason()) : null)")
     @Mapping(target = "primaryApplicantAddress", source = "applicant.address", qualifiedBy = {ToCaseAddress.class})
     @Mapping(target = "primaryApplicantPostCode", source = "applicant.postcode")
     @Mapping(target = "primaryApplicantAddressFound", source = "applicant.addressFound")
@@ -136,6 +137,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "iht.form", expression = "java(grantOfRepresentationData.getIhtFormId()!=null ? grantOfRepresentationData.getIhtFormId().name() : null)")
     @Mapping(target = "copies.overseas", source = "outsideUkGrantCopies")
     @Mapping(target = "assets.assetsoverseas", expression = "java(grantOfRepresentationData.getOutsideUkGrantCopies() == null ? null : grantOfRepresentationData.getOutsideUkGrantCopies() > 0L)")
+    @Mapping(target = "applicant.aliasReason", expression = "java(grantOfRepresentationData.getPrimaryApplicantAliasReason()!=null ? grantOfRepresentationData.getPrimaryApplicantAliasReason().getDescription() : null)")
     @Mapping(target = "applicant.address", source = "primaryApplicantAddress", qualifiedBy = {ToFormAddress.class})
     @Mapping(target = "applicant.addresses", source = "primaryApplicantAddresses", qualifiedBy = {ToMap.class})
     @Mapping(target = "applicant.postcode", source = "primaryApplicantPostCode")
