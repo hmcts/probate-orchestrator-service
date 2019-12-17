@@ -3,6 +3,7 @@ package uk.gov.hmcts.probate.core.service.mapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
+import uk.gov.hmcts.reform.probate.model.AliasReason;
 import uk.gov.hmcts.reform.probate.model.IhtFormType;
 import uk.gov.hmcts.reform.probate.model.PaymentStatus;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
@@ -86,7 +87,6 @@ public class PaTestDataCreator {
     private static final String DECEASED_POSTCODE = "HA6";
     private static final String MANCHESTER = "Manchester";
     private static final String APPLICANT_ALIAS = "King of the North";
-    private static final String APPLICANT_ALIAS_REASON = "Title Given";
     private static final Address APPLICANT_ADDRESS = Address.builder().addressLine1("The Wall")
             .postTown("North Westeros").postCode("GOT567").formattedAddress("The Wall North Westeros GOT567").build();
     private static final String APPLICANT__LASTNAME = "Snow";
@@ -151,7 +151,7 @@ public class PaTestDataCreator {
     private static final String FIRST_EXECUTOR_INVITE_ID = "123345546";
     private static final String FIRST_EXECUTOR_POSTCODE = "HA7";
     private static final String SECOND_EXECUTOR_ADDRESS = "Winterfell";
-    private static final boolean SECOND_EXECUTOR_HAS_OTHERNAME = false;
+    private static final boolean SECOND_EXECUTOR_HAS_OTHERNAME = true;
     private static final String FIRST_EXECUTOR_NOT_APPLYING = "Rob Stark";
     private static final String SECOND_EXECUTOR_NOT_APPLYING = "Catlin Stark";
     private static final ExecutorNotApplyingReason FIRST_EXECUTOR_NOT_APPLYING_KEY = ExecutorNotApplyingReason.DIED_BEFORE;
@@ -173,6 +173,8 @@ public class PaTestDataCreator {
     public static final String REGISTRY_ADDRESS = "old trafford";
     public static final String REGISTRY_EMAIL_ADDRESS = "manchester@hmcts.com";
     public static final long REGISTRY_SEQUENCE_NUMBER = 1L;
+    public static final String WELSH = "WELSH";
+    private static final String SECOND_EXECUTOR_CURRENT_NAME = "secondExecCurrentName" ;
 
 
     private static String LEGAL_DECLARATION_JSON = "{\"legalDeclaration\":{\"headers\":[\"header0\",\"header1\",\"header2\"]," +
@@ -259,7 +261,7 @@ public class PaTestDataCreator {
                         .build())
                 .applicant(PaApplicant.builder()
                         .alias(APPLICANT_ALIAS)
-                        .aliasReason(APPLICANT_ALIAS_REASON)
+                        .aliasReason(AliasReason.MARRIAGE.getDescription())
                         .address(APPLICANT_ADDRESS)
                         .lastName(APPLICANT__LASTNAME)
                         .firstName(APPLICANT_FIRSTNAME)
@@ -287,6 +289,8 @@ public class PaTestDataCreator {
                                         .postcode(SECOND_EXECUTOR_POSTCODE)
                                         .address(Address.builder().addressLine1(SECOND_EXECUTOR_ADDRESS).formattedAddress(SECOND_EXECUTOR_ADDRESS).build())
                                         .hasOtherName(SECOND_EXECUTOR_HAS_OTHERNAME)
+                                        .currentName(SECOND_EXECUTOR_CURRENT_NAME)
+                                        .currentNameReason(AliasReason.MARRIAGE.getDescription())
                                         .build(),
                                 Executor.builder()
                                         .fullName(SECOND_EXECUTOR_NOT_APPLYING)
@@ -320,17 +324,17 @@ public class PaTestDataCreator {
                                             .understandItem2(UNDERSTAND_ITEM_2)
                                         .build())
                                         .cy(DeclarationHolder.builder()
-                                                .accept(ACCEPT)
-                                                .confirm(CONFIRM)
-                                                .requests(REQUESTS)
-                                                .understand(UNDERSTAND)
-                                                .confirmItem1(CONFIRM_ITEM_1)
-                                                .confirmItem2(CONFIRM_ITEM_2)
-                                                .confirmItem3(CONFIRM_ITEM_3)
-                                                .requestsItem1(REQUESTS_ITEM_1)
-                                                .requestsItem2(REQUESTS_ITEM_2)
-                                                .understandItem1(UNDERSTAND_ITEM_1)
-                                                .understandItem2(UNDERSTAND_ITEM_2)
+                                                .accept(ACCEPT + WELSH)
+                                                .confirm(CONFIRM + WELSH)
+                                                .requests(REQUESTS + WELSH)
+                                                .understand(UNDERSTAND + WELSH)
+                                                .confirmItem1(CONFIRM_ITEM_1 + WELSH)
+                                                .confirmItem2(CONFIRM_ITEM_2 + WELSH)
+                                                .confirmItem3(CONFIRM_ITEM_3 + WELSH)
+                                                .requestsItem1(REQUESTS_ITEM_1 + WELSH)
+                                                .requestsItem2(REQUESTS_ITEM_2 + WELSH)
+                                                .understandItem1(UNDERSTAND_ITEM_1 + WELSH)
+                                                .understandItem2(UNDERSTAND_ITEM_2 + WELSH)
                                                 .build())
                                         .build()
                         )
@@ -414,7 +418,7 @@ public class PaTestDataCreator {
                 .primaryApplicantSurname(APPLICANT__LASTNAME)
                 .primaryApplicantSameWillName(APPLICANT_NAME_AS_ON_THE_WILL)
                 .primaryApplicantAlias(APPLICANT_ALIAS)
-                .primaryApplicantAliasReason(APPLICANT_ALIAS_REASON)
+                .primaryApplicantAliasReason(AliasReason.MARRIAGE)
                 .primaryApplicantPhoneNumber(APPLICANT_PHONE_NUMBER)
                 .deceasedAnyOtherNames(false)
                 .deceasedDateOfBirth(DECEASED_DATE_OF_BIRTH.toLocalDate())
@@ -474,17 +478,17 @@ public class PaTestDataCreator {
                         .understandItem2(UNDERSTAND_ITEM_2)
                         .build())
                 .welshDeclaration(Declaration.builder()
-                        .accept(ACCEPT)
-                        .confirm(CONFIRM)
-                        .confirmItem1(CONFIRM_ITEM_1)
-                        .confirmItem2(CONFIRM_ITEM_2)
-                        .confirmItem3(CONFIRM_ITEM_3)
-                        .requests(REQUESTS)
-                        .requestsItem1(REQUESTS_ITEM_1)
-                        .requestsItem2(REQUESTS_ITEM_2)
-                        .understand(UNDERSTAND)
-                        .understandItem1(UNDERSTAND_ITEM_1)
-                        .understandItem2(UNDERSTAND_ITEM_2)
+                        .accept(ACCEPT + WELSH)
+                        .confirm(CONFIRM + WELSH)
+                        .requests(REQUESTS + WELSH)
+                        .understand(UNDERSTAND + WELSH)
+                        .confirmItem1(CONFIRM_ITEM_1 + WELSH)
+                        .confirmItem2(CONFIRM_ITEM_2 + WELSH)
+                        .confirmItem3(CONFIRM_ITEM_3 + WELSH)
+                        .requestsItem1(REQUESTS_ITEM_1 + WELSH)
+                        .requestsItem2(REQUESTS_ITEM_2 + WELSH)
+                        .understandItem1(UNDERSTAND_ITEM_1 + WELSH)
+                        .understandItem2(UNDERSTAND_ITEM_2 + WELSH)
                         .build())
                 .extraCopiesOfGrant(UK)
                 .outsideUkGrantCopies(OVERSEAS)
@@ -509,7 +513,9 @@ public class PaTestDataCreator {
                                         .applyingExecutorPostCode(SECOND_EXECUTOR_POSTCODE)
                                         .applyingExecutorEmail(SECOND_EXECUTOR_EMAIL)
                                         .applyingExecutorInvitationId(SECOND_EXECUTOR_INVITE_ID)
-                                        .applyingExecutorHasOtherName(Boolean.FALSE)
+                                        .applyingExecutorHasOtherName(Boolean.TRUE)
+                                        .applyingExecutorOtherNames(SECOND_EXECUTOR_CURRENT_NAME)
+                                        .applyingExecutorOtherNamesReason(AliasReason.MARRIAGE)
                                         .applyingExecutorAddress(uk.gov.hmcts.reform.probate.model.cases.Address.builder()
                                                 .addressLine1(SECOND_EXECUTOR_ADDRESS)
                                                 .build())
