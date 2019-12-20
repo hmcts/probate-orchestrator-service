@@ -21,6 +21,8 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "value.applyingExecutorEmail", source = "email")
     @Mapping(target = "value.applyingExecutorAddress", source = "address", qualifiedBy = {ToCaseAddress.class})
     @Mapping(target = "value.applyingExecutorHasOtherName", source = "hasOtherName")
+    @Mapping(target = "value.applyingExecutorEmailChanged", source = "emailChanged")
+    @Mapping(target = "value.applyingExecutorEmailSent", source = "emailSent")
     @Mapping(target = "value.applyingExecutorOtherNames", expression = "java(BooleanUtils.isTrue(executor.getHasOtherName()) ? executor.getCurrentName() : null)")
     @Mapping(target = "value.applyingExecutorOtherNamesReason", expression = "java(BooleanUtils.isTrue(executor.getHasOtherName()) ? executor.getCurrentNameReason() : null)")
     @Mapping(target = "value.applyingExecutorOtherReason", expression = "java(BooleanUtils.isTrue(executor.getHasOtherName()) ? executor.getOtherReason() : null)")
