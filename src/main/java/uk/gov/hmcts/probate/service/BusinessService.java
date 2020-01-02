@@ -5,7 +5,6 @@ import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
-import uk.gov.hmcts.reform.probate.model.multiapplicant.InvitationsResult;
 
 import java.util.List;
 
@@ -35,12 +34,12 @@ public interface BusinessService {
 
     List<Invitation> getAllInviteData(String formdataId);
 
-    String getPinNumber(String phoneNumber, String sessionId);
+    String getPinNumber(String phoneNumber, String sessionId, Boolean isBilingual);
 
     List<String> uploadDocument(String authorizationToken, String userID, List<MultipartFile> files);
 
     String delete(String userID, String documentId);
 
-    List<Invitation> sendInvitations(List<Invitation> invitations, String sessionId);
+    List<Invitation> sendInvitations(List<Invitation> invitations, String sessionId, Boolean isBilingual);
 }
 
