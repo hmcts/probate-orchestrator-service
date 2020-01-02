@@ -188,6 +188,29 @@ public class BusinessServiceImplTest {
     }
 
     @Test
+    public void shouldSendBilingualInvitationsAndUpdateProbateCaseDetails() {
+
+        Invitation newInvitation = getInvitation(formdataId);
+        newInvitation.setInviteId(null);
+        Invitation resendInvitation = Invitation.builder().inviteId("inviteId").lastName("RsLastName").firstName("RsFirstName")
+                .leadExecutorName("RsLeadExecName").email("rsEmailAddress").formdataId(formdataId).build();
+
+        when(businessServiceApi.inviteBilingual(newInvitation, sessionId)).thenReturn(invitationId);
+        when(businessServiceApi.inviteBilingual(resendInvitation.getInviteId(), resendInvitation, sessionId)).thenReturn(resendInvitation.getInviteId());
+
+        List<Invitation> results = businessService.sendInvitations(Lists.newArrayList(newInvitation,resendInvitation), sessionId, Boolean.TRUE);
+
+        verify(businessServiceApi).inviteBilingual(newInvitation, sessionId);
+        verify(businessServiceApi).inviteBilingual( resendInvitation.getInviteId(), resendInvitation, sessionId);
+        verifyGetCaseCalls();
+        verify(mockGrantOfRepresentationData).setInvitationDetailsForExecutorApplying(newInvitation.getEmail(), invitationId, newInvitation.getLeadExecutorName(), executorName);
+        verify(submitServiceApi).saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
+
+        Assert.assertThat(newInvitation.getInviteId(), Matchers.equalTo(invitationId));
+
+    }
+
+    @Test
     public void shouldResendInvitation() {
         Invitation invitation = getInvitation(formdataId);
         String result = businessService.resendInvitation(invitationId, invitation, sessionId);
@@ -247,8 +270,12 @@ public class BusinessServiceImplTest {
 
     @Test
     public void shouldGetPinNumber() {
+
         businessService.getPinNumber(phoneNumber, sessionId, Boolean.FALSE);
         verify(businessServiceApi).pinNumber(phoneNumber, sessionId);
+
+        businessService.getPinNumber(phoneNumber, sessionId, Boolean.TRUE);
+        verify(businessServiceApi).pinNumberBilingual(phoneNumber, sessionId);
     }
 
     @Test

@@ -242,7 +242,12 @@ public class BusinessServiceImpl implements BusinessService {
     @Override
     public String getPinNumber(String phoneNumber, String sessionId, Boolean isBilingual) {
         log.info("Get PIN number");
-        return businessServiceApi.pinNumber(phoneNumber, sessionId);
+        if(isBilingual){
+            return businessServiceApi.pinNumberBilingual(phoneNumber, sessionId);
+        }
+        else{
+           return  businessServiceApi.pinNumber(phoneNumber, sessionId);
+        }
     }
 
     @Override
