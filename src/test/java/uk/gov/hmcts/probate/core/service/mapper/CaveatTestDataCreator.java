@@ -12,6 +12,7 @@ import uk.gov.hmcts.reform.probate.model.cases.RegistryLocation;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
 import uk.gov.hmcts.reform.probate.model.forms.Address;
 import uk.gov.hmcts.reform.probate.model.forms.AliasOtherNames;
+import uk.gov.hmcts.reform.probate.model.forms.Language;
 import uk.gov.hmcts.reform.probate.model.forms.Payment;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
 import uk.gov.hmcts.reform.probate.model.forms.caveat.CaveatApplicant;
@@ -57,6 +58,7 @@ public class CaveatTestDataCreator {
     public static CaveatForm createCaveatForm() {
         return CaveatForm.builder()
             .type(ProbateType.CAVEAT)
+                .language(Language.builder().bilingual(Boolean.TRUE).build())
             .applicant(
                 CaveatApplicant.builder()
                     .address(Address.builder()
@@ -150,7 +152,7 @@ public class CaveatTestDataCreator {
         aliasNameCollectionMember.setId(NAME_0);
         aliasNameCollectionMember.setValue(aliasName);
         caveatData.setDeceasedFullAliasNameList(Lists.newArrayList(aliasNameCollectionMember));
-
+        caveatData.setLanguagePreferenceWelsh(Boolean.TRUE);
         caveatData.setRegistryLocation(RegistryLocation.BIRMINGHAM);
 
         final CollectionMember<CasePayment> paymentCollectionMember = new CollectionMember<>();

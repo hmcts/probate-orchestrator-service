@@ -175,7 +175,7 @@ public class BusinessServiceImplTest {
         when(businessServiceApi.invite(newInvitation, sessionId)).thenReturn(invitationId);
         when(businessServiceApi.invite(resendInvitation.getInviteId(), resendInvitation, sessionId)).thenReturn(resendInvitation.getInviteId());
 
-        List<Invitation> results = businessService.sendInvitations(Lists.newArrayList(newInvitation,resendInvitation), sessionId);
+        List<Invitation> results = businessService.sendInvitations(Lists.newArrayList(newInvitation,resendInvitation), sessionId, Boolean.FALSE);
 
         verify(businessServiceApi).invite(newInvitation, sessionId);
         verify(businessServiceApi).invite( resendInvitation.getInviteId(), resendInvitation, sessionId);
@@ -247,7 +247,7 @@ public class BusinessServiceImplTest {
 
     @Test
     public void shouldGetPinNumber() {
-        businessService.getPinNumber(phoneNumber, sessionId);
+        businessService.getPinNumber(phoneNumber, sessionId, Boolean.FALSE);
         verify(businessServiceApi).pinNumber(phoneNumber, sessionId);
     }
 
