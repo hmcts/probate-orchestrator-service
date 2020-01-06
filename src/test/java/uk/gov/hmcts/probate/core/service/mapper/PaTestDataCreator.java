@@ -55,7 +55,7 @@ public class PaTestDataCreator {
     private static final String APPLICANT_EMAIL = "jon.snow.got1234@gmail.com";
     private static final BigDecimal NET_VALUE = new BigDecimal("20000.00");
     private static final BigDecimal GROSS_VALUE = new BigDecimal("20000.00");
-    private static final String IDENTIFIER = "IHT1234567";
+    private static final String IDENTIFIER = "Not applicable";
     private static final Long OVERSEAS = 0L;
     private static final Long UK = 1L;
     private static final boolean CODICILS = true;
@@ -130,7 +130,7 @@ public class PaTestDataCreator {
     private static final long CODICILS_NUMBER = 2L;
     private static final boolean ASSETSOVERSEAS = false;
     private static final String IHT_FORM_ID = "IHT205";
-    private static final IhtMethod IHT_METHOD = IhtMethod.ONLINE;
+    private static final IhtMethod IHT_METHOD = IhtMethod.BY_POST;
     private static final String FIRST_EXECUTOR_FULLNAME = "Jon Snow";
     private static final String SECOND_EXECUTOR_APPLYING = "Sansa Stark";
     private static final String SECOND_EXECUTOR_INVITE_ID = "123345547";
@@ -200,7 +200,6 @@ public class PaTestDataCreator {
                         .grossValue(GROSS_VALUE)
                         .netIht205(NET_VALUE)
                         .grossIht205(GROSS_VALUE)
-                        .identifier(IDENTIFIER)
                         .build())
                 .will(Will.builder()
                         .codicils(CODICILS)
@@ -386,7 +385,7 @@ public class PaTestDataCreator {
                 .ihtNetValue(NET_VALUE.multiply(BigDecimal.valueOf(100)).longValue())
                 .ihtGrossValue(GROSS_VALUE.multiply(BigDecimal.valueOf(100)).longValue())
                 .ihtReferenceNumber(IDENTIFIER)
-                .ihtFormCompletedOnline(true)
+                .ihtFormCompletedOnline(false)
                 .ihtFormId(IhtFormType.IHT205)
                 .primaryApplicantForenames(APPLICANT_FIRSTNAME)
                 .primaryApplicantSurname(APPLICANT__LASTNAME)
