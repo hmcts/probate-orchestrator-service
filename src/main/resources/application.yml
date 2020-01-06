@@ -74,4 +74,5 @@
           loggerLevel: basic
 
   cron:
-    caveat_expiry: "0 0 2 * * *"
+    key:
+      caveatExpiry: ${CRON_KEY_CAVEAT_EXPIRY:DDDDDDDDDD}

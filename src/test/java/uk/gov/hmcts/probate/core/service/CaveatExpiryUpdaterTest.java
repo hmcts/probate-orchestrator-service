@@ -14,6 +14,9 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -36,9 +39,9 @@ public class CaveatExpiryUpdaterTest {
         List<ProbateCaseDetails> expiredCaveats = Arrays.asList(ProbateCaseDetails.builder().build(), ProbateCaseDetails.builder().build());
         when(submitService.expireCaveats(expiryDate)).thenReturn(expiredCaveats);
 
-        List<ProbateCaseDetails> actualExpiredCaveats = caveatExpiryUpdater.expireCaveats(expiryDate);
+        caveatExpiryUpdater.expireCaveats(expiryDate);
 
-        assertThat(actualExpiredCaveats.size(), equalTo(2));
+        verify(submitService, times(1)).expireCaveats(expiryDate);
     }
 
     @Test(expected = IllegalArgumentException.class)
