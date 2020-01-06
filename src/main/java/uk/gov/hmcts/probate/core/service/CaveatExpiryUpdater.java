@@ -22,13 +22,14 @@ public class CaveatExpiryUpdater {
 
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    public List<ProbateCaseDetails> expireCaveats(String expiryDate) {
+    public void expireCaveats(String expiryDate) {
         dateValidator(expiryDate);
         log.info("Caveat expire initiated for expiryDate: {}", expiryDate);
 
         securityUtils.setSecurityContextUserAsCaseworker();
 
-        return submitService.expireCaveats(expiryDate);
+        List<ProbateCaseDetails> expired = submitService.expireCaveats(expiryDate);
+        log.info("Number of caveats expired for date {}", expired.size());
     }
 
     private void dateValidator(String date) {
