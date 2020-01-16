@@ -44,6 +44,7 @@ import java.time.LocalDate;
     imports = {ApplicationType.class, GrantType.class, ProbateType.class, IhtMethod.class,
         LocalDate.class, ExecutorsMapper.class, BooleanUtils.class, AddressMapper.class, OverseasCopiesMapper.class, AliasReason.class},
     unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+
 public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> {
 
     @Mapping(target = "applicationType", expression = "java(ApplicationType.PERSONAL)")
@@ -92,8 +93,9 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "otherExecutorsApplying", source = "executors.otherExecutorsApplying")
     @Mapping(target = "executorsHaveAlias", source = "executors.alias")
     @Mapping(target = "ihtReferenceNumber", expression = "java(form.getIht() != null && form.getIht().getMethod() == IhtMethod.ONLINE ? "
-        + "form.getIht().getIdentifier() : \"Not applicable\")")
-    @Mapping(target = "ihtFormId", source = "iht.ihtFormId")
+        + "form.getIht().getIdentifier() : form.getIht() != null ? \"Not applicable\" : null)")
+    @Mapping(target = "ihtFormId", expression = "java(form.getIht() != null && form.getIht().getMethod() == IhtMethod.ONLINE ? " +
+            "IhtFormType.NOTAPPLICABLE : (form.getIht() !=null && form.getIht().getIhtFormId() !=null ? IhtFormType.fromString(form.getIht().getIhtFormId()) : null))")
     @Mapping(target = "ihtFormCompletedOnline", source = "iht.method", qualifiedBy = {FromIhtMethod.class})
     @Mapping(target = "ihtNetValue", source = "iht.netValue", qualifiedBy = {ToPennies.class})
     @Mapping(target = "ihtGrossValue", source = "iht.grossValue", qualifiedBy = {ToPennies.class})
@@ -132,7 +134,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "executors.list", source = ".", qualifiedBy = {FromCollectionMember.class})
     @Mapping(target = "executors.invitesSent", expression = "java(grantOfRepresentationData.haveInvitesBeenSent())")
     @Mapping(target = "iht.identifier", expression = "java(grantOfRepresentationData.getIhtReferenceNumber() == null || grantOfRepresentationData.getIhtReferenceNumber().equals(\"Not applicable\") ? "
-        + "null : grantOfRepresentationData.getIhtReferenceNumber())")
+            + "null : grantOfRepresentationData.getIhtReferenceNumber())")
     @Mapping(target = "iht.method", source = "ihtFormCompletedOnline", qualifiedBy = {ToIhtMethod.class})
     @Mapping(target = "iht.form", expression = "java(grantOfRepresentationData.getIhtFormId()!=null ? grantOfRepresentationData.getIhtFormId().name() : null)")
     @Mapping(target = "copies.overseas", source = "outsideUkGrantCopies")

@@ -24,6 +24,7 @@ import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPounds;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPoundsString;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToRegistryLocation;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToUploadDocs;
+import uk.gov.hmcts.reform.probate.model.IhtFormType;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.Relationship;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
@@ -39,7 +40,7 @@ import java.time.LocalDate;
 
 @Mapper(componentModel = "spring", uses = {PaPaymentMapper.class, PaymentsMapper.class, AliasNameMapper.class, RegistryLocationMapper.class, PoundsConverter.class,
         IhtMethodConverter.class, MapConverter.class, LegalStatementMapper.class, LocalDateTimeMapper.class, DocumentsMapper.class, StatementOfTruthMapper.class, AddressMapper.class},
-        imports = {ApplicationType.class, GrantType.class, LocalDate.class, ProbateType.class, IhtMethod.class, MaritalStatus.class, Relationship.class, SpouseNotApplyingReason.class, AddressMapper.class},
+        imports = {ApplicationType.class, GrantType.class, LocalDate.class, ProbateType.class, IhtMethod.class, MaritalStatus.class, Relationship.class, SpouseNotApplyingReason.class, AddressMapper.class, IhtFormType.class},
         unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, IntestacyForm> {
 
@@ -79,8 +80,10 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "outsideUkGrantCopies", source = "copies.overseas")
     @Mapping(target = "extraCopiesOfGrant", source = "copies.uk")
     @Mapping(target = "deceasedHasAssetsOutsideUK", source = "iht.assetsOutside")
-    @Mapping(target = "ihtReferenceNumber", source = "iht.identifier")
-    @Mapping(target = "ihtFormId", source = "iht.ihtFormId")
+    @Mapping(target = "ihtReferenceNumber", expression = "java(form.getIht() != null && form.getIht().getMethod() == IhtMethod.ONLINE ? "
+            + "form.getIht().getIdentifier() : form.getIht() != null ? \"Not applicable\" : null)")
+    @Mapping(target = "ihtFormId", expression = "java(form.getIht() != null && form.getIht().getMethod() == IhtMethod.ONLINE ? " +
+            "IhtFormType.NOTAPPLICABLE : (form.getIht() !=null && form.getIht().getIhtFormId() !=null ? IhtFormType.fromString(form.getIht().getIhtFormId()) : null))")
     @Mapping(target = "ihtFormCompletedOnline", source = "iht.method", qualifiedBy = {FromIhtMethod.class})
     @Mapping(target = "ihtNetValue", source = "iht.netValue", qualifiedBy = {ToPennies.class})
     @Mapping(target = "ihtGrossValue", source = "iht.grossValue", qualifiedBy = {ToPennies.class})

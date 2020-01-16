@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import uk.gov.hmcts.reform.probate.model.IhtFormType;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
@@ -58,6 +59,8 @@ public class PaMapperTest {
     public void shouldMapPaFormToGrantOfRepresentation() throws IOException{
         GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(paForm);
         assertThat(actualGrantOfRepresentation).isEqualToComparingFieldByFieldRecursively(grantOfRepresentation);
+
+        grantOfRepresentation.setIhtFormId( paForm.getIht() != null && paForm.getIht().getMethod() == IhtMethod.ONLINE ? IhtFormType.NOTAPPLICABLE : (paForm.getIht() !=null && paForm.getIht().getIhtFormId() !=null ? IhtFormType.fromString(paForm.getIht().getIhtFormId()) : null ));
     }
 
     @Test
@@ -86,7 +89,6 @@ public class PaMapperTest {
         expectedGrantOfRepresentation.setGrantType(GrantType.GRANT_OF_PROBATE);
         expectedGrantOfRepresentation.setApplicationSubmittedDate(LocalDate.now());
         expectedGrantOfRepresentation.setNumberOfApplicants(0L);
-        expectedGrantOfRepresentation.setIhtReferenceNumber("Not applicable");
         expectedGrantOfRepresentation.setBoDocumentsUploaded(Lists.newArrayList());
         GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(new PaForm());
         assertThat(actualGrantOfRepresentation).isEqualToComparingFieldByFieldRecursively(expectedGrantOfRepresentation);
