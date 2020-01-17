@@ -78,8 +78,14 @@ findbugs {
 
 sonarqube {
     properties {
-        property "sonar.exclusions", "**/AppInsights.java, **/LegacyPaMapper.java, **/LegacyIntestacyMapper.java, **/LegacyFormMapper.java," +
-                " **/PaMapper.java, **/IntestacyMapper.java , **/ScheduledConfiguration.java, **/AuthenticateUserResponse.java, **/TokenExchangeResponse.java," +
+        property "sonar.exclusions", "**/AppInsights.java," +
+                " **/LegacyIntestacyMapper.java, **/LegacyIntestacyMapperImpl.java, **/LegacyPaMapper.java, **/LegacyPaMapperImpl.java," +
+                " **/PaMapper.java, **/PaMapperImpl.java, **/IntestacyMapper.java, **/IntestacyMapperImpl.java," +
+                " **/CaveatMapper.java, **/CaveatMapperImpl.java, **/ExecutorApplyingMapper.java, **/ExecutorApplyingMapperImpl.java," +
+                " **/FeesMapper.java, **/FeesMapperImpl.java, **/LegalStatementMapper.java, **/LegalStatementMapperImpl.java," +
+                " **/PaymentDtoMapper.java, **/PaymentDtoMapperImpl.java, **/PaymentMapper.java, **/PaymentMapperImpl.java," +
+                " **/LegacyFormMapper.java," +
+                " **/ScheduledConfiguration.java, **/AuthenticateUserResponse.java, **/TokenExchangeResponse.java," +
                 " **/FormDataMigrator.java, **/IdamUserEmail.java, **/IdamUsersCsvLoader.java, **/LegacyExecutorsMapper.java"
         property "sonar.projectName", "PROBATE :: Probate-Orchestrator-Service"
         property "sonar.projectKey", "Probate-Orchestrator-Service"
