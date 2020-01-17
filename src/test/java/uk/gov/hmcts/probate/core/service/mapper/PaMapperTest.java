@@ -86,7 +86,6 @@ public class PaMapperTest {
         expectedGrantOfRepresentation.setGrantType(GrantType.GRANT_OF_PROBATE);
         expectedGrantOfRepresentation.setApplicationSubmittedDate(LocalDate.now());
         expectedGrantOfRepresentation.setNumberOfApplicants(0L);
-        expectedGrantOfRepresentation.setIhtReferenceNumber("Not applicable");
         expectedGrantOfRepresentation.setBoDocumentsUploaded(Lists.newArrayList());
         GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(new PaForm());
         assertThat(actualGrantOfRepresentation).isEqualToComparingFieldByFieldRecursively(expectedGrantOfRepresentation);
