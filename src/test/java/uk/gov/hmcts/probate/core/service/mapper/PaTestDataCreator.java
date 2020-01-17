@@ -174,8 +174,6 @@ public class PaTestDataCreator {
     public static final String REGISTRY_EMAIL_ADDRESS = "manchester@hmcts.com";
     public static final long REGISTRY_SEQUENCE_NUMBER = 1L;
     public static final String WELSH = "WELSH";
-    private static final String SECOND_EXECUTOR_CURRENT_NAME = "secondExecCurrentName" ;
-
 
     private static String LEGAL_DECLARATION_JSON = "{\"legalDeclaration\":{\"headers\":[\"header0\",\"header1\",\"header2\"]," +
             "\"sections\":[{\"headingType\":\"large\",\"title\":\"section title\",\"declarationItems\":[{\"title\":\"declaration title\"," +
