@@ -26,6 +26,7 @@ import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPennies;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPounds;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToRegistryLocation;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToUploadDocs;
+import uk.gov.hmcts.reform.probate.model.IhtFormType;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
@@ -37,12 +38,12 @@ import java.time.LocalDate;
 
 
 @Mapper(componentModel = "spring", uses = {PaPaymentMapper.class, PaymentsMapper.class, AliasNameMapper.class, RegistryLocationMapper.class,
-    PoundsConverter.class, IhtMethodConverter.class, LegalStatementMapper.class, ExecutorsMapper.class,
-    ExecutorApplyingMapper.class, ExecutorNotApplyingMapper.class, MapConverter.class, LocalDateTimeMapper.class,
-    AddressMapper.class, FeesMapper.class, DocumentsMapper.class, StatementOfTruthMapper.class},
-    imports = {ApplicationType.class, GrantType.class, ProbateType.class, IhtMethod.class,
-        LocalDate.class, ExecutorsMapper.class, BooleanUtils.class, AddressMapper.class, OverseasCopiesMapper.class},
-    unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+        PoundsConverter.class, IhtMethodConverter.class, LegalStatementMapper.class, ExecutorsMapper.class,
+        ExecutorApplyingMapper.class, ExecutorNotApplyingMapper.class, MapConverter.class, LocalDateTimeMapper.class,
+        AddressMapper.class, FeesMapper.class, DocumentsMapper.class, StatementOfTruthMapper.class},
+        imports = {ApplicationType.class, GrantType.class, ProbateType.class, IhtMethod.class, IhtFormType.class,
+                LocalDate.class, ExecutorsMapper.class, BooleanUtils.class, AddressMapper.class, OverseasCopiesMapper.class},
+        unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> {
 
     @Mapping(target = "applicationType", expression = "java(ApplicationType.PERSONAL)")
@@ -89,8 +90,9 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "otherExecutorsApplying", source = "executors.otherExecutorsApplying")
     @Mapping(target = "executorsHaveAlias", source = "executors.alias")
     @Mapping(target = "ihtReferenceNumber", expression = "java(form.getIht() != null && form.getIht().getMethod() == IhtMethod.ONLINE ? "
-        + "form.getIht().getIdentifier() : \"Not applicable\")")
-    @Mapping(target = "ihtFormId", source = "iht.ihtFormId")
+        + "form.getIht().getIdentifier() : form.getIht() != null ? \"Not applicable\" : null)")
+    @Mapping(target = "ihtFormId", expression = "java(form.getIht() != null && form.getIht().getMethod() == IhtMethod.ONLINE ? " +
+            "IhtFormType.NOTAPPLICABLE : (form.getIht() !=null && form.getIht().getIhtFormId() !=null ? IhtFormType.fromString(form.getIht().getIhtFormId()) : null))")
     @Mapping(target = "ihtFormCompletedOnline", source = "iht.method", qualifiedBy = {FromIhtMethod.class})
     @Mapping(target = "ihtNetValue", source = "iht.netValue", qualifiedBy = {ToPennies.class})
     @Mapping(target = "ihtGrossValue", source = "iht.grossValue", qualifiedBy = {ToPennies.class})
@@ -128,9 +130,10 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "executors.list", source = ".", qualifiedBy = {FromCollectionMember.class})
     @Mapping(target = "executors.invitesSent", expression = "java(grantOfRepresentationData.haveInvitesBeenSent())")
     @Mapping(target = "iht.identifier", expression = "java(grantOfRepresentationData.getIhtReferenceNumber() == null || grantOfRepresentationData.getIhtReferenceNumber().equals(\"Not applicable\") ? "
-        + "null : grantOfRepresentationData.getIhtReferenceNumber())")
+            + "null : grantOfRepresentationData.getIhtReferenceNumber())")
     @Mapping(target = "iht.method", source = "ihtFormCompletedOnline", qualifiedBy = {ToIhtMethod.class})
     @Mapping(target = "iht.form", source = "ihtFormId")
+    @Mapping(target = "iht.ihtFormId", source = "ihtFormId")
     @Mapping(target = "copies.overseas", source = "outsideUkGrantCopies")
     @Mapping(target = "assets.assetsoverseas", expression = "java(grantOfRepresentationData.getOutsideUkGrantCopies() == null ? null : grantOfRepresentationData.getOutsideUkGrantCopies() > 0L)")
     @Mapping(target = "applicant.address", source = "primaryApplicantAddress", qualifiedBy = {ToFormAddress.class})
