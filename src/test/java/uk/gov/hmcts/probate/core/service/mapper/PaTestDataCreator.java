@@ -151,7 +151,7 @@ public class PaTestDataCreator {
     private static final String FIRST_EXECUTOR_INVITE_ID = "123345546";
     private static final String FIRST_EXECUTOR_POSTCODE = "HA7";
     private static final String SECOND_EXECUTOR_ADDRESS = "Winterfell";
-    private static final boolean SECOND_EXECUTOR_HAS_OTHERNAME = true;
+    private static final boolean SECOND_EXECUTOR_HAS_OTHERNAME = false;
     private static final String FIRST_EXECUTOR_NOT_APPLYING = "Rob Stark";
     private static final String SECOND_EXECUTOR_NOT_APPLYING = "Catlin Stark";
     private static final ExecutorNotApplyingReason FIRST_EXECUTOR_NOT_APPLYING_KEY = ExecutorNotApplyingReason.DIED_BEFORE;
@@ -199,13 +199,11 @@ public class PaTestDataCreator {
                 .applicationSubmittedDate(LocalDate.now())
                 .language(Language.builder().bilingual(Boolean.TRUE).build())
                 .iht(InheritanceTax.builder()
-                        .ihtFormId(IhtFormType.optionIHT205.name())
-                        .form(IhtFormType.optionIHT205.name())
+                        .ihtFormId(IhtFormType.NOTAPPLICABLE.name())
+                        .form(IhtFormType.NOTAPPLICABLE.name())
                         .method(IHT_METHOD)
                         .netValue(NET_VALUE)
                         .grossValue(GROSS_VALUE)
-                        .netIht205(NET_VALUE)
-                        .grossIht205(GROSS_VALUE)
                         .identifier(IDENTIFIER)
                         .build())
                 .will(Will.builder()
@@ -289,8 +287,6 @@ public class PaTestDataCreator {
                                         .postcode(SECOND_EXECUTOR_POSTCODE)
                                         .address(Address.builder().addressLine1(SECOND_EXECUTOR_ADDRESS).formattedAddress(SECOND_EXECUTOR_ADDRESS).build())
                                         .hasOtherName(SECOND_EXECUTOR_HAS_OTHERNAME)
-                                        .currentName(SECOND_EXECUTOR_CURRENT_NAME)
-                                        .currentNameReason(AliasReason.MARRIAGE.getDescription())
                                         .build(),
                                 Executor.builder()
                                         .fullName(SECOND_EXECUTOR_NOT_APPLYING)
@@ -412,7 +408,7 @@ public class PaTestDataCreator {
                 .ihtGrossValue(GROSS_VALUE.multiply(BigDecimal.valueOf(100)).longValue())
                 .ihtReferenceNumber(IDENTIFIER)
                 .ihtFormCompletedOnline(true)
-                .ihtFormId(IhtFormType.optionIHT205)
+                .ihtFormId(IhtFormType.NOTAPPLICABLE)
                 .primaryApplicantForenames(APPLICANT_FIRSTNAME)
                 .primaryApplicantSurname(APPLICANT__LASTNAME)
                 .primaryApplicantSurname(APPLICANT__LASTNAME)
@@ -513,9 +509,7 @@ public class PaTestDataCreator {
                                         .applyingExecutorPostCode(SECOND_EXECUTOR_POSTCODE)
                                         .applyingExecutorEmail(SECOND_EXECUTOR_EMAIL)
                                         .applyingExecutorInvitationId(SECOND_EXECUTOR_INVITE_ID)
-                                        .applyingExecutorHasOtherName(Boolean.TRUE)
-                                        .applyingExecutorOtherNames(SECOND_EXECUTOR_CURRENT_NAME)
-                                        .applyingExecutorOtherNamesReason(AliasReason.MARRIAGE)
+                                        .applyingExecutorHasOtherName(Boolean.FALSE)
                                         .applyingExecutorAddress(uk.gov.hmcts.reform.probate.model.cases.Address.builder()
                                                 .addressLine1(SECOND_EXECUTOR_ADDRESS)
                                                 .build())
