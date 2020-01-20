@@ -332,7 +332,7 @@ dependencies {
     testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serentity
     testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serentity
     testFunctionalCompile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.0'
-    testFunctionalCompile group: 'io.rest-assured', name: 'rest-assured', version: '3.1.1'
+    testFunctionalCompile group: 'io.rest-assured', name: 'rest-assured', version: '4.2.0'
     testFunctionalCompile group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     testFunctionalCompile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
     testFunctionalCompile sourceSets.main.runtimeClasspath
