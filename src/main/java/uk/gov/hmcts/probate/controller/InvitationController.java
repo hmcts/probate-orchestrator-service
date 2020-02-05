@@ -78,11 +78,6 @@ public class InvitationController {
         return businessService.getInviteData(inviteId);
     }
 
-    @GetMapping(path = INVITES_BASEURL + "/{formdataId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public InvitationsResult getAllInviteData(@PathVariable String formdataId) {
-        return InvitationsResult.builder().invitations(businessService.getAllInviteData(formdataId)).build();
-    }
-
     @GetMapping(path = INVITE_PIN_URL)
     public String invitePin(@RequestParam("phoneNumber") String phoneNumber, @RequestHeader("Session-Id") String sessionId) {
         return businessService.getPinNumber(phoneNumber, sessionId);

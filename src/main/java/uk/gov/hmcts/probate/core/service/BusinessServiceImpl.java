@@ -205,32 +205,6 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
-    public List<Invitation> getAllInviteData(String formdataId) {
-
-        ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(formdataId);
-        GrantOfRepresentationData grantOfRepresentationData =
-                (GrantOfRepresentationData) probateCaseDetails.getCaseData();
-        log.info("Found case for invite data as case worker");
-
-        List<CollectionMember<ExecutorApplying>> executorsApplying = grantOfRepresentationData.getExecutorsApplying();
-        List<Invitation> executorInvitations = new ArrayList();
-
-        executorsApplying
-                .stream()
-                .filter(e -> e.getValue()
-                        .getApplyingExecutorApplicant() == null || !e.getValue()
-                        .getApplyingExecutorApplicant().booleanValue())
-                .forEach( ea -> {
-                            Invitation invitation = getInviteData(ea.getValue().getApplyingExecutorInvitationId());
-                            executorInvitations.add(invitation);
-                        }
-                );
-
-        return executorInvitations;
-    }
-
-
-    @Override
     public String getPinNumber(String phoneNumber, String sessionId) {
         log.info("Get PIN number");
         return businessServiceApi.pinNumber(phoneNumber, sessionId);

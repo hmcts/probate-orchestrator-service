@@ -33,8 +33,6 @@ public interface BusinessService {
 
     Invitation getInviteData(String inviteId);
 
-    List<Invitation> getAllInviteData(String formdataId);
-
     String getPinNumber(String phoneNumber, String sessionId);
 
     List<String> uploadDocument(String authorizationToken, String userID, List<MultipartFile> files);
