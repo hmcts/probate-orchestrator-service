@@ -4,6 +4,7 @@ tags:
 java:
   applicationPort: 8888
   environment:
+    #test
     REFORM_TEAM: probate
     REFORM_SERVICE_NAME: orchestrator-service
     PACT_BROKER_URL: pact-broker.platform.hmcts.net
