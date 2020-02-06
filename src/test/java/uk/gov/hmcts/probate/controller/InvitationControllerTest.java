@@ -164,13 +164,4 @@ public class InvitationControllerTest {
         verify(businessService, times(1)).getInviteData(eq("12345"));
     }
 
-    @Test
-    public void getAllInviteData_shouldReturn200() throws Exception {
-
-        when(businessService.getAllInviteData(eq("12345"))).thenReturn(invitationsResult);
-        mockMvc.perform(get(InvitationController.INVITES_BASEURL + "/12345"))
-                .andExpect(status().isOk());
-        verify(businessService, times(1)).getAllInviteData(eq("12345"));
-    }
-
 }

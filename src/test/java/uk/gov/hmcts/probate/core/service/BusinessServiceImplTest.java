@@ -272,45 +272,6 @@ public class BusinessServiceImplTest {
 
     }
 
-    @Test
-    public void shouldGetAllInviteData() {
-        CollectionMember<ExecutorApplying> mockExecutorApplying = CollectionMember
-                .<ExecutorApplying>builder()
-                .value(ExecutorApplying.builder()
-                        .applyingExecutorApplicant(Boolean.TRUE)
-                        .build())
-                .build();
-        CollectionMember<ExecutorApplying> mockExecutorApplying2 = CollectionMember
-                .<ExecutorApplying>builder()
-                .value(ExecutorApplying.builder()
-                        .applyingExecutorApplicant(Boolean.FALSE)
-                        .applyingExecutorInvitationId(invitationId)
-                        .applyingExecutorAgreed(Boolean.TRUE)
-                        .build())
-                .build();
-        List<CollectionMember<ExecutorApplying>> mockExecutorsApplying = Arrays
-                .asList(mockExecutorApplying, mockExecutorApplying2);
-
-        when(mockProbateCaseDetails.getCaseData()).thenReturn(mockGrantOfRepresentationData);
-
-
-        when(mockGrantOfRepresentationData.getExecutorsApplying())
-                .thenReturn(mockExecutorsApplying);
-        when(submitServiceApi.getCaseByInvitationId(AUTHORIZATION, SERVICE_AUTHORIZATION,
-                invitationId, CaseType.GRANT_OF_REPRESENTATION.name())).thenReturn(mockProbateCaseDetails);
-        when(mockProbateCaseDetails.getCaseData()).thenReturn(mockGrantOfRepresentationData);
-        ExecutorApplying mockExecutorApplying1 = Mockito.mock(ExecutorApplying.class);
-        when(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(invitationId))
-                .thenReturn(mockExecutorApplying1);
-        when(mockExecutorApplyingToInvitationMapper.map(mockExecutorApplying1)).thenReturn(new Invitation());
-
-        businessService.getAllInviteData(formdataId);
-
-        verify(mockProbateCaseDetails, times(2)).getCaseData();
-        verify(mockGrantOfRepresentationData).getExecutorApplyingByInviteId(invitationId);
-
-    }
-
     private void verifyGetCaseCalls() {
         verify(submitServiceApi).getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
                 formdataId, ProbateType.PA.getCaseType().name());
