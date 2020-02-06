@@ -7,13 +7,13 @@ java:
     SERVICES_CORECASEDATA_ENABLED: true
     MAIL_JAVAMAILPROPERTIES_SUBJECT: Probate Application
     S2S_AUTH_TOTP_SECRET: ${S2S_AUTH_TOTP_SECRET}
-    IDAM_API_REDIRECT_URL: ${IDAM_REDIRECT_URL}	
-    AUTH2_CLIENT_SECRET: ${IDAM_SECRET}	
-    PAYMENT_CASEWORKER_USERNAME: ${PAYMENT_CASEWORKER_USERNAME}	
+    IDAM_API_REDIRECT_URL: ${IDAM_REDIRECT_URL}
+    AUTH2_CLIENT_SECRET: ${IDAM_SECRET}
+    PAYMENT_CASEWORKER_USERNAME: ${PAYMENT_CASEWORKER_USERNAME}
     PAYMENT_CASEWORKER_PASSWORD:  ${PAYMENT_CASEWORKER_PASSWORD}
     # need to remove after test - welsh - Start
-    SUBMIT_SERVICE_API_URL : "http://probate-submit-service-pr-268.service.core-compute-preview.internal"
-    BUSINESS_SERVICE_API_URL : "http://probate-business-service-pr-207.service.core-compute-preview.internal"
+   # SUBMIT_SERVICE_API_URL : "http://probate-submit-service-pr-268.service.core-compute-preview.internal"
+   # BUSINESS_SERVICE_API_URL : "http://probate-business-service-pr-207.service.core-compute-preview.internal"
     # need to remove after test - welsh  - End
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
