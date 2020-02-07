@@ -320,6 +320,31 @@ public class SubmitServiceImplTest {
         verify(caseSubmissionUpdater, never()).updateCaseForSubmission(any(CaseData.class));
     }
 
+
+    @Test
+    public void shouldUpdateIntestacyPaymentsAndSendNotification() {
+        when(submitServiceApi.getCase(anyString(), anyString(),
+                anyString(), anyString())).thenReturn(intestacyCaseDetails);
+
+        intestacyCaseDetails.getCaseData().getPayments().get(0).getValue().setStatus(PaymentStatus.SUCCESS);
+
+        intestacyCaseDetails.getCaseInfo().setState(CaseState.PA_APP_CREATED);
+        shouldUpdatePayments(intestacyForm, intestacyCaseDetails);
+        verify(backOfficeService, times(1)).sendNotification(intestacyCaseDetails);
+    }
+
+    @Test
+    public void shouldUpdateIntestacyPaymentsAndNotSendNotification() {
+        when(submitServiceApi.getCase(anyString(), anyString(),
+                anyString(), anyString())).thenReturn(intestacyCaseDetails);
+
+        intestacyCaseDetails.getCaseData().getPayments().get(0).getValue().setStatus(PaymentStatus.FAILED);
+
+        intestacyCaseDetails.getCaseInfo().setState(CaseState.PA_APP_CREATED);
+        shouldUpdatePayments(intestacyForm, intestacyCaseDetails);
+        verify(backOfficeService, never()).sendNotification(caveatCaseDetails);
+    }
+
     private void shouldUpdatePayments(Form form, ProbateCaseDetails caseDetails) {
         when(submitServiceApi.createCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
                 eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class))).thenReturn(caseDetails);
@@ -341,9 +366,9 @@ public class SubmitServiceImplTest {
     }
 
     @Test
-    public void shouldUpdatePayments() {
+    public void shouldUpdatePaymentAndSendNotificationGop() {
         String caseId = "234324";
-        CasePayment casePayment = CasePayment.builder().build();
+        CasePayment casePayment = CasePayment.builder().status(PaymentStatus.SUCCESS).build();
         ProbateCaseDetails probateCaseDetails = ProbateCaseDetails.builder().caseInfo(CaseInfo.builder()
                 .state(CaseState.PA_APP_CREATED)
                 .build())
@@ -360,7 +385,7 @@ public class SubmitServiceImplTest {
     }
 
     @Test
-    public void shouldUpdatePaymentsAndSendNotification() {
+    public void shouldUpdatePaymentsCaveats() {
         String caseId = "234324";
         CasePayment casePayment = CasePayment.builder().build();
         ProbateCaseDetails probateCaseDetails = ProbateCaseDetails.builder().caseInfo(CaseInfo.builder()
@@ -375,6 +400,7 @@ public class SubmitServiceImplTest {
         assertThat(probateCaseDetails, equalTo(probateCaseDetailsResult));
         verify(submitServiceApi).updateByCaseId(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(caseId), eq(probateCaseDetails));
     }
+
 
 
     @Test
