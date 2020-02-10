@@ -54,12 +54,11 @@
       org.springframework.web: ${LOG_LEVEL:ERROR}
       uk.gov.hmcts.probate: ${LOG_LEVEL:DEBUG}
       uk.gov.hmcts.probate.client.backoffice.BackOfficeApi: ${LOG_LEVEL:DEBUG}
+      uk.gov.hmcts.probate.client.submit.SubmitServiceApi: ${LOG_LEVEL:DEBUG}
+      uk.gov.hmcts.probate.client.BusinessServiceApi: ${LOG_LEVEL:DEBUG}
+      uk.gov.hmcts.probate.client.idam.IdamClient: ${LOG_LEVEL:DEBUG}
   pattern:
     console: "%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n"
-
-  logging.level.uk.gov.hmcts.probate.client.BusinessServiceApi: ${LOG_LEVEL:DEBUG}
-  logging.level.uk.gov.hmcts.probate.client.idam.IdamClient: ${LOG_LEVEL:DEBUG}
-
 
   migration.job:
     schedule: ${MIGRATION_JOB_SCHEDULER:false}

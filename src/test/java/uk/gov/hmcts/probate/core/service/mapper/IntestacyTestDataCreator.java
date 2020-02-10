@@ -21,6 +21,7 @@ import uk.gov.hmcts.reform.probate.model.forms.Copies;
 import uk.gov.hmcts.reform.probate.model.forms.Declaration;
 import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
+import uk.gov.hmcts.reform.probate.model.forms.Language;
 import uk.gov.hmcts.reform.probate.model.forms.Payment;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyApplicant;
@@ -83,6 +84,7 @@ public class IntestacyTestDataCreator {
                 .applicantEmail(EMAIL)
                 .type(ProbateType.INTESTACY)
                 .caseType(GrantType.INTESTACY.getName())
+                .language(Language.builder().bilingual(Boolean.TRUE).build())
                 .applicant(
                         IntestacyApplicant.builder()
                                 .address(ADDRESS)
@@ -120,7 +122,7 @@ public class IntestacyTestDataCreator {
                         .build())
                 .declaration(Declaration.builder().build())
                 .iht(InheritanceTax.builder()
-                        .form(IhtFormType.IHT205)
+                        .form(IhtFormType.optionIHT205.toString())
                         .grossValue(GROSS_VALUE)
                         .identifier(IHT_IDENTIFIER)
                         .method(IhtMethod.BY_POST)
@@ -167,6 +169,7 @@ public class IntestacyTestDataCreator {
         grantOfRepresentation.setPrimaryApplicantPhoneNumber(PHONE_NUMBER);
         grantOfRepresentation.setPrimaryApplicantRelationshipToDeceased(Relationship.ADOPTED_CHILD);
         grantOfRepresentation.setPrimaryApplicantAdoptionInEnglandOrWales(Boolean.TRUE);
+        grantOfRepresentation.setLanguagePreferenceWelsh(Boolean.TRUE);
 
         grantOfRepresentation.setDeceasedSpouseNotApplyingReason(SpouseNotApplyingReason.MENTALLY_INCAPABLE);
         grantOfRepresentation.setDeceasedSurname(DECEASED_LAST_NAME);
@@ -200,7 +203,7 @@ public class IntestacyTestDataCreator {
 
         grantOfRepresentation.setDeceasedHasAssetsOutsideUK(Boolean.TRUE);
         grantOfRepresentation.setAssetsOutsideNetValue(ASSETS_OVERSEAS_NET_VALUE_LONG);
-        grantOfRepresentation.setIhtFormId(IhtFormType.IHT205);
+        grantOfRepresentation.setIhtFormId(IhtFormType.optionIHT205);
         grantOfRepresentation.setIhtFormCompletedOnline(Boolean.FALSE);
         grantOfRepresentation.setIhtGrossValue(GROSS_VALUE_LONG);
         grantOfRepresentation.setIhtNetValue(NET_VALUE_LONG);
