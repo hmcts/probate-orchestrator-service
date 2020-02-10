@@ -11,6 +11,10 @@ java:
     AUTH2_CLIENT_SECRET: ${IDAM_SECRET}	
     PAYMENT_CASEWORKER_USERNAME: ${PAYMENT_CASEWORKER_USERNAME}	
     PAYMENT_CASEWORKER_PASSWORD:  ${PAYMENT_CASEWORKER_PASSWORD}
+    # need to remove after test - welsh - Start
+    SUBMIT_SERVICE_API_URL : "http://probate-submit-service-pr-268.service.core-compute-preview.internal"
+    BUSINESS_SERVICE_API_URL : "http://probate-business-service-pr-207.service.core-compute-preview.internal"
+    # need to remove after test - welsh  - End
     CRON_KEY_CAVEAT_EXPIRY: ${CRON_KEY_CAVEAT_EXPIRY}
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}

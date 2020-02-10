@@ -84,12 +84,13 @@ public class BusinessServiceImpl implements BusinessService {
                 invitation.getLeadExecutorName(), invitation.getExecutorName());
         log.info("Updating case with invitation details");
         updateCaseData(probateCaseDetails, invitation.getFormdataId());
-        log.info("Invitation data saved with id: {} " ,invitationId);
+        log.info("Invitation data saved with id: {} ", invitationId);
         return invitationId;
     }
 
+
     @Override
-    public List<Invitation> sendInvitations(List<Invitation> invitations, String sessionId) {
+    public List<Invitation> sendInvitations(List<Invitation> invitations, String sessionId, Boolean isBilingual) {
         log.info("Send Invitations data ...calling businessServiceApi");
         Optional<Invitation> optionalInvitation = invitations.stream().findFirst();
         if (optionalInvitation.isPresent()) {
@@ -98,16 +99,23 @@ public class BusinessServiceImpl implements BusinessService {
             GrantOfRepresentationData grantOfRepresentationData =
                     (GrantOfRepresentationData) probateCaseDetails.getCaseData();
             invitations.stream().forEach(invitation -> {
-                if(invitation.getInviteId()==null) {
+                if (invitation.getInviteId() == null) {
                     log.info("Invitation not sent previously creating invite by calling businessServiceApi");
-                    invitation.setInviteId(businessServiceApi.invite(invitation, sessionId));
+                    if (isBilingual) {
+                        invitation.setInviteId(businessServiceApi.inviteBilingual(invitation, sessionId));
+                    } else {
+                        invitation.setInviteId(businessServiceApi.invite(invitation, sessionId));
+                    }
                     grantOfRepresentationData.setInvitationDetailsForExecutorApplying(invitation.getEmail(),
                             invitation.getInviteId(),
                             invitation.getLeadExecutorName(), invitation.getExecutorName());
-                    log.info("Invitation data saved with id: {} " , invitation.getInviteId());
-                }
-                else{
-                    businessServiceApi.invite(invitation.getInviteId(), invitation, sessionId);
+                    log.info("Invitation data saved with id: {} ", invitation.getInviteId());
+                } else {
+                    if (isBilingual) {
+                        businessServiceApi.inviteBilingual(invitation.getInviteId(), invitation, sessionId);
+                    } else {
+                        businessServiceApi.invite(invitation.getInviteId(), invitation, sessionId);
+                    }
                 }
 
             });
@@ -200,6 +208,7 @@ public class BusinessServiceImpl implements BusinessService {
         Invitation invitation = executorApplyingToInvitationMapper.map(executorApplyingByInviteId);
         log.info("Got invite data for executor applying", executorApplyingByInviteId.getApplyingExecutorName());
         invitation.setFormdataId(probateCaseDetails.getCaseInfo().getCaseId());
+        invitation.setBilingual(grantOfRepresentationData.getLanguagePreferenceWelsh());
         return invitation;
 
     }
@@ -220,7 +229,7 @@ public class BusinessServiceImpl implements BusinessService {
                 .filter(e -> e.getValue()
                         .getApplyingExecutorApplicant() == null || !e.getValue()
                         .getApplyingExecutorApplicant().booleanValue())
-                .forEach( ea -> {
+                .forEach(ea -> {
                             Invitation invitation = getInviteData(ea.getValue().getApplyingExecutorInvitationId());
                             executorInvitations.add(invitation);
                         }
@@ -231,9 +240,14 @@ public class BusinessServiceImpl implements BusinessService {
 
 
     @Override
-    public String getPinNumber(String phoneNumber, String sessionId) {
+    public String getPinNumber(String phoneNumber, String sessionId, Boolean isBilingual) {
         log.info("Get PIN number");
-        return businessServiceApi.pinNumber(phoneNumber, sessionId);
+        if(isBilingual){
+            return businessServiceApi.pinNumberBilingual(phoneNumber, sessionId);
+        }
+        else{
+           return  businessServiceApi.pinNumber(phoneNumber, sessionId);
+        }
     }
 
     @Override

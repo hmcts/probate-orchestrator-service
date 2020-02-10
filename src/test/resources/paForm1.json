@@ -99,6 +99,20 @@
         "understandItem2": "criminal proceedings for fraud may be brought against me if I am found to have been deliberately untruthful or dishonest",
         "accept": "I confirm that I will administer the estate of the person who died according to law, and that my application is truthful.",
         "submitWarning": "Once you click &lsquo;Save and continue&rsquo;, you cannot change your answers."
+      },
+      "cy": {
+        "confirm": "I confirm that I will administer the estate of Ned Stark, according to law. I will:",
+        "confirmItem1": "collect the whole estate",
+        "confirmItem2": "keep full details (an inventory) of the estate",
+        "confirmItem3": "keep a full account of how the estate has been administered",
+        "requests": "If the probate registry (court) asks me to do so, I will:",
+        "requestsItem1": "provide the full details of the estate and how it has been administered",
+        "requestsItem2": "return the grant of probate to the court",
+        "understand": "I understand that:",
+        "understandItem1": "my application will be rejected if I do not answer any questions about the information I have given",
+        "understandItem2": "criminal proceedings for fraud may be brought against me if I am found to have been deliberately untruthful or dishonest",
+        "accept": "I confirm that I will administer the estate of the person who died according to law, and that my application is truthful.",
+        "submitWarning": "Once you click &lsquo;Save and continue&rsquo;, you cannot change your answers."
       }
     },
     "declarationCheckbox": "true"

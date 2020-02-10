@@ -19,17 +19,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import uk.gov.hmcts.probate.core.service.migration.FormDataMigrator;
 import uk.gov.hmcts.probate.service.SubmitService;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.forms.CaseSummaryHolder;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import static org.springframework.http.HttpStatus.ACCEPTED;
 
 @Api(tags = {"FormsController"})
 @SwaggerDefinition(tags = {@Tag(name = "FormsController", description = "Forms API")})
@@ -48,7 +42,6 @@ public class FormsController {
     private static final String MIGRATE_DATA_ENDPOINT = "/migrateData";
 
     private final SubmitService submitService;
-    private final FormDataMigrator formDataMigrator;
 
 
     @ApiOperation(value = "Initiate form data", notes = "Initiate form data")
@@ -156,18 +149,4 @@ public class FormsController {
         return new ResponseEntity<>(submitService.validate(identifier, probateType), HttpStatus.OK);
     }
 
-
-    @ApiOperation(value = "Migrate Data", notes = "Migrate Data")
-    @PostMapping(path = MIGRATE_DATA_ENDPOINT, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public ResponseEntity migrateData() {
-
-        ExecutorService executor = Executors.newFixedThreadPool(1);
-        executor.submit(() -> {
-            formDataMigrator.migrateFormData();
-        });
-        log.info("Migrate data called");
-
-        return new ResponseEntity("Migrate data called", ACCEPTED);
-    }
 }

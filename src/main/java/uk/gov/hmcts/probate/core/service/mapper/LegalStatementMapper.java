@@ -15,11 +15,11 @@ public interface LegalStatementMapper {
 
     @Mapping(target = "executorsApplying", source = "executorsApplying", qualifiedBy = {ToCollectionMember.class})
     @Mapping(target = "executorsNotApplying", source = "executorsNotApplying", qualifiedBy = {ToCollectionMember.class})
-    LegalStatement toCaseLegalStatement(uk.gov.hmcts.reform.probate.model.forms.LegalStatement legalStatement);
+    LegalStatement toCaseLegalStatement(uk.gov.hmcts.reform.probate.model.forms.LegalStatementHolder legalStatement);
 
     @Mapping(target = "executorsApplying", source = "executorsApplying", qualifiedBy = {FromCollectionMember.class})
     @Mapping(target = "executorsNotApplying", source = "executorsNotApplying", qualifiedBy = {FromCollectionMember.class})
     @InheritInverseConfiguration
-    uk.gov.hmcts.reform.probate.model.forms.LegalStatement fromCaseLegalStatement(LegalStatement legalStatement);
+    uk.gov.hmcts.reform.probate.model.forms.LegalStatementHolder fromCaseLegalStatement(LegalStatement legalStatement);
 
 }
