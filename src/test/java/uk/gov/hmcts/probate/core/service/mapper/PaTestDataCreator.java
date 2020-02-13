@@ -3,6 +3,7 @@ package uk.gov.hmcts.probate.core.service.mapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
+import uk.gov.hmcts.reform.probate.model.AliasReason;
 import uk.gov.hmcts.reform.probate.model.IhtFormType;
 import uk.gov.hmcts.reform.probate.model.PaymentStatus;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
@@ -25,11 +26,14 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.LegalStatem
 import uk.gov.hmcts.reform.probate.model.forms.Address;
 import uk.gov.hmcts.reform.probate.model.forms.Copies;
 import uk.gov.hmcts.reform.probate.model.forms.DeclarationDeclaration;
+import uk.gov.hmcts.reform.probate.model.forms.DeclarationHolder;
 import uk.gov.hmcts.reform.probate.model.forms.DocumentUpload;
 import uk.gov.hmcts.reform.probate.model.forms.Documents;
 import uk.gov.hmcts.reform.probate.model.forms.Fees;
 import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
+import uk.gov.hmcts.reform.probate.model.forms.Language;
+import uk.gov.hmcts.reform.probate.model.forms.LegalStatementHolder;
 import uk.gov.hmcts.reform.probate.model.forms.Payment;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
 import uk.gov.hmcts.reform.probate.model.forms.Will;
@@ -55,7 +59,7 @@ public class PaTestDataCreator {
     private static final String APPLICANT_EMAIL = "jon.snow.got1234@gmail.com";
     private static final BigDecimal NET_VALUE = new BigDecimal("20000.00");
     private static final BigDecimal GROSS_VALUE = new BigDecimal("20000.00");
-    private static final String IDENTIFIER = "Not applicable";
+    private static final String IDENTIFIER = "IHT1234567";
     private static final Long OVERSEAS = 0L;
     private static final Long UK = 1L;
     private static final boolean CODICILS = true;
@@ -83,7 +87,6 @@ public class PaTestDataCreator {
     private static final String DECEASED_POSTCODE = "HA6";
     private static final String MANCHESTER = "Manchester";
     private static final String APPLICANT_ALIAS = "King of the North";
-    private static final String APPLICANT_ALIAS_REASON = "Title Given";
     private static final Address APPLICANT_ADDRESS = Address.builder().addressLine1("The Wall")
             .postTown("North Westeros").postCode("GOT567").formattedAddress("The Wall North Westeros GOT567").build();
     private static final String APPLICANT__LASTNAME = "Snow";
@@ -130,7 +133,7 @@ public class PaTestDataCreator {
     private static final long CODICILS_NUMBER = 2L;
     private static final boolean ASSETSOVERSEAS = false;
     private static final String IHT_FORM_ID = "IHT205";
-    private static final IhtMethod IHT_METHOD = IhtMethod.BY_POST;
+    private static final IhtMethod IHT_METHOD = IhtMethod.ONLINE;
     private static final String FIRST_EXECUTOR_FULLNAME = "Jon Snow";
     private static final String SECOND_EXECUTOR_APPLYING = "Sansa Stark";
     private static final String SECOND_EXECUTOR_INVITE_ID = "123345547";
@@ -170,7 +173,7 @@ public class PaTestDataCreator {
     public static final String REGISTRY_ADDRESS = "old trafford";
     public static final String REGISTRY_EMAIL_ADDRESS = "manchester@hmcts.com";
     public static final long REGISTRY_SEQUENCE_NUMBER = 1L;
-
+    public static final String WELSH = "WELSH";
 
     private static String LEGAL_DECLARATION_JSON = "{\"legalDeclaration\":{\"headers\":[\"header0\",\"header1\",\"header2\"]," +
             "\"sections\":[{\"headingType\":\"large\",\"title\":\"section title\",\"declarationItems\":[{\"title\":\"declaration title\"," +
@@ -192,14 +195,14 @@ public class PaTestDataCreator {
                 .caseType(GrantType.GRANT_OF_PROBATE.getName())
                 .applicantEmail(APPLICANT_EMAIL)
                 .applicationSubmittedDate(LocalDate.now())
+                .language(Language.builder().bilingual(Boolean.TRUE).build())
                 .iht(InheritanceTax.builder()
-                        .ihtFormId(IHT_FORM_ID)
-                        .form(IhtFormType.IHT205)
+                        .ihtFormId(IhtFormType.NOTAPPLICABLE.name())
+                        .form(IhtFormType.NOTAPPLICABLE.name())
                         .method(IHT_METHOD)
                         .netValue(NET_VALUE)
                         .grossValue(GROSS_VALUE)
-                        .netIht205(NET_VALUE)
-                        .grossIht205(GROSS_VALUE)
+                        .identifier(IDENTIFIER)
                         .build())
                 .will(Will.builder()
                         .codicils(CODICILS)
@@ -254,7 +257,7 @@ public class PaTestDataCreator {
                         .build())
                 .applicant(PaApplicant.builder()
                         .alias(APPLICANT_ALIAS)
-                        .aliasReason(APPLICANT_ALIAS_REASON)
+                        .aliasReason(AliasReason.MARRIAGE.getDescription())
                         .address(APPLICANT_ADDRESS)
                         .lastName(APPLICANT__LASTNAME)
                         .firstName(APPLICANT_FIRSTNAME)
@@ -301,20 +304,36 @@ public class PaTestDataCreator {
                         .softStop(SOFT_STOP)
                         .declaration(
                                 DeclarationDeclaration.builder()
-                                        .accept(ACCEPT)
-                                        .confirm(CONFIRM)
-                                        .requests(REQUESTS)
-                                        .understand(UNDERSTAND)
-                                        .confirmItem1(CONFIRM_ITEM_1)
-                                        .confirmItem2(CONFIRM_ITEM_2)
-                                        .confirmItem3(CONFIRM_ITEM_3)
-                                        .requestsItem1(REQUESTS_ITEM_1)
-                                        .requestsItem2(REQUESTS_ITEM_2)
-                                        .understandItem1(UNDERSTAND_ITEM_1)
-                                        .understandItem2(UNDERSTAND_ITEM_2)
+                                        .en(DeclarationHolder.builder()
+                                            .accept(ACCEPT)
+                                            .confirm(CONFIRM)
+                                            .requests(REQUESTS)
+                                            .understand(UNDERSTAND)
+                                            .confirmItem1(CONFIRM_ITEM_1)
+                                            .confirmItem2(CONFIRM_ITEM_2)
+                                            .confirmItem3(CONFIRM_ITEM_3)
+                                            .requestsItem1(REQUESTS_ITEM_1)
+                                            .requestsItem2(REQUESTS_ITEM_2)
+                                            .understandItem1(UNDERSTAND_ITEM_1)
+                                            .understandItem2(UNDERSTAND_ITEM_2)
+                                        .build())
+                                        .cy(DeclarationHolder.builder()
+                                                .accept(ACCEPT + WELSH)
+                                                .confirm(CONFIRM + WELSH)
+                                                .requests(REQUESTS + WELSH)
+                                                .understand(UNDERSTAND + WELSH)
+                                                .confirmItem1(CONFIRM_ITEM_1 + WELSH)
+                                                .confirmItem2(CONFIRM_ITEM_2 + WELSH)
+                                                .confirmItem3(CONFIRM_ITEM_3 + WELSH)
+                                                .requestsItem1(REQUESTS_ITEM_1 + WELSH)
+                                                .requestsItem2(REQUESTS_ITEM_2 + WELSH)
+                                                .understandItem1(UNDERSTAND_ITEM_1 + WELSH)
+                                                .understandItem2(UNDERSTAND_ITEM_2 + WELSH)
+                                                .build())
                                         .build()
                         )
-                        .legalStatement(uk.gov.hmcts.reform.probate.model.forms.LegalStatement.builder()
+                        .legalStatement(uk.gov.hmcts.reform.probate.model.forms.LegalStatement.builder().en(
+                                LegalStatementHolder.builder()
                                 .intro(INTRO)
                                 .deceased(DECEASED)
                                 .applicant(APPLICANT)
@@ -327,7 +346,7 @@ public class PaTestDataCreator {
                                 .deceasedEstateLand(DECEASED_ESTATE_LAND)
                                 .deceasedOtherNames(DECEASED_OTHER_NAMES)
                                 .deceasedEstateValue(DECEASED_ESTATE_VALUE)
-                                .build())
+                                .build()).build())
                         .build())
                 .fees(Fees.builder()
                         .ukCopiesFee(UK_COPIES_FEE)
@@ -375,6 +394,7 @@ public class PaTestDataCreator {
                 .primaryApplicantEmailAddress(APPLICANT_EMAIL)
                 .primaryApplicantPostCode(APPLICANT_POSTCODE)
                 .applicationSubmittedDate(LocalDate.now())
+                .languagePreferenceWelsh(Boolean.TRUE)
                 .registryLocation(RegistryLocation.findRegistryLocationByName(MANCHESTER))
                 .registryAddress(REGISTRY_ADDRESS)
                 .registryEmailAddress(REGISTRY_EMAIL_ADDRESS)
@@ -385,14 +405,14 @@ public class PaTestDataCreator {
                 .ihtNetValue(NET_VALUE.multiply(BigDecimal.valueOf(100)).longValue())
                 .ihtGrossValue(GROSS_VALUE.multiply(BigDecimal.valueOf(100)).longValue())
                 .ihtReferenceNumber(IDENTIFIER)
-                .ihtFormCompletedOnline(false)
-                .ihtFormId(IhtFormType.IHT205)
+                .ihtFormCompletedOnline(true)
+                .ihtFormId(IhtFormType.NOTAPPLICABLE)
                 .primaryApplicantForenames(APPLICANT_FIRSTNAME)
                 .primaryApplicantSurname(APPLICANT__LASTNAME)
                 .primaryApplicantSurname(APPLICANT__LASTNAME)
                 .primaryApplicantSameWillName(APPLICANT_NAME_AS_ON_THE_WILL)
                 .primaryApplicantAlias(APPLICANT_ALIAS)
-                .primaryApplicantAliasReason(APPLICANT_ALIAS_REASON)
+                .primaryApplicantAliasReason(AliasReason.MARRIAGE)
                 .primaryApplicantPhoneNumber(APPLICANT_PHONE_NUMBER)
                 .deceasedAnyOtherNames(false)
                 .deceasedDateOfBirth(DECEASED_DATE_OF_BIRTH.toLocalDate())
@@ -450,6 +470,19 @@ public class PaTestDataCreator {
                         .understand(UNDERSTAND)
                         .understandItem1(UNDERSTAND_ITEM_1)
                         .understandItem2(UNDERSTAND_ITEM_2)
+                        .build())
+                .welshDeclaration(Declaration.builder()
+                        .accept(ACCEPT + WELSH)
+                        .confirm(CONFIRM + WELSH)
+                        .requests(REQUESTS + WELSH)
+                        .understand(UNDERSTAND + WELSH)
+                        .confirmItem1(CONFIRM_ITEM_1 + WELSH)
+                        .confirmItem2(CONFIRM_ITEM_2 + WELSH)
+                        .confirmItem3(CONFIRM_ITEM_3 + WELSH)
+                        .requestsItem1(REQUESTS_ITEM_1 + WELSH)
+                        .requestsItem2(REQUESTS_ITEM_2 + WELSH)
+                        .understandItem1(UNDERSTAND_ITEM_1 + WELSH)
+                        .understandItem2(UNDERSTAND_ITEM_2 + WELSH)
                         .build())
                 .extraCopiesOfGrant(UK)
                 .outsideUkGrantCopies(OVERSEAS)

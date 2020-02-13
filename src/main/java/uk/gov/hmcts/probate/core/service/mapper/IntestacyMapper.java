@@ -83,7 +83,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "ihtReferenceNumber", expression = "java(form.getIht() != null && form.getIht().getMethod() == IhtMethod.ONLINE ? "
             + "form.getIht().getIdentifier() : form.getIht() != null ? \"Not applicable\" : null)")
     @Mapping(target = "ihtFormId", expression = "java(form.getIht() != null && form.getIht().getMethod() == IhtMethod.ONLINE ? " +
-            "IhtFormType.NOTAPPLICABLE : (form.getIht() !=null && form.getIht().getIhtFormId() !=null ? IhtFormType.fromString(form.getIht().getIhtFormId()) : null))")
+            "IhtFormType.NOTAPPLICABLE : (form.getIht() !=null && form.getIht().getIhtFormId() !=null ? IhtFormType.valueOf(form.getIht().getIhtFormId()) : null))")
     @Mapping(target = "ihtFormCompletedOnline", source = "iht.method", qualifiedBy = {FromIhtMethod.class})
     @Mapping(target = "ihtNetValue", source = "iht.netValue", qualifiedBy = {ToPennies.class})
     @Mapping(target = "ihtGrossValue", source = "iht.grossValue", qualifiedBy = {ToPennies.class})
@@ -100,6 +100,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "payments", source = "payment")
     @Mapping(target = "boDocumentsUploaded", source = "documents", qualifiedBy = {ToUploadDocs.class})
     @Mapping(target = "statementOfTruthDocument", source = "statementOfTruthDocument", qualifiedBy = {ToDocumentLink.class})
+    @Mapping(target = "languagePreferenceWelsh", source = "language.bilingual")
     GrantOfRepresentationData toCaseData(IntestacyForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.INTESTACY)")
