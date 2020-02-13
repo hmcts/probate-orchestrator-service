@@ -15,9 +15,9 @@
     "phoneNumber": "123455678",
     "postcode": "SW17 0QT",
     "addressFound": "true",
-    "relationshipToDeceased": "adoptedChild",
-    "spouseNotApplyingReason": "mentallyIncapable",
-    "adoptionPlace": "Yes"
+    "relationshipToDeceased": "optionAdoptedChild",
+    "spouseNotApplyingReason": "optionRenouncing",
+    "adoptionPlace": "optionYes"
   },
   "deceased": {
     "firstName": "Ned",
@@ -62,7 +62,7 @@
       }
     ],
     "addressFound": "true",
-    "alias": "Yes",
+    "alias": "optionYes",
     "otherNames": {
       "name_0": {
         "lastName": "North",
@@ -71,24 +71,24 @@
     },
     "postcode": "SW17 0QT",
     "maritalStatus": "marriedCivilPartnership",
-    "divorcePlace": "No",
-    "anyOtherChildren": "Yes",
-    "allChildrenOver18": "Yes",
-    "anyDeceasedChildren": "No",
-    "anyGrandchildrenUnder18": "No",
-    "anyChildren": "No",
-    "domiciledInEnglandOrWales": "Yes"
+    "divorcePlace": "optionNo",
+    "anyOtherChildren": "optionYes",
+    "allChildrenOver18": "optionYes",
+    "anyDeceasedChildren": "optionNo",
+    "anyGrandchildrenUnder18": "optionNo",
+    "anyChildren": "optionNo",
+    "domiciledInEnglandOrWales": "optionYes"
   },
   "iht": {
-    "form": "IHT205",
-    "method": "Through the HMRC online service",
+    "form": "optionIHT205",
+    "method": "optionOnline",
     "netValue": 100000,
     "grossValue": 100000,
     "netValueOnline": "100000",
     "grossValueOnline": "100000",
     "identifier": "GOT123456",
     "netValueAssetsOutside": 100.50,
-    "assetsOutside": "Yes"
+    "assetsOutside": "optionYes"
   },
   "copies": {
     "uk": 5,

@@ -25,8 +25,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 )
 public interface SubmitServiceApi {
 
-
-
     @GetMapping(
             value = "/cases/invitation/{invitationId}",
             headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
@@ -48,7 +46,6 @@ public interface SubmitServiceApi {
         @PathVariable(SubmitServiceConfiguration.APPLICATION_ID) String applicationId,
         @RequestParam("caseType") String caseType
     );
-
 
     @GetMapping(
             value = "/cases/applicantEmail/{applicantEmail}",

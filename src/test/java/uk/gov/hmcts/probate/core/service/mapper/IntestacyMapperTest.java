@@ -19,6 +19,7 @@ import uk.gov.hmcts.reform.probate.model.forms.Copies;
 import uk.gov.hmcts.reform.probate.model.forms.Declaration;
 import uk.gov.hmcts.reform.probate.model.forms.DocumentUpload;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
+import uk.gov.hmcts.reform.probate.model.forms.Language;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyApplicant;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyDeceased;
@@ -81,7 +82,7 @@ public class IntestacyMapperTest {
         expectedGrantOfRepresentation.setDeceasedMaritalStatus(MaritalStatus.MARRIED);
         expectedGrantOfRepresentation.setDeceasedSpouseNotApplyingReason(SpouseNotApplyingReason.RENUNCIATED);
         expectedGrantOfRepresentation.setStatementOfTruthDocument(DocumentLink.builder().documentFilename("filename").documentUrl("url").documentBinaryUrl("url/binary").build());
-        IntestacyForm iform = IntestacyForm.builder().deceased(IntestacyDeceased.builder().maritalStatus("Married or in a civil partnership").build()).statementOfTruthDocument(DocumentUpload.builder().filename("filename").url("url").build()).applicant(IntestacyApplicant.builder().spouseNotApplyingReason("They don&rsquo;t want to apply and they give up the right to apply in the future (this is known as &lsquo;renunciation&rsquo;)").build()).build();
+        IntestacyForm iform = IntestacyForm.builder().deceased(IntestacyDeceased.builder().maritalStatus("optionMarried").build()).statementOfTruthDocument(DocumentUpload.builder().filename("filename").url("url").build()).applicant(IntestacyApplicant.builder().spouseNotApplyingReason("optionRenouncing").build()).build();
         GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(iform);
         Assert.assertThat(actualGrantOfRepresentation, equalTo(expectedGrantOfRepresentation));
         assertThat(actualGrantOfRepresentation).isEqualToComparingFieldByFieldRecursively(expectedGrantOfRepresentation);
@@ -99,6 +100,7 @@ public class IntestacyMapperTest {
         expectedIntestacyForm.setApplicant(new IntestacyApplicant());
         expectedIntestacyForm.setDeceased(new IntestacyDeceased());
         expectedIntestacyForm.setDeclaration(new Declaration());
+        expectedIntestacyForm.setLanguage(new Language());
         IntestacyForm actualIntestacyForm = mapper.fromCaseData(new GrantOfRepresentationData());
         assertThat(actualIntestacyForm).isEqualToComparingFieldByFieldRecursively(expectedIntestacyForm);
     }
@@ -106,7 +108,7 @@ public class IntestacyMapperTest {
     @Test
     public void shouldMarital() {
 
-        assertThat(MaritalStatus.WIDOWED).isEqualTo(MaritalStatus.fromString("widowed"));
+        assertThat(MaritalStatus.WIDOWED).isEqualTo(MaritalStatus.fromString("optionWidowed"));
         assertThat(SpouseNotApplyingReason.RENUNCIATED).isEqualTo(SpouseNotApplyingReason.fromString(SpouseNotApplyingReason.RENUNCIATED.getDescription()));
     }
 }
