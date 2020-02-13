@@ -1,5 +1,4 @@
 java:
-  aadIdentityName:
   environment:
     LOG_LEVEL: DEBUG
     MAIL_JAVAMAILPROPERTIES_MAIL_SMTP_SSL_ENABLE: false
