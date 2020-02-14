@@ -13,7 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.probate.service.BusinessService;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
-import uk.gov.hmcts.reform.probate.model.multiapplicant.InvitationsResult;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,14 +67,23 @@ public class InvitationControllerTest {
     @Test
     public void sendInvitation_withValidJson_shouldReturn200() throws Exception {
 
-        when(businessService.sendInvitation(eq(invitation), eq("someSessionId"))).thenReturn("12345");
-
         mockMvc.perform(post(InvitationController.INVITE_BASEURL)
                 .header("Session-Id", "someSessionId")
                 .content(invitationArrayStr)
                 .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
                 .andExpect(status().isOk());
-        verify(businessService, times(1)).sendInvitations(eq(Arrays.asList(invitation)), eq("someSessionId"));
+        verify(businessService, times(1)).sendInvitations(eq(Arrays.asList(invitation)), eq("someSessionId"), eq(Boolean.FALSE));
+    }
+
+    @Test
+    public void sendBilingualInvitation_withValidJson_shouldReturn200() throws Exception {
+
+        mockMvc.perform(post(InvitationController.INVITE_BILINGUAL_URL)
+                .header("Session-Id", "someSessionId")
+                .content(invitationArrayStr)
+                .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
+                .andExpect(status().isOk());
+        verify(businessService, times(1)).sendInvitations(eq(Arrays.asList(invitation)), eq("someSessionId"), eq(Boolean.TRUE));
     }
 
     @Test
@@ -88,19 +96,31 @@ public class InvitationControllerTest {
                 .content(invitationResendArrayStr)
                 .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
                 .andExpect(status().isOk());
-        verify(businessService, times(1)).sendInvitations(eq(Arrays.asList(invitationResend)), eq("someSessionId"));
+        verify(businessService, times(1)).sendInvitations(eq(Arrays.asList(invitationResend)), eq("someSessionId"), eq(Boolean.FALSE));
     }
 
     @Test
     public void pinRequest_shouldReturn200() throws Exception {
 
-        when(businessService.getPinNumber(eq("07987676542"), eq("someSessionId"))).thenReturn("54321");
+        when(businessService.getPinNumber(eq("07987676542"), eq("someSessionId"), eq(Boolean.FALSE))).thenReturn("54321");
 
         mockMvc.perform(get(InvitationController.INVITE_PIN_URL)
                 .header("Session-Id", "someSessionId")
                 .param("phoneNumber", "07987676542"))
                 .andExpect(status().isOk());
-        verify(businessService, times(1)).getPinNumber(eq("07987676542"), eq("someSessionId"));
+        verify(businessService, times(1)).getPinNumber(eq("07987676542"), eq("someSessionId"), eq(Boolean.FALSE));
+    }
+
+    @Test
+    public void bilingualPinRequest_shouldReturn200() throws Exception {
+
+        when(businessService.getPinNumber(eq("07987676542"), eq("someSessionId"), eq(Boolean.TRUE))).thenReturn("54321");
+
+        mockMvc.perform(get(InvitationController.INVITE_PIN_BILINGUAL_URL)
+                .header("Session-Id", "someSessionId")
+                .param("phoneNumber", "07987676542"))
+                .andExpect(status().isOk());
+        verify(businessService, times(1)).getPinNumber(eq("07987676542"), eq("someSessionId"), eq(Boolean.TRUE));
     }
 
     @Test

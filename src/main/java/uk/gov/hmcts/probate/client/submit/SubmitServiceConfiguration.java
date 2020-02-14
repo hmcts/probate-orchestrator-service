@@ -29,7 +29,7 @@ public class SubmitServiceConfiguration {
     }
 
     @Bean
-    public Logger.Level submitServiceApiLoggerLevel() {
+    Logger.Level feignLoggerLevel() {
         return Logger.Level.FULL;
     }
 }

@@ -85,4 +85,23 @@ public interface BusinessServiceApi {
     @GetMapping(path = "/pin")
     String pinNumber(@RequestParam("phoneNumber") String phoneNumber, @RequestHeader("Session-Id") String sessionId);
 
+    @PostMapping(
+            value = "/invite/bilingual",
+            headers = {
+                    CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+            }
+    )
+    String inviteBilingual(@RequestBody Invitation invitation,
+                  @RequestHeader("Session-Id") String sessionId);
+
+
+    @PostMapping(path = "/invite/bilingual/{inviteId}",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    String inviteBilingual(@PathVariable("inviteId") String inviteId,
+                  @RequestBody Invitation invitation,
+                  @RequestHeader("Session-Id") String sessionId);
+
+    @GetMapping(path = "/pin/bilingual")
+    String pinNumberBilingual(@RequestParam("phoneNumber") String phoneNumber, @RequestHeader("Session-Id") String sessionId);
+
 }

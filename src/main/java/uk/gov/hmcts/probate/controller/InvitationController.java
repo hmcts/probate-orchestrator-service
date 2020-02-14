@@ -28,6 +28,8 @@ public class InvitationController {
     protected static final String INVITE_DELETE_URL = INVITE_BASEURL + "/delete";
     protected static final String INVITE_DATA_URL = INVITE_BASEURL + "/data";
     protected static final String INVITE_PIN_URL = INVITE_BASEURL + "/pin";
+    protected static final String INVITE_PIN_BILINGUAL_URL = INVITE_PIN_URL + "/bilingual";
+    protected static final String INVITE_BILINGUAL_URL = INVITE_BASEURL + "/bilingual";
 
     @Autowired
     BusinessService businessService;
@@ -36,7 +38,14 @@ public class InvitationController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public InvitationsResult invite(@Valid @RequestBody List<Invitation> invitations,
                                     @RequestHeader("Session-Id") String sessionId) {
-        return InvitationsResult.builder().invitations(businessService.sendInvitations(invitations, sessionId)).build();
+        return InvitationsResult.builder().invitations(businessService.sendInvitations(invitations, sessionId, Boolean.FALSE)).build();
+    }
+
+    @PostMapping(path = INVITE_BILINGUAL_URL,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public InvitationsResult inviteBilingual(@Valid @RequestBody List<Invitation> invitations,
+                                    @RequestHeader("Session-Id") String sessionId) {
+        return InvitationsResult.builder().invitations(businessService.sendInvitations(invitations, sessionId, Boolean.TRUE)).build();
     }
 
 
@@ -80,7 +89,13 @@ public class InvitationController {
 
     @GetMapping(path = INVITE_PIN_URL)
     public String invitePin(@RequestParam("phoneNumber") String phoneNumber, @RequestHeader("Session-Id") String sessionId) {
-        return businessService.getPinNumber(phoneNumber, sessionId);
+        return businessService.getPinNumber(phoneNumber, sessionId,  Boolean.FALSE);
     }
+
+    @GetMapping(path = INVITE_PIN_BILINGUAL_URL)
+    public String invitePinBilingual(@RequestParam("phoneNumber") String phoneNumber, @RequestHeader("Session-Id") String sessionId) {
+        return businessService.getPinNumber(phoneNumber, sessionId, Boolean.TRUE);
+    }
+
 
 }
