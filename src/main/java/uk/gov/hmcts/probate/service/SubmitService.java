@@ -7,6 +7,7 @@ import uk.gov.hmcts.reform.probate.model.forms.CaseSummaryHolder;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface SubmitService {
@@ -14,6 +15,8 @@ public interface SubmitService {
     CaseSummaryHolder initiateCase(ProbateType probateType);
 
     Form getCase(String identifier, ProbateType probateType);
+
+    List<ProbateCaseDetails> expireCaveats(String expiryDate);
 
     CaseSummaryHolder getAllCases();
 

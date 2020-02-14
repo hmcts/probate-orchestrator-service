@@ -81,6 +81,11 @@ data "azurerm_key_vault_secret" "idam_secret_probate" {
   vault_uri = "${data.azurerm_key_vault.probate_key_vault.vault_uri}"
 }
 
+data "azurerm_key_vault_secret" "cronKeyCaveatExpiry" {
+  name = "cronKeyCaveatExpiry"
+  key_vault_id = "${data.azurerm_key_vault.probate_key_vault.id}"
+}
+
 module "probate-orchestrator-service" {
   source = "git@github.com:hmcts/cnp-module-webapp?ref=master"
   product = "${var.product}-${var.microservice}"
@@ -139,5 +144,6 @@ module "probate-orchestrator-service" {
     //ROOT_APPENDER = "JSON_CONSOLE" //Remove json logging
     TESTING = "TESTING"
 
+    CRON_KEY_CAVEAT_EXPIRY = "${data.azurerm_key_vault_secret.cronKeyCaveatExpiry.value}"    
   }
 }
