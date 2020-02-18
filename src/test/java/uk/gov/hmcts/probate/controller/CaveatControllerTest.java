@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.util.NestedServletException;
+import uk.gov.hmcts.probate.configuration.ScheduleConfiguration;
 import uk.gov.hmcts.probate.core.service.CaveatExpiryUpdater;
 import uk.gov.hmcts.probate.core.service.ScheduleValidator;
 
@@ -16,9 +17,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -32,8 +35,24 @@ public class CaveatControllerTest {
     @MockBean
     private ScheduleValidator scheduleValidator;
 
+    @MockBean
+    private ScheduleConfiguration scheduleConfiguration;
+
     @Autowired
     private MockMvc mockMvc;
+
+    @Test
+    public void shouldExpireCaveatsFromSchedule() throws Exception {
+        when(scheduleConfiguration.getCaveatExpiry()).thenReturn("DDDDDDDDDD");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String expiryDate = dateTimeFormatter.format(LocalDate.now().minusDays(1L));
+
+        mockMvc.perform(post("/caveat/expireFromSchedule")
+            .content(expiryDate)
+            .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
+            .andExpect(status().isOk())
+            .andExpect(content().string("Perform expire caveats called"));
+    }
 
     @Test
     public void shouldExpireCaveats() throws Exception {

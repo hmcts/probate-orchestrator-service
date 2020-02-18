@@ -5,10 +5,12 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import uk.gov.hmcts.probate.configuration.ScheduleConfiguration;
 import uk.gov.hmcts.probate.core.service.CaveatExpiryUpdater;
 import uk.gov.hmcts.probate.core.service.ScheduleValidator;
 
@@ -28,9 +30,17 @@ public class CaveatController {
 
     private final CaveatExpiryUpdater caveatExpiryUpdater;
     private final ScheduleValidator scheduleValidator;
+    private final ScheduleConfiguration scheduleConfiguration;
 
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+    @Scheduled(cron = "${cron.caveatExpirySchedule}")
+    @ApiOperation(value = "Expire Raised Caveats from schedule")
+    @PostMapping(path = "/expireFromSchedule")
+    public ResponseEntity expireCaveatsFromSchedule() {
+        return expireCaveats(scheduleConfiguration.getCaveatExpiry());
+    }
+    
     @ApiOperation(value = "Expire Raised Caveats yesterday")
     @PostMapping(path = "/expire/{cronKeyCaveatExpiry}")
     public ResponseEntity expireCaveats(@ApiParam(value = "Cron Key for Caveat Expiry", required = true)
