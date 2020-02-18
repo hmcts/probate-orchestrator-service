@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import uk.gov.hmcts.reform.probate.model.IhtFormType;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
@@ -17,6 +18,7 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.forms.Copies;
 import uk.gov.hmcts.reform.probate.model.forms.Declaration;
 import uk.gov.hmcts.reform.probate.model.forms.DeclarationDeclaration;
+import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
 import uk.gov.hmcts.reform.probate.model.forms.Language;
 import uk.gov.hmcts.reform.probate.model.forms.LegalStatement;
@@ -50,12 +52,10 @@ public class PaMapperTest {
     public void setUp() throws IOException {
         paForm = PaTestDataCreator.createPaForm();
         grantOfRepresentation = PaTestDataCreator.createGrantOfRepresentation();
-
-
     }
 
     @Test
-    public void shouldMapPaFormToGrantOfRepresentation() throws IOException{
+    public void shouldMapPaFormToGrantOfRepresentation() {
         GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(paForm);
         assertThat(actualGrantOfRepresentation).isEqualToComparingFieldByFieldRecursively(grantOfRepresentation);
     }
@@ -86,7 +86,6 @@ public class PaMapperTest {
         expectedGrantOfRepresentation.setGrantType(GrantType.GRANT_OF_PROBATE);
         expectedGrantOfRepresentation.setApplicationSubmittedDate(LocalDate.now());
         expectedGrantOfRepresentation.setNumberOfApplicants(0L);
-        expectedGrantOfRepresentation.setIhtReferenceNumber("Not applicable");
         expectedGrantOfRepresentation.setBoDocumentsUploaded(Lists.newArrayList());
         GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(new PaForm());
         assertThat(actualGrantOfRepresentation).isEqualToComparingFieldByFieldRecursively(expectedGrantOfRepresentation);
