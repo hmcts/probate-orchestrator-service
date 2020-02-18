@@ -11,7 +11,7 @@ java:
     PAYMENT_CASEWORKER_USERNAME: ${PAYMENT_CASEWORKER_USERNAME}
     PAYMENT_CASEWORKER_PASSWORD:  ${PAYMENT_CASEWORKER_PASSWORD}
     # need to remove after test - welsh - Start
-    SUBMIT_SERVICE_API_URL : "http://probate-submit-service-pr-272.service.core-compute-preview.internal"
+    SUBMIT_SERVICE_API_URL : "http://probate-submit-service-pr-305.service.core-compute-preview.internal"
     # need to remove after test - welsh  - End
     CRON_KEY_CAVEAT_EXPIRY: ${CRON_KEY_CAVEAT_EXPIRY}
   image: ${IMAGE_NAME}
