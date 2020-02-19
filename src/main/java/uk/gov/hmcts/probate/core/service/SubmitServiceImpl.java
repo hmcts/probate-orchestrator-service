@@ -85,6 +85,15 @@ public class SubmitServiceImpl implements SubmitService {
     }
 
 
+    @Override
+    public List<ProbateCaseDetails> expireCaveats(String expiryDate) {
+        log.info("find expired caveats called");
+        String serviceAuthorisation = securityUtils.getServiceAuthorisation();
+        String authorisation = securityUtils.getAuthorisation();
+        return submitServiceApi.expireCaveats(authorisation,
+            serviceAuthorisation, expiryDate);
+    }
+
     private FormMapper getFormMapper(ProbateType probateType, ProbateCaseDetails probateCaseDetails) {
         FormMapper formMapper = null;
         if (probateType.equals(ProbateType.CAVEAT)) {

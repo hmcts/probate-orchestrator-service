@@ -78,9 +78,9 @@ findbugs {
 
 sonarqube {
     properties {
-        property "sonar.exclusions", "**/AppInsights.java, **/LegacyPaMapper.java, **/LegacyIntestacyMapper.java, **/LegacyFormMapper.java," +
-                " **/PaMapper.java, **/IntestacyMapper.java , **/ScheduledConfiguration.java, **/AuthenticateUserResponse.java, **/TokenExchangeResponse.java," +
-                " **/FormDataMigrator.java, **/IdamUserEmail.java, **/IdamUsersCsvLoader.java, **/LegacyExecutorsMapper.java"
+        property "sonar.exclusions", "**/AppInsights.java, **/PaMapper.java, **/IntestacyMapper.java, " +
+                "**/ScheduledConfiguration.java, **/AuthenticateUserResponse.java, **/TokenExchangeResponse.java, " +
+                "**/FormDataMigrator.java, **/IdamUserEmail.java, **/IdamUsersCsvLoader.java"
         property "sonar.projectName", "PROBATE :: Probate-Orchestrator-Service"
         property "sonar.projectKey", "Probate-Orchestrator-Service"
         property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
