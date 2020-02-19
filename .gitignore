@@ -2,6 +2,7 @@
 /out/**
 /docker/test/
 /target/
+/src/main/generated/**
 
 ### STS ###
 .apt_generated
