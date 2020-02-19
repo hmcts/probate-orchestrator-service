@@ -40,6 +40,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.Matchers.*;
@@ -61,6 +62,7 @@ public class SubmitServiceImplTest {
     private static final String CASE_ID = "1232234234";
     private static final CaseState STATE = CaseState.DRAFT;
     private static final String CAVEAT_IDENTIFIER = "Id";
+    private static final String CAVEAT_EXPIRY_DATE = "2020-12-31";
     public static final String EXTERNAL_REFERENCE = "EXT2213214";
 
 
@@ -95,6 +97,7 @@ public class SubmitServiceImplTest {
 
     private ProbateCaseDetails intestacyCaseDetails;
     private ProbateCaseDetails caveatCaseDetails;
+    private List<ProbateCaseDetails> expiredCaveatDetails;
 
     private GrantOfRepresentationData intestacyCaseData;
     private CaveatData caveatCaseData;
@@ -141,6 +144,7 @@ public class SubmitServiceImplTest {
                 Lists.newArrayList(CollectionMember.<CasePayment>builder().value(caveatCasePayment).build())).build();
 
         caveatCaseDetails = ProbateCaseDetails.builder().caseData(caveatCaseData).caseInfo(caseInfo).build();
+        expiredCaveatDetails = Arrays.asList(ProbateCaseDetails.builder().build(), ProbateCaseDetails.builder().build());
 
         when(caveatMapper.toCaseData(caveatForm)).thenReturn(caveatCaseData);
         when(caveatMapper.fromCaseData(caveatCaseData)).thenReturn(caveatForm);
@@ -388,4 +392,14 @@ public class SubmitServiceImplTest {
                 EMAIL_ADDRESS, CaseType.GRANT_OF_REPRESENTATION.name());
     }
 
+    @Test
+    public void shouldExpireCaveats() {
+        when(submitServiceApi.expireCaveats(AUTHORIZATION, SERVICE_AUTHORIZATION,
+            CAVEAT_EXPIRY_DATE)).thenReturn(expiredCaveatDetails);
+
+        submitService.expireCaveats(CAVEAT_EXPIRY_DATE);
+
+        verify(submitServiceApi).expireCaveats(AUTHORIZATION, SERVICE_AUTHORIZATION,
+            CAVEAT_EXPIRY_DATE);
+    }
 }
