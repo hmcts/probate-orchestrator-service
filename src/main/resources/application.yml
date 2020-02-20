@@ -71,4 +71,4 @@
   cron:
     key:
       caveatExpiry: ${CRON_KEY_CAVEAT_EXPIRY:DDDDDDDDDD}
-    caveatExpirySchedule: "0 0/30 * * * *"
+    caveatExpirySchedule: "0 0 3 * * *"
