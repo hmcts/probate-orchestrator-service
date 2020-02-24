@@ -69,4 +69,4 @@
           loggerLevel: basic
 
   cron:
-    caveatExpirySchedule: "0 0/15 * * * *"
+    caveatExpirySchedule: "0 0 3 * * *"
