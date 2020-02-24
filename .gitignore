@@ -26,3 +26,4 @@
 
 git.properties
 .gradle
+/src/main/generated/
