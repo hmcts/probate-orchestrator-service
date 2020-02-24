@@ -60,10 +60,6 @@
   pattern:
     console: "%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n"
 
-  migration.job:
-    schedule: ${MIGRATION_JOB_SCHEDULER:false}
-    startDateTime: '2019-07-14T10:36:55'
-
   feign:
     client:
       config:
@@ -75,4 +71,4 @@
   cron:
     key:
       caveatExpiry: ${CRON_KEY_CAVEAT_EXPIRY:DDDDDDDDDD}
-    caveatExpirySchedule: "0 0/30 * * * *"
+    caveatExpirySchedule: "0 0 3 * * *"
