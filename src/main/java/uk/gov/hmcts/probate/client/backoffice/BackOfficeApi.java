@@ -1,11 +1,16 @@
 package uk.gov.hmcts.probate.client.backoffice;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
+import uk.gov.hmcts.probate.client.submit.SubmitServiceConfiguration;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackRequest;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatResponse;
+import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 
 import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -33,5 +38,35 @@ public interface BackOfficeApi {
         @RequestHeader(SERVICE_AUTHORIZATION) String serviceAuthorization,
         @RequestBody BackOfficeCallbackRequest backOfficeCallbackRequest
     );
+    
+    @PostMapping(
+        value = "/data-extract/hmrc",
+        headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+    )
+    ResponseEntity<String> initiateHmrcExtract(
+        @RequestHeader(AUTHORIZATION) String authorisation,
+        @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+        @RequestParam(value = "fromDate", required = false) String fromDate,
+        @RequestParam(value = "toDate", required = false) String toDate
+    );
 
+    @PostMapping(
+        value = "/data-extract/iron-mountain",
+        headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+    )
+    ResponseEntity<String> initiateIronMountainExtract(
+        @RequestHeader(AUTHORIZATION) String authorisation,
+        @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+        @RequestParam(value = "date") String date
+    );
+
+    @PostMapping(
+        value = "/data-extract/exela",
+        headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+    )
+    ResponseEntity<String> initiateExelaExtract(
+        @RequestHeader(AUTHORIZATION) String authorisation,
+        @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+        @RequestParam(value = "date") String date
+    );
 }

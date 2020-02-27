@@ -3,11 +3,12 @@ package uk.gov.hmcts.probate.core.service;
 import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.probate.client.backoffice.BackOfficeApi;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackRequest;
-import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatResponse;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaseDetails;
+import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatResponse;
 import uk.gov.hmcts.probate.service.BackOfficeService;
 import uk.gov.hmcts.reform.probate.model.cases.CaseData;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
@@ -43,6 +44,24 @@ public class BackOfficeServiceImpl implements BackOfficeService {
             sendNotificationFunctions.get(caseType)
         ).orElseThrow(() -> new IllegalArgumentException("Cannot find notification function for case type: " + caseType));
         return sendNotificationFunction.apply(probateCaseDetails);
+    }
+
+    @Override
+    public ResponseEntity<String> initiateHmrcExtract(String fromDate, String toDate) {
+        return backOfficeApi.initiateHmrcExtract(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
+            fromDate, toDate);
+    }
+
+    @Override
+    public ResponseEntity<String> initiateIronMountainExtract(String date) {
+        return backOfficeApi.initiateIronMountainExtract(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
+            date);
+    }
+
+    @Override
+    public ResponseEntity<String> initiateExelaExtract(String date) {
+        return backOfficeApi.initiateExelaExtract(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
+            date);
     }
 
     private Function<ProbateCaseDetails, CaseData> raiseCaveat() {
