@@ -19,11 +19,11 @@ import java.time.format.DateTimeParseException;
 public class DataExtractDateValidator {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    public void dateValidator(String date) {
-        dateValidator(null, date);
+    public void validate(String date) {
+        validate(null, date);
     }
 
-    public void dateValidator(String fromDate, String toDate) {
+    public void validate(String fromDate, String toDate) {
         if (StringUtils.isBlank(toDate)) {
             throw buildClientException(HttpStatus.BAD_REQUEST.value(), "Error on extract dates, toDate is null or empty");
         }
@@ -31,7 +31,7 @@ public class DataExtractDateValidator {
             LocalDate to = LocalDate.parse(toDate, DATE_FORMAT);
             if (!StringUtils.isBlank(fromDate)) {
                 LocalDate from = LocalDate.parse(fromDate, DATE_FORMAT);
-                if (!from.isBefore(to)) {
+                if (!from.isEqual(to) && !from.isBefore(to)) {
                     throw buildClientException(HttpStatus.BAD_REQUEST.value(),
                         "Error on extract dates, fromDate is not before toDate: " + fromDate + "," + toDate);
                 }

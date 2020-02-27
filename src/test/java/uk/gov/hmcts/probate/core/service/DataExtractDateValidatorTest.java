@@ -15,56 +15,56 @@ public class DataExtractDateValidatorTest {
 
     @Test
     public void shouldValidateDate() {
-        dataExtractDateValidator.dateValidator("2000-12-31");
+        dataExtractDateValidator.validate("2000-12-31");
     }
 
     @Test
     public void shouldValidateEmptyFromDate() {
-        dataExtractDateValidator.dateValidator("", "2000-12-31");
+        dataExtractDateValidator.validate("", "2000-12-31");
     }
 
     @Test
     public void shouldValidatenullFromDate() {
-        dataExtractDateValidator.dateValidator(null, "2000-12-31");
+        dataExtractDateValidator.validate(null, "2000-12-31");
     }
 
     @Test
     public void shouldValidateDateFromTo() {
-        dataExtractDateValidator.dateValidator("2000-12-31", "2001-12-31");
+        dataExtractDateValidator.validate("2000-12-31", "2001-12-31");
+    }
+
+    @Test
+    public void shouldValidateDateFromToSame() {
+        dataExtractDateValidator.validate("2000-12-31", "2000-12-31");
     }
 
     @Test(expected = ApiClientException.class)
     public void shouldThrowExceptionForInvalidaDate() {
-        dataExtractDateValidator.dateValidator("2000-14-31");
+        dataExtractDateValidator.validate("2000-14-31");
     }
 
     @Test(expected = ApiClientException.class)
     public void shouldThrowExceptionForInvalidFromDate() {
-        dataExtractDateValidator.dateValidator("2000--31", "2001-12-31");
+        dataExtractDateValidator.validate("2000--31", "2001-12-31");
     }
 
     @Test(expected = ApiClientException.class)
     public void shouldThrowExceptionForInvalidToDate() {
-        dataExtractDateValidator.dateValidator("2000-12-31", "2001");
-    }
-
-    @Test(expected = ApiClientException.class)
-    public void shouldThrowExceptionForToDateNotAfterFromDate() {
-        dataExtractDateValidator.dateValidator("2000-12-31", "2000-12-31");
+        dataExtractDateValidator.validate("2000-12-31", "2001");
     }
 
     @Test(expected = ApiClientException.class)
     public void shouldThrowExceptionForNullDate() {
-        dataExtractDateValidator.dateValidator(null);
+        dataExtractDateValidator.validate(null);
     }
 
     @Test(expected = ApiClientException.class)
     public void shouldThrowExceptionForNullFromToDates() {
-        dataExtractDateValidator.dateValidator(null, null);
+        dataExtractDateValidator.validate(null, null);
     }
 
     @Test(expected = ApiClientException.class)
     public void shouldThrowExceptionForEmptyFromToDates() {
-        dataExtractDateValidator.dateValidator("", "");
+        dataExtractDateValidator.validate("", "");
     }
 }
