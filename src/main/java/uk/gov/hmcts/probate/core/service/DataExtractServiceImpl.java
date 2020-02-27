@@ -16,6 +16,7 @@ import static org.springframework.http.HttpStatus.ACCEPTED;
 @RequiredArgsConstructor
 @Component
 public class DataExtractServiceImpl implements DataExtractService {
+    
     private final DataExtractDateValidator dataExtractDateValidator;
     private final BackOfficeService backOfficeService;
 
@@ -26,9 +27,10 @@ public class DataExtractServiceImpl implements DataExtractService {
         log.info("Calling perform HMRC data extract...");
         ExecutorService executor = Executors.newFixedThreadPool(1);
         executor.submit(() -> {
+            log.info("Perform HMRC data extract started");
             backOfficeService.initiateHmrcExtract(fromDate, toDate);
         });
-        log.info("Perform HMRC data extract called");
+        log.info("Perform HMRC data extract finished");
 
         return new ResponseEntity("Perform HMRC data extract finished", ACCEPTED);
     }
@@ -41,6 +43,7 @@ public class DataExtractServiceImpl implements DataExtractService {
         log.info("Calling perform Iron Mountain data extract from date...");
         ExecutorService executor = Executors.newFixedThreadPool(1);
         executor.submit(() -> {
+            log.info("Perform Iron Mountain data extract from date started");
             backOfficeService.initiateIronMountainExtract(date);
         });
         log.info("Perform Iron Mountain data extract from date finished");
@@ -55,6 +58,7 @@ public class DataExtractServiceImpl implements DataExtractService {
         log.info("Calling perform Exela data extract from date...");
         ExecutorService executor = Executors.newFixedThreadPool(1);
         executor.submit(() -> {
+            log.info("Perform Exela data extract from date started");
             backOfficeService.initiateExelaExtract(date);
         });
         log.info("Perform Exela data extract from date finished");
