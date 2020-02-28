@@ -34,4 +34,18 @@ public interface BackOfficeApi {
         @RequestBody BackOfficeCallbackRequest backOfficeCallbackRequest
     );
 
+
+    @PostMapping(
+            value = "/notify/application-received",
+            headers = {
+                    CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE,
+                    ACCEPT + "=" + APPLICATION_JSON_VALUE
+            }
+    )
+    String applicationReceived(
+            @RequestHeader(AUTHORIZATION) String authorization,
+            @RequestHeader(SERVICE_AUTHORIZATION) String serviceAuthorization,
+            @RequestBody BackOfficeCallbackRequest backOfficeCallbackRequest
+    );
+
 }
