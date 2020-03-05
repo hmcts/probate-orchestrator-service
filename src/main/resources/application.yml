@@ -5,6 +5,9 @@
       multipart:
         max-file-size: 10240KB
         max-request-size: 10240KB
+    info:
+      git:
+        location: classpath:uk/gov/hmcts/probate/services/orchestrator/git.properties
 
   server:
     port: 8888
@@ -19,6 +22,9 @@
       health:
         show-details: always
         enabled: true
+    info:
+      git:
+        mode: full
 
   authorised.services: probate_backend,probate_frontend
 
