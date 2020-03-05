@@ -70,3 +70,5 @@
 
   cron:
     caveatExpirySchedule: "0 0 3 * * *"
+    grantDelayed:
+      schedule: "0 0,15,30,45 * * * *"

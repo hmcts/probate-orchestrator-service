@@ -1,5 +1,6 @@
 package uk.gov.hmcts.probate.core.service;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.ResponseEntity;
 import uk.gov.hmcts.probate.client.backoffice.BackOfficeApi;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackRequest;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatData;
@@ -16,6 +18,7 @@ import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -45,9 +48,9 @@ public class BackOfficeServiceImplTest {
     public void setUp() {
 
         backOfficeCaveatResponse = BackOfficeCaveatResponse.builder().caseData(BackOfficeCaveatData.builder()
-                .applicationSubmittedDate(CAVEAT_SUBMITTED_DATE)
-                .expiryDate(CAVEAT_EXPIRY_DATE)
-                .build())
+            .applicationSubmittedDate(CAVEAT_SUBMITTED_DATE)
+            .expiryDate(CAVEAT_EXPIRY_DATE)
+            .build())
             .build();
         Mockito.when(securityUtils.getAuthorisation()).thenReturn(AUTHORIZATION);
         Mockito.when(securityUtils.getServiceAuthorisation()).thenReturn(SERVICE_AUTHORIZATION);
@@ -67,5 +70,18 @@ public class BackOfficeServiceImplTest {
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowIllegalArgumentExceptionWhenCaseTypeIsGrantOfRepresentation() {
         backOfficeService.sendNotification(ProbateCaseDetails.builder().caseData(GrantOfRepresentationData.builder().build()).build());
+    }
+
+    @Test
+    public void shouldInitiateGrantDelayedNotification() {
+        String date = "someDate";
+        String responseBody = "responseBody";
+        Mockito.when(backOfficeApi.initiateGrantDelayeNotification(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
+            date)).thenReturn(ResponseEntity.ok(responseBody));
+
+        ResponseEntity<String> response = backOfficeService.initiateGrantDelayedNotification(date);
+
+        Assert.assertThat(response.getStatusCodeValue(), equalTo(200));
+        verify(backOfficeApi).initiateGrantDelayeNotification(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(date));
     }
 }
