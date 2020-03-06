@@ -9,6 +9,7 @@ import uk.gov.hmcts.probate.client.backoffice.BackOfficeApi;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackRequest;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaseDetails;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatResponse;
+import uk.gov.hmcts.probate.model.backoffice.GrantDelayedResponse;
 import uk.gov.hmcts.probate.service.BackOfficeService;
 import uk.gov.hmcts.reform.probate.model.cases.CaseData;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
@@ -47,10 +48,10 @@ public class BackOfficeServiceImpl implements BackOfficeService {
     }
 
     @Override
-    public ResponseEntity<String> initiateGrantDelayedNotification(String date) {
+    public ResponseEntity<GrantDelayedResponse> initiateGrantDelayedNotification(String date) {
         securityUtils.setSecurityContextUserAsCaseworker();
         log.info("Calling BackOfficeAPI to initiateGrantDelayedNotification as caseworker");
-        return backOfficeApi.initiateGrantDelayeNotification(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
+        return backOfficeApi.initiateGrantDelayedNotification(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
             date);
     }
 

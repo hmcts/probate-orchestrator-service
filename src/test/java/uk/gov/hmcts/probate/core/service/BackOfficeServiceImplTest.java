@@ -13,6 +13,7 @@ import uk.gov.hmcts.probate.client.backoffice.BackOfficeApi;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackRequest;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatData;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatResponse;
+import uk.gov.hmcts.probate.model.backoffice.GrantDelayedResponse;
 import uk.gov.hmcts.reform.probate.model.cases.CaseInfo;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
@@ -75,13 +76,13 @@ public class BackOfficeServiceImplTest {
     @Test
     public void shouldInitiateGrantDelayedNotification() {
         String date = "someDate";
-        String responseBody = "responseBody";
-        Mockito.when(backOfficeApi.initiateGrantDelayeNotification(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
+        GrantDelayedResponse responseBody = GrantDelayedResponse.builder().build();
+        Mockito.when(backOfficeApi.initiateGrantDelayedNotification(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
             date)).thenReturn(ResponseEntity.ok(responseBody));
 
-        ResponseEntity<String> response = backOfficeService.initiateGrantDelayedNotification(date);
+        ResponseEntity<GrantDelayedResponse> response = backOfficeService.initiateGrantDelayedNotification(date);
 
         Assert.assertThat(response.getStatusCodeValue(), equalTo(200));
-        verify(backOfficeApi).initiateGrantDelayeNotification(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(date));
+        verify(backOfficeApi).initiateGrantDelayedNotification(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(date));
     }
 }
