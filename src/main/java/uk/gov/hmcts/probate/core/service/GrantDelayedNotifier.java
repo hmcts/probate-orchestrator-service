@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import uk.gov.hmcts.probate.model.backoffice.GrantDelayedResponse;
 import uk.gov.hmcts.probate.service.BackOfficeService;
 
 import java.time.LocalDate;
@@ -25,7 +26,9 @@ public class GrantDelayedNotifier {
 
         securityUtils.setSecurityContextUserAsCaseworker();
 
-        ResponseEntity<String> response = backOfficeService.initiateGrantDelayedNotification(yesterday);
-        log.info("Grant delayed notification completed for date: {} with repsonseCode: {}", yesterday, response.getStatusCode().value());
+        ResponseEntity<GrantDelayedResponse> response = backOfficeService.initiateGrantDelayedNotification(yesterday);
+        log.info("Grant delayed notification completed for date: {} " +
+            "for {} cases" +
+            "with repsonseCode: {}", yesterday, response.getBody().getDelayResponseData().size(), response.getStatusCode().value());
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceConfiguration;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackRequest;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatResponse;
+import uk.gov.hmcts.probate.model.backoffice.GrantDelayedResponse;
 
 import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -41,7 +42,7 @@ public interface BackOfficeApi {
         value = "/notify/grant-delayed",
         headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
-    ResponseEntity<String> initiateGrantDelayeNotification(
+    ResponseEntity<GrantDelayedResponse> initiateGrantDelayedNotification(
         @RequestHeader(AUTHORIZATION) String authorisation,
         @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
         @RequestParam(value = "date") String date
