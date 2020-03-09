@@ -9,6 +9,8 @@ import uk.gov.hmcts.probate.service.BackOfficeService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +29,8 @@ public class GrantDelayedNotifier {
         securityUtils.setSecurityContextUserAsCaseworker();
 
         GrantDelayedResponse response = backOfficeService.initiateGrantDelayedNotification(yesterday);
+        String updates = response.getDelayResponseData().stream().collect(Collectors.joining(","));
         log.info("Grant delayed notification completed for date: {} " +
-            "for {} cases", yesterday, response.getDelayResponseData().size());
+            "for {} cases, details: {}", yesterday, response.getDelayResponseData().size(), updates);
     }
 }
