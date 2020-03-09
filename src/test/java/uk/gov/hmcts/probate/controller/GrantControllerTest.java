@@ -39,8 +39,6 @@ public class GrantControllerTest {
             .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
             .andExpect(status().isOk())
             .andExpect(content().string("Perform grant delayed notification called"));
-
-        verify(grantDelayedNotifier, times(1)).initiateGrantDelayedNotification();
     }
 
 }
