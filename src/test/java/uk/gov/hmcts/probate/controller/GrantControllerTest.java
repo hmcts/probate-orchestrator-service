@@ -30,7 +30,7 @@ public class GrantControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    public void shouldExpireCaveatsFromSchedule() throws Exception {
+    public void shouldInitiateGrantDelayedFromSchedule() throws Exception {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String expiryDate = dateTimeFormatter.format(LocalDate.now().minusDays(1L));
 
