@@ -9,6 +9,6 @@ public interface BackOfficeService {
 
     CaseData sendNotification(ProbateCaseDetails probateCaseDetails);
 
-    ResponseEntity<GrantDelayedResponse> initiateGrantDelayedNotification(String date);
+    GrantDelayedResponse initiateGrantDelayedNotification(String date);
     
 }

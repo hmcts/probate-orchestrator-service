@@ -42,7 +42,7 @@ public interface BackOfficeApi {
         value = "/notify/grant-delayed",
         headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
-    ResponseEntity<GrantDelayedResponse> initiateGrantDelayedNotification(
+    GrantDelayedResponse initiateGrantDelayedNotification(
         @RequestHeader(AUTHORIZATION) String authorisation,
         @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
         @RequestParam(value = "date") String date
