@@ -39,7 +39,7 @@ public interface BackOfficeApi {
     );
 
     @PostMapping(
-        value = "/notify/grant-delayed",
+        value = "/notify/grant-delayed-scheduled",
         headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
     GrantDelayedResponse initiateGrantDelayedNotification(
