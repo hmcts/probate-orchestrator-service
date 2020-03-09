@@ -78,11 +78,11 @@ public class BackOfficeServiceImplTest {
         String date = "someDate";
         GrantDelayedResponse responseBody = GrantDelayedResponse.builder().build();
         Mockito.when(backOfficeApi.initiateGrantDelayedNotification(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
-            date)).thenReturn(ResponseEntity.ok(responseBody));
+            date)).thenReturn(responseBody);
 
-        ResponseEntity<GrantDelayedResponse> response = backOfficeService.initiateGrantDelayedNotification(date);
+        GrantDelayedResponse response = backOfficeService.initiateGrantDelayedNotification(date);
 
-        Assert.assertThat(response.getStatusCodeValue(), equalTo(200));
+        Assert.assertThat(response.getDelayResponseData().size(), equalTo(1));
         verify(backOfficeApi).initiateGrantDelayedNotification(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(date));
     }
 }

@@ -48,7 +48,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
     }
 
     @Override
-    public ResponseEntity<GrantDelayedResponse> initiateGrantDelayedNotification(String date) {
+    public GrantDelayedResponse initiateGrantDelayedNotification(String date) {
         securityUtils.setSecurityContextUserAsCaseworker();
         log.info("Calling BackOfficeAPI to initiateGrantDelayedNotification as caseworker");
         return backOfficeApi.initiateGrantDelayedNotification(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),

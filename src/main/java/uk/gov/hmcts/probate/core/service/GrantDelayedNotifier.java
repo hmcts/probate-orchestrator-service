@@ -26,9 +26,8 @@ public class GrantDelayedNotifier {
 
         securityUtils.setSecurityContextUserAsCaseworker();
 
-        ResponseEntity<GrantDelayedResponse> response = backOfficeService.initiateGrantDelayedNotification(yesterday);
+        GrantDelayedResponse response = backOfficeService.initiateGrantDelayedNotification(yesterday);
         log.info("Grant delayed notification completed for date: {} " +
-            "for {} cases" +
-            "with repsonseCode: {}", yesterday, response.getBody().getDelayResponseData().size(), response.getStatusCode().value());
+            "for {} cases", yesterday, response.getDelayResponseData().size());
     }
 }
