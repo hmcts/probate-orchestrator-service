@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 @Slf4j
 public class GrantDelayedNotifier {
 
-    private final SecurityUtils securityUtils;
     private final BackOfficeService backOfficeService;
 
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -25,8 +24,6 @@ public class GrantDelayedNotifier {
     public void initiateGrantDelayedNotification() {
         String yesterday = DATE_FORMAT.format(LocalDate.now().minusDays(1L));
         log.info("Grant delayed notification initiated for date: {}", yesterday);
-
-        securityUtils.setSecurityContextUserAsCaseworker();
 
         GrantDelayedResponse response = backOfficeService.initiateGrantDelayedNotification(yesterday);
         String updates = response.getDelayResponseData().stream().collect(Collectors.joining(","));
