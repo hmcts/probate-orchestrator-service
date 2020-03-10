@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.http.ResponseEntity;
 import uk.gov.hmcts.probate.model.backoffice.GrantDelayedResponse;
 import uk.gov.hmcts.probate.service.BackOfficeService;
 
@@ -20,8 +19,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GrantDelayedNotifierTest {
-    @Mock
-    SecurityUtils securityUtils;
+
     @Mock
     BackOfficeService backOfficeService;
 
@@ -29,7 +27,7 @@ public class GrantDelayedNotifierTest {
 
     @Before
     public void setUp() {
-        grantDelayedNotifier = new GrantDelayedNotifier(securityUtils, backOfficeService);
+        grantDelayedNotifier = new GrantDelayedNotifier(backOfficeService);
     }
 
     @Test
@@ -43,6 +41,5 @@ public class GrantDelayedNotifierTest {
         grantDelayedNotifier.initiateGrantDelayedNotification();
 
         verify(backOfficeService, times(1)).initiateGrantDelayedNotification(date);
-        verify(securityUtils, times(1)).setSecurityContextUserAsCaseworker();
     }
 }
