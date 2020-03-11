@@ -37,6 +37,37 @@ public interface BackOfficeApi {
         @RequestHeader(SERVICE_AUTHORIZATION) String serviceAuthorization,
         @RequestBody BackOfficeCallbackRequest backOfficeCallbackRequest
     );
+    
+    @PostMapping(
+        value = "/data-extract/hmrc",
+        headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+    )
+    ResponseEntity<String> initiateHmrcExtract(
+        @RequestHeader(AUTHORIZATION) String authorisation,
+        @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+        @RequestParam(value = "fromDate", required = false) String fromDate,
+        @RequestParam(value = "toDate", required = false) String toDate
+    );
+
+    @PostMapping(
+        value = "/data-extract/iron-mountain",
+        headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+    )
+    ResponseEntity<String> initiateIronMountainExtract(
+        @RequestHeader(AUTHORIZATION) String authorisation,
+        @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+        @RequestParam(value = "date") String date
+    );
+
+    @PostMapping(
+        value = "/data-extract/exela",
+        headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+    )
+    ResponseEntity<String> initiateExelaExtract(
+        @RequestHeader(AUTHORIZATION) String authorisation,
+        @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+        @RequestParam(value = "date") String date
+    );
 
     @PostMapping(
         value = "/notify/grant-delayed-scheduled",

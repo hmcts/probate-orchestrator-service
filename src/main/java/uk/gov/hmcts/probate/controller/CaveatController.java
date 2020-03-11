@@ -28,7 +28,7 @@ public class CaveatController {
 
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    @Scheduled(cron = "${cron.caveatExpirySchedule}")
+    @Scheduled(cron = "${cron.caveatExpiry.schedule}")
     @ApiOperation(value = "Expire Raised Caveats yesterday")
     @PostMapping(path = "/expire")
     public ResponseEntity expireCaveats() {

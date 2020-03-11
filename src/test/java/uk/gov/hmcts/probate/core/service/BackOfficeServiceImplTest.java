@@ -1,5 +1,6 @@
 package uk.gov.hmcts.probate.core.service;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +20,7 @@ import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Arrays;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -44,6 +46,9 @@ public class BackOfficeServiceImplTest {
 
     private BackOfficeCaveatResponse backOfficeCaveatResponse;
 
+    @Mock
+    private ResponseEntity<String> responseEntity;
+    
     @InjectMocks
     private BackOfficeServiceImpl backOfficeService;
 
@@ -73,6 +78,30 @@ public class BackOfficeServiceImplTest {
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowIllegalArgumentExceptionWhenCaseTypeIsGrantOfRepresentation() {
         backOfficeService.sendNotification(ProbateCaseDetails.builder().caseData(GrantOfRepresentationData.builder().build()).build());
+    }
+
+    @Test
+    public void shouldInitiateHmrcExtract() {
+        when(backOfficeApi.initiateHmrcExtract(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(String.class), any(String.class)))
+            .thenReturn(responseEntity);
+
+        assertThat(backOfficeService.initiateHmrcExtract("2020-02-27", "2020-02-28")).isEqualTo(responseEntity);
+    }
+
+    @Test
+    public void shouldInitiateIronMountainExtract() {
+        when(backOfficeApi.initiateIronMountainExtract(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(String.class)))
+            .thenReturn(responseEntity);
+
+        assertThat(backOfficeService.initiateIronMountainExtract("2020-02-27")).isEqualTo(responseEntity);
+    }
+
+    @Test
+    public void shouldInitiateExelaExtract() {
+        when(backOfficeApi.initiateExelaExtract(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(String.class)))
+            .thenReturn(responseEntity);
+
+        assertThat(backOfficeService.initiateExelaExtract("2020-02-27")).isEqualTo(responseEntity);
     }
 
     @Test

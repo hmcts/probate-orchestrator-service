@@ -9,6 +9,12 @@ public interface BackOfficeService {
 
     CaseData sendNotification(ProbateCaseDetails probateCaseDetails);
 
+    ResponseEntity<String> initiateHmrcExtract(String fromDate, String toDate);
+
+    ResponseEntity<String> initiateIronMountainExtract(String date);
+
+    ResponseEntity<String>  initiateExelaExtract(String date);
+
     GrantDelayedResponse initiateGrantDelayedNotification(String date);
     
 }

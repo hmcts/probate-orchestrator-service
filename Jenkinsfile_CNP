@@ -25,8 +25,7 @@ def secrets = [
         secret('probate-mail-recipient', 'PROBATE_SUB_MAIL_REC'),
         secret('idamRedirectUrl', 'IDAM_REDIRECT_URL'),
         secret('payCaseWorkerUser','PAYMENT_CASEWORKER_USERNAME'),
-        secret('payCaseWorkerPass','PAYMENT_CASEWORKER_PASSWORD'),
-        secret('cronKeyCaveatExpiry', 'CRON_KEY_CAVEAT_EXPIRY')
+        secret('payCaseWorkerPass','PAYMENT_CASEWORKER_PASSWORD')
 ]]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
@@ -48,9 +47,9 @@ withPipeline("java", product, component) {
     installCharts()
     //disableLegacyDeployment()
 
-//    before('buildinfra:prod') {
-//            error 'Deliberately breaking pipeline to prevent prod deployment'
-//    }
+    before('buildinfra:prod') {
+            error 'Deliberately breaking pipeline to prevent prod deployment'
+    }
 
     after('test') {
 
