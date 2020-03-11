@@ -72,8 +72,8 @@
     caveatExpiry:
       schedule: "0 0 3 * * *"
     hmrc:
-      schedule: "0 0,15,30,45 * * * *"
+      schedule: "0 0 2 * * *"
     ironMountain:
-      schedule: "0 5,20,35,50 * * * *"
+      schedule: "0 5 2 * * *"
     exela:
-      schedule: "0 10,25,40,55 * * * *"
+      schedule: "0 10 2 * * *"
