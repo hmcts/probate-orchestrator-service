@@ -79,6 +79,14 @@ public class BackOfficeServiceImpl implements BackOfficeService {
             date);
     }
 
+    @Override
+    public GrantDelayedResponse initiateGrantAwaitingDocumentsNotification(String date) {
+        securityUtils.setSecurityContextUserAsCaseworker();
+        log.info("Calling BackOfficeAPI to initiateGrantAwaitingDocumentsNotification as caseworker");
+        return backOfficeApi.initiateGrantAwaitingDocumentsNotification(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
+            date);
+    }
+
     private Function<ProbateCaseDetails, CaseData> raiseCaveat() {
         return probateCaseDetails -> {
             BackOfficeCallbackRequest backOfficeCallbackRequest = createBackOfficeCallbackRequest(probateCaseDetails);

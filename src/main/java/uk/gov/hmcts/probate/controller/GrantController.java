@@ -25,8 +25,6 @@ public class GrantController {
 
     private final GrantDelayedNotifier grantDelayedNotifier;
 
-    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
     @Scheduled(cron = "${cron.grantDelayed.schedule}")
     @ApiOperation(value = "Notify grants delayed")
     @PostMapping(path = "/delay-notification")
@@ -39,6 +37,20 @@ public class GrantController {
         log.info("Perform grant delayed notification called for today");
 
         return ResponseEntity.ok("Perform grant delayed notification called");
+    }
+
+    @Scheduled(cron = "${cron.grantAwaitingDocuments.schedule}")
+    @ApiOperation(value = "Notify grants Awaiting Documents")
+    @PostMapping(path = "/awaiting-documents-notification")
+    public ResponseEntity initiateAwaitingDocumentsSchedule() {
+        log.info("Calling perform grant Awaiting Documents notification for today ...");
+        ExecutorService executor = Executors.newFixedThreadPool(1);
+        executor.submit(() -> {
+            grantDelayedNotifier.initiateGrantDelayedNotification();
+        });
+        log.info("Perform grant Awaiting Documents  notification called for today");
+
+        return ResponseEntity.ok("Perform grant Awaiting Documents notification called");
     }
 
 }
