@@ -79,3 +79,6 @@
       schedule: "0 0 0 1 * *"
     grantDelayed:
       schedule: "0 15 2 * * *"
+    grantAwaitingDocuments:
+      schedule: "0 30 2 * * *"
+      

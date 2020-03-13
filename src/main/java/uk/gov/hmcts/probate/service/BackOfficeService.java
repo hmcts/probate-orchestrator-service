@@ -16,5 +16,6 @@ public interface BackOfficeService {
     ResponseEntity<String>  initiateExelaExtract(String date);
 
     GrantDelayedResponse initiateGrantDelayedNotification(String date);
-    
+
+    GrantDelayedResponse initiateGrantAwaitingDocumentsNotification(String date);
 }

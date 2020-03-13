@@ -79,4 +79,14 @@ public interface BackOfficeApi {
         @RequestParam(value = "date") String date
     );
 
+    @PostMapping(
+        value = "/notify/grant-awaiting-documents-scheduled",
+        headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+    )
+    GrantDelayedResponse initiateGrantAwaitingDocumentsNotification(
+        @RequestHeader(AUTHORIZATION) String authorisation,
+        @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+        @RequestParam(value = "date") String date
+    );
+
 }
