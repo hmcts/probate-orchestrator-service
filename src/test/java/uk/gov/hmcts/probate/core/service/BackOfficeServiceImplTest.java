@@ -116,4 +116,16 @@ public class BackOfficeServiceImplTest {
         Assert.assertThat(response.getDelayResponseData().size(), equalTo(2));
         verify(backOfficeApi).initiateGrantDelayedNotification(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(date));
     }
+    @Test
+    public void shouldInitiateGrantAwaitingDocumentsNotification() {
+        String date = "someDate";
+        GrantDelayedResponse responseBody = GrantDelayedResponse.builder().delayResponseData(Arrays.asList("case1", "case2")).build();
+        Mockito.when(backOfficeApi.initiateGrantAwaitingDocumentsNotification(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
+            date)).thenReturn(responseBody);
+
+        GrantDelayedResponse response = backOfficeService.initiateGrantAwaitingDocumentsNotification(date);
+
+        Assert.assertThat(response.getDelayResponseData().size(), equalTo(2));
+        verify(backOfficeApi).initiateGrantAwaitingDocumentsNotification(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(date));
+    }
 }
