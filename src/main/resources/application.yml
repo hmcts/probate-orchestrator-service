@@ -40,6 +40,9 @@
     caseworker:
       username: ${PAYMENT_CASEWORKER_USERNAME:ProbateSuperuser@gmail.com}
       password: ${PAYMENT_CASEWORKER_PASSWORD:Pa55word11}
+    scheduler:
+      username: ${SCHEDULER_CASEWORKER_USERNAME:ProbateSchedulerDEV@gmail.com}
+      password: ${SCHEDULER_CASEWORKER_PASSWORD:Pa55word11}
 
   s2s.auth.totp.secret: ${S2S_AUTH_TOTP_SECRET:'AAAAAAAAAAAAAAAA'}
   service.name: ${auth.provider.service.client.microservice}
