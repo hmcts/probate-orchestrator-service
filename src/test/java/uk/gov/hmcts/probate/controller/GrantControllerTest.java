@@ -41,4 +41,16 @@ public class GrantControllerTest {
             .andExpect(content().string("Perform grant delayed notification called"));
     }
 
+    @Test
+    public void shouldInitiateGrantAwaitingDocsFromSchedule() throws Exception {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String expiryDate = dateTimeFormatter.format(LocalDate.now().minusDays(1L));
+
+        mockMvc.perform(post("/grant/awaiting-documents-notification")
+            .content(expiryDate)
+            .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
+            .andExpect(status().isOk())
+            .andExpect(content().string("Perform grant Awaiting Documents notification called"));
+    }
+
 }
