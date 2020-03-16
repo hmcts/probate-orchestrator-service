@@ -26,7 +26,7 @@ public class CaveatExpiryUpdater {
         dateValidator(expiryDate);
         log.info("Caveat expire initiated for expiryDate: {}", expiryDate);
 
-        securityUtils.setSecurityContextUserAsCaseworker();
+        securityUtils.setSecurityContextUserAsScheduler();
 
         List<ProbateCaseDetails> expired = submitService.expireCaveats(expiryDate);
         log.info("Number of caveats expired for date {}", expired.size());

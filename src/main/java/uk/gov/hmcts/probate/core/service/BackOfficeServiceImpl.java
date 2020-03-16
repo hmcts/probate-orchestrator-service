@@ -49,7 +49,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 
     @Override
     public ResponseEntity<String> initiateHmrcExtract(String fromDate, String toDate) {
-        securityUtils.setSecurityContextUserAsCaseworker();
+        securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateHmrcExtract as caseworker");
         return backOfficeApi.initiateHmrcExtract(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
             fromDate, toDate);
@@ -57,7 +57,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 
     @Override
     public ResponseEntity<String> initiateIronMountainExtract(String date) {
-        securityUtils.setSecurityContextUserAsCaseworker();
+        securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateIronMountainExtract as caseworker");
         return backOfficeApi.initiateIronMountainExtract(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
             date);
@@ -65,7 +65,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 
     @Override
     public ResponseEntity<String> initiateExelaExtract(String date) {
-        securityUtils.setSecurityContextUserAsCaseworker();
+        securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateExelaExtract as caseworker");
         return backOfficeApi.initiateExelaExtract(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
             date);
@@ -73,7 +73,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 
     @Override
     public GrantDelayedResponse initiateGrantDelayedNotification(String date) {
-        securityUtils.setSecurityContextUserAsCaseworker();
+        securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateGrantDelayedNotification as caseworker");
         return backOfficeApi.initiateGrantDelayedNotification(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
             date);
