@@ -5,14 +5,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import uk.gov.hmcts.probate.model.backoffice.GrantDelayedResponse;
+import uk.gov.hmcts.probate.model.backoffice.GrantScheduleResponse;
 import uk.gov.hmcts.probate.service.BackOfficeService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -36,9 +35,9 @@ public class GrantAwaitingDocumentsNotifierTest {
     public void shouldInitiateAwaitingDocsGrantNotification() {
         DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = DATE_FORMAT.format(LocalDate.now().minusDays(1));
-        GrantDelayedResponse grantDelayedResponse = GrantDelayedResponse.builder()
-            .delayResponseData(Arrays.asList("someBody")).build();
-        when(backOfficeService.initiateGrantAwaitingDocumentsNotification(anyString())).thenReturn(grantDelayedResponse);
+        GrantScheduleResponse grantScheduleResponse = GrantScheduleResponse.builder()
+            .scheduleResponseData(Arrays.asList("someBody")).build();
+        when(backOfficeService.initiateGrantAwaitingDocumentsNotification(anyString())).thenReturn(grantScheduleResponse);
 
         grantAwaitingDocumentsNotifier.initiateGrantAwaitingDocumentsNotification();
 

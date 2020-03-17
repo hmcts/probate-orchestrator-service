@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceConfiguration;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackRequest;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatResponse;
-import uk.gov.hmcts.probate.model.backoffice.GrantDelayedResponse;
+import uk.gov.hmcts.probate.model.backoffice.GrantScheduleResponse;
 
 import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -73,7 +73,7 @@ public interface BackOfficeApi {
         value = "/notify/grant-delayed-scheduled",
         headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
-    GrantDelayedResponse initiateGrantDelayedNotification(
+    GrantScheduleResponse initiateGrantDelayedNotification(
         @RequestHeader(AUTHORIZATION) String authorisation,
         @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
         @RequestParam(value = "date") String date
@@ -83,7 +83,7 @@ public interface BackOfficeApi {
         value = "/notify/grant-awaiting-documents-scheduled",
         headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
-    GrantDelayedResponse initiateGrantAwaitingDocumentsNotification(
+    GrantScheduleResponse initiateGrantAwaitingDocumentsNotification(
         @RequestHeader(AUTHORIZATION) String authorisation,
         @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
         @RequestParam(value = "date") String date

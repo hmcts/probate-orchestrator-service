@@ -8,6 +8,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import uk.gov.hmcts.probate.core.service.GrantAwaitingDocumentsNotifier;
 import uk.gov.hmcts.probate.core.service.GrantDelayedNotifier;
 
 import java.time.LocalDate;
@@ -25,6 +26,8 @@ public class GrantControllerTest {
 
     @MockBean
     private GrantDelayedNotifier grantDelayedNotifier;
+    @MockBean
+    private GrantAwaitingDocumentsNotifier grantAwaitingDocumentsNotifier;
 
     @Autowired
     private MockMvc mockMvc;
