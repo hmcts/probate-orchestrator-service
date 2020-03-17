@@ -9,7 +9,7 @@ import uk.gov.hmcts.probate.client.backoffice.BackOfficeApi;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackRequest;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaseDetails;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatResponse;
-import uk.gov.hmcts.probate.model.backoffice.GrantDelayedResponse;
+import uk.gov.hmcts.probate.model.backoffice.GrantScheduleResponse;
 import uk.gov.hmcts.probate.service.BackOfficeService;
 import uk.gov.hmcts.reform.probate.model.cases.CaseData;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
@@ -72,7 +72,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
     }
 
     @Override
-    public GrantDelayedResponse initiateGrantDelayedNotification(String date) {
+    public GrantScheduleResponse initiateGrantDelayedNotification(String date) {
         securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateGrantDelayedNotification as caseworker");
         return backOfficeApi.initiateGrantDelayedNotification(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
@@ -80,7 +80,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
     }
 
     @Override
-    public GrantDelayedResponse initiateGrantAwaitingDocumentsNotification(String date) {
+    public GrantScheduleResponse initiateGrantAwaitingDocumentsNotification(String date) {
         securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateGrantAwaitingDocumentsNotification as caseworker");
         return backOfficeApi.initiateGrantAwaitingDocumentsNotification(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
