@@ -75,9 +75,15 @@ public class BackOfficeServiceImplTest {
         verify(backOfficeApi).raiseCaveat(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgumentExceptionWhenCaseTypeIsGrantOfRepresentation() {
-        backOfficeService.sendNotification(ProbateCaseDetails.builder().caseData(GrantOfRepresentationData.builder().build()).build());
+    @Test
+    public void shouldSendNotificationsWhenCaseTypeisGrantOfRepresentation() {
+
+        when(backOfficeApi.applicationReceived(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class)))
+                .thenReturn("Success");
+
+        backOfficeService.sendNotification(ProbateCaseDetails.builder().caseInfo(CaseInfo.builder().caseId("123132").build()).caseData(GrantOfRepresentationData.builder().build()).build());
+
+        verify(backOfficeApi).applicationReceived(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class));
     }
 
     @Test

@@ -34,15 +34,16 @@ public class BackOfficeServiceImpl implements BackOfficeService {
     private final SecurityUtils securityUtils;
 
     private final Map<CaseType, Function<ProbateCaseDetails, CaseData>> sendNotificationFunctions = ImmutableMap
-        .<CaseType, Function<ProbateCaseDetails, CaseData>>builder()
-        .put(CaseType.CAVEAT, raiseCaveat())
-        .build();
+            .<CaseType, Function<ProbateCaseDetails, CaseData>>builder()
+            .put(CaseType.CAVEAT, raiseCaveat())
+            .put(CaseType.GRANT_OF_REPRESENTATION, applicationReceived())
+            .build();
 
     @Override
     public CaseData sendNotification(ProbateCaseDetails probateCaseDetails) {
         CaseType caseType = CaseType.getCaseType(probateCaseDetails.getCaseData());
         Function<ProbateCaseDetails, CaseData> sendNotificationFunction = Optional.ofNullable(
-            sendNotificationFunctions.get(caseType)
+                sendNotificationFunctions.get(caseType)
         ).orElseThrow(() -> new IllegalArgumentException("Cannot find notification function for case type: " + caseType));
         return sendNotificationFunction.apply(probateCaseDetails);
     }
@@ -84,14 +85,27 @@ public class BackOfficeServiceImpl implements BackOfficeService {
             BackOfficeCallbackRequest backOfficeCallbackRequest = createBackOfficeCallbackRequest(probateCaseDetails);
             log.info("Sending caveat data to back-office for case id {}", backOfficeCallbackRequest.getCaseDetails().getId());
             BackOfficeCaveatResponse backOfficeCaveatResponse = backOfficeApi.raiseCaveat(
-                securityUtils.getAuthorisation(),
-                securityUtils.getServiceAuthorisation(),
-                backOfficeCallbackRequest);
+                    securityUtils.getAuthorisation(),
+                    securityUtils.getServiceAuthorisation(),
+                    backOfficeCallbackRequest);
             CaveatData caveatData = (CaveatData) probateCaseDetails.getCaseData();
             caveatData.setNotificationsGenerated(backOfficeCaveatResponse.getCaseData().getNotificationsGenerated());
             caveatData.setExpiryDate(getFormattedCaveatDate(backOfficeCaveatResponse.getCaseData().getExpiryDate()));
             caveatData.setApplicationSubmittedDate(getFormattedCaveatDate(backOfficeCaveatResponse.getCaseData().getApplicationSubmittedDate()));
             return caveatData;
+        };
+    }
+
+    private Function<ProbateCaseDetails, CaseData> applicationReceived() {
+        return probateCaseDetails -> {
+            BackOfficeCallbackRequest backOfficeCallbackRequest = createBackOfficeCallbackRequest(probateCaseDetails);
+            log.info("Sending Application Recieved notifiation rquest to back-office for case id {}", backOfficeCallbackRequest.getCaseDetails().getId());
+            String backOfficeResponse = backOfficeApi.applicationReceived(
+                    securityUtils.getAuthorisation(),
+                    securityUtils.getServiceAuthorisation(),
+                    backOfficeCallbackRequest);
+            log.info("Received Back office response for Application Recieved notify request with response {}", backOfficeResponse);
+            return probateCaseDetails.getCaseData();
         };
     }
 
@@ -102,10 +116,10 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 
     private BackOfficeCallbackRequest createBackOfficeCallbackRequest(ProbateCaseDetails probateCaseDetails) {
         return BackOfficeCallbackRequest.builder()
-            .caseDetails(BackOfficeCaseDetails.builder()
-                .data(probateCaseDetails.getCaseData())
-                .id(Long.valueOf(probateCaseDetails.getCaseInfo().getCaseId()))
-                .build())
-            .build();
+                .caseDetails(BackOfficeCaseDetails.builder()
+                        .data(probateCaseDetails.getCaseData())
+                        .id(Long.valueOf(probateCaseDetails.getCaseInfo().getCaseId()))
+                        .build())
+                .build();
     }
 }
