@@ -109,7 +109,7 @@ public class SecurityUtilsTest {
             eq(AUTH_CLIENT_SECRET)))
             .thenReturn(tokenExchangeResponse);
 
-        securityUtils.setSecurityContextUserAsCaseworker();
+        securityUtils.setSecurityContextUserAsScheduler();
 
         assertThat(securityUtils.getAuthorisation(), equalTo(USER_TOKEN));
     }

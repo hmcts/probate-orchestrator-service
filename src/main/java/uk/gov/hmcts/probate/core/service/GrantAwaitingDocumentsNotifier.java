@@ -13,19 +13,19 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class GrantDelayedNotifier {
+public class GrantAwaitingDocumentsNotifier {
 
     private final BackOfficeService backOfficeService;
 
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    public void initiateGrantDelayedNotification() {
+    public void initiateGrantAwaitingDocumentsNotification() {
         String yesterday = DATE_FORMAT.format(LocalDate.now().minusDays(1L));
-        log.info("Grant delayed notification initiated for date: {}", yesterday);
+        log.info("Grant awaiting documents notification initiated for date: {}", yesterday);
 
-        GrantScheduleResponse response = backOfficeService.initiateGrantDelayedNotification(yesterday);
+        GrantScheduleResponse response = backOfficeService.initiateGrantAwaitingDocumentsNotification(yesterday);
         String updates = response.getScheduleResponseData().stream().collect(Collectors.joining(","));
-        log.info("Grant delayed notification completed for date: {} " +
+        log.info("Grant awaiting documents notification completed for date: {} " +
             "for {} cases, details: {}", yesterday, response.getScheduleResponseData().size(), updates);
     }
 }
