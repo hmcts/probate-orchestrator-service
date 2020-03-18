@@ -52,7 +52,7 @@ public class SubmitServiceImpl implements SubmitService {
 
     private final Map<ProbateType, Function<Form, String>> formIdentifierFunctionMap;
 
-    private final Set<CaseType> caseTypesForNotifications = Sets.newHashSet(CaseType.CAVEAT);
+    private final Set<CaseType> caseTypesForNotifications = Sets.newHashSet(CaseType.CAVEAT, CaseType.GRANT_OF_REPRESENTATION);
 
     private final CaseSubmissionUpdater caseSubmissionUpdater;
 
