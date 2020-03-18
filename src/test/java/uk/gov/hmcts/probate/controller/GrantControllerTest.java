@@ -8,6 +8,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import uk.gov.hmcts.probate.core.service.GrantAwaitingDocumentsNotifier;
 import uk.gov.hmcts.probate.core.service.GrantDelayedNotifier;
 
 import java.time.LocalDate;
@@ -25,6 +26,8 @@ public class GrantControllerTest {
 
     @MockBean
     private GrantDelayedNotifier grantDelayedNotifier;
+    @MockBean
+    private GrantAwaitingDocumentsNotifier grantAwaitingDocumentsNotifier;
 
     @Autowired
     private MockMvc mockMvc;
@@ -39,6 +42,18 @@ public class GrantControllerTest {
             .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
             .andExpect(status().isOk())
             .andExpect(content().string("Perform grant delayed notification called"));
+    }
+
+    @Test
+    public void shouldInitiateGrantAwaitingDocsFromSchedule() throws Exception {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String expiryDate = dateTimeFormatter.format(LocalDate.now().minusDays(1L));
+
+        mockMvc.perform(post("/grant/awaiting-documents-notification")
+            .content(expiryDate)
+            .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
+            .andExpect(status().isOk())
+            .andExpect(content().string("Perform grant Awaiting Documents notification called"));
     }
 
 }

@@ -18,28 +18,30 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class GrantDelayedNotifierTest {
+public class GrantAwaitingDocumentsNotifierTest {
+
 
     @Mock
     BackOfficeService backOfficeService;
 
-    GrantDelayedNotifier grantDelayedNotifier;
+    GrantAwaitingDocumentsNotifier grantAwaitingDocumentsNotifier;
 
     @Before
     public void setUp() {
-        grantDelayedNotifier = new GrantDelayedNotifier(backOfficeService);
+        grantAwaitingDocumentsNotifier = new GrantAwaitingDocumentsNotifier(backOfficeService);
     }
 
     @Test
-    public void shouldInitiateGrantDelayedNotification() {
+    public void shouldInitiateAwaitingDocsGrantNotification() {
         DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = DATE_FORMAT.format(LocalDate.now().minusDays(1));
         GrantScheduleResponse grantScheduleResponse = GrantScheduleResponse.builder()
             .scheduleResponseData(Arrays.asList("someBody")).build();
-        when(backOfficeService.initiateGrantDelayedNotification(anyString())).thenReturn(grantScheduleResponse);
+        when(backOfficeService.initiateGrantAwaitingDocumentsNotification(anyString())).thenReturn(grantScheduleResponse);
 
-        grantDelayedNotifier.initiateGrantDelayedNotification();
+        grantAwaitingDocumentsNotifier.initiateGrantAwaitingDocumentsNotification();
 
-        verify(backOfficeService, times(1)).initiateGrantDelayedNotification(date);
+        verify(backOfficeService, times(1)).initiateGrantAwaitingDocumentsNotification(date);
     }
+
 }

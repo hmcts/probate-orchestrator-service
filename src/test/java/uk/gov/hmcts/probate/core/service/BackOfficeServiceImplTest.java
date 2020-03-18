@@ -1,6 +1,5 @@
 package uk.gov.hmcts.probate.core.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +13,7 @@ import uk.gov.hmcts.probate.client.backoffice.BackOfficeApi;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackRequest;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatData;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatResponse;
-import uk.gov.hmcts.probate.model.backoffice.GrantDelayedResponse;
+import uk.gov.hmcts.probate.model.backoffice.GrantScheduleResponse;
 import uk.gov.hmcts.reform.probate.model.cases.CaseInfo;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
@@ -113,13 +112,25 @@ public class BackOfficeServiceImplTest {
     @Test
     public void shouldInitiateGrantDelayedNotification() {
         String date = "someDate";
-        GrantDelayedResponse responseBody = GrantDelayedResponse.builder().delayResponseData(Arrays.asList("case1", "case2")).build();
+        GrantScheduleResponse responseBody = GrantScheduleResponse.builder().scheduleResponseData(Arrays.asList("case1", "case2")).build();
         Mockito.when(backOfficeApi.initiateGrantDelayedNotification(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
             date)).thenReturn(responseBody);
 
-        GrantDelayedResponse response = backOfficeService.initiateGrantDelayedNotification(date);
+        GrantScheduleResponse response = backOfficeService.initiateGrantDelayedNotification(date);
 
-        Assert.assertThat(response.getDelayResponseData().size(), equalTo(2));
+        Assert.assertThat(response.getScheduleResponseData().size(), equalTo(2));
         verify(backOfficeApi).initiateGrantDelayedNotification(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(date));
+    }
+    @Test
+    public void shouldInitiateGrantAwaitingDocumentsNotification() {
+        String date = "someDate";
+        GrantScheduleResponse responseBody = GrantScheduleResponse.builder().scheduleResponseData(Arrays.asList("case1", "case2")).build();
+        Mockito.when(backOfficeApi.initiateGrantAwaitingDocumentsNotification(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
+            date)).thenReturn(responseBody);
+
+        GrantScheduleResponse response = backOfficeService.initiateGrantAwaitingDocumentsNotification(date);
+
+        Assert.assertThat(response.getScheduleResponseData().size(), equalTo(2));
+        verify(backOfficeApi).initiateGrantAwaitingDocumentsNotification(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(date));
     }
 }
