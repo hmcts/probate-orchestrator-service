@@ -14,12 +14,16 @@ import uk.gov.hmcts.probate.client.backoffice.BackOfficeApi;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackRequest;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatData;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatResponse;
+import uk.gov.hmcts.probate.model.backoffice.GrantDelayedResponse;
 import uk.gov.hmcts.reform.probate.model.cases.CaseInfo;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import java.util.Arrays;
+
+import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -52,9 +56,9 @@ public class BackOfficeServiceImplTest {
     public void setUp() {
 
         backOfficeCaveatResponse = BackOfficeCaveatResponse.builder().caseData(BackOfficeCaveatData.builder()
-                .applicationSubmittedDate(CAVEAT_SUBMITTED_DATE)
-                .expiryDate(CAVEAT_EXPIRY_DATE)
-                .build())
+            .applicationSubmittedDate(CAVEAT_SUBMITTED_DATE)
+            .expiryDate(CAVEAT_EXPIRY_DATE)
+            .build())
             .build();
         Mockito.when(securityUtils.getAuthorisation()).thenReturn(AUTHORIZATION);
         Mockito.when(securityUtils.getServiceAuthorisation()).thenReturn(SERVICE_AUTHORIZATION);
@@ -104,5 +108,18 @@ public class BackOfficeServiceImplTest {
             .thenReturn(responseEntity);
 
         assertThat(backOfficeService.initiateExelaExtract("2020-02-27")).isEqualTo(responseEntity);
+    }
+
+    @Test
+    public void shouldInitiateGrantDelayedNotification() {
+        String date = "someDate";
+        GrantDelayedResponse responseBody = GrantDelayedResponse.builder().delayResponseData(Arrays.asList("case1", "case2")).build();
+        Mockito.when(backOfficeApi.initiateGrantDelayedNotification(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
+            date)).thenReturn(responseBody);
+
+        GrantDelayedResponse response = backOfficeService.initiateGrantDelayedNotification(date);
+
+        Assert.assertThat(response.getDelayResponseData().size(), equalTo(2));
+        verify(backOfficeApi).initiateGrantDelayedNotification(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(date));
     }
 }
