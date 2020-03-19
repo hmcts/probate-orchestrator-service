@@ -72,16 +72,16 @@
           loggerLevel: basic
 
   cron:
-    caveatExpiry:
-      schedule: "0 0 3 1 * *"
     hmrc:
-      schedule: "0 0 2 1 * *"
+      schedule: "0 0 2 * * *"
     ironMountain:
-      schedule: "0 5 2 1 * *"
+      schedule: "0 5 2 * * *"
     exela:
-      schedule: "0 10 2 1 * *"
+      schedule: "0 10 2 * * *"
     grantDelayed:
-      schedule: "0 15 2 1 * *"
+      schedule: "0 0/15 * * * *"
     grantAwaitingDocuments:
-      schedule: "0 20 2 1 * *"
+      schedule: "0 5/15 * * * *"
+    caveatExpiry:
+      schedule: "0 10/15 * * * *"
       
