@@ -108,11 +108,6 @@ public class BackOfficeServiceImpl implements BackOfficeService {
         return probateCaseDetails -> {
             BackOfficeCallbackRequest backOfficeCallbackRequest = createBackOfficeCallbackRequest(probateCaseDetails);
             log.info("Sending Application Recieved notifiation rquest to back-office for case id {}", backOfficeCallbackRequest.getCaseDetails().getId());
-            String backOfficeResponse = backOfficeApi.applicationReceived(
-                    securityUtils.getAuthorisation(),
-                    securityUtils.getServiceAuthorisation(),
-                    backOfficeCallbackRequest);
-            log.info("Received Back office response for Application Recieved notify request with response {}", backOfficeResponse);
             return probateCaseDetails.getCaseData();
         };
     }
