@@ -1,6 +1,7 @@
 package uk.gov.hmcts.probate.service;
 
 import org.springframework.http.ResponseEntity;
+import uk.gov.hmcts.probate.model.backoffice.GrantScheduleResponse;
 import uk.gov.hmcts.reform.probate.model.cases.CaseData;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 
@@ -13,4 +14,8 @@ public interface BackOfficeService {
     ResponseEntity<String> initiateIronMountainExtract(String date);
 
     ResponseEntity<String>  initiateExelaExtract(String date);
+
+    GrantScheduleResponse initiateGrantDelayedNotification(String date);
+
+    GrantScheduleResponse initiateGrantAwaitingDocumentsNotification(String date);
 }
