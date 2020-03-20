@@ -1,6 +1,5 @@
 package uk.gov.hmcts.probate.core.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,12 +13,16 @@ import uk.gov.hmcts.probate.client.backoffice.BackOfficeApi;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackRequest;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatData;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatResponse;
+import uk.gov.hmcts.probate.model.backoffice.GrantScheduleResponse;
 import uk.gov.hmcts.reform.probate.model.cases.CaseInfo;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import java.util.Arrays;
+
+import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -52,9 +55,9 @@ public class BackOfficeServiceImplTest {
     public void setUp() {
 
         backOfficeCaveatResponse = BackOfficeCaveatResponse.builder().caseData(BackOfficeCaveatData.builder()
-                .applicationSubmittedDate(CAVEAT_SUBMITTED_DATE)
-                .expiryDate(CAVEAT_EXPIRY_DATE)
-                .build())
+            .applicationSubmittedDate(CAVEAT_SUBMITTED_DATE)
+            .expiryDate(CAVEAT_EXPIRY_DATE)
+            .build())
             .build();
         Mockito.when(securityUtils.getAuthorisation()).thenReturn(AUTHORIZATION);
         Mockito.when(securityUtils.getServiceAuthorisation()).thenReturn(SERVICE_AUTHORIZATION);
@@ -70,12 +73,7 @@ public class BackOfficeServiceImplTest {
 
         verify(backOfficeApi).raiseCaveat(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class));
     }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgumentExceptionWhenCaseTypeIsGrantOfRepresentation() {
-        backOfficeService.sendNotification(ProbateCaseDetails.builder().caseData(GrantOfRepresentationData.builder().build()).build());
-    }
-
+    
     @Test
     public void shouldInitiateHmrcExtract() {
         when(backOfficeApi.initiateHmrcExtract(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(String.class), any(String.class)))
@@ -98,5 +96,30 @@ public class BackOfficeServiceImplTest {
             .thenReturn(responseEntity);
 
         assertThat(backOfficeService.initiateExelaExtract("2020-02-27")).isEqualTo(responseEntity);
+    }
+
+    @Test
+    public void shouldInitiateGrantDelayedNotification() {
+        String date = "someDate";
+        GrantScheduleResponse responseBody = GrantScheduleResponse.builder().scheduleResponseData(Arrays.asList("case1", "case2")).build();
+        Mockito.when(backOfficeApi.initiateGrantDelayedNotification(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
+            date)).thenReturn(responseBody);
+
+        GrantScheduleResponse response = backOfficeService.initiateGrantDelayedNotification(date);
+
+        Assert.assertThat(response.getScheduleResponseData().size(), equalTo(2));
+        verify(backOfficeApi).initiateGrantDelayedNotification(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(date));
+    }
+    @Test
+    public void shouldInitiateGrantAwaitingDocumentsNotification() {
+        String date = "someDate";
+        GrantScheduleResponse responseBody = GrantScheduleResponse.builder().scheduleResponseData(Arrays.asList("case1", "case2")).build();
+        Mockito.when(backOfficeApi.initiateGrantAwaitingDocumentsNotification(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
+            date)).thenReturn(responseBody);
+
+        GrantScheduleResponse response = backOfficeService.initiateGrantAwaitingDocumentsNotification(date);
+
+        Assert.assertThat(response.getScheduleResponseData().size(), equalTo(2));
+        verify(backOfficeApi).initiateGrantAwaitingDocumentsNotification(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(date));
     }
 }

@@ -43,6 +43,12 @@ public class SecurityUtils {
     @Value("${auth.idam.caseworker.password}")
     private String caseworkerPassword;
 
+    @Value("${auth.idam.scheduler.username}")
+    private String schedulerUserName;
+
+    @Value("${auth.idam.scheduler.password}")
+    private String schedulerPassword;
+
     private final IdamClientApi idamClient;
 
     public String getServiceAuthorisation() {
@@ -60,8 +66,17 @@ public class SecurityUtils {
             .setAuthentication(new UsernamePasswordAuthenticationToken(caseworkerUserName, getCaseworkerToken()));
     }
 
+    public void setSecurityContextUserAsScheduler() {
+        SecurityContextHolder.getContext()
+            .setAuthentication(new UsernamePasswordAuthenticationToken(schedulerPassword, getSchedulerToken()));
+    }
+
     private String getCaseworkerToken() {
         return getIdamOauth2Token(caseworkerUserName, caseworkerPassword);
+    }
+
+    private String getSchedulerToken() {
+        return getIdamOauth2Token(schedulerUserName, schedulerPassword);
     }
 
     private String getIdamOauth2Token(String username, String password) {
