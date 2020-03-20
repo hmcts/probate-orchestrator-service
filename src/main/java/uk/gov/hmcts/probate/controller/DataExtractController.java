@@ -36,14 +36,14 @@ public class DataExtractController {
 
     @ApiOperation(value = "Initiate HMRC data extract for date", notes = "Date MUST be in format 'yyyy-MM-dd'")
     @PostMapping(path = "/hmrc/{date}")
-    public ResponseEntity initiateHmrcExtractForDate(@PathVariable("date") String date) {
+    public ResponseEntity<String> initiateHmrcExtractForDate(@PathVariable("date") String date) {
 
         return initiateHmrcExtractFromToDate(date, date);
     }
 
     @ApiOperation(value = "Initiate HMRC data extract within 2 dates", notes = "Dates MUST be in format 'yyyy-MM-dd'")
     @PostMapping(path = "/hmrc/{fromDate}/{toDate}")
-    public ResponseEntity initiateHmrcExtractFromToDate(@PathVariable("fromDate") String fromDate,
+    public ResponseEntity<String> initiateHmrcExtractFromToDate(@PathVariable("fromDate") String fromDate,
                                                         @PathVariable("toDate") String toDate) {
 
         log.info("Calling perform HMRC data extract from/to date...");
@@ -53,14 +53,14 @@ public class DataExtractController {
     @Scheduled(cron = "${cron.ironMountain.schedule}")
     @ApiOperation(value = "Initiate IronMountain data extract", notes = "Will find cases for yesterdays date")
     @PostMapping(path = "/iron-mountain")
-    public ResponseEntity initiateIronMountainExtract() {
+    public ResponseEntity<String> initiateIronMountainExtract() {
 
         return initiateIronMountainExtract(DATE_FORMAT.format(LocalDate.now().minusDays(1L)));
     }
 
     @ApiOperation(value = "Initiate IronMountain data extract with date", notes = "Date MUST be in format 'yyyy-MM-dd'")
     @PostMapping(path = "/iron-mountain/{date}")
-    public ResponseEntity initiateIronMountainExtract(@ApiParam(value = "Date to find cases against", required = true)
+    public ResponseEntity<String> initiateIronMountainExtract(@ApiParam(value = "Date to find cases against", required = true)
                                                       @PathVariable("date") String date) {
         log.info("Calling perform Iron Mountain data extract from date...");
         return dataExtractService.initiateIronMountainExtract(date);
@@ -69,14 +69,14 @@ public class DataExtractController {
     @Scheduled(cron = "${cron.exela.schedule}")
     @ApiOperation(value = "Initiate Excela data extract", notes = "Will find cases for yesterdays date")
     @PostMapping(path = "/exela")
-    public ResponseEntity initiateExelaExtract() {
+    public ResponseEntity<String> initiateExelaExtract() {
         log.info("Extract initiated for Excela");
         return initiateExelaExtract(DATE_FORMAT.format(LocalDate.now().minusDays(1L)));
     }
 
     @ApiOperation(value = "Initiate Excela data extract", notes = " Date MUST be in format 'yyyy-MM-dd'")
     @PostMapping(path = "/exela/{date}")
-    public ResponseEntity initiateExelaExtract(@ApiParam(value = "Date to find cases against", required = true)
+    public ResponseEntity<String> initiateExelaExtract(@ApiParam(value = "Date to find cases against", required = true)
                                                 @PathVariable("date") String date) {
 
         log.info("Calling perform Excela data extract from date...");
