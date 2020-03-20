@@ -27,16 +27,25 @@ java:
     IDAM_CLIENT_ID: "probate"
     AUTH_S2S_CLIENT_ID: "probate_backend"
     MIGRATION_JOB_SCHEDULER: false
+    TESTING: "Testing"
   image: hmctspublic.azurecr.io/probate/orchestrator-service:latest
   aadIdentityName: probate
   keyVaults:
-    "probate":
-      resourceGroup: probate
+    probate:
       secrets:
         - AppInsightsInstrumentationKey
         - s2s-probate-backend
-        - idamRedirectUrl
-        - payCaseWorkerUser
-        - payCaseWorkerPass
         - ccidam-idam-api-secrets-probate
+        - s2sAuthTotpSecret
+        - idamRedirectUrl
+        - idam-secret-probate
+        - payCaseWorkerPass
+        - payCaseWorkerUser
+        - cronKeyCaveatExpiry
+        - probate-mail-username
+        - probate-mail-password
+        - probate-mail-host
+        - probate-mail-port
+        - probate-mail-sender
+        - probate-mail-recipient
 

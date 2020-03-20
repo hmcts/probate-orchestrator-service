@@ -1,7 +1,6 @@
 
 java:
   environment:
-    LOG_LEVEL: INFO
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
 

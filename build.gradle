@@ -181,7 +181,7 @@ gitProperties {
 
 def versions = [
         commonsIO                       : '2.6',
-        hmctsJavaLogging                : '5.1.0',
+        hmctsJavaLogging                : '5.1.1',
         restAssured                     : '3.0.3',
         serviceTokenGenerator           : '0.6.0',
         lombok                          : '1.18.8',
