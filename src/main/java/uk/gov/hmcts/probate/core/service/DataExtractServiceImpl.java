@@ -21,7 +21,7 @@ public class DataExtractServiceImpl implements DataExtractService {
     private final BackOfficeService backOfficeService;
 
     @Override
-    public ResponseEntity<String> initiateHmrcExtract(String fromDate, String toDate) {
+    public ResponseEntity initiateHmrcExtract(String fromDate, String toDate) {
 
         dataExtractDateValidator.validate(fromDate, toDate);
         log.info("Calling perform HMRC data extract...");
@@ -32,11 +32,11 @@ public class DataExtractServiceImpl implements DataExtractService {
         });
         log.info("Perform HMRC data extract finished");
 
-        return new ResponseEntity("Perform HMRC data extract finished", ACCEPTED);
+        return ResponseEntity.accepted().body("Perform HMRC data extract finished");
     }
 
     @Override
-    public ResponseEntity<String> initiateIronMountainExtract(String date) {
+    public ResponseEntity initiateIronMountainExtract(String date) {
         
         dataExtractDateValidator.validate(date);
 
@@ -48,11 +48,11 @@ public class DataExtractServiceImpl implements DataExtractService {
         });
         log.info("Perform Iron Mountain data extract from date finished");
 
-        return new ResponseEntity("Perform Iron Mountain data extract finished", ACCEPTED);
+        return ResponseEntity.accepted().body("Perform Iron Mountain data extract finished");
     }
 
     @Override
-    public ResponseEntity<String> initiateExelaExtract(String date) {
+    public ResponseEntity initiateExelaExtract(String date) {
         
         dataExtractDateValidator.validate(date);
         log.info("Calling perform Exela data extract from date...");
@@ -63,6 +63,6 @@ public class DataExtractServiceImpl implements DataExtractService {
         });
         log.info("Perform Exela data extract from date finished");
 
-        return new ResponseEntity("Perform Exela data extract finished", ACCEPTED);
+        return ResponseEntity.accepted().body("Perform Exela data extract finished");
     }
 }
