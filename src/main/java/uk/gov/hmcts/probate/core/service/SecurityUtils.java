@@ -68,7 +68,7 @@ public class SecurityUtils {
 
     public void setSecurityContextUserAsScheduler() {
         SecurityContextHolder.getContext()
-            .setAuthentication(new UsernamePasswordAuthenticationToken(schedulerPassword, getSchedulerToken()));
+            .setAuthentication(new UsernamePasswordAuthenticationToken(schedulerUserName, getSchedulerToken()));
     }
 
     private String getCaseworkerToken() {
