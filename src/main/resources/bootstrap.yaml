@@ -9,4 +9,6 @@ spring:
         idamRedirectUrl:   IDAM_API_REDIRECT_URL
         payCaseWorkerUser: PAYMENT_CASEWORKER_USERNAME
         payCaseWorkerPass: PAYMENT_CASEWORKER_PASSWORD
+        schedulerCaseWorkerUser: SCHEDULER_CASEWORKER_USERNAME
+        schedulerCaseWorkerPass: SCHEDULER_CASEWORKER_PASSWORD
         ccidam-idam-api-secrets-probate: AUTH2_CLIENT_SECRET

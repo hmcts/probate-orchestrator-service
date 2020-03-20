@@ -1,4 +1,6 @@
 java:
   environment:
+    LOG_LEVEL: DEBUG
+    CRON_KEY_CAVEAT_EXPIRY: ${CRON_KEY_CAVEAT_EXPIRY}
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
