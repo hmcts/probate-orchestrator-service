@@ -76,6 +76,16 @@ data "azurerm_key_vault_secret" "payCaseWorkerPass" {
   key_vault_id = "${data.azurerm_key_vault.probate_key_vault.id}"
 }
 
+data "azurerm_key_vault_secret" "schedulerCaseWorkerUser" {
+  name = "schedulerCaseWorkerUser"
+  key_vault_id = "${data.azurerm_key_vault.probate_key_vault.id}"
+}
+
+data "azurerm_key_vault_secret" "schedulerCaseWorkerPass" {
+  name = "schedulerCaseWorkerPass"
+  key_vault_id = "${data.azurerm_key_vault.probate_key_vault.id}"
+}
+
 data "azurerm_key_vault_secret" "idam_secret_probate" {
   name = "ccidam-idam-api-secrets-probate"
   vault_uri = "${data.azurerm_key_vault.probate_key_vault.vault_uri}"
@@ -121,6 +131,8 @@ module "probate-orchestrator-service" {
     IDAM_API_REDIRECT_URL = "${data.azurerm_key_vault_secret.idamRedirectUrl.value}"
     PAYMENT_CASEWORKER_USERNAME = "${data.azurerm_key_vault_secret.payCaseWorkerUser.value}"
     PAYMENT_CASEWORKER_PASSWORD = "${data.azurerm_key_vault_secret.payCaseWorkerPass.value}"
+    SCHEDULER_CASEWORKER_USERNAME = "${data.azurerm_key_vault_secret.schedulerCaseWorkerUser.value}"
+    SCHEDULER_CASEWORKER_PASSWORD = "${data.azurerm_key_vault_secret.schedulerCaseWorkerPass.value}"
     AUTH2_CLIENT_SECRET= "${data.azurerm_key_vault_secret.idam_secret_probate.value}"
 
     MAIL_JAVAMAILPROPERTIES_SUBJECT = "${var.probate_mail_subject}"
