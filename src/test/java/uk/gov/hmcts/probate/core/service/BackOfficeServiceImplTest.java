@@ -8,12 +8,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import uk.gov.hmcts.probate.client.backoffice.BackOfficeApi;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackRequest;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatData;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatResponse;
 import uk.gov.hmcts.probate.model.backoffice.GrantScheduleResponse;
+import uk.gov.hmcts.reform.probate.model.ProbateDocument;
+import uk.gov.hmcts.reform.probate.model.ProbateDocumentLink;
+import uk.gov.hmcts.reform.probate.model.ProbateDocumentType;
 import uk.gov.hmcts.reform.probate.model.cases.CaseInfo;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
@@ -77,8 +81,17 @@ public class BackOfficeServiceImplTest {
     @Test
     public void shouldSendNotificationsWhenCaseTypeisGrantOfRepresentation() {
 
+        ProbateDocument probateDocument = ProbateDocument.builder()
+                .documentType(ProbateDocumentType.SENT_EMAIL)
+                .documentFileName("docFileName")
+                .documentLink(ProbateDocumentLink.builder()
+                        .documentBinaryUrl("binaryUrl")
+                        .documentFilename("fileName")
+                        .documentUrl("documentUrl").build())
+                .build();
+
         when(backOfficeApi.applicationReceived(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class)))
-                .thenReturn("Success");
+                .thenReturn(new ResponseEntity<ProbateDocument>(probateDocument, HttpStatus.OK));
 
         backOfficeService.sendNotification(ProbateCaseDetails.builder().caseInfo(CaseInfo.builder().caseId("123132").build()).caseData(GrantOfRepresentationData.builder().build()).build());
 

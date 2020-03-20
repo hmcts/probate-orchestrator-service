@@ -216,11 +216,14 @@ public class SubmitServiceImpl implements SubmitService {
 
         existingCase.getCaseData().setPayments(caseData.getPayments());
         log.info("Send notification");
-        sendNotification(existingCase);
+
+        Optional<CaseData> updatedCaseData = sendNotification(existingCase);
+        updatedCaseData.ifPresent(updatedCd-> existingCase.setCaseData(updatedCd));
 
         log.info("Update case for submission");
         updateCaseForSubmission(existingCase);
-        //TODO: PRO-5580 - Uncomment once applicationSubmittedDate has been re-added to the spreadsheet
+        //TODO: PRO-5580 - Uncomment once applicationSubm
+        // ittedDate has been re-added to the spreadsheet
 
         log.debug("calling create case in submitServiceApi");
         ProbateCaseDetails probateCaseDetails = submitServiceApi.createCase(

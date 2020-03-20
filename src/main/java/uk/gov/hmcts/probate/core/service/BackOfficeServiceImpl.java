@@ -11,13 +11,20 @@ import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaseDetails;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatResponse;
 import uk.gov.hmcts.probate.model.backoffice.GrantScheduleResponse;
 import uk.gov.hmcts.probate.service.BackOfficeService;
+import uk.gov.hmcts.reform.probate.model.ProbateDocument;
 import uk.gov.hmcts.reform.probate.model.cases.CaseData;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
+import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
+import uk.gov.hmcts.reform.probate.model.cases.DocumentLink;
+import uk.gov.hmcts.reform.probate.model.cases.DocumentType;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
+import uk.gov.hmcts.reform.probate.model.cases.UploadDocument;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
+import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -53,7 +60,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
         securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateHmrcExtract as caseworker");
         return backOfficeApi.initiateHmrcExtract(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
-            fromDate, toDate);
+                fromDate, toDate);
     }
 
     @Override
@@ -61,7 +68,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
         securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateIronMountainExtract as caseworker");
         return backOfficeApi.initiateIronMountainExtract(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
-            date);
+                date);
     }
 
     @Override
@@ -69,7 +76,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
         securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateExelaExtract as caseworker");
         return backOfficeApi.initiateExelaExtract(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
-            date);
+                date);
     }
 
     @Override
@@ -77,7 +84,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
         securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateGrantDelayedNotification as caseworker");
         return backOfficeApi.initiateGrantDelayedNotification(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
-            date);
+                date);
     }
 
     @Override
@@ -85,7 +92,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
         securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateGrantAwaitingDocumentsNotification as caseworker");
         return backOfficeApi.initiateGrantAwaitingDocumentsNotification(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
-            date);
+                date);
     }
 
     private Function<ProbateCaseDetails, CaseData> raiseCaveat() {
@@ -108,13 +115,32 @@ public class BackOfficeServiceImpl implements BackOfficeService {
         return probateCaseDetails -> {
             BackOfficeCallbackRequest backOfficeCallbackRequest = createBackOfficeCallbackRequest(probateCaseDetails);
             log.info("Sending Application Recieved notifiation rquest to back-office for case id {}", backOfficeCallbackRequest.getCaseDetails().getId());
-            String backOfficeResponse = backOfficeApi.applicationReceived(
+            ResponseEntity<ProbateDocument> backOfficeResponse = backOfficeApi.applicationReceived(
                     securityUtils.getAuthorisation(),
                     securityUtils.getServiceAuthorisation(),
                     backOfficeCallbackRequest);
-            log.info("Received Back office response for Application Recieved notify request with response {}", backOfficeResponse);
+            ProbateDocument probateDocument = backOfficeResponse.getBody();
+            log.info("Received Back office response for Application Recieved notify request with response: {} and code {}", probateDocument, backOfficeResponse.getStatusCode());
+            addBoDocumenUploadedToCase(probateCaseDetails, probateDocument);
+
             return probateCaseDetails.getCaseData();
         };
+    }
+
+    private void addBoDocumenUploadedToCase(ProbateCaseDetails probateCaseDetails, ProbateDocument probateDocument) {
+        GrantOfRepresentationData grantOfRepresentationData = (GrantOfRepresentationData) probateCaseDetails.getCaseData();
+        if(grantOfRepresentationData.getBoDocumentsUploaded() ==null){
+            grantOfRepresentationData.setBoDocumentsUploaded(new ArrayList<>());
+        }
+        grantOfRepresentationData.getBoDocumentsUploaded().add(
+                CollectionMember.<UploadDocument>builder().value((UploadDocument.builder()
+                        .documentType(DocumentType.valueOf(probateDocument.getDocumentType().name()))
+                        .documentLink(DocumentLink.builder()
+                                .documentFilename(probateDocument.getDocumentFileName())
+                                .documentBinaryUrl(probateDocument.getDocumentLink().getDocumentBinaryUrl())
+                                .documentUrl(probateDocument.getDocumentLink().getDocumentUrl())
+                                .build())
+                        .build())).build());
     }
 
     private LocalDate getFormattedCaveatDate(String expiryDate) {
