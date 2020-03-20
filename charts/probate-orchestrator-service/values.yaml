@@ -38,5 +38,7 @@ java:
         - idamRedirectUrl
         - payCaseWorkerUser
         - payCaseWorkerPass
+        - schedulerCaseWorkerUser
+        - schedulerCaseWorkerPass
         - ccidam-idam-api-secrets-probate
 
