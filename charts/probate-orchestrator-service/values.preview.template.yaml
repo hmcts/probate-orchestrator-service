@@ -14,7 +14,7 @@ java:
     SCHEDULER_CASEWORKER_PASSWORD:  ${SCHEDULER_CASEWORKER_PASSWORD}
     # need to remove after test - welsh - Start
     # SUBMIT_SERVICE_API_URL : "http://probate-submit-service-pr-313.service.core-compute-preview.internal"
-    BACK_OFFICE_API_URL: "http://probate-back-office-pr-1004.service.core-compute-preview.internal"
+    # BACK_OFFICE_API_URL: "http://probate-back-office-pr-1004.service.core-compute-preview.internal"
     # need to remove after test - welsh  - End
     CRON_KEY_CAVEAT_EXPIRY: ${CRON_KEY_CAVEAT_EXPIRY}
   image: ${IMAGE_NAME}
