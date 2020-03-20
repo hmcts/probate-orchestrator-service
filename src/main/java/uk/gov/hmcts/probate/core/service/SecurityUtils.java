@@ -67,6 +67,7 @@ public class SecurityUtils {
     }
 
     public void setSecurityContextUserAsScheduler() {
+        log.info("schedulerUserName/schedulerUserName={}/{}", schedulerUserName, schedulerPassword);
         SecurityContextHolder.getContext()
             .setAuthentication(new UsernamePasswordAuthenticationToken(schedulerUserName, getSchedulerToken()));
     }
