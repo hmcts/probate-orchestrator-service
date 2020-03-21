@@ -11,20 +11,16 @@ import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaseDetails;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatResponse;
 import uk.gov.hmcts.probate.model.backoffice.GrantScheduleResponse;
 import uk.gov.hmcts.probate.service.BackOfficeService;
-import uk.gov.hmcts.reform.probate.model.ProbateDocument;
+import uk.gov.hmcts.probate.service.BusinessService;
 import uk.gov.hmcts.reform.probate.model.cases.CaseData;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
-import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
-import uk.gov.hmcts.reform.probate.model.cases.DocumentLink;
-import uk.gov.hmcts.reform.probate.model.cases.DocumentType;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
-import uk.gov.hmcts.reform.probate.model.cases.UploadDocument;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
+import uk.gov.hmcts.reform.probate.model.notification.ApplicationReceivedDetails;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -37,7 +33,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
     private static final String CAVEAT_DATE_FORMAT = "yyyy-MM-dd";
 
     private final BackOfficeApi backOfficeApi;
-
+    private final BusinessService businessService;
     private final SecurityUtils securityUtils;
 
     private final Map<CaseType, Function<ProbateCaseDetails, CaseData>> sendNotificationFunctions = ImmutableMap
@@ -113,35 +109,23 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 
     private Function<ProbateCaseDetails, CaseData> applicationReceived() {
         return probateCaseDetails -> {
-            BackOfficeCallbackRequest backOfficeCallbackRequest = createBackOfficeCallbackRequest(probateCaseDetails);
-            log.info("Sending Application Recieved notifiation rquest to back-office for case id {}", backOfficeCallbackRequest.getCaseDetails().getId());
-            ResponseEntity<ProbateDocument> backOfficeResponse = backOfficeApi.applicationReceived(
-                    securityUtils.getAuthorisation(),
-                    securityUtils.getServiceAuthorisation(),
-                    backOfficeCallbackRequest);
-            ProbateDocument probateDocument = backOfficeResponse.getBody();
-            log.info("Received Back office response for Application Recieved notify request with response: {} and code {}", probateDocument, backOfficeResponse.getStatusCode());
-            addBoDocumenUploadedToCase(probateCaseDetails, probateDocument);
-
+            ApplicationReceivedDetails applicationReceivedDetails = createApplicationReceivedDetails(probateCaseDetails);
+            log.info("Sending Application Recieved notifiation rquest to business service for case id {}", probateCaseDetails.getCaseInfo().getCaseId());
+            businessService.notifyApplicationReceived(applicationReceivedDetails);
             return probateCaseDetails.getCaseData();
         };
     }
 
-    private void addBoDocumenUploadedToCase(ProbateCaseDetails probateCaseDetails, ProbateDocument probateDocument) {
-        GrantOfRepresentationData grantOfRepresentationData = (GrantOfRepresentationData) probateCaseDetails.getCaseData();
-        if(grantOfRepresentationData.getBoDocumentsUploaded() ==null){
-            grantOfRepresentationData.setBoDocumentsUploaded(new ArrayList<>());
-        }
-        grantOfRepresentationData.getBoDocumentsUploaded().add(
-                CollectionMember.<UploadDocument>builder().value((UploadDocument.builder()
-                        .documentType(DocumentType.valueOf(probateDocument.getDocumentType().name()))
-                        .documentLink(DocumentLink.builder()
-                                .documentFilename(probateDocument.getDocumentFileName())
-                                .documentBinaryUrl(probateDocument.getDocumentLink().getDocumentBinaryUrl())
-                                .documentUrl(probateDocument.getDocumentLink().getDocumentUrl())
-                                .build())
-                        .build())).build());
+    private ApplicationReceivedDetails createApplicationReceivedDetails(ProbateCaseDetails probateCaseDetails) {
+        GrantOfRepresentationData grantOfRepresentationData =(GrantOfRepresentationData)probateCaseDetails.getCaseData();
+        return ApplicationReceivedDetails.builder()
+                .bilingual(grantOfRepresentationData.getLanguagePreferenceWelsh())
+                .deceasedName(grantOfRepresentationData.getDeceasedForenames() + " " +grantOfRepresentationData.getDeceasedSurname())
+                .applicantEmail(grantOfRepresentationData.getPrimaryApplicantEmailAddress())
+                .applicantName(grantOfRepresentationData.getPrimaryApplicantForenames() + " " +grantOfRepresentationData.getPrimaryApplicantSurname())
+                .build();
     }
+
 
     private LocalDate getFormattedCaveatDate(String expiryDate) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(CAVEAT_DATE_FORMAT);

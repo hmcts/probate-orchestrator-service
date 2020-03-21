@@ -12,6 +12,7 @@ import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
+import uk.gov.hmcts.reform.probate.model.notification.ApplicationReceivedDetails;
 
 import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -103,5 +104,14 @@ public interface BusinessServiceApi {
 
     @GetMapping(path = "/pin/bilingual")
     String pinNumberBilingual(@RequestParam("phoneNumber") String phoneNumber, @RequestHeader("Session-Id") String sessionId);
+
+
+    @PostMapping(
+            value = "/notification/application-received",
+            headers = {
+                    CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+            }
+    )
+    String notifyApplicationReceived(@RequestBody ApplicationReceivedDetails applicationReceivedDetails);
 
 }

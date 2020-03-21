@@ -5,6 +5,7 @@ import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
+import uk.gov.hmcts.reform.probate.model.notification.ApplicationReceivedDetails;
 
 import java.util.List;
 
@@ -41,5 +42,7 @@ public interface BusinessService {
     String delete(String userID, String documentId);
 
     List<Invitation> sendInvitations(List<Invitation> invitations, String sessionId, Boolean isBilingual);
+
+    void notifyApplicationReceived(ApplicationReceivedDetails applicationReceivedDetails);
 }
 

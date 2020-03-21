@@ -19,6 +19,7 @@ import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
+import uk.gov.hmcts.reform.probate.model.notification.ApplicationReceivedDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -261,6 +262,11 @@ public class BusinessServiceImpl implements BusinessService {
     @Override
     public String delete(String userID, String documentId) {
         return businessServiceDocumentsApi.delete(userID, documentId);
+    }
+
+    @Override
+    public void notifyApplicationReceived(ApplicationReceivedDetails applicationReceivedDetails){
+        businessServiceApi.notifyApplicationReceived(applicationReceivedDetails);
     }
 
 

@@ -10,7 +10,6 @@ import uk.gov.hmcts.probate.client.submit.SubmitServiceConfiguration;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackRequest;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatResponse;
 import uk.gov.hmcts.probate.model.backoffice.GrantScheduleResponse;
-import uk.gov.hmcts.reform.probate.model.ProbateDocument;
 
 import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -69,20 +68,6 @@ public interface BackOfficeApi {
         @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
         @RequestParam(value = "date") String date
     );
-
-    @PostMapping(
-            value = "/notify/application-received",
-            headers = {
-                    CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE,
-                    ACCEPT + "=" + APPLICATION_JSON_VALUE
-            }
-    )
-    ResponseEntity<ProbateDocument> applicationReceived(
-            @RequestHeader(AUTHORIZATION) String authorization,
-            @RequestHeader(SERVICE_AUTHORIZATION) String serviceAuthorization,
-            @RequestBody BackOfficeCallbackRequest backOfficeCallbackRequest
-    );
-
 
     @PostMapping(
         value = "/notify/grant-delayed-scheduled",
