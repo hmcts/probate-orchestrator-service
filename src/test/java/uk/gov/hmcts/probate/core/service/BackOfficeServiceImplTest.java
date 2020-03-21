@@ -80,13 +80,10 @@ public class BackOfficeServiceImplTest {
 
     @Test
     public void shouldSendNotificationsWhenCaseTypeisGrantOfRepresentation() {
-
-
         backOfficeService.sendNotification(ProbateCaseDetails.builder().caseInfo(CaseInfo.builder().caseId("123132").build()).caseData(GrantOfRepresentationData.builder().build()).build());
 
         verify(businessService).notifyApplicationReceived(any(ApplicationReceivedDetails.class));
     }
-
 
     @Test
     public void shouldInitiateHmrcExtract() {
