@@ -30,15 +30,14 @@ java:
   image: hmctspublic.azurecr.io/probate/orchestrator-service:latest
   aadIdentityName: probate
   keyVaults:
-    "probate":
-      resourceGroup: probate
+    probate:
       secrets:
         - AppInsightsInstrumentationKey
         - s2s-probate-backend
+        - ccidam-idam-api-secrets-probate
+        - s2sAuthTotpSecret
         - idamRedirectUrl
-        - payCaseWorkerUser
         - payCaseWorkerPass
+        - payCaseWorkerUser
         - schedulerCaseWorkerUser
         - schedulerCaseWorkerPass
-        - ccidam-idam-api-secrets-probate
-
