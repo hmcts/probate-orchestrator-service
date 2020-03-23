@@ -4,9 +4,9 @@ import org.springframework.http.ResponseEntity;
 
 public interface DataExtractService {
 
-    ResponseEntity<String> initiateHmrcExtract(String fromDate, String toDate);
+    ResponseEntity initiateHmrcExtract(String fromDate, String toDate);
 
-    ResponseEntity<String> initiateIronMountainExtract(String date);
+    ResponseEntity initiateIronMountainExtract(String date);
 
-    ResponseEntity<String> initiateExelaExtract(String date);
+    ResponseEntity initiateExelaExtract(String date);
 }
