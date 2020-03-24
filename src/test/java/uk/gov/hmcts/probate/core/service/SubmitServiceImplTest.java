@@ -38,10 +38,12 @@ import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
@@ -386,6 +388,60 @@ public class SubmitServiceImplTest {
         verify(submitServiceApi).updateByCaseId(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(caseId), eq(probateCaseDetails));
         verify(backOfficeService, never()).sendNotification(caveatCaseDetails);
         verify(caseSubmissionUpdater, never()).updateCaseForSubmission(any(CaseData.class));
+    }
+
+    @Test
+    public void shouldUpdatePaymentAndSendNotificationGopForPaymentNotRequired() {
+        String caseId = "234324";
+        CasePayment casePayment = CasePayment.builder().status(PaymentStatus.NOT_REQUIRED).build();
+        CollectionMember<CasePayment> collectionMember = new CollectionMember<>(null, casePayment);
+        ArrayList<CollectionMember<CasePayment>> payments = new ArrayList();
+        payments.add(collectionMember);
+        ProbateCaseDetails probateCaseDetails = ProbateCaseDetails.builder().caseInfo(CaseInfo.builder()
+            .state(CaseState.PA_APP_CREATED)
+            .build())
+            .caseData(CaveatData.builder().payments(payments).build())
+
+            .build();
+        Optional<CaseData> caseData = submitService.sendNotification(probateCaseDetails);
+
+        verify(backOfficeService).sendNotification(probateCaseDetails);
+    }
+
+    @Test
+    public void shouldUpdatePaymentAndSendNotificationGopForPaymentSucccess() {
+        String caseId = "234324";
+        CasePayment casePayment = CasePayment.builder().status(PaymentStatus.SUCCESS).build();
+        CollectionMember<CasePayment> collectionMember = new CollectionMember<>(null, casePayment);
+        ArrayList<CollectionMember<CasePayment>> payments = new ArrayList();
+        payments.add(collectionMember);
+        ProbateCaseDetails probateCaseDetails = ProbateCaseDetails.builder().caseInfo(CaseInfo.builder()
+            .state(CaseState.PA_APP_CREATED)
+            .build())
+            .caseData(CaveatData.builder().payments(payments).build())
+
+            .build();
+        Optional<CaseData> caseData = submitService.sendNotification(probateCaseDetails);
+
+        verify(backOfficeService).sendNotification(probateCaseDetails);
+    }
+
+    @Test
+    public void shouldNotUpdatePaymentAndSendNotificationGopForPaymentFailed() {
+        String caseId = "234324";
+        CasePayment casePayment = CasePayment.builder().status(PaymentStatus.FAILED).build();
+        CollectionMember<CasePayment> collectionMember = new CollectionMember<>(null, casePayment);
+        ArrayList<CollectionMember<CasePayment>> payments = new ArrayList();
+        payments.add(collectionMember);
+        ProbateCaseDetails probateCaseDetails = ProbateCaseDetails.builder().caseInfo(CaseInfo.builder()
+            .state(CaseState.PA_APP_CREATED)
+            .build())
+            .caseData(CaveatData.builder().payments(payments).build())
+
+            .build();
+        Optional<CaseData> caseData = submitService.sendNotification(probateCaseDetails);
+
+        verify(backOfficeService, never()).sendNotification(probateCaseDetails);
     }
 
     @Test
