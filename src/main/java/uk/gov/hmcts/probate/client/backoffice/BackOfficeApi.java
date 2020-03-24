@@ -10,6 +10,7 @@ import uk.gov.hmcts.probate.client.submit.SubmitServiceConfiguration;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackRequest;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatResponse;
 import uk.gov.hmcts.probate.model.backoffice.GrantScheduleResponse;
+import uk.gov.hmcts.reform.probate.model.ProbateDocument;
 
 import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -76,7 +77,7 @@ public interface BackOfficeApi {
                     ACCEPT + "=" + APPLICATION_JSON_VALUE
             }
     )
-    String applicationReceived(
+    ProbateDocument applicationReceived(
             @RequestHeader(AUTHORIZATION) String authorization,
             @RequestHeader(SERVICE_AUTHORIZATION) String serviceAuthorization,
             @RequestBody BackOfficeCallbackRequest backOfficeCallbackRequest
