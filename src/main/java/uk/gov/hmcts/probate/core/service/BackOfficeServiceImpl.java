@@ -117,7 +117,9 @@ public class BackOfficeServiceImpl implements BackOfficeService {
                     securityUtils.getServiceAuthorisation(),
                     backOfficeCallbackRequest);
             log.info("Received Back office response for Application Recieved notify request with response {}", probateDocument);
-            addProbateNotificationsGenerated(((GrantOfRepresentationData)probateCaseDetails.getCaseData()), probateDocument);
+            if (probateDocument != null) {
+                addProbateNotificationsGenerated(((GrantOfRepresentationData)probateCaseDetails.getCaseData()), probateDocument);
+            }
             return probateCaseDetails.getCaseData();
         };
     }
