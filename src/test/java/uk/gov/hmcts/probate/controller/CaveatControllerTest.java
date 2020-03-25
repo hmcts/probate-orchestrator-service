@@ -40,8 +40,6 @@ public class CaveatControllerTest {
             .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
             .andExpect(status().isOk())
             .andExpect(content().string("Perform expire caveats called"));
-        
-        verify(caveatExpiryUpdater, times(1)).expireCaveats(anyString());
     }
 
 }
