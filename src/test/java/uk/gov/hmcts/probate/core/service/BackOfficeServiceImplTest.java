@@ -14,6 +14,8 @@ import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackRequest;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatData;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatResponse;
 import uk.gov.hmcts.probate.model.backoffice.GrantScheduleResponse;
+import uk.gov.hmcts.reform.probate.model.ProbateDocument;
+import uk.gov.hmcts.reform.probate.model.cases.CaseData;
 import uk.gov.hmcts.reform.probate.model.cases.CaseInfo;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
@@ -73,7 +75,31 @@ public class BackOfficeServiceImplTest {
 
         verify(backOfficeApi).raiseCaveat(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class));
     }
-    
+
+    @Test
+    public void shouldSendNotificationWhenCaseTypeIsGrantOfrepresentation() {
+        ProbateDocument probateDocument = ProbateDocument.builder().build();
+        when(backOfficeApi.applicationReceived(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class)))
+            .thenReturn(probateDocument);
+
+        GrantOfRepresentationData grantOfRepresentationData = GrantOfRepresentationData.builder().build();
+        backOfficeService.sendNotification(ProbateCaseDetails.builder().caseInfo(CaseInfo.builder().caseId("123132").build()).caseData(grantOfRepresentationData).build());
+
+        verify(backOfficeApi).applicationReceived(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class));
+    }
+
+    @Test
+    public void shouldNotSendNotificationWhenCaseTypeIsGrantOfrepresentation() {
+        when(backOfficeApi.applicationReceived(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class)))
+            .thenReturn(null);
+
+        GrantOfRepresentationData grantOfRepresentationData = GrantOfRepresentationData.builder().build();
+        CaseData caseData = backOfficeService.sendNotification(ProbateCaseDetails.builder().caseInfo(CaseInfo.builder().caseId("123132").build()).caseData(grantOfRepresentationData).build());
+
+        assertThat(((GrantOfRepresentationData)caseData).getProbateNotificationsGenerated()).isNull();
+        verify(backOfficeApi).applicationReceived(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class));
+    }
+
     @Test
     public void shouldInitiateHmrcExtract() {
         when(backOfficeApi.initiateHmrcExtract(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(String.class), any(String.class)))
