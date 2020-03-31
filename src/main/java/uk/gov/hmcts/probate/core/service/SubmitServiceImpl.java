@@ -236,7 +236,8 @@ public class SubmitServiceImpl implements SubmitService {
         CaseType caseType = CaseType.getCaseType(probateCaseDetails.getCaseData());
         log.info("Send notification with case type {}" , caseType.getName());
         CasePayment casePayment = probateCaseDetails.getCaseData().getPayments().get(0).getValue();
-        if (caseTypesForNotifications.contains(caseType) && PaymentStatus.SUCCESS.equals(casePayment.getStatus())) {
+        if (caseTypesForNotifications.contains(caseType) && 
+            (PaymentStatus.SUCCESS.equals(casePayment.getStatus()) || PaymentStatus.NOT_REQUIRED.equals(casePayment.getStatus()))) {
             return Optional.ofNullable(backOfficeService.sendNotification(probateCaseDetails));
         }
         return Optional.empty();

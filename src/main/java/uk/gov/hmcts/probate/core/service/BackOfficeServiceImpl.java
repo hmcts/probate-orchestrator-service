@@ -11,13 +11,17 @@ import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaseDetails;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaveatResponse;
 import uk.gov.hmcts.probate.model.backoffice.GrantScheduleResponse;
 import uk.gov.hmcts.probate.service.BackOfficeService;
+import uk.gov.hmcts.reform.probate.model.ProbateDocument;
 import uk.gov.hmcts.reform.probate.model.cases.CaseData;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
+import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
+import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -108,8 +112,24 @@ public class BackOfficeServiceImpl implements BackOfficeService {
         return probateCaseDetails -> {
             BackOfficeCallbackRequest backOfficeCallbackRequest = createBackOfficeCallbackRequest(probateCaseDetails);
             log.info("Sending Application Recieved notifiation rquest to back-office for case id {}", backOfficeCallbackRequest.getCaseDetails().getId());
+            ProbateDocument probateDocument = backOfficeApi.applicationReceived(
+                    securityUtils.getAuthorisation(),
+                    securityUtils.getServiceAuthorisation(),
+                    backOfficeCallbackRequest);
+            log.info("Received Back office response for Application Recieved notify request with response {}", probateDocument);
+            if (probateDocument != null) {
+                addProbateNotificationsGenerated(((GrantOfRepresentationData)probateCaseDetails.getCaseData()), probateDocument);
+            }
             return probateCaseDetails.getCaseData();
         };
+    }
+
+    private void addProbateNotificationsGenerated(GrantOfRepresentationData caseData, ProbateDocument probateDocument) {
+        CollectionMember<ProbateDocument> collectionMember = new CollectionMember<>(null, probateDocument);
+        if (caseData.getProbateNotificationsGenerated() == null) {
+            caseData.setProbateNotificationsGenerated(new ArrayList());
+        }
+        caseData.getProbateNotificationsGenerated().add(collectionMember);
     }
 
     private LocalDate getFormattedCaveatDate(String expiryDate) {
