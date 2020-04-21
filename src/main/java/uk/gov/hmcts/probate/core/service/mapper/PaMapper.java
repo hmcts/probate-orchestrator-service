@@ -102,7 +102,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "ihtGrossValue", source = "iht.grossValue", qualifiedBy = {ToPennies.class})
     @Mapping(target = "ihtGrossValueField", source = "iht.grossValueField")
     @Mapping(target = "ihtNetValueField", source = "iht.netValueField")
-
+    @Mapping(target = "pcqId", source = "equality.pcqId")
     @Mapping(target = "extraCopiesOfGrant", source = "copies.uk")
     @Mapping(target = "outsideUkGrantCopies", expression = "java(OverseasCopiesMapper.mapOverseasCopies(form))")
     @Mapping(target = "legalDeclarationJson", source = "legalDeclaration", qualifiedBy = {FromMap.class})
