@@ -18,6 +18,7 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.SpouseNotAp
 import uk.gov.hmcts.reform.probate.model.forms.Copies;
 import uk.gov.hmcts.reform.probate.model.forms.Declaration;
 import uk.gov.hmcts.reform.probate.model.forms.DocumentUpload;
+import uk.gov.hmcts.reform.probate.model.forms.Equality;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
 import uk.gov.hmcts.reform.probate.model.forms.Language;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
@@ -101,6 +102,7 @@ public class IntestacyMapperTest {
         expectedIntestacyForm.setDeceased(new IntestacyDeceased());
         expectedIntestacyForm.setDeclaration(new Declaration());
         expectedIntestacyForm.setLanguage(new Language());
+        expectedIntestacyForm.setEquality(new Equality());
         IntestacyForm actualIntestacyForm = mapper.fromCaseData(new GrantOfRepresentationData());
         assertThat(actualIntestacyForm).isEqualToComparingFieldByFieldRecursively(expectedIntestacyForm);
     }
