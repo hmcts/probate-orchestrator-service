@@ -12,6 +12,7 @@ import uk.gov.hmcts.reform.probate.model.cases.RegistryLocation;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
 import uk.gov.hmcts.reform.probate.model.forms.Address;
 import uk.gov.hmcts.reform.probate.model.forms.AliasOtherNames;
+import uk.gov.hmcts.reform.probate.model.forms.Equality;
 import uk.gov.hmcts.reform.probate.model.forms.Language;
 import uk.gov.hmcts.reform.probate.model.forms.Payment;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
@@ -54,6 +55,7 @@ public class CaveatTestDataCreator {
     private static final Date DATE = new Date();
     private static final LocalDate EXPIRYDATE = LocalDate.now().plusDays(30);
     private static final String NAME_0 = "name_0";
+    public static final String PCQ_ID = "1000";
 
     public static CaveatForm createCaveatForm() {
         return CaveatForm.builder()
@@ -103,6 +105,7 @@ public class CaveatTestDataCreator {
                         .name(REGNAME)
                         .build())
             .expiryDate(EXPIRYDATE)
+            .equality(Equality.builder().pcqId(PCQ_ID).build())
             .build();
     }
 
@@ -169,6 +172,7 @@ public class CaveatTestDataCreator {
 
         caveatData.setCaveatRaisedEmailNotificationRequested(true);
         caveatData.setPaperForm(false);
+        caveatData.setPcqId(PCQ_ID);
         return caveatData;
     }
 
