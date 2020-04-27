@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
+import uk.gov.hmcts.reform.probate.model.forms.Equality;
 import uk.gov.hmcts.reform.probate.model.forms.Language;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
 import uk.gov.hmcts.reform.probate.model.forms.caveat.CaveatApplicant;
@@ -81,6 +82,7 @@ public class CaveatMapperTest {
         caveatForm.setApplicant(new CaveatApplicant());
         caveatForm.setDeceased(new CaveatDeceased());
         caveatForm.setLanguage(new Language());
+        caveatForm.setEquality(new Equality());
         CaveatForm actualCaveatForm = mapper.fromCaseData(new CaveatData());
         assertThat(actualCaveatForm).isEqualToComparingFieldByFieldRecursively(caveatForm);
     }
