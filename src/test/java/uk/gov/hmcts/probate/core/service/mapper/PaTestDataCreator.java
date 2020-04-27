@@ -29,6 +29,7 @@ import uk.gov.hmcts.reform.probate.model.forms.DeclarationDeclaration;
 import uk.gov.hmcts.reform.probate.model.forms.DeclarationHolder;
 import uk.gov.hmcts.reform.probate.model.forms.DocumentUpload;
 import uk.gov.hmcts.reform.probate.model.forms.Documents;
+import uk.gov.hmcts.reform.probate.model.forms.Equality;
 import uk.gov.hmcts.reform.probate.model.forms.Fees;
 import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
@@ -174,6 +175,7 @@ public class PaTestDataCreator {
     public static final String REGISTRY_EMAIL_ADDRESS = "manchester@hmcts.com";
     public static final long REGISTRY_SEQUENCE_NUMBER = 1L;
     public static final String WELSH = "WELSH";
+    public static final String PCQ_ID = "1000";
 
     private static String LEGAL_DECLARATION_JSON = "{\"legalDeclaration\":{\"headers\":[\"header0\",\"header1\",\"header2\"]," +
             "\"sections\":[{\"headingType\":\"large\",\"title\":\"section title\",\"declarationItems\":[{\"title\":\"declaration title\"," +
@@ -380,6 +382,7 @@ public class PaTestDataCreator {
                 }))
                 .checkAnswersSummary(objectMapper.readValue(CHECK_ANSWERS_JSON, new TypeReference<Map<String, Object>>() {
                 }))
+                .equality(Equality.builder().pcqId(PCQ_ID).build())
                 .build();
     }
 
@@ -550,6 +553,7 @@ public class PaTestDataCreator {
                 .checkAnswersSummaryJson(CHECK_ANSWERS_JSON)
                 .deceasedAddresses(DECEASED_ADDRESSES)
                 .primaryApplicantAddresses(APPLICANT_ADDRESSES)
+                .pcqId(PCQ_ID)
                 .build();
     }
 }
