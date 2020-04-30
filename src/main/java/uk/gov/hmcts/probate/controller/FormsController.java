@@ -1,5 +1,7 @@
 package uk.gov.hmcts.probate.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -41,6 +43,8 @@ public class FormsController {
     private static final String PAYMENTS_ENDPOINT = "/payments";
     private static final String MIGRATE_DATA_ENDPOINT = "/migrateData";
 
+    private final ObjectMapper objectMapper;
+
     private final SubmitService submitService;
 
 
@@ -70,7 +74,20 @@ public class FormsController {
     public ResponseEntity<Form> saveForm(@RequestBody Form form,
                                          @PathVariable("identifier") String identifier) {
         log.info("Save form called");
-        return new ResponseEntity<>(submitService.saveCase(identifier, form), HttpStatus.OK);
+
+        ResponseEntity<Form> response = new ResponseEntity<>(submitService.saveCase(identifier, form), HttpStatus.OK);
+        logResponse(response);
+        return response;
+
+        //return new ResponseEntity<>(submitService.saveCase(identifier, form), HttpStatus.OK);
+    }
+
+    private void logResponse(ResponseEntity<Form> responseForm) {
+        try {
+            log.info("logging response on FormsController.saveForm: {}", objectMapper.writeValueAsString(responseForm));
+        } catch (JsonProcessingException e) {
+            log.error("POST: {}", e);
+        }
     }
 
     @ApiOperation(value = "Get form data", notes = "Get form data")
