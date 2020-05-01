@@ -47,7 +47,6 @@ public class FormsController {
 
     private final SubmitService submitService;
 
-
     @ApiOperation(value = "Initiate form data", notes = "Initiate form data")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Form initiated successfully"),
@@ -76,18 +75,10 @@ public class FormsController {
         log.info("Save form called");
 
         ResponseEntity<Form> response = new ResponseEntity<>(submitService.saveCase(identifier, form), HttpStatus.OK);
-        logResponse(response);
+        logResponse("saveForm", response);
         return response;
 
         //return new ResponseEntity<>(submitService.saveCase(identifier, form), HttpStatus.OK);
-    }
-
-    private void logResponse(ResponseEntity<Form> responseForm) {
-        try {
-            log.info("logging response on FormsController.saveForm: {}", objectMapper.writeValueAsString(responseForm));
-        } catch (JsonProcessingException e) {
-            log.error("POST: {}", e);
-        }
     }
 
     @ApiOperation(value = "Get form data", notes = "Get form data")
@@ -103,7 +94,6 @@ public class FormsController {
         return new ResponseEntity<>(submitService.getCase(identifier, probateType), HttpStatus.OK);
     }
 
-
     @ApiOperation(value = "Get form data", notes = "Get form data")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retrieved form successfully"),
@@ -115,7 +105,6 @@ public class FormsController {
         log.info("Get form called");
         return new ResponseEntity<>(submitService.getAllCases(), HttpStatus.OK);
     }
-
 
     @ApiOperation(value = "Submit form data", notes = "Submit form data")
     @ApiResponses(value = {
@@ -154,7 +143,12 @@ public class FormsController {
     public ResponseEntity<Form> updatePayments(@RequestBody Form form,
                                                @PathVariable("identifier") String identifier) {
         log.info("Update payments called");
-        return new ResponseEntity<>(submitService.updatePayments(identifier, form), HttpStatus.OK);
+
+        ResponseEntity<Form> response = new ResponseEntity<>(submitService.updatePayments(identifier, form), HttpStatus.OK);
+        logResponse("updatePayments", response);
+        return response;
+
+        //return new ResponseEntity<>(submitService.updatePayments(identifier, form), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Validate case data", notes = "validate case data via identifier and probate type")
@@ -164,6 +158,14 @@ public class FormsController {
                                          @RequestParam("probateType") ProbateType probateType) {
         log.info("Validate form called");
         return new ResponseEntity<>(submitService.validate(identifier, probateType), HttpStatus.OK);
+    }
+
+    private void logResponse(String method, ResponseEntity<Form> responseForm) {
+        try {
+            log.info("logging response on FormsController:{} {}", objectMapper.writeValueAsString(responseForm));
+        } catch (JsonProcessingException e) {
+            log.error("POST: {}", e);
+        }
     }
 
 }
