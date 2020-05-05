@@ -455,4 +455,25 @@
         <gav regex="true">^org\.springframework:spring-jcl:.*$</gav>
         <cve>CVE-2020-5398</cve>
     </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: hystrix-core-1.5.12.jar
+   ]]></notes>
+        <gav regex="true">^com\.netflix\.hystrix:hystrix-core:.*$</gav>
+        <cwe>79</cwe>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: log4j-to-slf4j-2.11.1.jar
+   ]]></notes>
+        <gav regex="true">^org\.apache\.logging\.log4j:log4j-to-slf4j:.*$</gav>
+        <cve>CVE-2020-9488</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: log4j-api-2.11.1.jar
+   ]]></notes>
+        <gav regex="true">^org\.apache\.logging\.log4j:log4j-api:.*$</gav>
+        <cve>CVE-2020-9488</cve>
+    </suppress>
 </suppressions>
