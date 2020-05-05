@@ -459,7 +459,7 @@
    file name: hystrix-core-1.5.12.jar
    ]]></notes>
         <gav regex="true">^com\.netflix\.hystrix:hystrix-core:.*$</gav>
-        <cwe>CWE-79</cwe>
+        <cve>CWE-79</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[
