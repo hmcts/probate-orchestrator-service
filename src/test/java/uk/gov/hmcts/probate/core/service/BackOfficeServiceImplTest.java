@@ -128,24 +128,24 @@ public class BackOfficeServiceImplTest {
     public void shouldInitiateGrantDelayedNotification() {
         String date = "someDate";
         GrantScheduleResponse responseBody = GrantScheduleResponse.builder().scheduleResponseData(Arrays.asList("case1", "case2")).build();
-        Mockito.when(backOfficeApi.initiateGrantDelayedNotification(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
+        Mockito.when(backOfficeApi.initiateGrantDelayedNotification("Bearer "+ securityUtils.getAuthorisation(), "Bearer "+ securityUtils.getServiceAuthorisation(),
             date)).thenReturn(responseBody);
 
         GrantScheduleResponse response = backOfficeService.initiateGrantDelayedNotification(date);
 
         Assert.assertThat(response.getScheduleResponseData().size(), equalTo(2));
-        verify(backOfficeApi).initiateGrantDelayedNotification(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(date));
+        verify(backOfficeApi).initiateGrantDelayedNotification(eq("Bearer "+ AUTHORIZATION), eq("Bearer "+ SERVICE_AUTHORIZATION), eq(date));
     }
     @Test
     public void shouldInitiateGrantAwaitingDocumentsNotification() {
         String date = "someDate";
         GrantScheduleResponse responseBody = GrantScheduleResponse.builder().scheduleResponseData(Arrays.asList("case1", "case2")).build();
-        Mockito.when(backOfficeApi.initiateGrantAwaitingDocumentsNotification(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
+        Mockito.when(backOfficeApi.initiateGrantAwaitingDocumentsNotification("Bearer "+ securityUtils.getAuthorisation(), "Bearer "+ securityUtils.getServiceAuthorisation(),
             date)).thenReturn(responseBody);
 
         GrantScheduleResponse response = backOfficeService.initiateGrantAwaitingDocumentsNotification(date);
 
         Assert.assertThat(response.getScheduleResponseData().size(), equalTo(2));
-        verify(backOfficeApi).initiateGrantAwaitingDocumentsNotification(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(date));
+        verify(backOfficeApi).initiateGrantAwaitingDocumentsNotification(eq("Bearer "+ AUTHORIZATION), eq("Bearer "+ SERVICE_AUTHORIZATION), eq(date));
     }
 }
