@@ -44,7 +44,7 @@ withPipeline("java", product, component) {
     enableAksStagingDeployment()
     disableLegacyDeployment()
     enableSlackNotifications('#probate-jenkins')
-    installCharts()
+//    installCharts()
 
 //    before('buildinfra:prod') {
 //            error 'Deliberately breaking pipeline to prevent prod deployment'
