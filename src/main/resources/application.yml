@@ -85,7 +85,7 @@
     exela:
       schedule: "0 10 2 * * *"
     grantDelayed:
-      schedule: "0 15 2 * 12 *"
+      schedule: "0 15 2 * * *"
     grantAwaitingDocuments:
       schedule: "0 20 2 * 12 *"
     caveatExpiry:
