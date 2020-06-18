@@ -20,7 +20,7 @@ public class GrantAwaitingDocumentsNotifier {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public void initiateGrantAwaitingDocumentsNotification() {
-        String yesterday = DATE_FORMAT.format(LocalDate.now().minusDays(1L));
+        String yesterday = DATE_FORMAT.format(LocalDate.now().minusDays(0L));
         log.info("Grant awaiting documents notification initiated for date: {}", yesterday);
 
         GrantScheduleResponse response = backOfficeService.initiateGrantAwaitingDocumentsNotification(yesterday);
