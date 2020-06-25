@@ -250,7 +250,7 @@ dependencies {
         }
 
     }
-    implementation('com.fasterxml.jackson.core:jackson-databind:2.9.8') {
+    implementation('com.fasterxml.jackson.core:jackson-databind:2.11.1') {
         force = true
     }
     implementation('io.github.openfeign:feign-core:10.2.3') {
