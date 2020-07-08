@@ -186,15 +186,6 @@
         <gav regex="true">^org\.springframework\.security:spring-security-config:.*$</gav>
         <cpe>cpe:/a:pivotal_software:spring_security</cpe>
     </suppress>
-
-    <suppress>
-        <notes><![CDATA[
-    file name: spring-security-core-5.1.2.RELEASE.jar
-    ]]></notes>
-        <gav regex="true">^org\.springframework:spring-security:.*$</gav>
-        <cve>CVE-2019-3795</cve>
-    </suppress>
-
     <suppress>
         <notes><![CDATA[
    file name: spring-security-core-5.1.2.RELEASE.jar
@@ -202,8 +193,8 @@
         <gav regex="true">^org\.springframework\.security:spring-security-core:.*$</gav>
         <cpe>cpe:/a:pivotal_software:spring_security</cpe>
         <cve>CVE-2019-3795</cve>
+        <cve>CVE-2020-5408</cve>
     </suppress>
-
     <suppress>
         <notes><![CDATA[
     file name: spring-security-crypto-5.1.1.RELEASE.jar
@@ -292,6 +283,8 @@
         <cve>CVE-2019-17563</cve>
         <cve>CVE-2020-1938</cve>
         <cve>CVE-2020-1935</cve>
+        <cve>CVE-2020-1745</cve>
+        <cve>CVE-2020-9484</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[
