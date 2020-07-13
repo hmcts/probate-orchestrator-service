@@ -193,6 +193,7 @@
     ]]></notes>
         <gav regex="true">^org\.springframework:spring-security:.*$</gav>
         <cve>CVE-2019-3795</cve>
+        <cve>CVE-2020-5408</cve>
     </suppress>
 
     <suppress>
@@ -292,6 +293,8 @@
         <cve>CVE-2019-17563</cve>
         <cve>CVE-2020-1938</cve>
         <cve>CVE-2020-1935</cve>
+        <cve>CVE-2020-1745</cve>
+        <cve>CVE-2020-9484</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[
@@ -332,6 +335,10 @@
         <cve>CVE-2020-9547</cve>
         <cve>CVE-2020-9548</cve>
         <cve>CVE-2020-10968</cve>
+        <cve>CVE-2020-14060</cve>
+        <cve>CVE-2020-14061</cve>
+        <cve>CVE-2020-14062</cve>
+        <cve>CVE-2020-14195</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[
