@@ -85,7 +85,7 @@ findbugs {
 
 sonarqube {
     properties {
-        property "sonar.exclusions", "**/AppInsights.java, **/PaMapper.java, **/IntestacyMapper.java, " +
+        property "sonar.exclusions", "**uk/gov/hmcts/probate/appinsights/*, **/PaMapper.java, **/IntestacyMapper.java, " +
                 "**/ScheduledConfiguration.java, **/AuthenticateUserResponse.java, **/TokenExchangeResponse.java, " +
                 "**/FormDataMigrator.java, **/IdamUserEmail.java, **/IdamUsersCsvLoader.java"
         property "sonar.projectName", "PROBATE :: Probate-Orchestrator-Service"
@@ -96,10 +96,6 @@ sonarqube {
         property "sonar.pitest.reportsDirectory", "build/reports/pitest"
     }
 }
-
-def coverageExclusionList = [
-        '**uk/gov/hmcts/probate/appinsights/*'
-]
 
 test.finalizedBy jacocoTestReport
 
