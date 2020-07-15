@@ -85,7 +85,7 @@ findbugs {
 
 sonarqube {
     properties {
-        property "sonar.exclusions", "**/AppInsights.java, **/PaMapper.java, **/IntestacyMapper.java, " +
+        property "sonar.exclusions", "**uk/gov/hmcts/probate/appinsights/*, **/PaMapper.java, **/IntestacyMapper.java, " +
                 "**/ScheduledConfiguration.java, **/AuthenticateUserResponse.java, **/TokenExchangeResponse.java, " +
                 "**/FormDataMigrator.java, **/IdamUserEmail.java, **/IdamUsersCsvLoader.java"
         property "sonar.projectName", "PROBATE :: Probate-Orchestrator-Service"
@@ -155,6 +155,7 @@ task smoke(type: Test) {
     description = "Runs Smoke Tests"
     testClassesDirs = sourceSets.testSmoke.output.classesDirs
     classpath = sourceSets.testSmoke.runtimeClasspath
+    environment("APPINSIGHTS_INSTRUMENTATIONKEY", "test-key")
 }
 
 task functional(type: Test) {
@@ -163,6 +164,7 @@ task functional(type: Test) {
     classpath = sourceSets.testFunctional.runtimeClasspath
     println classpath
     finalizedBy aggregate
+    environment("APPINSIGHTS_INSTRUMENTATIONKEY", "test-key")
 }
 
 task runProviderPactTests(type: Test) {
@@ -180,7 +182,7 @@ task runConsumerPactTests(type: Test) {
 
 def versions = [
         commonsIO                       : '2.6',
-        hmctsJavaLogging                : '5.1.1',
+        hmctsJavaLogging                : '5.1.5',
         restAssured                     : '3.0.3',
         serviceTokenGenerator           : '0.6.0',
         lombok                          : '1.18.8',
@@ -278,6 +280,7 @@ dependencies {
     compile group: 'io.github.openfeign', name: 'feign-httpclient', version: versions.feignHttpClient
 
     compile group: 'uk.gov.hmcts.reform', name: 'logging-spring', version: versions.hmctsJavaLogging
+    compile group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.hmctsJavaLogging
     compile group: 'uk.gov.hmcts.reform', name: 'logging-httpcomponents', version: versions.hmctsJavaLogging
     compile group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.hmctsJavaLogging
     compile group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version: '0.0.5'
