@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
@@ -30,6 +31,7 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepr
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.forms.CaseSummary;
 import uk.gov.hmcts.reform.probate.model.forms.CaseSummaryHolder;
+import uk.gov.hmcts.reform.probate.model.forms.CcdCase;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
 import uk.gov.hmcts.reform.probate.model.forms.caveat.CaveatForm;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
@@ -50,6 +52,7 @@ import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -184,8 +187,11 @@ public class SubmitServiceImplTest {
     @Test
     public void shouldGetAllCasesForm() {
         when(submitServiceApi.getAllCases(AUTHORIZATION, SERVICE_AUTHORIZATION, CaseType.GRANT_OF_REPRESENTATION.name())).thenReturn(Arrays.asList(intestacyCaseDetails));
+        CaseSummary caseSummary = mock(CaseSummary.class);
+        CcdCase ccdCase = mock(CcdCase.class);
+        when(caseSummaryMapper.createCaseSummary(intestacyCaseDetails)).thenReturn(caseSummary);
+        when(caseSummary.getCcdCase()).thenReturn(ccdCase);
 
-        when(caseSummaryMapper.createCaseSummary(intestacyCaseDetails)).thenReturn(CaseSummary.builder().build());
         CaseSummaryHolder caseSummaryHolderResponse = submitService.getAllCases();
 
         verify(submitServiceApi, times(1)).getAllCases(AUTHORIZATION, SERVICE_AUTHORIZATION, CaseType.GRANT_OF_REPRESENTATION.name());
@@ -198,6 +204,10 @@ public class SubmitServiceImplTest {
     @Test
     public void shouldInitiateCase() {
         when(submitServiceApi.initiateCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(ProbateCaseDetails.class))).thenReturn(intestacyCaseDetails);
+        CaseSummary caseSummary = mock(CaseSummary.class);
+        CcdCase ccdCase = mock(CcdCase.class);
+        when(caseSummaryMapper.createCaseSummary(any(ProbateCaseDetails.class))).thenReturn(caseSummary);
+        when(caseSummary.getCcdCase()).thenReturn(ccdCase);
 
         CaseSummaryHolder caseSummaryHolder = submitService.initiateCase(ProbateType.INTESTACY);
         verify(submitServiceApi, times(1)).initiateCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(ProbateCaseDetails.class));
