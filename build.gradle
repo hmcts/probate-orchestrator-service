@@ -21,7 +21,6 @@ plugins {
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'org.sonarqube'
-apply plugin: 'findbugs'
 apply plugin: 'jacoco'
 apply plugin: 'net.serenity-bdd.aggregator'
 apply plugin: "com.gorylenko.gradle-git-properties"
@@ -60,7 +59,7 @@ project.ext {
     pactVersion = getCheckedOutGitCommitHash()
 }
 jacoco {
-    toolVersion = '0.8.0'
+    toolVersion = '0.8.5'
 }
 
 jacocoTestReport {
@@ -69,18 +68,6 @@ jacocoTestReport {
         xml.enabled false
         html.destination file("${buildDir}/reports/jacoco")
     }
-}
-
-tasks.withType(FindBugs) {
-    reports {
-        xml.enabled = false
-        html.enabled = true
-    }
-}
-
-findbugs {
-    ignoreFailures = true
-    reportLevel = "low"
 }
 
 sonarqube {
@@ -193,7 +180,7 @@ def versions = [
         springCloudStarterNetflixHystrix: '2.1.1.RELEASE',
         serenityBdd                     : '2.0.30',
         serenitySpring                  : '1.0.26',
-        serentity                       : '2.0.17',
+        serentity                       : '2.2.12',
         jjwt                            : '0.9.0',
         serviceAuthProviderClient       : '3.0.0',
         restAssured                     : '3.0.7',
