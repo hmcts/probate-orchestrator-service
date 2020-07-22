@@ -40,8 +40,8 @@ group = 'uk.gov.hmcts.probate'
 version = "4.0.0"
 mainClassName = 'uk.gov.hmcts.probate.OrchestratorApplication'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 
 //check.dependsOn dependencyCheckAnalyze
 // make build fail on Checkstyle issues (https://github.com/gradle/gradle/issues/881)
@@ -382,8 +382,8 @@ def getCheckedOutGitCommitHash() {
     'git rev-parse --verify --short HEAD'.execute().text.trim()
 }
 
-compileJava {
-    options.compilerArgs << '-parameters'
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-parameters"
 }
 
 bootJar {
