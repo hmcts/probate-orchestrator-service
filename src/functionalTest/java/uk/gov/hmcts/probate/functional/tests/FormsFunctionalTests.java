@@ -2,14 +2,15 @@ package uk.gov.hmcts.probate.functional.tests;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
-import net.serenitybdd.rest.SerenityRest;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +53,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
             .userGroupName(USER_GROUP_NAME)
             .build();
 
-        SerenityRest.given()
+        RestAssured.given()
             .relaxedHTTPSValidation()
             .headers(Headers.headers(new Header("FormDataContent-Type", ContentType.JSON.toString())))
             .baseUri(idamUrl)
@@ -76,7 +77,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
         String draftJsonStr = utils.getJsonFromFile("intestacyForm_partial.json");
         draftJsonStr = draftJsonStr.replace(EMAIL_PLACEHOLDER, email);
 
-        String responseJsonStr = SerenityRest.given()
+        String responseJsonStr = RestAssured.given()
             .relaxedHTTPSValidation()
             .headers(utils.getHeaders(email, PASSWORD))
             .body(draftJsonStr)
@@ -97,7 +98,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
         String draftJsonStr = utils.getJsonFromFile("intestacyForm_full.json");
         draftJsonStr = draftJsonStr.replace(EMAIL_PLACEHOLDER, email);
 
-        SerenityRest.given()
+        RestAssured.given()
             .relaxedHTTPSValidation()
             .headers(utils.getHeaders(email, PASSWORD))
             .body(draftJsonStr)
@@ -114,7 +115,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
         String submitJsonStr = utils.getJsonFromFile("intestacyForm_full.json");
         submitJsonStr = submitJsonStr.replace(EMAIL_PLACEHOLDER, email);
 
-        SerenityRest.given()
+        RestAssured.given()
             .relaxedHTTPSValidation()
             .headers(utils.getHeaders(email, PASSWORD))
             .body(submitJsonStr)
@@ -130,7 +131,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     private void shouldUpdatePaymentSuccessfully() {
         String paymentJsonStr = utils.getJsonFromFile("intestacyForm_full.json");
 
-        SerenityRest.given()
+        RestAssured.given()
             .relaxedHTTPSValidation()
             .headers(utils.getHeaders(email, PASSWORD))
             .body(paymentJsonStr)
