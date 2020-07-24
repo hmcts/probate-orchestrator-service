@@ -81,6 +81,10 @@ public class SubmitServiceImpl implements SubmitService {
         List<ProbateCaseDetails> probateCaseDetails = submitServiceApi.getAllCases(authorisation,
                 serviceAuthorisation, CaseType.GRANT_OF_REPRESENTATION.name());
         List<CaseSummary> caseSummaries = probateCaseDetails.stream().map(caseSummaryMapper::createCaseSummary).sorted(Comparator.comparing(CaseSummary::getDateCreated)).collect(Collectors.toList());
+        for (int i=0; i< caseSummaries.size(); i++) {
+            CaseSummary caseSummary = caseSummaries.get(i);
+            log.info("getAllCases, looping caseSummary.cdCase.id {}/{}", i, caseSummary.getCcdCase().getId());
+        }
         return new CaseSummaryHolder(caseSummaries);
     }
 
@@ -118,7 +122,12 @@ public class SubmitServiceImpl implements SubmitService {
                 securityUtils.getServiceAuthorisation(),
                 ProbateCaseDetails.builder().caseData(mapToCase(initiateForm(probateType), formMapper)).build()
         );
+        log.info("Initiate case for new caseid: {}", probateCaseDetails.getCaseInfo().getCaseId());
         allCases.getApplications().add(caseSummaryMapper.createCaseSummary(probateCaseDetails));
+        for (int i=0; i< allCases.getApplications().size(); i++) {
+            CaseSummary caseSummary = allCases.getApplications().get(i);
+            log.info("initiateCase, looping caseSummary.cdCase.id {}/{}", i, caseSummary.getCcdCase().getId());
+        }
         return allCases;
     }
 
@@ -263,12 +272,13 @@ public class SubmitServiceImpl implements SubmitService {
 
     @Override
     public Form validate(String identifier, ProbateType probateType) {
-        log.info("Validate case called for : {}", probateType.getName());
+        log.info("Validate case called for : {}, identifier in orch service :{}", probateType.getName(), identifier);
         FormMapper formMapper = mappers.get(probateType);
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
         ProbateCaseDetails probateCaseDetails = submitServiceApi.validate(authorisation,
                 serviceAuthorisation, identifier, probateType.getCaseType().name());
+        log.info("case id from probateCaseDetails ID:{}, State: {}", probateCaseDetails.getCaseInfo().getCaseId(),probateCaseDetails.getCaseInfo().getState());
         Form form = formMapper.fromCaseData(probateCaseDetails.getCaseData());
         updateCcdCase(probateCaseDetails, form);
         return form;

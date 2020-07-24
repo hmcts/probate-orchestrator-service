@@ -293,9 +293,9 @@
         <cve>CVE-2019-17563</cve>
         <cve>CVE-2020-1938</cve>
         <cve>CVE-2020-1935</cve>
-        <cve>CVE-2020-1745</cve>
-        <cve>CVE-2020-9484</cve>
         <cve>CVE-2020-11996</cve>
+        <cve>CVE-2020-9484</cve>
+        <cve>CVE-2020-1745</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[
@@ -490,26 +490,5 @@
    ]]></notes>
         <gav regex="true">^dom4j:dom4j:.*$</gav>
         <cve>CVE-2020-10683</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-   file name: spring-security-core-5.1.2.RELEASE.jar
-   ]]></notes>
-        <gav regex="true">^org\.springframework\.security:spring-security-core:.*$</gav>
-        <cpe>cpe:/a:security-framework_project:security-framework</cpe>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-   file name: tomcat-embed-core-9.0.13.jar
-   ]]></notes>
-        <gav regex="true">^org\.apache\.tomcat\.embed:tomcat-embed-core:.*$</gav>
-        <cpe>cpe:/a:apache_software_foundation:tomcat</cpe>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-   file name: tomcat-embed-core-9.0.13.jar
-   ]]></notes>
-        <gav regex="true">^org\.apache\.tomcat\.embed:tomcat-embed-core:.*$</gav>
-        <cpe>cpe:/a:apache_tomcat:apache_tomcat</cpe>
     </suppress>
 </suppressions>
