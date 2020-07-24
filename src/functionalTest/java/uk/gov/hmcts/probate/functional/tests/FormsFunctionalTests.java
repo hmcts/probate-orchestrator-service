@@ -5,11 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
-import net.serenitybdd.junit.runners.SerenityRunner;
+import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
 import net.serenitybdd.rest.SerenityRest;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -22,8 +21,7 @@ import java.util.Map;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
-@RunWith(SerenityRunner.class)
-@Ignore //NOSONAR
+@RunWith(SpringIntegrationSerenityRunner.class)
 public class FormsFunctionalTests extends IntegrationTestBase {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
