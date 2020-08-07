@@ -5,6 +5,8 @@ The Probate Orchestrator is an [API Gateway](https://microservices.io/patterns/a
 
 It is written Java and uses the Sprint Boot framework.
 
+Note that contrary to the [GDS Cyber Security guidelines](https://www.gov.uk/government/publications/open-source-guidance/when-code-should-be-open-or-closed) this repository is private because it contains production data. 
+
 ## Getting Started
 ### Prerequisites
 - Java 8
