@@ -490,4 +490,8 @@
         <gav regex="true">^dom4j:dom4j:.*$</gav>
         <cve>CVE-2020-10683</cve>
     </suppress>
+    <suppress>
+        <cve>CVE-2020-13934</cve>
+        <cve>CVE-2020-13935</cve>
+    </suppress>
 </suppressions>
