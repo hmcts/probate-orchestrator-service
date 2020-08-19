@@ -21,7 +21,6 @@ plugins {
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'org.sonarqube'
-apply plugin: 'findbugs'
 apply plugin: 'jacoco'
 apply plugin: 'net.serenity-bdd.aggregator'
 apply plugin: "com.gorylenko.gradle-git-properties"
@@ -40,8 +39,8 @@ group = 'uk.gov.hmcts.probate'
 version = "4.0.0"
 mainClassName = 'uk.gov.hmcts.probate.OrchestratorApplication'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 
 //check.dependsOn dependencyCheckAnalyze
 // make build fail on Checkstyle issues (https://github.com/gradle/gradle/issues/881)
@@ -60,7 +59,7 @@ project.ext {
     pactVersion = getCheckedOutGitCommitHash()
 }
 jacoco {
-    toolVersion = '0.8.0'
+    toolVersion = '0.8.5'
 }
 
 jacocoTestReport {
@@ -69,18 +68,6 @@ jacocoTestReport {
         xml.enabled false
         html.destination file("${buildDir}/reports/jacoco")
     }
-}
-
-tasks.withType(FindBugs) {
-    reports {
-        xml.enabled = false
-        html.enabled = true
-    }
-}
-
-findbugs {
-    ignoreFailures = true
-    reportLevel = "low"
 }
 
 sonarqube {
@@ -162,7 +149,6 @@ task functional(type: Test) {
     description = "Runs functional Tests"
     testClassesDirs = sourceSets.testFunctional.output.classesDirs
     classpath = sourceSets.testFunctional.runtimeClasspath
-    println classpath
     finalizedBy aggregate
     environment("APPINSIGHTS_INSTRUMENTATIONKEY", "test-key")
 }
@@ -193,7 +179,7 @@ def versions = [
         springCloudStarterNetflixHystrix: '2.1.1.RELEASE',
         serenityBdd                     : '2.0.30',
         serenitySpring                  : '1.0.26',
-        serentity                       : '2.0.17',
+        serenity                       : '2.2.12',
         jjwt                            : '0.9.0',
         serviceAuthProviderClient       : '3.0.0',
         restAssured                     : '3.0.7',
@@ -329,10 +315,10 @@ dependencies {
     testSmokeCompile sourceSets.main.runtimeClasspath
     testSmokeCompile sourceSets.test.runtimeClasspath
 
-    testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serentity
-    testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serentity
-    testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serentity
-    testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serentity
+    testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
+    testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenity
+    testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
+    testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
     testFunctionalCompile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.0'
     testFunctionalCompile group: 'io.rest-assured', name: 'rest-assured', version: '3.1.1'
     testFunctionalCompile group: 'org.projectlombok', name: 'lombok', version: versions.lombok
@@ -382,8 +368,8 @@ def getCheckedOutGitCommitHash() {
     'git rev-parse --verify --short HEAD'.execute().text.trim()
 }
 
-compileJava {
-    options.compilerArgs << '-parameters'
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-parameters"
 }
 
 bootJar {

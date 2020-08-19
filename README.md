@@ -9,7 +9,7 @@ Note that contrary to the [GDS Cyber Security guidelines](https://www.gov.uk/gov
 
 ## Getting Started
 ### Prerequisites
-- Java 8
+- Java 11
 - Gradle
 - Docker
 
