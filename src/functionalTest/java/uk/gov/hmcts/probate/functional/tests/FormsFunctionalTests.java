@@ -7,10 +7,10 @@ import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
+import net.thucydides.core.annotations.Pending;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,6 +66,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
+    @Pending
     public void shouldCreateDraftThenSubmitAndFinallyUpdatePayment() throws IOException {
         shouldSaveFormSuccessfully();
         shouldUpdateForm();
