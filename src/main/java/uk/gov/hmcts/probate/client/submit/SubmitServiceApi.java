@@ -102,16 +102,6 @@ public interface SubmitServiceApi {
     );
 
     @PostMapping(
-            value = "/cases/initiate/caseworker",
-            headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
-    )
-    ProbateCaseDetails initiateCaseAsCaseWorker(
-            @RequestHeader(AUTHORIZATION) String authorisation,
-            @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
-            @RequestBody ProbateCaseDetails probateCaseDetails
-    );
-
-    @PostMapping(
             value = "/cases/caseworker/{applicationId}",
             headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
