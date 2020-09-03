@@ -156,17 +156,6 @@ public interface SubmitServiceApi {
     );
 
     @PostMapping(
-        value = "/payments/{applicationId}",
-        headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
-    )
-    ProbateCaseDetails updatePayments(
-        @RequestHeader(AUTHORIZATION) String authorisation,
-        @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
-        @PathVariable(SubmitServiceConfiguration.APPLICATION_ID) String applicationId,
-        @RequestBody ProbatePaymentDetails probatePaymentDetails
-    );
-
-    @PostMapping(
         value = "/payments/{applicationId}/cases",
         headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
