@@ -6,15 +6,7 @@ The Probate Orchestrator is an [API Gateway](https://microservices.io/patterns/a
 It is written Java and uses the Sprint Boot framework.
 
 ## Getting Started
-### Prerequisites
-- Java 11
-- Gradle
-- Docker
 
-### Running the application
-Run the service by executing the following command:  
-```
-$ ./gradlew bootRun
 ```
 
 ### API documentation
