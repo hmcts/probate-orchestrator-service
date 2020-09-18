@@ -10,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import uk.gov.hmcts.reform.probate.model.IhtFormType;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
@@ -19,7 +18,6 @@ import uk.gov.hmcts.reform.probate.model.forms.Copies;
 import uk.gov.hmcts.reform.probate.model.forms.Declaration;
 import uk.gov.hmcts.reform.probate.model.forms.DeclarationDeclaration;
 import uk.gov.hmcts.reform.probate.model.forms.Equality;
-import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
 import uk.gov.hmcts.reform.probate.model.forms.Language;
 import uk.gov.hmcts.reform.probate.model.forms.LegalStatement;
@@ -44,27 +42,33 @@ public class PaMapperTest {
     @Autowired
     private PaMapper mapper;
 
-    private PaForm paForm;
-    private GrantOfRepresentationData grantOfRepresentation;
+    private PaForm paFormMultipleExecutors;
+    private GrantOfRepresentationData grantOfRepresentationMultipleExecutors;
+
+    private PaForm paFormSingleExecutor;
+    private GrantOfRepresentationData grantOfRepresentationSingleExecutor;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Before
     public void setUp() throws IOException {
-        paForm = PaTestDataCreator.createPaForm();
-        grantOfRepresentation = PaTestDataCreator.createGrantOfRepresentation();
+        paFormMultipleExecutors = PaMultipleExecutorTestDataCreator.createPaForm();
+        grantOfRepresentationMultipleExecutors = PaMultipleExecutorTestDataCreator.createGrantOfRepresentation();
+
+        paFormSingleExecutor = PaSingleExecutorTestDataCreator.createPaForm();
+        grantOfRepresentationSingleExecutor = PaSingleExecutorTestDataCreator.createGrantOfRepresentation();
     }
 
     @Test
-    public void shouldMapPaFormToGrantOfRepresentation() {
-        GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(paForm);
-        assertThat(actualGrantOfRepresentation).isEqualToComparingFieldByFieldRecursively(grantOfRepresentation);
+    public void shouldMapPaFormToGrantOfRepresentationMultipleExecutors() {
+        GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(paFormMultipleExecutors);
+        assertThat(actualGrantOfRepresentation).isEqualToComparingFieldByFieldRecursively(grantOfRepresentationMultipleExecutors);
     }
 
     @Test
-    public void shouldMapGrantOfRepresentationToPaForm() {
-        PaForm actualPaForm = mapper.fromCaseData(grantOfRepresentation);
-        assertThat(actualPaForm).isEqualToComparingFieldByFieldRecursively(paForm);
+    public void shouldMapGrantOfRepresentationToPaFormMultipleExecutors() {
+        PaForm actualPaForm = mapper.fromCaseData(grantOfRepresentationMultipleExecutors);
+        assertThat(actualPaForm).isEqualToComparingFieldByFieldRecursively(paFormMultipleExecutors);
         assertThat(actualPaForm.getExecutors().getList()).isNotEmpty();
     }
 
@@ -88,6 +92,7 @@ public class PaMapperTest {
         expectedGrantOfRepresentation.setApplicationSubmittedDate(LocalDate.now());
         expectedGrantOfRepresentation.setNumberOfApplicants(0L);
         expectedGrantOfRepresentation.setBoDocumentsUploaded(Lists.newArrayList());
+        expectedGrantOfRepresentation.setPrimaryApplicantIsApplying(true);
         GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(new PaForm());
         assertThat(actualGrantOfRepresentation).isEqualToComparingFieldByFieldRecursively(expectedGrantOfRepresentation);
 
@@ -116,5 +121,18 @@ public class PaMapperTest {
         expectedPaForm.setEquality(new Equality());
         PaForm actualPaForm = mapper.fromCaseData(new GrantOfRepresentationData());
         assertThat(actualPaForm).isEqualToComparingFieldByFieldRecursively(expectedPaForm);
+    }
+
+    @Test
+    public void shouldMapPaFormToGrantOfRepresentationSingleExecutor() {
+        GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(paFormSingleExecutor);
+        assertThat(actualGrantOfRepresentation).isEqualToComparingFieldByFieldRecursively(grantOfRepresentationSingleExecutor);
+    }
+
+    @Test
+    public void shouldMapGrantOfRepresentationToPaFormSingleExecutor() {
+        PaForm actualPaForm = mapper.fromCaseData(grantOfRepresentationSingleExecutor);
+        assertThat(actualPaForm).isEqualToComparingFieldByFieldRecursively(paFormSingleExecutor);
+        assertThat(actualPaForm.getExecutors().getList()).isNotEmpty();
     }
 }

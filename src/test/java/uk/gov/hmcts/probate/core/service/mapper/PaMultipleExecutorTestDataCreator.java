@@ -55,7 +55,7 @@ import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
 
-public class PaTestDataCreator {
+public class PaMultipleExecutorTestDataCreator {
 
     private static final String APPLICANT_EMAIL = "jon.snow.got1234@gmail.com";
     private static final BigDecimal NET_VALUE = new BigDecimal("20000.00");
@@ -396,6 +396,7 @@ public class PaTestDataCreator {
                         .build())
                 .primaryApplicantEmailAddress(APPLICANT_EMAIL)
                 .primaryApplicantPostCode(APPLICANT_POSTCODE)
+                .primaryApplicantIsApplying(true)
                 .applicationSubmittedDate(LocalDate.now())
                 .languagePreferenceWelsh(Boolean.TRUE)
                 .registryLocation(RegistryLocation.findRegistryLocationByName(MANCHESTER))
