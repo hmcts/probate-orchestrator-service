@@ -79,6 +79,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
     @Configuration
+    @Order(2)
     public static class AuthCheckerServiceOnlyFilterConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
         private AuthCheckerServiceOnlyFilter authCheckerServiceOnlyFilter;
@@ -94,7 +95,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         }
 
         @Override
-        @Order(2)
         protected void configure(HttpSecurity http) throws Exception {
 
             http
