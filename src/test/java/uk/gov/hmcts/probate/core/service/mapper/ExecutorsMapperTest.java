@@ -34,7 +34,7 @@ public class ExecutorsMapperTest {
     @Before
     public void setUptest() {
 
-        grantOfRepresentation = PaTestDataCreator.createGrantOfRepresentation();
+        grantOfRepresentation = PaMultipleExecutorTestDataCreator.createGrantOfRepresentation();
         executorList.add(Executor.builder()
                 .isApplying(Boolean.TRUE)
                 .isApplicant(Boolean.FALSE)
@@ -146,7 +146,7 @@ public class ExecutorsMapperTest {
     @Test
     public void shouldMapExecutorsApplyingAndPlaceApplicantFirstInList() {
 
-        List<Executor> executors = mapper.fromCollectionMember(PaTestDataCreator.createGrantOfRepresentation());
+        List<Executor> executors = mapper.fromCollectionMember(PaMultipleExecutorTestDataCreator.createGrantOfRepresentation());
         Assert.assertThat(executors.get(0).getIsApplicant(), equalTo(Boolean.TRUE));
     }
 }

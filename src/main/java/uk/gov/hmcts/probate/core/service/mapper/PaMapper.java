@@ -76,6 +76,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "primaryApplicantSameWillName", source = "applicant.nameAsOnTheWill")
     @Mapping(target = "primaryApplicantPhoneNumber", source = "applicant.phoneNumber")
     @Mapping(target = "primaryApplicantOtherReason", source = "applicant.otherReason")
+    @Mapping(target = "primaryApplicantIsApplying", expression = "java(Boolean.TRUE)")
     @Mapping(target = "registryLocation", source = "registry.name", qualifiedBy = {ToRegistryLocation.class})
     @Mapping(target = "registryAddress", source = "registry.address")
     @Mapping(target = "registryEmailAddress", source = "registry.email")
