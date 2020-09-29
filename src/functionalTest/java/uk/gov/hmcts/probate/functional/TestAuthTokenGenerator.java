@@ -9,8 +9,6 @@ import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 
 import java.util.Base64;
 
-import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE;
-
 @Component
 public class TestAuthTokenGenerator {
 
@@ -76,7 +74,6 @@ public class TestAuthTokenGenerator {
         return RestAssured.given().baseUri(idamUserBaseUrl)
             .header("Authorization", "Basic " + encoded)
             .post("/oauth2/authorize?response_type=code&client_id=" + clientId + "&redirect_uri=" + redirectUri)
-            .prettyPeek()
             .body().path("code");
     }
 }
