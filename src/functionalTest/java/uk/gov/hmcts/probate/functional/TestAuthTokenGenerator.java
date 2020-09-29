@@ -9,30 +9,20 @@ import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 
 import java.util.Base64;
 
+import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE;
+
 @Component
 public class TestAuthTokenGenerator {
 
-    @Value("${idam.oauth2.client.id}")
-    private String clientId;
-
-    @Value("${idam.oauth2.client.secret}")
-    private String clientSecret;
-
     @Value("${idam.oauth2.redirect_uri}")
     private String redirectUri;
-
-    @Value("${service.name}")
-    private String serviceName;
-
-    @Value("${service.auth.provider.base.url}")
-    private String baseServiceAuthUrl;
 
     @Value("${user.auth.provider.oauth2.url}")
     private String baseServiceOauth2Url;
     String clientToken;
 
-    @Value("${env}")
-    private String environment;
+    @Value("${idam.client}")
+    private String clientId;
 
     @Value("${idam.secret}")
     private String secret;
@@ -67,9 +57,14 @@ public class TestAuthTokenGenerator {
 
     private String generateClientToken(String userName, String password) {
         String code = generateClientCode(userName, password);
+
+        if (code == null) {
+            throw new RuntimeException("No code from IDAM");
+        }
+
         String token = RestAssured.given().post(idamUserBaseUrl + "/oauth2/token?code=" + code +
             "&client_secret=" + secret +
-            "&client_id=probate" +
+            "&client_id=" + clientId +
             "&redirect_uri=" + redirectUri +
             "&grant_type=authorization_code")
             .body().path("access_token");
@@ -80,8 +75,8 @@ public class TestAuthTokenGenerator {
         final String encoded = Base64.getEncoder().encodeToString((userName + ":" + password).getBytes());
         return RestAssured.given().baseUri(idamUserBaseUrl)
             .header("Authorization", "Basic " + encoded)
-            .post("/oauth2/authorize?response_type=code&client_id=probate&redirect_uri=" + redirectUri)
+            .post("/oauth2/authorize?response_type=code&client_id=" + clientId + "&redirect_uri=" + redirectUri)
+            .prettyPeek()
             .body().path("code");
-
     }
 }
