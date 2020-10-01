@@ -60,24 +60,15 @@ back.office.api.url: ${BACK_OFFICE_API_URL:http://localhost:4104}
 
 logging:
   level:
-    org.springframework.web: ${LOG_LEVEL:ERROR}
-    uk.gov.hmcts.probate: ${LOG_LEVEL:DEBUG}
-    uk.gov.hmcts.probate.client.backoffice.BackOfficeApi: ${LOG_LEVEL:DEBUG}
-    uk.gov.hmcts.probate.client.submit.SubmitServiceApi: ${LOG_LEVEL:DEBUG}
-    uk.gov.hmcts.probate.client.BusinessServiceApi: ${LOG_LEVEL:DEBUG}
-    uk.gov.hmcts.probate.client.idam.IdamClient: ${LOG_LEVEL:DEBUG}
+    org.springframework.web: ERROR
+    uk.gov.hmcts.probate: INFO
   pattern:
     console: "%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n"
 
 azure:
-  app_insights_key: ${APPINSIGHTS_INSTRUMENTATIONKEY:true}
+  app_insights_key: ${APPINSIGHTS_INSTRUMENTATIONKEY:false}
   application-insights:
-    instrumentation-key: ${APPINSIGHTS_INSTRUMENTATIONKEY:d30268e8-8979-4579-8d58-010dbe03a1e6}
-
-app-insights:
-  dev-mode: off
-  request-component: on
-  telemetry-component: on
+    instrumentation-key: ${APPINSIGHTS_INSTRUMENTATIONKEY:00000000-0000-0000-0000-000000000000}
 
 feign:
   client:
