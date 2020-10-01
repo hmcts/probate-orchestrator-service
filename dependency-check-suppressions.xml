@@ -508,6 +508,8 @@
    ]]></notes>
         <gav regex="true">^org\.yaml:snakeyaml:.*$</gav>
         <cve>CVE-2017-18640</cve>
+    </suppress>
+    <suppress>
         <cve>CVE-2020-5421</cve>
     </suppress>
 </suppressions>
