@@ -339,6 +339,7 @@
         <cve>CVE-2020-14061</cve>
         <cve>CVE-2020-14062</cve>
         <cve>CVE-2020-14195</cve>
+        <cve>CVE-2020-24616</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[
@@ -496,67 +497,19 @@
     </suppress>
     <suppress>
         <notes><![CDATA[
-file name: jackson-dataformat-csv-2.9.8.jar
-]]></notes>
-        <gav regex="true">^com\.fasterxml\.jackson\.dataformat:jackson-dataformat-csv:.*$</gav>
-        <cpe>cpe:/a:fasterxml:jackson</cpe>
-         <cpe>cpe:/a:fasterxml:jackson-dataformat-xml</cpe>
-        <cve>CVE-2020-24616</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-file name: jackson-datatype-jdk8-2.9.7.jar
-]]></notes>
-        <gav regex="true">^com\.fasterxml\.jackson\.datatype:jackson-datatype-jdk8:.*$</gav>
-        <cpe>cpe:/a:fasterxml:jackson</cpe>
-        <cve>CVE-2020-24616</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-file name: jackson-datatype-jsr310-2.9.7.jar
-]]></notes>
-        <gav regex="true">^com\.fasterxml\.jackson\.datatype:jackson-datatype-jsr310:.*$</gav>
-        <cpe>cpe:/a:fasterxml:jackson</cpe>
-        <cve>CVE-2020-24616</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-file name: jackson-module-parameter-names-2.9.7.jar
-]]></notes>
-        <gav regex="true">^com\.fasterxml\.jackson\.module:jackson-module-parameter-names:.*$</gav>
-        <cpe>cpe:/a:fasterxml:jackson</cpe>
-        <cve>CVE-2020-24616</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-file name: jackson-module-afterburner-2.9.7.jar
-]]></notes>
-        <gav regex="true">^com\.fasterxml\.jackson\.module:jackson-module-afterburner:.*$</gav>
-        <cpe>cpe:/a:fasterxml:jackson</cpe>
-        <cve>CVE-2020-24616</cve>
-    </suppress>
-     <suppress>
-        <notes><![CDATA[
-file name: jackson-annotations-2.9.0.jar
-]]></notes>
-        <gav regex="true">^com\.fasterxml\.jackson\.module:jackson-module-afterburner:.*$</gav>
-        <cpe>cpe:/a:fasterxml:jackson</cpe>
-        <cve>CVE-2020-24616</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-file name: jackson-core-2.9.7.jar
-]]></notes>
-        <gav regex="true">^com\.fasterxml\.jackson\.core:jackson-core:.*$</gav>
-        <cpe>cpe:/a:fasterxml:jackson</cpe>
-        <cve>CVE-2020-24616</cve>
-    </suppress>
-    <suppress>
-    <notes><![CDATA[
    file name: snakeyaml-1.23.jar
    ]]></notes>
-    <gav regex="true">^org\.yaml:snakeyaml:.*$</gav>
-    <cpe>cpe:/a:snakeyaml_project:snakeyaml</cpe>
-    <cve>CVE-2017-18640</cve>
-  </suppress>
+        <gav regex="true">^org\.yaml:snakeyaml:.*$</gav>
+        <cpe>cpe:/a:snakeyaml_project:snakeyaml</cpe>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: snakeyaml-1.23.jar
+   ]]></notes>
+        <gav regex="true">^org\.yaml:snakeyaml:.*$</gav>
+        <cve>CVE-2017-18640</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2020-5421</cve>
+    </suppress>
 </suppressions>
