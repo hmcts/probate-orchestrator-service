@@ -533,7 +533,7 @@
     <suppress>
         <notes><![CDATA[
    file name: springfox-swagger-ui-2.6.1.jar
-   ]]></notes>
+   ]]> </notes>
         <cve>CVE-2012-6708</cve>
     </suppress>
 </suppressions>
