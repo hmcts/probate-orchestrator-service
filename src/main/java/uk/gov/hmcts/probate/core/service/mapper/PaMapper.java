@@ -66,6 +66,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "deceasedAddresses", source = "deceased.addresses", qualifiedBy = {FromMap.class})
     @Mapping(target = "deceasedPostCode", source = "deceased.postcode")
     @Mapping(target = "deceasedForeignDeathCertInEnglish", source = "deceased.englishForeignDeathCert")
+    @Mapping(target = "deceasedForeignDeathCertTranslation", source = "deceased.foreignDeathCertTranslation")
     @Mapping(target = "primaryApplicantForenames", source = "applicant.firstName")
     @Mapping(target = "primaryApplicantSurname", source = "applicant.lastName")
     @Mapping(target = "primaryApplicantEmailAddress", source = "applicantEmail")
