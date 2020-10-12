@@ -70,7 +70,7 @@ sonarqube {
                 "**/FormDataMigrator.java, **/IdamUserEmail.java, **/IdamUsersCsvLoader.java"
         property "sonar.projectName", "PROBATE :: Probate-Orchestrator-Service"
         property "sonar.projectKey", "Probate-Orchestrator-Service"
-        property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
+        property "sonar.jacoco.reportPath", "${buildDir}/jacoco/test.exec"
         property "sonar.host.url", "https://sonar.reform.hmcts.net/"
         property "sonar.pitest.mode", "reuseReport"
         property "sonar.pitest.reportsDirectory", "build/reports/pitest"
@@ -196,7 +196,7 @@ jacocoTestReport {
     reports {
         xml.enabled = true
         csv.enabled = false
-        xml.destination = file("${project.buildDir}/reports/jacoco/test/jacocoTestReport.xml")
+        xml.destination = file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
     }
 }
 
