@@ -28,7 +28,7 @@ API documentation is provided with Swagger:
 
 ```
 # rebuild every time you make changes
-./gradlew assemble
+
 
 # first time only
 npx @hmcts/probate-dev-env --create
