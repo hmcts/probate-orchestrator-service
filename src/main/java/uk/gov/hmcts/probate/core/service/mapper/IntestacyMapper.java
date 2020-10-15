@@ -28,6 +28,7 @@ import uk.gov.hmcts.reform.probate.model.IhtFormType;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.Relationship;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
+import uk.gov.hmcts.reform.probate.model.cases.DeathCertificate;
 import uk.gov.hmcts.reform.probate.model.cases.MaritalStatus;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
@@ -40,7 +41,7 @@ import java.time.LocalDate;
 
 @Mapper(componentModel = "spring", uses = {PaPaymentMapper.class, PaymentsMapper.class, AliasNameMapper.class, RegistryLocationMapper.class, PoundsConverter.class,
         IhtMethodConverter.class, MapConverter.class, LegalStatementMapper.class, LocalDateTimeMapper.class, DocumentsMapper.class, StatementOfTruthMapper.class, AddressMapper.class},
-        imports = {ApplicationType.class, GrantType.class, LocalDate.class, ProbateType.class, IhtMethod.class, MaritalStatus.class, Relationship.class, SpouseNotApplyingReason.class, AddressMapper.class, IhtFormType.class},
+        imports = {ApplicationType.class, GrantType.class, LocalDate.class, ProbateType.class, IhtMethod.class, MaritalStatus.class, DeathCertificate.class, Relationship.class, SpouseNotApplyingReason.class, AddressMapper.class, IhtFormType.class},
         unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, IntestacyForm> {
 
@@ -103,7 +104,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "statementOfTruthDocument", source = "statementOfTruthDocument", qualifiedBy = {ToDocumentLink.class})
     @Mapping(target = "languagePreferenceWelsh", source = "language.bilingual")
     @Mapping(target = "deceasedDiedEngOrWales", source = "deceased.diedEngOrWales")
-    @Mapping(target = "deathCertificate", source = "deceased.deathCertificate")
+    @Mapping(target = "deceasedDeathCertificate", expression = "java(form.getDeceased()!= null ? DeathCertificate.fromString(form.getDeceased().getDeathCertificate()) : null)")
     GrantOfRepresentationData toCaseData(IntestacyForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.INTESTACY)")
@@ -114,6 +115,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "deceased.dateOfDeath", source = "deceasedDateOfDeath", qualifiedBy = {FromLocalDate.class})
     @Mapping(target = "deceased.otherNames", source = "deceasedAliasNameList", qualifiedBy = {FromCollectionMember.class})
     @Mapping(target = "deceased.maritalStatus", expression = "java(grantOfRepresentationData.getDeceasedMaritalStatus()!=null ? grantOfRepresentationData.getDeceasedMaritalStatus().getDescription() : null)")
+    @Mapping(target = "deceased.deathCertificate", expression = "java(grantOfRepresentationData.getDeceasedDeathCertificate()!=null ? grantOfRepresentationData.getDeceasedDeathCertificate().getDescription() : null)")
     @Mapping(target = "deceased.postcode", source = "deceasedPostCode")
     @Mapping(target = "applicant.spouseNotApplyingReason", expression = "java(grantOfRepresentationData.getDeceasedSpouseNotApplyingReason()!=null ? grantOfRepresentationData.getDeceasedSpouseNotApplyingReason().getDescription() : null)")
     @Mapping(target = "registry.name", source = "registryLocation", qualifiedBy = {FromRegistryLocation.class})

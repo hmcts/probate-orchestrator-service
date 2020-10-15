@@ -30,6 +30,7 @@ import uk.gov.hmcts.reform.probate.model.AliasReason;
 import uk.gov.hmcts.reform.probate.model.IhtFormType;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
+import uk.gov.hmcts.reform.probate.model.cases.DeathCertificate;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
@@ -42,7 +43,7 @@ import java.time.LocalDate;
     PoundsConverter.class, IhtMethodConverter.class, LegalStatementMapper.class, ExecutorsMapper.class,
     ExecutorApplyingMapper.class, ExecutorNotApplyingMapper.class, MapConverter.class, LocalDateTimeMapper.class,
     AddressMapper.class, FeesMapper.class, DocumentsMapper.class, StatementOfTruthMapper.class},
-    imports = {ApplicationType.class, GrantType.class, ProbateType.class, IhtMethod.class, IhtFormType.class,
+    imports = {ApplicationType.class, DeathCertificate.class, GrantType.class, ProbateType.class, IhtMethod.class, IhtFormType.class,
         LocalDate.class, ExecutorsMapper.class, BooleanUtils.class, AddressMapper.class, OverseasCopiesMapper.class, AliasReason.class},
     unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 
@@ -113,7 +114,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "statementOfTruthDocument", source = "statementOfTruthDocument", qualifiedBy = {ToDocumentLink.class})
     @Mapping(target = "languagePreferenceWelsh", source = "language.bilingual")
     @Mapping(target = "deceasedDiedEngOrWales", source = "deceased.diedEngOrWales")
-    @Mapping(target = "deathCertificate", source = "deceased.deathCertificate")
+    @Mapping(target = "deceasedDeathCertificate", expression = "java(form.getDeceased()!= null ? DeathCertificate.fromString(form.getDeceased().getDeathCertificate()) : null)")
     GrantOfRepresentationData toCaseData(PaForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.PA)")
@@ -123,6 +124,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "deceased.dateOfBirth", source = "deceasedDateOfBirth", qualifiedBy = {FromLocalDate.class})
     @Mapping(target = "deceased.dateOfDeath", source = "deceasedDateOfDeath", qualifiedBy = {FromLocalDate.class})
     @Mapping(target = "deceased.postcode", source = "deceasedPostCode")
+    @Mapping(target = "deceased.deathCertificate", expression = "java(grantOfRepresentationData.getDeceasedDeathCertificate()!=null ? grantOfRepresentationData.getDeceasedDeathCertificate().getDescription() : null)")
     @Mapping(target = "registry.name", source = "registryLocation", qualifiedBy = {FromRegistryLocation.class})
     @Mapping(target = "registry.address", source = "registryAddress")
     @Mapping(target = "registry.email", source = "registryEmailAddress")
