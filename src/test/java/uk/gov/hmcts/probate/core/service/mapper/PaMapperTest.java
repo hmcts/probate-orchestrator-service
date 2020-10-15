@@ -44,7 +44,7 @@ public class PaMapperTest {
 
     private PaForm paFormMultipleExecutors;
     private GrantOfRepresentationData grantOfRepresentationMultipleExecutors;
-    
+
     private PaForm paFormSingleExecutor;
     private GrantOfRepresentationData grantOfRepresentationSingleExecutor;
 
