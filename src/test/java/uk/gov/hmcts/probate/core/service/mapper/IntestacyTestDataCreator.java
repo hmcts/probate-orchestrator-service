@@ -121,6 +121,8 @@ public class IntestacyTestDataCreator {
                         .postcode(POSTCODE)
                         .diedEngOrWales(Boolean.TRUE)
                         .deathCertificate(DEATH_CERT)
+                        .englishForeignDeathCert(Boolean.FALSE)
+                        .foreignDeathCertTranslation(Boolean.TRUE)
                         .build())
                 .declaration(Declaration.builder().build())
                 .iht(InheritanceTax.builder()
@@ -183,6 +185,8 @@ public class IntestacyTestDataCreator {
         grantOfRepresentation.setDeceasedPostCode(POSTCODE);
         grantOfRepresentation.setDeceasedAddressFound(Boolean.TRUE);
         grantOfRepresentation.setDeceasedAnyOtherNames(Boolean.TRUE);
+        grantOfRepresentation.setDeceasedForeignDeathCertInEnglish(Boolean.FALSE);
+        grantOfRepresentation.setDeceasedForeignDeathCertTranslation(Boolean.TRUE);
         CollectionMember<AliasName> aliasNameCollectionMember = new CollectionMember<>();
         AliasName aliasName = new AliasName();
         aliasName.setForenames(ALIAS_FIRST_NAME);
