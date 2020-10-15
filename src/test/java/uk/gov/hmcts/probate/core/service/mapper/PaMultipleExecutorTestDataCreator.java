@@ -77,6 +77,8 @@ public class PaMultipleExecutorTestDataCreator {
     private static final int NUMBER_UK = 1;
     private static final BigDecimal COST_OVERSEAS = BigDecimal.valueOf(0);
     private static final int NUMBER_OVERSEAS = 0;
+    private static final boolean DECEASED_DIED_ENG_OR_WALES = true;
+    private static final String DECEASED_DEATH_CERT = "optionDeathCertificate";
     private static final boolean DECEASED_ALIAS = false;
     private static final Address DECEASED_ADDRESS = Address.builder().addressLine1("Winterfell")
             .postTown("North Westeros").postCode("GOT123").formattedAddress("Winterfell North Westeros GOT123").build();
@@ -250,6 +252,8 @@ public class PaMultipleExecutorTestDataCreator {
                         .addresses(objectMapper.readValue(DECEASED_ADDRESSES, new TypeReference<List<Map<String, Object>>>() {
                         }))
                         .postcode(DECEASED_POSTCODE)
+                        .diedEngOrWales(DECEASED_DIED_ENG_OR_WALES)
+                        .deathCertificate(DECEASED_DEATH_CERT)
                         .build())
                 .registry(Registry.builder()
                         .name(MANCHESTER)
@@ -430,6 +434,8 @@ public class PaMultipleExecutorTestDataCreator {
                         .postCode(DECEASED_ADDRESS.getPostCode())
                         .build())
                 .deceasedPostCode(DECEASED_POSTCODE)
+                .deceasedDiedEngOrWales(DECEASED_DIED_ENG_OR_WALES)
+                .deathCertificate(DECEASED_DEATH_CERT)
                 .numberOfApplicants(Long.valueOf(EXECUTORS_NUMBER))
                 .numberOfExecutors(Long.valueOf(EXECUTORS_NUMBER))
                 .applicationType(ApplicationType.PERSONAL)

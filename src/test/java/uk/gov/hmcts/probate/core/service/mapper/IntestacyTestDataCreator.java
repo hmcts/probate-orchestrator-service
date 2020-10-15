@@ -57,8 +57,6 @@ public class IntestacyTestDataCreator {
     private static final LocalDateTime DATE_OF_DEATH = LocalDateTime.of(2018, 12, 3, 0, 0, 0);
     private static final String DECEASED_FIRST_NAME = "deceasedFirstName";
     private static final String DECEASED_LAST_NAME = "deceasedLastName";
-    //private static final long CASE_ID = 100001L;
-    //private static final String STATE = "state";
     private static final BigDecimal GROSS_VALUE = new BigDecimal("100000.00");
     private static final Long GROSS_VALUE_LONG = 10000000L;
     private static final String IHT_IDENTIFIER = "ihtIdentifier";
@@ -78,6 +76,7 @@ public class IntestacyTestDataCreator {
     private static final String ALIAS_LASTNAME = "aliasLastname";
     private static final Date DATE = new Date();
     public static final String UPLOAD_DOCUMENT_URL = "http://document-management/document/12345";
+    public static final String DEATH_CERT = "optionDeathCertificate";
 
     public static IntestacyForm createIntestacyForm() {
         return IntestacyForm.builder()
@@ -119,6 +118,8 @@ public class IntestacyTestDataCreator {
                         .otherChildren(Boolean.FALSE)
                         .otherNames(createAliasMap())
                         .postcode(POSTCODE)
+                        .diedEngOrWales(Boolean.TRUE)
+                        .deathCertificate(DEATH_CERT)
                         .build())
                 .declaration(Declaration.builder().build())
                 .iht(InheritanceTax.builder()
@@ -196,6 +197,8 @@ public class IntestacyTestDataCreator {
         grantOfRepresentation.setChildrenOverEighteenSurvived(Boolean.FALSE);
         grantOfRepresentation.setDeceasedAnyChildren(Boolean.TRUE);
         grantOfRepresentation.setDeceasedAnyOtherNames(Boolean.TRUE);
+        grantOfRepresentation.setDeceasedDiedEngOrWales(Boolean.TRUE);
+        grantOfRepresentation.setDeathCertificate(DEATH_CERT);
 
         grantOfRepresentation.setDeclaration(uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.Declaration.builder().build());
 
