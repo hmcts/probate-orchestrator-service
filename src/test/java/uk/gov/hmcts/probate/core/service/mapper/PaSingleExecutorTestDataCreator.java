@@ -11,9 +11,6 @@ import uk.gov.hmcts.reform.probate.model.cases.*;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.*;
 import uk.gov.hmcts.reform.probate.model.forms.*;
 import uk.gov.hmcts.reform.probate.model.forms.Address;
-import uk.gov.hmcts.reform.probate.model.forms.Declaration;
-import uk.gov.hmcts.reform.probate.model.forms.LegalStatement;
-import uk.gov.hmcts.reform.probate.model.forms.LegalStatementExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.forms.pa.*;
 
 import java.io.IOException;
@@ -51,6 +48,8 @@ public class PaSingleExecutorTestDataCreator {
     private static final boolean DECEASED_DIED_ENG_OR_WALES = true;
     private static final String DECEASED_DEATH_CERTIFICATE = "optionDeathCertificate";
     private static final boolean DECEASED_ALIAS = false;
+    private static final boolean DECEASED_ENGLISH_FOREIGN_DEATH_CERT = false;
+    private static final boolean DECEASED_FOREIGN_DEATH_CERT_TRANSLATION = true;
     private static final Address DECEASED_ADDRESS = Address.builder().addressLine1("Winterfell")
             .postTown("North Westeros").postCode("GOT123").formattedAddress("Winterfell North Westeros GOT123").build();
     private static final boolean MARRIED = false;
@@ -202,6 +201,8 @@ public class PaSingleExecutorTestDataCreator {
                 )
                 .deceased(PaDeceased.builder()
                         .alias(DECEASED_ALIAS)
+                        .englishForeignDeathCert(DECEASED_ENGLISH_FOREIGN_DEATH_CERT)
+                        .foreignDeathCertTranslation(DECEASED_FOREIGN_DEATH_CERT_TRANSLATION)
                         .address(DECEASED_ADDRESS)
                         .married(MARRIED)
                         .dateOfBirth(DECEASED_DATE_OF_BIRTH)
@@ -362,6 +363,8 @@ public class PaSingleExecutorTestDataCreator {
                 .primaryApplicantAliasReason(AliasReason.MARRIAGE)
                 .primaryApplicantPhoneNumber(APPLICANT_PHONE_NUMBER)
                 .deceasedAnyOtherNames(false)
+                .deceasedForeignDeathCertInEnglish(false)
+                .deceasedForeignDeathCertTranslation(true)
                 .deceasedDateOfBirth(DECEASED_DATE_OF_BIRTH.toLocalDate())
                 .deceasedDateOfDeath(DECEASED_DATE_OF_DEATH.toLocalDate())
                 .deceasedSurname(DECEASED_LAST_NAME)
