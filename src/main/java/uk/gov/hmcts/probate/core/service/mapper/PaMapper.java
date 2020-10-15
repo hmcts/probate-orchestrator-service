@@ -112,6 +112,8 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "boDocumentsUploaded", source = "documents", qualifiedBy = {ToUploadDocs.class})
     @Mapping(target = "statementOfTruthDocument", source = "statementOfTruthDocument", qualifiedBy = {ToDocumentLink.class})
     @Mapping(target = "languagePreferenceWelsh", source = "language.bilingual")
+    @Mapping(target = "deceasedDiedEngOrWales", source = "deceased.diedEngOrWales")
+    @Mapping(target = "deathCertificate", source = "deceased.deathCertificate")
     GrantOfRepresentationData toCaseData(PaForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.PA)")
