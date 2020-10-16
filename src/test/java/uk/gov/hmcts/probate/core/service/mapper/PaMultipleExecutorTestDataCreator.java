@@ -10,6 +10,7 @@ import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
+import uk.gov.hmcts.reform.probate.model.cases.DeathCertificate;
 import uk.gov.hmcts.reform.probate.model.cases.DocumentLink;
 import uk.gov.hmcts.reform.probate.model.cases.DocumentType;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCalculatedFees;
@@ -435,7 +436,7 @@ public class PaMultipleExecutorTestDataCreator {
                         .build())
                 .deceasedPostCode(DECEASED_POSTCODE)
                 .deceasedDiedEngOrWales(DECEASED_DIED_ENG_OR_WALES)
-                .deathCertificate(DECEASED_DEATH_CERT)
+                .deceasedDeathCertificate(DeathCertificate.DEATH_CERTIFICATE)
                 .numberOfApplicants(Long.valueOf(EXECUTORS_NUMBER))
                 .numberOfExecutors(Long.valueOf(EXECUTORS_NUMBER))
                 .applicationType(ApplicationType.PERSONAL)

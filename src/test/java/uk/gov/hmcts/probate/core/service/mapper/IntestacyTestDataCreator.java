@@ -11,6 +11,7 @@ import uk.gov.hmcts.reform.probate.model.cases.AliasName;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
+import uk.gov.hmcts.reform.probate.model.cases.DeathCertificate;
 import uk.gov.hmcts.reform.probate.model.cases.MaritalStatus;
 import uk.gov.hmcts.reform.probate.model.cases.RegistryLocation;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
@@ -198,7 +199,7 @@ public class IntestacyTestDataCreator {
         grantOfRepresentation.setDeceasedAnyChildren(Boolean.TRUE);
         grantOfRepresentation.setDeceasedAnyOtherNames(Boolean.TRUE);
         grantOfRepresentation.setDeceasedDiedEngOrWales(Boolean.TRUE);
-        grantOfRepresentation.setDeathCertificate(DEATH_CERT);
+        grantOfRepresentation.setDeceasedDeathCertificate(DeathCertificate.DEATH_CERTIFICATE);
 
         grantOfRepresentation.setDeclaration(uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.Declaration.builder().build());
 
