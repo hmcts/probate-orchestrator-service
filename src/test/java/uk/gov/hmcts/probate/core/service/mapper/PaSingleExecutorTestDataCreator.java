@@ -374,7 +374,7 @@ public class PaSingleExecutorTestDataCreator {
                         .build())
                 .deceasedPostCode(DECEASED_POSTCODE)
                 .deceasedDiedEngOrWales(DECEASED_DIED_ENG_OR_WALES)
-                .deathCertificate(DECEASED_DEATH_CERTIFICATE)
+                .deceasedDeathCertificate(DeathCertificate.DEATH_CERTIFICATE)
                 .numberOfApplicants(Long.valueOf(EXECUTORS_NUMBER))
                 .numberOfExecutors(Long.valueOf(EXECUTORS_NUMBER))
                 .applicationType(ApplicationType.PERSONAL)
