@@ -252,7 +252,7 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
     compile group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
     compile group: 'org.springframework.retry', name: 'spring-retry'
-    compile group: 'com.google.guava', name: 'guava', version: '27.0-jre'
+    compile group: 'com.google.guava', name: 'guava', version: '30.0-jre'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-hateoas'
 
