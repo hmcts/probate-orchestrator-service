@@ -2,14 +2,13 @@ package uk.gov.hmcts.probate.functional;
 
 import io.restassured.RestAssured;
 import io.restassured.parsing.Parser;
+import net.serenitybdd.junit.spring.integration.SpringIntegrationMethodRule;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
-import net.thucydides.junit.spring.SpringIntegration;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 import uk.gov.hmcts.probate.functional.utils.TestUtils;
 
 @RunWith(SpringIntegrationSerenityRunner.class)
@@ -35,10 +34,10 @@ public abstract class IntegrationTestBase {
     }
 
     @Rule
-    public SpringIntegration springIntegration;
+    public SpringIntegrationMethodRule springIntegration;
 
     public IntegrationTestBase() {
-        this.springIntegration = new SpringIntegration();
+        this.springIntegration = new SpringIntegrationMethodRule();
 
     }
 }

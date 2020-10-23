@@ -1,30 +1,59 @@
 {
-  "type": "Intestacy",
-  "applicant": {
-    "email": "XXXXXXXXXX",
-    "firstName": "Jon",
-    "lastName": "Snow",
-    "address": "Pret a Manger St. Georges Hospital Blackshaw Road London SW17 0QT",
-    "postCode": "SW17 0QT",
-    "phoneNumber": "123455678",
-    "addressFound": "Yes",
-    "adoptionPlace": "Yes"
+  "type":"gop",
+  "deceased":{
+    "firstName":"Dea",
+    "lastName":"Guptha",
+    "dob-date":"1970-01-01T00:00:00.000Z",
+    "dod-date":"2019-01-01T00:00:00.000Z",
+    "dod-day":1,
+    "dod-month":1,
+    "dod-year":2019,
+    "dob-day":1,
+    "dob-month":1,
+    "dob-year":1970,
+    "dob-formattedDate":"1 January 1970",
+    "dod-formattedDate":"1 January 2019",
+    "language":"en",
+    "address":{
+      "addressLine1":"2GroveRoad",
+      "addressLine2":"Flat1",
+      "addressLine3":"CheapLane",
+      "postTown":"Ramford",
+      "postCode":"RM3 9JU",
+      "country":"England",
+      "formattedAddress":"2GroveRoad Flat1 CheapLane Ramford rm3 9JU England "}
   },
-  "deceased": {
-    "firstName": "Ned",
-    "lastName": "Stark",
-    "dob-date": "1930-01-01",
-    "dod-date": "2018-01-01",
-    "address": "Winterfell, Westeros",
-    "addressFound": "Yes",
-    "postCode": "SW17 0QT",
-    "alias": "Yes",
-    "allChildrenOver18": "Yes",
-    "anyDeceasedChildren": "No",
-    "anyGrandchildrenUnder18": "No",
-    "anyChildren": "No"
-  },
-  "declaration": {
-
-  }
+  "applicant":{},
+  "registry":{},
+  "ccdCase":{
+    "id": "123",
+    "state":"Pending"},
+  "copies":{},
+  "language":{
+    "bilingual":"optionNo"},
+  "declaration":{
+    "legalStatement":{},
+    "declaration":{}},
+  "executors":{},
+  "documents":{
+    "uploads":[]},
+  "assets":{},
+  "iht":{},
+  "will":{},
+  "applicationSubmittedDate":"2020-10-21",
+  "caseType":"gop",
+  "equality":{
+    "pcqId":null},
+  "applicantEmail":"testusername@test.com",
+  "applicantName":"",
+  "applicantAddress":{},
+  "deceasedName":"",
+  "deceasedAddress":{},
+  "deceasedOtherNames":{},
+  "dobFormattedDate":{"en":""},
+  "dodFormattedDate":{"en":""},
+  "ihtGrossValue":0,
+  "ihtNetValue":0,
+  "ihtNetValueAssetsOutside":0,
+  "ihtTotalNetValue":null
 }
