@@ -44,6 +44,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
         String surname = RandomStringUtils.randomAlphanumeric(5);
         email = forename + "." + surname + "@email.com";
         logger.info("Generate user name: {}", email);
+        logger.info("Generate user name: {}", email);
 
         IdamData idamData = IdamData.builder()
             .email(email)
