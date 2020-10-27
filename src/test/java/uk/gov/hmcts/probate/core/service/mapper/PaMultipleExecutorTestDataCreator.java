@@ -415,6 +415,7 @@ public class PaMultipleExecutorTestDataCreator {
                 .primaryApplicantSurname(APPLICANT__LASTNAME)
                 .primaryApplicantSurname(APPLICANT__LASTNAME)
                 .primaryApplicantSameWillName(APPLICANT_NAME_AS_ON_THE_WILL)
+                .primaryApplicantHasAlias(APPLICANT_NAME_AS_ON_THE_WILL)
                 .primaryApplicantAlias(APPLICANT_ALIAS)
                 .primaryApplicantAliasReason(AliasReason.MARRIAGE)
                 .primaryApplicantPhoneNumber(APPLICANT_PHONE_NUMBER)
