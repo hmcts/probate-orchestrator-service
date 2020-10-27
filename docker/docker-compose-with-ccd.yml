@@ -258,7 +258,7 @@ services:
 
 
   payments-api:
-    image: hmctspublic.azurecr.io/payment/api:latest
+    image: hmctspublic.azurecr.io/payment/api:prod-30948907
     container_name: payments-api
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://172.18.7.81:5430/payment
