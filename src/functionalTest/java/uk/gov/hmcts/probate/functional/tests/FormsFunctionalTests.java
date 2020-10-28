@@ -67,7 +67,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     public void setUp() throws JsonProcessingException {
         String forename = RandomStringUtils.randomAlphanumeric(5);
         String surname = RandomStringUtils.randomAlphanumeric(5);
-        email = "swapna999@gmail.com";
+        email = forename + "." + surname + "@gmail.com";
         logger.info("Generate user name: {}", email);
         testTokenGenerator.createNewUser(email, CITIZEN);
 
