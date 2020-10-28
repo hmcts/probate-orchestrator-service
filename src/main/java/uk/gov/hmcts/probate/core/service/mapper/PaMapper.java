@@ -126,6 +126,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "deceased.dateOfBirth", source = "deceasedDateOfBirth", qualifiedBy = {FromLocalDate.class})
     @Mapping(target = "deceased.dateOfDeath", source = "deceasedDateOfDeath", qualifiedBy = {FromLocalDate.class})
     @Mapping(target = "deceased.postcode", source = "deceasedPostCode")
+    @Mapping(target = "deceased.englishForeignDeathCert", expression = "java(grantOfRepresentationData.isDeceasedDeathCertInEnglish())")
     @Mapping(target = "deceased.foreignDeathCertTranslation", expression = "java(grantOfRepresentationData.isDeceasedForeignDeathCertTranslated())")
     @Mapping(target = "deceased.deathCertificate", expression = "java(grantOfRepresentationData.getDeceasedDeathCert())")
     @Mapping(target = "registry.name", source = "registryLocation", qualifiedBy = {FromRegistryLocation.class})
