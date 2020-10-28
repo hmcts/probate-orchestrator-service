@@ -1,8 +1,9 @@
-package uk.gov.hmcts.probate.functional.tests;
+package uk.gov.hmcts.probate.functional.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -16,6 +17,7 @@ public class IdamData {
 
     private String password;
 
-    @JsonProperty("user_group_name")
-    private String userGroupName;
+    private String userGroup;
+
+    private List<Role> roles;
 }
