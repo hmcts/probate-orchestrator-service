@@ -1,22 +1,23 @@
 package uk.gov.hmcts.probate.functional.tests;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.xml.bind.v2.runtime.output.SAXOutput;
-import feign.Response;
+import com.microsoft.applicationinsights.boot.dependencies.apachecommons.lang3.RandomStringUtils;
 import io.restassured.RestAssured;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
 import net.thucydides.core.annotations.Pending;
-import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.hmcts.probate.functional.IntegrationTestBase;
+import uk.gov.hmcts.probate.functional.TestTokenGenerator;
 import uk.gov.hmcts.probate.functional.utils.TestUtils;
 import uk.gov.hmcts.reform.probate.model.forms.CaseSummary;
 import uk.gov.hmcts.reform.probate.model.forms.CaseSummaryHolder;
@@ -25,7 +26,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.Matchers.equalTo;
@@ -44,6 +44,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     private static final String CASE_ID_PLACEHOLDER = "XXXXXX";
     private CaseSummaryHolder caseSummaryHolder;
     private long caseId;
+    public static final String CITIZEN = "citizen";
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -57,11 +58,26 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     @Autowired
     protected TestUtils utils;
 
+    @Autowired
+    TestTokenGenerator testTokenGenerator;
+
+    private String email;
+
+    @Before
+    public void setUp() throws JsonProcessingException {
+        String forename = RandomStringUtils.randomAlphanumeric(5);
+        String surname = RandomStringUtils.randomAlphanumeric(5);
+        email = "swapna999@gmail.com";
+        logger.info("Generate user name: {}", email);
+        testTokenGenerator.createNewUser(email, CITIZEN);
+
+    }
+
     @Test
     public void initiateFormsNewCaseForProbateTypePA() throws IOException {
         RestAssured.given()
                 .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
+                .headers(utils.getHeaders(email))
                 .queryParam(PROBATE_TYPE, ProbateType.PA)
                 .when()
                 .post(FORMS_NEW_CASE)
@@ -78,7 +94,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     public void initiateFormsNewCaseForProbateTypeIntestacy() {
         RestAssured.given()
                 .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
+                .headers(utils.getHeaders(email))
                 .queryParam("probateType", ProbateType.INTESTACY)
                 .when()
                 .post(FORMS_NEW_CASE)
@@ -96,7 +112,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     public void initiateFormsNewCaseForProbateTypeCAVEAT() {
         RestAssured.given()
                 .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
+                .headers(utils.getHeaders(email))
                 .queryParam("probateType", ProbateType.CAVEAT)
                 .when()
                 .post(FORMS_NEW_CASE)
@@ -113,7 +129,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     public void InitiateFormsNewCaseWithInvalidQueryParam() {
         RestAssured.given()
                 .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
+                .headers(utils.getHeaders(email))
                 .queryParam("probateType", INVALID_PROBATE_TYPE)
                 .when()
                 .post(FORMS_NEW_CASE)
@@ -126,7 +142,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     public void getAllFormsCases() {
         RestAssured.given()
                 .relaxedHTTPSValidation()
-                .headers(utils.getCaseworkerHeaders())
+                .headers(utils.getHeaders(email))
                 .when()
                 .get(FORMS_GET_ALL_CASES)
                 .then()
@@ -147,7 +163,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     public void setUpANewCase() throws IOException {
         String responseJsonStr = RestAssured.given()
                 .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
+                .headers(utils.getHeaders(email))
                 .queryParam(PROBATE_TYPE, ProbateType.PA)
                 .when()
                 .post(FORMS_NEW_CASE)
@@ -169,7 +185,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
 
         Long response = RestAssured.given()
                 .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
+                .headers(utils.getHeaders(email))
                 .body(draftJsonStr)
                 .when()
                 .post(FORMS_CASES + caseId)
@@ -190,7 +206,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
 
         RestAssured.given()
                 .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
+                .headers(utils.getHeaders(email))
                 .queryParam(PROBATE_TYPE, ProbateType.PA)
                 .when()
                 .get(FORMS_CASES + caseId)
