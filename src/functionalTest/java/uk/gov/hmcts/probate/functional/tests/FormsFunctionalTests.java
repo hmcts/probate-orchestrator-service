@@ -16,6 +16,7 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import uk.gov.hmcts.probate.functional.IntegrationTestBase;
 import uk.gov.hmcts.probate.functional.TestTokenGenerator;
 import uk.gov.hmcts.probate.functional.utils.TestUtils;
@@ -55,29 +56,14 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     SimpleDateFormat df = new SimpleDateFormat("dd MMMMM yyyy");
     public String currentDate = df.format(new Date());
 
-    @Autowired
-    protected TestUtils utils;
-
-    @Autowired
-    TestTokenGenerator testTokenGenerator;
-
+    @Value("${idam.citizen.username}")
     private String email;
 
-    @Before
-    public void setUp() throws JsonProcessingException {
-        String forename = RandomStringUtils.randomAlphanumeric(5);
-        String surname = RandomStringUtils.randomAlphanumeric(5);
-        email = forename + "." + surname + "@gmail.com";
-        logger.info("Generate user name: {}", email);
-        testTokenGenerator.createNewUser(email, CITIZEN);
-
-    }
-
     @Test
-    public void initiateFormsNewCaseForProbateTypePA() throws IOException {
+    public void initiateFormsNewCaseForProbateTypePA() {
         RestAssured.given()
                 .relaxedHTTPSValidation()
-                .headers(utils.getHeaders(email))
+                .headers(utils.getCitizenHeaders())
                 .queryParam(PROBATE_TYPE, ProbateType.PA)
                 .when()
                 .post(FORMS_NEW_CASE)
@@ -94,7 +80,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     public void initiateFormsNewCaseForProbateTypeIntestacy() {
         RestAssured.given()
                 .relaxedHTTPSValidation()
-                .headers(utils.getHeaders(email))
+                .headers(utils.getCitizenHeaders())
                 .queryParam("probateType", ProbateType.INTESTACY)
                 .when()
                 .post(FORMS_NEW_CASE)
@@ -112,7 +98,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     public void initiateFormsNewCaseForProbateTypeCAVEAT() {
         RestAssured.given()
                 .relaxedHTTPSValidation()
-                .headers(utils.getHeaders(email))
+                .headers(utils.getCitizenHeaders())
                 .queryParam("probateType", ProbateType.CAVEAT)
                 .when()
                 .post(FORMS_NEW_CASE)
@@ -129,7 +115,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     public void InitiateFormsNewCaseWithInvalidQueryParam() {
         RestAssured.given()
                 .relaxedHTTPSValidation()
-                .headers(utils.getHeaders(email))
+                .headers(utils.getCitizenHeaders())
                 .queryParam("probateType", INVALID_PROBATE_TYPE)
                 .when()
                 .post(FORMS_NEW_CASE)
@@ -142,7 +128,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     public void getAllFormsCases() {
         RestAssured.given()
                 .relaxedHTTPSValidation()
-                .headers(utils.getHeaders(email))
+                .headers(utils.getCitizenHeaders())
                 .when()
                 .get(FORMS_GET_ALL_CASES)
                 .then()
@@ -163,7 +149,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     public void setUpANewCase() throws IOException {
         String responseJsonStr = RestAssured.given()
                 .relaxedHTTPSValidation()
-                .headers(utils.getHeaders(email))
+                .headers(utils.getCitizenHeaders())
                 .queryParam(PROBATE_TYPE, ProbateType.PA)
                 .when()
                 .post(FORMS_NEW_CASE)
@@ -179,13 +165,13 @@ public class FormsFunctionalTests extends IntegrationTestBase {
 
     }
 
-    private void shouldSaveFormSuccessfully() throws IOException {
+    private void shouldSaveFormSuccessfully() {
         String draftJsonStr = utils.getJsonFromFile("intestacyForm_partial.json");
         draftJsonStr = draftJsonStr.replace(CASE_ID_PLACEHOLDER, String.valueOf(caseId));
 
         Long response = RestAssured.given()
                 .relaxedHTTPSValidation()
-                .headers(utils.getHeaders(email))
+                .headers(utils.getCitizenHeaders())
                 .body(draftJsonStr)
                 .when()
                 .post(FORMS_CASES + caseId)
@@ -197,7 +183,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
         Assert.assertEquals(response.longValue(), caseId);
     }
 
-    private void shouldGetCaseDataSuccessfully() throws IOException, JSONException {
+    private void shouldGetCaseDataSuccessfully() throws JSONException {
         String expectedResponseJsonStr = utils.getJsonFromFile("intestacyForm_partial.json");
         JSONObject expectedJsonObject = new JSONObject(expectedResponseJsonStr);
         JSONObject expectedDeceasedObject = expectedJsonObject.getJSONObject("deceased");
@@ -206,7 +192,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
 
         RestAssured.given()
                 .relaxedHTTPSValidation()
-                .headers(utils.getHeaders(email))
+                .headers(utils.getCitizenHeaders())
                 .queryParam(PROBATE_TYPE, ProbateType.PA)
                 .when()
                 .get(FORMS_CASES + caseId)

@@ -28,11 +28,6 @@ public class TestUtils {
     @Value("${idam.caseworker.username}")
     private String caseworkerEmail;
 
-    @Value("${probate.submit.url}")
-    public String submitServiceUrl;
-
-    public static final String APPLICATION_ID = "appId";
-    public static final String EMAIL_PLACEHOLDER = "testusername@test.com";
     public static final String CONTENT_TYPE = "Content-Type";
     public static final String AUTHORIZATION = "Authorization";
     public static final String CITIZEN = "citizen";
@@ -47,8 +42,6 @@ public class TestUtils {
         serviceToken = testTokenGenerator.generateServiceAuthorisation();
 
         testTokenGenerator.createNewUser(citizenEmail, CITIZEN);
-
-        RestAssured.baseURI = submitServiceUrl;
     }
 
     public String getJsonFromFile(String fileName) {
