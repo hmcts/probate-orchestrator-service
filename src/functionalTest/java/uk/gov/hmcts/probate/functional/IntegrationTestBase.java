@@ -19,17 +19,14 @@ public abstract class IntegrationTestBase {
     protected TestUtils utils;
 
     protected String orchestratorUrl;
-    protected String submitServiceUrl;
     protected String idamUrl;
 
     @Autowired
     public void initialise(@Value("${probate.orchestrator.service.url}") String orchestratorUrl,
-                           @Value("${probate.submit.url}") String submitServiceUrl,
                            @Value("${user.auth.provider.oauth2.url}") String idamUrl) {
         RestAssured.baseURI = orchestratorUrl;
         RestAssured.defaultParser = Parser.JSON;
         this.orchestratorUrl = orchestratorUrl;
-        this.submitServiceUrl = submitServiceUrl;
         this.idamUrl = idamUrl;
     }
 
