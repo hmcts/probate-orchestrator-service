@@ -137,6 +137,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
+    @Pending
     public void shouldCreateDraftThenSubmitAndFinallyUpdatePayment() throws IOException, JSONException {
         //setUpANewCase();
         //shouldSaveFormSuccessfully();
