@@ -1,8 +1,6 @@
 package uk.gov.hmcts.probate.functional.tests;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.microsoft.applicationinsights.boot.dependencies.apachecommons.lang3.RandomStringUtils;
 import io.restassured.RestAssured;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
 import net.thucydides.core.annotations.Pending;
@@ -10,16 +8,12 @@ import org.hamcrest.Matchers;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import uk.gov.hmcts.probate.functional.IntegrationTestBase;
-import uk.gov.hmcts.probate.functional.TestTokenGenerator;
-import uk.gov.hmcts.probate.functional.utils.TestUtils;
 import uk.gov.hmcts.reform.probate.model.forms.CaseSummary;
 import uk.gov.hmcts.reform.probate.model.forms.CaseSummaryHolder;
 
@@ -35,7 +29,6 @@ import static org.hamcrest.Matchers.notNullValue;
 @RunWith(SpringIntegrationSerenityRunner.class)
 public class FormsFunctionalTests extends IntegrationTestBase {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private static final String FORMS_NEW_CASE = "/forms/newcase";
     private static final String FORMS_CASES = "/forms/case/";
     private static final String FORMS_GET_ALL_CASES = "/forms/cases";
@@ -45,7 +38,6 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     private static final String CASE_ID_PLACEHOLDER = "XXXXXX";
     private CaseSummaryHolder caseSummaryHolder;
     private long caseId;
-    public static final String CITIZEN = "citizen";
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 

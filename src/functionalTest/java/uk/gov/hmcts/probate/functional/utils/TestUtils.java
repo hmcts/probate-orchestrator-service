@@ -1,7 +1,6 @@
 package uk.gov.hmcts.probate.functional.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
@@ -54,6 +53,16 @@ public class TestUtils {
         }
     }
 
+
+    public File getFile(String fileName) {
+        try {
+            return ResourceUtils.getFile(this.getClass().getResource("/json/" + fileName));
+             } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public Headers getCitizenHeaders() {
         return getHeaders(citizenEmail);
     }
@@ -63,7 +72,8 @@ public class TestUtils {
     }
 
     public Headers getHeaders(String email) {
-
+        System.out.println("ServiceAuthorization:" + serviceToken);
+        System.out.println("AUTHORIZATION:" + testTokenGenerator.generateAuthorisation(email));
         return Headers.headers(
                 new Header("ServiceAuthorization", serviceToken),
                 new Header(CONTENT_TYPE, ContentType.JSON.toString()),
