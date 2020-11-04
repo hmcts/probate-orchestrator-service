@@ -72,8 +72,7 @@ public class TestUtils {
     }
 
     public Headers getHeaders(String email) {
-        System.out.println("ServiceAuthorization:" + serviceToken);
-        System.out.println("AUTHORIZATION:" + testTokenGenerator.generateAuthorisation(email));
+
         return Headers.headers(
                 new Header("ServiceAuthorization", serviceToken),
                 new Header(CONTENT_TYPE, ContentType.JSON.toString()),
