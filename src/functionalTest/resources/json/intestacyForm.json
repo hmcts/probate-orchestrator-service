@@ -1,0 +1,72 @@
+{
+  "type":"gop",
+  "deceased":{
+    "firstName":"andrew",
+    "lastName":"drimitry",
+    "alias":"optionNo",
+    "married":"optionNo",
+    "address":{
+      "addressLine1":"34",
+      "addressLine2":"grove road",
+      "postTown":"ramford",
+      "postCode":"rm6 5ty",
+      "country":"essex",
+      "formattedAddress":"34 grove road ramford rm6 5ty essex"
+    },
+    "dob-date":"1930-01-01T00:00:00.000Z",
+    "dod-date":"2019-01-01T00:00:00.000Z",
+    "dod-day":1,
+    "dod-month":1,
+    "dod-year":2019,
+    "dob-day":1,
+    "dob-month":1,
+    "dob-year":1930,
+    "dob-formattedDate":"1 January 1930",
+    "dod-formattedDate":"1 January 2019"
+  },
+  "applicant":{
+    "firstName":"kris",
+    "lastName":"karystgj",
+    "address":{
+      "addressLine1":"54",
+      "addressLine2":"grosvernor road",
+      "addressLine3":"ilford",
+      "postTown":"london",
+      "postCode":"ig4 6yh",
+      "country":"essex",
+      "formattedAddress":"54 grosvernor road ilford london ig4 6yh essex"
+    },
+    "phoneNumber":"07865437865",
+    "nameAsOnTheWill":"optionYes"
+  },
+  "registry":{},
+  "ccdCase":{
+    "id":"XXXXXX",
+    "state":"Pending"
+  },
+  "copies":{
+    "uk":2
+  },
+  "language":
+  {
+    "bilingual":"optionNo"
+  },
+  "declaration":{
+    "softStop":false,
+    "legalStatement":
+    {
+      "en":
+      {
+        "applicant":"I, kris karystgj of 54 grosvernor road ilford london ig4 6yh essex, make the following statement:","deceased":"andrew drimitry was born on 1 January 1930 and died on 1 January 2019, domiciled in England and Wales.","deceasedOtherNames":"","executorsApplying":[{"name":"I am an executor named in the will as kris karystgj, and I am applying for probate.","sign":"I will send to the probate registry what I believe to be the true and original last will and testament of andrew drimitry."
+      }],
+        "deceasedEstateValue":"The gross value for the estate amounts to &pound;20000.00 and the net value for the estate amounts to &pound;10000.00.",
+        "deceasedEstateLand":"To the best of my knowledge, information and belief, there was no land vested in andrew drimitry which was settled previously to the death (and not by the will) of andrew drimitry and which remained settled land notwithstanding such death.","intro":"This statement is based on the information you&rsquo;ve given in your application. It will be stored as a public record."},"cy":{"applicant":"Rwyf i, kris karystgj o 54 grosvernor road ilford london ig4 6yh essex, yn gwneud y datganiad canlynol:",
+      "deceased":"andrew drimitry ar undefined a bu farw ar undefined, ac roedd fel arfer yn preswylio yng Nghymru a Lloegr.",
+      "deceasedOtherNames":"",
+      "executorsApplying":
+      [{
+        "name":"Rwy&rsquo;n ysgutor a enwir yn yr ewyllys fel kris karystgj, ac rwy&rsquo;n gwneud cais am brofiant.","sign":"Byddaf yn anfon i&rsquo;r Gofrestrfa Brofiant yr hyn a gredaf i fod yn ewyllys a thestament gwir a gwreiddiol olaf andrew drimitry."
+      }],
+      "deceasedEstateValue":"Mae gwerth gros yr ystad yn &pound;20000.00 ac mae gwerth net yr ystad yn &pound;10000.00.",
+      "deceasedEstateLand":"Hyd eithaf fy ngwybodaeth a&rsquo;m cred, nid oedd unrhyw dir wedi&rsquo;i freinio yn andrew drimitry a setlwyd cyn marwolaeth (ac nid drwy ewyllys) andrew drimitry ac a oedd dal yn dir a setlwyd er gwaethaf y farwolaeth honno.","intro":"Mae&rsquo;r datganiad hwn wedi&rsquo;i seilio ar yr wybodaeth rydych wedi&rsquo;i rhoi yn eich cais. Bydd yn cael ei storio fel cofnod cyhoeddus."}},
+    "declaration":{"en":{"confirm":"I confirm that I will administer the estate of andrew drimitry, according to law. I will:","confirmItem1":"collect the whole estate","confirmItem2":"keep full details (an inventory) of the estate","confirmItem3":"keep a full account of how the estate has been administered","requests":"If the probate registry (court) asks me to do so, I will:","requestsItem1":"provide the full details of the estate and how it has been administered","requestsItem2":"return the grant of probate to the court","understand":"I understand that:","understandItem1":"my application will be rejected if I do not answer any questions about the information I have given","understandItem2":"proceedings for contempt of court may be brought against the undersigned if it is found that the evidence provided is deliberately untruthful or dishonest, as well as revocation of the grant","accept":"I confirm that I will administer the estate of the person who died according to law, and that my application is truthful.","submitWarning":"Once you click &lsquo;Save and continue&rsquo;, you cannot change your answers."},"cy":{"confirm":"Rwy&rsquo;n cadarnhau y byddaf yn gweinyddu ystad andrew drimitry, yn unol &acirc;&rsquo;r gyfraith. Byddaf yn:","confirmItem1":"casglu&rsquo;r ystad i gyd","confirmItem2":"cadw manylion llawn (rhestr) yr ystad","confirmItem3":"cadw cofnod llawn o&rsquo;r ffordd y mae&rsquo;r ystad wedi cael ei gweinyddu","requests":"Os bydd y gofrestrfa brofiant (y llys) yn gofyn i mi, byddaf yn:","requestsItem1":"darparu manylion llawn yr ystad a&rsquo;r ffordd y cafodd ei gweinyddu","requestsItem2":"dychwelyd y grant profiant i&rsquo;r llys","understand":"Rwy&rsquo;n deall:","understandItem1":"y bydd fy nghais yn cael ei wrthod os na fyddaf yn ateb unrhyw gwestiynau am yr wybodaeth rwyf wedi&rsquo;i rhoi","understandItem2":"y gellir dwyn achos dirmyg llys yn erbyn y sawl sydd wedi llofnodi isod os penderfynir bod y dystiolaeth a ddarparwyd yn anwir neu’n anonest yn fwriadol, yn ogystal â diddymu’r grant","accept":"Rwy&rsquo;n cadarnhau y byddaf yn gweinyddu ystad yr unigolyn sydd wedi marw yn unol &acirc;&rsquo;r gyfraith, a bod fy  nghais yn gywir.","submitWarning":"Unwaith y byddwch wedi clicio &lsquo;Arbed a pharhau&rsquo;, ni allwch newid eich atebion."}},"declarationCheckbox":"true"},"executors":{"executorsNumber":1,"invitesSent":true,"list":[{"fullName":"kris karystgj","lastName":"karystgj","firstName":"kris","isApplying":true,"isApplicant":true}]},"documents":{"uploads":[{"filename":"check-your-answers.pdf","url":"http://dm-store:8080/documents/bebf7928-5698-4392-a768-a0308450ddbf"}]},"assets":{"language":"en","assetsoverseas":"optionNo"},"iht":{"method":"optionPaper","ihtFormId":"optionIHT205","form":"optionIHT205","grossValue":20000,"netValue":10000,"netValueOnline":"10000.00","grossValueOnline":"20000.00","grossValueFieldIHT205":"20000.00","netValueFieldIHT205":"10000.00"},"will":{"codicils":"optionNo"},"applicationSubmittedDate":"2020-10-28","caseType":"gop","equality":{"pcqId":null},"applicantEmail":"testusername@test.com","applicantName":"kris karystgj","applicantAddress":{"addressLine1":"54","addressLine2":"grosvernor road","addressLine3":"ilford","postTown":"london","postCode":"ig4 6yh","country":"essex","formattedAddress":"54 grosvernor road ilford london ig4 6yh essex"},"deceasedName":"andrew drimitry","deceasedAddress":{"addressLine1":"34","addressLine2":"grove road","postTown":"ramford","postCode":"rm6 5ty","country":"essex","formattedAddress":"34 grove road ramford rm6 5ty essex"},"deceasedOtherNames":{},"dobFormattedDate":{"en":"1 January 1930"},"dodFormattedDate":{"en":"1 January 2019"},"ihtGrossValue":"20000.00","ihtNetValue":"10000.00","ihtNetValueAssetsOutside":0,"ihtTotalNetValue":10000,"documentupload":{"language":"en"},"summary":{"readyToDeclare":true},"checkAnswersSummary":{"sections":[{"title":"About the person who died","type":"govuk-heading-m","questionAndAnswers":[{"question":"Do you require a bilingual grant in English and Welsh?","answers":["No"]},{"question":"First name and any middle names","answers":["andrew"]},{"question":"Last name","answers":["drimitry"]},{"question":"Did andrew drimitry have assets in another name?","answers":["No"]},{"question":"Did andrew drimitry get married or enter into a civil partnership after the will was signed?","answers":["No"]},{"question":"What was their date of birth?","answers":["1 January 1930"]},{"question":"What was the date that they died?","answers":["1 January 2019"]},{"question":"What was the permanent address at the time of their death?","answers":["34 grove road ramford rm6 5ty essex"]},{"question":"Were any updates (‘codicils’) made to the will?","answers":["No"]}]},{"title":"Uploaded documents","type":"govuk-heading-m","questionAndAnswers":[{"question":"Death Certificate","answers":["check-your-answers.pdf"]}]},{"title":"Inheritance tax","type":"govuk-heading-m","questionAndAnswers":[{"question":"How was the Inheritance Tax (IHT) form submitted?","answers":["By post"]},{"question":"Which paper form was filled in?","answers":["IHT 205 - there was no inheritance tax to pay"]},{"question":"Gross value of the estate in £","answers":["20000.00"]},{"question":"Net value of the estate in £","answers":["10000.00"]}]},{"title":"The executors","type":"govuk-heading-m","questionAndAnswers":[{"question":"How many past and present executors are named on the will and any updates (‘codicils’)?","answers":["1"]}]},{"title":"About you","type":"govuk-heading-s","questionAndAnswers":[{"question":"First name and any middle names","answers":["kris"]},{"question":"Last name","answers":["karystgj"]},{"question":"Is your name ‘kris karystgj’ exactly what appears on the will?","answers":["Yes"]},{"question":"Phone number","answers":["07865437865"]},{"question":"What is your address?","answers":["54 grosvernor road ilford london ig4 6yh essex"]}]}],"mainParagraph":"Check the information below carefully. This will form a record of your application for probate. It will also be stored as a public record, and will be able to be viewed online.","pageTitle":"Check your answers"},"legalDeclaration":{"declarations":[{"headers":["In the High Court of Justice","Family Division","(Probate)"],"sections":[{"headingType":"large","title":"Legal statement","declarationItems":[{"title":"I, kris karystgj of 54 grosvernor road ilford london ig4 6yh essex, make the following statement:"}]},{"headingType":"small","title":"The person who died","declarationItems":[{"title":"andrew drimitry was born on 1 January 1930 and died on 1 January 2019, domiciled in England and Wales. "}]},{"headingType":"small","title":"The estate of the person who died","declarationItems":[{"title":"The gross value for the estate amounts to £20000.00 and the net value for the estate amounts to £10000.00."},{"title":"To the best of my knowledge, information and belief, there was no land vested in andrew drimitry which was settled previously to the death (and not by the will) of andrew drimitry and which remained settled land notwithstanding such death."}]},{"headingType":"small","title":"Executors applying for probate","declarationItems":[{"title":"I am an executor named in the will as kris karystgj, and I am applying for probate."},{"title":"I will send to the probate registry what I believe to be the true and original last will and testament of andrew drimitry."}]},{"headingType":"large","title":"Declaration","declarationItems":[{"title":"I confirm that I will administer the estate of andrew drimitry, according to law. I will:","values":["collect the whole estate","keep full details (an inventory) of the estate","keep a full account of how the estate has been administered"]},{"title":"If the probate registry (court) asks me to do so, I will:","values":["provide the full details of the estate and how it has been administered","return the grant of probate to the court"]},{"title":"I understand that:","values":["my application will be rejected if I do not answer any questions about the information I have given","proceedings for contempt of court may be brought against the undersigned if it is found that the evidence provided is deliberately untruthful or dishonest, as well as revocation of the grant"]}]}]}],"dateCreated":"10/28/2020, 23:35:38","deceased":"andrew drimitry"},"statementOfTruthDocument":{"filename":"SOT.pdf","url":"http://dm-store:8080/documents/d0297a91-25ba-4869-be79-11e05b32a0a5"}}

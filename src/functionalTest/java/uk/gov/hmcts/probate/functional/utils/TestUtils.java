@@ -1,7 +1,6 @@
 package uk.gov.hmcts.probate.functional.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
@@ -49,6 +48,16 @@ public class TestUtils {
             File file = ResourceUtils.getFile(this.getClass().getResource("/json/" + fileName));
             return new String(Files.readAllBytes(file.toPath()));
         } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    public File getFile(String fileName) {
+        try {
+            return ResourceUtils.getFile(this.getClass().getResource("/json/" + fileName));
+             } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
