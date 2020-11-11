@@ -50,7 +50,7 @@ public class GrantControllerFunctionalTests extends IntegrationTestBase {
                 .post(GRANT_DELAY_NOTIFICATION)
                 .then()
                 .assertThat()
-                .statusCode(415);
+                .statusCode(403);
     }
 
     @Test
@@ -61,7 +61,7 @@ public class GrantControllerFunctionalTests extends IntegrationTestBase {
                 .post(GRANT_AWAITING_DOCUMENTS_NOTIFICATION)
                 .then()
                 .assertThat()
-                .statusCode(415);
+                .statusCode(403);
     }
 
 }

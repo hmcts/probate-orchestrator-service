@@ -34,6 +34,6 @@ public class CaveatControllerFunctionalTests extends IntegrationTestBase {
                 .post(CAVEAT_EXPIRE)
                 .then()
                 .assertThat()
-                .statusCode(415);
+                .statusCode(403);
     }
 }
