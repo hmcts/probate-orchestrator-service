@@ -1,103 +1,93 @@
-  spring:
-    application:
-      name: probate-orchestrator-service
-    servlet:
-      multipart:
-        max-file-size: 10240KB
-        max-request-size: 10240KB
-    info:
-      git:
-        location: classpath:uk/gov/hmcts/probate/services/orchestrator/git.properties
+spring:
+  application:
+    name: probate-orchestrator-service
+  servlet:
+    multipart:
+      max-file-size: 10240KB
+      max-request-size: 10240KB
+  info:
+    git:
+      location: classpath:uk/gov/hmcts/probate/services/orchestrator/git.properties
 
-  server:
-    port: 8888
+server:
+  port: 8888
 
-  management:
-    endpoints:
-      web:
-        exposure:
-          include: health,info,liveness,health/liveness
-        base-path: /
-    endpoint:
-      health:
-        show-details: always
-        enabled: true
-    info:
-      git:
-        mode: full
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,liveness,health/liveness
+      base-path: /
+  endpoint:
+    health:
+      show-details: always
+      enabled: true
+  info:
+    git:
+      mode: full
 
   authorised.services: probate_backend,probate_frontend,payment_app
 
-  auth.provider.service.client:
-    baseUrl: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
-    microservice: ${AUTH_S2S_CLIENT_ID:probate_backend}
-    # key: ${S2S_AUTH_TOTP_SECRET:'AAAAAAAAAAAAAAAA'}
-    tokenTimeToLiveInSeconds: '900'
+auth.provider.service.client:
+  baseUrl: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
+  microservice: ${AUTH_S2S_CLIENT_ID:probate_backend}
+  # key: ${S2S_AUTH_TOTP_SECRET:'AAAAAAAAAAAAAAAA'}
+  tokenTimeToLiveInSeconds: '900'
 
-  idam.s2s-auth.url: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
+idam.s2s-auth.url: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
 
-  service.auth.provider.base.url: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
+service.auth.provider.base.url: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
 
-  auth.idam:
-    client.baseUrl: ${AUTH_IDAM_CLIENT_BASEURL:http://localhost:5000}
-    clientId: ${IDAM_CLIENT_ID:ccd_gateway}
-    clientSecret: ${AUTH2_CLIENT_SECRET:ccd_gateway_secret}
-    redirectUrl: ${IDAM_API_REDIRECT_URL:http://localhost:3451/oauth2redirect}
-    caseworker:
-      username: ${PAYMENT_CASEWORKER_USERNAME:ProbateSuperuser@gmail.com}
-      password: ${PAYMENT_CASEWORKER_PASSWORD:Pa55word11}
-    scheduler:
-      username: ${SCHEDULER_CASEWORKER_USERNAME:ProbateSchedulerDEV@gmail.com}
-      password: ${SCHEDULER_CASEWORKER_PASSWORD:Pa55word11}
+auth.idam:
+  client.baseUrl: ${AUTH_IDAM_CLIENT_BASEURL:http://localhost:5000}
+  clientId: ${IDAM_CLIENT_ID:ccd_gateway}
+  clientSecret: ${AUTH2_CLIENT_SECRET:ccd_gateway_secret}
+  redirectUrl: ${IDAM_API_REDIRECT_URL:http://localhost:3451/oauth2redirect}
+  caseworker:
+    username: ${PAYMENT_CASEWORKER_USERNAME:ProbateSuperuser@gmail.com}
+    password: ${PAYMENT_CASEWORKER_PASSWORD:Pa55word11}
+  scheduler:
+    username: ${SCHEDULER_CASEWORKER_USERNAME:ProbateSchedulerDEV@gmail.com}
+    password: ${SCHEDULER_CASEWORKER_PASSWORD:Pa55word11}
 
-  s2s.auth.totp.secret: ${S2S_AUTH_TOTP_SECRET:'AAAAAAAAAAAAAAAA'}
-  service.name: ${auth.provider.service.client.microservice}
+s2s.auth.totp.secret: ${S2S_AUTH_TOTP_SECRET:'AAAAAAAAAAAAAAAA'}
+service.name: ${auth.provider.service.client.microservice}
 
-  submit.service.api.url: ${SUBMIT_SERVICE_API_URL:http://localhost:8181}
-  persistence.service.api.url: ${SERVICES_PERSISTENCE_BASEURL:probate-persistence-service-aat.service.core-compute-aat.internal}
-  business.service.api.url: ${BUSINESS_SERVICE_API_URL:http://localhost:8081}
-  back.office.api.url: ${BACK_OFFICE_API_URL:http://localhost:4104}
+submit.service.api.url: ${SUBMIT_SERVICE_API_URL:http://localhost:8181}
+persistence.service.api.url: ${SERVICES_PERSISTENCE_BASEURL:probate-persistence-service-aat.service.core-compute-aat.internal}
+business.service.api.url: ${BUSINESS_SERVICE_API_URL:http://localhost:8081}
+back.office.api.url: ${BACK_OFFICE_API_URL:http://localhost:4104}
 
-  logging:
-    level:
-      org.springframework.web: ${LOG_LEVEL:ERROR}
-      uk.gov.hmcts.probate: ${LOG_LEVEL:DEBUG}
-      uk.gov.hmcts.probate.client.backoffice.BackOfficeApi: ${LOG_LEVEL:DEBUG}
-      uk.gov.hmcts.probate.client.submit.SubmitServiceApi: ${LOG_LEVEL:DEBUG}
-      uk.gov.hmcts.probate.client.BusinessServiceApi: ${LOG_LEVEL:DEBUG}
-      uk.gov.hmcts.probate.client.idam.IdamClient: ${LOG_LEVEL:DEBUG}
+logging:
+  level:
+    org.springframework.web: ERROR
+    uk.gov.hmcts.probate: INFO
   pattern:
     console: "%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n"
 
-  azure:
-    app_insights_key: ${APPINSIGHTS_INSTRUMENTATIONKEY:true}
-    application-insights:
-      instrumentation-key: ${APPINSIGHTS_INSTRUMENTATIONKEY:d30268e8-8979-4579-8d58-010dbe03a1e6}
+azure:
+  app_insights_key: ${APPINSIGHTS_INSTRUMENTATIONKEY:false}
+  application-insights:
+    instrumentation-key: ${APPINSIGHTS_INSTRUMENTATIONKEY:00000000-0000-0000-0000-000000000000}
 
-  app-insights:
-    dev-mode: off
-    request-component: on
-    telemetry-component: on
+feign:
+  client:
+    config:
+      submit-service-api:
+        connectTimeout: 10000
+        readTimeout: 10000
+        loggerLevel: basic
 
-  feign:
-    client:
-      config:
-        submit-service-api:
-          connectTimeout: 10000
-          readTimeout: 10000
-          loggerLevel: basic
-
-  cron:
-    hmrc:
-      schedule: "0 0 2 * * *"
-    ironMountain:
-      schedule: "0 5 2 * * *"
-    exela:
-      schedule: "0 10 2 * * *"
-    grantDelayed:
-      schedule: "0 15 2 * * *"
-    grantAwaitingDocuments:
-      schedule: "0 20 2 * * *"
-    caveatExpiry:
-      schedule: "0 0 3 * * *"
-      
+cron:
+  hmrc:
+    schedule: "0 0 2 * * *"
+  ironMountain:
+    schedule: "0 5 2 * * *"
+  exela:
+    schedule: "0 10 2 * * *"
+  grantDelayed:
+    schedule: "0 15 2 * * *"
+  grantAwaitingDocuments:
+    schedule: "0 20 2 * * *"
+  caveatExpiry:
+    schedule: "0 0 3 * * *"

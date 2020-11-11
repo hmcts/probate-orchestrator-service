@@ -50,6 +50,7 @@ public class CaveatTestDataCreator {
     private static final String PAYMENT_SITE_ID = "payment_siteId";
     private static final String PAYMENT_TRANSACTION_ID = "paymentTransactionId";
     private static final String REGNAME = "Birmingham";
+    private static final boolean HAS_ALIAS = true;
     private static final String ALIAS_FIRST_NAME = "aliasFirstName";
     private static final String ALIAS_LASTNAME = "aliasLastname";
     private static final Date DATE = new Date();
@@ -90,6 +91,7 @@ public class CaveatTestDataCreator {
                 .dateOfDeath(DATE_OF_DEATH)
                 .firstName(DECEASED_FIRST_NAME)
                 .lastName(DECEASED_LAST_NAME)
+                .alias(HAS_ALIAS)
                 .otherNames(createAliasMap())
                 .build())
             .payments(Lists.newArrayList(Payment.builder()
@@ -148,6 +150,7 @@ public class CaveatTestDataCreator {
         deceasedAddress.setPostCode(POSTCODE);
         deceasedAddress.setPostTown(POSTTOWN);
         caveatData.setDeceasedAddress(deceasedAddress);
+        caveatData.setDeceasedAnyOtherNames(HAS_ALIAS);
 
         CollectionMember<FullAliasName> aliasNameCollectionMember = new CollectionMember<>();
         FullAliasName aliasName = new FullAliasName();

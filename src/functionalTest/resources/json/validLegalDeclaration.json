@@ -1,0 +1,34 @@
+{
+  "declarations":[{
+    "headers":["In the High Court of Justice","Family Division","(Probate)"],
+    "sections":[{
+      "headingType":"large",
+      "title":"Legal statement",
+      "declarationItems":[{
+        "title":"I, kris karystgj of 54 grosvernor road ilford london ig4 6yh essex, make the following statement:"}]},{
+      "headingType":"small",
+      "title":"The person who died",
+      "declarationItems":[{
+        "title":"andrew drimitry was born on 1 January 1930 and died on 1 January 2019, domiciled in England and Wales. "}]},{
+      "headingType":"small",
+      "title":"The estate of the person who died",
+      "declarationItems":[{
+        "title":"The gross value for the estate amounts to £20000.00 and the net value for the estate amounts to £10000.00."},{
+        "title":"To the best of my knowledge, information and belief, there was no land vested in andrew drimitry which was settled previously to the death (and not by the will) of andrew drimitry and which remained settled land notwithstanding such death."}]},{
+        "headingType":"small",
+        "title":"Executors applying for probate",
+      "declarationItems":[{
+        "title":"I am an executor named in the will as kris karystgj, and I am applying for probate."},{
+        "title":"I will send to the probate registry what I believe to be the true and original last will and testament of andrew drimitry."}]},{
+      "headingType":"large",
+      "title":"Declaration",
+      "declarationItems":[{
+        "title":"I confirm that I will administer the estate of andrew drimitry, according to law. I will:",
+        "values":["collect the whole estate","keep full details (an inventory) of the estate","keep a full account of how the estate has been administered"]},{
+        "title":"If the probate registry (court) asks me to do so, I will:",
+        "values":["provide the full details of the estate and how it has been administered","return the grant of probate to the court"]},{
+        "title":"I understand that:",
+        "values":["my application will be rejected if I do not answer any questions about the information I have given","proceedings for contempt of court may be brought against the undersigned if it is found that the evidence provided is deliberately untruthful or dishonest, as well as revocation of the grant"]}]}]}],
+  "dateCreated":"10/28/2020, 23:35:38",
+  "deceased":"andrew drimitry"
+}
