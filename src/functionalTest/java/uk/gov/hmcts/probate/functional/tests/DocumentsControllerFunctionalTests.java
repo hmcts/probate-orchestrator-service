@@ -31,7 +31,7 @@ public class DocumentsControllerFunctionalTests extends IntegrationTestBase {
                 .headers(utils.getCitizenHeaders())
                 .header("user-id", "testuser")
                 .contentType("multipart/form-data")
-                .multiPart("file", utils.getFile("download11.jpeg"), "image/jpeg")
+                .multiPart("file", utils.getFile("json/DummyDocument.jpeg"), "image/jpeg")
                 .when()
                 .post(DOCUMENTS_UPLOAD_URL)
                 .then()

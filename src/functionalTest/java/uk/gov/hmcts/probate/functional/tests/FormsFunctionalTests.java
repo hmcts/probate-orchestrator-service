@@ -10,8 +10,6 @@ import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import uk.gov.hmcts.probate.functional.IntegrationTestBase;
 import uk.gov.hmcts.reform.probate.model.forms.CaseSummary;
@@ -36,18 +34,11 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     private static final String INVALID_PROBATE_TYPE = "CACA";
     private static final String CCD_CASE_STATE_PENDING = "Pending";
     private static final String CASE_ID_PLACEHOLDER = "XXXXXX";
-    private CaseSummaryHolder caseSummaryHolder;
-    private long caseId;
-
     private final ObjectMapper objectMapper = new ObjectMapper();
-
-    public enum ProbateType {
-        INTESTACY, PA, CAVEAT
-    }
-
     SimpleDateFormat df = new SimpleDateFormat("dd MMMMM yyyy");
     public String currentDate = df.format(new Date());
-
+    private CaseSummaryHolder caseSummaryHolder;
+    private long caseId;
     @Value("${idam.citizen.username}")
     private String email;
 
@@ -131,9 +122,9 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     @Test
     @Pending
     public void shouldCreateDraftThenSubmitAndFinallyUpdatePayment() throws IOException, JSONException {
-        //setUpANewCase();
-        //shouldSaveFormSuccessfully();
-        //shouldGetCaseDataSuccessfully();
+        setUpANewCase();
+        shouldSaveFormSuccessfully();
+        shouldGetCaseDataSuccessfully();
         //shouldUpdateForm();
         //shouldSubmitForm();
         //shouldUpdatePaymentSuccessfully();
@@ -157,9 +148,12 @@ public class FormsFunctionalTests extends IntegrationTestBase {
         caseId = lastCaseSummary.getCcdCase().getId();
 
     }
+    public long geCaseId() {
+        return this.caseId;
+    }
 
-    private void shouldSaveFormSuccessfully() {
-        String draftJsonStr = utils.getJsonFromFile("intestacyForm_partial.json");
+    public void shouldSaveFormSuccessfully() {
+        String draftJsonStr = utils.getJsonFromFile("GoPForm_partial.json");
         draftJsonStr = draftJsonStr.replace(CASE_ID_PLACEHOLDER, String.valueOf(caseId));
 
         Long response = RestAssured.given()
@@ -177,7 +171,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     }
 
     private void shouldGetCaseDataSuccessfully() throws JSONException {
-        String expectedResponseJsonStr = utils.getJsonFromFile("intestacyForm_partial.json");
+        String expectedResponseJsonStr = utils.getJsonFromFile("GoPForm_partial.json");
         JSONObject expectedJsonObject = new JSONObject(expectedResponseJsonStr);
         JSONObject expectedDeceasedObject = expectedJsonObject.getJSONObject("deceased");
         String firstName = expectedDeceasedObject.getString("firstName");
@@ -246,5 +240,9 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .statusCode(200)
                 .body("ccdCase.id", equalTo(caseId))
                 .body("ccdCase.state", equalTo("CaseCreated"));
+    }
+
+    public enum ProbateType {
+        INTESTACY, PA, CAVEAT
     }
 }
