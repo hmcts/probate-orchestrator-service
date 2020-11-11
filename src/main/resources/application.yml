@@ -26,7 +26,7 @@ management:
     git:
       mode: full
 
-authorised.services: probate_backend,probate_frontend
+authorised.services: probate_backend,probate_frontend,payment_app
 
 auth.provider.service.client:
   baseUrl: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
