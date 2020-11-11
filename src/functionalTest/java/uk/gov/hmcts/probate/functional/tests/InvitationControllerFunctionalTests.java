@@ -2,6 +2,8 @@ package uk.gov.hmcts.probate.functional.tests;
 
 import io.restassured.RestAssured;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +24,7 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
     private static final String INVITE_PIN_URL = "/invite/pin";
     private static final String INVITE_PIN_BILINGUAL_URL = "/invite/pin/bilingual";
     private static final String INVITE_RESET_AGREED_FLAGS_URL = "/invite/resetAgreed/";
-    private static final String GET_ALL_INVITE_URL = "/invites/";
+    private static final String GET_ALL_INVITES_URL = "/invites/";
     private static final String FORMDATA_ID_PLACEHOLDER = "XXXXX";
     private static final String INVITE_ID_PLACEHOLDER = "YYYYY";
     private static final String INVALID_FORM_DATA_ID = "1604925395199999";
@@ -110,8 +112,6 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
         validInvitationJsonStr = validInvitationJsonStr.replace(FORMDATA_ID_PLACEHOLDER, String.valueOf(caseId));
         validInvitationJsonStr = validInvitationJsonStr.replace(INVITE_ID_PLACEHOLDER, inviteId);
         validInvitationJsonStr = "[" + validInvitationJsonStr + "]";
-        System.out.println("caseId string value of:" + String.valueOf(caseId));
-        System.out.println("validInvitationJsonStr:" + validInvitationJsonStr);
         String response = RestAssured.given()
                 .relaxedHTTPSValidation()
                 .headers(utils.getCitizenHeaders())
@@ -123,5 +123,44 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
                 .assertThat()
                 .statusCode(200)
                 .extract().jsonPath().prettify();
+    }
+
+    @Test
+    public void updateContactDetails() throws IOException {
+        generateInvitation();
+        String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
+        validInvitationJsonStr = validInvitationJsonStr.replace(FORMDATA_ID_PLACEHOLDER, String.valueOf(caseId));
+        validInvitationJsonStr = validInvitationJsonStr.replace(INVITE_ID_PLACEHOLDER, inviteId);
+        String response = RestAssured.given()
+                .relaxedHTTPSValidation()
+                .headers(utils.getCitizenHeaders())
+                .body(validInvitationJsonStr)
+                .when()
+                .post(INVITE_CONTACT_DETAILS_URL + caseId)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .extract().response().getBody().prettyPrint();
+                Assert.assertEquals(response, inviteId);
+    }
+
+    @Test
+    public void getInvitePin() throws IOException, JSONException {
+        generateInvitation();
+        String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
+        JSONObject validInvitationJsonObject = new JSONObject(validInvitationJsonStr);
+        String phoneNumber = validInvitationJsonObject.getString("phoneNumber");
+        String response = RestAssured.given()
+                .relaxedHTTPSValidation()
+                .headers(utils.getCitizenHeaders())
+                .header("Session-Id", "ses123")
+                .when()
+                .queryParam("phoneNumber",phoneNumber)
+                .get(INVITE_PIN_URL)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .extract().response().getBody().prettyPrint();
+        Assert.assertNotNull(response);
     }
 }
