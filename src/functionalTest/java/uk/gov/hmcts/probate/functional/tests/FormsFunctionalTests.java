@@ -8,10 +8,12 @@ import org.hamcrest.Matchers;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import uk.gov.hmcts.probate.functional.IntegrationTestBase;
+import uk.gov.hmcts.probate.functional.TestRetryRule;
 import uk.gov.hmcts.reform.probate.model.forms.CaseSummary;
 import uk.gov.hmcts.reform.probate.model.forms.CaseSummaryHolder;
 
@@ -35,6 +37,8 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     private static final String CCD_CASE_STATE_PENDING = "Pending";
     private static final String CASE_ID_PLACEHOLDER = "XXXXXX";
     private final ObjectMapper objectMapper = new ObjectMapper();
+    @Rule
+    public TestRetryRule retryRule = new TestRetryRule(3);
     SimpleDateFormat df = new SimpleDateFormat("dd MMMMM yyyy");
     public String currentDate = df.format(new Date());
     private CaseSummaryHolder caseSummaryHolder;
@@ -120,11 +124,10 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
-    @Pending
-    public void shouldCreateDraftThenSubmitAndFinallyUpdatePayment() throws IOException, JSONException {
+    public void shouldCreateDraftThenSubmitAndFinallyUpdatePayment() throws IOException {
         setUpANewCase();
         shouldSaveFormSuccessfully();
-        shouldGetCaseDataSuccessfully();
+        //shouldGetCaseDataSuccessfully();
         //shouldUpdateForm();
         //shouldSubmitForm();
         //shouldUpdatePaymentSuccessfully();
@@ -146,8 +149,8 @@ public class FormsFunctionalTests extends IntegrationTestBase {
         List<CaseSummary> CaseSummaryList = caseSummaryHolder.getApplications();
         CaseSummary lastCaseSummary = CaseSummaryList.get(CaseSummaryList.size() - 1);
         caseId = lastCaseSummary.getCcdCase().getId();
-
     }
+
     public long geCaseId() {
         return this.caseId;
     }
@@ -167,7 +170,8 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .statusCode(200)
                 .body("ccdCase.state", equalTo(CCD_CASE_STATE_PENDING))
                 .extract().response().path("ccdCase.id");
-                Assert.assertEquals(response.longValue(), caseId);
+        Assert.assertEquals(response.longValue(), caseId);
+
     }
 
     private void shouldGetCaseDataSuccessfully() throws JSONException {
@@ -177,7 +181,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
         String firstName = expectedDeceasedObject.getString("firstName");
         String lastName = expectedDeceasedObject.getString("lastName");
 
-      String resultJson =  RestAssured.given()
+        String resultJson = RestAssured.given()
                 .relaxedHTTPSValidation()
                 .headers(utils.getCitizenHeaders())
                 .queryParam(PROBATE_TYPE, ProbateType.PA)
@@ -189,9 +193,9 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .body("ccdCase.id", Matchers.is(caseId))
                 .body("ccdCase.state", Matchers.is(CCD_CASE_STATE_PENDING))
                 .extract().jsonPath().prettify();
-                 JSONObject actualDeceasedObject = new JSONObject(resultJson).getJSONObject("deceased");
-                 Assert.assertEquals(lastName,actualDeceasedObject.getString("lastName"));
-                Assert.assertEquals(firstName, actualDeceasedObject.getString("firstName"));
+        JSONObject actualDeceasedObject = new JSONObject(resultJson).getJSONObject("deceased");
+        Assert.assertEquals(lastName, actualDeceasedObject.getString("lastName"));
+        Assert.assertEquals(firstName, actualDeceasedObject.getString("firstName"));
     }
 
     private void shouldUpdateForm() {
@@ -203,7 +207,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .headers(utils.getCitizenHeaders())
                 .body(draftJsonStr)
                 .when()
-                .put("/forms/" + caseId +"/submissions")
+                .put("/forms/" + caseId + "/submissions")
                 .then()
                 .assertThat()
                 .statusCode(200)
