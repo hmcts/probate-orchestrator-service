@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 
@@ -33,6 +34,8 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
 //    private static final String GET_ALL_INVITES_URL = "/invites/";
     private static String inviteId;
     private static long formdataId;
+    @Value("${idam.caseworker.username}")
+    private String caseworkerEmail;
 
     @Before
     public void aInit() throws IOException, JSONException {
