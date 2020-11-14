@@ -2,13 +2,13 @@ package uk.gov.hmcts.probate.functional.tests;
 
 import io.restassured.RestAssured;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
+import net.thucydides.core.annotations.Pending;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 
@@ -34,8 +34,6 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
 //    private static final String GET_ALL_INVITES_URL = "/invites/";
     private static String inviteId;
     private static long formdataId;
-    @Value("${idam.caseworker.username}")
-    private String caseworkerEmail;
 
     @Before
     public void aInit() throws IOException, JSONException {
@@ -69,7 +67,9 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
                 .extract().response().path("invitations[0].inviteId");
     }
 
+
     @Test
+    @Pending
     public void inviteAgreed() {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
         validInvitationJsonStr = validInvitationJsonStr.replace(FORMDATA_ID_PLACEHOLDER, String.valueOf(formdataId));
