@@ -8,7 +8,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 
@@ -28,26 +27,27 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
     private static final String INVALID_FORM_DATA_ID = "1604925395199999";
     private static final String SESSION_ID = "Session-Id";
     private static final String TEST_SESSION_ID = "ses123";
-//    private static final String INVITE_DATA_URL = "/invite/data/";
+    public static boolean setUp = true;
+    //    private static final String INVITE_DATA_URL = "/invite/data/";
 //    private static final String DELETE_INVITE_URL = "/invite/delete/";
 //    private static final String GET_ALL_INVITES_URL = "/invites/";
-    private String inviteId;
-    private long formdataId;
-    private boolean setUp;
+    private static String inviteId;
+    private static long formdataId;
 
     @Before
-    public void init() throws IOException, JSONException {
-        if (!setUp) {
+    public void aInit() throws IOException, JSONException {
+        if (setUp) {
             setUpANewCase();
             shouldSaveFormSuccessfully();
             formdataId = geCaseId();
-            setUp = true;
             String expectedResponseJsonStr = utils.getJsonFromFile("GoPForm_partial.json");
             JSONObject expectedJsonObject = new JSONObject(expectedResponseJsonStr);
             JSONObject expectedDeceasedObject = expectedJsonObject.getJSONObject("executors");
             inviteId = expectedDeceasedObject.getString("inviteId");
+            setUp = false;
         }
     }
+
 
     @Test
     public void generateInvitation() {
@@ -71,7 +71,7 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
         validInvitationJsonStr = validInvitationJsonStr.replace(FORMDATA_ID_PLACEHOLDER, String.valueOf(formdataId));
         validInvitationJsonStr = validInvitationJsonStr.replace(INVITE_ID_PLACEHOLDER, inviteId);
-         RestAssured.given()
+        RestAssured.given()
                 .relaxedHTTPSValidation()
                 .headers(utils.getCaseworkerHeaders())
                 .header(SESSION_ID, TEST_SESSION_ID)
@@ -85,7 +85,7 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
     }
 
     @Test
-    public void getInviteAllAgreedForValidFormDataId()  {
+    public void getInviteAllAgreedForValidFormDataId() {
         String response = RestAssured.given()
                 .relaxedHTTPSValidation()
                 .headers(utils.getCitizenHeaders())
@@ -100,7 +100,7 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
     }
 
     @Test
-    public void getInviteAllAgreedForInValidFormDataId()  {
+    public void getInviteAllAgreedForInValidFormDataId() {
         RestAssured.given()
                 .relaxedHTTPSValidation()
                 .headers(utils.getCitizenHeaders())
@@ -145,7 +145,7 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
                 .assertThat()
                 .statusCode(200)
                 .extract().response().getBody().prettyPrint();
-                Assert.assertEquals(response, inviteId);
+        Assert.assertEquals(response, inviteId);
     }
 
     @Test
@@ -158,7 +158,7 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
                 .headers(utils.getCitizenHeaders())
                 .header(SESSION_ID, TEST_SESSION_ID)
                 .when()
-                .queryParam("phoneNumber",phoneNumber)
+                .queryParam("phoneNumber", phoneNumber)
                 .get(INVITE_PIN_URL)
                 .then()
                 .assertThat()
@@ -177,7 +177,7 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
                 .headers(utils.getCitizenHeaders())
                 .header(SESSION_ID, TEST_SESSION_ID)
                 .when()
-                .queryParam("phoneNumber",phoneNumber)
+                .queryParam("phoneNumber", phoneNumber)
                 .get(INVITE_PIN_BILINGUAL_URL)
                 .then()
                 .assertThat()
@@ -188,6 +188,7 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
 
     @Test
     public void resetAgreedFlags() {
+        generateInvitation();
         RestAssured.given()
                 .headers(utils.getCitizenHeaders())
                 .when()

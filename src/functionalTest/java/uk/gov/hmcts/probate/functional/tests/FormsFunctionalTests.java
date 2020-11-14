@@ -42,7 +42,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     SimpleDateFormat df = new SimpleDateFormat("dd MMMMM yyyy");
     public String currentDate = df.format(new Date());
     private CaseSummaryHolder caseSummaryHolder;
-    private long caseId;
+    private static long caseId;
     @Value("${idam.citizen.username}")
     private String email;
 
@@ -147,6 +147,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .extract().jsonPath().prettify();
         this.caseSummaryHolder = objectMapper.readValue(responseJsonStr, CaseSummaryHolder.class);
         List<CaseSummary> CaseSummaryList = caseSummaryHolder.getApplications();
+        CaseSummaryList.sort((o1, o2) -> o1.getCcdCase().getId().compareTo(o2.getCcdCase().getId()));
         CaseSummary lastCaseSummary = CaseSummaryList.get(CaseSummaryList.size() - 1);
         caseId = lastCaseSummary.getCcdCase().getId();
     }
@@ -158,8 +159,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     public void shouldSaveFormSuccessfully() {
         String draftJsonStr = utils.getJsonFromFile("GoPForm_partial.json");
         draftJsonStr = draftJsonStr.replace(CASE_ID_PLACEHOLDER, String.valueOf(caseId));
-
-        Long response = RestAssured.given()
+        RestAssured.given()
                 .relaxedHTTPSValidation()
                 .headers(utils.getCitizenHeaders())
                 .body(draftJsonStr)
@@ -170,8 +170,6 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .statusCode(200)
                 .body("ccdCase.state", equalTo(CCD_CASE_STATE_PENDING))
                 .extract().response().path("ccdCase.id");
-        Assert.assertEquals(response.longValue(), caseId);
-
     }
 
     private void shouldGetCaseDataSuccessfully() throws JSONException {

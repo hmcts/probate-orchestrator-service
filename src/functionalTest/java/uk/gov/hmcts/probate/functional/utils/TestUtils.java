@@ -21,19 +21,15 @@ import java.nio.file.Files;
 @Component
 public class TestUtils {
 
-    @Value("${idam.citizen.username}")
-    public String citizenEmail;
-
-    @Value("${idam.caseworker.username}")
-    private String caseworkerEmail;
-
     public static final String CONTENT_TYPE = "Content-Type";
     public static final String AUTHORIZATION = "Authorization";
     public static final String CITIZEN = "citizen";
-
+    @Value("${idam.citizen.username}")
+    public String citizenEmail;
     @Autowired
     protected TestTokenGenerator testTokenGenerator;
-
+    @Value("${idam.caseworker.username}")
+    private String caseworkerEmail;
     private String serviceToken;
 
     @PostConstruct
@@ -57,7 +53,7 @@ public class TestUtils {
     public File getFile(String fileName) {
         try {
             return ResourceUtils.getFile(this.getClass().getResource("/json/" + fileName));
-             } catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
