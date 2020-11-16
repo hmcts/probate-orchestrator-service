@@ -30,10 +30,10 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
     private static final String INVALID_FORM_DATA_ID = "1604925395199999";
     private static final String SESSION_ID = "Session-Id";
     private static final String TEST_SESSION_ID = "ses123";
+    private static final String INVITE_DATA_URL = "/invite/data/";
+    private static final String DELETE_INVITE_URL = "/invite/delete/";
+    private static final String GET_ALL_INVITES_URL = "/invites/";
     public static boolean setUp = true;
-    //    private static final String INVITE_DATA_URL = "/invite/data/";
-//    private static final String DELETE_INVITE_URL = "/invite/delete/";
-//    private static final String GET_ALL_INVITES_URL = "/invites/";
     private static String inviteId;
     private static long formdataId;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -56,7 +56,6 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
 
 
     @Test
-    @Pending
     public void generateInvitation() {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitation.json");
         validInvitationJsonStr = validInvitationJsonStr.replace(FORMDATA_ID_PLACEHOLDER, String.valueOf(formdataId));
@@ -73,9 +72,7 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
                 .extract().response().path("invitations[0].inviteId");
     }
 
-
     @Test
-    @Pending
     public void inviteAgreed() {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
         validInvitationJsonStr = validInvitationJsonStr.replace(FORMDATA_ID_PLACEHOLDER, String.valueOf(formdataId));
@@ -94,7 +91,6 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
     }
 
     @Test
-    @Pending
     public void getInviteAllAgreedForValidFormDataId() {
         String response = RestAssured.given()
                 .relaxedHTTPSValidation()
@@ -141,7 +137,6 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
     }
 
     @Test
-    @Pending
     public void updateContactDetails() {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
         validInvitationJsonStr = validInvitationJsonStr.replace(FORMDATA_ID_PLACEHOLDER, String.valueOf(formdataId));
@@ -198,9 +193,7 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
     }
 
     @Test
-    @Pending
     public void resetAgreedFlags() {
-        generateInvitation();
         RestAssured.given()
                 .headers(utils.getCitizenHeaders())
                 .when()
@@ -209,5 +202,46 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
                 .assertThat()
                 .statusCode(200)
                 .extract().body().equals(String.valueOf(formdataId));
+    }
+
+    @Test
+    @Pending
+    public void getInviteData() {
+        RestAssured.given()
+                .headers(utils.getCitizenHeaders())
+                .when()
+                .get(INVITE_DATA_URL + inviteId)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .extract().body().jsonPath().prettify();
+    }
+
+    @Test
+    @Pending
+    public void deleteInvites() {
+        String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
+        RestAssured.given()
+                .headers(utils.getCaseworkerHeaders())
+                .body(validInvitationJsonStr)
+                .when()
+                .post(DELETE_INVITE_URL + formdataId)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .extract().body().jsonPath().prettify();
+    }
+
+    @Test
+    @Pending
+    public void getInvites() {
+        RestAssured.given()
+                .headers(utils.getCaseworkerHeaders())
+                .when()
+                .get(GET_ALL_INVITES_URL + formdataId)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .extract().body().jsonPath().prettify();
     }
 }
