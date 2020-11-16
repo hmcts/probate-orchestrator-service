@@ -8,6 +8,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
@@ -33,6 +35,7 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
 //    private static final String GET_ALL_INVITES_URL = "/invites/";
     private static String inviteId;
     private static long formdataId;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Before
     public void aInit() throws IOException, JSONException {
@@ -46,6 +49,8 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
             inviteId = expectedDeceasedObject.getString("inviteId");
             setUp = false;
         }
+        logger.info("Generate InviteId: {}", inviteId);
+        logger.info("Form DataId: {}", formdataId);
     }
 
 
