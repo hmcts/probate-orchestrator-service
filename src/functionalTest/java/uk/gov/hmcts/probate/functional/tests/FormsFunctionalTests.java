@@ -11,6 +11,8 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import uk.gov.hmcts.probate.functional.IntegrationTestBase;
 import uk.gov.hmcts.probate.functional.TestRetryRule;
@@ -45,6 +47,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     private static long caseId;
     @Value("${idam.citizen.username}")
     private String email;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Test
     public void initiateFormsNewCaseForProbateTypePA() {
@@ -150,6 +153,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
         CaseSummaryList.sort((o1, o2) -> o1.getCcdCase().getId().compareTo(o2.getCcdCase().getId()));
         CaseSummary lastCaseSummary = CaseSummaryList.get(CaseSummaryList.size() - 1);
         caseId = lastCaseSummary.getCcdCase().getId();
+        logger.info("Create New case CaseId: {}", caseId);
     }
 
     public long geCaseId() {
@@ -159,7 +163,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     public void shouldSaveFormSuccessfully() {
         String draftJsonStr = utils.getJsonFromFile("GoPForm_partial.json");
         draftJsonStr = draftJsonStr.replace(CASE_ID_PLACEHOLDER, String.valueOf(caseId));
-        RestAssured.given()
+        Long response = RestAssured.given()
                 .relaxedHTTPSValidation()
                 .headers(utils.getCitizenHeaders())
                 .body(draftJsonStr)
@@ -170,6 +174,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .statusCode(200)
                 .body("ccdCase.state", equalTo(CCD_CASE_STATE_PENDING))
                 .extract().response().path("ccdCase.id");
+        logger.info("CaseId After Form Save: {}", response);
     }
 
     private void shouldGetCaseDataSuccessfully() throws JSONException {
