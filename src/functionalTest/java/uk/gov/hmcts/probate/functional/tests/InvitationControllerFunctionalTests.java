@@ -195,6 +195,7 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
     @Test
     public void resetAgreedFlags() {
         RestAssured.given()
+                .relaxedHTTPSValidation()
                 .headers(utils.getCitizenHeaders())
                 .when()
                 .post(INVITE_RESET_AGREED_FLAGS_URL + formdataId)
