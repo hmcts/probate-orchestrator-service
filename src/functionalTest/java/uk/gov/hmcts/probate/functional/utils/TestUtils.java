@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -31,6 +33,7 @@ public class TestUtils {
     @Value("${idam.caseworker.username}")
     private String caseworkerEmail;
     private String serviceToken;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @PostConstruct
     public void init() throws JsonProcessingException {
@@ -60,14 +63,19 @@ public class TestUtils {
     }
 
     public Headers getCitizenHeaders() {
+        logger.info(" citizenEmail: {}", citizenEmail);
         return getHeaders(citizenEmail);
+
     }
 
     public Headers getCaseworkerHeaders() {
+        logger.info(" caseworkerEmail: {}", caseworkerEmail);
         return getHeaders(caseworkerEmail);
     }
 
     public Headers getHeaders(String email) {
+        System.out.println("AUTHORIZATION:" +testTokenGenerator.generateAuthorisation(email));
+        System.out.println("ServiceAuthorization:" +serviceToken);
         return Headers.headers(
                 new Header("ServiceAuthorization", serviceToken),
                 new Header(CONTENT_TYPE, ContentType.JSON.toString()),
