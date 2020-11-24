@@ -1,0 +1,59 @@
+{
+  "sections":[{
+    "title":"About the person who died",
+    "type":"govuk-heading-m",
+    "questionAndAnswers":[{
+      "question":"Do you require a bilingual grant in English and Welsh?",
+      "answers":["No"]},{
+      "question":"First name and any middle names",
+      "answers":["andrew"]},{
+      "question":"Last name",
+      "answers":["drimitry"]},{
+      "question":"Did andrew drimitry have assets in another name?",
+      "answers":["No"]},{
+      "question":"Did andrew drimitry get married or enter into a civil partnership after the will was signed?",
+      "answers":["No"]},{
+      "question":"What was their date of birth?",
+      "answers":["1 January 1930"]},{
+      "question":"What was the date that they died?",
+      "answers":["1 January 2019"]},{
+      "question":"What was the permanent address at the time of their death?",
+      "answers":["34 grove road ramford rm6 5ty essex"]},{
+      "question":"Were any updates (‘codicils’) made to the will?",
+      "answers":["No"]}]},{
+    "title":"Uploaded documents",
+    "type":"govuk-heading-m",
+    "questionAndAnswers":[{
+      "question":"Death Certificate",
+      "answers":["check-your-answers.pdf"]}]},{
+    "title":"Inheritance tax",
+    "type":"govuk-heading-m",
+    "questionAndAnswers":[{
+      "question":"How was the Inheritance Tax (IHT) form submitted?",
+      "answers":["By post"]},{
+      "question":"Which paper form was filled in?",
+      "answers":["IHT 205 - there was no inheritance tax to pay"]},{
+      "question":"Gross value of the estate in £",
+      "answers":["20000.00"]},{
+      "question":"Net value of the estate in £",
+      "answers":["10000.00"]}]},{
+    "title":"The executors",
+    "type":"govuk-heading-m",
+    "questionAndAnswers":[{
+      "question":"How many past and present executors are named on the will and any updates (‘codicils’)?",
+      "answers":["1"]}]},{
+    "title":"About you",
+    "type":"govuk-heading-s",
+    "questionAndAnswers":[{
+      "question":"First name and any middle names","answers":["kris"]},{
+      "question":"Last name",
+      "answers":["karystgj"]},{
+      "question":"Is your name ‘kris karystgj’ exactly what appears on the will?",
+      "answers":["Yes"]},{
+      "question":"Phone number",
+      "answers":["07865437865"]},{
+      "question":"What is your address?",
+      "answers":["54 grosvernor road ilford london ig4 6yh essex"]}]}],
+  "mainParagraph":"Check the information below carefully. This will form a record of your application for probate. It will also be stored as a public record, and will be able to be viewed online.",
+  "pageTitle":"Check your answers"
+}
