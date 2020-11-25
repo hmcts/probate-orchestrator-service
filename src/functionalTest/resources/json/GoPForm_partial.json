@@ -85,7 +85,7 @@
     "invitesSent": "true",
     "executorsNumber": 2,
     "postcodeAddress": "21",
-    "emailChanged": false,
+    "executorsEmailChanged": false,
     "otherExecutorsApplying": "optionYes"
   },
   "documents":{
