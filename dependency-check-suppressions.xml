@@ -22,6 +22,10 @@
         <cve>CVE-2019-0199</cve>
     </suppress>
     <suppress>
+        <notes><![CDATA[file name: lombok-1.18.8.jar]]></notes>
+        <cve>CVE-2019-0199</cve>
+    </suppress>
+    <suppress>
         <notes><![CDATA[file name: tomcat-emded-websocket-9.0.12.jar]]></notes>
         <cve>CVE-2019-0199</cve>
     </suppress>
@@ -340,6 +344,7 @@
         <cve>CVE-2020-14062</cve>
         <cve>CVE-2020-14195</cve>
         <cve>CVE-2020-24616</cve>
+        <cve>CVE-2020-24750</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[
@@ -509,4 +514,34 @@
         <gav regex="true">^org\.yaml:snakeyaml:.*$</gav>
         <cve>CVE-2017-18640</cve>
     </suppress>
-</suppressions>
+    <suppress>
+        <cve>CVE-2020-5421</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: spring-web-5.1.5.RELEASE.jar
+   ]]></notes>
+        <gav regex="true">^org\.springframework:spring-web:.*$</gav>
+        <cpe>cpe:/a:pivotal_software:spring_framework</cpe>
+        <cve>CVE-2020-5398</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: jquery-2.1.1.jar
+   ]]></notes>
+        <cve>CVE-2015-9251</cve>
+        <cve>CVE-2020-11023</cve>
+        <cve>CVE-2020-11022</cve>
+        <cve>CVE-2019-11358</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: springfox-swagger-ui-2.6.1.jar
+   ]]> </notes>
+        <cve>CVE-2012-6708</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[file name: junit-4.12.jar]]></notes>
+        <cve>CVE-2020-15250</cve>
+    </suppress>
+  </suppressions>

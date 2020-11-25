@@ -39,6 +39,8 @@ public interface CaveatMapper extends FormMapper<CaveatData, CaveatForm> {
     @Mapping(target = "deceasedDateOfDeath", source = "deceased.dateOfDeath")
     @Mapping(target = "deceasedFullAliasNameList", source = "deceased.otherNames",
             qualifiedBy = {ToCaveatCollectionMember.class})
+    @Mapping(target = "deceasedAnyOtherNames", source = "deceased.alias")
+
 
     @Mapping(target = "registryLocation", source ="registry.name", qualifiedBy = {ToRegistryLocation.class})
     @Mapping(target = "payments", source = "payments", qualifiedBy = {ToCollectionMember.class})

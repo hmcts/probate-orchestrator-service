@@ -67,7 +67,7 @@ withParameterizedPipeline('java', product, component, params.ENVIRONMENT, 'sandb
             keepAll              : true,
             reportDir            : "build/reports/tests/test",
             reportFiles          : "index.html",
-            reportName           : "probate-submit-service Test Report"
+            reportName           : "probate-orchestrator-service Test Report"
     ]
 
     publishHTML target: [
@@ -76,7 +76,7 @@ withParameterizedPipeline('java', product, component, params.ENVIRONMENT, 'sandb
             keepAll              : true,
             reportDir            : "build/reports/jacoco",
             reportFiles          : "index.html",
-            reportName           : "probate-submit-service Code Coverage Report"
+            reportName           : "probate-orchestrator-service Code Coverage Report"
     ]
 
     publishHTML target: [
@@ -85,7 +85,7 @@ withParameterizedPipeline('java', product, component, params.ENVIRONMENT, 'sandb
             keepAll              : true,
             reportDir            : "build/reports/findbugs",
             reportFiles          : "main.html",
-            reportName           : "probate-submit-service find Bugs Report"
+            reportName           : "probate-orchestrator-service find Bugs Report"
     ]
   }
 
