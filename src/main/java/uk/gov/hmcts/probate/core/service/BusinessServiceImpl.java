@@ -134,10 +134,12 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Override
     public Boolean haveAllIniviteesAgreed(String formdataId) {
-        log.info("Have all invitees agreed");
+        log.info("====================================================> Have all invitees agreed");
         ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(formdataId);
+        log.info("==================> probateCaseDetails {} ", probateCaseDetails.getCaseInfo().getState());
         GrantOfRepresentationData grantOfRepresentationData =
                 (GrantOfRepresentationData) probateCaseDetails.getCaseData();
+                log.info("==================================================> haveAllExecutorsAgreed {}", grantOfRepresentationData.haveAllExecutorsAgreed());
         return grantOfRepresentationData.haveAllExecutorsAgreed();
     }
 
@@ -155,15 +157,16 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Override
     public String inviteAgreed(String formdataId, Invitation invitation) {
-        log.info("Setting invite agreed");
+        log.info("==========================================================>  Setting invite agreed");
         ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(formdataId);
         GrantOfRepresentationData grantOfRepresentationData =
                 (GrantOfRepresentationData) probateCaseDetails.getCaseData();
-        log.info("Got the case details now set agreed flag: {}", formdataId);
-        log.info("Updating case with  agreed flag for {}", invitation.getInviteId());
+        log.info("============== Got the case details now set agreed flag: {}", formdataId);
+        log.info("=============== Updating case with  agreed flag for {}", invitation.getInviteId());
         grantOfRepresentationData.setInvitationAgreedFlagForExecutorApplying(invitation.getInviteId(),
                 invitation.getAgreed());
         updateCaseDataAsCaseWorker(probateCaseDetails, formdataId);
+        log.info("==========================================================>  FINISHED Setting invite agreed");
         return invitation.getInviteId();
     }
 
@@ -265,8 +268,10 @@ public class BusinessServiceImpl implements BusinessService {
 
 
     private ProbateCaseDetails getProbateCaseDetails(String caseId) {
+        log.info("==============> getProbateCaseDetails");
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
+        log.info("FINISHED GETTING AUTHORISATION");
         return submitServiceApi.getCase(authorisation, serviceAuthorisation,
                 caseId, ProbateType.PA.getCaseType().name());
     }
