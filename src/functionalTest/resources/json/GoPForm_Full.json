@@ -105,14 +105,58 @@
   },
   "applicantEmail": "meganTest@test.com",
   "executors": {
-    "executorsNumber": 1,
     "list": [
       {
-        "lastName": "Snow",
-        "firstName": "Jon",
+        "alias": "applicant alias",
+        "lastName": "applicant_lname",
+        "firstName": "applicant_fname",
+        "isApplying": true,
+        "aliasReason": "other",
+        "isApplicant": true,
+        "otherReason": "Middle name omitted"
+      },
+      {
+        "email": "executor2@anonymous.com",
+        "mobile": "1234567890",
+        "address": {
+          "country": "United Kingdom",
+          "postCode": "SW1A 1AA",
+          "postTown": "London",
+          "addressLine1": "Buckingham Palace",
+          "formattedAddress": "Buckingham Palace London SW1A 1AA United Kingdom "
+        },
+        "fullName": "executor2",
+        "inviteId": "ZZZZZZ",
+        "postcode": "SW1A 1AA",
+        "addresses": [
+          {
+            "uprn": "10033544614",
+            "point": {
+              "type": "Point",
+              "coordinates": [
+                529090,
+                179645
+              ]
+            },
+            "postCode": "SW1A 1AA",
+            "postTown": "London",
+            "postcodeType": "D",
+            "formattedAddress": "Buckingham Palace,London,SW1A 1AA",
+            "organisationName": "BUCKINGHAM PALACE"
+          }
+        ],
+        "emailSent": true,
         "isApplying": true
       }
-    ]
+    ],
+    "alias": "optionNo",
+    "allalive": "optionYes",
+    "inviteId": "deceased_fname-deceased_lname-54af8f79-a267-4fc9-901b-c97c30793021",
+    "invitesSent": "true",
+    "executorsNumber": 2,
+    "postcodeAddress": "21",
+    "executorsEmailChanged": false,
+    "otherExecutorsApplying": "optionYes"
   },
   "copies": {
     "uk": 1,

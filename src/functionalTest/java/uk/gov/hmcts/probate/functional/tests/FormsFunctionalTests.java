@@ -3,6 +3,7 @@ package uk.gov.hmcts.probate.functional.tests;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
@@ -34,8 +35,10 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     private static final String INVALID_PROBATE_TYPE = "CACA";
     private static final String CCD_CASE_STATE_PENDING = "Pending";
     private static final String CASE_ID_PLACEHOLDER = "XXXXXX";
+    private static final String INVITE_ID_PLACEHOLDER = "ZZZZZZ";
     private static final String FORMS_BASE_URL = "/forms/";
     private static final String FORMS_VALIDATIONS_URL = "/validations";
+    private static final String INVITE_ID = RandomStringUtils.randomAlphanumeric(15);
     private static long caseId;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -136,13 +139,19 @@ public class FormsFunctionalTests extends IntegrationTestBase {
         logger.info("Create New case CaseId: {}", caseId);
     }
 
-    public long geCaseId() {
+    public long getCaseId() {
         return this.caseId;
+    }
+
+    public String geInviteId() {
+        return INVITE_ID;
     }
 
     public void shouldSaveFormSuccessfully() {
         String draftJsonStr = utils.getJsonFromFile("GoPForm_Full.json");
         draftJsonStr = draftJsonStr.replace(CASE_ID_PLACEHOLDER, String.valueOf(caseId));
+        draftJsonStr = draftJsonStr.replace(INVITE_ID_PLACEHOLDER,INVITE_ID);
+
         Long response = RestAssured.given()
                 .relaxedHTTPSValidation()
                 .headers(utils.getCitizenHeaders())
