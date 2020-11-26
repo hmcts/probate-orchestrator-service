@@ -3,11 +3,7 @@ package uk.gov.hmcts.probate.functional.tests;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
-import net.thucydides.core.annotations.Pending;
 import org.hamcrest.Matchers;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,16 +34,18 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     private static final String INVALID_PROBATE_TYPE = "CACA";
     private static final String CCD_CASE_STATE_PENDING = "Pending";
     private static final String CASE_ID_PLACEHOLDER = "XXXXXX";
+    private static final String FORMS_BASE_URL = "/forms/";
+    private static final String FORMS_VALIDATIONS_URL = "/validations";
+    private static long caseId;
     private final ObjectMapper objectMapper = new ObjectMapper();
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Rule
     public TestRetryRule retryRule = new TestRetryRule(3);
     SimpleDateFormat df = new SimpleDateFormat("dd MMMMM yyyy");
     public String currentDate = df.format(new Date());
     private CaseSummaryHolder caseSummaryHolder;
-    private static long caseId;
     @Value("${idam.citizen.username}")
     private String email;
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Test
     public void initiateFormsNewCaseForProbateTypePA() {
@@ -84,24 +82,6 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
-    @Pending
-    public void initiateFormsNewCaseForProbateTypeCAVEAT() {
-        RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
-                .queryParam("probateType", ProbateType.CAVEAT)
-                .when()
-                .post(FORMS_NEW_CASE)
-                .then()
-                .assertThat()
-                .statusCode(200)
-                .body("applications.ccdCase.id", hasItem(notNullValue()))
-                .body("applications.ccdCase.state", hasItem(CCD_CASE_STATE_PENDING))
-                .body("applications.caseType", hasItem(ProbateType.CAVEAT.toString()))
-                .body("applications.dateCreated", hasItem(currentDate));
-    }
-
-    @Test
     public void InitiateFormsNewCaseWithInvalidQueryParam() {
         RestAssured.given()
                 .relaxedHTTPSValidation()
@@ -130,7 +110,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     public void shouldCreateDraftThenSubmitAndFinallyUpdatePayment() throws IOException {
         setUpANewCase();
         shouldSaveFormSuccessfully();
-        //shouldGetCaseDataSuccessfully();
+        shouldGetCaseDataSuccessfully();
         //shouldUpdateForm();
         //shouldSubmitForm();
         //shouldUpdatePaymentSuccessfully();
@@ -161,7 +141,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     }
 
     public void shouldSaveFormSuccessfully() {
-        String draftJsonStr = utils.getJsonFromFile("GoPForm_partial.json");
+        String draftJsonStr = utils.getJsonFromFile("GoPForm_Full.json");
         draftJsonStr = draftJsonStr.replace(CASE_ID_PLACEHOLDER, String.valueOf(caseId));
         Long response = RestAssured.given()
                 .relaxedHTTPSValidation()
@@ -177,14 +157,8 @@ public class FormsFunctionalTests extends IntegrationTestBase {
         logger.info("CaseId After Form Save: {}", response);
     }
 
-    private void shouldGetCaseDataSuccessfully() throws JSONException {
-        String expectedResponseJsonStr = utils.getJsonFromFile("GoPForm_partial.json");
-        JSONObject expectedJsonObject = new JSONObject(expectedResponseJsonStr);
-        JSONObject expectedDeceasedObject = expectedJsonObject.getJSONObject("deceased");
-        String firstName = expectedDeceasedObject.getString("firstName");
-        String lastName = expectedDeceasedObject.getString("lastName");
-
-        String resultJson = RestAssured.given()
+    public void shouldGetCaseDataSuccessfully() {
+        RestAssured.given()
                 .relaxedHTTPSValidation()
                 .headers(utils.getCitizenHeaders())
                 .queryParam(PROBATE_TYPE, ProbateType.PA)
@@ -196,9 +170,6 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .body("ccdCase.id", Matchers.is(caseId))
                 .body("ccdCase.state", Matchers.is(CCD_CASE_STATE_PENDING))
                 .extract().jsonPath().prettify();
-        JSONObject actualDeceasedObject = new JSONObject(resultJson).getJSONObject("deceased");
-        Assert.assertEquals(lastName, actualDeceasedObject.getString("lastName"));
-        Assert.assertEquals(firstName, actualDeceasedObject.getString("firstName"));
     }
 
     private void shouldUpdateForm() {
@@ -247,6 +218,48 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .statusCode(200)
                 .body("ccdCase.id", equalTo(caseId))
                 .body("ccdCase.state", equalTo("CaseCreated"));
+    }
+
+    @Test
+    public void shouldValidateFormSuccessfully() throws IOException {
+        shouldSaveFormSuccessfully();
+        RestAssured.given()
+                .relaxedHTTPSValidation()
+                .headers(utils.getCitizenHeaders())
+                .queryParam("probateType", ProbateType.PA)
+                .when()
+                .put(FORMS_BASE_URL + caseId + FORMS_VALIDATIONS_URL)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .body("ccdCase.id", equalTo(caseId));
+    }
+
+    @Test
+    public void shouldValidateFormForValidationErrors() throws IOException {
+        setUpANewCase();
+        String draftJsonStr = utils.getJsonFromFile("GoPForm_partial.json");
+        draftJsonStr = draftJsonStr.replace(CASE_ID_PLACEHOLDER, String.valueOf(caseId));
+        RestAssured.given()
+                .relaxedHTTPSValidation()
+                .headers(utils.getCitizenHeaders())
+                .body(draftJsonStr)
+                .when()
+                .post(FORMS_CASES + caseId)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .body("ccdCase.state", equalTo(CCD_CASE_STATE_PENDING));
+        RestAssured.given()
+                .relaxedHTTPSValidation()
+                .headers(utils.getCitizenHeaders())
+                .queryParam("probateType", ProbateType.PA)
+                .when()
+                .put(FORMS_BASE_URL + caseId + FORMS_VALIDATIONS_URL)
+                .then()
+                .assertThat()
+                .statusCode(400)
+                .body("type", equalTo("VALIDATION"));
     }
 
     public enum ProbateType {

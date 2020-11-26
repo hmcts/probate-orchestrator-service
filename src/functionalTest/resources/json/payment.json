@@ -3,7 +3,7 @@
   "description": "Probate payment system update for CCD Grant of Representation.",
   "reference": "RC-1554-3862-1252-2651",
   "currency": "GBP",
-  "ccd_case_number": "XXXXX",
+  "ccd_case_number": "XXXXXX",
   "channel": "online",
   "method": "card",
   "external_provider": "gov pay",
