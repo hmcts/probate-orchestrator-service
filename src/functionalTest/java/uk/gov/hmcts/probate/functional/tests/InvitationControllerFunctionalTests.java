@@ -30,10 +30,10 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
     private static final String INVALID_FORM_DATA_ID = "1604925395199999";
     private static final String SESSION_ID = "Session-Id";
     private static final String TEST_SESSION_ID = "ses123";
+    private static final String INVITE_DATA_URL = "/invite/data/";
+    private static final String DELETE_INVITE_URL = "/invite/delete/";
+    private static final String GET_ALL_INVITES_URL = "/invites/";
     public static boolean setUp = true;
-    //    private static final String INVITE_DATA_URL = "/invite/data/";
-//    private static final String DELETE_INVITE_URL = "/invite/delete/";
-//    private static final String GET_ALL_INVITES_URL = "/invites/";
     private static String inviteId;
     private static long formdataId;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -43,20 +43,16 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
         if (setUp) {
             setUpANewCase();
             shouldSaveFormSuccessfully();
-            formdataId = geCaseId();
-            String expectedResponseJsonStr = utils.getJsonFromFile("GoPForm_partial.json");
-            JSONObject expectedJsonObject = new JSONObject(expectedResponseJsonStr);
-            JSONObject expectedDeceasedObject = expectedJsonObject.getJSONObject("executors");
-            inviteId = expectedDeceasedObject.getString("inviteId");
+            formdataId = getCaseId();
+            inviteId = geInviteId();
             setUp = false;
         }
-        logger.info("Generate InviteId: {}", inviteId);
+        logger.info("InviteId: {}", inviteId);
         logger.info("Form DataId: {}", formdataId);
     }
 
 
     @Test
-    @Pending
     public void generateInvitation() {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitation.json");
         validInvitationJsonStr = validInvitationJsonStr.replace(FORMDATA_ID_PLACEHOLDER, String.valueOf(formdataId));
@@ -202,6 +198,7 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
     public void resetAgreedFlags() {
         generateInvitation();
         RestAssured.given()
+                .relaxedHTTPSValidation()
                 .headers(utils.getCitizenHeaders())
                 .when()
                 .post(INVITE_RESET_AGREED_FLAGS_URL + formdataId)
@@ -209,5 +206,48 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
                 .assertThat()
                 .statusCode(200)
                 .extract().body().equals(String.valueOf(formdataId));
+    }
+
+    @Test
+    public void getInviteData() {
+        RestAssured.given()
+                .relaxedHTTPSValidation()
+                .headers(utils.getCitizenHeaders())
+                .when()
+                .get(INVITE_DATA_URL + inviteId)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .extract().body().jsonPath().prettify();
+    }
+
+    @Test
+    public void deleteInvites() {
+        generateInvitation();
+        String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
+        validInvitationJsonStr = validInvitationJsonStr.replace(INVITE_ID_PLACEHOLDER, inviteId);
+        RestAssured.given()
+                .relaxedHTTPSValidation()
+                .headers(utils.getCitizenHeaders())
+                .body(validInvitationJsonStr)
+                .when()
+                .post(DELETE_INVITE_URL + formdataId)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .extract().body().jsonPath().prettify();
+    }
+
+    @Test
+    public void getInvites() {
+        RestAssured.given()
+                .relaxedHTTPSValidation()
+                .headers(utils.getCaseworkerHeaders())
+                .when()
+                .get(GET_ALL_INVITES_URL + formdataId)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .extract().body().jsonPath().prettify();
     }
 }
