@@ -71,7 +71,6 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
 
 
     @Test
-    @Pending
     public void inviteAgreed() {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
         validInvitationJsonStr = validInvitationJsonStr.replace(FORMDATA_ID_PLACEHOLDER, String.valueOf(formdataId));
@@ -90,7 +89,6 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
     }
 
     @Test
-    @Pending
     public void getInviteAllAgreedForValidFormDataId() {
         String response = RestAssured.given()
                 .relaxedHTTPSValidation()
@@ -137,7 +135,6 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
     }
 
     @Test
-    @Pending
     public void updateContactDetails() {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
         validInvitationJsonStr = validInvitationJsonStr.replace(FORMDATA_ID_PLACEHOLDER, String.valueOf(formdataId));
@@ -194,7 +191,6 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
     }
 
     @Test
-    @Pending
     public void resetAgreedFlags() {
         generateInvitation();
         RestAssured.given()
