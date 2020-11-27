@@ -43,7 +43,9 @@
         "isApplying": true,
         "aliasReason": "other",
         "isApplicant": true,
-        "otherReason": "Middle name omitted"
+        "otherReason": "Middle name omitted",
+        "emailSent": true,
+        "emailChanged": false
       },
       {
         "email": "executor2@anonymous.com",
@@ -75,7 +77,6 @@
             "organisationName": "BUCKINGHAM PALACE"
           }
         ],
-        "emailSent": true,
         "isApplying": true
       }
     ],
