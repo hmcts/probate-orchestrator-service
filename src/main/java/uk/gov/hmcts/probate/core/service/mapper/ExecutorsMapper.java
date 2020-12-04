@@ -1,5 +1,6 @@
 package uk.gov.hmcts.probate.core.service.mapper;
 
+import com.microsoft.applicationinsights.boot.dependencies.apachecommons.logging.Log;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Component;
@@ -41,6 +42,11 @@ public class ExecutorsMapper {
     List<CollectionMember<ExecutorApplying>> toExecutorApplyingCollectionMember(List<Executor> executors) {
         if (executors == null) {
             return null;//NOSONAR
+        }
+        System.out.println("IN HERE!!");
+        for(int i = 0; i < executors.size(); i++){
+            System.out.println(executors.get(i).getEmailSent());
+            System.out.println(executors.get(i).getEmailChanged());
         }
         return executors.stream()
             .filter(executor -> BooleanUtils.isTrue(executor.getIsApplying()) && !BooleanUtils.isTrue(executor.getIsApplicant()))
