@@ -39,6 +39,8 @@ public class ExecutorsMapperTest {
                 .isApplying(Boolean.TRUE)
                 .isApplicant(Boolean.FALSE)
                 .hasOtherName(Boolean.TRUE)
+                .emailSent(Boolean.TRUE)
+                .emailChanged(Boolean.TRUE)
                 .firstName("Bobby")
                 .lastName("Smith")
                 .address(Address.builder()
@@ -51,6 +53,8 @@ public class ExecutorsMapperTest {
                 .fullName("Jackie Smith")
                 .isDead(Boolean.TRUE)
                 .diedBefore(Boolean.FALSE)
+                .emailSent(Boolean.TRUE)
+                .emailChanged(Boolean.TRUE)
                 .build());
     }
 
