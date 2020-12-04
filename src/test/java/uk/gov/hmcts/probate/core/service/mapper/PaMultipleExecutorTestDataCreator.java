@@ -277,8 +277,6 @@ public class PaMultipleExecutorTestDataCreator {
                                         .lastName(APPLICANT__LASTNAME)
                                         .isApplying(FIRST_EXECUTOR_IS_APPLYING)
                                         .isApplicant(Boolean.TRUE)
-                                        .emailSent(Boolean.TRUE)
-                                        .emailChanged(Boolean.TRUE)
                                         .build(),
                                 Executor.builder()
                                         .fullName(SECOND_EXECUTOR_APPLYING)
