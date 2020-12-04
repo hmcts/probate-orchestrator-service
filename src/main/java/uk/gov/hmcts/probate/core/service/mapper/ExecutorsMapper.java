@@ -47,9 +47,11 @@ public class ExecutorsMapper {
         }
         log.info("IN HERE!!");
         for(int i = 0; i < executors.size(); i++){
-            if(executors.get(i).getEmailChanged() != null && executors.get(i).getEmailSent() != null) {
-                log.info(executors.get(i).getEmailSent().toString());
+            if(executors.get(i).getEmailChanged() != null) {
                 log.info(executors.get(i).getEmailChanged().toString());
+            }
+            if(executors.get(i).getEmailSent() != null) {
+                log.info(executors.get(i).getEmailSent().toString());
             }
         }
         log.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
