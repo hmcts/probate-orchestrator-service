@@ -12,12 +12,14 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApp
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorNotApplying;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.forms.pa.Executor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class ExecutorsMapper {
@@ -43,11 +45,12 @@ public class ExecutorsMapper {
         if (executors == null) {
             return null;//NOSONAR
         }
-        System.out.println("IN HERE!!");
+        log.info("IN HERE!!");
         for(int i = 0; i < executors.size(); i++){
-            System.out.println(executors.get(i).getEmailSent());
-            System.out.println(executors.get(i).getEmailChanged());
+            log.info(executors.get(i).getEmailSent().toString());
+            log.info(executors.get(i).getEmailChanged().toString());
         }
+        log.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         return executors.stream()
             .filter(executor -> BooleanUtils.isTrue(executor.getIsApplying()) && !BooleanUtils.isTrue(executor.getIsApplicant()))
                 .map(executorApplyingMapper::toExecutorApplying)
