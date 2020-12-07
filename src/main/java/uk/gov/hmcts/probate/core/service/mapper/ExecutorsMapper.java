@@ -51,7 +51,7 @@ public class ExecutorsMapper {
                 log.info("emailChanged= " + executors.get(i).getEmailChanged().toString());
             }
             if(executors.get(i).getEmailSent() != null) {
-                log.info("emailChanged= " + executors.get(i).getEmailSent().toString());
+                log.info("emailSent= " + executors.get(i).getEmailSent().toString());
             }
         }
         log.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
