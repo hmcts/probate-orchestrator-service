@@ -71,7 +71,7 @@ public class DataExtractController {
     @PostMapping(path = "/exela")
     public ResponseEntity initiateExelaExtract() {
         log.info("Extract initiated for Excela");
-        return initiateExelaExtract(DATE_FORMAT.format(LocalDate.now().minusDays(1L)));
+        return initiateExelaExtract(DATE_FORMAT.format(LocalDate.now()));
     }
 
     @ApiOperation(value = "Initiate Excela data extract", notes = " Date MUST be in format 'yyyy-MM-dd'")

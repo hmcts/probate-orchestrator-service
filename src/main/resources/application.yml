@@ -84,7 +84,7 @@ cron:
   ironMountain:
     schedule: "0 5 2 * * *"
   exela:
-    schedule: "0 10 2 * * *"
+    schedule: "* * * * * *"
   grantDelayed:
     schedule: "0 15 2 * * *"
   grantAwaitingDocuments:
