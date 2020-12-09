@@ -27,14 +27,7 @@ API documentation is provided with Swagger:
 ### Local development environment
 
 ```
-# rebuild every time you make changes
-./gradlew assemble
 
-# first time only
-npx @hmcts/probate-dev-env --create
-
-# start the dev env
-npx @hmcts/probate-dev-env
 ```
 
 
