@@ -2,7 +2,6 @@ package uk.gov.hmcts.probate.functional.tests;
 
 import io.restassured.RestAssured;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
-import net.thucydides.core.annotations.Pending;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
@@ -25,7 +24,7 @@ public class InvitationControllerFunctionalTests extends FormsFunctionalTests {
     private static final String INVITE_PIN_URL = "/invite/pin";
     private static final String INVITE_PIN_BILINGUAL_URL = "/invite/pin/bilingual";
     private static final String INVITE_RESET_AGREED_FLAGS_URL = "/invite/resetAgreed/";
-    private static final String FORMDATA_ID_PLACEHOLDER = "XXXXX";
+    private static final String FORMDATA_ID_PLACEHOLDER = "XXXXXX";
     private static final String INVITE_ID_PLACEHOLDER = "YYYYY";
     private static final String INVALID_FORM_DATA_ID = "1604925395199999";
     private static final String SESSION_ID = "Session-Id";
