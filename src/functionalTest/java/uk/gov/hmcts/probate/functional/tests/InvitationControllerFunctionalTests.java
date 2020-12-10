@@ -2,6 +2,7 @@ package uk.gov.hmcts.probate.functional.tests;
 
 import io.restassured.RestAssured;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
+import net.thucydides.core.annotations.Pending;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;

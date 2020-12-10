@@ -3,6 +3,7 @@ package uk.gov.hmcts.probate.functional.tests;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
+import net.thucydides.core.annotations.Pending;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.Matchers;
 import org.json.JSONException;
@@ -198,7 +199,25 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .body("ccdCase.state", equalTo("PAAppCreated"));
     }
 
+    private void shouldUpdatePaymentSuccessfully() {
+        String paymentJsonStr = utils.getJsonFromFile("submissionForm.json");
+        paymentJsonStr = paymentJsonStr.replace(CASE_ID_PLACEHOLDER, String.valueOf(caseId));
+        logger.info("CaseId : {}", caseId);
+        RestAssured.given()
+                .relaxedHTTPSValidation()
+                .headers(utils.getCitizenHeaders())
+                .body(paymentJsonStr)
+                .when()
+                .post("/forms/" + caseId + "/payments")
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .body("ccdCase.id", equalTo(caseId))
+                .body("ccdCase.state", equalTo("CaseCreated"));
+    }
+
     @Test
+    @Pending
     public void shouldSubmitForm() throws IOException, JSONException {
         String submitJsonStr = utils.getJsonFromFile("caveatForm.json");
         String genApplicationId = RandomStringUtils.randomAlphanumeric(12).toLowerCase();
@@ -219,24 +238,8 @@ public class FormsFunctionalTests extends IntegrationTestBase {
 
     }
 
-    private void shouldUpdatePaymentSuccessfully() {
-        String paymentJsonStr = utils.getJsonFromFile("submissionForm.json");
-        paymentJsonStr = paymentJsonStr.replace(CASE_ID_PLACEHOLDER, String.valueOf(caseId));
-        logger.info("CaseId : {}", caseId);
-        RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
-                .body(paymentJsonStr)
-                .when()
-                .post("/forms/" + caseId + "/payments")
-                .then()
-                .assertThat()
-                .statusCode(200)
-                .body("ccdCase.id", equalTo(caseId))
-                .body("ccdCase.state", equalTo("CaseCreated"));
-    }
-
     @Test
+    @Pending
     public void shouldValidateFormSuccessfully() throws IOException {
         RestAssured.given()
                 .relaxedHTTPSValidation()
@@ -251,6 +254,27 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
+    @Pending
+    public void shouldSubmitPaymentWithZeroTotalSuccessfully() throws IOException {
+        setUpANewCase();
+        shouldSaveFormSuccessfully();
+        String paymentDtoJsonStr = utils.getJsonFromFile("submitPaymentDto.json");
+        RestAssured.given()
+                .relaxedHTTPSValidation()
+                .headers(utils.getCitizenHeaders())
+                .queryParam("probateType", ProbateType.PA)
+                .body(paymentDtoJsonStr)
+                .when()
+                .put("/forms/" + caseId + "/submissions")
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .body("ccdCase.id", equalTo(caseId))
+                .body("ccdCase.state", equalTo("CaseCreated"));
+    }
+
+    @Test
+    @Pending
     public void shouldValidateFormForValidationErrors() throws IOException {
         setUpANewCase();
         String draftJsonStr = utils.getJsonFromFile("GoPForm_partial.json");
@@ -279,25 +303,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
-    public void shouldSubmitPaymentWithZeroTotalSuccessfully() throws IOException {
-        setUpANewCase();
-        shouldSaveFormSuccessfully();
-        String paymentDtoJsonStr = utils.getJsonFromFile("submitPaymentDto.json");
-        RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
-                .queryParam("probateType", ProbateType.PA)
-                .body(paymentDtoJsonStr)
-                .when()
-                .put("/forms/" + caseId + "/submissions")
-                .then()
-                .assertThat()
-                .statusCode(200)
-                .body("ccdCase.id", equalTo(caseId))
-                .body("ccdCase.state", equalTo("CaseCreated"));
-    }
-
-    @Test
+    @Pending
     public void savingPaymentFailedForInvalidPaymentStatusInTheForm() throws IOException {
         setUpANewCase();
         shouldSaveFormSuccessfully();
