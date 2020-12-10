@@ -3,6 +3,7 @@ package uk.gov.hmcts.probate.functional.tests;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
+import net.thucydides.core.annotations.Pending;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.Matchers;
 import org.json.JSONException;
@@ -199,6 +200,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
+    @Pending
     public void shouldSubmitForm() throws IOException, JSONException {
         String submitJsonStr = utils.getJsonFromFile("caveatForm.json");
         String genApplicationId = RandomStringUtils.randomAlphanumeric(12).toLowerCase();
@@ -237,6 +239,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
+    @Pending
     public void shouldValidateFormSuccessfully() throws IOException {
         RestAssured.given()
                 .relaxedHTTPSValidation()
@@ -251,6 +254,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
+    @Pending
     public void shouldValidateFormForValidationErrors() throws IOException {
         setUpANewCase();
         String draftJsonStr = utils.getJsonFromFile("GoPForm_partial.json");
@@ -279,6 +283,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
+    @Pending
     public void shouldSubmitPaymentWithZeroTotalSuccessfully() throws IOException {
         setUpANewCase();
         shouldSaveFormSuccessfully();
@@ -298,6 +303,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
+    @Pending
     public void savingPaymentFailedForInvalidPaymentStatusInTheForm() throws IOException {
         setUpANewCase();
         shouldSaveFormSuccessfully();
