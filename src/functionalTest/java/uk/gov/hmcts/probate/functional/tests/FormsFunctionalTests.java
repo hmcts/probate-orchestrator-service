@@ -117,8 +117,8 @@ public class FormsFunctionalTests extends IntegrationTestBase {
         setUpANewCase();
         shouldSaveFormSuccessfully();
         shouldGetCaseDataSuccessfully();
-        shouldSubmitPaymentSuccessfully();
-        shouldUpdatePaymentSuccessfully();
+        //shouldSubmitPaymentSuccessfully();
+        //shouldUpdatePaymentSuccessfully();
     }
 
     public void setUpANewCase() throws IOException {
