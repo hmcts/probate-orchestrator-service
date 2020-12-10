@@ -8,9 +8,11 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.Matchers;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +30,7 @@ import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(SpringIntegrationSerenityRunner.class)
 public class FormsFunctionalTests extends IntegrationTestBase {
 
@@ -117,8 +120,8 @@ public class FormsFunctionalTests extends IntegrationTestBase {
         setUpANewCase();
         shouldSaveFormSuccessfully();
         shouldGetCaseDataSuccessfully();
-        //shouldSubmitPaymentSuccessfully();
-        //shouldUpdatePaymentSuccessfully();
+        shouldSubmitPaymentSuccessfully();
+        shouldUpdatePaymentSuccessfully();
     }
 
     public void setUpANewCase() throws IOException {
@@ -238,6 +241,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
+    @Pending
     public void shouldValidateFormSuccessfully() throws IOException {
         RestAssured.given()
                 .relaxedHTTPSValidation()
@@ -302,7 +306,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
 
     @Test
     @Pending
-    public void savingPaymentFailedForInvalidPaymentStatusInTheForm() throws IOException {
+    public void testPaymentFailedForInvalidPaymentStatusInTheForm() throws IOException {
         setUpANewCase();
         shouldSaveFormSuccessfully();
         shouldSubmitPaymentSuccessfully();
