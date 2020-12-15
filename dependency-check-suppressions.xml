@@ -552,4 +552,12 @@
         <notes><![CDATA[file name: jackson-databind-2.9.8.jar]]></notes>
         <cve>CVE-2020-25649</cve>
     </suppress>
+    <suppress>
+        <notes><![CDATA[file name: tomcat-embed-core-9.0.13.jar]]></notes>
+        <cpe>cpe:/a:apache_software_foundation:tomcat</cpe>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[file name: tomcat-embed-core-9.0.13.jar]]></notes>
+        <cpe>cpe:/a:apache_tomcat:apache_tomcat</cpe>
+    </suppress>
   </suppressions>
