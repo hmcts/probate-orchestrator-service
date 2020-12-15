@@ -1,6 +1,5 @@
 package uk.gov.hmcts.probate.core.service.mapper;
 
-import com.microsoft.applicationinsights.boot.dependencies.apachecommons.logging.Log;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Component;
@@ -12,14 +11,12 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApp
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorNotApplying;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.forms.pa.Executor;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class ExecutorsMapper {
@@ -45,16 +42,6 @@ public class ExecutorsMapper {
         if (executors == null) {
             return null;//NOSONAR
         }
-        log.info("IN HERE!!");
-        for(int i = 0; i < executors.size(); i++){
-            if(executors.get(i).getEmailChanged() != null) {
-                log.info("emailChanged= " + executors.get(i).getEmailChanged().toString());
-            }
-            if(executors.get(i).getEmailSent() != null) {
-                log.info("emailSent= " + executors.get(i).getEmailSent().toString());
-            }
-        }
-        log.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         return executors.stream()
             .filter(executor -> BooleanUtils.isTrue(executor.getIsApplying()) && !BooleanUtils.isTrue(executor.getIsApplicant()))
                 .map(executorApplyingMapper::toExecutorApplying)
