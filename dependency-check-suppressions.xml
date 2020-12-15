@@ -554,12 +554,12 @@
         <notes><![CDATA[
    file name: jackson-databind-2.9.8.jar
    ]]></notes>
-        <vulnerabilityName>CVE-2020-25649</vulnerabilityName>
+        <cve>CVE-2020-25649</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[
    file name: tomcat-embed-core-9.0.13.jar
    ]]></notes>
-        <vulnerabilityName>CVE-2020-17527</vulnerabilityName>
+        <cve>CVE-2020-17527</cve>
     </suppress>
   </suppressions>
