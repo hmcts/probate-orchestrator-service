@@ -562,6 +562,8 @@
     </suppress>
     <suppress>
         <notes><![CDATA[file name: tomcat-embed-core-9.0.13.jar]]></notes>
-        <cpe>CVE-2020-17527</cpe>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.tomcat\.embed/tomcat\-embed\-core@.*$</packageUrl>
+        <vulnerabilityName>CVE-2020-17527</vulnerabilityName>
     </suppress>
   </suppressions>
+
