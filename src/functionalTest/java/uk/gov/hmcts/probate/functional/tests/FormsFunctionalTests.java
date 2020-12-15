@@ -145,14 +145,6 @@ public class FormsFunctionalTests extends IntegrationTestBase {
         logger.info("Create New case CaseId: {}", caseId);
     }
 
-    public long getCaseId() {
-        return this.caseId;
-    }
-
-    public String geInviteId() {
-        return INVITE_ID;
-    }
-
     public void shouldSaveFormSuccessfully() {
         String draftJsonStr = utils.getJsonFromFile("GoPForm_Full.json");
         draftJsonStr = draftJsonStr.replace(CASE_ID_PLACEHOLDER, String.valueOf(caseId));
