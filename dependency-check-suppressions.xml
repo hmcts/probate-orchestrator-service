@@ -564,5 +564,13 @@
         <notes><![CDATA[file name: tomcat-embed-core-9.0.13.jar]]></notes>
         <cve>CVE-2020-17527</cve>
     </suppress>
+    <suppress>
+        <notes><![CDATA[file name: guava-27.0-jre.jar]]></notes>
+        <cve>CVE-2020-8908</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[file name: guava-27.0-jre.jar]]></notes>
+        <cpe>cpe:/a:google:guava</cpe>
+    </suppress>
   </suppressions>
 
