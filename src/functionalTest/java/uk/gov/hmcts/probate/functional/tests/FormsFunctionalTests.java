@@ -190,10 +190,6 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .put("/forms/" + caseId + "/submissions")
                 .then()
                 .extract().response().prettyPrint();
-//                .assertThat()
-//                .statusCode(200)
-//                .body("ccdCase.id", equalTo(caseId))
-//                .body("ccdCase.state", equalTo("PAAppCreated"));
         logger.info("Response shouldSubmitPaymentSuccessfully : {}",response);
         JSONObject actualCCDCaseObject = new JSONObject(response).getJSONObject("ccdCase");
         Assert.assertNotNull(actualCCDCaseObject.get("id"));
@@ -301,7 +297,6 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .body("type", equalTo("VALIDATION"));
     }
 
-    @Test
     public void testPaymentFailedForInvalidPaymentStatusInTheForm() throws IOException, JSONException {
         setUpANewCase();
         shouldSaveFormSuccessfully();
