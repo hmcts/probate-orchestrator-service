@@ -249,7 +249,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .body("ccdCase.id", equalTo(caseId));
     }
 
-
+    @Test
     public void testSubmitPaymentWithZeroTotalSuccessfully() throws IOException {
         setUpANewCase();
         shouldSaveFormSuccessfully();
@@ -297,6 +297,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .body("type", equalTo("VALIDATION"));
     }
 
+    @Test
     public void testPaymentFailedForInvalidPaymentStatusInTheForm() throws IOException, JSONException {
         setUpANewCase();
         shouldSaveFormSuccessfully();
