@@ -122,7 +122,6 @@ public class FormsFunctionalTests extends IntegrationTestBase {
         shouldSaveFormSuccessfully();
         shouldGetCaseDataSuccessfully();
         shouldSubmitPaymentSuccessfully();
-        shouldUpdatePaymentSuccessfully();
     }
 
     public void setUpANewCase() throws IOException {
@@ -191,9 +190,6 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .then()
                 .extract().response().prettyPrint();
         logger.info("Response shouldSubmitPaymentSuccessfully : {}",response);
-//        JSONObject actualCCDCaseObject = new JSONObject(response).getJSONObject("ccdCase");
-//        Assert.assertNotNull(actualCCDCaseObject.get("id"));
-//        Assert.assertEquals("PAAppCreated", actualCCDCaseObject.getString("state"));
     }
 
     private void shouldUpdatePaymentSuccessfully() {
