@@ -200,7 +200,6 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
-    @Pending
     public void shouldSubmitForm() throws IOException, JSONException {
         String submitJsonStr = utils.getJsonFromFile("caveatForm.json");
         String genApplicationId = RandomStringUtils.randomAlphanumeric(12).toLowerCase();
@@ -239,7 +238,6 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
-    @Pending
     public void shouldValidateFormSuccessfully() throws IOException {
         RestAssured.given()
                 .relaxedHTTPSValidation()
@@ -254,7 +252,6 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
-    @Pending
     public void shouldValidateFormForValidationErrors() throws IOException {
         setUpANewCase();
         String draftJsonStr = utils.getJsonFromFile("GoPForm_partial.json");
@@ -283,7 +280,6 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
-    @Pending
     public void shouldSubmitPaymentWithZeroTotalSuccessfully() throws IOException {
         setUpANewCase();
         shouldSaveFormSuccessfully();
@@ -303,7 +299,6 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
-    @Pending
     public void savingPaymentFailedForInvalidPaymentStatusInTheForm() throws IOException {
         setUpANewCase();
         shouldSaveFormSuccessfully();
