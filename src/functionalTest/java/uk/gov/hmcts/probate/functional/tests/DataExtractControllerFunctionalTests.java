@@ -1,5 +1,6 @@
 package uk.gov.hmcts.probate.functional.tests;
 
+import cucumber.api.Pending;
 import io.restassured.RestAssured;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
 import org.junit.Assert;
@@ -10,6 +11,7 @@ import uk.gov.hmcts.probate.functional.IntegrationTestBase;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+@Pending
 @RunWith(SpringIntegrationSerenityRunner.class)
 public class DataExtractControllerFunctionalTests extends IntegrationTestBase{
     private static final String DATA_EXTRACT_HMRC_URL = "/data-extract/hmrc";

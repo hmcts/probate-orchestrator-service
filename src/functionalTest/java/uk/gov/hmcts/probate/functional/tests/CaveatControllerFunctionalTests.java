@@ -1,5 +1,6 @@
 package uk.gov.hmcts.probate.functional.tests;
 
+import cucumber.api.Pending;
 import io.restassured.RestAssured;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
 import org.junit.Assert;
@@ -7,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.gov.hmcts.probate.functional.IntegrationTestBase;
 
+@Pending
 @RunWith(SpringIntegrationSerenityRunner.class)
 public class CaveatControllerFunctionalTests extends IntegrationTestBase {
     private static final String CAVEAT_EXPIRE = "/caveat/expire";

@@ -1,6 +1,7 @@
 package uk.gov.hmcts.probate.functional.tests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import cucumber.api.Pending;
 import io.restassured.RestAssured;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -24,7 +25,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
-
+@Pending
 @RunWith(SpringIntegrationSerenityRunner.class)
 public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     private static final String INVITE_URL = "/invite";

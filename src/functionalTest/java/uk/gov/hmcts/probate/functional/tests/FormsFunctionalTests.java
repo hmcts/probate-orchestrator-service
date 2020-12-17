@@ -1,9 +1,9 @@
 package uk.gov.hmcts.probate.functional.tests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import cucumber.api.Pending;
 import io.restassured.RestAssured;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
-import net.thucydides.core.annotations.Pending;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.Matchers;
 import org.json.JSONException;
@@ -31,6 +31,7 @@ import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
+@Pending
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(SpringIntegrationSerenityRunner.class)
 public class FormsFunctionalTests extends IntegrationTestBase {
