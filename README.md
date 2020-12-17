@@ -68,7 +68,7 @@ For IntelliJ IDEA, please add the Lombok IntelliJ plugin:
 * Click on `Browse repositories...`
 * Search for `Lombok Plugin`
 * Click on `Install plugin`
-* Restart IntelliJ IDEA
+
 
 Plugin setup for other IDE's are available on [https://projectlombok.org/setup/overview]
 
