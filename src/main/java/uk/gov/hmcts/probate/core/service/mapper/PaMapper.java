@@ -65,8 +65,6 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "deceasedAddressFound", source = "deceased.addressFound")
     @Mapping(target = "deceasedAddresses", source = "deceased.addresses", qualifiedBy = {FromMap.class})
     @Mapping(target = "deceasedPostCode", source = "deceased.postcode")
-    @Mapping(target = "deceasedForeignDeathCertInEnglish", source = "deceased.englishForeignDeathCert")
-    @Mapping(target = "deceasedForeignDeathCertTranslation", source = "deceased.foreignDeathCertTranslation")
     @Mapping(target = "primaryApplicantForenames", source = "applicant.firstName")
     @Mapping(target = "primaryApplicantSurname", source = "applicant.lastName")
     @Mapping(target = "primaryApplicantEmailAddress", source = "applicantEmail")
@@ -117,6 +115,8 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "languagePreferenceWelsh", source = "language.bilingual")
     @Mapping(target = "deceasedDiedEngOrWales", source = "deceased.diedEngOrWales")
     @Mapping(target = "deceasedDeathCertificate", expression = "java(form.getDeceased()!= null ? DeathCertificate.fromString(form.getDeceased().getDeathCertificate()) : null)")
+    @Mapping(target = "deceasedForeignDeathCertInEnglish", source = "deceased.englishForeignDeathCert")
+    @Mapping(target = "deceasedForeignDeathCertTranslation", source = "deceased.foreignDeathCertTranslation")
     GrantOfRepresentationData toCaseData(PaForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.PA)")
