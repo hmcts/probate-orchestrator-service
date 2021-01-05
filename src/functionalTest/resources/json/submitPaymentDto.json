@@ -1,0 +1,23 @@
+{
+  "language": "en",
+  "userId": "c3560623-a134-40e8-9732-15a4a60e4b55",
+  "applicationversion": 0,
+  "applicationcode": "",
+  "ukcopiesversion": 0,
+  "ukcopiescode": "",
+  "overseascopiesversion": 0,
+  "overseascopiescode": "",
+  "total": "0.00",
+  "applicationFee": "0.00",
+  "copies": {
+    "uk": {
+      "number": 1,
+      "cost": "0.00"
+    },
+    "overseas": {
+      "number": 0,
+      "cost": "0.00"
+    }
+  },
+  "status": "not_required"
+}

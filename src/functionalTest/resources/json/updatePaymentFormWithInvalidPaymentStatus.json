@@ -1,0 +1,194 @@
+{
+  "type": "gop",
+  "deceased": {
+    "firstName": "Ned",
+    "lastName": "Stark",
+    "alias": "optionNo",
+    "married": "optionNo",
+    "address": {
+      "addressLine1": "Winterfell",
+      "postTown": "North Westeros",
+      "postCode": "GOT123"
+    },
+    "dob-date": "1900-01-23T00:00:00.000Z",
+    "dod-date": "2019-01-01T00:00:00.000Z",
+    "dod-day": 1,
+    "dod-month": 1,
+    "dod-year": 2019,
+    "dob-day": 23,
+    "dob-month": 1,
+    "dob-year": 1900,
+    "dob-formattedDate": "23 January 1900",
+    "dod-formattedDate": "1 January 2019"
+  },
+  "applicant": {
+    "firstName": "Jon",
+    "lastName": "Snow",
+    "alias": "King of the North",
+    "aliasReason": "Title Given",
+    "address": {
+      "addressLine1": "The Wall",
+      "postTown": "North Westeros",
+      "postCode": "GOT567"
+    },
+    "phoneNumber": "3234324",
+    "nameAsOnTheWill": "optionYes"
+  },
+  "registry": {
+    "name": "Manchester",
+    "email": "manchester@email.com",
+    "address": "Line 1 man\nLine 2 man\nLine 3 man\nPostCode Manchester\n",
+    "sequenceNumber": 30000
+  },
+  "ccdCase": {
+    "id": "XXXXXX",
+    "state": "Pending"
+  },
+  "payments": [
+    {
+      "reference": "RC-1551-3655-7880-7354",
+      "transactionId": "kp5i7giksdji0ucuuaktsgt9t7",
+      "date": "2019-02-28T00:00:00.000+0000",
+      "amount": 215.5,
+      "siteId": "P223",
+      "status": "Success",
+      "method": "online",
+      "copies": {
+        "uk": {
+          "cost": 0.5,
+          "number": 1
+        },
+        "overseas": {
+          "cost": 0,
+          "number": 0
+        }
+      }
+    }
+  ],
+  "payment": {
+    "reference": "RC-1551-3655-7880-7354",
+    "transactionId": "kp5i7giksdji0ucuuaktsgt9t7",
+    "date": "2019-02-28T00:00:00.000+0000",
+    "amount": 215.5,
+    "siteId": "P223",
+    "status": "Success1",
+    "method": "online",
+    "copies": {
+      "uk": {
+        "cost": 0.5,
+        "number": 1
+      }
+    }
+  },
+  "declaration": {
+    "softStop": false,
+    "hasEmailChanged": false,
+    "legalStatement": {
+      "en": {
+        "applicant": "I, Jon Snow of The Wall, North, Westeros, GOT567, make the following statement:",
+        "deceased": "Ned Stark was born on 1 January 1900 and died on 1 January 2019, domiciled in England and Wales.",
+        "deceasedOtherNames": "",
+        "executorsApplying": [
+          {
+            "name": "I am an executor named in the will as Jon Snow, and I am applying for probate.",
+            "sign": "I will send to the probate registry what I believe to be the true and original last will and testament of Ned Stark."
+          }
+        ],
+        "deceasedEstateValue": "The gross value for the estate amounts to £20000 and the net value for the estate amounts to £20000.",
+        "deceasedEstateLand": "To the best of my knowledge, information and belief, there was no land vested in Ned Stark which was settled previously to the death (and not by the will) of Ned Stark and which remained settled land notwithstanding such death.",
+        "executorsNotApplying": [],
+        "intro": "This statement is based on the information you&rsquo;ve given in your application. It will be stored as a public record."
+      }
+    },
+    "declaration": {
+      "en": {
+        "confirm": "I confirm that I will administer the estate of Ned Stark, according to law. I will:",
+        "confirmItem1": "collect the whole estate",
+        "confirmItem2": "keep full details (an inventory) of the estate",
+        "confirmItem3": "keep a full account of how the estate has been administered",
+        "requests": "If the probate registry (court) asks me to do so, I will:",
+        "requestsItem1": "provide the full details of the estate and how it has been administered",
+        "requestsItem2": "return the grant of probate to the court",
+        "understand": "I understand that:",
+        "understandItem1": "my application will be rejected if I do not answer any questions about the information I have given",
+        "understandItem2": "criminal proceedings for fraud may be brought against me if I am found to have been deliberately untruthful or dishonest",
+        "accept": "I confirm that I will administer the estate of the person who died according to law, and that my application is truthful.",
+        "submitWarning": "Once you click &lsquo;Save and continue&rsquo;, you cannot change your answers."
+      }
+    },
+    "declarationCheckbox": "true"
+  },
+  "applicantEmail": "meganTest@test.com",
+  "executors": {
+    "list": [
+      {
+        "alias": "applicant alias",
+        "lastName": "applicant_lname",
+        "firstName": "applicant_fname",
+        "isApplying": true,
+        "aliasReason": "other",
+        "isApplicant": true,
+        "otherReason": "Middle name omitted"
+      },
+      {
+        "email": "executor2@anonymous.com",
+        "mobile": "1234567890",
+        "address": {
+          "country": "United Kingdom",
+          "postCode": "SW1A 1AA",
+          "postTown": "London",
+          "addressLine1": "Buckingham Palace",
+          "formattedAddress": "Buckingham Palace London SW1A 1AA United Kingdom "
+        },
+        "fullName": "executor2",
+        "inviteId": "ZZZZZZ",
+        "postcode": "SW1A 1AA",
+        "addresses": [
+          {
+            "uprn": "10033544614",
+            "point": {
+              "type": "Point",
+              "coordinates": [
+                529090,
+                179645
+              ]
+            },
+            "postCode": "SW1A 1AA",
+            "postTown": "London",
+            "postcodeType": "D",
+            "formattedAddress": "Buckingham Palace,London,SW1A 1AA",
+            "organisationName": "BUCKINGHAM PALACE"
+          }
+        ],
+        "emailSent": true,
+        "isApplying": true
+      }
+    ],
+    "alias": "optionNo",
+    "allalive": "optionYes",
+    "inviteId": "deceased_fname-deceased_lname-54af8f79-a267-4fc9-901b-c97c30793021",
+    "invitesSent": "true",
+    "executorsNumber": 2,
+    "postcodeAddress": "21",
+    "executorsEmailChanged": false,
+    "otherExecutorsApplying": "optionYes"
+  },
+  "copies": {
+    "uk": 1,
+    "overseas": 0
+  },
+  "iht": {
+    "method": "optionOnline",
+    "identifier": "IHT1234567",
+    "grossValue": 20000,
+    "netValue": 20000,
+    "grossValueOnline": "20000",
+    "netValueOnline": "20000"
+  },
+  "will": {
+    "codicils": "optionNo"
+  },
+  "summary": {
+    "readyToDeclare": true
+  }
+}
