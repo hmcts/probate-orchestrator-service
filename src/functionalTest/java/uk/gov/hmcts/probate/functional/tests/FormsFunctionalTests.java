@@ -230,6 +230,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
 
     }
 
+    @Pending
     @Test
     public void shouldValidateFormSuccessfully() throws IOException {
         logger.info("CaseId shouldValidateFormSuccessfully : {}", caseId);
@@ -245,6 +246,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .body("ccdCase.id", equalTo(caseId));
     }
 
+    @Pending
     @Test
     public void testSubmitPaymentWithZeroTotalSuccessfully() throws IOException {
         setUpANewCase();
