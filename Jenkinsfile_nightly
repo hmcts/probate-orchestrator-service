@@ -1,0 +1,23 @@
+properties([
+        pipelineTriggers([cron('15 01 * * *')])
+])
+
+@Library("Infrastructure")
+
+def product = "probate"
+def component = "orchestrator-service"
+def type = "java"
+
+
+withNightlyPipeline(type, product, component) {
+    env.test_environment = 'aat'
+
+    before('fullFunctionalTest') {
+        env.ITEST_ENVIRONMENT = "aat"
+    }
+    after('fullFunctionalTest') {
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
+    }
+
+    enableFullFunctionalTest()
+}
