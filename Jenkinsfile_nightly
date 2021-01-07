@@ -1,8 +1,32 @@
 properties([
-        pipelineTriggers([cron('15 01 * * *')])
+        pipelineTriggers([cron('15 01 * * *')]),
+        parameters([
+                string(name: 'URL_TO_TEST', defaultValue: 'http://probate-orchestrator-service-aat.service.core-compute-aat.internal', description: 'The URL you want to run these tests against'),
+        ])
 ])
 
 @Library("Infrastructure")
+
+def secrets = [
+        'probate-${env}'      : [
+                secret('s2sAuthTotpSecret', 'S2S_AUTH_TOTP_SECRET'),
+                secret('probateIdamSecret', 'IDAM_SECRET'),
+                secret('serviceAuthProviderBaseUrl', 'SERVICE_AUTH_PROVIDER_BASE_URL'),
+                secret('probateUserAuthUrl', 'USER_AUTH_PROVIDER_OAUTH2_URL'),
+                secret('probateIdamOauthRedirectUrl', 'IDAM_OAUTH2_REDIRECT_URI'),
+                secret('probate-service-id', 'IDAM_CLIENT_ID'),
+                secret('cwUserEmail', 'CW_USER_EMAIL'),
+                secret('cwUserPass', 'CW_USER_PASSWORD')
+        ]]
+
+static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
+    [$class     : 'AzureKeyVaultSecret',
+     secretType : 'Secret',
+     name       : secretName,
+     version    : '',
+     envVariable: envVar
+    ]
+}
 
 def product = "probate"
 def component = "orchestrator-service"
@@ -10,12 +34,19 @@ def type = "java"
 
 
 withNightlyPipeline(type, product, component) {
+
+    loadVaultSecrets(secrets)
+    enableAksStagingDeployment()
+    disableLegacyDeployment()
+    env.IDAM_CLIENT="probate"
     env.test_environment = 'aat'
+    env.TEST_URL = params.URL_TO_TEST
 
     before('fullFunctionalTest') {
         env.ITEST_ENVIRONMENT = "aat"
     }
-    after('fullFunctionalTest') {
+
+    after('functionalTest:aat') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
     }
 
