@@ -21,7 +21,10 @@
       "postTown":"Ramford",
       "postCode":"RM3 9JU",
       "country":"England",
-      "formattedAddress":"2GroveRoad Flat1 CheapLane Ramford rm3 9JU England "}
+      "formattedAddress":"2GroveRoad Flat1 CheapLane Ramford rm3 9JU England "},
+    "diedEngOrWales": "optionNo",
+    "englishForeignDeathCert": "optionNo",
+    "foreignDeathCertTranslation": "optionYes"
   },
   "applicant":{},
   "registry":{},
