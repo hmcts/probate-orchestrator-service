@@ -142,7 +142,7 @@ task functional(type: Test) {
 
 
     exclude "src/functionalTest/java/uk/gov/hmcts/probate/functional/tests/InvitationControllerFunctional*.java"
-    exclude "src/functionalTest/java/uk/gov/hmcts/probate/functional/tests/FormsFunctionalTests"
+    exclude "src/functionalTest/java/uk/gov/hmcts/probate/functional/tests/FormsFunctionalTests*"
 
 
     description = "Runs functional Tests"
