@@ -73,6 +73,7 @@
        ]]></notes>
         <gav regex="true">^org\.bouncycastle:bcprov-jdk15on:.*$</gav>
         <cve>CVE-2017-13098</cve>
+        <cve>CVE-2020-26939</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[

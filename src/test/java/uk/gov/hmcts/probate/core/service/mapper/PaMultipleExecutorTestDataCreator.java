@@ -10,6 +10,7 @@ import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
+import uk.gov.hmcts.reform.probate.model.cases.DeathCertificate;
 import uk.gov.hmcts.reform.probate.model.cases.DocumentLink;
 import uk.gov.hmcts.reform.probate.model.cases.DocumentType;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCalculatedFees;
@@ -77,7 +78,11 @@ public class PaMultipleExecutorTestDataCreator {
     private static final int NUMBER_UK = 1;
     private static final BigDecimal COST_OVERSEAS = BigDecimal.valueOf(0);
     private static final int NUMBER_OVERSEAS = 0;
+    private static final boolean DECEASED_DIED_ENG_OR_WALES = true;
+    private static final String DECEASED_DEATH_CERT = "optionDeathCertificate";
     private static final boolean DECEASED_ALIAS = false;
+    private static final boolean DECEASED_ENGLISH_FOREIGN_DEATH_CERT = false;
+    private static final boolean DECEASED_FOREIGN_DEATH_CERT_TRANSLATION = true;
     private static final Address DECEASED_ADDRESS = Address.builder().addressLine1("Winterfell")
             .postTown("North Westeros").postCode("GOT123").formattedAddress("Winterfell North Westeros GOT123").build();
     private static final boolean MARRIED = false;
@@ -241,6 +246,8 @@ public class PaMultipleExecutorTestDataCreator {
                 )
                 .deceased(PaDeceased.builder()
                         .alias(DECEASED_ALIAS)
+                        .englishForeignDeathCert(DECEASED_ENGLISH_FOREIGN_DEATH_CERT)
+                        .foreignDeathCertTranslation(DECEASED_FOREIGN_DEATH_CERT_TRANSLATION)
                         .address(DECEASED_ADDRESS)
                         .married(MARRIED)
                         .dateOfBirth(DECEASED_DATE_OF_BIRTH)
@@ -250,6 +257,8 @@ public class PaMultipleExecutorTestDataCreator {
                         .addresses(objectMapper.readValue(DECEASED_ADDRESSES, new TypeReference<List<Map<String, Object>>>() {
                         }))
                         .postcode(DECEASED_POSTCODE)
+                        .diedEngOrWales(DECEASED_DIED_ENG_OR_WALES)
+                        .deathCertificate(DECEASED_DEATH_CERT)
                         .build())
                 .registry(Registry.builder()
                         .name(MANCHESTER)
@@ -419,6 +428,8 @@ public class PaMultipleExecutorTestDataCreator {
                 .primaryApplicantAliasReason(AliasReason.MARRIAGE)
                 .primaryApplicantPhoneNumber(APPLICANT_PHONE_NUMBER)
                 .deceasedAnyOtherNames(false)
+                .deceasedForeignDeathCertInEnglish(false)
+                .deceasedForeignDeathCertTranslation(true)
                 .deceasedDateOfBirth(DECEASED_DATE_OF_BIRTH.toLocalDate())
                 .deceasedDateOfDeath(DECEASED_DATE_OF_DEATH.toLocalDate())
                 .deceasedSurname(DECEASED_LAST_NAME)
@@ -430,6 +441,8 @@ public class PaMultipleExecutorTestDataCreator {
                         .postCode(DECEASED_ADDRESS.getPostCode())
                         .build())
                 .deceasedPostCode(DECEASED_POSTCODE)
+                .deceasedDiedEngOrWales(DECEASED_DIED_ENG_OR_WALES)
+                .deceasedDeathCertificate(DeathCertificate.DEATH_CERTIFICATE)
                 .numberOfApplicants(Long.valueOf(EXECUTORS_NUMBER))
                 .numberOfExecutors(Long.valueOf(EXECUTORS_NUMBER))
                 .applicationType(ApplicationType.PERSONAL)
