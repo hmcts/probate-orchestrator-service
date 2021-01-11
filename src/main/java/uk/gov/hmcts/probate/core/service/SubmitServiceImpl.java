@@ -70,6 +70,7 @@ public class SubmitServiceImpl implements SubmitService {
         Form form = formMapper.fromCaseData(probateCaseDetails.getCaseData());
         updateCcdCase(probateCaseDetails, form);
         form.getType().getCaseType().getName();
+        form.setProbateCaseDetails(probateCaseDetails);
         return form;
     }
 
@@ -217,8 +218,7 @@ public class SubmitServiceImpl implements SubmitService {
         String authorisation = securityUtils.getAuthorisation();
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         log.info("Get existing case from submit service");
-        ProbateCaseDetails existingCase = submitServiceApi.getCase(authorisation,
-                serviceAuthorisation, identifier, form.getType().getCaseType().name());
+        ProbateCaseDetails existingCase = form.getProbateCaseDetails();
         log.info("Got existing case now set payment on this case");
         FormMapper formMapper = mappers.get(form.getType());
         CaseData caseData = formMapper.toCaseData(form);
