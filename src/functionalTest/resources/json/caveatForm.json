@@ -1,0 +1,36 @@
+{
+  "type": "Caveat",
+  "applicationId": "0d89ba41-b07f-4eb5-a208-XXXXXX",
+  "applicant": {
+    "firstName": "asa",
+    "lastName": "as",
+    "email": "asd@ts.com",
+    "address": {
+      "addressLine1": "34",
+      "postTown": "sdfs",
+      "postCode": "ed3f 4r",
+      "formattedAddress": "34 sdfs ed3f 4r "
+    }
+  },
+  "deceased": {
+    "firstName": "sdf",
+    "lastName": "sdf",
+    "address": {
+      "addressLine1": "34",
+      "postTown": "dfs",
+      "postCode": "ed3 4ff",
+      "formattedAddress": "34 dfs ed3 4ff "
+    },
+    "alias": "optionNo",
+    "dod_date": "2020-01-01",
+    "dob_date": "1930-01-01"
+  },
+  "payments": [
+    {
+      "total": 3
+    }
+  ],
+  "language": {
+    "bilingual": "optionNo"
+  }
+}

@@ -19,9 +19,7 @@
     "dob-month": 1,
     "dob-year": 1900,
     "dob-formattedDate": "23 January 1900",
-    "dod-formattedDate": "1 January 2019",
-    "diedEngOrWales": "optionYes",
-    "deathCertificate": "optionInterim"
+    "dod-formattedDate": "1 January 2019"
   },
   "applicant": {
     "firstName": "Jon",
@@ -44,7 +42,7 @@
   },
   "ccdCase": {
     "id": "XXXXXX",
-    "state": "CaseCreated"
+    "state": "Pending"
   },
   "payments": [
     {
@@ -67,6 +65,21 @@
       }
     }
   ],
+  "payment": {
+    "reference": "RC-1551-3655-7880-7354",
+    "transactionId": "kp5i7giksdji0ucuuaktsgt9t7",
+    "date": "2019-02-28T00:00:00.000+0000",
+    "amount": 215.5,
+    "siteId": "P223",
+    "status": "Success1",
+    "method": "online",
+    "copies": {
+      "uk": {
+        "cost": 0.5,
+        "number": 1
+      }
+    }
+  },
   "declaration": {
     "softStop": false,
     "hasEmailChanged": false,
