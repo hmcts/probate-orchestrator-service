@@ -141,7 +141,6 @@ public class FormsFunctionalTests extends IntegrationTestBase {
         CaseSummaryList.sort((o1, o2) -> o1.getCcdCase().getId().compareTo(o2.getCcdCase().getId()));
         CaseSummary lastCaseSummary = CaseSummaryList.get(CaseSummaryList.size() - 1);
         caseId = lastCaseSummary.getCcdCase().getId();
-        logger.info("Create New case CaseId: {}", caseId);
     }
 
     public void shouldSaveFormSuccessfully() {

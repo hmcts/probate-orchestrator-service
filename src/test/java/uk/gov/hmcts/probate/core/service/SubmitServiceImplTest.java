@@ -11,10 +11,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
-import uk.gov.hmcts.probate.core.service.mapper.CaseSummaryMapper;
-import uk.gov.hmcts.probate.core.service.mapper.CaveatMapper;
-import uk.gov.hmcts.probate.core.service.mapper.FormMapper;
-import uk.gov.hmcts.probate.core.service.mapper.IntestacyMapper;
+import uk.gov.hmcts.probate.core.service.mapper.*;
 import uk.gov.hmcts.probate.service.BackOfficeService;
 import uk.gov.hmcts.reform.probate.model.PaymentStatus;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
@@ -80,6 +77,9 @@ public class SubmitServiceImplTest {
     private BackOfficeService backOfficeService;
 
     @Mock
+    private PaymentDtoMapper paymentDtoMapper;
+
+    @Mock
     private SecurityUtils securityUtils;
 
     @Mock
@@ -121,7 +121,7 @@ public class SubmitServiceImplTest {
                 .put(ProbateType.INTESTACY, intestacyMapper)
                 .put(ProbateType.CAVEAT, caveatMapper)
                 .build();
-        submitService = new SubmitServiceImpl(mappers, submitServiceApi, backOfficeService, securityUtils,
+        submitService = new SubmitServiceImpl(mappers, paymentDtoMapper, submitServiceApi, backOfficeService, securityUtils,
                 identifierConfiguration.formIdentifierFunctionMap(), caseSubmissionUpdater, caseSummaryMapper);
 
         when(securityUtils.getAuthorisation()).thenReturn(AUTHORIZATION);
