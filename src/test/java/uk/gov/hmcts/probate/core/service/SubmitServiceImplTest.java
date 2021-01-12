@@ -167,7 +167,6 @@ public class SubmitServiceImplTest {
                         .toInstant()))
                 .build();
 
-
     }
 
     @Test
@@ -286,15 +285,18 @@ public class SubmitServiceImplTest {
         when(submitServiceApi.createCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
                 eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class))).thenReturn(intestacyCaseDetails);
 
+        CasePayment casePayment = CasePayment.builder().build();
+        when(paymentDtoMapper.toCasePayment(paymentDto)).thenReturn(casePayment);
+
         Form formResponse = submitService.update(EMAIL_ADDRESS, ProbateType.INTESTACY, paymentDto);
 
         assertThat(formResponse, is(intestacyForm));
-        verify(submitServiceApi, times(2)).getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
+        verify(submitServiceApi, times(1)).getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
                 EMAIL_ADDRESS, CaseType.GRANT_OF_REPRESENTATION.name());
         verify(submitServiceApi, times(1)).createCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
                 eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class));
-        verify(securityUtils, times(2)).getAuthorisation();
-        verify(securityUtils, times(2)).getServiceAuthorisation();
+        verify(securityUtils, times(1)).getAuthorisation();
+        verify(securityUtils, times(1)).getServiceAuthorisation();
     }
 
 
