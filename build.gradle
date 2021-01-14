@@ -140,9 +140,6 @@ task smoke(type: Test) {
 
 task functional(type: Test) {
 
-    exclude "uk/gov/hmcts/probate/functional/tests/InvitationControllerFunctionalTests.java"
-    exclude "uk/gov/hmcts/probate/functional/tests/FormsFunctionalTests.java"
-
     description = "Runs functional Tests"
     testClassesDirs = sourceSets.testFunctional.output.classesDirs
     classpath = sourceSets.testFunctional.runtimeClasspath
