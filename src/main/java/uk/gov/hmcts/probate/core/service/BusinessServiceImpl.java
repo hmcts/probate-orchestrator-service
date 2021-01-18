@@ -155,14 +155,21 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Override
     public String inviteAgreed(String formdataId, Invitation invitation) {
-        log.info("Setting invite agreed");
+        log.info("Setting invite agreed formdataId : {} invitationId : {} ",formdataId,invitation.getInviteId());
         ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(formdataId);
+        log.info("probateCaseDetails : getCaseData {}  ",probateCaseDetails.getCaseData() );
+
         GrantOfRepresentationData grantOfRepresentationData =
                 (GrantOfRepresentationData) probateCaseDetails.getCaseData();
+
         log.info("Got the case details now set agreed flag: {}", formdataId);
         log.info("Updating case with  agreed flag for {}", invitation.getInviteId());
+        log.info("inviteAgreed : grantOfRepresentationData {}", grantOfRepresentationData);
+
         grantOfRepresentationData.setInvitationAgreedFlagForExecutorApplying(invitation.getInviteId(),
                 invitation.getAgreed());
+        log.info("after setting setInvitationAgreedFlagForExecutorApplying invitation {}", invitation.getAgreed());
+
         updateCaseDataAsCaseWorker(probateCaseDetails, formdataId);
         return invitation.getInviteId();
     }
@@ -176,6 +183,7 @@ public class BusinessServiceImpl implements BusinessService {
         grantOfRepresentationData.resetExecutorsApplyingAgreedFlags();
         log.info("Updating case with reset agreed flag");
         updateCaseData(probateCaseDetails, formdataId);
+        log.info("after updateCaseData");
     }
 
 
