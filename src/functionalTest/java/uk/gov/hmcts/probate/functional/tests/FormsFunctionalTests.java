@@ -209,7 +209,6 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .body("ccdCase.state", equalTo("CaseCreated"));
     }
 
-    @Pending
     @Test
     public void shouldSubmitForm() throws IOException, JSONException {
         String submitJsonStr = utils.getJsonFromFile("caveatForm.json");
@@ -231,7 +230,6 @@ public class FormsFunctionalTests extends IntegrationTestBase {
 
     }
 
-    @Pending
     @Test
     public void shouldValidateFormSuccessfully() throws IOException {
         logger.info("CaseId shouldValidateFormSuccessfully : {}", caseId);
@@ -247,7 +245,6 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .body("ccdCase.id", equalTo(caseId));
     }
 
-    @Pending
     @Test
     public void testSubmitPaymentWithZeroTotalSuccessfully() throws IOException {
         setUpANewCase();
