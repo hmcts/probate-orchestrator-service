@@ -2,11 +2,13 @@ package uk.gov.hmcts.probate.functional.tests;
 
 import io.restassured.RestAssured;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.gov.hmcts.probate.functional.IntegrationTestBase;
 
 @RunWith(SpringIntegrationSerenityRunner.class)
+@Ignore
 public class PaymentUpdateControllerFunctionalTests extends IntegrationTestBase{
     private static final String PAYMENT_UPDATE_URL = "/payment-updates";
 

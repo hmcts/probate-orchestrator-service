@@ -3,6 +3,7 @@ package uk.gov.hmcts.probate.functional.tests;
 import io.restassured.RestAssured;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.gov.hmcts.probate.functional.IntegrationTestBase;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @RunWith(SpringIntegrationSerenityRunner.class)
+@Ignore
 public class DataExtractControllerFunctionalTests extends IntegrationTestBase{
     private static final String DATA_EXTRACT_HMRC_URL = "/data-extract/hmrc";
     private static final String DATA_EXTRACT_EXELA_URL = "/data-extract/exela";

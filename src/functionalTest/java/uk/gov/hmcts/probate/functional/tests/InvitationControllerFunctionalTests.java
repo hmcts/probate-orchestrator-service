@@ -7,10 +7,7 @@ import net.thucydides.core.annotations.Pending;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +23,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
 @RunWith(SpringIntegrationSerenityRunner.class)
+
 public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     private static final String INVITE_URL = "/invite";
     private static final String INVITE_AGREED_URL = "/invite/agreed/";
@@ -98,6 +96,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
 
 
     @Test
+    @Pending
     public void generateInvitation() {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitation.json");
         validInvitationJsonStr = validInvitationJsonStr.replace(FORMDATA_ID_PLACEHOLDER, String.valueOf(formdataId));
@@ -134,6 +133,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
+    @Pending
     public void getInviteAllAgreedForValidFormDataId() {
         String response = RestAssured.given()
                 .relaxedHTTPSValidation()
@@ -149,6 +149,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
+    @Pending
     public void getInviteAllAgreedForInValidFormDataId() {
         RestAssured.given()
                 .relaxedHTTPSValidation()
@@ -161,6 +162,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
+    @Pending
     public void inviteBilingual() {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
         validInvitationJsonStr = validInvitationJsonStr.replace(FORMDATA_ID_PLACEHOLDER, String.valueOf(formdataId));
@@ -180,6 +182,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
+    @Pending
     public void updateContactDetails() {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
         validInvitationJsonStr = validInvitationJsonStr.replace(FORMDATA_ID_PLACEHOLDER, String.valueOf(formdataId));
@@ -198,6 +201,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
+    @Pending
     public void getInvitePin() throws JSONException {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
         JSONObject validInvitationJsonObject = new JSONObject(validInvitationJsonStr);
@@ -217,6 +221,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     }
     
     @Test
+    @Pending
     public void getInvitePinBilingual() throws JSONException {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
         JSONObject validInvitationJsonObject = new JSONObject(validInvitationJsonStr);
@@ -236,6 +241,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
+    @Pending
     public void resetAgreedFlags() {
         generateInvitation();
         RestAssured.given()
@@ -250,6 +256,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
+    @Pending
     public void getInviteData() {
         RestAssured.given()
                 .relaxedHTTPSValidation()
@@ -263,6 +270,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
+    @Pending
     public void deleteInvites() {
         generateInvitation();
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
@@ -280,6 +288,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
+    @Pending
     public void getInvites() {
         RestAssured.given()
                 .relaxedHTTPSValidation()

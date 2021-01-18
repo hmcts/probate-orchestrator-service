@@ -8,10 +8,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.Matchers;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.Assert;
-import org.junit.FixMethodOrder;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
@@ -33,6 +30,7 @@ import static org.hamcrest.Matchers.notNullValue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(SpringIntegrationSerenityRunner.class)
+@Ignore
 public class FormsFunctionalTests extends IntegrationTestBase {
 
     private static final String FORMS_NEW_CASE = "/forms/newcase";
