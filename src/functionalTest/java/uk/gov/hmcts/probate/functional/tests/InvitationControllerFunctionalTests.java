@@ -96,7 +96,6 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
 
 
     @Test
-    @Pending
     public void generateInvitation() {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitation.json");
         validInvitationJsonStr = validInvitationJsonStr.replace(FORMDATA_ID_PLACEHOLDER, String.valueOf(formdataId));
@@ -133,7 +132,6 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
-    @Pending
     public void getInviteAllAgreedForValidFormDataId() {
         String response = RestAssured.given()
                 .relaxedHTTPSValidation()
@@ -149,7 +147,6 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
-    @Pending
     public void getInviteAllAgreedForInValidFormDataId() {
         RestAssured.given()
                 .relaxedHTTPSValidation()
@@ -162,7 +159,6 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
-    @Pending
     public void inviteBilingual() {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
         validInvitationJsonStr = validInvitationJsonStr.replace(FORMDATA_ID_PLACEHOLDER, String.valueOf(formdataId));
@@ -182,7 +178,6 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
-    @Pending
     public void updateContactDetails() {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
         validInvitationJsonStr = validInvitationJsonStr.replace(FORMDATA_ID_PLACEHOLDER, String.valueOf(formdataId));
@@ -201,7 +196,6 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
-    @Pending
     public void getInvitePin() throws JSONException {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
         JSONObject validInvitationJsonObject = new JSONObject(validInvitationJsonStr);
@@ -221,7 +215,6 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     }
     
     @Test
-    @Pending
     public void getInvitePinBilingual() throws JSONException {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
         JSONObject validInvitationJsonObject = new JSONObject(validInvitationJsonStr);
@@ -241,7 +234,6 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
-    @Pending
     public void resetAgreedFlags() {
         generateInvitation();
         RestAssured.given()
@@ -256,7 +248,6 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
-    @Pending
     public void getInviteData() {
         RestAssured.given()
                 .relaxedHTTPSValidation()
@@ -270,7 +261,6 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
-    @Pending
     public void deleteInvites() {
         generateInvitation();
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
@@ -288,7 +278,6 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
-    @Pending
     public void getInvites() {
         RestAssured.given()
                 .relaxedHTTPSValidation()
