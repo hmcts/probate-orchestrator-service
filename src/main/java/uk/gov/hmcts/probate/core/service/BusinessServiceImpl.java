@@ -165,7 +165,10 @@ public class BusinessServiceImpl implements BusinessService {
         log.info("Got the case details now set agreed flag: {}", formdataId);
         log.info("Updating case with  agreed flag for {}", invitation.getInviteId());
         log.info("inviteAgreed : grantOfRepresentationData {}", grantOfRepresentationData);
-
+        log.info("inviteAgreed : grantOfRepresentationData.getExecutorsApplying() {}", grantOfRepresentationData.getExecutorsApplying());
+        if( grantOfRepresentationData.getExecutorsApplying()  !=  null) {
+            log.info("inviteAgreed : grantOfRepresentationData.getExecutorsApplying() size : {}", grantOfRepresentationData.getExecutorsApplying().size() );
+        }
         grantOfRepresentationData.setInvitationAgreedFlagForExecutorApplying(invitation.getInviteId(),
                 invitation.getAgreed());
         log.info("after setting setInvitationAgreedFlagForExecutorApplying invitation {}", invitation.getAgreed());
