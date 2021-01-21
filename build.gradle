@@ -242,7 +242,7 @@ dependencies {
     implementation('com.fasterxml.jackson.core:jackson-databind:2.11.2') {
         force = true
     }
-    implementation('io.github.openfeign:feign-core:10.2.3') {
+    implementation('io.github.openfeign:feign-core:11.0') {
         force = true
     }
 
@@ -307,7 +307,7 @@ dependencies {
     testCompile "org.junit.jupiter:junit-jupiter-api:5.6.2"
     testRuntime "org.junit.jupiter:junit-jupiter-engine:5.6.2"
     testImplementation'org.junit.jupiter:junit-jupiter-api:5.6.2'
-    testImplementation('io.github.openfeign:feign-core:9.7.0')
+    testImplementation('io.github.openfeign:feign-core:11.0')
 
     testSmokeCompile group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
     testSmokeCompile sourceSets.main.runtimeClasspath
