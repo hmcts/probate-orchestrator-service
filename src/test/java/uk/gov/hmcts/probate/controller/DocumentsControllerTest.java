@@ -1,15 +1,19 @@
 package uk.gov.hmcts.probate.controller;
 
 import com.google.common.collect.Lists;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.probate.service.BusinessService;
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
@@ -28,7 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(value = {DocumentsController.class}, secure = false)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class DocumentsControllerTest {
 
     private static final String CHECK_ANSWERS_SUMMARY_ENDPOINT = DocumentsController.DOCUMENTS_BASEURL + DocumentsController.CHECK_ANSWERS_ENDPOINT;
@@ -42,6 +47,14 @@ public class DocumentsControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private WebApplicationContext webApplicationContext;
+
+    @Before
+    public void setup() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+    }
 
     @Test
     public void generateCheckAnswersSummaryPdf_withValidJson_shouldReturn200() throws Exception {
