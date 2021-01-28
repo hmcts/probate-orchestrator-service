@@ -116,6 +116,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .statusCode(200);
     }
 
+    @Pending
     @Test
     public void shouldCreateDraftThenSubmitAndFinallyUpdatePayment() throws IOException, JSONException {
         setUpANewCase();
@@ -268,6 +269,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .body("ccdCase.state", equalTo("CaseCreated"));
     }
 
+    @Pending
     @Test
     public void testValidateFormForValidationErrors() throws IOException {
         setUpANewCase();
