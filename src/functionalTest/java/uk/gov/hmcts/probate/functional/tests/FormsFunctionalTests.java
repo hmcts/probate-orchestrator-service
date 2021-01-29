@@ -210,7 +210,6 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .body("ccdCase.state", equalTo("CaseCreated"));
     }
 
-    @Pending
     @Test
     public void shouldSubmitForm() throws IOException, JSONException {
         String submitJsonStr = utils.getJsonFromFile("caveatForm.json");
