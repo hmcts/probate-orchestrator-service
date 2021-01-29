@@ -116,7 +116,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .statusCode(200);
     }
 
-    @Pending
+
     @Test
     public void shouldCreateDraftThenSubmitAndFinallyUpdatePayment() throws IOException, JSONException {
         setUpANewCase();
@@ -231,7 +231,6 @@ public class FormsFunctionalTests extends IntegrationTestBase {
 
     }
 
-    @Pending
     @Test
     public void shouldValidateFormSuccessfully() throws IOException {
         logger.info("CaseId shouldValidateFormSuccessfully : {}", caseId);
@@ -247,7 +246,6 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .body("ccdCase.id", equalTo(caseId));
     }
 
-    @Pending
     @Test
     public void testSubmitPaymentWithZeroTotalSuccessfully() throws IOException {
         setUpANewCase();
@@ -268,7 +266,6 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .body("ccdCase.state", equalTo("CaseCreated"));
     }
 
-    @Pending
     @Test
     public void testValidateFormForValidationErrors() throws IOException {
         setUpANewCase();
