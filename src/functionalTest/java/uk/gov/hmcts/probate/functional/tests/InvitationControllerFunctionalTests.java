@@ -7,10 +7,7 @@ import net.thucydides.core.annotations.Pending;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +23,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
 @RunWith(SpringIntegrationSerenityRunner.class)
+@Ignore
 public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     private static final String INVITE_URL = "/invite";
     private static final String INVITE_AGREED_URL = "/invite/agreed/";
