@@ -283,6 +283,7 @@ public class SubmitServiceImpl implements SubmitService {
         }
         catch(Exception exception) {
             log.error("*****Validate case error {} ",exception);
+            return null;
         }
         log.info("case id from probateCaseDetails ID:{}, State: {}", probateCaseDetails.getCaseInfo().getCaseId(),probateCaseDetails.getCaseInfo().getState());
         Form form = formMapper.fromCaseData(probateCaseDetails.getCaseData());
