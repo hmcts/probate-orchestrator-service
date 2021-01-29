@@ -50,7 +50,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Rule
-    public TestRetryRule retryRule = new TestRetryRule(3);
+    public TestRetryRule retryRule = new TestRetryRule(5);
     SimpleDateFormat df = new SimpleDateFormat("dd MMMMM yyyy");
     public String currentDate = df.format(new Date());
     private CaseSummaryHolder caseSummaryHolder;
