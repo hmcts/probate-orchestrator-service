@@ -116,14 +116,30 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .statusCode(200);
     }
 
-    @Pending
     @Test
-    public void shouldCreateDraftThenSubmitAndFinallyUpdatePayment() throws IOException, JSONException {
+    public void testPaymentFailedForInvalidPaymentStatusInTheForm() throws IOException, JSONException {
         setUpANewCase();
         shouldSaveFormSuccessfully();
-        shouldGetCaseDataSuccessfully();
         shouldSubmitPaymentSuccessfully();
+        String paymentJsonStr = utils.getJsonFromFile("updatePaymentFormWithInvalidPaymentStatus.json");
+        paymentJsonStr = paymentJsonStr.replace(CASE_ID_PLACEHOLDER, String.valueOf(caseId));
+        logger.info("CaseId testPaymentFailedForInvalidPaymentStatusInTheForm : {}", caseId);
+        RestAssured.given()
+                .relaxedHTTPSValidation()
+                .headers(utils.getCitizenHeaders())
+                .body(paymentJsonStr)
+                .when()
+                .post("/forms/" + caseId + "/payments")
+                .then()
+                .assertThat()
+                .statusCode(400);
+
     }
+
+    public enum ProbateType {
+        INTESTACY, PA
+    }
+
 
     public void setUpANewCase() throws IOException {
         String responseJsonStr = RestAssured.given()
@@ -164,22 +180,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
         logger.info("CaseId After Form Save: {}", response);
     }
 
-    public void shouldGetCaseDataSuccessfully() {
-        RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
-                .queryParam(PROBATE_TYPE, ProbateType.PA)
-                .when()
-                .get(FORMS_CASES + caseId)
-                .then()
-                .assertThat()
-                .statusCode(200)
-                .body("ccdCase.id", Matchers.is(caseId))
-                .body("ccdCase.state", Matchers.is(CCD_CASE_STATE_PENDING))
-                .extract().jsonPath().prettify();
-    }
-
-    private void shouldSubmitPaymentSuccessfully() throws JSONException {
+    private void shouldSubmitPaymentSuccessfully()  {
         String paymentDtoJsonStr = utils.getJsonFromFile("PaymentDtoTest.json");
         String response = RestAssured.given()
                 .relaxedHTTPSValidation()
@@ -193,132 +194,4 @@ public class FormsFunctionalTests extends IntegrationTestBase {
         logger.info("Response shouldSubmitPaymentSuccessfully : {}",response);
     }
 
-    private void shouldUpdatePaymentSuccessfully() {
-        String paymentJsonStr = utils.getJsonFromFile("submissionForm.json");
-        paymentJsonStr = paymentJsonStr.replace(CASE_ID_PLACEHOLDER, String.valueOf(caseId));
-        logger.info("CaseId shouldUpdatePaymentSuccessfully: {}", caseId);
-        RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
-                .body(paymentJsonStr)
-                .when()
-                .post("/forms/" + caseId + "/payments")
-                .then()
-                .assertThat()
-                .statusCode(200)
-                .body("ccdCase.id", equalTo(caseId))
-                .body("ccdCase.state", equalTo("CaseCreated"));
-    }
-
-    @Pending
-    @Test
-    public void shouldSubmitForm() throws IOException, JSONException {
-        String submitJsonStr = utils.getJsonFromFile("caveatForm.json");
-        String genApplicationId = RandomStringUtils.randomAlphanumeric(12).toLowerCase();
-        submitJsonStr = submitJsonStr.replace(CASE_ID_PLACEHOLDER, genApplicationId);
-        JSONObject applicationIdJsonObject = new JSONObject(submitJsonStr);
-        String applicationId = applicationIdJsonObject.getString("applicationId");
-
-        RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
-                .body(submitJsonStr)
-                .when()
-                .post("/forms/" + applicationId + "/submissions")
-                .then()
-                .assertThat()
-                .statusCode(200)
-                .body("type", Matchers.is("Caveat"));
-
-    }
-
-    @Pending
-    @Test
-    public void shouldValidateFormSuccessfully() throws IOException {
-        logger.info("CaseId shouldValidateFormSuccessfully : {}", caseId);
-        RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
-                .queryParam("probateType", ProbateType.PA)
-                .when()
-                .put(FORMS_BASE_URL + caseId + FORMS_VALIDATIONS_URL)
-                .then()
-                .assertThat()
-                .statusCode(200)
-                .body("ccdCase.id", equalTo(caseId));
-    }
-
-    @Pending
-    @Test
-    public void testSubmitPaymentWithZeroTotalSuccessfully() throws IOException {
-        setUpANewCase();
-        shouldSaveFormSuccessfully();
-        logger.info("CaseId testSubmitPaymentWithZeroTotalSuccessfully : {}", caseId);
-        String paymentDtoJsonStr = utils.getJsonFromFile("submitPaymentDto.json");
-        RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
-                .queryParam("probateType", ProbateType.PA)
-                .body(paymentDtoJsonStr)
-                .when()
-                .put("/forms/" + caseId + "/submissions")
-                .then()
-                .assertThat()
-                .statusCode(200)
-                .body("ccdCase.id", equalTo(caseId))
-                .body("ccdCase.state", equalTo("CaseCreated"));
-    }
-
-    @Pending
-    @Test
-    public void testValidateFormForValidationErrors() throws IOException {
-        setUpANewCase();
-        String draftJsonStr = utils.getJsonFromFile("GoPForm_partial.json");
-        draftJsonStr = draftJsonStr.replace(CASE_ID_PLACEHOLDER, String.valueOf(caseId));
-        RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
-                .body(draftJsonStr)
-                .when()
-                .post(FORMS_CASES + caseId)
-                .then()
-                .assertThat()
-                .statusCode(200)
-                .body("ccdCase.state", equalTo(CCD_CASE_STATE_PENDING));
-        logger.info("CaseId testValidateFormForValidationErrors : {}", caseId);
-        RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
-                .queryParam("probateType", ProbateType.PA)
-                .when()
-                .put(FORMS_BASE_URL + caseId + FORMS_VALIDATIONS_URL)
-                .then()
-                .assertThat()
-                .statusCode(400)
-                .body("type", equalTo("VALIDATION"));
-    }
-
-    @Test
-    public void testPaymentFailedForInvalidPaymentStatusInTheForm() throws IOException, JSONException {
-        setUpANewCase();
-        shouldSaveFormSuccessfully();
-        shouldSubmitPaymentSuccessfully();
-        String paymentJsonStr = utils.getJsonFromFile("updatePaymentFormWithInvalidPaymentStatus.json");
-        paymentJsonStr = paymentJsonStr.replace(CASE_ID_PLACEHOLDER, String.valueOf(caseId));
-        logger.info("CaseId testPaymentFailedForInvalidPaymentStatusInTheForm : {}", caseId);
-        RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
-                .body(paymentJsonStr)
-                .when()
-                .post("/forms/" + caseId + "/payments")
-                .then()
-                .assertThat()
-                .statusCode(400);
-
-    }
-
-    public enum ProbateType {
-        INTESTACY, PA
-    }
 }
