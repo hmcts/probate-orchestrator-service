@@ -65,9 +65,9 @@ public class FormsControllerTest {
 
     private IntestacyForm intestacyForm;
 
-    private String paFormJsonStr;
-
     private PaForm paForm;
+
+    private String paFormJsonStr;
 
     private CaveatForm caveatForm;
 
@@ -129,6 +129,19 @@ public class FormsControllerTest {
     }
 
     @Test
+    public void shouldSavePAForm() throws Exception {
+        when(submitService.saveCase(eq(EMAIL_ADDRESS), eq(paForm))).thenReturn(paForm);
+
+        mockMvc.perform(post(FORMS_CASE_ENDPOINT + "/" + EMAIL_ADDRESS)
+                .content(paFormJsonStr)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(paFormJsonStr, true));
+
+        verify(submitService, times(1)).saveCase(eq(EMAIL_ADDRESS), eq(paForm));
+    }
+
+    @Test
     public void shouldInitateCase() throws Exception {
         when(submitService.initiateCase(eq(ProbateType.INTESTACY))).thenReturn(caseSummaryHolder);
 
@@ -141,6 +154,46 @@ public class FormsControllerTest {
         verify(submitService, times(1)).initiateCase(eq(ProbateType.INTESTACY));
     }
 
+    @Test
+    public void shouldInitateCaveatCase() throws Exception {
+        when(submitService.initiateCase(eq(ProbateType.CAVEAT))).thenReturn(caseSummaryHolder);
+
+        mockMvc.perform(post(FORMS_NEW_CASE_ENDPOINT)
+                .param("probateType", ProbateType.CAVEAT.name())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(caseSummaryHolderStr, true));
+
+        verify(submitService, times(1)).initiateCase(eq(ProbateType.CAVEAT));
+    }
+
+    @Test
+    public void shouldInitatePAtCase() throws Exception {
+        when(submitService.initiateCase(eq(ProbateType.PA))).thenReturn(caseSummaryHolder);
+
+        mockMvc.perform(post(FORMS_NEW_CASE_ENDPOINT)
+                .param("probateType", ProbateType.PA.name())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(caseSummaryHolderStr, true));
+
+        verify(submitService, times(1)).initiateCase(eq(ProbateType.PA));
+    }
+
+    @Test
+    public void shouldSubmitCaveatFormWithPayment() throws Exception {
+        when(submitService.update(eq(EMAIL_ADDRESS), eq(ProbateType.CAVEAT), eq(paymentDto))).thenReturn(caveatForm);
+        String paymentDtoStr = objectMapper.writeValueAsString(paymentDto);
+
+        mockMvc.perform(put(FORMS_ENDPOINT + "/" + EMAIL_ADDRESS + "/" + SUBMISSIONS_ENDPOINT)
+                .param("probateType", ProbateType.CAVEAT.name())
+                .content(paymentDtoStr)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(caveatFormJsonStr, true));
+
+        verify(submitService, times(1)).update(eq(EMAIL_ADDRESS), eq(ProbateType.CAVEAT), eq(paymentDto));
+    }
 
     @Test
     public void shouldSubmitPaFormWithPayment() throws Exception {
@@ -187,6 +240,17 @@ public class FormsControllerTest {
         verify(submitService, times(1)).getCase(EMAIL_ADDRESS, ProbateType.CAVEAT);
     }
 
+    @Test
+    public void shouldGetPAForm() throws Exception {
+        when(submitService.getCase(EMAIL_ADDRESS, ProbateType.PA)).thenReturn(paForm);
+
+        mockMvc.perform(get(FORMS_CASE_ENDPOINT + "/" + EMAIL_ADDRESS)
+                .param("probateType", ProbateType.PA.name())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(paFormJsonStr, true));
+        verify(submitService, times(1)).getCase(EMAIL_ADDRESS, ProbateType.PA);
+    }
 
     @Test
     public void shouldGetIntestacyForm() throws Exception {
@@ -224,6 +288,30 @@ public class FormsControllerTest {
     }
 
     @Test
+    public void shouldSubmitPAForm() throws Exception {
+        when(submitService.submit(eq(EMAIL_ADDRESS), eq(paForm))).thenReturn(paForm);
+
+        mockMvc.perform(post(FORMS_ENDPOINT + "/" + EMAIL_ADDRESS + "/" + SUBMISSIONS_ENDPOINT)
+                .content(paFormJsonStr)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(paFormJsonStr, true));
+        verify(submitService, times(1)).submit(eq(EMAIL_ADDRESS), eq(paForm));
+    }
+
+    @Test
+    public void shouldSubmitIntestacyForm() throws Exception {
+        when(submitService.submit(eq(EMAIL_ADDRESS), eq(intestacyForm))).thenReturn(intestacyForm);
+
+        mockMvc.perform(post(FORMS_ENDPOINT + "/" + EMAIL_ADDRESS + "/" + SUBMISSIONS_ENDPOINT)
+                .content(intestacyFormJsonStr)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(intestacyFormJsonStr, true));
+        verify(submitService, times(1)).submit(eq(EMAIL_ADDRESS), eq(intestacyForm));
+    }
+
+    @Test
     public void shouldUpdateCaveatPayments() throws Exception {
         when(submitService.updatePayments(eq(EMAIL_ADDRESS), eq(caveatForm))).thenReturn(caveatForm);
 
@@ -233,6 +321,30 @@ public class FormsControllerTest {
             .andExpect(status().isOk())
             .andExpect(content().json(caveatFormJsonStr, true));
         verify(submitService, times(1)).updatePayments(eq(EMAIL_ADDRESS), eq(caveatForm));
+    }
+
+    @Test
+    public void shouldUpdatePAPayments() throws Exception {
+        when(submitService.updatePayments(eq(EMAIL_ADDRESS), eq(paForm))).thenReturn(paForm);
+
+        mockMvc.perform(post(FORMS_ENDPOINT + "/" + EMAIL_ADDRESS + "/" + PAYMENTS_ENDPOINT)
+                .content(paFormJsonStr)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(paFormJsonStr, true));
+        verify(submitService, times(1)).updatePayments(eq(EMAIL_ADDRESS), eq(paForm));
+    }
+
+    @Test
+    public void shouldUpdateIntestacyPayments() throws Exception {
+        when(submitService.updatePayments(eq(EMAIL_ADDRESS), eq(intestacyForm))).thenReturn(intestacyForm);
+
+        mockMvc.perform(post(FORMS_ENDPOINT + "/" + EMAIL_ADDRESS + "/" + PAYMENTS_ENDPOINT)
+                .content(intestacyFormJsonStr)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(intestacyFormJsonStr, true));
+        verify(submitService, times(1)).updatePayments(eq(EMAIL_ADDRESS), eq(intestacyForm));
     }
 
     @Test
