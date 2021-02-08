@@ -5,11 +5,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.probate.service.BusinessService;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
@@ -28,7 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(value = {InvitationController.class}, secure = false)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class InvitationControllerTest {
 
     @MockBean
@@ -49,8 +54,13 @@ public class InvitationControllerTest {
     private String invitationArrayStr;
     private String invitationResendArrayStr;
 
+    @Autowired
+    private WebApplicationContext webApplicationContext;
+
     @Before
     public void setUp() throws Exception {
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+
         invitationStr = TestUtils.getJSONFromFile("invite/invitation.json");
         this.invitation = objectMapper.readValue(invitationStr, Invitation.class);
         this.invitation2 = objectMapper.readValue(invitationStr, Invitation.class);

@@ -7,10 +7,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import uk.gov.hmcts.probate.client.FeignErrorDecoder;
 
-@EnableSwagger2
 @EnableFeignClients
 @EnableAsync
 @EnableScheduling

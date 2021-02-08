@@ -16,24 +16,24 @@ import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ContextConfiguration(classes = TestContextConfiguration.class)
 @Component
 public class TestUtils {
 
-    @Value("${idam.citizen.username}")
-    public String citizenEmail;
-
-    @Value("${idam.caseworker.username}")
-    private String caseworkerEmail;
-
     public static final String CONTENT_TYPE = "Content-Type";
     public static final String AUTHORIZATION = "Authorization";
     public static final String CITIZEN = "citizen";
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    @Value("${idam.citizen.username}")
+    public String citizenEmail;
     @Autowired
     protected TestTokenGenerator testTokenGenerator;
-
+    @Value("${idam.caseworker.username}")
+    private String caseworkerEmail;
     private String serviceToken;
 
     @PostConstruct
@@ -57,7 +57,7 @@ public class TestUtils {
     public File getFile(String fileName) {
         try {
             return ResourceUtils.getFile(this.getClass().getResource("/json/" + fileName));
-             } catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
@@ -72,7 +72,8 @@ public class TestUtils {
     }
 
     public Headers getHeaders(String email) {
-
+        logger.info("ServiceAuthorization: {}", serviceToken);
+        logger.info("AUTHORIZATION: {}", testTokenGenerator.generateAuthorisation(email));
         return Headers.headers(
                 new Header("ServiceAuthorization", serviceToken),
                 new Header(CONTENT_TYPE, ContentType.JSON.toString()),

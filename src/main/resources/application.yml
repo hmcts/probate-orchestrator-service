@@ -16,7 +16,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,liveness,health/liveness
+        include: health,info,liveness
       base-path: /
   endpoint:
     health:
