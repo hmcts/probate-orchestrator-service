@@ -67,7 +67,6 @@ public class SecurityUtils {
     }
 
     public void setSecurityContextUserAsScheduler() {
-        log.info("schedulerUserName/schedulerUserName={}/{}", schedulerUserName, schedulerPassword);
         SecurityContextHolder.getContext()
             .setAuthentication(new UsernamePasswordAuthenticationToken(schedulerUserName, getSchedulerToken()));
     }
@@ -83,8 +82,6 @@ public class SecurityUtils {
     private String getIdamOauth2Token(String username, String password) {
         String basicAuthHeader = getBasicAuthHeader(username, password);
         
-        log.info("Client ID: {} . Authenticating...", authClientId);
-
         AuthenticateUserResponse authenticateUserResponse = idamClient.authenticateUser(
             basicAuthHeader,
             CODE,

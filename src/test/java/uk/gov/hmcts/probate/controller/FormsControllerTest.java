@@ -5,11 +5,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.probate.service.SubmitService;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
@@ -32,7 +35,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(value = {FormsController.class}, secure = false)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class FormsControllerTest {
 
     private static final String EMAIL_ADDRESS = "1570130475566595";
@@ -72,8 +76,13 @@ public class FormsControllerTest {
     private CaseSummaryHolder caseSummaryHolder;
     private String caseSummaryHolderStr;
 
+    @Autowired
+    private WebApplicationContext webApplicationContext;
+
     @Before
     public void setUp() throws Exception {
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+
         this.intestacyFormJsonStr = TestUtils.getJSONFromFile("intestacyFormTest.json");
         this.intestacyForm = objectMapper.readValue(intestacyFormJsonStr, IntestacyForm.class);
 
@@ -87,11 +96,11 @@ public class FormsControllerTest {
         this.caseSummaryHolder = objectMapper.readValue(caseSummaryHolderStr, CaseSummaryHolder.class);
 
         paymentDto = PaymentDto.builder()
-                .status("Success")
-                .ccdCaseNumber("123214")
-                .reference("Ref-123456789")
-                .amount(BigDecimal.valueOf(10000L))
-                .build();
+            .status("Success")
+            .ccdCaseNumber("123214")
+            .reference("Ref-123456789")
+            .amount(BigDecimal.valueOf(10000L))
+            .build();
     }
 
     @Test
@@ -99,10 +108,10 @@ public class FormsControllerTest {
         when(submitService.saveCase(eq(EMAIL_ADDRESS), eq(caveatForm))).thenReturn(caveatForm);
 
         mockMvc.perform(post(FORMS_CASE_ENDPOINT + "/" + EMAIL_ADDRESS)
-                .content(caveatFormJsonStr)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json(caveatFormJsonStr, true));
+            .content(caveatFormJsonStr)
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().json(caveatFormJsonStr, true));
         verify(submitService, times(1)).saveCase(eq(EMAIL_ADDRESS), eq(caveatForm));
     }
 
@@ -111,10 +120,10 @@ public class FormsControllerTest {
         when(submitService.saveCase(eq(EMAIL_ADDRESS), eq(intestacyForm))).thenReturn(intestacyForm);
 
         mockMvc.perform(post(FORMS_CASE_ENDPOINT + "/" + EMAIL_ADDRESS)
-                .content(intestacyFormJsonStr)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json(intestacyFormJsonStr, true));
+            .content(intestacyFormJsonStr)
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().json(intestacyFormJsonStr, true));
 
         verify(submitService, times(1)).saveCase(eq(EMAIL_ADDRESS), eq(intestacyForm));
     }
@@ -124,10 +133,10 @@ public class FormsControllerTest {
         when(submitService.initiateCase(eq(ProbateType.INTESTACY))).thenReturn(caseSummaryHolder);
 
         mockMvc.perform(post(FORMS_NEW_CASE_ENDPOINT)
-                .param("probateType", ProbateType.INTESTACY.name())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json(caseSummaryHolderStr, true));
+            .param("probateType", ProbateType.INTESTACY.name())
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().json(caseSummaryHolderStr, true));
 
         verify(submitService, times(1)).initiateCase(eq(ProbateType.INTESTACY));
     }
@@ -139,11 +148,11 @@ public class FormsControllerTest {
         String paymentDtoStr = objectMapper.writeValueAsString(paymentDto);
 
         mockMvc.perform(put(FORMS_ENDPOINT + "/" + EMAIL_ADDRESS + "/" + SUBMISSIONS_ENDPOINT)
-                .param("probateType", ProbateType.PA.name())
-                .content(paymentDtoStr)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json(paFormJsonStr, true));
+            .param("probateType", ProbateType.PA.name())
+            .content(paymentDtoStr)
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().json(paFormJsonStr, true));
 
         verify(submitService, times(1)).update(eq(EMAIL_ADDRESS), eq(ProbateType.PA), eq(paymentDto));
     }
@@ -157,11 +166,11 @@ public class FormsControllerTest {
         String paymentDtoStr = objectMapper.writeValueAsString(paymentDto);
 
         mockMvc.perform(put(FORMS_ENDPOINT + "/" + "123456" + "/" + SUBMISSIONS_ENDPOINT)
-                .param("probateType", ProbateType.INTESTACY.name())
-                .content(paymentDtoStr)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json(paFormJsonStr, true));
+            .param("probateType", ProbateType.INTESTACY.name())
+            .content(paymentDtoStr)
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().json(paFormJsonStr, true));
 
         verify(submitService, times(1)).update(eq("123456"), eq(ProbateType.INTESTACY), eq(paymentDto));
     }
@@ -171,10 +180,10 @@ public class FormsControllerTest {
         when(submitService.getCase(EMAIL_ADDRESS, ProbateType.CAVEAT)).thenReturn(caveatForm);
 
         mockMvc.perform(get(FORMS_CASE_ENDPOINT + "/" + EMAIL_ADDRESS)
-                .param("probateType", ProbateType.CAVEAT.name())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json(caveatFormJsonStr, true));
+            .param("probateType", ProbateType.CAVEAT.name())
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().json(caveatFormJsonStr, true));
         verify(submitService, times(1)).getCase(EMAIL_ADDRESS, ProbateType.CAVEAT);
     }
 
@@ -184,10 +193,10 @@ public class FormsControllerTest {
         when(submitService.getCase(EMAIL_ADDRESS, ProbateType.INTESTACY)).thenReturn(intestacyForm);
 
         mockMvc.perform(get(FORMS_CASE_ENDPOINT + "/" + EMAIL_ADDRESS)
-                .param("probateType", ProbateType.INTESTACY.name())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json(intestacyFormJsonStr, true));
+            .param("probateType", ProbateType.INTESTACY.name())
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().json(intestacyFormJsonStr, true));
         verify(submitService, times(1)).getCase(EMAIL_ADDRESS, ProbateType.INTESTACY);
     }
 
@@ -196,9 +205,9 @@ public class FormsControllerTest {
         when(submitService.getAllCases()).thenReturn(caseSummaryHolder);
 
         mockMvc.perform(get(FORMS_CASES_ENDPOINT)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json(caseSummaryHolderStr, true));
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().json(caseSummaryHolderStr, true));
         verify(submitService, times(1)).getAllCases();
     }
 
@@ -207,10 +216,10 @@ public class FormsControllerTest {
         when(submitService.submit(eq(EMAIL_ADDRESS), eq(caveatForm))).thenReturn(caveatForm);
 
         mockMvc.perform(post(FORMS_ENDPOINT + "/" + EMAIL_ADDRESS + "/" + SUBMISSIONS_ENDPOINT)
-                .content(caveatFormJsonStr)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json(caveatFormJsonStr, true));
+            .content(caveatFormJsonStr)
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().json(caveatFormJsonStr, true));
         verify(submitService, times(1)).submit(eq(EMAIL_ADDRESS), eq(caveatForm));
     }
 
@@ -219,10 +228,10 @@ public class FormsControllerTest {
         when(submitService.updatePayments(eq(EMAIL_ADDRESS), eq(caveatForm))).thenReturn(caveatForm);
 
         mockMvc.perform(post(FORMS_ENDPOINT + "/" + EMAIL_ADDRESS + "/" + PAYMENTS_ENDPOINT)
-                .content(caveatFormJsonStr)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json(caveatFormJsonStr, true));
+            .content(caveatFormJsonStr)
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().json(caveatFormJsonStr, true));
         verify(submitService, times(1)).updatePayments(eq(EMAIL_ADDRESS), eq(caveatForm));
     }
 
@@ -231,10 +240,10 @@ public class FormsControllerTest {
         when(submitService.validate(eq(EMAIL_ADDRESS), eq(ProbateType.PA))).thenReturn(paForm);
 
         mockMvc.perform(put(FORMS_ENDPOINT + "/" + EMAIL_ADDRESS + "/" + VALIDATIONS_ENDPOINT)
-                .param("probateType", ProbateType.PA.name())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json(paFormJsonStr, true));
+            .param("probateType", ProbateType.PA.name())
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().json(paFormJsonStr, true));
 
         verify(submitService, times(1)).validate(eq(EMAIL_ADDRESS), eq(ProbateType.PA));
     }
