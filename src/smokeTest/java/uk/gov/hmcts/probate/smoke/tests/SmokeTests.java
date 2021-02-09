@@ -40,5 +40,14 @@ public class SmokeTests {
                 .then()
                 .statusCode(HttpStatus.OK.value());
     }
+
+    @Test
+    public void shouldGetOkStatusFromHealthLivenessCheck() {
+        given().config(config)
+            .when()
+            .get(url + "/health/liveness")
+            .then()
+            .statusCode(HttpStatus.OK.value());
+    }
 }
 
