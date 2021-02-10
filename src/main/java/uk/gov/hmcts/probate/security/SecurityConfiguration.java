@@ -107,6 +107,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .sessionManagement().sessionCreationPolicy(STATELESS).and()
                     .formLogin().disable()
                     .logout().disable()
+                    .authorizeRequests()
+                    .anyRequest()
+                    .authenticated()
+                    .and()
                     .exceptionHandling()
                     .authenticationEntryPoint(authenticationExceptionHandler);
 
