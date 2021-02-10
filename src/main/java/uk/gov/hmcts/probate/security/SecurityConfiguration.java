@@ -105,7 +105,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .and()
                     .addFilter(authCheckerServiceOnlyFilter)
                     .sessionManagement().sessionCreationPolicy(STATELESS).and()
-                    .csrf().disable()
                     .formLogin().disable()
                     .logout().disable()
                     .authorizeRequests()
@@ -117,6 +116,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         }
 
+        @Override
         public void configure(WebSecurity web) {
             web.ignoring().antMatchers("/swagger-ui.html",
                     "/swagger-resources/**",
