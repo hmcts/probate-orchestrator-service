@@ -579,4 +579,11 @@
         <vulnerabilityName>CVE-2020-35491</vulnerabilityName>
         <vulnerabilityName>CVE-2020-35728</vulnerabilityName>
     </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: tomcat-embed-core-9.0.38.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.tomcat\.embed/tomcat\-embed\-core@.*$</packageUrl>
+        <vulnerabilityName>CVE-2021-24122</vulnerabilityName>
+    </suppress>
   </suppressions>
