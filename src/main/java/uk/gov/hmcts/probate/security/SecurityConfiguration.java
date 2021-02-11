@@ -108,6 +108,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .formLogin().disable()
                     .logout().disable()
                     .authorizeRequests()
+                    .antMatchers("/payment-updates")
+                    .authenticated()
                     .and()
                     .exceptionHandling()
                     .authenticationEntryPoint(authenticationExceptionHandler);
