@@ -71,6 +71,17 @@ public interface BackOfficeApi {
     );
 
     @PostMapping(
+            value = "/data-extract/exela",
+            headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+    )
+    ResponseEntity<String> initiateExelaExtractDateRange(
+            @RequestHeader(AUTHORIZATION) String authorisation,
+            @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+            @RequestParam(value = "fromDate", required = false) String fromDate,
+            @RequestParam(value = "toDate", required = false) String toDate
+    );
+
+    @PostMapping(
             value = "/notify/application-received",
             headers = {
                     CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE,

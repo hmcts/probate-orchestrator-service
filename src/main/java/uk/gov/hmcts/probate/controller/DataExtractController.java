@@ -85,7 +85,7 @@ public class DataExtractController {
 
     @ApiOperation(value = "Initiate Excela data extract", notes = " Date MUST be in format 'yyyy-MM-dd'")
     @PostMapping(path = "/exela/{fromDate}/{toDate}")
-    public ResponseEntity initiateExelaExtract(@ApiParam(value = "Date range to find cases against", required = true)
+    public ResponseEntity initiateExelaExtractDateRange(@ApiParam(value = "Date range to find cases against", required = true)
                                                    @PathVariable("fromDate") String fromDate,
                                                    @PathVariable("toDate") String toDate) {
 
