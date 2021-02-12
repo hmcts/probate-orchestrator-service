@@ -9,4 +9,6 @@ public interface DataExtractService {
     ResponseEntity initiateIronMountainExtract(String date);
 
     ResponseEntity initiateExelaExtract(String date);
+
+    ResponseEntity initiateExelaExtractDateRange(String fromDate, String toDate);
 }
