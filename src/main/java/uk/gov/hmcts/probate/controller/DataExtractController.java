@@ -80,7 +80,7 @@ public class DataExtractController {
                                                 @PathVariable("date") String date) {
 
         log.info("Calling perform Excela data extract from date...");
-        return dataExtractService.initiateExelaExtract(date);
+        return initiateExelaExtractDateRange(date, date);
     }
 
     @ApiOperation(value = "Initiate Excela data extract", notes = " Date MUST be in format 'yyyy-MM-dd'")
