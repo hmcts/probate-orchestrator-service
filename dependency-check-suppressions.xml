@@ -301,6 +301,7 @@
         <cve>CVE-2020-11996</cve>
         <cve>CVE-2020-9484</cve>
         <cve>CVE-2020-17527</cve>
+        <cve>CVE-2021-24122</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[
@@ -586,4 +587,4 @@
         <vulnerabilityName>CVE-2020-35491</vulnerabilityName>
         <vulnerabilityName>CVE-2020-35728</vulnerabilityName>
     </suppress>
-  </suppressions>
+</suppressions>
