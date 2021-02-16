@@ -11,10 +11,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
-import uk.gov.hmcts.probate.core.service.mapper.CaseSummaryMapper;
-import uk.gov.hmcts.probate.core.service.mapper.CaveatMapper;
-import uk.gov.hmcts.probate.core.service.mapper.FormMapper;
-import uk.gov.hmcts.probate.core.service.mapper.IntestacyMapper;
+import uk.gov.hmcts.probate.core.service.mapper.*;
 import uk.gov.hmcts.probate.service.BackOfficeService;
 import uk.gov.hmcts.reform.probate.model.PaymentStatus;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
@@ -80,6 +77,9 @@ public class SubmitServiceImplTest {
     private BackOfficeService backOfficeService;
 
     @Mock
+    private PaymentDtoMapper paymentDtoMapper;
+
+    @Mock
     private SecurityUtils securityUtils;
 
     @Mock
@@ -121,7 +121,7 @@ public class SubmitServiceImplTest {
                 .put(ProbateType.INTESTACY, intestacyMapper)
                 .put(ProbateType.CAVEAT, caveatMapper)
                 .build();
-        submitService = new SubmitServiceImpl(mappers, submitServiceApi, backOfficeService, securityUtils,
+        submitService = new SubmitServiceImpl(mappers, paymentDtoMapper, submitServiceApi, backOfficeService, securityUtils,
                 identifierConfiguration.formIdentifierFunctionMap(), caseSubmissionUpdater, caseSummaryMapper);
 
         when(securityUtils.getAuthorisation()).thenReturn(AUTHORIZATION);
@@ -166,7 +166,6 @@ public class SubmitServiceImplTest {
                         .atZone(ZoneId.systemDefault())
                         .toInstant()))
                 .build();
-
 
     }
 
@@ -286,15 +285,18 @@ public class SubmitServiceImplTest {
         when(submitServiceApi.createCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
                 eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class))).thenReturn(intestacyCaseDetails);
 
+        CasePayment casePayment = CasePayment.builder().build();
+        when(paymentDtoMapper.toCasePayment(paymentDto)).thenReturn(casePayment);
+
         Form formResponse = submitService.update(EMAIL_ADDRESS, ProbateType.INTESTACY, paymentDto);
 
         assertThat(formResponse, is(intestacyForm));
-        verify(submitServiceApi, times(2)).getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
+        verify(submitServiceApi, times(1)).getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
                 EMAIL_ADDRESS, CaseType.GRANT_OF_REPRESENTATION.name());
         verify(submitServiceApi, times(1)).createCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
                 eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class));
-        verify(securityUtils, times(2)).getAuthorisation();
-        verify(securityUtils, times(2)).getServiceAuthorisation();
+        verify(securityUtils, times(1)).getAuthorisation();
+        verify(securityUtils, times(1)).getServiceAuthorisation();
     }
 
 
