@@ -77,8 +77,8 @@ public interface BackOfficeApi {
     ResponseEntity<String> initiateExelaExtractDateRange(
             @RequestHeader(AUTHORIZATION) String authorisation,
             @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
-            @RequestParam(value = "fromDate", required = false) String fromDate,
-            @RequestParam(value = "toDate", required = false) String toDate
+            @RequestParam(value = "fromDate", required = true) String fromDate,
+            @RequestParam(value = "toDate", required = true) String toDate
     );
 
     @PostMapping(

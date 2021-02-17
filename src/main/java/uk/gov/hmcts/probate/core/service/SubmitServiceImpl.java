@@ -9,31 +9,23 @@ import org.springframework.util.CollectionUtils;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.mapper.CaseSummaryMapper;
 import uk.gov.hmcts.probate.core.service.mapper.FormMapper;
+import uk.gov.hmcts.probate.core.service.mapper.PaymentDtoMapper;
 import uk.gov.hmcts.probate.service.BackOfficeService;
 import uk.gov.hmcts.probate.service.SubmitService;
 import uk.gov.hmcts.reform.probate.model.PaymentStatus;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
-import uk.gov.hmcts.reform.probate.model.cases.CaseData;
-import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
-import uk.gov.hmcts.reform.probate.model.cases.CaseType;
-import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
-import uk.gov.hmcts.reform.probate.model.cases.SubmitResult;
+import uk.gov.hmcts.reform.probate.model.cases.*;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.forms.CaseSummary;
 import uk.gov.hmcts.reform.probate.model.forms.CaseSummaryHolder;
 import uk.gov.hmcts.reform.probate.model.forms.CcdCase;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
-import uk.gov.hmcts.reform.probate.model.forms.Payment;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaForm;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -43,6 +35,8 @@ import java.util.stream.Collectors;
 public class SubmitServiceImpl implements SubmitService {
 
     private final Map<ProbateType, FormMapper> mappers;
+
+    private final PaymentDtoMapper paymentDtoMapper;
 
     private final SubmitServiceApi submitServiceApi;
 
@@ -173,25 +167,34 @@ public class SubmitServiceImpl implements SubmitService {
 
     @Override
     public Form update(String identifier, ProbateType probateType, PaymentDto paymentDto) {
-        log.info("Update called for payments");
-        Form form = getCase(identifier, probateType);
-        log.info("Case returned now update payment");
-        return updatePayment(identifier, form, paymentDto);
-    }
+        String authorisation = securityUtils.getAuthorisation();
+        String serviceAuthorisation = securityUtils.getServiceAuthorisation();
+        log.info("Get existing case from submit service");
+        ProbateCaseDetails existingCase = submitServiceApi.getCase(authorisation,
+                serviceAuthorisation, identifier, probateType.getCaseType().name());
 
-    private Form updatePayment(String identifier, Form form, PaymentDto paymentDto) {
-        Payment payment = Payment.builder()
-                .reference(paymentDto.getReference())
-                .status(PaymentStatus.getPaymentStatusByName(paymentDto.getStatus()))
-                .date(paymentDto.getDateCreated())
-                .method(paymentDto.getMethod())
-                .status(PaymentStatus.getPaymentStatusByName(paymentDto.getStatus()))
-                .amount(paymentDto.getAmount())
-                .total(paymentDto.getAmount())
-                .build();
-        form.setPayment(payment);
-        log.info("Payment built - update on form");
-        return updatePayments(identifier, form);
+        log.info("Got existing case now set payment on this case");
+        CasePayment casePayment = paymentDtoMapper.toCasePayment(paymentDto);
+        CollectionMember<CasePayment> collectionMember = new CollectionMember<CasePayment>();
+        collectionMember.setValue(casePayment);
+        existingCase.getCaseData().setPayments(Arrays.asList(collectionMember));
+
+        log.info("Send notification");
+        sendNotification(existingCase);
+
+        log.info("Update case for submission");
+        updateCaseForSubmission(existingCase);
+
+        log.debug("calling create case in submitServiceApi");
+        ProbateCaseDetails probateCaseDetails = submitServiceApi.createCase(
+                authorisation,
+                serviceAuthorisation,
+                identifier,
+                existingCase
+        );
+
+        FormMapper formMapper = getFormMapper(probateType, probateCaseDetails);
+        return mapFromCase(formMapper, probateCaseDetails);
     }
 
     private void assertIdentifier(String identifier, Form form) {
@@ -230,7 +233,7 @@ public class SubmitServiceImpl implements SubmitService {
         log.info("Update case for submission");
         updateCaseForSubmission(existingCase);
         //TODO: PRO-5580 - Uncomment once applicationSubmittedDate has been re-added to the spreadsheet
-
+        
         log.debug("calling create case in submitServiceApi");
         ProbateCaseDetails probateCaseDetails = submitServiceApi.createCase(
                 authorisation,
