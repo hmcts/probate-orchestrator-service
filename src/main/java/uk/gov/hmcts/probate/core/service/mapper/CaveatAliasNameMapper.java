@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Component
 public class CaveatAliasNameMapper {
@@ -34,13 +33,14 @@ public class CaveatAliasNameMapper {
     }
 
     @FromCaveatCollectionMember
-    public Map<String, AliasOtherNames> fromCaveatCollectionMember(List<CollectionMember<FullAliasName>> collectionMembers) {
+    public Map<String, AliasOtherNames> fromCaveatCollectionMember(
+        List<CollectionMember<FullAliasName>> collectionMembers) {
         if (CollectionUtils.isEmpty(collectionMembers)) {
             return null;//NOSONAR
         }
         Map<String, AliasOtherNames> result = new HashMap<>();
         collectionMembers.forEach(collectionMember -> {
-             result.put(collectionMember.getId(), createAliasOtherName(collectionMember.getValue()));
+            result.put(collectionMember.getId(), createAliasOtherName(collectionMember.getValue()));
         });
 
         return result;
@@ -50,7 +50,7 @@ public class CaveatAliasNameMapper {
         if (fullAliasName == null) {
             return null;//NOSONAR
         }
-        int separation = fullAliasName.getFullAliasName().lastIndexOf(' ' );
+        int separation = fullAliasName.getFullAliasName().lastIndexOf(' ');
         String value = fullAliasName.getFullAliasName();
         String firstName = value.substring(0, separation);
         String lastName = value.substring(separation + 1, value.length());

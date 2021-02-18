@@ -12,7 +12,9 @@ import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.forms.pa.Executor;
 
-@Mapper(componentModel = "spring", uses ={AddressMapper.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE, imports = {BooleanUtils.class, AddressMapper.class, AliasReason.class}
+@Mapper(componentModel = "spring", uses = {
+    AddressMapper.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE, imports = {BooleanUtils.class,
+    AddressMapper.class, AliasReason.class}
 )
 public interface ExecutorApplyingMapper {
 
@@ -27,10 +29,10 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "value.applyingExecutorOtherNamesReason", expression = "java(BooleanUtils.isTrue(executor.getHasOtherName()) ? AliasReason.fromString(executor.getCurrentNameReason()) : null)")
     @Mapping(target = "value.applyingExecutorOtherReason", expression = "java(BooleanUtils.isTrue(executor.getHasOtherName()) ? executor.getOtherReason() : null)")
     @Mapping(target = "value.applyingExecutorInvitationId", source = "inviteId")
-    @Mapping( target ="value.applyingExecutorLeadName", source ="leadExecutorName")
-    @Mapping( target ="value.applyingExecutorAgreed", source ="executorAgreed")
-    @Mapping( target ="value.applyingExecutorApplicant", source ="isApplicant")
-    @Mapping( target ="value.applyingExecutorPostCode", source ="postcode")
+    @Mapping(target = "value.applyingExecutorLeadName", source = "leadExecutorName")
+    @Mapping(target = "value.applyingExecutorAgreed", source = "executorAgreed")
+    @Mapping(target = "value.applyingExecutorApplicant", source = "isApplicant")
+    @Mapping(target = "value.applyingExecutorPostCode", source = "postcode")
     CollectionMember<ExecutorApplying> toExecutorApplying(Executor executor);
 
 
