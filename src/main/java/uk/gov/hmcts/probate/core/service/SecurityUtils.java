@@ -1,8 +1,10 @@
 package uk.gov.hmcts.probate.core.service;
 
 import java.util.Base64;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,10 +13,13 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.gov.hmcts.probate.client.IdamClientApi;
+import uk.gov.hmcts.probate.model.exception.AuthenticationError;
 import uk.gov.hmcts.probate.model.idam.AuthenticateUserResponse;
 import uk.gov.hmcts.probate.model.idam.TokenExchangeResponse;
-import uk.gov.hmcts.reform.auth.checker.spring.serviceanduser.ServiceAndUserDetails;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
+import uk.gov.hmcts.reform.authorisation.validators.AuthTokenValidator;
+
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Component
 @Slf4j
@@ -22,6 +27,8 @@ import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 public class SecurityUtils {
 
     private final AuthTokenGenerator authTokenGenerator;
+    private final AuthTokenValidator authTokenValidator;
+    private final List<String> allowedToUpdateDetails;
 
     private static final String BASIC = "Basic ";
     private static final String BEARER = "Bearer ";
@@ -50,6 +57,18 @@ public class SecurityUtils {
     private String schedulerPassword;
 
     private final IdamClientApi idamClient;
+
+    @Autowired
+    public SecurityUtils(IdamClientApi idamClient,
+                         AuthTokenValidator authTokenValidator,
+                         AuthTokenGenerator authTokenGenerator,
+                         @Value("${auth.idam.s2s-auth.services-allowed-to-payment-update}")
+                             List<String> allowedToUpdateDetails) {
+        this.authTokenGenerator = authTokenGenerator;
+        this.authTokenValidator = authTokenValidator;
+        this.allowedToUpdateDetails = allowedToUpdateDetails;
+        this.idamClient = idamClient;
+    }
 
     public String getServiceAuthorisation() {
         return authTokenGenerator.generate();
@@ -105,5 +124,27 @@ public class SecurityUtils {
     private String getBasicAuthHeader(String username, String password) {
         String authorisation = username + ":" + password;
         return BASIC + Base64.getEncoder().encodeToString(authorisation.getBytes());
+    }
+
+    public void checkIfServiceIsAllowed(String token) throws AuthenticationError {
+        String serviceName = this.authenticate(token);
+    }
+
+    public String getBearerToken(String token) {
+        if (StringUtils.isBlank(token)) {
+            return token;
+        }
+
+        return token.startsWith(BEARER) ? token : BEARER.concat(token);
+    }
+
+    private String authenticate(String authHeader) throws AuthenticationError {
+        if (isBlank(authHeader)) {
+            throw new AuthenticationError("Provided S2S token is missing or invalid");
+        }
+        String bearerAuthToken = getBearerToken(authHeader);
+        log.info("S2S token found in the request");
+
+        return authTokenValidator.getServiceName(bearerAuthToken);
     }
 }

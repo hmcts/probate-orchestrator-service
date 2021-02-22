@@ -1,5 +1,6 @@
 package uk.gov.hmcts.probate.controller;
 
+import org.apache.http.auth.AUTH;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class PaymentUpdateControllerTest {
 
     private static final String PAYMENT_UPDATES = "/payment-updates";
+    public static final String AUTH_TOKEN = "payService";
 
     @MockBean
     private PaymentUpdateService paymentUpdateService;
