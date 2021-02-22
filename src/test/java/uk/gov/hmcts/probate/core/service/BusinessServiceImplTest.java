@@ -156,16 +156,15 @@ public class BusinessServiceImplTest {
 
         when(businessServiceApi.invite(invitation, sessionId)).thenReturn(invitationId);
 
-
+        String result = businessService.sendInvitation(invitation, sessionId);
 
         verify(businessServiceApi).invite(invitation, sessionId);
         verifyGetCaseCalls();
-        verify(mockGrantOfRepresentationData)
-            .setInvitationDetailsForExecutorApplying(invitation.getEmail(), invitationId,
-                invitation.getLeadExecutorName(), executorName);
-        verify(submitServiceApi).saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
-        String result = businessService.sendInvitation(invitation, sessionId);
         Assert.assertThat(result, Matchers.equalTo(invitationId));
+        verify(mockGrantOfRepresentationData).setInvitationDetailsForExecutorApplying(invitation.getEmail(),
+            invitationId, invitation.getLeadExecutorName(), executorName);
+        verify(submitServiceApi).saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
+
     }
 
     @Test
