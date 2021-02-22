@@ -59,11 +59,11 @@ public class TestTokenGenerator {
 
     private String generateClientToken(String email) {
         String code = generateClientCode(email);
-        String token = RestAssured.given().post(idamUserBaseUrl + "/oauth2/token?" + "code=" + code +
-                "&client_secret=" + secret +
-                "&client_id=" + clientId +
-                "&redirect_uri=" + redirectUri +
-                "&grant_type=authorization_code")
+        String token = RestAssured.given().post(idamUserBaseUrl + "/oauth2/token?" + "code=" + code
+            + "&client_secret=" + secret
+            + "&client_id=" + clientId
+            + "&redirect_uri=" + redirectUri
+            + "&grant_type=authorization_code")
                 .body().path("access_token");
         return token;
     }

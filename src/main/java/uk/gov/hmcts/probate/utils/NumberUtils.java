@@ -8,10 +8,10 @@ import java.math.RoundingMode;
 @UtilityClass
 public class NumberUtils {
 
-    private final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
+    private final BigDecimal oneHundred = BigDecimal.valueOf(100);
 
     public BigDecimal penniesToPounds(Long value) {
-        return BigDecimal.valueOf(value).divide(ONE_HUNDRED, 2, RoundingMode.HALF_UP);
+        return BigDecimal.valueOf(value).divide(oneHundred, 2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal defaultToZero(BigDecimal value) {

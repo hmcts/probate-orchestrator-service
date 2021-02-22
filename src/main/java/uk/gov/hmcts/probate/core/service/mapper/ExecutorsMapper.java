@@ -31,7 +31,8 @@ public class ExecutorsMapper {
             return null;//NOSONAR
         }
         return executors.stream()
-            .filter(executor -> executor.getIsApplying() == null || BooleanUtils.isFalse(executor.getIsApplying()))
+            .filter(executor -> executor.getIsApplying() == null
+                || BooleanUtils.isFalse(executor.getIsApplying()))
             .map(executorNotApplyingMapper::toExecutorNotApplying)
             .sorted(Comparator.comparing(e -> e.getValue().getNotApplyingExecutorName()))
             .collect(Collectors.toList());
@@ -43,8 +44,8 @@ public class ExecutorsMapper {
             return null;//NOSONAR
         }
         return executors.stream()
-            .filter(executor -> BooleanUtils.isTrue(executor.getIsApplying()) &&
-                !BooleanUtils.isTrue(executor.getIsApplicant()))
+            .filter(executor -> BooleanUtils.isTrue(executor.getIsApplying())
+                && !BooleanUtils.isTrue(executor.getIsApplicant()))
             .map(executorApplyingMapper::toExecutorApplying)
             .sorted(Comparator.comparing(e -> e.getValue().getApplyingExecutorName()))
             .collect(Collectors.toList());
@@ -52,9 +53,9 @@ public class ExecutorsMapper {
 
     @FromCollectionMember
     List<Executor> fromCollectionMember(GrantOfRepresentationData grantOfRepresentationData) {
-        if (grantOfRepresentationData == null ||
-            (grantOfRepresentationData.getExecutorsApplying() == null &&
-                grantOfRepresentationData.getExecutorsNotApplying() == null)) {
+        if (grantOfRepresentationData == null
+            || (grantOfRepresentationData.getExecutorsApplying() == null
+                && grantOfRepresentationData.getExecutorsNotApplying() == null)) {
             return null;//NOSONAR
         }
         List<Executor> executors = new ArrayList<>();
@@ -68,7 +69,8 @@ public class ExecutorsMapper {
 
         addPrimaryApplicantExecutor(grantOfRepresentationData, applyingExecutors);
         executors = applyingExecutors.stream()
-            .sorted(Comparator.comparing(e -> e.getIsApplicant() == null || !e.getIsApplicant()))
+            .sorted(Comparator.comparing(e -> e.getIsApplicant() == null
+                || !e.getIsApplicant()))
             .collect(Collectors.toList());
 
         if (grantOfRepresentationData.getExecutorsNotApplying() != null) {
@@ -84,8 +86,8 @@ public class ExecutorsMapper {
                                              List<Executor> executors) {
         Executor primaryApplicant = Executor.builder()
             .isApplying(Boolean.TRUE)
-            .fullName(grantOfRepresentationData.getPrimaryApplicantForenames() + " " +
-                grantOfRepresentationData.getPrimaryApplicantSurname())
+            .fullName(grantOfRepresentationData.getPrimaryApplicantForenames()
+                + " " + grantOfRepresentationData.getPrimaryApplicantSurname())
             .firstName(grantOfRepresentationData.getPrimaryApplicantForenames())
             .lastName(grantOfRepresentationData.getPrimaryApplicantSurname())
             .isApplicant(Boolean.TRUE)

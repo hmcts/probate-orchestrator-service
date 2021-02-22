@@ -25,7 +25,7 @@ public class GrantAwaitingDocumentsNotifier {
 
         GrantScheduleResponse response = backOfficeService.initiateGrantAwaitingDocumentsNotification(yesterday);
         String updates = response.getScheduleResponseData().stream().collect(Collectors.joining(","));
-        log.info("Grant awaiting documents notification completed for date: {} " +
-            "for {} cases, details: {}", yesterday, response.getScheduleResponseData().size(), updates);
+        log.info("Grant awaiting documents notification completed for date: {} "
+            + "for {} cases, details: {}", yesterday, response.getScheduleResponseData().size(), updates);
     }
 }

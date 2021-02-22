@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import uk.gov.hmcts.probate.functional.IntegrationTestBase;
 
 @RunWith(SpringIntegrationSerenityRunner.class)
-public class PaymentUpdateControllerFunctionalTests extends IntegrationTestBase{
+public class PaymentUpdateControllerFunctionalTests extends IntegrationTestBase {
     private static final String PAYMENT_UPDATE_URL = "/payment-updates";
 
     @Test

@@ -54,7 +54,9 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "grantType", expression = "java(GrantType.INTESTACY)")
     @Mapping(target = "primaryApplicantForenames", source = "applicant.firstName")
     @Mapping(target = "primaryApplicantSurname", source = "applicant.lastName")
-    @Mapping(target = "primaryApplicantRelationshipToDeceased", expression = "java(form.getApplicant()!= null && form.getApplicant().getRelationshipToDeceased() != null ? Relationship.fromString(form.getApplicant().getRelationshipToDeceased()) : null)")
+    @Mapping(target = "primaryApplicantRelationshipToDeceased", expression =
+        "java(form.getApplicant()!= null && form.getApplicant().getRelationshipToDeceased() != null ? "
+        + "Relationship.fromString(form.getApplicant().getRelationshipToDeceased()) : null)")
     @Mapping(target = "primaryApplicantAdoptionInEnglandOrWales", source = "applicant.adoptionInEnglandOrWales")
     @Mapping(target = "primaryApplicantPhoneNumber", source = "applicant.phoneNumber")
     @Mapping(target = "primaryApplicantEmailAddress",
@@ -72,15 +74,19 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "deceasedAnyOtherNames", source = "deceased.alias")
     @Mapping(target = "deceasedForeignDeathCertInEnglish", source = "deceased.englishForeignDeathCert")
     @Mapping(target = "deceasedForeignDeathCertTranslation", source = "deceased.foreignDeathCertTranslation")
-    @Mapping(target = "deceasedMaritalStatus", expression = "java(form.getDeceased()!= null ? MaritalStatus.fromString(form.getDeceased().getMaritalStatus()) : null)")
+    @Mapping(target = "deceasedMaritalStatus", expression = "java(form.getDeceased()!= null ? "
+        + "MaritalStatus.fromString(form.getDeceased().getMaritalStatus()) : null)")
     @Mapping(target = "deceasedDivorcedInEnglandOrWales", source = "deceased.divorcedInEnglandOrWales")
     @Mapping(target = "deceasedOtherChildren", source = "deceased.otherChildren")
     @Mapping(target = "declarationCheckbox", source = "declaration.declarationCheckbox")
     @Mapping(target = "legalStatement", source = "declaration.legalStatement")
     @Mapping(target = "allDeceasedChildrenOverEighteen", source = "deceased.allDeceasedChildrenOverEighteen")
     @Mapping(target = "childrenDied", source = "deceased.anyDeceasedChildrenDieBeforeDeceased")
-    @Mapping(target = "anyDeceasedGrandChildrenUnderEighteen", source = "deceased.anyDeceasedGrandchildrenUnderEighteen")
-    @Mapping(target = "deceasedSpouseNotApplyingReason", expression = "java(form.getApplicant()!= null && form.getApplicant().getSpouseNotApplyingReason() != null ? SpouseNotApplyingReason.fromString(form.getApplicant().getSpouseNotApplyingReason()) : null)")
+    @Mapping(target = "anyDeceasedGrandChildrenUnderEighteen",
+        source = "deceased.anyDeceasedGrandchildrenUnderEighteen")
+    @Mapping(target = "deceasedSpouseNotApplyingReason", expression = "java(form.getApplicant()!= null && "
+        + "form.getApplicant().getSpouseNotApplyingReason() != null ? "
+        + "SpouseNotApplyingReason.fromString(form.getApplicant().getSpouseNotApplyingReason()) : null)")
     @Mapping(target = "deceasedAnyChildren", source = "deceased.anyChildren")
     @Mapping(target = "deceasedAliasNameList", source = "deceased.otherNames",
         qualifiedBy = {ToCollectionMember.class})
@@ -89,10 +95,11 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "deceasedHasAssetsOutsideUK", source = "iht.assetsOutside")
     @Mapping(target = "ihtReferenceNumber", expression =
         "java(form.getIht() != null && form.getIht().getMethod() == IhtMethod.ONLINE ? "
-            + "form.getIht().getIdentifier() : form.getIht() != null ? \"Not applicable\" : null)")
+        + "form.getIht().getIdentifier() : form.getIht() != null ? \"Not applicable\" : null)")
     @Mapping(target = "ihtFormId", expression =
-        "java(form.getIht() != null && form.getIht().getMethod() == IhtMethod.ONLINE ? " +
-            "IhtFormType.NOTAPPLICABLE : (form.getIht() !=null && form.getIht().getIhtFormId() !=null ? IhtFormType.valueOf(form.getIht().getIhtFormId()) : null))")
+        "java(form.getIht() != null && form.getIht().getMethod() == IhtMethod.ONLINE ? "
+        + "IhtFormType.NOTAPPLICABLE : (form.getIht() !=null && form.getIht().getIhtFormId() !=null ? "
+        + "IhtFormType.valueOf(form.getIht().getIhtFormId()) : null))")
     @Mapping(target = "ihtFormCompletedOnline", source = "iht.method", qualifiedBy = {FromIhtMethod.class})
     @Mapping(target = "ihtNetValue", source = "iht.netValue", qualifiedBy = {ToPennies.class})
     @Mapping(target = "ihtGrossValue", source = "iht.grossValue", qualifiedBy = {ToPennies.class})
@@ -113,7 +120,8 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
         ToDocumentLink.class})
     @Mapping(target = "languagePreferenceWelsh", source = "language.bilingual")
     @Mapping(target = "deceasedDiedEngOrWales", source = "deceased.diedEngOrWales")
-    @Mapping(target = "deceasedDeathCertificate", expression = "java(form.getDeceased()!= null ? DeathCertificate.fromString(form.getDeceased().getDeathCertificate()) : null)")
+    @Mapping(target = "deceasedDeathCertificate", expression = "java(form.getDeceased()!= null ? "
+        + "DeathCertificate.fromString(form.getDeceased().getDeathCertificate()) : null)")
     GrantOfRepresentationData toCaseData(IntestacyForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.INTESTACY)")
@@ -124,33 +132,54 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "deceased.dateOfDeath", source = "deceasedDateOfDeath", qualifiedBy = {FromLocalDate.class})
     @Mapping(target = "deceased.otherNames", source = "deceasedAliasNameList", qualifiedBy = {
         FromCollectionMember.class})
-    @Mapping(target = "deceased.maritalStatus", expression = "java(grantOfRepresentationData.getDeceasedMaritalStatus()!=null ? grantOfRepresentationData.getDeceasedMaritalStatus().getDescription() : null)")
-    @Mapping(target = "deceased.foreignDeathCertTranslation", expression = "java(grantOfRepresentationData.isDeceasedForeignDeathCertTranslated())")
-    @Mapping(target = "deceased.deathCertificate", expression = "java(grantOfRepresentationData.getDeceasedDeathCert())")
+    @Mapping(target = "deceased.maritalStatus", expression =
+        "java(grantOfRepresentationData.getDeceasedMaritalStatus()!=null ? "
+        + "grantOfRepresentationData.getDeceasedMaritalStatus().getDescription() : null)")
+    @Mapping(target = "deceased.foreignDeathCertTranslation",
+        expression = "java(grantOfRepresentationData.isDeceasedForeignDeathCertTranslated())")
+    @Mapping(target = "deceased.deathCertificate",
+        expression = "java(grantOfRepresentationData.getDeceasedDeathCert())")
     @Mapping(target = "deceased.postcode", source = "deceasedPostCode")
-    @Mapping(target = "applicant.spouseNotApplyingReason", expression = "java(grantOfRepresentationData.getDeceasedSpouseNotApplyingReason()!=null ? grantOfRepresentationData.getDeceasedSpouseNotApplyingReason().getDescription() : null)")
+    @Mapping(target = "applicant.spouseNotApplyingReason",
+        expression = "java(grantOfRepresentationData.getDeceasedSpouseNotApplyingReason()!=null ? "
+        + "grantOfRepresentationData.getDeceasedSpouseNotApplyingReason().getDescription() : null)")
     @Mapping(target = "registry.name", source = "registryLocation", qualifiedBy = {FromRegistryLocation.class})
     @Mapping(target = "registry.address", source = "registryAddress")
     @Mapping(target = "registry.email", source = "registryEmailAddress")
     @Mapping(target = "registry.sequenceNumber", source = "registrySequenceNumber")
     @Mapping(target = "iht.netValue", source = "ihtNetValue", qualifiedBy = {ToPounds.class})
     @Mapping(target = "iht.grossValue", source = "ihtGrossValue", qualifiedBy = {ToPounds.class})
-    @Mapping(target = "iht.grossIht205", expression = "java(IhtValuesMapper.getGrossIht205(grantOfRepresentationData.getIhtFormId(), grantOfRepresentationData.getIhtGrossValue()))")
-    @Mapping(target = "iht.netIht205", expression = "java(IhtValuesMapper.getNetIht205(grantOfRepresentationData.getIhtFormId(), grantOfRepresentationData.getIhtNetValue()))")
-    @Mapping(target = "iht.grossIht207", expression = "java(IhtValuesMapper.getGrossIht207(grantOfRepresentationData.getIhtFormId(), grantOfRepresentationData.getIhtGrossValue()))")
-    @Mapping(target = "iht.netIht207", expression = "java(IhtValuesMapper.getNetIht207(grantOfRepresentationData.getIhtFormId(), grantOfRepresentationData.getIhtNetValue()))")
-    @Mapping(target = "iht.grossIht400421", expression = "java(IhtValuesMapper.getGrossIht400421(grantOfRepresentationData.getIhtFormId(), grantOfRepresentationData.getIhtGrossValue()))")
-    @Mapping(target = "iht.netIht400421", expression = "java(IhtValuesMapper.getNetIht400421(grantOfRepresentationData.getIhtFormId(), grantOfRepresentationData.getIhtNetValue()))")
+    @Mapping(target = "iht.grossIht205",
+        expression = "java(IhtValuesMapper.getGrossIht205(grantOfRepresentationData.getIhtFormId(), "
+        + "grantOfRepresentationData.getIhtGrossValue()))")
+    @Mapping(target = "iht.netIht205",
+        expression = "java(IhtValuesMapper.getNetIht205(grantOfRepresentationData.getIhtFormId(), "
+        + "grantOfRepresentationData.getIhtNetValue()))")
+    @Mapping(target = "iht.grossIht207",
+        expression = "java(IhtValuesMapper.getGrossIht207(grantOfRepresentationData.getIhtFormId(), "
+        + "grantOfRepresentationData.getIhtGrossValue()))")
+    @Mapping(target = "iht.netIht207",
+        expression = "java(IhtValuesMapper.getNetIht207(grantOfRepresentationData.getIhtFormId(), "
+        + "grantOfRepresentationData.getIhtNetValue()))")
+    @Mapping(target = "iht.grossIht400421",
+        expression = "java(IhtValuesMapper.getGrossIht400421(grantOfRepresentationData.getIhtFormId(), "
+        + "grantOfRepresentationData.getIhtGrossValue()))")
+    @Mapping(target = "iht.netIht400421",
+        expression = "java(IhtValuesMapper.getNetIht400421(grantOfRepresentationData.getIhtFormId(), "
+        + "grantOfRepresentationData.getIhtNetValue()))")
     @Mapping(target = "iht.form", source = "ihtFormId")
     @Mapping(target = "iht.ihtFormId", source = "ihtFormId")
     @Mapping(target = "iht.method", source = "ihtFormCompletedOnline", qualifiedBy = {ToIhtMethod.class})
     @Mapping(target = "iht.identifier", expression =
-        "java(grantOfRepresentationData.getIhtReferenceNumber() == null || grantOfRepresentationData.getIhtReferenceNumber().equals(\"Not applicable\") ? "
-            + "null : grantOfRepresentationData.getIhtReferenceNumber())")
+        "java(grantOfRepresentationData.getIhtReferenceNumber() == null || "
+        + "grantOfRepresentationData.getIhtReferenceNumber().equals(\"Not applicable\") ? "
+        + "null : grantOfRepresentationData.getIhtReferenceNumber())")
     @Mapping(target = "applicant.address", source = "primaryApplicantAddress", qualifiedBy = {ToFormAddress.class})
     @Mapping(target = "applicant.addresses", source = "primaryApplicantAddresses", qualifiedBy = {ToMap.class})
     @Mapping(target = "applicant.postcode", source = "primaryApplicantPostCode")
-    @Mapping(target = "applicant.relationshipToDeceased", expression = "java(grantOfRepresentationData.getPrimaryApplicantRelationshipToDeceased()!=null ? grantOfRepresentationData.getPrimaryApplicantRelationshipToDeceased().getDescription() : null)")
+    @Mapping(target = "applicant.relationshipToDeceased",
+        expression = "java(grantOfRepresentationData.getPrimaryApplicantRelationshipToDeceased()!=null ? "
+        + "grantOfRepresentationData.getPrimaryApplicantRelationshipToDeceased().getDescription() : null)")
     @Mapping(target = "iht.assetsOutsideNetValue", source = "assetsOutsideNetValue", qualifiedBy = {ToPounds.class})
     @Mapping(target = "iht.netValueAssetsOutsideField", source = "assetsOutsideNetValue", qualifiedBy = {
         ToPoundsString.class})

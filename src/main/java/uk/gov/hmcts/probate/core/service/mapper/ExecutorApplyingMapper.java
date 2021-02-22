@@ -25,9 +25,13 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "value.applyingExecutorEmail", source = "email")
     @Mapping(target = "value.applyingExecutorAddress", source = "address", qualifiedBy = {ToCaseAddress.class})
     @Mapping(target = "value.applyingExecutorHasOtherName", source = "hasOtherName")
-    @Mapping(target = "value.applyingExecutorOtherNames", expression = "java(BooleanUtils.isTrue(executor.getHasOtherName()) ? executor.getCurrentName() : null)")
-    @Mapping(target = "value.applyingExecutorOtherNamesReason", expression = "java(BooleanUtils.isTrue(executor.getHasOtherName()) ? AliasReason.fromString(executor.getCurrentNameReason()) : null)")
-    @Mapping(target = "value.applyingExecutorOtherReason", expression = "java(BooleanUtils.isTrue(executor.getHasOtherName()) ? executor.getOtherReason() : null)")
+    @Mapping(target = "value.applyingExecutorOtherNames",
+        expression = "java(BooleanUtils.isTrue(executor.getHasOtherName()) ? executor.getCurrentName() : null)")
+    @Mapping(target = "value.applyingExecutorOtherNamesReason",
+        expression = "java(BooleanUtils.isTrue(executor.getHasOtherName()) ? "
+            + "AliasReason.fromString(executor.getCurrentNameReason()) : null)")
+    @Mapping(target = "value.applyingExecutorOtherReason",
+        expression = "java(BooleanUtils.isTrue(executor.getHasOtherName()) ? executor.getOtherReason() : null)")
     @Mapping(target = "value.applyingExecutorInvitationId", source = "inviteId")
     @Mapping(target = "value.applyingExecutorLeadName", source = "leadExecutorName")
     @Mapping(target = "value.applyingExecutorAgreed", source = "executorAgreed")
@@ -37,7 +41,9 @@ public interface ExecutorApplyingMapper {
 
 
     @Mapping(target = "currentName", source = "value.applyingExecutorOtherNames")
-    @Mapping(target = "currentNameReason", expression = "java(executorApplyingCollectionMember.getValue().getApplyingExecutorOtherNamesReason()!=null ? executorApplyingCollectionMember.getValue().getApplyingExecutorOtherNamesReason().getDescription() : null)")
+    @Mapping(target = "currentNameReason",
+        expression = "java(executorApplyingCollectionMember.getValue().getApplyingExecutorOtherNamesReason()!=null ? "
+        + "executorApplyingCollectionMember.getValue().getApplyingExecutorOtherNamesReason().getDescription() : null)")
     @Mapping(target = "address", source = "value.applyingExecutorAddress", qualifiedBy = {ToFormAddress.class})
     @Mapping(target = "otherReason", source = "value.applyingExecutorOtherReason")
     @Mapping(target = "isApplying", expression = "java(true)")

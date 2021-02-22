@@ -41,7 +41,7 @@ public class DataExtractControllerTest {
     }
 
     @Test
-    public void shouldInitiateHMRCDataExtractForNoDate() throws Exception {
+    public void shouldInitiateHmrcDataExtractForNoDate() throws Exception {
         mockMvc.perform(post("/data-extract/hmrc")
             .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
             .andExpect(status().isOk());
@@ -50,7 +50,7 @@ public class DataExtractControllerTest {
     }
 
     @Test
-    public void shouldInitiateHMRCDataExtractForGivenDate() throws Exception {
+    public void shouldInitiateHmrcDataExtractForGivenDate() throws Exception {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = dateTimeFormatter.format(LocalDate.now().minusDays(1L));
 
@@ -62,7 +62,7 @@ public class DataExtractControllerTest {
     }
 
     @Test
-    public void shouldInitiateHMRCDataExtractForGivenDates() throws Exception {
+    public void shouldInitiateHmrcDataExtractForGivenDates() throws Exception {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String dateFrom = dateTimeFormatter.format(LocalDate.now().minusDays(10L));
         String dateTo = dateTimeFormatter.format(LocalDate.now().minusDays(1L));

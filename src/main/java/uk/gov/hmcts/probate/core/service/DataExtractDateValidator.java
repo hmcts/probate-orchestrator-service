@@ -25,7 +25,8 @@ public class DataExtractDateValidator {
 
     public void validate(String fromDate, String toDate) {
         if (StringUtils.isBlank(toDate)) {
-            throw buildClientException(HttpStatus.BAD_REQUEST.value(), "Error on extract dates, toDate is null or empty");
+            throw buildClientException(HttpStatus.BAD_REQUEST.value(),
+                "Error on extract dates, toDate is null or empty");
         }
         try {
             LocalDate to = LocalDate.parse(toDate, DATE_FORMAT);
@@ -38,7 +39,8 @@ public class DataExtractDateValidator {
             }
         } catch (DateTimeParseException e) {
             log.error("Error parsing date, use the format of 'yyyy-MM-dd': ");
-            throw buildClientException(HttpStatus.BAD_REQUEST.value(), "Error parsing date, use the format of 'yyyy-MM-dd': " + e.getMessage());
+            throw buildClientException(HttpStatus.BAD_REQUEST.value(),
+                "Error parsing date, use the format of 'yyyy-MM-dd': " + e.getMessage());
         }
     }
 

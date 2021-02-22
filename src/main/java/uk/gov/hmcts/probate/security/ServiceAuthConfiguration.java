@@ -17,7 +17,8 @@ import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 public class ServiceAuthConfiguration {
 
     @Bean
-    public ServiceAuthTokenGenerator serviceAuthTokenGenerator(@Value("${service.auth.provider.base.url}") String s2sUrl,
+    public ServiceAuthTokenGenerator serviceAuthTokenGenerator(@Value("${service.auth.provider.base.url}")
+                                                                       String s2sUrl,
                                                                @Value("${s2s.auth.totp.secret}") String secret,
                                                                @Value("${service.name}") String microservice) {
         final ServiceAuthorisationApi serviceAuthorisationApi = Feign.builder()

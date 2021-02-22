@@ -72,7 +72,9 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "primaryApplicantSurname", source = "applicant.lastName")
     @Mapping(target = "primaryApplicantEmailAddress", source = "applicantEmail")
     @Mapping(target = "primaryApplicantAlias", source = "applicant.alias")
-    @Mapping(target = "primaryApplicantAliasReason", expression = "java(form.getApplicant()!= null && form.getApplicant().getAliasReason() != null ? AliasReason.fromString(form.getApplicant().getAliasReason()) : null)")
+    @Mapping(target = "primaryApplicantAliasReason", expression = "java(form.getApplicant()!= null && "
+        + "form.getApplicant().getAliasReason() != null ? "
+        + "AliasReason.fromString(form.getApplicant().getAliasReason()) : null)")
     @Mapping(target = "primaryApplicantAddress", source = "applicant.address", qualifiedBy = {ToCaseAddress.class})
     @Mapping(target = "primaryApplicantPostCode", source = "applicant.postcode")
     @Mapping(target = "primaryApplicantAddressFound", source = "applicant.addressFound")
@@ -95,7 +97,8 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
         ToExecutorApplyingCollectionMember.class})
     @Mapping(target = "executorsNotApplying", source = "executors.list", qualifiedBy = {
         ToExecutorNotApplyingCollectionMember.class})
-    @Mapping(target = "numberOfApplicants", expression = "java(form.getExecutors() == null || form.getExecutors().getList() == null ? 0L : Long.valueOf(form.getExecutors().getList().size()))")
+    @Mapping(target = "numberOfApplicants", expression = "java(form.getExecutors() == null || "
+        + "form.getExecutors().getList() == null ? 0L : Long.valueOf(form.getExecutors().getList().size()))")
     @Mapping(target = "numberOfExecutors", source = "executors.executorsNumber")
     @Mapping(target = "executorsAllAlive", source = "executors.allalive")
     @Mapping(target = "otherExecutorsApplying", source = "executors.otherExecutorsApplying")
@@ -104,8 +107,9 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
         "java(form.getIht() != null && form.getIht().getMethod() == IhtMethod.ONLINE ? "
             + "form.getIht().getIdentifier() : form.getIht() != null ? \"Not applicable\" : null)")
     @Mapping(target = "ihtFormId", expression =
-        "java(form.getIht() != null && form.getIht().getMethod() == IhtMethod.ONLINE ? " +
-            "IhtFormType.NOTAPPLICABLE : (form.getIht() !=null && form.getIht().getIhtFormId() !=null ? IhtFormType.valueOf(form.getIht().getIhtFormId()) : null))")
+        "java(form.getIht() != null && form.getIht().getMethod() == IhtMethod.ONLINE ? "
+            + "IhtFormType.NOTAPPLICABLE : (form.getIht() !=null && form.getIht().getIhtFormId() !=null ? "
+            + "IhtFormType.valueOf(form.getIht().getIhtFormId()) : null))")
     @Mapping(target = "ihtFormCompletedOnline", source = "iht.method", qualifiedBy = {FromIhtMethod.class})
     @Mapping(target = "ihtNetValue", source = "iht.netValue", qualifiedBy = {ToPennies.class})
     @Mapping(target = "ihtGrossValue", source = "iht.grossValue", qualifiedBy = {ToPennies.class})
@@ -122,7 +126,8 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
         ToDocumentLink.class})
     @Mapping(target = "languagePreferenceWelsh", source = "language.bilingual")
     @Mapping(target = "deceasedDiedEngOrWales", source = "deceased.diedEngOrWales")
-    @Mapping(target = "deceasedDeathCertificate", expression = "java(form.getDeceased()!= null ? DeathCertificate.fromString(form.getDeceased().getDeathCertificate()) : null)")
+    @Mapping(target = "deceasedDeathCertificate", expression = "java(form.getDeceased()!= null ? "
+        + "DeathCertificate.fromString(form.getDeceased().getDeathCertificate()) : null)")
     @Mapping(target = "deceasedForeignDeathCertInEnglish", source = "deceased.englishForeignDeathCert")
     @Mapping(target = "deceasedForeignDeathCertTranslation", source = "deceased.foreignDeathCertTranslation")
     GrantOfRepresentationData toCaseData(PaForm form);
@@ -134,32 +139,52 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "deceased.dateOfBirth", source = "deceasedDateOfBirth", qualifiedBy = {FromLocalDate.class})
     @Mapping(target = "deceased.dateOfDeath", source = "deceasedDateOfDeath", qualifiedBy = {FromLocalDate.class})
     @Mapping(target = "deceased.postcode", source = "deceasedPostCode")
-    @Mapping(target = "deceased.englishForeignDeathCert", expression = "java(grantOfRepresentationData.isDeceasedDeathCertInEnglish())")
-    @Mapping(target = "deceased.foreignDeathCertTranslation", expression = "java(grantOfRepresentationData.isDeceasedForeignDeathCertTranslated())")
-    @Mapping(target = "deceased.deathCertificate", expression = "java(grantOfRepresentationData.getDeceasedDeathCert())")
+    @Mapping(target = "deceased.englishForeignDeathCert",
+        expression = "java(grantOfRepresentationData.isDeceasedDeathCertInEnglish())")
+    @Mapping(target = "deceased.foreignDeathCertTranslation",
+        expression = "java(grantOfRepresentationData.isDeceasedForeignDeathCertTranslated())")
+    @Mapping(target = "deceased.deathCertificate",
+        expression = "java(grantOfRepresentationData.getDeceasedDeathCert())")
     @Mapping(target = "registry.name", source = "registryLocation", qualifiedBy = {FromRegistryLocation.class})
     @Mapping(target = "registry.address", source = "registryAddress")
     @Mapping(target = "registry.email", source = "registryEmailAddress")
     @Mapping(target = "registry.sequenceNumber", source = "registrySequenceNumber")
     @Mapping(target = "iht.netValue", source = "ihtNetValue", qualifiedBy = {ToPounds.class})
     @Mapping(target = "iht.grossValue", source = "ihtGrossValue", qualifiedBy = {ToPounds.class})
-    @Mapping(target = "iht.grossIht205", expression = "java(IhtValuesMapper.getGrossIht205(grantOfRepresentationData.getIhtFormId(), grantOfRepresentationData.getIhtGrossValue()))")
-    @Mapping(target = "iht.netIht205", expression = "java(IhtValuesMapper.getNetIht205(grantOfRepresentationData.getIhtFormId(), grantOfRepresentationData.getIhtNetValue()))")
-    @Mapping(target = "iht.grossIht207", expression = "java(IhtValuesMapper.getGrossIht207(grantOfRepresentationData.getIhtFormId(), grantOfRepresentationData.getIhtGrossValue()))")
-    @Mapping(target = "iht.netIht207", expression = "java(IhtValuesMapper.getNetIht207(grantOfRepresentationData.getIhtFormId(), grantOfRepresentationData.getIhtNetValue()))")
-    @Mapping(target = "iht.grossIht400421", expression = "java(IhtValuesMapper.getGrossIht400421(grantOfRepresentationData.getIhtFormId(), grantOfRepresentationData.getIhtGrossValue()))")
-    @Mapping(target = "iht.netIht400421", expression = "java(IhtValuesMapper.getNetIht400421(grantOfRepresentationData.getIhtFormId(), grantOfRepresentationData.getIhtNetValue()))")
+    @Mapping(target = "iht.grossIht205",
+        expression = "java(IhtValuesMapper.getGrossIht205(grantOfRepresentationData.getIhtFormId(), "
+            + "grantOfRepresentationData.getIhtGrossValue()))")
+    @Mapping(target = "iht.netIht205",
+        expression = "java(IhtValuesMapper.getNetIht205(grantOfRepresentationData.getIhtFormId(), "
+            + "grantOfRepresentationData.getIhtNetValue()))")
+    @Mapping(target = "iht.grossIht207",
+        expression = "java(IhtValuesMapper.getGrossIht207(grantOfRepresentationData.getIhtFormId(), "
+            + "grantOfRepresentationData.getIhtGrossValue()))")
+    @Mapping(target = "iht.netIht207",
+        expression = "java(IhtValuesMapper.getNetIht207(grantOfRepresentationData.getIhtFormId(), "
+            + "grantOfRepresentationData.getIhtNetValue()))")
+    @Mapping(target = "iht.grossIht400421",
+        expression = "java(IhtValuesMapper.getGrossIht400421(grantOfRepresentationData.getIhtFormId(), "
+            + "grantOfRepresentationData.getIhtGrossValue()))")
+    @Mapping(target = "iht.netIht400421",
+        expression = "java(IhtValuesMapper.getNetIht400421(grantOfRepresentationData.getIhtFormId(), "
+            + "grantOfRepresentationData.getIhtNetValue()))")
     @Mapping(target = "executors.list", source = ".", qualifiedBy = {FromCollectionMember.class})
     @Mapping(target = "executors.invitesSent", expression = "java(grantOfRepresentationData.haveInvitesBeenSent())")
     @Mapping(target = "iht.identifier", expression =
-        "java(grantOfRepresentationData.getIhtReferenceNumber() == null || grantOfRepresentationData.getIhtReferenceNumber().equals(\"Not applicable\") ? "
+        "java(grantOfRepresentationData.getIhtReferenceNumber() == null || "
+            + "grantOfRepresentationData.getIhtReferenceNumber().equals(\"Not applicable\") ? "
             + "null : grantOfRepresentationData.getIhtReferenceNumber())")
     @Mapping(target = "iht.method", source = "ihtFormCompletedOnline", qualifiedBy = {ToIhtMethod.class})
     @Mapping(target = "iht.form", source = "ihtFormId")
     @Mapping(target = "iht.ihtFormId", source = "ihtFormId")
     @Mapping(target = "copies.overseas", source = "outsideUkGrantCopies")
-    @Mapping(target = "assets.assetsoverseas", expression = "java(grantOfRepresentationData.getOutsideUkGrantCopies() == null ? null : grantOfRepresentationData.getOutsideUkGrantCopies() > 0L)")
-    @Mapping(target = "applicant.aliasReason", expression = "java(grantOfRepresentationData.getPrimaryApplicantAliasReason()!=null ? grantOfRepresentationData.getPrimaryApplicantAliasReason().getDescription() : null)")
+    @Mapping(target = "assets.assetsoverseas",
+        expression = "java(grantOfRepresentationData.getOutsideUkGrantCopies() == null ? "
+            + "null : grantOfRepresentationData.getOutsideUkGrantCopies() > 0L)")
+    @Mapping(target = "applicant.aliasReason",
+        expression = "java(grantOfRepresentationData.getPrimaryApplicantAliasReason()!=null ? "
+            + "grantOfRepresentationData.getPrimaryApplicantAliasReason().getDescription() : null)")
     @Mapping(target = "applicant.address", source = "primaryApplicantAddress", qualifiedBy = {ToFormAddress.class})
     @Mapping(target = "applicant.addresses", source = "primaryApplicantAddresses", qualifiedBy = {ToMap.class})
     @Mapping(target = "applicant.postcode", source = "primaryApplicantPostCode")

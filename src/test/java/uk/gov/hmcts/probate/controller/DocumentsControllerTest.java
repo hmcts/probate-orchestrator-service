@@ -36,11 +36,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class DocumentsControllerTest {
 
-    private static final String CHECK_ANSWERS_SUMMARY_ENDPOINT = DocumentsController.DOCUMENTS_BASEURL + DocumentsController.CHECK_ANSWERS_ENDPOINT;
-    private static final String LEGAL_DECLARATION_ENDPOINT = DocumentsController.DOCUMENTS_BASEURL + DocumentsController.LEGAL_DECLARATION_ENDPOINT;
-    private static final String BULKSCAN_COVERSHEET_ENDPOINT = DocumentsController.DOCUMENTS_BASEURL + DocumentsController.BULK_SCAN_COVERSHEET_ENDPOINT;
-    private static final String DOCUMENT_UPLOAD_ENDPOINT = DocumentsController.DOCUMENTS_BASEURL + DocumentsController.DOCUMENT_UPLOAD_ENDPOINT;
-    private static final String DOCUMENT_DELETE_ENDPOINT = DocumentsController.DOCUMENTS_BASEURL + DocumentsController.DOCUMENT_DELETE_ENDPOINT;
+    private static final String CHECK_ANSWERS_SUMMARY_ENDPOINT =
+        DocumentsController.DOCUMENTS_BASEURL + DocumentsController.CHECK_ANSWERS_ENDPOINT;
+    private static final String LEGAL_DECLARATION_ENDPOINT =
+        DocumentsController.DOCUMENTS_BASEURL + DocumentsController.LEGAL_DECLARATION_ENDPOINT;
+    private static final String BULKSCAN_COVERSHEET_ENDPOINT =
+        DocumentsController.DOCUMENTS_BASEURL + DocumentsController.BULK_SCAN_COVERSHEET_ENDPOINT;
+    private static final String DOCUMENT_UPLOAD_ENDPOINT =
+        DocumentsController.DOCUMENTS_BASEURL + DocumentsController.DOCUMENT_UPLOAD_ENDPOINT;
+    private static final String DOCUMENT_DELETE_ENDPOINT =
+        DocumentsController.DOCUMENTS_BASEURL + DocumentsController.DOCUMENT_DELETE_ENDPOINT;
 
     @MockBean
     private BusinessService businessService;
@@ -58,20 +63,24 @@ public class DocumentsControllerTest {
 
     @Test
     public void generateCheckAnswersSummaryPdf_withValidJson_shouldReturn200() throws Exception {
-        when(businessService.generateCheckAnswersSummaryPdf(any(CheckAnswersSummary.class))).thenReturn(any(byte[].class));
+        when(businessService.generateCheckAnswersSummaryPdf(any(CheckAnswersSummary.class)))
+            .thenReturn(any(byte[].class));
 
-        String checkAnswersSummaryJson = TestUtils.getJSONFromFile("businessDocuments/validCheckAnswersSummary.json");
+        String checkAnswersSummaryJson = TestUtils
+            .getJsonFromFile("businessDocuments/validCheckAnswersSummary.json");
 
         mockMvc.perform(post(CHECK_ANSWERS_SUMMARY_ENDPOINT)
             .content(checkAnswersSummaryJson)
             .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
             .andExpect(status().isOk());
-        verify(businessService, times(1)).generateCheckAnswersSummaryPdf(any(CheckAnswersSummary.class));
+        verify(businessService, times(1))
+            .generateCheckAnswersSummaryPdf(any(CheckAnswersSummary.class));
     }
 
     @Test
     public void generateCheckAnswersSummaryPdf_withInvalidJson_shouldReturnBadRequest() throws Exception {
-        String invalidCheckAnswersSummaryJson = TestUtils.getJSONFromFile("businessDocuments/invalidCheckAnswersSummary.json");
+        String invalidCheckAnswersSummaryJson =
+            TestUtils.getJsonFromFile("businessDocuments/invalidCheckAnswersSummary.json");
 
         mockMvc.perform(post(CHECK_ANSWERS_SUMMARY_ENDPOINT)
             .content(invalidCheckAnswersSummaryJson)
@@ -84,18 +93,20 @@ public class DocumentsControllerTest {
     public void generateLegalDeclarationyPdf_withValidJson_shouldReturn200() throws Exception {
         when(businessService.generateLegalDeclarationPdf(any(LegalDeclaration.class))).thenReturn(any(byte[].class));
 
-        String legalDecJson = TestUtils.getJSONFromFile("businessDocuments/validLegalDeclaration.json");
+        String legalDecJson = TestUtils.getJsonFromFile("businessDocuments/validLegalDeclaration.json");
 
         mockMvc.perform(post(LEGAL_DECLARATION_ENDPOINT)
             .content(legalDecJson)
             .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
             .andExpect(status().isOk());
-        verify(businessService, times(1)).generateLegalDeclarationPdf(any(LegalDeclaration.class));
+        verify(businessService, times(1))
+            .generateLegalDeclarationPdf(any(LegalDeclaration.class));
     }
 
     @Test
     public void generateLegalDeclarationPdf_withInvalidJson_shouldReturnBadRequest() throws Exception {
-        String invalidLegalDeclarationJson = TestUtils.getJSONFromFile("businessDocuments/invalidLegalDeclaration.json");
+        String invalidLegalDeclarationJson =
+            TestUtils.getJsonFromFile("businessDocuments/invalidLegalDeclaration.json");
 
         mockMvc.perform(post(LEGAL_DECLARATION_ENDPOINT)
             .content(invalidLegalDeclarationJson)
@@ -106,20 +117,23 @@ public class DocumentsControllerTest {
 
     @Test
     public void generateBulkScanCoversheetPdf_withValidJson_shouldReturn200() throws Exception {
-//        when(businessService.generateBulkScanCoverSheetPdf(any(BulkScanCoverSheet.class))).thenReturn(any(byte[].class));
+        //when(businessService.
+        // generateBulkScanCoverSheetPdf(any(BulkScanCoverSheet.class))).thenReturn(any(byte[].class));
 
-        String bulkScanJosn = TestUtils.getJSONFromFile("businessDocuments/validBulkScanCoverSheet.json");
+        String bulkScanJosn = TestUtils.getJsonFromFile("businessDocuments/validBulkScanCoverSheet.json");
 
         mockMvc.perform(post(BULKSCAN_COVERSHEET_ENDPOINT)
             .content(bulkScanJosn)
             .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
             .andExpect(status().isOk());
-        verify(businessService, times(1)).generateBulkScanCoverSheetPdf(any(BulkScanCoverSheet.class));
+        verify(businessService, times(1))
+            .generateBulkScanCoverSheetPdf(any(BulkScanCoverSheet.class));
     }
 
     @Test
     public void generateBulkScanCoversheetPdf_withInvalidJson_shouldReturnBadRequest() throws Exception {
-        String invalidBulkScanJosn = TestUtils.getJSONFromFile("businessDocuments/invalidBulkScanCoverSheet.json");
+        String invalidBulkScanJosn = TestUtils
+            .getJsonFromFile("businessDocuments/invalidBulkScanCoverSheet.json");
 
         mockMvc.perform(post(BULKSCAN_COVERSHEET_ENDPOINT)
             .content(invalidBulkScanJosn)
@@ -132,14 +146,16 @@ public class DocumentsControllerTest {
         String userId = "USERID1234";
         String authorisation = "AUTHORISATION";
 
-        MockMultipartFile file = new MockMultipartFile("file", "orig", MediaType.IMAGE_PNG_VALUE, "bar".getBytes());
+        MockMultipartFile file = new MockMultipartFile("file", "orig",
+            MediaType.IMAGE_PNG_VALUE, "bar".getBytes());
 
         mockMvc.perform(multipart(DOCUMENT_UPLOAD_ENDPOINT).file(file)
             .header("Authorization", authorisation)
             .header("user-id", userId))
             .andExpect(status().isOk());
 
-        verify(businessService, times(1)).uploadDocument(eq(authorisation), eq(userId), eq(Lists.newArrayList(file)));
+        verify(businessService, times(1)).uploadDocument(eq(authorisation),
+            eq(userId), eq(Lists.newArrayList(file)));
     }
 
     @Test

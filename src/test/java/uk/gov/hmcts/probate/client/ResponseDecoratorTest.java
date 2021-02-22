@@ -8,10 +8,8 @@ import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpMethod;
 import uk.gov.hmcts.probate.TestUtils;
-import uk.gov.hmcts.reform.probate.model.client.ApiClientError;
 import uk.gov.hmcts.reform.probate.model.client.ErrorResponse;
 import uk.gov.hmcts.reform.probate.model.client.ErrorType;
-import uk.gov.hmcts.reform.probate.model.client.ValidationErrorResponse;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -61,7 +59,7 @@ public class ResponseDecoratorTest {
 
     @Test
     public void mapToErrorResponseShouldReturnValidationErrorResponse() throws IOException {
-        String validationErrorResponse = TestUtils.getJSONFromFile("errorResponse/validationErrorResponse.json");
+        String validationErrorResponse = TestUtils.getJsonFromFile("errorResponse/validationErrorResponse.json");
 
         Response response = Response.builder()
                 .status(500)
@@ -79,7 +77,7 @@ public class ResponseDecoratorTest {
 
     @Test
     public void mapToErrorResponseShouldReturnApiClientErrorResponse() throws IOException {
-        String apiClientErrorResponse = TestUtils.getJSONFromFile("errorResponse/apiClientErrorResponse.json");
+        String apiClientErrorResponse = TestUtils.getJsonFromFile("errorResponse/apiClientErrorResponse.json");
 
         Response response = Response.builder()
                 .status(500)

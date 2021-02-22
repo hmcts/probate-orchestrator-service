@@ -9,43 +9,43 @@ import java.math.BigDecimal;
 public class IhtValuesMapper {
 
 
-    public BigDecimal getGrossIht205(IhtFormType ihtFormType, Long ihtGrossValue){
-        if(IhtFormType.optionIHT205.equals(ihtFormType)){
-           return  new PoundsConverter().penniesToPounds(ihtGrossValue);
+    public BigDecimal getGrossIht205(IhtFormType ihtFormType, Long ihtGrossValue) {
+        if (IhtFormType.optionIHT205.equals(ihtFormType)) {
+            return new PoundsConverter().penniesToPounds(ihtGrossValue);
         }
         return null;
     }
 
-    public BigDecimal getNetIht205(IhtFormType ihtFormType, Long ihtNetValue){
-        if(IhtFormType.optionIHT205.equals(ihtFormType)){
+    public BigDecimal getNetIht205(IhtFormType ihtFormType, Long ihtNetValue) {
+        if (IhtFormType.optionIHT205.equals(ihtFormType)) {
             return  new PoundsConverter().penniesToPounds(ihtNetValue);
         }
         return null;
     }
 
-    public BigDecimal getGrossIht207(IhtFormType ihtFormType, Long ihtGrossValue){
-        if(IhtFormType.optionIHT207.equals(ihtFormType)){
+    public BigDecimal getGrossIht207(IhtFormType ihtFormType, Long ihtGrossValue) {
+        if (IhtFormType.optionIHT207.equals(ihtFormType)) {
             return  new PoundsConverter().penniesToPounds(ihtGrossValue);
         }
         return null;
     }
 
-    public BigDecimal getNetIht207(IhtFormType ihtFormType, Long ihtNetValue){
-        if(IhtFormType.optionIHT207.equals(ihtFormType)){
+    public BigDecimal getNetIht207(IhtFormType ihtFormType, Long ihtNetValue) {
+        if (IhtFormType.optionIHT207.equals(ihtFormType)) {
             return  new PoundsConverter().penniesToPounds(ihtNetValue);
         }
         return null;
     }
 
-    public BigDecimal getGrossIht400421(IhtFormType ihtFormType, Long ihtGrossValue){
-        if(IhtFormType.optionIHT400421.equals(ihtFormType)){
+    public BigDecimal getGrossIht400421(IhtFormType ihtFormType, Long ihtGrossValue) {
+        if (IhtFormType.optionIHT400421.equals(ihtFormType)) {
             return  new PoundsConverter().penniesToPounds(ihtGrossValue);
         }
         return null;
     }
 
-    public BigDecimal getNetIht400421(IhtFormType ihtFormType, Long ihtNetValue){
-        if(IhtFormType.optionIHT400421.equals(ihtFormType)){
+    public BigDecimal getNetIht400421(IhtFormType ihtFormType, Long ihtNetValue) {
+        if (IhtFormType.optionIHT400421.equals(ihtFormType)) {
             return  new PoundsConverter().penniesToPounds(ihtNetValue);
         }
         return null;

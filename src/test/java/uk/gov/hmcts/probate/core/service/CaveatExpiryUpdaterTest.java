@@ -1,6 +1,5 @@
 package uk.gov.hmcts.probate.core.service;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,9 +11,6 @@ import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -36,7 +32,8 @@ public class CaveatExpiryUpdaterTest {
     @Test
     public void shouldExpireCaveats() {
         String expiryDate = "2020-12-31";
-        List<ProbateCaseDetails> expiredCaveats = Arrays.asList(ProbateCaseDetails.builder().build(), ProbateCaseDetails.builder().build());
+        List<ProbateCaseDetails> expiredCaveats =
+            Arrays.asList(ProbateCaseDetails.builder().build(), ProbateCaseDetails.builder().build());
         when(submitService.expireCaveats(expiryDate)).thenReturn(expiredCaveats);
 
         caveatExpiryUpdater.expireCaveats(expiryDate);

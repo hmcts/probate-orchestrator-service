@@ -7,8 +7,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import uk.gov.hmcts.reform.auth.checker.core.RequestAuthorizer;
-import uk.gov.hmcts.reform.auth.checker.core.service.Service;
 import uk.gov.hmcts.reform.auth.checker.core.service.ServiceRequestAuthorizer;
 import uk.gov.hmcts.reform.auth.checker.core.user.User;
 import uk.gov.hmcts.reform.auth.checker.core.user.UserRequestAuthorizer;
@@ -29,7 +27,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                                  ServiceRequestAuthorizer serviceRequestAuthorizer,
                                  AuthenticationManager authenticationManager,
                                  AuthenticationExceptionHandler authenticationExceptionHandler) {
-        authCheckerServiceAndUserFilter = new AuthCheckerServiceAndUserFilter(serviceRequestAuthorizer, userRequestAuthorizer);
+        authCheckerServiceAndUserFilter = new AuthCheckerServiceAndUserFilter(serviceRequestAuthorizer,
+            userRequestAuthorizer);
         authCheckerServiceAndUserFilter.setAuthenticationManager(authenticationManager);
         this.authenticationExceptionHandler = authenticationExceptionHandler;
     }

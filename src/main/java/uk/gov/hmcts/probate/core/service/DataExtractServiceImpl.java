@@ -10,7 +10,6 @@ import uk.gov.hmcts.probate.service.DataExtractService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static org.springframework.http.HttpStatus.ACCEPTED;
 
 @Slf4j
 @RequiredArgsConstructor

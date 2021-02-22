@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.probate.core.service.GrantAwaitingDocumentsNotifier;
 import uk.gov.hmcts.probate.core.service.GrantDelayedNotifier;
 
-import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 

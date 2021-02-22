@@ -29,8 +29,8 @@ public interface CaveatMapper extends FormMapper<CaveatData, CaveatForm> {
     @Mapping(target = "caveatorForenames", source = "applicant.firstName")
     @Mapping(target = "caveatorSurname", source = "applicant.lastName")
     @Mapping(target = "caveatorEmailAddress",
-        expression = "java(form.getApplicant() != null && form.getApplicant().getEmail() != null ? " +
-            "form.getApplicant().getEmail().toLowerCase() : null)")
+        expression = "java(form.getApplicant() != null && form.getApplicant().getEmail() != null ? "
+            + "form.getApplicant().getEmail().toLowerCase() : null)")
     @Mapping(target = "caveatorAddress", source = "applicant.address")
 
     @Mapping(target = "deceasedAddress", source = "deceased.address")

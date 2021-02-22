@@ -4,8 +4,8 @@ import io.jsonwebtoken.lang.Assert;
 import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.probate.model.cases.Address;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 
 public class AddressMapperTest {
@@ -36,7 +36,7 @@ public class AddressMapperTest {
     }
 
     @Test
-    void shouldHandleNullValuMapCaseAddressToFormAddress(){
+    void shouldHandleNullValuMapCaseAddressToFormAddress() {
         uk.gov.hmcts.reform.probate.model.forms.Address formAddress  = addressMapper.toFormAddress(null);
         Assert.isNull(formAddress);
     }
@@ -63,8 +63,8 @@ public class AddressMapperTest {
     }
 
     @Test
-    void shouldHandleNullValuMapFormAddressToCaseAddress(){
+    void shouldHandleNullValuMapFormAddressToCaseAddress() {
         Address caseAddress  = addressMapper.toCaseAddress(null);
-       Assert.isNull(caseAddress);
+        Assert.isNull(caseAddress);
     }
 }

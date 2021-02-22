@@ -9,19 +9,22 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorNot
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorNotApplyingReason;
 import uk.gov.hmcts.reform.probate.model.forms.pa.Executor;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, imports = {ExecutorNotApplyingReason.class})
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,
+    imports = {ExecutorNotApplyingReason.class})
 public interface ExecutorNotApplyingMapper {
 
     @Mapping(target = "value.notApplyingExecutorName", expression = "java(ExecutorNamesMapper.getFullname(executor))")
     @Mapping(target = "value.notApplyingExecutorReason",
-        expression = "java(executor.getNotApplyingKey() == null? null : ExecutorNotApplyingReason.getExecutorNotApplyingReasonByValue(executor.getNotApplyingKey()))")
+        expression = "java(executor.getNotApplyingKey() == null ? "
+            + "null : ExecutorNotApplyingReason.getExecutorNotApplyingReasonByValue(executor.getNotApplyingKey()))")
     @Mapping(target = "value.notApplyingExecutorNotified", source = "executorNotified")
     @Mapping(target = "value.notApplyingExecutorIsDead", source = "isDead")
     @Mapping(target = "value.notApplyingExecutorDiedBefore", source = "diedBefore")
     CollectionMember<ExecutorNotApplying> toExecutorNotApplying(Executor executor);
 
     @Mapping(target = "notApplyingKey",
-        expression = "java(executorNotApplyingCollectionMember.getValue().getNotApplyingExecutorReason() == null ? null : executorNotApplyingCollectionMember.getValue().getNotApplyingExecutorReason().getOptionValue())")
+        expression = "java(executorNotApplyingCollectionMember.getValue().getNotApplyingExecutorReason() == null ? "
+            + "null : executorNotApplyingCollectionMember.getValue().getNotApplyingExecutorReason().getOptionValue())")
     @Mapping(target = "isApplying", expression = "java(false)")
     @Mapping(target = "fullName", source = "value.notApplyingExecutorName")
     @InheritInverseConfiguration

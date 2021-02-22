@@ -29,8 +29,8 @@ public class DataExtractServiceImplTest {
     @Mock
     ResponseEntity<String> responseEntity;
 
-    private final static String FROM_DATE = "fromDate";
-    private final static String TO_DATE = "toDate";
+    private static final String FROM_DATE = "fromDate";
+    private static final String TO_DATE = "toDate";
 
     @Test
     public void shouldInitiateHmrcExtract() {
