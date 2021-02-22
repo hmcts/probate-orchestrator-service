@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import uk.gov.hmcts.reform.probate.model.IhtFormType;
 import uk.gov.hmcts.reform.probate.model.PaymentStatus;
+import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.Relationship;
 import uk.gov.hmcts.reform.probate.model.cases.Address;
 import uk.gov.hmcts.reform.probate.model.cases.AliasName;
@@ -17,6 +18,16 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepr
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.SpouseNotApplyingReason;
 import uk.gov.hmcts.reform.probate.model.forms.AliasOtherNames;
+import uk.gov.hmcts.reform.probate.model.forms.Copies;
+import uk.gov.hmcts.reform.probate.model.forms.Declaration;
+import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
+import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
+import uk.gov.hmcts.reform.probate.model.forms.Language;
+import uk.gov.hmcts.reform.probate.model.forms.Payment;
+import uk.gov.hmcts.reform.probate.model.forms.Registry;
+import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyApplicant;
+import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyDeceased;
+import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -77,6 +88,79 @@ public final class IntestacyTestDataCreator {
             .firstName(ALIAS_FIRST_NAME)
             .lastName(ALIAS_LASTNAME)
             .build());
+    }
+
+    public static IntestacyForm createIntestacyForm() {
+        return IntestacyForm.builder()
+            .applicantEmail(EMAIL)
+            .type(ProbateType.INTESTACY)
+            .caseType(GrantType.INTESTACY.getName())
+            .language(Language.builder().bilingual(Boolean.TRUE).build())
+            .applicant(
+                IntestacyApplicant.builder()
+                    .address(ADDRESS)
+                    .addressFound(Boolean.TRUE)
+                    .adoptionInEnglandOrWales(Boolean.TRUE)
+                    .firstName(FIRST_NAME)
+                    .lastName(LAST_NAME)
+                    .phoneNumber(PHONE_NUMBER)
+                    .postcode(POSTCODE)
+                    .relationshipToDeceased(Relationship.ADOPTED_CHILD.getDescription())
+                    .spouseNotApplyingReason(SpouseNotApplyingReason.MENTALLY_INCAPABLE.getDescription())
+                    .build())
+            .copies(Copies.builder()
+                .overseas(COPIES_OVERSEAS)
+                .uk(COPIES_UK)
+                .build())
+            .deceased(IntestacyDeceased.builder()
+                .anyDeceasedChildrenDieBeforeDeceased(Boolean.FALSE)
+                .address(DECEASED_ADDRESS)
+                .addressFound(Boolean.TRUE)
+                .alias(Boolean.TRUE)
+                .allDeceasedChildrenOverEighteen(Boolean.FALSE)
+                .anyChildren(Boolean.TRUE)
+                .dateOfBirth(DATE_OF_BIRTH)
+                .dateOfDeath(DATE_OF_DEATH)
+                .divorcedInEnglandOrWales(Boolean.FALSE)
+                .domiciledInEnglandOrWales(Boolean.TRUE)
+                .firstName(DECEASED_FIRST_NAME)
+                .lastName(DECEASED_LAST_NAME)
+                .maritalStatus(MaritalStatus.MARRIED.getDescription())
+                .anyDeceasedGrandchildrenUnderEighteen(Boolean.FALSE)
+                .otherChildren(Boolean.FALSE)
+                .otherNames(createAliasMap())
+                .postcode(POSTCODE)
+                .diedEngOrWales(Boolean.TRUE)
+                .deathCertificate(DEATH_CERT)
+                .englishForeignDeathCert(Boolean.FALSE)
+                .foreignDeathCertTranslation(Boolean.TRUE)
+                .build())
+            .declaration(Declaration.builder().build())
+            .iht(InheritanceTax.builder()
+                .form(IhtFormType.optionIHT205.toString())
+                .grossValue(GROSS_VALUE)
+                .identifier(IHT_IDENTIFIER)
+                .method(IhtMethod.BY_POST)
+                .netValue(NET_VALUE)
+                .assetsOutside(Boolean.TRUE)
+                .assetsOutsideNetValue(ASSETS_OVERSEAS_NET_VALUE)
+                .build())
+            .payments(Lists.newArrayList(Payment.builder()
+                .amount(PAYMENT_AMOUNT)
+                .method(PAYMENT_CHANNEL)
+                .date(DATE)
+                .reference(PAYMENT_REFERENCE)
+                .siteId(PAYMENT_SITE_ID)
+                .status(PaymentStatus.SUCCESS)
+                .transactionId(PAYMENT_TRANSACTION_ID)
+                .build()))
+            .registry(Registry.builder()
+                .address(REG_ADDRESS)
+                .email(REG_EMAIL)
+                .name(REGNAME)
+                .sequenceNumber(SEQUENCE_NUMBER)
+                .build())
+            .build();
     }
 
     public static GrantOfRepresentationData createGrantOfRepresentation() {
