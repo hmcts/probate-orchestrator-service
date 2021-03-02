@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.probate.service.PaymentUpdateService;
+import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -30,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class PaymentUpdateControllerTest {
 
     private static final String PAYMENT_UPDATES = "/payment-updates";
-    public static final String AUTH_TOKEN = "payService";
+    public static final String AUTH_TOKEN = "XXXXXX12345";
 
     @MockBean
     private PaymentUpdateService paymentUpdateService;
@@ -51,6 +52,7 @@ public class PaymentUpdateControllerTest {
         String paymentDtoJsonStr = TestUtils.getJSONFromFile("paymentDto.json");
 
         mockMvc.perform(put(PAYMENT_UPDATES)
+            .header("ServiceAuthorization", AUTH_TOKEN)
             .content(paymentDtoJsonStr)
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
