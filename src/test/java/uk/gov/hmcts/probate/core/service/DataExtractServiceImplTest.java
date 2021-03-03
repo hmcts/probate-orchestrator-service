@@ -77,4 +77,19 @@ public class DataExtractServiceImplTest {
         doThrow(ApiClientException.class).when(dataExtractDateValidator).validate(FROM_DATE);
         dataExtractService.initiateExelaExtract(FROM_DATE);
     }
+
+    @Test(expected = ApiClientException.class)
+    public void shouldThrowDateExceptionOnInitiateExelaExtractDateRange() {
+
+        doThrow(ApiClientException.class).when(dataExtractDateValidator).validate(FROM_DATE, TO_DATE);
+        dataExtractService.initiateExelaExtractDateRange(FROM_DATE, TO_DATE);
+    }
+
+    @Test
+    public void shouldInitiateExelaExtractDateRange() {
+
+        ResponseEntity<String> responseEntity = dataExtractService.initiateExelaExtractDateRange(FROM_DATE, TO_DATE);
+        assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.ACCEPTED));
+        assertThat(responseEntity.getBody(), equalTo("Perform Exela data extract finished"));
+    }
 }

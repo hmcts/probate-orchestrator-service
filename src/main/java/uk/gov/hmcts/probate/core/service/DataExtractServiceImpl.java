@@ -65,4 +65,19 @@ public class DataExtractServiceImpl implements DataExtractService {
 
         return ResponseEntity.accepted().body("Perform Exela data extract finished");
     }
+
+    @Override
+    public ResponseEntity initiateExelaExtractDateRange(String fromDate, String toDate) {
+
+        dataExtractDateValidator.validate(fromDate, toDate);
+        log.info("Calling perform Exela data extract from date...");
+        ExecutorService executor = Executors.newFixedThreadPool(1);
+        executor.submit(() -> {
+            log.info("Perform Exela data extract from date started");
+            backOfficeService.initiateExelaExtractDateRange(fromDate, toDate);
+        });
+        log.info("Perform Exela data extract from date finished");
+
+        return ResponseEntity.accepted().body("Perform Exela data extract finished");
+    }
 }
