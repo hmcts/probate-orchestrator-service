@@ -155,4 +155,22 @@
         <cve>CVE-2020-9548</cve>
         <cve>CVE-2021-20190</cve>
     </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: spring-security-config-5.3.4.RELEASE.jar
+   ]]></notes>
+        <cve>CVE-2021-22112</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: spring-security-crypto-5.3.4.RELEASE.jar
+   ]]></notes>
+        <cve>CVE-2021-22112</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: spring-security-web-5.3.4.RELEASE.jar
+   ]]></notes>
+        <cve>CVE-2021-22112</cve>
+    </suppress>
 </suppressions>
