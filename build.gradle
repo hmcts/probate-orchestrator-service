@@ -284,7 +284,7 @@ dependencies {
 
     compile group: 'org.pitest', name: 'pitest', version: versions.piTest
     compile group: 'com.atlassian.commonmark', name: 'commonmark', version: versions.commonMark
-    compile 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.5.2'
+    compile 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.6.0'
     compile 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'
     compileOnly group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
     compileOnly group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
