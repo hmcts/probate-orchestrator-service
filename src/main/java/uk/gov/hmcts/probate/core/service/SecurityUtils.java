@@ -9,7 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.probate.client.IdamClientApi;
-import uk.gov.hmcts.probate.model.exception.AuthenticationError;
+import uk.gov.hmcts.probate.model.exception.InvalidTokenException;
 import uk.gov.hmcts.probate.model.idam.AuthenticateUserResponse;
 import uk.gov.hmcts.probate.model.idam.TokenExchangeResponse;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
@@ -116,7 +116,7 @@ public class SecurityUtils {
         return BASIC + Base64.getEncoder().encodeToString(authorisation.getBytes());
     }
 
-    public Boolean checkIfServiceIsAllowed(String token) throws AuthenticationError {
+    public Boolean checkIfServiceIsAllowed(String token) throws InvalidTokenException {
         String serviceName = this.authenticate(token);
 
         if (allowedToUpdateDetails.contains(serviceName)) {
@@ -134,9 +134,9 @@ public class SecurityUtils {
         return token.startsWith(BEARER) ? token : BEARER.concat(token);
     }
 
-    private String authenticate(String authHeader) throws AuthenticationError {
+    public String authenticate(String authHeader) throws InvalidTokenException {
         if (isBlank(authHeader)) {
-            throw new AuthenticationError("Provided S2S token is missing or invalid");
+            throw new InvalidTokenException("Provided S2S token is missing or invalid");
         }
         String bearerAuthToken = getBearerToken(authHeader);
         log.info("S2S token found in the request");

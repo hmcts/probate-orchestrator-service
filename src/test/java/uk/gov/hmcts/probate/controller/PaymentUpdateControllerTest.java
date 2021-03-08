@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.probate.core.service.SecurityUtils;
-import uk.gov.hmcts.probate.model.exception.ForbiddenException;
 import uk.gov.hmcts.probate.service.PaymentUpdateService;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
@@ -30,15 +29,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class PaymentUpdateControllerTest {
 
-    public static final String AUTH_TOKEN =
-        "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcm9iYXRlX2JhY2tlbmQiLCJleHAiOjE2MTQ3MTUwNTR9"
-            + ".9zDYTepf3iS6nEfI_j3E7-F867TtyhdgIUUE56J9fLQEemGFsyn8b3g1gKtDB-UNTXxPx5wngu6NVlzT9N9euQ";
+    public static final String AUTH_TOKEN = "dummyToken";
+    public static final String AUTH_TOKEN_EMPTY = " ";
     private static final String PAYMENT_UPDATES = "/payment-updates";
-    @MockBean
-    private ForbiddenException forbiddenException;
 
     @MockBean
     private SecurityUtils securityUtils;
+
+    private PaymentUpdateController paymentUpdateController;
 
     @MockBean
     private PaymentUpdateService paymentUpdateService;

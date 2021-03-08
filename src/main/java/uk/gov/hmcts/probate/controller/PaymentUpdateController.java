@@ -10,13 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.probate.core.service.SecurityUtils;
-import uk.gov.hmcts.probate.model.exception.AuthenticationError;
+import uk.gov.hmcts.probate.model.exception.InvalidTokenException;
 import uk.gov.hmcts.probate.service.PaymentUpdateService;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
@@ -26,18 +26,16 @@ import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 @Slf4j
 public class PaymentUpdateController {
 
-    private static final String PAYMENT_UPDATES = "/payment-updates";
     public static final String SERVICE_AUTHORIZATION_HEADER = "ServiceAuthorization";
-
+    private static final String PAYMENT_UPDATES = "/payment-updates";
     private final PaymentUpdateService paymentUpdateService;
+    @Autowired
+    private SecurityUtils authS2sUtil;
 
     @Autowired
     private PaymentUpdateController(PaymentUpdateService paymentUpdateService) {
         this.paymentUpdateService = paymentUpdateService;
     }
-
-    @Autowired
-    private SecurityUtils authS2sUtil;
 
     @ApiOperation(value = "Update payment", notes = "Update payment")
     @ApiResponses(value = {
@@ -49,15 +47,22 @@ public class PaymentUpdateController {
     @PutMapping(path = PAYMENT_UPDATES, consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     //@ResponseStatus(HttpStatus.OK)
-    public void updatePayment(@RequestHeader(value = SERVICE_AUTHORIZATION_HEADER ) String s2sAuthToken,
-        @RequestBody PaymentDto paymentDto) throws AuthenticationError {
+    public void updatePayment(@RequestHeader(value = SERVICE_AUTHORIZATION_HEADER) String s2sAuthToken,
+                              @RequestBody PaymentDto paymentDto) {
 
-        if(authS2sUtil.checkIfServiceIsAllowed(s2sAuthToken)) {
-            paymentUpdateService.paymentUpdate(paymentDto);
-        }
-        else
-        {
-            throw new AuthenticationError("Service or Token not allowed");
+        try {
+            Boolean isServiceAllowed = authS2sUtil.checkIfServiceIsAllowed(s2sAuthToken);
+            if (Boolean.TRUE.equals(isServiceAllowed)) {
+                paymentUpdateService.paymentUpdate(paymentDto);
+                ResponseEntity.ok();
+            } else {
+                log.info("Calling Service is not authorised to use the endpoint");
+                ResponseEntity.status(HttpStatus.FORBIDDEN);
+            }
+        } catch (InvalidTokenException e) {
+            log.error(e.getMessage());
+            log.info("Provided s2s token is missing or invalid");
+            ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
     }
 }
