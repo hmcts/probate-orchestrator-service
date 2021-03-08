@@ -1,12 +1,10 @@
 package uk.gov.hmcts.probate.controller;
 
-import org.apache.http.auth.AUTH;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -15,13 +13,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import uk.gov.hmcts.probate.TestUtils;
+import uk.gov.hmcts.probate.core.service.SecurityUtils;
+import uk.gov.hmcts.probate.model.exception.ForbiddenException;
 import uk.gov.hmcts.probate.service.PaymentUpdateService;
-import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -30,8 +30,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class PaymentUpdateControllerTest {
 
+    public static final String AUTH_TOKEN =
+        "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcm9iYXRlX2JhY2tlbmQiLCJleHAiOjE2MTQ3MTUwNTR9"
+            + ".9zDYTepf3iS6nEfI_j3E7-F867TtyhdgIUUE56J9fLQEemGFsyn8b3g1gKtDB-UNTXxPx5wngu6NVlzT9N9euQ";
     private static final String PAYMENT_UPDATES = "/payment-updates";
-    public static final String AUTH_TOKEN = "XXXXXX12345";
+    @MockBean
+    private ForbiddenException forbiddenException;
+
+    @MockBean
+    private SecurityUtils securityUtils;
 
     @MockBean
     private PaymentUpdateService paymentUpdateService;
@@ -50,6 +57,7 @@ public class PaymentUpdateControllerTest {
     @Test
     public void shouldUpdatePayment() throws Exception {
         String paymentDtoJsonStr = TestUtils.getJSONFromFile("paymentDto.json");
+        when(securityUtils.checkIfServiceIsAllowed(AUTH_TOKEN)).thenReturn(true);
 
         mockMvc.perform(put(PAYMENT_UPDATES)
             .header("ServiceAuthorization", AUTH_TOKEN)

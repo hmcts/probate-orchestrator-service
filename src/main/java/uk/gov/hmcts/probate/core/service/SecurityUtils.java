@@ -1,23 +1,22 @@
 package uk.gov.hmcts.probate.core.service;
 
-import java.util.Base64;
-import java.util.List;
-
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import uk.gov.hmcts.probate.client.IdamClientApi;
 import uk.gov.hmcts.probate.model.exception.AuthenticationError;
 import uk.gov.hmcts.probate.model.idam.AuthenticateUserResponse;
 import uk.gov.hmcts.probate.model.idam.TokenExchangeResponse;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.authorisation.validators.AuthTokenValidator;
+
+import java.util.Base64;
+import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
@@ -26,37 +25,28 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 @RequiredArgsConstructor
 public class SecurityUtils {
 
-    private final AuthTokenGenerator authTokenGenerator;
-    private final AuthTokenValidator authTokenValidator;
-    private final List<String> allowedToUpdateDetails;
-
     private static final String BASIC = "Basic ";
     private static final String BEARER = "Bearer ";
     private static final String AUTHORIZATION_CODE = "authorization_code";
     private static final String CODE = "code";
-
+    private final AuthTokenGenerator authTokenGenerator;
+    private final AuthTokenValidator authTokenValidator;
+    private final List<String> allowedToUpdateDetails;
+    private final IdamClientApi idamClient;
     @Value("${auth.idam.redirectUrl}")
     private String authRedirectUrl;
-
     @Value("${auth.idam.clientId}")
     private String authClientId;
-
     @Value("${auth.idam.clientSecret}")
     private String authClientSecret;
-
     @Value("${auth.idam.caseworker.username}")
     private String caseworkerUserName;
-
     @Value("${auth.idam.caseworker.password}")
     private String caseworkerPassword;
-
     @Value("${auth.idam.scheduler.username}")
     private String schedulerUserName;
-
     @Value("${auth.idam.scheduler.password}")
     private String schedulerPassword;
-
-    private final IdamClientApi idamClient;
 
     @Autowired
     public SecurityUtils(IdamClientApi idamClient,
@@ -100,7 +90,7 @@ public class SecurityUtils {
 
     private String getIdamOauth2Token(String username, String password) {
         String basicAuthHeader = getBasicAuthHeader(username, password);
-        
+
         AuthenticateUserResponse authenticateUserResponse = idamClient.authenticateUser(
             basicAuthHeader,
             CODE,
@@ -126,8 +116,14 @@ public class SecurityUtils {
         return BASIC + Base64.getEncoder().encodeToString(authorisation.getBytes());
     }
 
-    public void checkIfServiceIsAllowed(String token) throws AuthenticationError {
+    public Boolean checkIfServiceIsAllowed(String token) throws AuthenticationError {
         String serviceName = this.authenticate(token);
+
+        if (allowedToUpdateDetails.contains(serviceName)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public String getBearerToken(String token) {
