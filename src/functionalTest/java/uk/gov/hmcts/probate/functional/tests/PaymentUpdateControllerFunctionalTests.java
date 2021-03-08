@@ -10,12 +10,14 @@ import uk.gov.hmcts.probate.functional.IntegrationTestBase;
 public class PaymentUpdateControllerFunctionalTests extends IntegrationTestBase {
     private static final String PAYMENT_UPDATE_URL = "/payment-updates";
 
+    private static final String s2sToken = "auth Token";
+
     @Test
     public void updatePaymentDetails() {
         String draftJsonStr = utils.getJsonFromFile("payment.json");
         RestAssured.given()
             .relaxedHTTPSValidation()
-            .headers("ServiceAuthorization", utils.getCitizenHeaders())
+            .headers("ServiceAuthorization", s2sToken)
             .body(draftJsonStr)
             .when()
             .put(PAYMENT_UPDATE_URL)
