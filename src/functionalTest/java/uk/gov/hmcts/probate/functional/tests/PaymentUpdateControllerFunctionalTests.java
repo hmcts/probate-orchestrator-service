@@ -13,10 +13,11 @@ public class PaymentUpdateControllerFunctionalTests extends IntegrationTestBase 
     @Test
     public void updatePaymentDetails() throws Exception {
         String draftJsonStr = utils.getJsonFromFile("payment.json");
+        final String s2sToken = "Bearer Token";
 
         RestAssured.given()
             .relaxedHTTPSValidation()
-            .header("ServiceAuthorization", utils.getCitizenHeaders().toString())
+            .header("ServiceAuthorization", s2sToken)
             .body(draftJsonStr)
             .when()
             .put(PAYMENT_UPDATE_URL)
