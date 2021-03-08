@@ -54,7 +54,7 @@ public class PaymentUpdateController {
             Boolean isServiceAllowed = authS2sUtil.checkIfServiceIsAllowed(s2sAuthToken);
             if (Boolean.TRUE.equals(isServiceAllowed)) {
                 paymentUpdateService.paymentUpdate(paymentDto);
-                ResponseEntity.ok();
+                ResponseEntity.status(HttpStatus.OK);
             } else {
                 log.info("Calling Service is not authorised to use the endpoint");
                 ResponseEntity.status(HttpStatus.FORBIDDEN);

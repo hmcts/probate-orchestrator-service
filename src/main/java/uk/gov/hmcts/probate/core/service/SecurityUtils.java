@@ -118,12 +118,7 @@ public class SecurityUtils {
 
     public Boolean checkIfServiceIsAllowed(String token) throws InvalidTokenException {
         String serviceName = this.authenticate(token);
-
-        if (allowedToUpdateDetails.contains(serviceName)) {
-            return true;
-        } else {
-            return false;
-        }
+        return allowedToUpdateDetails.contains(serviceName);
     }
 
     public String getBearerToken(String token) {
