@@ -57,49 +57,23 @@
         <gav regex="true">^org\.apache\.httpcomponents:httpclient:.*$</gav>
         <cve>CVE-2020-13956</cve>
     </suppress>
-    <suppress>
-        <notes><![CDATA[
-   file name: spring-security-config-5.3.4.RELEASE.jar
-   ]]></notes>
-        <gav regex="true">^org\.springframework\.security:spring-security-config:.*$</gav>
-        <cpe>cpe:/a:security-framework_project:security-framework</cpe>
-        <cve>CVE-2018-1258</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-   file name: spring-security-core-5.3.4.RELEASE.jar
-   ]]></notes>
-        <gav regex="true">^org\.springframework\.security:spring-security-core:.*$</gav>
+
+    <suppress until="2030-01-01">
+        <notes><![CDATA[ spring-security-web-5.3.4.RELEASE.jar
+         Suppressing as it's a false positive (see: https://pivotal.io/security/cve-2018-1258)
+        ]]></notes>
+        <filePath regex="true">.*spring-security-(config|crypto|web|test|core)-5\.3\.4\.RELEASE\.jar</filePath>
         <cpe>cpe:/a:pivotal_software:spring_security</cpe>
         <cve>CVE-2018-1258</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-    file name: spring-security-crypto-5.3.4.RELEASE.jar
-    ]]></notes>
-        <gav regex="true">^org\.springframework\.security:spring-security-crypto:.*$</gav>
-        <cve>CVE-2018-1258</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-   file name: spring-security-web-5.3.4.RELEASE.jar
-   ]]></notes>
-        <gav regex="true">^org\.springframework\.security:spring-security-web:.*$</gav>
-        <cve>CVE-2018-1258</cve>
+        <cve>CVE-2021-22112</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[
    file name: tomcat-embed-core-9.0.38.jar
    ]]></notes>
-        <gav regex="true">^org\.apache\.tomcat\.embed:tomcat-embed-core:.*$</gav>
-        <cve>CVE-2020-17527</cve>
-        <cve>CVE-2021-24122</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-   file name: tomcat-embed-websocket-9.0.38.jar
-   ]]></notes>
-        <gav regex="true">^org\.apache\.tomcat\.embed:tomcat-embed-websocket:.*$</gav>
+        <gav regex="true">^org\.apache\.tomcat\.embed:tomcat-embed-(websocket|core):.*$</gav>
+        <cve>CVE-2021-25122</cve>
+        <cve>CVE-2021-25329</cve>
         <cve>CVE-2020-17527</cve>
         <cve>CVE-2021-24122</cve>
     </suppress>
