@@ -15,12 +15,26 @@ public class PaymentUpdateControllerFunctionalTests extends IntegrationTestBase 
         String draftJsonStr = utils.getJsonFromFile("payment.json");
         RestAssured.given()
             .relaxedHTTPSValidation()
-            .headers(utils.getCitizenHeaders())
+            .headers("ServiceAuthorization", utils.getCitizenHeaders())
             .body(draftJsonStr)
             .when()
             .put(PAYMENT_UPDATE_URL)
             .then()
             .assertThat()
             .statusCode(200);
+    }
+
+    @Test
+    public void ForbiddenAsNoProperHeader() {
+        String draftJsonStr = utils.getJsonFromFile("payment.json");
+        RestAssured.given()
+            .relaxedHTTPSValidation()
+            .headers(utils.getCitizenHeaders())
+            .body(draftJsonStr)
+            .when()
+            .put(PAYMENT_UPDATE_URL)
+            .then()
+            .assertThat()
+            .statusCode(403);
     }
 }

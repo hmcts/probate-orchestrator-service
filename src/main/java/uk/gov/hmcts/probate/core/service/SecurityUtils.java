@@ -17,6 +17,7 @@ import uk.gov.hmcts.reform.authorisation.validators.AuthTokenValidator;
 
 import java.util.Base64;
 import java.util.List;
+import java.util.Objects;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
@@ -118,7 +119,13 @@ public class SecurityUtils {
 
     public Boolean checkIfServiceIsAllowed(String token) throws InvalidTokenException {
         String serviceName = this.authenticate(token);
-        return allowedToUpdateDetails.contains(serviceName);
+        if(Objects.nonNull(serviceName)) {
+            return allowedToUpdateDetails.contains(serviceName);
+        }
+        else{
+            log.info("Service name in token is null");
+            return Boolean.FALSE;
+        }
     }
 
     public String getBearerToken(String token) {

@@ -47,7 +47,7 @@ public class PaymentUpdateController {
     @PutMapping(path = PAYMENT_UPDATES, consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     //@ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> updatePayment(@RequestHeader(value = SERVICE_AUTHORIZATION_HEADER) String s2sAuthToken,
+    public ResponseEntity<HttpStatus> updatePayment(@RequestHeader(value = SERVICE_AUTHORIZATION_HEADER) String s2sAuthToken,
                                            @RequestBody PaymentDto paymentDto) {
 
         try {

@@ -149,4 +149,9 @@ public class SecurityUtilsTest {
         securityUtils.authenticate("TestService");
         assertEquals("TestService", securityUtils.authenticate("TestService"));
     }
+
+    @Test(expected = InvalidTokenException.class)
+    public void authenticateABlankToken() throws InvalidTokenException {
+        securityUtils.authenticate(" ");
+    }
 }
