@@ -146,12 +146,17 @@ public class SecurityUtilsTest {
     @Test
     public void givenServiceNameIsAuthenticated() throws InvalidTokenException {
         when(authTokenValidator.getServiceName("Bearer TestService")).thenReturn("TestService");
-        securityUtils.authenticate("TestService");
         assertEquals("TestService", securityUtils.authenticate("TestService"));
     }
 
     @Test(expected = InvalidTokenException.class)
     public void authenticateABlankToken() throws InvalidTokenException {
         securityUtils.authenticate(" ");
+    }
+
+    @Test
+    public void givenServiceNameIsNullFromToken() throws InvalidTokenException {
+        when(authTokenValidator.getServiceName("Bearer TestService")).thenReturn(null);
+        assertEquals(Boolean.FALSE, securityUtils.checkIfServiceIsAllowed("TestService"));
     }
 }

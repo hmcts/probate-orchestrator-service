@@ -123,7 +123,7 @@ public class SecurityUtils {
             return allowedToUpdateDetails.contains(serviceName);
         }
         else{
-            log.info("Service name in token is null");
+            log.info("Service name from token is null");
             return Boolean.FALSE;
         }
     }
