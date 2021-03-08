@@ -46,9 +46,9 @@ public class PaymentUpdateController {
         @ApiResponse(code = 500, message = "Internal Server Error")})
     @PutMapping(path = PAYMENT_UPDATES, consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
-    //@ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<HttpStatus> updatePayment(@RequestHeader(value = SERVICE_AUTHORIZATION_HEADER) String s2sAuthToken,
-                                           @RequestBody PaymentDto paymentDto) {
+    public ResponseEntity<HttpStatus> updatePayment(
+        @RequestHeader(value = SERVICE_AUTHORIZATION_HEADER) String s2sAuthToken,
+        @RequestBody PaymentDto paymentDto) {
 
         try {
             Boolean isServiceAllowed = authS2sUtil.checkIfServiceIsAllowed(s2sAuthToken);
