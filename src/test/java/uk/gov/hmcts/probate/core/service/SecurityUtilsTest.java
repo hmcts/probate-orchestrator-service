@@ -147,6 +147,6 @@ public class SecurityUtilsTest {
     public void givenServiceNameIsAuthenticated() throws InvalidTokenException {
         when(authTokenValidator.getServiceName("Bearer TestService")).thenReturn("TestService");
         securityUtils.authenticate("TestService");
-        assertEquals(securityUtils.authenticate("TestService"), "TestService");
+        assertEquals("TestService", securityUtils.authenticate("TestService"));
     }
 }

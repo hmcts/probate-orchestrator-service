@@ -47,22 +47,22 @@ public class PaymentUpdateController {
     @PutMapping(path = PAYMENT_UPDATES, consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     //@ResponseStatus(HttpStatus.OK)
-    public void updatePayment(@RequestHeader(value = SERVICE_AUTHORIZATION_HEADER) String s2sAuthToken,
-                              @RequestBody PaymentDto paymentDto) {
+    public ResponseEntity<?> updatePayment(@RequestHeader(value = SERVICE_AUTHORIZATION_HEADER) String s2sAuthToken,
+                                           @RequestBody PaymentDto paymentDto) {
 
         try {
             Boolean isServiceAllowed = authS2sUtil.checkIfServiceIsAllowed(s2sAuthToken);
             if (Boolean.TRUE.equals(isServiceAllowed)) {
                 paymentUpdateService.paymentUpdate(paymentDto);
-                ResponseEntity.status(HttpStatus.OK);
+                return new ResponseEntity<>(HttpStatus.OK);
             } else {
                 log.info("Calling Service is not authorised to use the endpoint");
-                ResponseEntity.status(HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
         } catch (InvalidTokenException e) {
             log.error(e.getMessage());
             log.info("Provided s2s token is missing or invalid");
-            ResponseEntity.status(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 }
