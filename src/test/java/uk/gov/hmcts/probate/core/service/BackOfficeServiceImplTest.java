@@ -138,6 +138,14 @@ public class BackOfficeServiceImplTest {
     }
 
     @Test
+    public void shouldInitiateExelaExtractDateRange() {
+        when(backOfficeApi.initiateExelaExtractDateRange(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(String.class), any(String.class)))
+                .thenReturn(responseEntity);
+
+        assertThat(backOfficeService.initiateExelaExtractDateRange("2020-02-27", "2020-02-29")).isEqualTo(responseEntity);
+    }
+
+    @Test
     public void shouldInitiateGrantDelayedNotification() {
         String date = "someDate";
         GrantScheduleResponse responseBody =

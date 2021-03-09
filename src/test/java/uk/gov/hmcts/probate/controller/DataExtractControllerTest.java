@@ -116,4 +116,17 @@ public class DataExtractControllerTest {
         verify(dataExtractController, times(1)).initiateExelaExtract(date);
     }
 
+    @Test
+    public void shouldInitiateExelaDataExtractForGivenDateRange() throws Exception {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String fromDate = dateTimeFormatter.format(LocalDate.now().minusDays(2L));
+        String toDate = dateTimeFormatter.format(LocalDate.now().minusDays(1L));
+
+        mockMvc.perform(post("/data-extract/exela/" + fromDate + "/" + toDate)
+                .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
+                .andExpect(status().isOk());
+
+        verify(dataExtractController, times(1)).initiateExelaExtractDateRange(fromDate, toDate);
+    }
+
 }
