@@ -12,7 +12,7 @@ plugins {
     id 'pmd'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'org.springframework.boot' version '2.3.4.RELEASE'
-    id 'org.owasp.dependencycheck' version '6.0.2'
+    id 'org.owasp.dependencycheck' version '6.1.2'
     id 'com.github.ben-manes.versions' version '0.36.0'
     id 'com.gorylenko.gradle-git-properties' version '2.0.0'
     id 'info.solidsoft.pitest' version '1.5.2'
