@@ -18,7 +18,8 @@ public class PaymentUpdateControllerFunctionalTests extends IntegrationTestBase 
 
         RestAssured.given()
             .relaxedHTTPSValidation()
-            .header("ServiceAuthorization", s2sToken)
+            //.header("ServiceAuthorization", utils.getCaseworkerHeaders())
+            .headers(utils.getCaseworkerHeaders())
             .body(draftJsonStr).contentType(MediaType.APPLICATION_JSON_VALUE)
             .when()
             .put(PAYMENT_UPDATE_URL)
