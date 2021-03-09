@@ -85,7 +85,8 @@ public class BackOfficeServiceImpl implements BackOfficeService {
     public ResponseEntity<String> initiateExelaExtractDateRange(String fromDate, String toDate) {
         securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateExelaExtract as caseworker");
-        return backOfficeApi.initiateExelaExtractDateRange(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
+        return backOfficeApi
+            .initiateExelaExtractDateRange(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
                 fromDate, toDate);
     }
 
