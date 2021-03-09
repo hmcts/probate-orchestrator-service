@@ -4,6 +4,7 @@ import io.restassured.RestAssured;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.http.MediaType;
 import uk.gov.hmcts.probate.functional.IntegrationTestBase;
 
 @RunWith(SpringIntegrationSerenityRunner.class)
@@ -18,7 +19,7 @@ public class PaymentUpdateControllerFunctionalTests extends IntegrationTestBase 
         RestAssured.given()
             .relaxedHTTPSValidation()
             .header("ServiceAuthorization", s2sToken)
-            .body(draftJsonStr)
+            .body(draftJsonStr).contentType(MediaType.APPLICATION_JSON_VALUE)
             .when()
             .put(PAYMENT_UPDATE_URL)
             .then()
