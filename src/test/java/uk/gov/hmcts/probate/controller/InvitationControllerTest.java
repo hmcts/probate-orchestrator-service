@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -61,7 +60,7 @@ public class InvitationControllerTest {
     public void setUp() throws Exception {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
-        invitationStr = TestUtils.getJSONFromFile("invite/invitation.json");
+        invitationStr = TestUtils.getJsonFromFile("invite/invitation.json");
         this.invitation = objectMapper.readValue(invitationStr, Invitation.class);
         this.invitation2 = objectMapper.readValue(invitationStr, Invitation.class);
         invitationArrayStr = new StringBuilder("[").append(invitationStr).append("]").toString();
@@ -69,7 +68,7 @@ public class InvitationControllerTest {
         invitationsResult.add(invitation);
         invitationsResult.add(invitation2);
 
-        invitationResendStr = TestUtils.getJSONFromFile("invite/invitationResend.json");
+        invitationResendStr = TestUtils.getJsonFromFile("invite/invitationResend.json");
         invitationResendArrayStr = new StringBuilder("[").append(invitationResendStr).append("]").toString();
         this.invitationResend = objectMapper.readValue(invitationResendStr, Invitation.class);
     }
@@ -82,7 +81,8 @@ public class InvitationControllerTest {
                 .content(invitationArrayStr)
                 .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
                 .andExpect(status().isOk());
-        verify(businessService, times(1)).sendInvitations(eq(Arrays.asList(invitation)), eq("someSessionId"), eq(Boolean.FALSE));
+        verify(businessService, times(1)).sendInvitations(eq(Arrays.asList(invitation)),
+            eq("someSessionId"), eq(Boolean.FALSE));
     }
 
     @Test
@@ -93,44 +93,51 @@ public class InvitationControllerTest {
                 .content(invitationArrayStr)
                 .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
                 .andExpect(status().isOk());
-        verify(businessService, times(1)).sendInvitations(eq(Arrays.asList(invitation)), eq("someSessionId"), eq(Boolean.TRUE));
+        verify(businessService, times(1)).sendInvitations(eq(Arrays.asList(invitation)),
+            eq("someSessionId"), eq(Boolean.TRUE));
     }
 
     @Test
     public void resendInvitation_withValidJson_shouldReturn200() throws Exception {
 
-        when(businessService.resendInvitation(eq("12345"), eq(invitationResend), eq("someSessionId"))).thenReturn("12345");
+        when(businessService.resendInvitation(eq("12345"), eq(invitationResend), eq("someSessionId")))
+            .thenReturn("12345");
 
         mockMvc.perform(post(InvitationController.INVITE_BASEURL)
                 .header("Session-Id", "someSessionId")
                 .content(invitationResendArrayStr)
                 .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
                 .andExpect(status().isOk());
-        verify(businessService, times(1)).sendInvitations(eq(Arrays.asList(invitationResend)), eq("someSessionId"), eq(Boolean.FALSE));
+        verify(businessService, times(1)).sendInvitations(eq(Arrays.asList(invitationResend)),
+            eq("someSessionId"), eq(Boolean.FALSE));
     }
 
     @Test
     public void pinRequest_shouldReturn200() throws Exception {
 
-        when(businessService.getPinNumber(eq("07987676542"), eq("someSessionId"), eq(Boolean.FALSE))).thenReturn("54321");
+        when(businessService.getPinNumber(eq("07987676542"), eq("someSessionId"), eq(Boolean.FALSE)))
+            .thenReturn("54321");
 
         mockMvc.perform(get(InvitationController.INVITE_PIN_URL)
                 .header("Session-Id", "someSessionId")
                 .param("phoneNumber", "07987676542"))
                 .andExpect(status().isOk());
-        verify(businessService, times(1)).getPinNumber(eq("07987676542"), eq("someSessionId"), eq(Boolean.FALSE));
+        verify(businessService, times(1)).getPinNumber(eq("07987676542"),
+            eq("someSessionId"), eq(Boolean.FALSE));
     }
 
     @Test
     public void bilingualPinRequest_shouldReturn200() throws Exception {
 
-        when(businessService.getPinNumber(eq("07987676542"), eq("someSessionId"), eq(Boolean.TRUE))).thenReturn("54321");
+        when(businessService.getPinNumber(eq("07987676542"), eq("someSessionId"),
+            eq(Boolean.TRUE))).thenReturn("54321");
 
         mockMvc.perform(get(InvitationController.INVITE_PIN_BILINGUAL_URL)
                 .header("Session-Id", "someSessionId")
                 .param("phoneNumber", "07987676542"))
                 .andExpect(status().isOk());
-        verify(businessService, times(1)).getPinNumber(eq("07987676542"), eq("someSessionId"), eq(Boolean.TRUE));
+        verify(businessService, times(1)).getPinNumber(eq("07987676542"),
+            eq("someSessionId"), eq(Boolean.TRUE));
     }
 
     @Test
@@ -171,7 +178,8 @@ public class InvitationControllerTest {
                 .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
                 .content(invitationStr))
                 .andExpect(status().isOk());
-        verify(businessService, times(1)).updateContactDetails(eq("12345"), eq(invitation));
+        verify(businessService, times(1)).updateContactDetails(eq("12345"),
+            eq(invitation));
     }
 
     @Test

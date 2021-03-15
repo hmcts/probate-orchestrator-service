@@ -14,7 +14,12 @@ import uk.gov.hmcts.probate.service.BackOfficeService;
 import uk.gov.hmcts.probate.service.SubmitService;
 import uk.gov.hmcts.reform.probate.model.PaymentStatus;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
-import uk.gov.hmcts.reform.probate.model.cases.*;
+import uk.gov.hmcts.reform.probate.model.cases.CaseData;
+import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
+import uk.gov.hmcts.reform.probate.model.cases.CaseType;
+import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
+import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
+import uk.gov.hmcts.reform.probate.model.cases.SubmitResult;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.forms.CaseSummary;
@@ -25,7 +30,12 @@ import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaForm;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -46,7 +56,8 @@ public class SubmitServiceImpl implements SubmitService {
 
     private final Map<ProbateType, Function<Form, String>> formIdentifierFunctionMap;
 
-    private final Set<CaseType> caseTypesForNotifications = Sets.newHashSet(CaseType.CAVEAT, CaseType.GRANT_OF_REPRESENTATION);
+    private final Set<CaseType> caseTypesForNotifications =
+        Sets.newHashSet(CaseType.CAVEAT, CaseType.GRANT_OF_REPRESENTATION);
 
     private final CaseSubmissionUpdater caseSubmissionUpdater;
 
@@ -59,7 +70,7 @@ public class SubmitServiceImpl implements SubmitService {
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
         ProbateCaseDetails probateCaseDetails = submitServiceApi.getCase(authorisation,
-                serviceAuthorisation, identifier, probateType.getCaseType().name());
+            serviceAuthorisation, identifier, probateType.getCaseType().name());
         FormMapper formMapper = getFormMapper(probateType, probateCaseDetails);
         Form form = formMapper.fromCaseData(probateCaseDetails.getCaseData());
         updateCcdCase(probateCaseDetails, form);
@@ -73,9 +84,10 @@ public class SubmitServiceImpl implements SubmitService {
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
         List<ProbateCaseDetails> probateCaseDetails = submitServiceApi.getAllCases(authorisation,
-                serviceAuthorisation, CaseType.GRANT_OF_REPRESENTATION.name());
-        List<CaseSummary> caseSummaries = probateCaseDetails.stream().map(caseSummaryMapper::createCaseSummary).sorted(Comparator.comparing(CaseSummary::getDateCreated)).collect(Collectors.toList());
-        for (int i=0; i< caseSummaries.size(); i++) {
+            serviceAuthorisation, CaseType.GRANT_OF_REPRESENTATION.name());
+        List<CaseSummary> caseSummaries = probateCaseDetails.stream().map(caseSummaryMapper::createCaseSummary)
+            .sorted(Comparator.comparing(CaseSummary::getDateCreated)).collect(Collectors.toList());
+        for (int i = 0; i < caseSummaries.size(); i++) {
             CaseSummary caseSummary = caseSummaries.get(i);
             log.info("getAllCases, looping caseSummary.cdCase.id {}/{}", i, caseSummary.getCcdCase().getId());
         }
@@ -97,7 +109,7 @@ public class SubmitServiceImpl implements SubmitService {
         if (probateType.equals(ProbateType.CAVEAT)) {
             formMapper = mappers.get(probateType);
         } else if (((GrantOfRepresentationData) probateCaseDetails.getCaseData())
-                .getGrantType().equals(GrantType.INTESTACY)) {
+            .getGrantType().equals(GrantType.INTESTACY)) {
             formMapper = mappers.get(ProbateType.INTESTACY);
         } else {
             formMapper = mappers.get(ProbateType.PA);
@@ -112,13 +124,13 @@ public class SubmitServiceImpl implements SubmitService {
         log.info("Initiate case called");
         FormMapper formMapper = mappers.get(probateType);
         ProbateCaseDetails probateCaseDetails = submitServiceApi.initiateCase(
-                securityUtils.getAuthorisation(),
-                securityUtils.getServiceAuthorisation(),
-                ProbateCaseDetails.builder().caseData(mapToCase(initiateForm(probateType), formMapper)).build()
+            securityUtils.getAuthorisation(),
+            securityUtils.getServiceAuthorisation(),
+            ProbateCaseDetails.builder().caseData(mapToCase(initiateForm(probateType), formMapper)).build()
         );
         log.info("Initiate case for new caseid: {}", probateCaseDetails.getCaseInfo().getCaseId());
         allCases.getApplications().add(caseSummaryMapper.createCaseSummary(probateCaseDetails));
-        for (int i=0; i< allCases.getApplications().size(); i++) {
+        for (int i = 0; i < allCases.getApplications().size(); i++) {
             CaseSummary caseSummary = allCases.getApplications().get(i);
             log.info("initiateCase, looping caseSummary.cdCase.id {}/{}", i, caseSummary.getCcdCase().getId());
         }
@@ -142,10 +154,10 @@ public class SubmitServiceImpl implements SubmitService {
         assertIdentifier(identifier, form);
         FormMapper formMapper = mappers.get(form.getType());
         ProbateCaseDetails probateCaseDetails = submitServiceApi.saveCase(
-                securityUtils.getAuthorisation(),
-                securityUtils.getServiceAuthorisation(),
-                identifier,
-                ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
+            securityUtils.getAuthorisation(),
+            securityUtils.getServiceAuthorisation(),
+            identifier,
+            ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
         );
         return mapFromCase(formMapper, probateCaseDetails);
     }
@@ -157,10 +169,10 @@ public class SubmitServiceImpl implements SubmitService {
         FormMapper formMapper = mappers.get(form.getType());
         log.debug("calling submit on submitserviceapi");
         SubmitResult submitResult = submitServiceApi.submit(
-                securityUtils.getAuthorisation(),
-                securityUtils.getServiceAuthorisation(),
-                identifier,
-                ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
+            securityUtils.getAuthorisation(),
+            securityUtils.getServiceAuthorisation(),
+            identifier,
+            ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
         );
         return mapFromCase(formMapper, submitResult.getProbateCaseDetails());
     }
@@ -171,7 +183,7 @@ public class SubmitServiceImpl implements SubmitService {
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         log.info("Get existing case from submit service");
         ProbateCaseDetails existingCase = submitServiceApi.getCase(authorisation,
-                serviceAuthorisation, identifier, probateType.getCaseType().name());
+            serviceAuthorisation, identifier, probateType.getCaseType().name());
 
         log.info("Got existing case now set payment on this case");
         CasePayment casePayment = paymentDtoMapper.toCasePayment(paymentDto);
@@ -187,10 +199,10 @@ public class SubmitServiceImpl implements SubmitService {
 
         log.debug("calling create case in submitServiceApi");
         ProbateCaseDetails probateCaseDetails = submitServiceApi.createCase(
-                authorisation,
-                serviceAuthorisation,
-                identifier,
-                existingCase
+            authorisation,
+            serviceAuthorisation,
+            identifier,
+            existingCase
         );
 
         FormMapper formMapper = getFormMapper(probateType, probateCaseDetails);
@@ -199,29 +211,29 @@ public class SubmitServiceImpl implements SubmitService {
 
     private void assertIdentifier(String identifier, Form form) {
         String identifierInForm = Optional.of(formIdentifierFunctionMap.get(form.getType()))
-                .orElseThrow(IllegalArgumentException::new)
-                .apply(form);
+            .orElseThrow(IllegalArgumentException::new)
+            .apply(form);
         Assert.isTrue(identifierInForm != null && identifierInForm.equals(identifier),
-                "Path variable identifier must match identifier in form");
+            "Path variable identifier must match identifier in form");
     }
 
     private void updateCcdCase(ProbateCaseDetails probateCaseDetails, Form formResponse) {
         formResponse.setCcdCase(CcdCase.builder()
-                .id(Long.valueOf(probateCaseDetails.getCaseInfo().getCaseId()))
-                .state(probateCaseDetails.getCaseInfo().getState().getName())
-                .build());
+            .id(Long.valueOf(probateCaseDetails.getCaseInfo().getCaseId()))
+            .state(probateCaseDetails.getCaseInfo().getState().getName())
+            .build());
     }
 
     @Override
     public Form updatePayments(String identifier, Form form) {
         log.info("update Payments called");
         Assert.isTrue(!CollectionUtils.isEmpty(form.getPayments()) || form.getPayment() != null,
-                "Cannot update case with no payments, there needs to be at least one payment");
+            "Cannot update case with no payments, there needs to be at least one payment");
         String authorisation = securityUtils.getAuthorisation();
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         log.info("Get existing case from submit service");
         ProbateCaseDetails existingCase = submitServiceApi.getCase(authorisation,
-                serviceAuthorisation, identifier, form.getType().getCaseType().name());
+            serviceAuthorisation, identifier, form.getType().getCaseType().name());
         log.info("Got existing case now set payment on this case");
         FormMapper formMapper = mappers.get(form.getType());
         CaseData caseData = formMapper.toCaseData(form);
@@ -233,23 +245,24 @@ public class SubmitServiceImpl implements SubmitService {
         log.info("Update case for submission");
         updateCaseForSubmission(existingCase);
         //TODO: PRO-5580 - Uncomment once applicationSubmittedDate has been re-added to the spreadsheet
-        
+
         log.debug("calling create case in submitServiceApi");
         ProbateCaseDetails probateCaseDetails = submitServiceApi.createCase(
-                authorisation,
-                serviceAuthorisation,
-                identifier,
-                existingCase
+            authorisation,
+            serviceAuthorisation,
+            identifier,
+            existingCase
         );
         return mapFromCase(formMapper, probateCaseDetails);
     }
 
     public Optional<CaseData> sendNotification(ProbateCaseDetails probateCaseDetails) {
         CaseType caseType = CaseType.getCaseType(probateCaseDetails.getCaseData());
-        log.info("Send notification with case type {}" , caseType.getName());
+        log.info("Send notification with case type {}", caseType.getName());
         CasePayment casePayment = probateCaseDetails.getCaseData().getPayments().get(0).getValue();
-        if (caseTypesForNotifications.contains(caseType) && 
-            (PaymentStatus.SUCCESS.equals(casePayment.getStatus()) || PaymentStatus.NOT_REQUIRED.equals(casePayment.getStatus()))) {
+        if (caseTypesForNotifications.contains(caseType)
+            && (PaymentStatus.SUCCESS.equals(casePayment.getStatus())
+            || PaymentStatus.NOT_REQUIRED.equals(casePayment.getStatus()))) {
             return Optional.ofNullable(backOfficeService.sendNotification(probateCaseDetails));
         }
         return Optional.empty();
@@ -266,10 +279,10 @@ public class SubmitServiceImpl implements SubmitService {
     public ProbateCaseDetails updateByCaseId(String caseId, ProbateCaseDetails caseDetails) {
         log.info("Call to submit service with id {}", caseId);
         ProbateCaseDetails probateCaseDetails = submitServiceApi.updateByCaseId(
-                securityUtils.getAuthorisation(),
-                securityUtils.getServiceAuthorisation(),
-                caseId,
-                caseDetails);
+            securityUtils.getAuthorisation(),
+            securityUtils.getServiceAuthorisation(),
+            caseId,
+            caseDetails);
         return probateCaseDetails;
     }
 
@@ -280,8 +293,9 @@ public class SubmitServiceImpl implements SubmitService {
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
         ProbateCaseDetails probateCaseDetails = submitServiceApi.validate(authorisation,
-                serviceAuthorisation, identifier, probateType.getCaseType().name());
-        log.info("case id from probateCaseDetails ID:{}, State: {}", probateCaseDetails.getCaseInfo().getCaseId(),probateCaseDetails.getCaseInfo().getState());
+            serviceAuthorisation, identifier, probateType.getCaseType().name());
+        log.info("case id from probateCaseDetails ID:{}, State: {}", probateCaseDetails.getCaseInfo().getCaseId(),
+            probateCaseDetails.getCaseInfo().getState());
         Form form = formMapper.fromCaseData(probateCaseDetails.getCaseData());
         updateCcdCase(probateCaseDetails, form);
         return form;

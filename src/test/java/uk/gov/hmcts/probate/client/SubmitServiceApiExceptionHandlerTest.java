@@ -25,12 +25,12 @@ public class SubmitServiceApiExceptionHandlerTest {
     @Before
     public void setUp() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        String json = TestUtils.getJSONFromFile("errorResponse/apiClientErrorResponse.json");
+        String json = TestUtils.getJsonFromFile("errorResponse/apiClientErrorResponse.json");
         errorResponse = mapper.readValue(json, ErrorResponse.class);
     }
 
     @Test
-    public void handleApiClientExceptionReturnsResponseStatus500(){
+    public void handleApiClientExceptionReturnsResponseStatus500() {
         ResponseEntity responseEntity = exceptionHandler
                 .handleApiClientException(new ApiClientException(500, errorResponse));
 
@@ -38,7 +38,7 @@ public class SubmitServiceApiExceptionHandlerTest {
     }
 
     @Test
-    public void handleApiClientExceptionReturnsResponseStatus400(){
+    public void handleApiClientExceptionReturnsResponseStatus400() {
         ResponseEntity responseEntity = exceptionHandler
                 .handleApiClientException(new ApiClientException(400, errorResponse));
 
@@ -46,7 +46,7 @@ public class SubmitServiceApiExceptionHandlerTest {
     }
 
     @Test
-    public void handleApiClientExceptionReturnsResponseStatus500WhenHttpStatusIsUnprocessable(){
+    public void handleApiClientExceptionReturnsResponseStatus500WhenHttpStatusIsUnprocessable() {
         ResponseEntity responseEntity = exceptionHandler
                 .handleApiClientException(new ApiClientException(599, errorResponse));
 
@@ -54,7 +54,7 @@ public class SubmitServiceApiExceptionHandlerTest {
     }
 
     @Test
-    public void handleApiClientExceptionWithBlankMessage(){
+    public void handleApiClientExceptionWithBlankMessage() {
         ApiClientErrorResponse errorResponse = new ApiClientErrorResponse();
 
         ResponseEntity responseEntity = exceptionHandler
@@ -65,7 +65,7 @@ public class SubmitServiceApiExceptionHandlerTest {
 
     @Test
     public void handleApiClientExceptionWithValidationErrorResponse() throws IOException {
-        String json = TestUtils.getJSONFromFile("errorResponse/validationErrorResponse.json");
+        String json = TestUtils.getJsonFromFile("errorResponse/validationErrorResponse.json");
         ObjectMapper mapper = new ObjectMapper();
         errorResponse = mapper.readValue(json, ErrorResponse.class);
         ResponseEntity responseEntity = exceptionHandler

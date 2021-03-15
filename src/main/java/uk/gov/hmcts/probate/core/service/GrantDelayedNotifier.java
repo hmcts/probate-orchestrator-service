@@ -25,7 +25,7 @@ public class GrantDelayedNotifier {
 
         GrantScheduleResponse response = backOfficeService.initiateGrantDelayedNotification(yesterday);
         String updates = response.getScheduleResponseData().stream().collect(Collectors.joining(","));
-        log.info("Grant delayed notification completed for date: {} " +
-            "for {} cases, details: {}", yesterday, response.getScheduleResponseData().size(), updates);
+        log.info("Grant delayed notification completed for date: {} "
+            + "for {} cases, details: {}", yesterday, response.getScheduleResponseData().size(), updates);
     }
 }

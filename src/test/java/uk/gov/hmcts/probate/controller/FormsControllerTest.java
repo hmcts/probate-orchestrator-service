@@ -83,16 +83,16 @@ public class FormsControllerTest {
     public void setUp() throws Exception {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
-        this.intestacyFormJsonStr = TestUtils.getJSONFromFile("intestacyFormTest.json");
+        this.intestacyFormJsonStr = TestUtils.getJsonFromFile("intestacyFormTest.json");
         this.intestacyForm = objectMapper.readValue(intestacyFormJsonStr, IntestacyForm.class);
 
-        this.caveatFormJsonStr = TestUtils.getJSONFromFile("caveatForm.json");
+        this.caveatFormJsonStr = TestUtils.getJsonFromFile("caveatForm.json");
         this.caveatForm = objectMapper.readValue(caveatFormJsonStr, CaveatForm.class);
 
-        this.paFormJsonStr = TestUtils.getJSONFromFile("paForm.json");
+        this.paFormJsonStr = TestUtils.getJsonFromFile("paForm.json");
         this.paForm = objectMapper.readValue(paFormJsonStr, PaForm.class);
 
-        this.caseSummaryHolderStr = TestUtils.getJSONFromFile("caseSummary.json");
+        this.caseSummaryHolderStr = TestUtils.getJsonFromFile("caseSummary.json");
         this.caseSummaryHolder = objectMapper.readValue(caseSummaryHolderStr, CaseSummaryHolder.class);
 
         paymentDto = PaymentDto.builder()

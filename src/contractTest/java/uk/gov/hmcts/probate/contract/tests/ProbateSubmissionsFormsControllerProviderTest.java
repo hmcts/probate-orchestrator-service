@@ -32,7 +32,9 @@
 //        when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorization");
 //
 //        ProbateCaseDetails probateCaseDetailsResponse = getProbateCaseDetails("prePaymentMadeCaseData.json");
-//        when(submitServiceApi.getCase("authToken", "someServiceAuthorization", "paymentinitiated.test8@gmail.com", CaseType.GRANT_OF_REPRESENTATION.toString())).thenReturn(probateCaseDetailsResponse);
+//        when(submitServiceApi.getCase("authToken", "someServiceAuthorization",
+//        "paymentinitiated.test8@gmail.com", CaseType.GRANT_OF_REPRESENTATION.toString()))
+//        .thenReturn(probateCaseDetailsResponse);
 //        when(submitServiceApi.createCase(
 //                anyString(),
 //                anyString(),
@@ -48,7 +50,8 @@
 //        when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorization");
 //
 //        ProbateCaseDetails probateCaseDetailsResponse = getProbateCaseDetails("postPaymentCaseData.json");
-//        when(submitServiceApi.getCase("authToken", "someServiceAuthorization", "paymentmade.test8@gmail.com", CaseType.GRANT_OF_REPRESENTATION.toString())).thenReturn(probateCaseDetailsResponse);
+//        when(submitServiceApi.getCase("authToken", "someServiceAuthorization", "paymentmade.test8@gmail.com",
+//        CaseType.GRANT_OF_REPRESENTATION.toString())).thenReturn(probateCaseDetailsResponse);
 //        when(submitServiceApi.createCase(
 //                anyString(),
 //                anyString(),
@@ -63,10 +66,13 @@
 //        when(securityUtils.getAuthorisation()).thenReturn("authToken");
 //        when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorization");
 //
-//        ProbateCaseDetails probateCaseDetails = getProbateCaseDetails("probateGrantOfRepresentation_SingleProbateApplicant_submission.json");
-//        ProbateCaseDetails probateCaseDetailsResponse = getProbateCaseDetails("probateGrantOfRepresentation_SingleProbateApplicant_submission_response.json");
+//        ProbateCaseDetails probateCaseDetails =
+//        getProbateCaseDetails("probateGrantOfRepresentation_SingleProbateApplicant_submission.json");
+//        ProbateCaseDetails probateCaseDetailsResponse =
+//        getProbateCaseDetails("probateGrantOfRepresentation_SingleProbateApplicant_submission_response.json");
 //
-//        when(submitServiceApi.getCase("authToken", "someServiceAuthorization", "ccdcasedata1@gmail.com", CaseType.GRANT_OF_REPRESENTATION.toString())).thenReturn(probateCaseDetailsResponse);
+//        when(submitServiceApi.getCase("authToken", "someServiceAuthorization", "ccdcasedata1@gmail.com",
+//        CaseType.GRANT_OF_REPRESENTATION.toString())).thenReturn(probateCaseDetailsResponse);
 //
 //        when(submitServiceApi.createCase(
 //                anyString(),
@@ -83,10 +89,13 @@
 ////
 ////        when(securityUtils.getAuthorisation()).thenReturn("authToken");
 ////        when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorization");
-////        ProbateCaseDetails probateCaseDetails = getProbateCaseDetails("probateGrantOfRepresentation_MultipleProbateApplicant_submission.json");
-////        ProbateCaseDetails probateCaseDetailsResponse = getProbateCaseDetails("probateGrantOfRepresentation_MultipleProbateApplicant_submission_response.json");
+////        ProbateCaseDetails probateCaseDetails =
+// getProbateCaseDetails("probateGrantOfRepresentation_MultipleProbateApplicant_submission.json");
+////        ProbateCaseDetails probateCaseDetailsResponse =
+// getProbateCaseDetails("probateGrantOfRepresentation_MultipleProbateApplicant_submission_response.json");
 ////
-////        when(submitServiceApi.getCase("authToken", "someServiceAuthorization", "maggy.penelope@sellcow.net", CaseType.GRANT_OF_REPRESENTATION.toString())).thenReturn(probateCaseDetailsResponse);
+////        when(submitServiceApi.getCase("authToken", "someServiceAuthorization", "maggy.penelope@sellcow.net",
+// CaseType.GRANT_OF_REPRESENTATION.toString())).thenReturn(probateCaseDetailsResponse);
 ////    }
 //
 //

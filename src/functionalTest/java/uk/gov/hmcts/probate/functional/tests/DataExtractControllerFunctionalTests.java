@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @RunWith(SpringIntegrationSerenityRunner.class)
-public class DataExtractControllerFunctionalTests extends IntegrationTestBase{
+public class DataExtractControllerFunctionalTests extends IntegrationTestBase {
     private static final String DATA_EXTRACT_HMRC_URL = "/data-extract/hmrc";
     private static final String DATA_EXTRACT_EXELA_URL = "/data-extract/exela";
     private static final String DATA_EXTRACT_IRON_MOUNTAIN_URL = "/data-extract/iron-mountain";
@@ -23,28 +23,28 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase{
     @Test
     public void performHmrcDataExtractAsCitizen() {
         String response = RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
-                .when()
-                .post(DATA_EXTRACT_HMRC_URL)
-                .then()
-                .assertThat()
-                .statusCode(202)
-                .extract().response().getBody().prettyPrint();
+            .relaxedHTTPSValidation()
+            .headers(utils.getCitizenHeaders())
+            .when()
+            .post(DATA_EXTRACT_HMRC_URL)
+            .then()
+            .assertThat()
+            .statusCode(202)
+            .extract().response().getBody().prettyPrint();
         Assert.assertEquals(HMRC_DATA_EXTRACT_FINISHED, response);
     }
 
     @Test
     public void performHmrcDataExtractAsCaseWorker() {
         String response = RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCaseworkerHeaders())
-                .when()
-                .post(DATA_EXTRACT_HMRC_URL)
-                .then()
-                .assertThat()
-                .statusCode(202)
-                .extract().response().getBody().prettyPrint();
+            .relaxedHTTPSValidation()
+            .headers(utils.getCaseworkerHeaders())
+            .when()
+            .post(DATA_EXTRACT_HMRC_URL)
+            .then()
+            .assertThat()
+            .statusCode(202)
+            .extract().response().getBody().prettyPrint();
         Assert.assertEquals(HMRC_DATA_EXTRACT_FINISHED, response);
     }
 
@@ -53,27 +53,28 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase{
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String todayDate = dateTimeFormatter.format(LocalDate.now());
         String response = RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
-                .when()
-                .post(DATA_EXTRACT_HMRC_URL + "/" +todayDate)
-                .then()
-                .assertThat()
-                .statusCode(202)
-                .extract().response().getBody().prettyPrint();
+            .relaxedHTTPSValidation()
+            .headers(utils.getCitizenHeaders())
+            .when()
+            .post(DATA_EXTRACT_HMRC_URL + "/" + todayDate)
+            .then()
+            .assertThat()
+            .statusCode(202)
+            .extract().response().getBody().prettyPrint();
         Assert.assertEquals(HMRC_DATA_EXTRACT_FINISHED, response);
     }
+
     @Test
     public void performHmrcDataExtractForAnInvalidDate() {
         String invalidDate = "2020-11-49";
         RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
-                .when()
-                .post(DATA_EXTRACT_HMRC_URL + "/" +invalidDate)
-                .then()
-                .assertThat()
-                .statusCode(400);
+            .relaxedHTTPSValidation()
+            .headers(utils.getCitizenHeaders())
+            .when()
+            .post(DATA_EXTRACT_HMRC_URL + "/" + invalidDate)
+            .then()
+            .assertThat()
+            .statusCode(400);
     }
 
     @Test
@@ -81,16 +82,16 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase{
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String todayDate = dateTimeFormatter.format(LocalDate.now());
         String yesterdayDate = dateTimeFormatter.format(LocalDate.now().minusDays(1L));
-        System.out.println("test:" +DATA_EXTRACT_HMRC_URL + "/" +yesterdayDate +"/" +todayDate);
+        System.out.println("test:" + DATA_EXTRACT_HMRC_URL + "/" + yesterdayDate + "/" + todayDate);
         String response = RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCaseworkerHeaders())
-                .when()
-                .post(DATA_EXTRACT_HMRC_URL + "/" +yesterdayDate +"/" +todayDate)
-                .then()
-                .assertThat()
-                .statusCode(202)
-                .extract().response().getBody().prettyPrint();
+            .relaxedHTTPSValidation()
+            .headers(utils.getCaseworkerHeaders())
+            .when()
+            .post(DATA_EXTRACT_HMRC_URL + "/" + yesterdayDate + "/" + todayDate)
+            .then()
+            .assertThat()
+            .statusCode(202)
+            .extract().response().getBody().prettyPrint();
         Assert.assertEquals(HMRC_DATA_EXTRACT_FINISHED, response);
     }
 
@@ -99,42 +100,42 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase{
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String todayDate = dateTimeFormatter.format(LocalDate.now());
         String yesterdayDate = "2020-44-12";
-        System.out.println("test:" +DATA_EXTRACT_HMRC_URL + "/" +yesterdayDate +"/" +todayDate);
+        System.out.println("test:" + DATA_EXTRACT_HMRC_URL + "/" + yesterdayDate + "/" + todayDate);
         RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCaseworkerHeaders())
-                .when()
-                .post(DATA_EXTRACT_HMRC_URL + "/" +yesterdayDate +"/" +todayDate)
-                .then()
-                .assertThat()
-                .statusCode(400);
+            .relaxedHTTPSValidation()
+            .headers(utils.getCaseworkerHeaders())
+            .when()
+            .post(DATA_EXTRACT_HMRC_URL + "/" + yesterdayDate + "/" + todayDate)
+            .then()
+            .assertThat()
+            .statusCode(400);
     }
 
     @Test
     public void performExelaDataExtractAsCitizen() {
         String response = RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
-                .when()
-                .post(DATA_EXTRACT_EXELA_URL)
-                .then()
-                .assertThat()
-                .statusCode(202)
-                .extract().response().getBody().prettyPrint();
+            .relaxedHTTPSValidation()
+            .headers(utils.getCitizenHeaders())
+            .when()
+            .post(DATA_EXTRACT_EXELA_URL)
+            .then()
+            .assertThat()
+            .statusCode(202)
+            .extract().response().getBody().prettyPrint();
         Assert.assertEquals(EXELA_DATA_EXTRACT_FINISHED, response);
     }
 
     @Test
     public void performExelaDataExtractAsCaseWorker() {
         String response = RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCaseworkerHeaders())
-                .when()
-                .post(DATA_EXTRACT_EXELA_URL)
-                .then()
-                .assertThat()
-                .statusCode(202)
-                .extract().response().getBody().prettyPrint();
+            .relaxedHTTPSValidation()
+            .headers(utils.getCaseworkerHeaders())
+            .when()
+            .post(DATA_EXTRACT_EXELA_URL)
+            .then()
+            .assertThat()
+            .statusCode(202)
+            .extract().response().getBody().prettyPrint();
         Assert.assertEquals(EXELA_DATA_EXTRACT_FINISHED, response);
     }
 
@@ -143,14 +144,14 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase{
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String todayDate = dateTimeFormatter.format(LocalDate.now());
         String response = RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
-                .when()
-                .post(DATA_EXTRACT_EXELA_URL + "/" +todayDate)
-                .then()
-                .assertThat()
-                .statusCode(202)
-                .extract().response().getBody().prettyPrint();
+            .relaxedHTTPSValidation()
+            .headers(utils.getCitizenHeaders())
+            .when()
+            .post(DATA_EXTRACT_EXELA_URL + "/" + todayDate)
+            .then()
+            .assertThat()
+            .statusCode(202)
+            .extract().response().getBody().prettyPrint();
         Assert.assertEquals(EXELA_DATA_EXTRACT_FINISHED, response);
     }
 
@@ -158,40 +159,40 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase{
     public void performExelaDataExtractForAnInvalidDate() {
         String invalidDate = "2020-11-49";
         RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
-                .when()
-                .post(DATA_EXTRACT_EXELA_URL + "/" +invalidDate)
-                .then()
-                .assertThat()
-                .statusCode(400);
+            .relaxedHTTPSValidation()
+            .headers(utils.getCitizenHeaders())
+            .when()
+            .post(DATA_EXTRACT_EXELA_URL + "/" + invalidDate)
+            .then()
+            .assertThat()
+            .statusCode(400);
     }
 
     @Test
     public void performIronMountainDataExtractAsCitizen() {
         String response = RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
-                .when()
-                .post(DATA_EXTRACT_IRON_MOUNTAIN_URL)
-                .then()
-                .assertThat()
-                .statusCode(202)
-                .extract().response().getBody().prettyPrint();
+            .relaxedHTTPSValidation()
+            .headers(utils.getCitizenHeaders())
+            .when()
+            .post(DATA_EXTRACT_IRON_MOUNTAIN_URL)
+            .then()
+            .assertThat()
+            .statusCode(202)
+            .extract().response().getBody().prettyPrint();
         Assert.assertEquals(IRON_MOUNTAIN_DATA_EXTRACT_FINISHED, response);
     }
 
     @Test
     public void performIronMountainDataExtractAsCaseWorker() {
         String response = RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCaseworkerHeaders())
-                .when()
-                .post(DATA_EXTRACT_IRON_MOUNTAIN_URL)
-                .then()
-                .assertThat()
-                .statusCode(202)
-                .extract().response().getBody().prettyPrint();
+            .relaxedHTTPSValidation()
+            .headers(utils.getCaseworkerHeaders())
+            .when()
+            .post(DATA_EXTRACT_IRON_MOUNTAIN_URL)
+            .then()
+            .assertThat()
+            .statusCode(202)
+            .extract().response().getBody().prettyPrint();
         Assert.assertEquals(IRON_MOUNTAIN_DATA_EXTRACT_FINISHED, response);
     }
 
@@ -200,26 +201,27 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase{
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String todayDate = dateTimeFormatter.format(LocalDate.now());
         String response = RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
-                .when()
-                .post(DATA_EXTRACT_IRON_MOUNTAIN_URL + "/" +todayDate)
-                .then()
-                .assertThat()
-                .statusCode(202)
-                .extract().response().getBody().prettyPrint();
+            .relaxedHTTPSValidation()
+            .headers(utils.getCitizenHeaders())
+            .when()
+            .post(DATA_EXTRACT_IRON_MOUNTAIN_URL + "/" + todayDate)
+            .then()
+            .assertThat()
+            .statusCode(202)
+            .extract().response().getBody().prettyPrint();
         Assert.assertEquals(IRON_MOUNTAIN_DATA_EXTRACT_FINISHED, response);
     }
+
     @Test
     public void performIronMountainDataExtractForAnInvalidDate() {
         String invalidDate = "2020-11-49";
         RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
-                .when()
-                .post(DATA_EXTRACT_IRON_MOUNTAIN_URL + "/" +invalidDate)
-                .then()
-                .assertThat()
-                .statusCode(400);
+            .relaxedHTTPSValidation()
+            .headers(utils.getCitizenHeaders())
+            .when()
+            .post(DATA_EXTRACT_IRON_MOUNTAIN_URL + "/" + invalidDate)
+            .then()
+            .assertThat()
+            .statusCode(400);
     }
 }

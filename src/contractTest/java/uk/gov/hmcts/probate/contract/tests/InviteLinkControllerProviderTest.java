@@ -36,8 +36,10 @@
 //        when(securityUtils.getAuthorisation()).thenReturn("authToken");
 //        when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorisation");
 //
-//        ProbateCaseDetails probateCaseDetails = getProbateCaseDetails("probate_orchestrator_service_invite_get_response.json");
-//        when(submitServiceApi.getCaseByInvitationId("authToken","someServiceAuthorisation","54321", CaseType.GRANT_OF_REPRESENTATION.name())).thenReturn(probateCaseDetails);
+//        ProbateCaseDetails probateCaseDetails =
+//        getProbateCaseDetails("probate_orchestrator_service_invite_get_response.json");
+//        when(submitServiceApi.getCaseByInvitationId("authToken","someServiceAuthorisation","54321",
+//        CaseType.GRANT_OF_REPRESENTATION.name())).thenReturn(probateCaseDetails);
 //
 //
 //
@@ -50,8 +52,10 @@
 //        when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorisation");
 //
 //        when(businessServiceApi.invite(ArgumentMatchers.any(Invitation.class), anyString())).thenReturn("54321");
-//        ProbateCaseDetails probateCaseDetails = getProbateCaseDetails("probate_orchestrator_service_invite_send_response.json");
-//        when(submitServiceApi.getCase("authToken", "someServiceAuthorisation", "123456", ProbateType.PA.getCaseType().name())).thenReturn(probateCaseDetails);
+//        ProbateCaseDetails probateCaseDetails =
+//        getProbateCaseDetails("probate_orchestrator_service_invite_send_response.json");
+//        when(submitServiceApi.getCase("authToken", "someServiceAuthorisation", "123456",
+//        ProbateType.PA.getCaseType().name())).thenReturn(probateCaseDetails);
 //
 //    }
 //
@@ -61,9 +65,12 @@
 //        when(securityUtils.getAuthorisation()).thenReturn("authToken");
 //        when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorisation");
 //
-//        when(businessServiceApi.invite( anyString(),ArgumentMatchers.any(Invitation.class), anyString())).thenReturn("54321");
-//        ProbateCaseDetails probateCaseDetails = getProbateCaseDetails("probate_orchestrator_service_invite_send_response.json");
-//        when(submitServiceApi.getCase("authToken", "someServiceAuthorisation", "123456", ProbateType.PA.getCaseType().name())).thenReturn(probateCaseDetails);
+//        when(businessServiceApi.invite( anyString(),ArgumentMatchers.any(Invitation.class),
+//        anyString())).thenReturn("54321");
+//        ProbateCaseDetails probateCaseDetails =
+//        getProbateCaseDetails("probate_orchestrator_service_invite_send_response.json");
+//        when(submitServiceApi.getCase("authToken", "someServiceAuthorisation", "123456",
+//        ProbateType.PA.getCaseType().name())).thenReturn(probateCaseDetails);
 //
 //    }
 //}

@@ -36,8 +36,10 @@
 //
 //        when(securityUtils.getAuthorisation()).thenReturn("authToken");
 //        when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorization");
-//        ProbateCaseDetails probateCaseDetailsResponse = getProbateCaseDetails("probate_orchestrator_service_probate_forms_get_with_sucess_response.json");
-//        when(submitServiceApi.getCase("authToken", "someServiceAuthorization", "someemailaddress@host.com", ProbateType.PA.getCaseType().name())).thenReturn(probateCaseDetailsResponse);
+//        ProbateCaseDetails probateCaseDetailsResponse =
+//        getProbateCaseDetails("probate_orchestrator_service_probate_forms_get_with_sucess_response.json");
+//        when(submitServiceApi.getCase("authToken", "someServiceAuthorization",
+//        "someemailaddress@host.com", ProbateType.PA.getCaseType().name())).thenReturn(probateCaseDetailsResponse);
 //
 //    }
 //
@@ -46,8 +48,10 @@
 //    public void toPersistProbateFormDataWithSuccess() throws IOException, JSONException {
 //        when(securityUtils.getAuthorisation()).thenReturn("authToken");
 //        when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorization");
-//        ProbateCaseDetails probateCaseDetails = getProbateCaseDetails("probate_orchestrator_service_probate_forms_persist_with_success_response.json");
-//        GrantOfRepresentationData grantOfRepresentationData = (GrantOfRepresentationData) probateCaseDetails.getCaseData();
+//        ProbateCaseDetails probateCaseDetails =
+//        getProbateCaseDetails("probate_orchestrator_service_probate_forms_persist_with_success_response.json");
+//        GrantOfRepresentationData grantOfRepresentationData =
+//        (GrantOfRepresentationData) probateCaseDetails.getCaseData();
 //        grantOfRepresentationData.setApplicationSubmittedDate(LocalDate.now());
 //        when(submitServiceApi.saveCase(
 //                anyString(),
@@ -63,7 +67,8 @@
 //            Object[] args = invocation.getArguments();
 //            String id = ((String) args[2]); // Cast to int for switch.
 //            if (id.equals("someemailaddress@host.com")) {
-//                return getProbateCaseDetails("probate_orchestrator_service_probate_forms_persist_with_success_ccdInfo.json");
+//                return
+//                getProbateCaseDetails("probate_orchestrator_service_probate_forms_persist_with_success_ccdInfo.json");
 //            }
 //            return null;
 //        }

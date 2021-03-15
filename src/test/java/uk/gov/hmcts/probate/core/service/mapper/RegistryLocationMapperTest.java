@@ -9,13 +9,13 @@ public class RegistryLocationMapperTest {
     RegistryLocationMapper mapper = new RegistryLocationMapper();
 
     @Test
-    public void shouldConvertToRegistryLocation(){
+    public void shouldConvertToRegistryLocation() {
         String result = mapper.fromRegistryLocation(RegistryLocation.BIRMINGHAM);
         Assertions.assertThat(result).isEqualTo("Birmingham");
     }
 
     @Test
-    public void shouldConvertFromRegistryLocation(){
+    public void shouldConvertFromRegistryLocation() {
         RegistryLocation result = mapper.toRegistryLocation("Birmingham");
         Assertions.assertThat(result).isEqualTo(RegistryLocation.BIRMINGHAM);
     }

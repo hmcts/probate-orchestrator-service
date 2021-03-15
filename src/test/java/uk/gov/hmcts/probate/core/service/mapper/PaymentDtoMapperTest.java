@@ -26,7 +26,7 @@ public class PaymentDtoMapperTest {
     private static final String EXTERNAL_REFERENCE = "EXTERNALREF12345";
     private static final String REFERENCE = "PAYMENT_REF";
     private static final String SITE_ID = "SITEID122344";
-    private Date DATE_CREATED = new Date();
+    private Date dateCreated = new Date();
 
     @Autowired
     private PaymentDtoMapper paymentDtoMapper;
@@ -40,7 +40,7 @@ public class PaymentDtoMapperTest {
             .ccdCaseNumber(CCD_CASE_NUMBER)
             .channel(ONLINE)
             .currency(GBP)
-            .dateCreated(DATE_CREATED)
+            .dateCreated(dateCreated)
             .externalReference(EXTERNAL_REFERENCE)
             .siteId(SITE_ID)
             .build();
@@ -51,7 +51,7 @@ public class PaymentDtoMapperTest {
         assertThat(casePayment.getStatus(), equalTo(PaymentStatus.SUCCESS));
         assertThat(casePayment.getMethod(), equalTo(ONLINE));
         assertThat(casePayment.getTransactionId(), equalTo(EXTERNAL_REFERENCE));
-        assertThat(casePayment.getDate(), equalTo(DATE_CREATED));
+        assertThat(casePayment.getDate(), equalTo(dateCreated));
         assertThat(casePayment.getReference(), equalTo(REFERENCE));
         assertThat(casePayment.getSiteId(), equalTo(SITE_ID));
     }

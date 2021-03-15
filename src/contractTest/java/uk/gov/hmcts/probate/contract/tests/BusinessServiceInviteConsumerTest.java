@@ -47,7 +47,8 @@
 //        Thread.sleep(2000);
 //    }
 //
-//    @Pact(state = "business service sends invitation", provider = "probate_business_service_invite", consumer = "probate_orchestrator_service")
+//    @Pact(state = "business service sends invitation", provider = "probate_business_service_invite",
+//    consumer = "probate_orchestrator_service")
 //    public RequestResponsePact executeSendInvitation(PactDslWithProvider builder) throws IOException, JSONException {
 //        // @formatter:off
 //        return builder
@@ -66,8 +67,10 @@
 //        // @formatter:on
 //    }
 //
-//    @Pact(state = "business service resends invitation", provider = "probate_business_service_invite", consumer = "probate_orchestrator_service")
-//    public RequestResponsePact executeResendInvitation(PactDslWithProvider builder) throws IOException, JSONException {
+//    @Pact(state = "business service resends invitation", provider = "probate_business_service_invite",
+//    consumer = "probate_orchestrator_service")
+//    public RequestResponsePact executeResendInvitation(PactDslWithProvider builder) throws IOException,
+//    JSONException {
 //        // @formatter:off
 //        return builder
 //                .given("business service resends invitation")
@@ -86,7 +89,8 @@
 //    }
 //
 //
-//    @Pact(state = "business service generates pin number", provider = "probate_business_service_invite", consumer = "probate_orchestrator_service")
+//    @Pact(state = "business service generates pin number", provider = "probate_business_service_invite",
+//    consumer = "probate_orchestrator_service")
 //    public RequestResponsePact executePinNumber(PactDslWithProvider builder) throws IOException, JSONException {
 //        // @formatter:off
 //        return builder
@@ -114,7 +118,8 @@
 //    @Test
 //    @PactTestFor(pactMethod = "executeResendInvitation")
 //    public void verifyExecuteResendInvitation() throws JSONException, IOException {
-//        businessServiceApi.invite("54321", contractTestUtils.getInvitation("/invite/invitationResend.json"), SOME_SESSION_ID);
+//        businessServiceApi.invite("54321", contractTestUtils.getInvitation("/invite/invitationResend.json"),
+//        SOME_SESSION_ID);
 //    }
 //
 //    @Test

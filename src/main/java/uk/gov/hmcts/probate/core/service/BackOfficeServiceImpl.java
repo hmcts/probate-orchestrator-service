@@ -39,17 +39,18 @@ public class BackOfficeServiceImpl implements BackOfficeService {
     private final SecurityUtils securityUtils;
 
     private final Map<CaseType, Function<ProbateCaseDetails, CaseData>> sendNotificationFunctions = ImmutableMap
-            .<CaseType, Function<ProbateCaseDetails, CaseData>>builder()
-            .put(CaseType.CAVEAT, raiseCaveat())
-            .put(CaseType.GRANT_OF_REPRESENTATION, applicationReceived())
-            .build();
+        .<CaseType, Function<ProbateCaseDetails, CaseData>>builder()
+        .put(CaseType.CAVEAT, raiseCaveat())
+        .put(CaseType.GRANT_OF_REPRESENTATION, applicationReceived())
+        .build();
 
     @Override
     public CaseData sendNotification(ProbateCaseDetails probateCaseDetails) {
         CaseType caseType = CaseType.getCaseType(probateCaseDetails.getCaseData());
         Function<ProbateCaseDetails, CaseData> sendNotificationFunction = Optional.ofNullable(
-                sendNotificationFunctions.get(caseType)
-        ).orElseThrow(() -> new IllegalArgumentException("Cannot find notification function for case type: " + caseType));
+            sendNotificationFunctions.get(caseType)
+        ).orElseThrow(
+            () -> new IllegalArgumentException("Cannot find notification function for case type: " + caseType));
         return sendNotificationFunction.apply(probateCaseDetails);
     }
 
@@ -57,31 +58,35 @@ public class BackOfficeServiceImpl implements BackOfficeService {
     public ResponseEntity<String> initiateHmrcExtract(String fromDate, String toDate) {
         securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateHmrcExtract as caseworker");
-        return backOfficeApi.initiateHmrcExtract(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
-            fromDate, toDate);
+        return backOfficeApi
+            .initiateHmrcExtract(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
+                fromDate, toDate);
     }
 
     @Override
     public ResponseEntity<String> initiateIronMountainExtract(String date) {
         securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateIronMountainExtract as caseworker");
-        return backOfficeApi.initiateIronMountainExtract(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
-            date);
+        return backOfficeApi
+            .initiateIronMountainExtract(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
+                date);
     }
 
     @Override
     public ResponseEntity<String> initiateExelaExtract(String date) {
         securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateExelaExtract as caseworker");
-        return backOfficeApi.initiateExelaExtract(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
-            date);
+        return backOfficeApi
+            .initiateExelaExtract(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
+                date);
     }
 
     @Override
     public ResponseEntity<String> initiateExelaExtractDateRange(String fromDate, String toDate) {
         securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateExelaExtract as caseworker");
-        return backOfficeApi.initiateExelaExtractDateRange(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
+        return backOfficeApi
+            .initiateExelaExtractDateRange(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
                 fromDate, toDate);
     }
 
@@ -89,7 +94,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
     public GrantScheduleResponse initiateGrantDelayedNotification(String date) {
         securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateGrantDelayedNotification as caseworker");
-        return backOfficeApi.initiateGrantDelayedNotification(BEARER_PREFIX + securityUtils.getAuthorisation(), 
+        return backOfficeApi.initiateGrantDelayedNotification(BEARER_PREFIX + securityUtils.getAuthorisation(),
             BEARER_PREFIX + securityUtils.getServiceAuthorisation(), date);
     }
 
@@ -97,22 +102,25 @@ public class BackOfficeServiceImpl implements BackOfficeService {
     public GrantScheduleResponse initiateGrantAwaitingDocumentsNotification(String date) {
         securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateGrantAwaitingDocumentsNotification as caseworker");
-        return backOfficeApi.initiateGrantAwaitingDocumentsNotification(BEARER_PREFIX + securityUtils.getAuthorisation(),
-            BEARER_PREFIX + securityUtils.getServiceAuthorisation(), date);
+        return backOfficeApi
+            .initiateGrantAwaitingDocumentsNotification(BEARER_PREFIX + securityUtils.getAuthorisation(),
+                BEARER_PREFIX + securityUtils.getServiceAuthorisation(), date);
     }
 
     private Function<ProbateCaseDetails, CaseData> raiseCaveat() {
         return probateCaseDetails -> {
             BackOfficeCallbackRequest backOfficeCallbackRequest = createBackOfficeCallbackRequest(probateCaseDetails);
-            log.info("Sending caveat data to back-office for case id {}", backOfficeCallbackRequest.getCaseDetails().getId());
+            log.info("Sending caveat data to back-office for case id {}",
+                backOfficeCallbackRequest.getCaseDetails().getId());
             BackOfficeCaveatResponse backOfficeCaveatResponse = backOfficeApi.raiseCaveat(
-                    securityUtils.getAuthorisation(),
-                    securityUtils.getServiceAuthorisation(),
-                    backOfficeCallbackRequest);
+                securityUtils.getAuthorisation(),
+                securityUtils.getServiceAuthorisation(),
+                backOfficeCallbackRequest);
             CaveatData caveatData = (CaveatData) probateCaseDetails.getCaseData();
             caveatData.setNotificationsGenerated(backOfficeCaveatResponse.getCaseData().getNotificationsGenerated());
             caveatData.setExpiryDate(getFormattedCaveatDate(backOfficeCaveatResponse.getCaseData().getExpiryDate()));
-            caveatData.setApplicationSubmittedDate(getFormattedCaveatDate(backOfficeCaveatResponse.getCaseData().getApplicationSubmittedDate()));
+            caveatData.setApplicationSubmittedDate(
+                getFormattedCaveatDate(backOfficeCaveatResponse.getCaseData().getApplicationSubmittedDate()));
             return caveatData;
         };
     }
@@ -120,14 +128,17 @@ public class BackOfficeServiceImpl implements BackOfficeService {
     private Function<ProbateCaseDetails, CaseData> applicationReceived() {
         return probateCaseDetails -> {
             BackOfficeCallbackRequest backOfficeCallbackRequest = createBackOfficeCallbackRequest(probateCaseDetails);
-            log.info("Sending Application Recieved notifiation rquest to back-office for case id {}", backOfficeCallbackRequest.getCaseDetails().getId());
+            log.info("Sending Application Recieved notifiation rquest to back-office for case id {}",
+                backOfficeCallbackRequest.getCaseDetails().getId());
             ProbateDocument probateDocument = backOfficeApi.applicationReceived(
-                    securityUtils.getAuthorisation(),
-                    securityUtils.getServiceAuthorisation(),
-                    backOfficeCallbackRequest);
-            log.info("Received Back office response for Application Recieved notify request with response {}", probateDocument);
+                securityUtils.getAuthorisation(),
+                securityUtils.getServiceAuthorisation(),
+                backOfficeCallbackRequest);
+            log.info("Received Back office response for Application Recieved notify request with response {}",
+                probateDocument);
             if (probateDocument != null) {
-                addProbateNotificationsGenerated(((GrantOfRepresentationData)probateCaseDetails.getCaseData()), probateDocument);
+                addProbateNotificationsGenerated(((GrantOfRepresentationData) probateCaseDetails.getCaseData()),
+                    probateDocument);
             }
             return probateCaseDetails.getCaseData();
         };
@@ -148,10 +159,10 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 
     private BackOfficeCallbackRequest createBackOfficeCallbackRequest(ProbateCaseDetails probateCaseDetails) {
         return BackOfficeCallbackRequest.builder()
-                .caseDetails(BackOfficeCaseDetails.builder()
-                        .data(probateCaseDetails.getCaseData())
-                        .id(Long.valueOf(probateCaseDetails.getCaseInfo().getCaseId()))
-                        .build())
-                .build();
+            .caseDetails(BackOfficeCaseDetails.builder()
+                .data(probateCaseDetails.getCaseData())
+                .id(Long.valueOf(probateCaseDetails.getCaseInfo().getCaseId()))
+                .build())
+            .build();
     }
 }

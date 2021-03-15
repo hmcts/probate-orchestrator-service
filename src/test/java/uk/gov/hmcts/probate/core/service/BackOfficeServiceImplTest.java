@@ -21,9 +21,9 @@ import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Arrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -49,7 +49,7 @@ public class BackOfficeServiceImplTest {
 
     @Mock
     private ResponseEntity<String> responseEntity;
-    
+
     @InjectMocks
     private BackOfficeServiceImpl backOfficeService;
 
@@ -67,42 +67,55 @@ public class BackOfficeServiceImplTest {
 
     @Test
     public void shouldSendNotificationWhenCaseTypeIsCaveat() {
-        when(backOfficeApi.raiseCaveat(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class)))
+        when(backOfficeApi
+            .raiseCaveat(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class)))
             .thenReturn(backOfficeCaveatResponse);
 
         CaveatData caveatData = CaveatData.builder().build();
-        backOfficeService.sendNotification(ProbateCaseDetails.builder().caseInfo(CaseInfo.builder().caseId("123132").build()).caseData(caveatData).build());
+        backOfficeService.sendNotification(
+            ProbateCaseDetails.builder().caseInfo(CaseInfo.builder().caseId("123132").build()).caseData(caveatData)
+                .build());
 
-        verify(backOfficeApi).raiseCaveat(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class));
+        verify(backOfficeApi)
+            .raiseCaveat(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class));
     }
 
     @Test
     public void shouldSendNotificationWhenCaseTypeIsGrantOfrepresentation() {
         ProbateDocument probateDocument = ProbateDocument.builder().build();
-        when(backOfficeApi.applicationReceived(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class)))
+        when(backOfficeApi
+            .applicationReceived(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class)))
             .thenReturn(probateDocument);
 
         GrantOfRepresentationData grantOfRepresentationData = GrantOfRepresentationData.builder().build();
-        backOfficeService.sendNotification(ProbateCaseDetails.builder().caseInfo(CaseInfo.builder().caseId("123132").build()).caseData(grantOfRepresentationData).build());
+        backOfficeService.sendNotification(
+            ProbateCaseDetails.builder().caseInfo(CaseInfo.builder().caseId("123132").build())
+                .caseData(grantOfRepresentationData).build());
 
-        verify(backOfficeApi).applicationReceived(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class));
+        verify(backOfficeApi)
+            .applicationReceived(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class));
     }
 
     @Test
     public void shouldNotSendNotificationWhenCaseTypeIsGrantOfrepresentation() {
-        when(backOfficeApi.applicationReceived(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class)))
+        when(backOfficeApi
+            .applicationReceived(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class)))
             .thenReturn(null);
 
         GrantOfRepresentationData grantOfRepresentationData = GrantOfRepresentationData.builder().build();
-        CaseData caseData = backOfficeService.sendNotification(ProbateCaseDetails.builder().caseInfo(CaseInfo.builder().caseId("123132").build()).caseData(grantOfRepresentationData).build());
+        CaseData caseData = backOfficeService.sendNotification(
+            ProbateCaseDetails.builder().caseInfo(CaseInfo.builder().caseId("123132").build())
+                .caseData(grantOfRepresentationData).build());
 
-        assertThat(((GrantOfRepresentationData)caseData).getProbateNotificationsGenerated()).isNull();
-        verify(backOfficeApi).applicationReceived(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class));
+        assertThat(((GrantOfRepresentationData) caseData).getProbateNotificationsGenerated()).isNull();
+        verify(backOfficeApi)
+            .applicationReceived(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class));
     }
 
     @Test
     public void shouldInitiateHmrcExtract() {
-        when(backOfficeApi.initiateHmrcExtract(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(String.class), any(String.class)))
+        when(backOfficeApi
+            .initiateHmrcExtract(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(String.class), any(String.class)))
             .thenReturn(responseEntity);
 
         assertThat(backOfficeService.initiateHmrcExtract("2020-02-27", "2020-02-28")).isEqualTo(responseEntity);
@@ -126,34 +139,48 @@ public class BackOfficeServiceImplTest {
 
     @Test
     public void shouldInitiateExelaExtractDateRange() {
-        when(backOfficeApi.initiateExelaExtractDateRange(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(String.class), any(String.class)))
-                .thenReturn(responseEntity);
+        when(backOfficeApi
+            .initiateExelaExtractDateRange(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(String.class),
+                any(String.class)))
+            .thenReturn(responseEntity);
 
-        assertThat(backOfficeService.initiateExelaExtractDateRange("2020-02-27", "2020-02-29")).isEqualTo(responseEntity);
+        assertThat(backOfficeService.initiateExelaExtractDateRange("2020-02-27", "2020-02-29"))
+            .isEqualTo(responseEntity);
     }
 
     @Test
     public void shouldInitiateGrantDelayedNotification() {
         String date = "someDate";
-        GrantScheduleResponse responseBody = GrantScheduleResponse.builder().scheduleResponseData(Arrays.asList("case1", "case2")).build();
-        Mockito.when(backOfficeApi.initiateGrantDelayedNotification("Bearer "+ securityUtils.getAuthorisation(), "Bearer "+ securityUtils.getServiceAuthorisation(),
+        GrantScheduleResponse responseBody =
+            GrantScheduleResponse.builder().scheduleResponseData(Arrays.asList("case1", "case2")).build();
+        Mockito.when(backOfficeApi.initiateGrantDelayedNotification("Bearer "
+                + securityUtils.getAuthorisation(),
+            "Bearer " + securityUtils.getServiceAuthorisation(),
             date)).thenReturn(responseBody);
 
         GrantScheduleResponse response = backOfficeService.initiateGrantDelayedNotification(date);
 
         Assert.assertThat(response.getScheduleResponseData().size(), equalTo(2));
-        verify(backOfficeApi).initiateGrantDelayedNotification(eq("Bearer "+ AUTHORIZATION), eq("Bearer "+ SERVICE_AUTHORIZATION), eq(date));
+        verify(backOfficeApi)
+            .initiateGrantDelayedNotification(eq("Bearer " + AUTHORIZATION), eq("Bearer "
+                    + SERVICE_AUTHORIZATION),
+                eq(date));
     }
+
     @Test
     public void shouldInitiateGrantAwaitingDocumentsNotification() {
         String date = "someDate";
-        GrantScheduleResponse responseBody = GrantScheduleResponse.builder().scheduleResponseData(Arrays.asList("case1", "case2")).build();
-        Mockito.when(backOfficeApi.initiateGrantAwaitingDocumentsNotification("Bearer "+ securityUtils.getAuthorisation(), "Bearer "+ securityUtils.getServiceAuthorisation(),
-            date)).thenReturn(responseBody);
+        GrantScheduleResponse responseBody =
+            GrantScheduleResponse.builder().scheduleResponseData(Arrays.asList("case1", "case2")).build();
+        Mockito.when(backOfficeApi
+            .initiateGrantAwaitingDocumentsNotification("Bearer " + securityUtils.getAuthorisation(),
+                "Bearer " + securityUtils.getServiceAuthorisation(),
+                date)).thenReturn(responseBody);
 
         GrantScheduleResponse response = backOfficeService.initiateGrantAwaitingDocumentsNotification(date);
 
         Assert.assertThat(response.getScheduleResponseData().size(), equalTo(2));
-        verify(backOfficeApi).initiateGrantAwaitingDocumentsNotification(eq("Bearer "+ AUTHORIZATION), eq("Bearer "+ SERVICE_AUTHORIZATION), eq(date));
+        verify(backOfficeApi).initiateGrantAwaitingDocumentsNotification(eq("Bearer " + AUTHORIZATION),
+            eq("Bearer " + SERVICE_AUTHORIZATION), eq(date));
     }
 }

@@ -20,7 +20,7 @@ public class ContractTestUtils {
     @Autowired
     ObjectMapper objectMapper;
 
-     protected JSONObject createJsonObject(String fileName) throws JSONException, IOException {
+    protected JSONObject createJsonObject(String fileName) throws JSONException, IOException {
         File file = getFile(fileName);
         String jsonString = new String(Files.readAllBytes(file.toPath()));
         return new JSONObject(jsonString);
@@ -32,13 +32,13 @@ public class ContractTestUtils {
         return invite;
     }
 
-     protected ProbateCaseDetails getProbateCaseDetails(String fileName) throws JSONException, IOException {
+    protected ProbateCaseDetails getProbateCaseDetails(String fileName) throws JSONException, IOException {
         File file = getFile(fileName);
         ProbateCaseDetails probateCaseDetails = objectMapper.readValue(file, ProbateCaseDetails.class);
         return probateCaseDetails;
     }
 
-     private File getFile(String fileName) throws FileNotFoundException {
+    private File getFile(String fileName) throws FileNotFoundException {
         return ResourceUtils.getFile(this.getClass().getResource("/json/" + fileName));
     }
 }

@@ -12,7 +12,8 @@ public class GrantControllerFunctionalTests extends IntegrationTestBase {
     private static final String GRANT_AWAITING_DOCUMENTS_NOTIFICATION = "/grant/awaiting-documents-notification";
     private static final String GRANT_DELAY_NOTIFICATION = "/grant/delay-notification";
     private static final String GRANT_DELAY_NOTIFICATION_CALLED = "Perform grant delayed notification called";
-    private static final String GRANT_AWAITING_DOCUMENTS_NOTIFICATION_CALLED = "Perform grant Awaiting Documents notification called";
+    private static final String GRANT_AWAITING_DOCUMENTS_NOTIFICATION_CALLED =
+        "Perform grant Awaiting Documents notification called";
 
     @Test
     public void notifyGrantsAwaitingDocuments() {

@@ -57,8 +57,10 @@
 //        Thread.sleep(2000);
 //    }
 //
-//    @Pact(state = "provider returns casedata with success", provider = "probate_submitService_cases", consumer = "probate_orchestratorService")
-//    public RequestResponsePact executeSuccessGetCaseDataPact(PactDslWithProvider builder) throws IOException, JSONException {
+//    @Pact(state = "provider returns casedata with success", provider =
+//    "probate_submitService_cases", consumer = "probate_orchestratorService")
+//    public RequestResponsePact executeSuccessGetCaseDataPact(PactDslWithProvider builder)
+//    throws IOException, JSONException {
 //        // @formatter:off
 //        return builder
 //                .given("provider returns casedata with success")
@@ -66,7 +68,8 @@
 //                .path("/cases/" + SOMEEMAILADDRESS_HOST_COM)
 //                .method("GET")
 //                .matchQuery("caseType", CaseType.GRANT_OF_REPRESENTATION.toString())
-//                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)
+//                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION,
+//                SOME_SERVICE_AUTHORIZATION_TOKEN)
 //                .willRespondWith()
 //                .status(200)
 //                .matchHeader("FormDataContent-Type", "application/json;charset=UTF-8")
@@ -87,7 +90,8 @@
 //                                .stringMatcher("primaryApplicantAddressFound",
 //                                        "Yes|No", "Yes")
 //                                .stringMatcher("primaryApplicantPhoneNumber", "[0-9]+", "123455678")
-//                                .stringMatcher("primaryApplicantRelationshipToDeceased", "partner|child|sibling|partner|parent|adoptedChild|other", "adoptedChild")
+//                                .stringMatcher("primaryApplicantRelationshipToDeceased",
+//                                "partner|child|sibling|partner|parent|adoptedChild|other", "adoptedChild")
 //                                .stringMatcher("primaryApplicantAdoptionInEnglandOrWales", "(Yes|No)", "Yes")
 //                                .stringValue("primaryApplicantEmailAddress", someemailaddressHostCom)
 //                                .object("primaryApplicantAddress", (address) ->
@@ -114,9 +118,11 @@
 //                                                        value.stringType("Forenames", "King")
 //                                                                .stringType("LastName", "North")
 //                                                ))
-//                                .stringMatcher("deceasedMartialStatus", "marriedCivilPartnership|divorcedCivilPartnership|widowed|judicially|neverMarried")
+//                                .stringMatcher("deceasedMartialStatus",
+//                                "marriedCivilPartnership|divorcedCivilPartnership|widowed|judicially|neverMarried")
 //                                .stringMatcher("deceasedDivorcedInEnglandOrWales", "Yes|No", "No")
-//                                .stringMatcher("deceasedSpouseNotApplyingReason", "renunciated|mentallyIncapable|other")
+//                                .stringMatcher("deceasedSpouseNotApplyingReason",
+//                                "renunciated|mentallyIncapable|other")
 //                                .stringMatcher("deceasedOtherChildren", "Yes|No", "Yes")
 //                                .stringMatcher("childrenOverEighteenSurvived", "Yes|No", "Yes")
 //                                .stringMatcher("childrenDied", "Yes|No", "No")
@@ -134,27 +140,29 @@
 //                                .numberType("outsideUKGrantCopies", 6)
 //                                .numberType("extraCopiesOfGrant", 3)
 //                                .stringType("uploadDocumentUrl", "http://document-management/document/12345")
-//                                .stringMatcher("registryLocation", "Oxford|Manchester|Birmingham|Leeds|Liverpool|Brighton|Cardiff|London|Winchester|Newcastle|ctsc", "Oxford");
+//                                .stringMatcher("registryLocation",
+//                                "Oxford|Manchester|Birmingham|Leeds|Liverpool|Brighton|Cardiff|London|Winchester
+//                                |Newcastle|ctsc", "Oxford");
 //
-//                        if(withExecutors){
-//                            cd.minArrayLike("executorsApplying", 0, 2,
-//                                    executorApplying -> executorApplying
-//                                            .object("value", (value) ->
-//                                                    value.stringType("applyingExecutorName", "Jon Snow")
-//                                                            .stringMatcher("applyingExecutorPhoneNumber", "[0-9]+", "07981898999")
-//                                                            .stringMatcher("applyingExecutorAgreed", "Yes|No", "Yes")
-//                                                            .stringType("applyingExecutorEmail", "address@email.com")
-//                                                            .stringType("applyingExecutorInvitationId", "54321")
-//                                                            .stringType("applyingExecutorLeadName", "Graham Garderner")
-//                                                            .object("applyingExecutorAddress", (address) ->
-//                                                                    address.stringType("AddressLine1", "Winterfell")
-//                                                                            .stringType("AddressLine2", "Westeros")
-//                                                                            .stringType("PostTown", "London")
-//                                                                            .stringType("PostCode", "SW17 0QT")
-//                                                            ).stringType("applyingExecutorOtherNames", "Graham Poll")
-//                                                            .stringType("applyingExecutorOtherNamesReason", "Divorce")
-//                                            ));
-//                        }
+//              if(withExecutors){
+////                       cd.minArrayLike("executorsApplying", 0, 2,
+////                              executorApplying -> executorApplying
+////                                 .object("value", (value) ->
+//////                                     value.stringType("applyingExecutorName", "Jon Snow")
+//////                                           .stringMatcher("applyingExecutorPhoneNumber", "[0-9]+", "07981898999")
+//////                                           .stringMatcher("applyingExecutorAgreed", "Yes|No", "Yes")
+//////                                           .stringType("applyingExecutorEmail", "address@email.com")
+//////                                           .stringType("applyingExecutorInvitationId", "54321")
+//////                                           .stringType("applyingExecutorLeadName", "Graham Garderner")
+//////                                           .object("applyingExecutorAddress", (address) ->
+//////                                                        address.stringType("AddressLine1", "Winterfell")
+//////                                                        .stringType("AddressLine2", "Westeros")
+//////                                                        .stringType("PostTown", "London")
+//////                                                        .stringType("PostCode", "SW17 0QT")
+//////                                                        ).stringType("applyingExecutorOtherNames", "Graham Poll")
+//////                                                        .stringType("applyingExecutorOtherNamesReason", "Divorce")
+//////                                            ));
+////                        }
 //
 //                    }
 //            ).object("caseInfo", (ci) ->
@@ -166,8 +174,10 @@
 //
 //
 //
-//    @Pact(state = "provider returns casedata for invite id with success", provider = "probate_submitService_cases", consumer = "probate_orchestratorService")
-//    public RequestResponsePact executeSuccessGetCaseDataByInviteIdPact(PactDslWithProvider builder) throws IOException, JSONException {
+//    @Pact(state = "provider returns casedata for invite id with success",
+//    provider = "probate_submitService_cases", consumer = "probate_orchestratorService")
+//    public RequestResponsePact executeSuccessGetCaseDataByInviteIdPact(PactDslWithProvider builder)
+//    throws IOException, JSONException {
 //        // @formatter:off
 //
 //        return builder
@@ -176,7 +186,8 @@
 //                .path("/cases/invitation/" + SOME_INVITE_ID)
 //                .method("GET")
 //                .matchQuery("caseType", CaseType.GRANT_OF_REPRESENTATION.name())
-//                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)
+//                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION,
+//                SOME_SERVICE_AUTHORIZATION_TOKEN)
 //                .willRespondWith()
 //                .status(200)
 //                .matchHeader("FormDataContent-Type", "application/json;charset=UTF-8")
@@ -185,7 +196,8 @@
 //        // @formatter:on
 //    }
 //
-//    @Pact(state = "provider returns casedata not found", provider = "probate_submitService_cases", consumer = "probate_orchestratorService")
+//    @Pact(state = "provider returns casedata not found", provider = "probate_submitService_cases",
+//    consumer = "probate_orchestratorService")
 //    public RequestResponsePact executeNotFoundGetCaseDataPact(PactDslWithProvider builder) {
 //        // @formatter:off
 //
@@ -195,15 +207,18 @@
 //                .path("/cases/" + SOMEEMAILADDRESS_HOST_COM)
 //                .method("GET")
 //                .matchQuery("caseType", CaseType.GRANT_OF_REPRESENTATION.toString())
-//                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)
+//                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION,
+//                SOME_SERVICE_AUTHORIZATION_TOKEN)
 //                .willRespondWith()
 //                .status(404)
 //                .toPact();
 //        // @formatter:on
 //    }
 //
-//    @Pact(state = "provider POSTS draft casedata with success", provider = "probate_submitService_drafts", consumer = "probate_orchestratorService")
-//    public RequestResponsePact executeSuccessPostDraftCaseDataPact(PactDslWithProvider builder) throws IOException, JSONException {
+//    @Pact(state = "provider POSTS draft casedata with success", provider = "probate_submitService_drafts",
+//    consumer = "probate_orchestratorService")
+//    public RequestResponsePact executeSuccessPostDraftCaseDataPact(PactDslWithProvider builder)
+//    throws IOException, JSONException {
 //        // @formatter:off
 //
 //        return builder
@@ -211,7 +226,8 @@
 //                .uponReceiving("a request to POST draft casedata")
 //                .path("/drafts/" + SOMEEMAILADDRESS_HOST_COM)
 //                .method("POST")
-//                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)
+//                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION,
+//                SOME_SERVICE_AUTHORIZATION_TOKEN)
 //                .matchHeader("FormDataContent-Type", "application/json")
 //                .body(contractTestUtils.createJsonObject("intestacyGrantOfRepresentation_full.json"))
 //                .willRespondWith()
@@ -223,8 +239,10 @@
 //    }
 //
 //
-//    @Pact(state = "provider POSTS partial draft casedata with success", provider = "probate_submitService_drafts", consumer = "probate_orchestratorService")
-//    public RequestResponsePact executeSuccessPostPartialDraftCaseDataPact(PactDslWithProvider builder) throws IOException, JSONException {
+//    @Pact(state = "provider POSTS partial draft casedata with success",
+//    provider = "probate_submitService_drafts", consumer = "probate_orchestratorService")
+//    public RequestResponsePact executeSuccessPostPartialDraftCaseDataPact(PactDslWithProvider builder)
+//    throws IOException, JSONException {
 //        // @formatter:off
 //
 //        return builder
@@ -232,7 +250,8 @@
 //                .uponReceiving("a request to POST partial draft casedata")
 //                .path("/drafts/" + SOMEEMAILADDRESS_HOST_COM)
 //                .method("POST")
-//                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)
+//                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION,
+//                SOME_SERVICE_AUTHORIZATION_TOKEN)
 //                .matchHeader("FormDataContent-Type", "application/json")
 //                .body(contractTestUtils.createJsonObject("intestacyGrantOfRepresentation_partial_draft.json"))
 //                .willRespondWith()
@@ -247,7 +266,8 @@
 //    @PactTestFor(pactMethod = "executeSuccessGetCaseDataPact")
 //    public void verifyExecuteSuccessGetCaseDataPact() {
 //
-//        ProbateCaseDetails caseDetails = submitServiceApi.getCase(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, CaseType.GRANT_OF_REPRESENTATION.toString());
+//        ProbateCaseDetails caseDetails = submitServiceApi.getCase(SOME_AUTHORIZATION_TOKEN,
+//        SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, CaseType.GRANT_OF_REPRESENTATION.toString());
 //        assertThat(caseDetails.getCaseInfo().getCaseId(), equalTo(CASE_ID));
 //    }
 //
@@ -256,7 +276,8 @@
 //    @PactTestFor(pactMethod = "executeSuccessGetCaseDataByInviteIdPact")
 //    public void verifyExecuteSuccessGetCaseDataByInviteIdPact() {
 //
-//        ProbateCaseDetails caseDetails = submitServiceApi.getCaseByInvitationId(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOME_INVITE_ID, CaseType.GRANT_OF_REPRESENTATION.name());
+//        ProbateCaseDetails caseDetails = submitServiceApi.getCaseByInvitationId(SOME_AUTHORIZATION_TOKEN,
+//        SOME_SERVICE_AUTHORIZATION_TOKEN, SOME_INVITE_ID, CaseType.GRANT_OF_REPRESENTATION.name());
 //        assertThat(caseDetails.getCaseInfo().getCaseId(), equalTo(CASE_ID));
 //    }
 //
@@ -264,7 +285,9 @@
 //    @PactTestFor(pactMethod = "executeSuccessPostPartialDraftCaseDataPact")
 //    public void verifyExecuteSuccessPostPartialDraftCaseDataPact() throws IOException, JSONException {
 //
-//        ProbateCaseDetails caseDetails = submitServiceApi.saveCase(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, contractTestUtils.getProbateCaseDetails("intestacyGrantOfRepresentation_partial_draft.json"));
+//        ProbateCaseDetails caseDetails = submitServiceApi.saveCase(SOME_AUTHORIZATION_TOKEN,
+//        SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM,
+//        contractTestUtils.getProbateCaseDetails("intestacyGrantOfRepresentation_partial_draft.json"));
 //        assertThat(caseDetails.getCaseInfo().getCaseId(), equalTo(CASE_ID));
 //    }
 //
@@ -272,7 +295,9 @@
 //    @PactTestFor(pactMethod = "executeSuccessPostDraftCaseDataPact")
 //    public void verifyExecuteSuccessPostDraftCaseDataPact() throws IOException, JSONException {
 //
-//        ProbateCaseDetails caseDetails = submitServiceApi.saveCase(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, contractTestUtils.getProbateCaseDetails("intestacyGrantOfRepresentation_full.json"));
+//        ProbateCaseDetails caseDetails = submitServiceApi.saveCase(SOME_AUTHORIZATION_TOKEN,
+//        SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, contractTestUtils
+//        .getProbateCaseDetails("intestacyGrantOfRepresentation_full.json"));
 //        assertThat(caseDetails.getCaseInfo().getCaseId(), equalTo(CASE_ID));
 //    }
 //
@@ -280,7 +305,8 @@
 //    @PactTestFor(pactMethod = "executeNotFoundGetCaseDataPact")
 //    public void verifyExecuteNotFoundGetCaseDataPact() {
 //        assertThrows(ApiClientException.class, () -> {
-//            submitServiceApi.getCase(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, CaseType.GRANT_OF_REPRESENTATION.toString());
+//            submitServiceApi.getCase(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN,
+//            SOMEEMAILADDRESS_HOST_COM, CaseType.GRANT_OF_REPRESENTATION.toString());
 //        });
 //
 //    }

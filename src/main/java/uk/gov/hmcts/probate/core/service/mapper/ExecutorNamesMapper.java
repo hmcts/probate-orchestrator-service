@@ -10,7 +10,7 @@ public class ExecutorNamesMapper {
         if (executor == null) {
             return null; //NOSONAR
         }
-        if (executor.getFullName() !=null && !executor.getFullName().isEmpty()) {
+        if (executor.getFullName() != null && !executor.getFullName().isEmpty()) {
             return executor.getFullName();
         } else if (executor.getFirstName() != null && executor.getLastName() != null) {
             return executor.getFirstName() + " " + executor.getLastName();

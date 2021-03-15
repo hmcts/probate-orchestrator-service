@@ -21,7 +21,8 @@ class AliasNameMapperTest {
     @Test
     void toAandFromCollectionMember() {
 
-        Map<String, AliasOtherNames> aliasOtherNamesMap = Collections.singletonMap(ALIAS_NAME, new AliasOtherNames(FIRST_NAME, LAST_NAME));
+        Map<String, AliasOtherNames> aliasOtherNamesMap =
+            Collections.singletonMap(ALIAS_NAME, new AliasOtherNames(FIRST_NAME, LAST_NAME));
         List<CollectionMember<AliasName>> collectionMembers = mapper.toCollectionMember(aliasOtherNamesMap);
         Assertions.assertThat(collectionMembers).hasSize(1);
         CollectionMember<AliasName> aliasNameCollectionMember = collectionMembers.get(0);

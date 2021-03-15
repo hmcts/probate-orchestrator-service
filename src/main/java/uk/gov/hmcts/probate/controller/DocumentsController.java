@@ -54,7 +54,8 @@ public class DocumentsController {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Check Answers Summary PDF generated successfully")})
     @PostMapping(path = CHECK_ANSWERS_ENDPOINT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<byte[]> generateCheckAnswersSummaryPdf(@Valid @RequestBody CheckAnswersSummary checkAnswersSummary) {
+    public ResponseEntity<byte[]> generateCheckAnswersSummaryPdf(
+        @Valid @RequestBody CheckAnswersSummary checkAnswersSummary) {
         log.info("Check Answers generate pdf");
         return new ResponseEntity<>(businessService.generateCheckAnswersSummaryPdf(checkAnswersSummary), HttpStatus.OK);
     }
@@ -73,7 +74,8 @@ public class DocumentsController {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Bulk Scan Coversheet PDF generated successfully")})
     @PostMapping(path = BULK_SCAN_COVERSHEET_ENDPOINT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<byte[]> generateBulkScanCoversheet(@Valid @RequestBody BulkScanCoverSheet bulkScanCoverSheet) {
+    public ResponseEntity<byte[]> generateBulkScanCoversheet(@Valid @RequestBody
+                                                                     BulkScanCoverSheet bulkScanCoverSheet) {
         log.info("Bulk Scan Coversheet generate pdf");
         return new ResponseEntity<>(businessService.generateBulkScanCoverSheetPdf(bulkScanCoverSheet), HttpStatus.OK);
     }
@@ -84,7 +86,8 @@ public class DocumentsController {
         @ApiResponse(code = 200, message = "Document uploaded successfully")})
     @PostMapping(path = DOCUMENT_UPLOAD_ENDPOINT, consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
         produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<String>> upload(@RequestHeader(value = "Authorization", required = false) String authorizationToken,
+    public ResponseEntity<List<String>> upload(@RequestHeader(value = "Authorization", required = false)
+                                                       String authorizationToken,
                                                @RequestHeader("user-id") String userID,
                                                @RequestPart("file") List<MultipartFile> files) {
         log.info("Uploading document");
