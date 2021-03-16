@@ -62,7 +62,8 @@ public class PaymentUpdateServiceImplTest {
 
         CasePayment casePayment = CasePayment.builder().build();
         when(paymentDtoMapper.toCasePayment(paymentDto)).thenReturn(casePayment);
-        when(submitServiceApi.getCaseById(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(CCD_CASE_NUMBER))).thenReturn(caseDetails);
+        when(submitServiceApi.getCaseById(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(CCD_CASE_NUMBER)))
+            .thenReturn(caseDetails);
         paymentUpdateService.paymentUpdate(paymentDto);
 
         verify(securityUtils).setSecurityContextUserAsCaseworker();

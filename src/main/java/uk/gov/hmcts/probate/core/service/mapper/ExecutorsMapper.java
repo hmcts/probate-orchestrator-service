@@ -31,10 +31,11 @@ public class ExecutorsMapper {
             return null;//NOSONAR
         }
         return executors.stream()
-                .filter(executor -> executor.getIsApplying() == null || BooleanUtils.isFalse(executor.getIsApplying()))
-                .map(executorNotApplyingMapper::toExecutorNotApplying)
-                .sorted(Comparator.comparing(e -> e.getValue().getNotApplyingExecutorName()))
-                .collect(Collectors.toList());
+            .filter(executor -> executor.getIsApplying() == null
+                || BooleanUtils.isFalse(executor.getIsApplying()))
+            .map(executorNotApplyingMapper::toExecutorNotApplying)
+            .sorted(Comparator.comparing(e -> e.getValue().getNotApplyingExecutorName()))
+            .collect(Collectors.toList());
     }
 
     @ToExecutorApplyingCollectionMember
@@ -43,16 +44,18 @@ public class ExecutorsMapper {
             return null;//NOSONAR
         }
         return executors.stream()
-            .filter(executor -> BooleanUtils.isTrue(executor.getIsApplying()) && !BooleanUtils.isTrue(executor.getIsApplicant()))
-                .map(executorApplyingMapper::toExecutorApplying)
-                .sorted(Comparator.comparing(e -> e.getValue().getApplyingExecutorName()))
-                .collect(Collectors.toList());
+            .filter(executor -> BooleanUtils.isTrue(executor.getIsApplying())
+                && !BooleanUtils.isTrue(executor.getIsApplicant()))
+            .map(executorApplyingMapper::toExecutorApplying)
+            .sorted(Comparator.comparing(e -> e.getValue().getApplyingExecutorName()))
+            .collect(Collectors.toList());
     }
 
     @FromCollectionMember
     List<Executor> fromCollectionMember(GrantOfRepresentationData grantOfRepresentationData) {
-        if (grantOfRepresentationData == null ||
-                (grantOfRepresentationData.getExecutorsApplying() == null && grantOfRepresentationData.getExecutorsNotApplying() == null)) {
+        if (grantOfRepresentationData == null
+            || (grantOfRepresentationData.getExecutorsApplying() == null
+                && grantOfRepresentationData.getExecutorsNotApplying() == null)) {
             return null;//NOSONAR
         }
         List<Executor> executors = new ArrayList<>();
@@ -60,32 +63,36 @@ public class ExecutorsMapper {
         List<Executor> applyingExecutors = new ArrayList<>();
         if (grantOfRepresentationData.getExecutorsApplying() != null) {
             applyingExecutors.addAll(grantOfRepresentationData.getExecutorsApplying().stream()
-                    .map(executorApplyingMapper::fromExecutorApplying)
-                    .collect(Collectors.toList()));
+                .map(executorApplyingMapper::fromExecutorApplying)
+                .collect(Collectors.toList()));
         }
-        
+
         addPrimaryApplicantExecutor(grantOfRepresentationData, applyingExecutors);
-        executors = applyingExecutors.stream().sorted(Comparator.comparing(e -> e.getIsApplicant() == null || !e.getIsApplicant()))
+        executors = applyingExecutors.stream()
+            .sorted(Comparator.comparing(e -> e.getIsApplicant() == null
+                || !e.getIsApplicant()))
             .collect(Collectors.toList());
-        
+
         if (grantOfRepresentationData.getExecutorsNotApplying() != null) {
             executors.addAll(grantOfRepresentationData.getExecutorsNotApplying().stream()
-                    .map(executorNotApplyingMapper::fromExecutorNotApplying)
-                    .collect(Collectors.toList()));
+                .map(executorNotApplyingMapper::fromExecutorNotApplying)
+                .collect(Collectors.toList()));
         }
 
         return executors;
     }
 
-    private void addPrimaryApplicantExecutor(GrantOfRepresentationData grantOfRepresentationData, List<Executor> executors) {
+    private void addPrimaryApplicantExecutor(GrantOfRepresentationData grantOfRepresentationData,
+                                             List<Executor> executors) {
         Executor primaryApplicant = Executor.builder()
             .isApplying(Boolean.TRUE)
-            .fullName(grantOfRepresentationData.getPrimaryApplicantForenames() + " " + grantOfRepresentationData.getPrimaryApplicantSurname())
+            .fullName(grantOfRepresentationData.getPrimaryApplicantForenames()
+                + " " + grantOfRepresentationData.getPrimaryApplicantSurname())
             .firstName(grantOfRepresentationData.getPrimaryApplicantForenames())
             .lastName(grantOfRepresentationData.getPrimaryApplicantSurname())
             .isApplicant(Boolean.TRUE)
             .build();
-        
+
         executors.add(primaryApplicant);
     }
 }

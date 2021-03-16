@@ -31,7 +31,8 @@
 //
 //        when(securityUtils.getAuthorisation()).thenReturn("someAuthorisationId");
 //        when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorisationId");
-//        when(businessServiceApi.generateLegalDeclarationPDF( anyString(),anyString(), any(LegalDeclaration.class) )) .thenReturn("".getBytes());
+//        when(businessServiceApi.generateLegalDeclarationPDF( anyString(),anyString(),
+//        any(LegalDeclaration.class) )) .thenReturn("".getBytes());
 //
 //    }
 //    @State({"probate_orchestrator_service generates legal declaration byte[] with validation errors",

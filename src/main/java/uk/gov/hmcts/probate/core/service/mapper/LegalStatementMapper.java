@@ -8,7 +8,8 @@ import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.LegalStatement;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {LegalStatementExecutorsApplyingMapper.class,
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,
+    uses = {LegalStatementExecutorsApplyingMapper.class,
     LegalStatementExecutorsNotApplyingMapper.class})
 public interface LegalStatementMapper {
 
@@ -18,7 +19,8 @@ public interface LegalStatementMapper {
     LegalStatement toCaseLegalStatement(uk.gov.hmcts.reform.probate.model.forms.LegalStatementHolder legalStatement);
 
     @Mapping(target = "executorsApplying", source = "executorsApplying", qualifiedBy = {FromCollectionMember.class})
-    @Mapping(target = "executorsNotApplying", source = "executorsNotApplying", qualifiedBy = {FromCollectionMember.class})
+    @Mapping(target = "executorsNotApplying", source = "executorsNotApplying",
+        qualifiedBy = {FromCollectionMember.class})
     @InheritInverseConfiguration
     uk.gov.hmcts.reform.probate.model.forms.LegalStatementHolder fromCaseLegalStatement(LegalStatement legalStatement);
 

@@ -32,7 +32,8 @@ public class CaseSubmissionUpdaterTest {
     public void shouldUpdateGrantOfRepresentationCaseForSubmission() {
         GrantOfRepresentationData grantOfRepresentationData = GrantOfRepresentationData.builder().build();
 
-        GrantOfRepresentationData actualGopData = (GrantOfRepresentationData) caseSubmissionUpdater.updateCaseForSubmission(grantOfRepresentationData);
+        GrantOfRepresentationData actualGopData =
+            (GrantOfRepresentationData) caseSubmissionUpdater.updateCaseForSubmission(grantOfRepresentationData);
 
         assertThat(actualGopData.getApplicationSubmittedDate(), notNullValue());
     }
@@ -41,7 +42,8 @@ public class CaseSubmissionUpdaterTest {
     public void shouldNotUpdateForStandingSearch() {
         StandingSearchData standingSearchData = StandingSearchData.builder().build();
 
-        StandingSearchData actualStandingSearchData = (StandingSearchData) caseSubmissionUpdater.updateCaseForSubmission(standingSearchData);
+        StandingSearchData actualStandingSearchData =
+            (StandingSearchData) caseSubmissionUpdater.updateCaseForSubmission(standingSearchData);
 
         assertThat(standingSearchData.getApplicationSubmittedDate(), nullValue());
     }

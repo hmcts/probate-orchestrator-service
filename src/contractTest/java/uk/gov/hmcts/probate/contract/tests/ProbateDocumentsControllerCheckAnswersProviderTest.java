@@ -30,7 +30,8 @@
 //
 //        when(securityUtils.getAuthorisation()).thenReturn("someAuthorisationId");
 //        when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorisationId");
-//        when(businessServiceApi.generateCheckAnswersSummaryPdf( anyString(),anyString(), any(CheckAnswersSummary.class) )) .thenReturn("".getBytes());
+//        when(businessServiceApi.generateCheckAnswersSummaryPdf( anyString(),anyString(),
+//        any(CheckAnswersSummary.class) )) .thenReturn("".getBytes());
 //
 //    }
 //

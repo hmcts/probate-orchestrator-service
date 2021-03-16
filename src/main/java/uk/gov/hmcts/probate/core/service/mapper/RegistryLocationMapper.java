@@ -10,12 +10,12 @@ public class RegistryLocationMapper {
 
 
     @FromRegistryLocation
-    public String fromRegistryLocation(RegistryLocation location){
+    public String fromRegistryLocation(RegistryLocation location) {
         return location.getName();
     }
 
     @ToRegistryLocation
-    public RegistryLocation toRegistryLocation(String strLocation){
+    public RegistryLocation toRegistryLocation(String strLocation) {
         return RegistryLocation.valueOf(strLocation.toUpperCase());
     }
 }

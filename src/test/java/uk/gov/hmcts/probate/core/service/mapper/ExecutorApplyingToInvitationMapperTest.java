@@ -5,7 +5,7 @@ import org.junit.Test;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 public class ExecutorApplyingToInvitationMapperTest {
 

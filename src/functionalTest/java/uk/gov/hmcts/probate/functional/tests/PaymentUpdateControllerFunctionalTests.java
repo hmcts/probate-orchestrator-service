@@ -27,7 +27,7 @@ public class PaymentUpdateControllerFunctionalTests extends IntegrationTestBase 
     }
 
     @Test
-    public void ForbiddenAsNoProperHeader() {
+    public void forbiddenAsNoProperHeader() {
         String draftJsonStr = utils.getJsonFromFile("payment.json");
         RestAssured.given()
             .relaxedHTTPSValidation()

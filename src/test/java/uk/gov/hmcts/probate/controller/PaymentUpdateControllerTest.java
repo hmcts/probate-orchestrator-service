@@ -55,7 +55,7 @@ public class PaymentUpdateControllerTest {
 
     @Test
     public void shouldUpdatePayment() throws Exception {
-        String paymentDtoJsonStr = TestUtils.getJSONFromFile("paymentDto.json");
+        String paymentDtoJsonStr = TestUtils.getJsonFromFile("paymentDto.json");
         when(securityUtils.checkIfServiceIsAllowed(AUTH_TOKEN)).thenReturn(true);
 
         mockMvc.perform(put(PAYMENT_UPDATES)
@@ -68,7 +68,7 @@ public class PaymentUpdateControllerTest {
 
     @Test
     public void shouldNotUpdatePayment() throws Exception {
-        String paymentDtoJsonStr = TestUtils.getJSONFromFile("paymentDto.json");
+        String paymentDtoJsonStr = TestUtils.getJsonFromFile("paymentDto.json");
         when(securityUtils.checkIfServiceIsAllowed(AUTH_TOKEN_EMPTY)).thenReturn(Boolean.FALSE);
 
         mockMvc.perform(put(PAYMENT_UPDATES)
@@ -81,7 +81,7 @@ public class PaymentUpdateControllerTest {
 
     @Test
     public void shouldNotUpdatePaymentAndInvalidTokenException() throws Exception {
-        String paymentDtoJsonStr = TestUtils.getJSONFromFile("paymentDto.json");
+        String paymentDtoJsonStr = TestUtils.getJsonFromFile("paymentDto.json");
         when(securityUtils.checkIfServiceIsAllowed(AUTH_TOKEN_EMPTY))
             .thenThrow(new InvalidTokenException("Provided S2S token is missing or invalid"));
 

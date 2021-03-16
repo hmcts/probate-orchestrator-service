@@ -30,7 +30,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -44,22 +46,21 @@ public class IntestacyMapperTest {
 
     @Before
     public void setUp() {
-        intestacyForm = IntestacyTestDataCreator.createIntestacyForm();
         grantOfRepresentation = IntestacyTestDataCreator.createGrantOfRepresentation();
     }
 
-//    @Test
-//    public void shouldMapIntestacyFormToGrantOfRepresentation() {
-//        GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(intestacyForm);
-//        assertThat(actualGrantOfRepresentation).isEqualToComparingFieldByFieldRecursively(grantOfRepresentation);
-//    }
-//
-//    @Test
-//    public void shouldMapGrantOfRepresentationToGrantOfIntestacyForm() {
-//        IntestacyForm actualIntestacyForm = mapper.fromCaseData(grantOfRepresentation);
-//        actualIntestacyForm.setDeclaration(null);
-//        assertThat(actualIntestacyForm).isEqualToComparingFieldByFieldRecursively(intestacyForm);
-//    }
+    //    @Test
+    //    public void shouldMapIntestacyFormToGrantOfRepresentation() {
+    //        GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(intestacyForm);
+    //        assertThat(actualGrantOfRepresentation).isEqualToComparingFieldByFieldRecursively(grantOfRepresentation);
+    //    }
+    //
+    //    @Test
+    //    public void shouldMapGrantOfRepresentationToGrantOfIntestacyForm() {
+    //        IntestacyForm actualIntestacyForm = mapper.fromCaseData(grantOfRepresentation);
+    //        actualIntestacyForm.setDeclaration(null);
+    //        assertThat(actualIntestacyForm).isEqualToComparingFieldByFieldRecursively(intestacyForm);
+    //    }
 
     @Test
     public void shouldMapNullIntestacyFormToGrantOfRepresentation() {
@@ -82,11 +83,17 @@ public class IntestacyMapperTest {
         expectedGrantOfRepresentation.setGrantType(GrantType.INTESTACY);
         expectedGrantOfRepresentation.setDeceasedMaritalStatus(MaritalStatus.MARRIED);
         expectedGrantOfRepresentation.setDeceasedSpouseNotApplyingReason(SpouseNotApplyingReason.RENUNCIATED);
-        expectedGrantOfRepresentation.setStatementOfTruthDocument(DocumentLink.builder().documentFilename("filename").documentUrl("url").documentBinaryUrl("url/binary").build());
-        IntestacyForm iform = IntestacyForm.builder().deceased(IntestacyDeceased.builder().maritalStatus("optionMarried").build()).statementOfTruthDocument(DocumentUpload.builder().filename("filename").url("url").build()).applicant(IntestacyApplicant.builder().spouseNotApplyingReason("optionRenouncing").build()).build();
+        expectedGrantOfRepresentation.setStatementOfTruthDocument(
+            DocumentLink.builder().documentFilename("filename").documentUrl("url").documentBinaryUrl("url/binary")
+                .build());
+        IntestacyForm iform =
+            IntestacyForm.builder().deceased(IntestacyDeceased.builder().maritalStatus("optionMarried").build())
+                .statementOfTruthDocument(DocumentUpload.builder().filename("filename").url("url").build())
+                .applicant(IntestacyApplicant.builder().spouseNotApplyingReason("optionRenouncing").build()).build();
         GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(iform);
         Assert.assertThat(actualGrantOfRepresentation, equalTo(expectedGrantOfRepresentation));
-        assertThat(actualGrantOfRepresentation).isEqualToComparingFieldByFieldRecursively(expectedGrantOfRepresentation);
+        assertThat(actualGrantOfRepresentation)
+            .isEqualToComparingFieldByFieldRecursively(expectedGrantOfRepresentation);
 
     }
 
@@ -111,6 +118,7 @@ public class IntestacyMapperTest {
     public void shouldMarital() {
 
         assertThat(MaritalStatus.WIDOWED).isEqualTo(MaritalStatus.fromString("optionWidowed"));
-        assertThat(SpouseNotApplyingReason.RENUNCIATED).isEqualTo(SpouseNotApplyingReason.fromString(SpouseNotApplyingReason.RENUNCIATED.getDescription()));
+        assertThat(SpouseNotApplyingReason.RENUNCIATED)
+            .isEqualTo(SpouseNotApplyingReason.fromString(SpouseNotApplyingReason.RENUNCIATED.getDescription()));
     }
 }

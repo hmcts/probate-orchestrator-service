@@ -6,7 +6,7 @@ import uk.gov.hmcts.reform.probate.model.forms.Copies;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaAssets;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaForm;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
 
 public class OverseasCopiesMapperTest {

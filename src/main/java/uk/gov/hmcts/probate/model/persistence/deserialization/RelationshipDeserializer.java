@@ -17,6 +17,6 @@ public class RelationshipDeserializer extends JsonDeserializer {
             String text = jsonParser.getText().trim();
             return Relationship.fromString(text);
         }
-        throw new IllegalArgumentException("Cannot deserialize for non string value:" );
+        throw new IllegalArgumentException("Cannot deserialize for non string value:");
     }
 }

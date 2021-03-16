@@ -27,7 +27,8 @@ public class CaseSubmissionUpdater {
     public CaseData updateCaseForSubmission(CaseData caseData) {
         Assert.notNull(caseData, "Case data cannot be null!");
         CaseType caseType = CaseType.getCaseType(caseData);
-        Optional<Function<CaseData, CaseData>> optionalCaseDataCaseDataFunction = Optional.ofNullable(caseTypeUpdateFunctionMap.get(caseType));
+        Optional<Function<CaseData, CaseData>> optionalCaseDataCaseDataFunction =
+            Optional.ofNullable(caseTypeUpdateFunctionMap.get(caseType));
         if (optionalCaseDataCaseDataFunction.isPresent()) {
             return optionalCaseDataCaseDataFunction.get().apply(caseData);
         }

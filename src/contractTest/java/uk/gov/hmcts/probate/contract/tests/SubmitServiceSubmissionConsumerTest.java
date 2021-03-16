@@ -51,8 +51,10 @@
 //    }
 //
 //
-//    @Pact(state = "provider PUTS submission with success", provider = "probate_submitService_submissions", consumer = "probate_orchestrator_service")
-//    public RequestResponsePact executePostSubmissionWithSuccessPact(PactDslWithProvider builder) throws IOException, JSONException {
+//    @Pact(state = "provider PUTS submission with success", provider = "probate_submitService_submissions",
+//    consumer = "probate_orchestrator_service")
+//    public RequestResponsePact executePostSubmissionWithSuccessPact(PactDslWithProvider builder)
+//    throws IOException, JSONException {
 //        // @formatter:off
 //
 //        return builder
@@ -60,7 +62,8 @@
 //                .uponReceiving("a request to POST submission")
 //                .path("/submissions/update/" + SOMEEMAILADDRESS_HOST_COM)
 //                .method("POST")
-//                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)
+//                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION,
+//                SOME_SERVICE_AUTHORIZATION_TOKEN)
 //                .matchHeader("FormDataContent-Type", "application/json")
 //                .body(contractTestUtils.createJsonObject("intestacyGrantOfRepresentation_full.json"))
 //                .willRespondWith()
@@ -76,7 +79,9 @@
 //    @PactTestFor(pactMethod = "executePostSubmissionWithSuccessPact")
 //    public void verifyExecutePostSubmissionWithSuccessPact() throws IOException, JSONException {
 //
-//        SubmitResult submitResult = submitServiceApi.update(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, contractTestUtils.getProbateCaseDetails("intestacyGrantOfRepresentation_full.json"));
+//        SubmitResult submitResult = submitServiceApi.update(SOME_AUTHORIZATION_TOKEN,
+//        SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, contractTestUtils
+//        .getProbateCaseDetails("intestacyGrantOfRepresentation_full.json"));
 //        assertThat(submitResult.getProbateCaseDetails().getCaseInfo().getCaseId(), equalTo(CASE_ID));
 //    }
 //

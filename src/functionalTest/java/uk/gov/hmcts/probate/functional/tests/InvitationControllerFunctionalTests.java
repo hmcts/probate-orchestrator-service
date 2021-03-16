@@ -54,7 +54,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     public TestRetryRule retryRule = new TestRetryRule(3);
 
     @Before
-    public void aInit() throws IOException, JSONException {
+    public void init() throws IOException, JSONException {
         if (setUp) {
             String responseJsonStr = RestAssured.given()
                     .relaxedHTTPSValidation()
@@ -68,9 +68,9 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
                     .body("applications.ccdCase.id", notNullValue())
                     .extract().jsonPath().prettify();
             this.caseSummaryHolder = objectMapper.readValue(responseJsonStr, CaseSummaryHolder.class);
-            List<CaseSummary> CaseSummaryList = caseSummaryHolder.getApplications();
-            CaseSummaryList.sort((o1, o2) -> o1.getCcdCase().getId().compareTo(o2.getCcdCase().getId()));
-            CaseSummary lastCaseSummary = CaseSummaryList.get(CaseSummaryList.size() - 1);
+            List<CaseSummary> caseSummaryList = caseSummaryHolder.getApplications();
+            caseSummaryList.sort((o1, o2) -> o1.getCcdCase().getId().compareTo(o2.getCcdCase().getId()));
+            CaseSummary lastCaseSummary = caseSummaryList.get(caseSummaryList.size() - 1);
             formdataId = lastCaseSummary.getCcdCase().getId();
             logger.info("Create New case CaseId: {}", formdataId);
 
@@ -202,6 +202,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
                 .extract().response().getBody().prettyPrint();
         Assert.assertEquals(response, INVITE_ID);
     }
+
     @Pending
     @Test
     public void getInvitePin() throws JSONException {

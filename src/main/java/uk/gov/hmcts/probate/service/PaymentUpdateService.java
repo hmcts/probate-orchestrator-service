@@ -4,5 +4,5 @@ import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
 public interface PaymentUpdateService {
 
-    void paymentUpdate( PaymentDto paymentDto);
+    void paymentUpdate(PaymentDto paymentDto);
 }

@@ -36,16 +36,22 @@ public class SecurityUtils {
     private final IdamClientApi idamClient;
     @Value("${auth.idam.redirectUrl}")
     private String authRedirectUrl;
+
     @Value("${auth.idam.clientId}")
     private String authClientId;
+
     @Value("${auth.idam.clientSecret}")
     private String authClientSecret;
+
     @Value("${auth.idam.caseworker.username}")
     private String caseworkerUserName;
+
     @Value("${auth.idam.caseworker.password}")
     private String caseworkerPassword;
+
     @Value("${auth.idam.scheduler.username}")
     private String schedulerUserName;
+
     @Value("${auth.idam.scheduler.password}")
     private String schedulerPassword;
 
@@ -119,10 +125,9 @@ public class SecurityUtils {
 
     public Boolean checkIfServiceIsAllowed(String token) throws InvalidTokenException {
         String serviceName = this.authenticate(token);
-        if(Objects.nonNull(serviceName)) {
+        if (Objects.nonNull(serviceName)) {
             return allowedToUpdateDetails.contains(serviceName);
-        }
-        else{
+        } else {
             log.info("Service name from token is null");
             return Boolean.FALSE;
         }

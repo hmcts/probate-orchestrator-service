@@ -62,13 +62,15 @@
 //
 //    @Pact(state = "provider POSTS submission with errors",
 //            provider = "probate_submitService_submissions", consumer = "probate_orchestrator_service")
-//    public RequestResponsePact ExecutePostSubmissionWithClientErrors(PactDslWithProvider builder) throws IOException, JSONException {
+//    public RequestResponsePact ExecutePostSubmissionWithClientErrors(PactDslWithProvider builder)
+//    throws IOException, JSONException {
 //        return builder
 //                .given("provider POSTS submission with errors")
 //                .uponReceiving("a request to PUT an invalid submission with client errors")
 //                .path("/submissions/update/" + SOMEEMAILADDRESS_HOST_COM)
 //                .method("POST")
-//                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION, SOME_SERVICE_AUTHORIZATION_TOKEN)
+//                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION,
+//                SOME_SERVICE_AUTHORIZATION_TOKEN)
 //                .matchHeader("FormDataContent-Type", "application/json")
 //                .body(createJsonObject("intestacyGrantOfRepresentation_invalid_PAAPCREATED.json"))
 //                .willRespondWith()

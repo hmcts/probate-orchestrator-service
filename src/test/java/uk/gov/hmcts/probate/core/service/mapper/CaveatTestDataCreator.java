@@ -25,7 +25,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.Map;
 
-public class CaveatTestDataCreator {
+public final class CaveatTestDataCreator {
 
     private static final String FIRST_NAME = "firstName";
     private static final String ADDRESS_LINE1 = "address";
@@ -57,6 +57,10 @@ public class CaveatTestDataCreator {
     private static final LocalDate EXPIRYDATE = LocalDate.now().plusDays(30);
     private static final String NAME_0 = "name_0";
     public static final String PCQ_ID = "1000";
+
+    private CaveatTestDataCreator() {
+
+    }
 
     public static CaveatForm createCaveatForm() {
         return CaveatForm.builder()

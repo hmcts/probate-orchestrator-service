@@ -28,11 +28,14 @@
 //        when(securityUtils.getAuthorisation()).thenReturn("someAuthorisationId");
 //        when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorisationId");
 //
-//        ProbateCaseDetails probateCaseDetails = getProbateCaseDetails("probate_orchestrator_service_persists_intestacy_formdata_with_success_probate_case_details.json");
-//        ProbateCaseDetails probateCaseDetailsResponse = getProbateCaseDetails("probate_orchestrator_service_persists_intestacy_formdata_with_success_probate_case_details_response.json");
+//        ProbateCaseDetails probateCaseDetails = getProbateCaseDetails
+//        ("probate_orchestrator_service_persists_intestacy_formdata_with_success_probate_case_details.json");
+//        ProbateCaseDetails probateCaseDetailsResponse = getProbateCaseDetails
+//        ("probate_orchestrator_service_persists_intestacy_formdata_with_success_probate_case_details_response.json");
 //
 //
-//        when(submitServiceApi.saveDraft("someAuthorisationId", "someServiceAuthorisationId", "someemailaddress@host.com", probateCaseDetails)).thenReturn(probateCaseDetailsResponse);
+//        when(submitServiceApi.saveDraft("someAuthorisationId", "someServiceAuthorisationId",
+//        "someemailaddress@host.com", probateCaseDetails)).thenReturn(probateCaseDetailsResponse);
 //
 //    }
 //

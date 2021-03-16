@@ -33,7 +33,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -62,7 +63,8 @@ public class PaMapperTest {
     @Test
     public void shouldMapPaFormToGrantOfRepresentationMultipleExecutors() {
         GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(paFormMultipleExecutors);
-        assertThat(actualGrantOfRepresentation).isEqualToComparingFieldByFieldRecursively(grantOfRepresentationMultipleExecutors);
+        assertThat(actualGrantOfRepresentation)
+            .isEqualToComparingFieldByFieldRecursively(grantOfRepresentationMultipleExecutors);
     }
 
     @Test
@@ -94,7 +96,8 @@ public class PaMapperTest {
         expectedGrantOfRepresentation.setBoDocumentsUploaded(Lists.newArrayList());
         expectedGrantOfRepresentation.setPrimaryApplicantIsApplying(true);
         GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(new PaForm());
-        assertThat(actualGrantOfRepresentation).isEqualToComparingFieldByFieldRecursively(expectedGrantOfRepresentation);
+        assertThat(actualGrantOfRepresentation)
+            .isEqualToComparingFieldByFieldRecursively(expectedGrantOfRepresentation);
 
     }
 
@@ -126,7 +129,8 @@ public class PaMapperTest {
     @Test
     public void shouldMapPaFormToGrantOfRepresentationSingleExecutor() {
         GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(paFormSingleExecutor);
-        assertThat(actualGrantOfRepresentation).isEqualToComparingFieldByFieldRecursively(grantOfRepresentationSingleExecutor);
+        assertThat(actualGrantOfRepresentation)
+            .isEqualToComparingFieldByFieldRecursively(grantOfRepresentationSingleExecutor);
     }
 
     @Test
