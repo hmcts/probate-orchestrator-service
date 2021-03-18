@@ -11,7 +11,7 @@ plugins {
     id 'pmd'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'org.springframework.boot' version '2.3.4.RELEASE'
-    id 'com.github.ben-manes.versions' version '0.36.0'
+    id 'com.github.ben-manes.versions' version '0.38.0'
     id 'com.gorylenko.gradle-git-properties' version '2.0.0'
     id 'info.solidsoft.pitest' version '1.5.2'
     id 'au.com.dius.pact' version '3.5.24'
@@ -213,6 +213,10 @@ repositories {
 dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springcloud_version}"
+    }
+    dependencies {
+        dependency group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.67'
+        // CVE-2018-10237 - Unbounded memory allocation
     }
 }
 processResources {
