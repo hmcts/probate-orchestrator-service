@@ -263,6 +263,8 @@ dependencies {
     }
     compile group: 'io.github.openfeign', name: 'feign-httpclient', version: versions.feignHttpClient
 
+    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
     compile group: 'uk.gov.hmcts.reform', name: 'logging-spring', version: versions.hmctsJavaLogging
     compile group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.hmctsJavaLogging
     compile group: 'uk.gov.hmcts.reform', name: 'logging-httpcomponents', version: versions.hmctsJavaLogging
