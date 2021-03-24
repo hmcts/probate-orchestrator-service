@@ -92,4 +92,21 @@ public class DataExtractServiceImplTest {
         assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.ACCEPTED));
         assertThat(responseEntity.getBody(), equalTo("Perform Exela data extract finished"));
     }
+
+    @Test
+    public void shouldInitiateSmeeAndFordExtractDateRange() {
+
+        ResponseEntity<String> responseEntity = dataExtractService
+            .initiateSmeeAndFordExtractDateRange(FROM_DATE, TO_DATE);
+        assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.ACCEPTED));
+        assertThat(responseEntity.getBody(), equalTo("Perform Smee And Ford data extract finished"));
+    }
+
+    @Test(expected = ApiClientException.class)
+    public void shouldThrowDateExceptionOnInitiateSmeeAndFordExtractDateRange() {
+
+        doThrow(ApiClientException.class).when(dataExtractDateValidator).validate(FROM_DATE, TO_DATE);
+        dataExtractService.initiateSmeeAndFordExtractDateRange(FROM_DATE, TO_DATE);
+    }
+
 }

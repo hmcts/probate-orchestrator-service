@@ -20,4 +20,6 @@ public interface BackOfficeService {
     GrantScheduleResponse initiateGrantAwaitingDocumentsNotification(String date);
 
     ResponseEntity<String> initiateExelaExtractDateRange(String fromDate, String toDate);
+
+    ResponseEntity<String> initiateSmeeAndFordExtract(String fromDate, String toDate);
 }

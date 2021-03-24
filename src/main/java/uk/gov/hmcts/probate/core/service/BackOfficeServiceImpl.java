@@ -57,7 +57,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
     @Override
     public ResponseEntity<String> initiateHmrcExtract(String fromDate, String toDate) {
         securityUtils.setSecurityContextUserAsScheduler();
-        log.info("Calling BackOfficeAPI to initiateHmrcExtract as caseworker");
+        log.info("Calling BackOfficeAPI to initiateHmrcExtract as scheduler");
         return backOfficeApi
             .initiateHmrcExtract(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
                 fromDate, toDate);
@@ -66,7 +66,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
     @Override
     public ResponseEntity<String> initiateIronMountainExtract(String date) {
         securityUtils.setSecurityContextUserAsScheduler();
-        log.info("Calling BackOfficeAPI to initiateIronMountainExtract as caseworker");
+        log.info("Calling BackOfficeAPI to initiateIronMountainExtract as scheduler");
         return backOfficeApi
             .initiateIronMountainExtract(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
                 date);
@@ -75,7 +75,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
     @Override
     public ResponseEntity<String> initiateExelaExtract(String date) {
         securityUtils.setSecurityContextUserAsScheduler();
-        log.info("Calling BackOfficeAPI to initiateExelaExtract as caseworker");
+        log.info("Calling BackOfficeAPI to initiateExelaExtract as scheduler");
         return backOfficeApi
             .initiateExelaExtract(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
                 date);
@@ -84,16 +84,25 @@ public class BackOfficeServiceImpl implements BackOfficeService {
     @Override
     public ResponseEntity<String> initiateExelaExtractDateRange(String fromDate, String toDate) {
         securityUtils.setSecurityContextUserAsScheduler();
-        log.info("Calling BackOfficeAPI to initiateExelaExtract as caseworker");
+        log.info("Calling BackOfficeAPI to initiateExelaExtract as scheduler");
         return backOfficeApi
             .initiateExelaExtractDateRange(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
                 fromDate, toDate);
     }
 
     @Override
+    public ResponseEntity<String> initiateSmeeAndFordExtract(String fromDate, String toDate) {
+        securityUtils.setSecurityContextUserAsScheduler();
+        log.info("Calling BackOfficeAPI to initiateSFExtract as scheduler");
+        return backOfficeApi
+            .initiateSmeeAndFordExtractDateRange(securityUtils.getAuthorisation(), 
+                securityUtils.getServiceAuthorisation(), fromDate, toDate);
+    }
+
+    @Override
     public GrantScheduleResponse initiateGrantDelayedNotification(String date) {
         securityUtils.setSecurityContextUserAsScheduler();
-        log.info("Calling BackOfficeAPI to initiateGrantDelayedNotification as caseworker");
+        log.info("Calling BackOfficeAPI to initiateGrantDelayedNotification as scheduler");
         return backOfficeApi.initiateGrantDelayedNotification(BEARER_PREFIX + securityUtils.getAuthorisation(),
             BEARER_PREFIX + securityUtils.getServiceAuthorisation(), date);
     }

@@ -94,4 +94,24 @@ public class DataExtractController {
         return dataExtractService.initiateExelaExtractDateRange(fromDate, toDate);
     }
 
+    @Scheduled(cron = "${cron.smeeAndFord.schedule}")
+    @ApiOperation(value = "Initiate SF data extract", notes = "Will find cases for yesterdays date")
+    @PostMapping(path = "/smee-and-ford")
+    public ResponseEntity initiateSmeeAndFordExtract() {
+        log.info("Extract initiated for Excela");
+        String date = DATE_FORMAT.format(LocalDate.now().minusDays(1L));
+        return initiateSmeeAndFordExtractDateRange(date, date);
+    }
+
+    @ApiOperation(value = "Initiate SF data extract", notes = " Date MUST be in format 'yyyy-MM-dd'")
+    @PostMapping(path = "/smee-and-ford/{fromDate}/{toDate}")
+    public ResponseEntity initiateSmeeAndFordExtractDateRange(
+        @ApiParam(value = "Date range to find cases against", required = true)
+        @PathVariable("fromDate") String fromDate,
+        @PathVariable("toDate") String toDate) {
+
+        log.info("Calling perform SF data extract from date, to date {} {}", fromDate, toDate);
+        return dataExtractService.initiateSmeeAndFordExtractDateRange(fromDate, toDate);
+    }
+
 }
