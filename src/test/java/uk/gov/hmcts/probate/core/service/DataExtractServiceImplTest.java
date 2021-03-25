@@ -7,12 +7,12 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import uk.gov.hmcts.probate.service.BackOfficeService;
 import uk.gov.hmcts.reform.probate.model.client.ApiClientException;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DataExtractServiceImplTest {
@@ -24,7 +24,7 @@ public class DataExtractServiceImplTest {
     private DataExtractDateValidator dataExtractDateValidator;
 
     @Mock
-    private BackOfficeService backOfficeService;
+    private BackOfficeServiceImpl backOfficeService;
 
     @Mock
     ResponseEntity<String> responseEntity;
@@ -100,6 +100,8 @@ public class DataExtractServiceImplTest {
             .initiateSmeeAndFordExtractDateRange(FROM_DATE, TO_DATE);
         assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.ACCEPTED));
         assertThat(responseEntity.getBody(), equalTo("Perform Smee And Ford data extract finished"));
+        
+        verify(backOfficeService).initiateSmeeAndFordExtract(FROM_DATE, TO_DATE);
     }
 
     @Test(expected = ApiClientException.class)
