@@ -100,8 +100,6 @@ public class DataExtractServiceImplTest {
             .initiateSmeeAndFordExtractDateRange(FROM_DATE, TO_DATE);
         assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.ACCEPTED));
         assertThat(responseEntity.getBody(), equalTo("Perform Smee And Ford data extract finished"));
-        
-        verify(backOfficeService).initiateSmeeAndFordExtract(FROM_DATE, TO_DATE);
     }
 
     @Test(expected = ApiClientException.class)
