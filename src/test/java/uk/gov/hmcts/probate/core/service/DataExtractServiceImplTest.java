@@ -12,7 +12,6 @@ import uk.gov.hmcts.reform.probate.model.client.ApiClientException;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DataExtractServiceImplTest {
