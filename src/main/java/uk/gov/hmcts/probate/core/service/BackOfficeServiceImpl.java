@@ -93,7 +93,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
     @Override
     public ResponseEntity<String> initiateSmeeAndFordExtract(String fromDate, String toDate) {
         securityUtils.setSecurityContextUserAsScheduler();
-        log.info("Calling BackOfficeAPI to initiateSFExtract as scheduler");
+        log.info("Calling BackOfficeAPI to initiateSmeeAndFordExtract as scheduler");
         return backOfficeApi
             .initiateSmeeAndFordExtractDateRange(securityUtils.getAuthorisation(), 
                 securityUtils.getServiceAuthorisation(), fromDate, toDate);

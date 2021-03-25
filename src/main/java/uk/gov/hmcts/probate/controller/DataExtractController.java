@@ -95,7 +95,7 @@ public class DataExtractController {
     }
 
     @Scheduled(cron = "${cron.smeeAndFord.schedule}")
-    @ApiOperation(value = "Initiate SF data extract", notes = "Will find cases for yesterdays date")
+    @ApiOperation(value = "Initiate Smee And Ford data extract", notes = "Will find cases for yesterdays date")
     @PostMapping(path = "/smee-and-ford")
     public ResponseEntity initiateSmeeAndFordExtract() {
         log.info("Extract initiated for Excela");
@@ -103,14 +103,14 @@ public class DataExtractController {
         return initiateSmeeAndFordExtractDateRange(date, date);
     }
 
-    @ApiOperation(value = "Initiate SF data extract", notes = " Date MUST be in format 'yyyy-MM-dd'")
+    @ApiOperation(value = "Initiate Smee and Ford data extract", notes = " Date MUST be in format 'yyyy-MM-dd'")
     @PostMapping(path = "/smee-and-ford/{fromDate}/{toDate}")
     public ResponseEntity initiateSmeeAndFordExtractDateRange(
         @ApiParam(value = "Date range to find cases against", required = true)
         @PathVariable("fromDate") String fromDate,
         @PathVariable("toDate") String toDate) {
 
-        log.info("Calling perform SF data extract from date, to date {} {}", fromDate, toDate);
+        log.info("Calling perform Smee And Ford data extract from date, to date {} {}", fromDate, toDate);
         return dataExtractService.initiateSmeeAndFordExtractDateRange(fromDate, toDate);
     }
 

@@ -88,7 +88,7 @@ public class DataExtractServiceImpl implements DataExtractService {
         ExecutorService executor = Executors.newFixedThreadPool(1);
         executor.submit(() -> {
             log.info("Perform Smee And Ford data extract from date started");
-            backOfficeService.initiateExelaExtractDateRange(fromDate, toDate);
+            backOfficeService.initiateSmeeAndFordExtract(fromDate, toDate);
         });
         log.info("Perform Smee And Ford data extract from date finished");
 
