@@ -18,13 +18,6 @@
     </suppress>
     <suppress>
         <notes><![CDATA[
-   file name: junit-4.13.jar
-   ]]></notes>
-        <gav regex="true">^junit:junit:.*$</gav>
-        <cve>CVE-2020-15250</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
          Suppressing as it's a false positive (see: https://pivotal.io/security/cve-2018-1258)
         ]]></notes>
         <filePath regex="true">.*spring-security-(config|crypto|web|core)-5\.3\.8\.RELEASE\.jar</filePath>
