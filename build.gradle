@@ -218,7 +218,7 @@ dependencyManagement {
         //CVE-2020-26939
         dependency group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.67'
 
-        //CVE-2020-26939
+        //CWE79
         dependency group: 'com.netflix.hystrix', name: 'hystrix-core', version: '1.5.18'
 
         //CVE-2020-15250
