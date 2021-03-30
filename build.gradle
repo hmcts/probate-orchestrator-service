@@ -11,7 +11,7 @@ plugins {
     id 'pmd'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'org.springframework.boot' version '2.3.4.RELEASE'
-    id 'com.github.ben-manes.versions' version '0.36.0'
+    id 'com.github.ben-manes.versions' version '0.38.0'
     id 'com.gorylenko.gradle-git-properties' version '2.0.0'
     id 'info.solidsoft.pitest' version '1.5.2'
     id 'au.com.dius.pact' version '3.5.24'
@@ -214,6 +214,24 @@ dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springcloud_version}"
     }
+    dependencies {
+        //CVE-2020-26939
+        dependency group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.67'
+
+        //CWE79
+        dependency group: 'com.netflix.hystrix', name: 'hystrix-core', version: '1.5.18'
+
+        //CVE-2020-15250
+        dependency group: 'junit', name: 'junit', version: '4.13.2'
+
+        //CVE-2021-22112
+        dependencySet(group: 'org.springframework.security', version: '5.3.8.RELEASE') {
+            entry 'spring-security-config'
+            entry 'spring-security-core'
+            entry 'spring-security-crypto'
+            entry 'spring-security-web'
+        }
+    }
 }
 processResources {
     from('src/lib/AI-Agent.xml') {
@@ -221,18 +239,21 @@ processResources {
     }
 }
 
-
-dependencies {
-
-    configurations.all {
-        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+configurations.all {
+    resolutionStrategy {
+        eachDependency { DependencyResolveDetails details ->
+            if (details.requested.group in ['org.apache.tomcat.embed']) {
+                details.useVersion '9.0.43'
+            }
             if (details.requested.group == 'org.gradle') {
                 details.useVersion '1.4'
                 details.because 'API breakage in higher versions'
             }
         }
-
     }
+}
+
+dependencies {
     implementation('com.fasterxml.jackson.core:jackson-databind:2.11.2') {
         force = true
     }
@@ -259,6 +280,8 @@ dependencies {
     }
     compile group: 'io.github.openfeign', name: 'feign-httpclient', version: versions.feignHttpClient
 
+    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
     compile group: 'uk.gov.hmcts.reform', name: 'logging-spring', version: versions.hmctsJavaLogging
     compile group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.hmctsJavaLogging
     compile group: 'uk.gov.hmcts.reform', name: 'logging-httpcomponents', version: versions.hmctsJavaLogging
