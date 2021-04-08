@@ -7,7 +7,6 @@
         <cve>CVE-2015-9251</cve>
         <cve>CVE-2020-11023</cve>
         <cve>CVE-2020-11022</cve>
-        <cve>CVE-2019-11358</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[
