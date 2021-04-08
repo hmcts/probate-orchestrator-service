@@ -2,7 +2,7 @@
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
     <suppress>
         <notes><![CDATA[
-   file name: jquery-2.1.1.jar
+   file name: jquery-2.1.1
    ]]></notes>
         <cve>CVE-2015-9251</cve>
         <cve>CVE-2020-11023</cve>
