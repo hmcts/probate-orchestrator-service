@@ -17,7 +17,7 @@ java:
     AUTH_IDAM_CLIENT_BASEURL : "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
     SUBMIT_SERVICE_API_URL : "http://probate-submit-service-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
     BUSINESS_SERVICE_API_URL : "http://probate-business-service-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
-    BACK_OFFICE_API_URL: "https://probate-back-office-pr-1481.service.core-compute-preview.internal"
+    BACK_OFFICE_API_URL: "http://probate-back-office-pr-1481.service.core-compute-preview.internal"
     MAIL_JAVAMAILPROPERTIES_MAIL_SMTP_SSL_ENABLE: false
     MAIL_JAVAMAILPROPERTIES_MAIL_SMTP_AUTH: false
     SERVICES_CORECASEDATA_ENABLED: true
