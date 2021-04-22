@@ -10,7 +10,7 @@ public class AddressMapper {
 
     @ToCaseAddress
     public Address toCaseAddress(uk.gov.hmcts.reform.probate.model.forms.Address formAddress) {
-        if(formAddress!=null) {
+        if (formAddress != null) {
             return Address.builder()
                     .addressLine1(formAddress.getAddressLine1())
                     .addressLine2(formAddress.getAddressLine2())
@@ -26,7 +26,7 @@ public class AddressMapper {
 
     @ToFormAddress
     public uk.gov.hmcts.reform.probate.model.forms.Address toFormAddress(Address address) {
-        if(address!=null) {
+        if (address != null) {
             return uk.gov.hmcts.reform.probate.model.forms.Address.builder()
                     .addressLine1(address.getAddressLine1())
                     .addressLine2(address.getAddressLine2())

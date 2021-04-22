@@ -39,11 +39,13 @@ public class ProbateHealthIndicator implements HealthIndicator {
                     "HttpStatusCodeException - HTTP Status: " + hsce.getStatusCode().value());
         } catch (UnknownHttpStatusCodeException uhsce) {
             log.trace(uhsce.getMessage(), uhsce);
-            return getHealthWithDownStatus(url, uhsce.getMessage(), "UnknownHttpStatusCodeException - " + uhsce.getStatusText());
+            return getHealthWithDownStatus(url, uhsce.getMessage(), "UnknownHttpStatusCodeException - "
+                + uhsce.getStatusText());
         }
 
         if (!responseEntity.getStatusCode().equals(HttpStatus.OK)) {
-            return getHealthWithDownStatus(url, "HTTP Status code not 200", "HTTP Status: " + responseEntity.getStatusCodeValue());
+            return getHealthWithDownStatus(url, "HTTP Status code not 200", "HTTP Status: "
+                + responseEntity.getStatusCodeValue());
         }
 
         return getHealthWithUpStatus(url);

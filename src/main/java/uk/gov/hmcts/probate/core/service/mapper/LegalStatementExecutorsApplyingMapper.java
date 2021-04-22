@@ -17,7 +17,8 @@ public class LegalStatementExecutorsApplyingMapper {
 
     @ToCollectionMember
     public List<CollectionMember<LegalStatementExecutorApplying>> toCollectionMember(
-        List<uk.gov.hmcts.reform.probate.model.forms.LegalStatementExecutorApplying> legalStatementExecutorApplyingList) {
+        List<uk.gov.hmcts.reform.probate.model.forms.LegalStatementExecutorApplying>
+            legalStatementExecutorApplyingList) {
         if (CollectionUtils.isEmpty(legalStatementExecutorApplyingList)) {
             return null;//NOSONAR
         }
@@ -28,13 +29,15 @@ public class LegalStatementExecutorsApplyingMapper {
             .collect(Collectors.toList());
     }
 
-    private Function<LegalStatementExecutorApplying, CollectionMember<LegalStatementExecutorApplying>> createCollectionMember() {
+    private Function<LegalStatementExecutorApplying,
+        CollectionMember<LegalStatementExecutorApplying>> createCollectionMember() {
         return legalStatementExecutorApplying -> CollectionMember.<LegalStatementExecutorApplying>builder()
             .value(legalStatementExecutorApplying)
             .build();
     }
 
-    private Function<uk.gov.hmcts.reform.probate.model.forms.LegalStatementExecutorApplying, LegalStatementExecutorApplying> createLegalStatementExecutorApplying() {
+    private Function<uk.gov.hmcts.reform.probate.model.forms.LegalStatementExecutorApplying,
+        LegalStatementExecutorApplying> createLegalStatementExecutorApplying() {
         return paLegalStatementExecutorApplying -> LegalStatementExecutorApplying.builder()
             .name(paLegalStatementExecutorApplying.getName())
             .sign(paLegalStatementExecutorApplying.getSign())
@@ -50,7 +53,8 @@ public class LegalStatementExecutorsApplyingMapper {
         return collectionMembers
             .stream()
             .map(CollectionMember::getValue)
-            .map(legalStatementExecutorApplying -> uk.gov.hmcts.reform.probate.model.forms.LegalStatementExecutorApplying.builder()
+            .map(legalStatementExecutorApplying ->
+                uk.gov.hmcts.reform.probate.model.forms.LegalStatementExecutorApplying.builder()
                 .name(legalStatementExecutorApplying.getName())
                 .sign(legalStatementExecutorApplying.getSign())
                 .build())

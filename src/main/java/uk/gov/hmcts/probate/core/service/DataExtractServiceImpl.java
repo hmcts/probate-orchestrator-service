@@ -10,7 +10,6 @@ import uk.gov.hmcts.probate.service.DataExtractService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static org.springframework.http.HttpStatus.ACCEPTED;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -60,6 +59,21 @@ public class DataExtractServiceImpl implements DataExtractService {
         executor.submit(() -> {
             log.info("Perform Exela data extract from date started");
             backOfficeService.initiateExelaExtract(date);
+        });
+        log.info("Perform Exela data extract from date finished");
+
+        return ResponseEntity.accepted().body("Perform Exela data extract finished");
+    }
+
+    @Override
+    public ResponseEntity initiateExelaExtractDateRange(String fromDate, String toDate) {
+
+        dataExtractDateValidator.validate(fromDate, toDate);
+        log.info("Calling perform Exela data extract from date...");
+        ExecutorService executor = Executors.newFixedThreadPool(1);
+        executor.submit(() -> {
+            log.info("Perform Exela data extract from date started");
+            backOfficeService.initiateExelaExtractDateRange(fromDate, toDate);
         });
         log.info("Perform Exela data extract from date finished");
 

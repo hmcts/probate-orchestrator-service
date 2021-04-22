@@ -1,6 +1,6 @@
 package uk.gov.hmcts.probate.core.service.mapper;
 
-import org.hamcrest.*;
+import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.probate.model.cases.DocumentLink;
@@ -35,6 +35,6 @@ public class StatementOfTruthMapperTest {
                 .documentFilename(FILENAME)
               .documentUrl(URL).build());
         Assert.assertThat(documentUpload1.getFilename(), CoreMatchers.equalTo(FILENAME));
-           Assert.assertThat(documentUpload1.getUrl(), CoreMatchers.equalTo(URL));
+        Assert.assertThat(documentUpload1.getUrl(), CoreMatchers.equalTo(URL));
     }
 }

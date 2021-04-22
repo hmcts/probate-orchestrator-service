@@ -102,6 +102,7 @@ public interface BusinessServiceApi {
                   @RequestHeader("Session-Id") String sessionId);
 
     @GetMapping(path = "/pin/bilingual")
-    String pinNumberBilingual(@RequestParam("phoneNumber") String phoneNumber, @RequestHeader("Session-Id") String sessionId);
+    String pinNumberBilingual(@RequestParam("phoneNumber") String phoneNumber,
+                              @RequestHeader("Session-Id") String sessionId);
 
 }

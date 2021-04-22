@@ -1,13 +1,17 @@
 package uk.gov.hmcts.probate.controller;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -18,7 +22,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(value = {DataExtractController.class}, secure = false)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class DataExtractControllerTest {
 
     @MockBean
@@ -27,8 +32,16 @@ public class DataExtractControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private WebApplicationContext webApplicationContext;
+
+    @Before
+    public void setup() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+    }
+
     @Test
-    public void shouldInitiateHMRCDataExtractForNoDate() throws Exception {
+    public void shouldInitiateHmrcDataExtractForNoDate() throws Exception {
         mockMvc.perform(post("/data-extract/hmrc")
             .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
             .andExpect(status().isOk());
@@ -37,7 +50,7 @@ public class DataExtractControllerTest {
     }
 
     @Test
-    public void shouldInitiateHMRCDataExtractForGivenDate() throws Exception {
+    public void shouldInitiateHmrcDataExtractForGivenDate() throws Exception {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = dateTimeFormatter.format(LocalDate.now().minusDays(1L));
 
@@ -49,7 +62,7 @@ public class DataExtractControllerTest {
     }
 
     @Test
-    public void shouldInitiateHMRCDataExtractForGivenDates() throws Exception {
+    public void shouldInitiateHmrcDataExtractForGivenDates() throws Exception {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String dateFrom = dateTimeFormatter.format(LocalDate.now().minusDays(10L));
         String dateTo = dateTimeFormatter.format(LocalDate.now().minusDays(1L));
@@ -101,6 +114,19 @@ public class DataExtractControllerTest {
             .andExpect(status().isOk());
 
         verify(dataExtractController, times(1)).initiateExelaExtract(date);
+    }
+
+    @Test
+    public void shouldInitiateExelaDataExtractForGivenDateRange() throws Exception {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String fromDate = dateTimeFormatter.format(LocalDate.now().minusDays(2L));
+        String toDate = dateTimeFormatter.format(LocalDate.now().minusDays(1L));
+
+        mockMvc.perform(post("/data-extract/exela/" + fromDate + "/" + toDate)
+                .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
+                .andExpect(status().isOk());
+
+        verify(dataExtractController, times(1)).initiateExelaExtractDateRange(fromDate, toDate);
     }
 
 }

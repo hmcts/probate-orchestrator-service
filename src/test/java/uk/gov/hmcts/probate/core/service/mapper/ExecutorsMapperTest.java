@@ -17,7 +17,7 @@ import uk.gov.hmcts.reform.probate.model.forms.pa.Executor;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -36,27 +36,28 @@ public class ExecutorsMapperTest {
 
         grantOfRepresentation = PaMultipleExecutorTestDataCreator.createGrantOfRepresentation();
         executorList.add(Executor.builder()
-                .isApplying(Boolean.TRUE)
-                .isApplicant(Boolean.FALSE)
-                .hasOtherName(Boolean.TRUE)
-                .firstName("Bobby")
-                .lastName("Smith")
-                .address(Address.builder()
-                        .addressLine1(ADDRESS_LINE_1)
-                        .postCode(POSTCODE)
-                        .build())
-                .inviteId("12345")
-                .build());
+            .isApplying(Boolean.TRUE)
+            .isApplicant(Boolean.FALSE)
+            .hasOtherName(Boolean.TRUE)
+            .firstName("Bobby")
+            .lastName("Smith")
+            .address(Address.builder()
+                .addressLine1(ADDRESS_LINE_1)
+                .postCode(POSTCODE)
+                .build())
+            .inviteId("12345")
+            .build());
         executorList.add(Executor.builder()
-                .fullName("Jackie Smith")
-                .isDead(Boolean.TRUE)
-                .diedBefore(Boolean.FALSE)
-                .build());
+            .fullName("Jackie Smith")
+            .isDead(Boolean.TRUE)
+            .diedBefore(Boolean.FALSE)
+            .build());
     }
 
     @Test
     public void shouldMapNonApplyingExecutors() {
-        List<CollectionMember<ExecutorNotApplying>> collectionMembersNonApplying = mapper.toExecutorNotApplyingCollectionMember(executorList);
+        List<CollectionMember<ExecutorNotApplying>> collectionMembersNonApplying =
+            mapper.toExecutorNotApplyingCollectionMember(executorList);
         Assert.assertThat(collectionMembersNonApplying.size(), equalTo(1));
         ExecutorNotApplying executorNotApplying = collectionMembersNonApplying.get(0).getValue();
         Assert.assertThat(executorNotApplying.getNotApplyingExecutorName(), equalTo("Jackie Smith"));
@@ -66,7 +67,8 @@ public class ExecutorsMapperTest {
 
     @Test
     public void shouldMapApplyingExecutors() {
-        List<CollectionMember<ExecutorApplying>> collectionMembers = mapper.toExecutorApplyingCollectionMember(executorList);
+        List<CollectionMember<ExecutorApplying>> collectionMembers =
+            mapper.toExecutorApplyingCollectionMember(executorList);
         Assert.assertThat(collectionMembers.size(), equalTo(1));
         ExecutorApplying executorApplying = collectionMembers.get(0).getValue();
         Assert.assertThat(executorApplying.getApplyingExecutorName(), equalTo("Bobby Smith"));
@@ -94,7 +96,8 @@ public class ExecutorsMapperTest {
             .inviteId("56789")
             .build());
 
-        List<CollectionMember<ExecutorApplying>> collectionMembers = mapper.toExecutorApplyingCollectionMember(executorList);
+        List<CollectionMember<ExecutorApplying>> collectionMembers =
+            mapper.toExecutorApplyingCollectionMember(executorList);
         Assert.assertThat(collectionMembers.size(), equalTo(1));
         ExecutorApplying executorApplying = collectionMembers.get(0).getValue();
         Assert.assertThat(executorApplying.getApplyingExecutorName(), equalTo("Bobby Smith"));
@@ -121,7 +124,8 @@ public class ExecutorsMapperTest {
             .inviteId("56789")
             .build());
 
-        List<CollectionMember<ExecutorApplying>> collectionMembers = mapper.toExecutorApplyingCollectionMember(executorList);
+        List<CollectionMember<ExecutorApplying>> collectionMembers =
+            mapper.toExecutorApplyingCollectionMember(executorList);
         Assert.assertThat(collectionMembers.size(), equalTo(2));
         ExecutorApplying executorApplying1 = collectionMembers.get(0).getValue();
         Assert.assertThat(executorApplying1.getApplyingExecutorName(), equalTo("Bobby Smith"));
@@ -146,7 +150,8 @@ public class ExecutorsMapperTest {
     @Test
     public void shouldMapExecutorsApplyingAndPlaceApplicantFirstInList() {
 
-        List<Executor> executors = mapper.fromCollectionMember(PaMultipleExecutorTestDataCreator.createGrantOfRepresentation());
+        List<Executor> executors =
+            mapper.fromCollectionMember(PaMultipleExecutorTestDataCreator.createGrantOfRepresentation());
         Assert.assertThat(executors.get(0).getIsApplicant(), equalTo(Boolean.TRUE));
     }
 }

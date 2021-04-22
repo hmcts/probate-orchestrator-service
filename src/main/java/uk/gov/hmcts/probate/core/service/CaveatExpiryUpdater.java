@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.probate.service.SubmitService;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
-import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -17,10 +16,9 @@ import java.util.List;
 @Slf4j
 public class CaveatExpiryUpdater {
 
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private final SecurityUtils securityUtils;
     private final SubmitService submitService;
-
-    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public void expireCaveats(String expiryDate) {
         dateValidator(expiryDate);
@@ -36,8 +34,9 @@ public class CaveatExpiryUpdater {
         try {
             LocalDate.parse(date, DATE_FORMAT);
         } catch (DateTimeParseException e) {
-            log.error("Error parsing date for caveat expiry, use the format of 'yyyy-MM-dd': "+date);
-            throw new IllegalArgumentException("Error parsing date for caveat expiry, use the format of 'yyyy-MM-dd': " + e.getMessage());
+            log.error("Error parsing date for caveat expiry, use the format of 'yyyy-MM-dd': " + date);
+            throw new IllegalArgumentException(
+                "Error parsing date for caveat expiry, use the format of 'yyyy-MM-dd': " + e.getMessage());
         }
     }
 }

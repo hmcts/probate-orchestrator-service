@@ -17,6 +17,6 @@ public class MaritalStatusDeserializer extends JsonDeserializer {
             String text = jsonParser.getText().trim();
             return MaritalStatus.fromString(text);
         }
-        throw new IllegalArgumentException("Cannot deserialize for non string value:" );
+        throw new IllegalArgumentException("Cannot deserialize for non string value:");
     }
 }

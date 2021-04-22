@@ -32,8 +32,10 @@
 //
 //        when(securityUtils.getAuthorisation()).thenReturn("authToken");
 //        when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorisation");
-//        ProbateCaseDetails probateCaseDetails = getProbateCaseDetails("probate_orchestrator_service_executors_all_agreed_response.json");
-//        when(submitServiceApi.getCase("authToken", "someServiceAuthorisation", "123456", ProbateType.PA.getCaseType().name())).thenReturn(probateCaseDetails);
+//        ProbateCaseDetails probateCaseDetails =
+//        getProbateCaseDetails("probate_orchestrator_service_executors_all_agreed_response.json");
+//        when(submitServiceApi.getCase("authToken", "someServiceAuthorisation", "123456",
+//        ProbateType.PA.getCaseType().name())).thenReturn(probateCaseDetails);
 //
 //    }
 //
@@ -43,8 +45,10 @@
 //
 //        when(securityUtils.getAuthorisation()).thenReturn("authToken");
 //        when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorisation");
-//        ProbateCaseDetails probateCaseDetails = getProbateCaseDetails("probate_orchestrator_service_executors_all_agreed_false_response.json");
-//        when(submitServiceApi.getCase("authToken", "someServiceAuthorisation", "123457", ProbateType.PA.getCaseType().name())).thenReturn(probateCaseDetails);
+//        ProbateCaseDetails probateCaseDetails =
+//        getProbateCaseDetails("probate_orchestrator_service_executors_all_agreed_false_response.json");
+//        when(submitServiceApi.getCase("authToken", "someServiceAuthorisation",
+//        "123457", ProbateType.PA.getCaseType().name())).thenReturn(probateCaseDetails);
 //
 //    }
 //}

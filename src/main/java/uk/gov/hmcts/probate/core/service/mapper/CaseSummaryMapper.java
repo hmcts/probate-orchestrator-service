@@ -23,12 +23,12 @@ public class CaseSummaryMapper {
                 .build();
     }
 
-    private String formatDeceasedFullName(GrantOfRepresentationData gop){
+    private String formatDeceasedFullName(GrantOfRepresentationData gop) {
         StringBuilder stringBuilder = new StringBuilder("");
-        if(gop.getDeceasedForenames()!=null){
+        if (gop.getDeceasedForenames() != null) {
             stringBuilder.append(gop.getDeceasedForenames());
         }
-        if(gop.getDeceasedSurname()!=null){
+        if (gop.getDeceasedSurname() != null) {
             stringBuilder.append(" " + gop.getDeceasedSurname());
         }
         return stringBuilder.toString();

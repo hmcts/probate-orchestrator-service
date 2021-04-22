@@ -8,7 +8,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.Matchers;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
@@ -116,6 +115,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .statusCode(200);
     }
 
+    @Pending
     @Test
     public void shouldCreateDraftThenSubmitAndFinallyUpdatePayment() throws IOException, JSONException {
         setUpANewCase();
@@ -137,11 +137,10 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .body("applications.ccdCase.id", notNullValue())
                 .extract().jsonPath().prettify();
         this.caseSummaryHolder = objectMapper.readValue(responseJsonStr, CaseSummaryHolder.class);
-        List<CaseSummary> CaseSummaryList = caseSummaryHolder.getApplications();
-        CaseSummaryList.sort((o1, o2) -> o1.getCcdCase().getId().compareTo(o2.getCcdCase().getId()));
-        CaseSummary lastCaseSummary = CaseSummaryList.get(CaseSummaryList.size() - 1);
+        List<CaseSummary> caseSummaryList = caseSummaryHolder.getApplications();
+        caseSummaryList.sort((o1, o2) -> o1.getCcdCase().getId().compareTo(o2.getCcdCase().getId()));
+        CaseSummary lastCaseSummary = caseSummaryList.get(caseSummaryList.size() - 1);
         caseId = lastCaseSummary.getCcdCase().getId();
-        logger.info("Create New case CaseId: {}", caseId);
     }
 
     public void shouldSaveFormSuccessfully() {
@@ -268,6 +267,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .body("ccdCase.state", equalTo("CaseCreated"));
     }
 
+    @Pending
     @Test
     public void testValidateFormForValidationErrors() throws IOException {
         setUpANewCase();

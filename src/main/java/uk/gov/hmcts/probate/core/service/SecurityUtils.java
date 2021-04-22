@@ -2,7 +2,6 @@ package uk.gov.hmcts.probate.core.service;
 
 import java.util.Base64;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import uk.gov.hmcts.probate.client.IdamClientApi;
 import uk.gov.hmcts.probate.model.idam.AuthenticateUserResponse;
 import uk.gov.hmcts.probate.model.idam.TokenExchangeResponse;
-import uk.gov.hmcts.reform.auth.checker.spring.serviceanduser.ServiceAndUserDetails;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 
 @Component
@@ -67,7 +65,6 @@ public class SecurityUtils {
     }
 
     public void setSecurityContextUserAsScheduler() {
-        log.info("schedulerUserName/schedulerUserName={}/{}", schedulerUserName, schedulerPassword);
         SecurityContextHolder.getContext()
             .setAuthentication(new UsernamePasswordAuthenticationToken(schedulerUserName, getSchedulerToken()));
     }
@@ -83,8 +80,6 @@ public class SecurityUtils {
     private String getIdamOauth2Token(String username, String password) {
         String basicAuthHeader = getBasicAuthHeader(username, password);
         
-        log.info("Client ID: {} . Authenticating...", authClientId);
-
         AuthenticateUserResponse authenticateUserResponse = idamClient.authenticateUser(
             basicAuthHeader,
             CODE,
