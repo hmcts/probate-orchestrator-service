@@ -160,7 +160,7 @@ task runConsumerPactTests(type: Test) {
 }
 
 def versions = [
-        commonsIO                       : '2.6',
+        commonsIO                       : '2.8.0',
         hmctsJavaLogging                : '5.1.5',
         restAssured                     : '3.0.3',
         serviceTokenGenerator           : '0.6.0',
