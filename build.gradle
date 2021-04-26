@@ -180,7 +180,7 @@ def versions = [
         restAssured                     : '3.0.7',
         piTest                          : '1.3.2',
         commonMark                      : '0.11.0',
-        probateCommons                  : '1.1.2.5',
+        probateCommonsVersion           : '1.2.0',
         jacksonDatabind                 : '2.9.8',
         pact_version                    : '3.5.24',
         feignHttpClient                 : '10.2.3'
@@ -206,8 +206,8 @@ repositories {
     mavenLocal()
     mavenCentral()
     jcenter()
-    maven { url "https://dl.bintray.com/hmcts/hmcts-maven" }
     maven { url "http://repo.maven.apache.org/maven2" }
+    maven { url "https://jitpack.io" }
 }
 
 dependencyManagement {
@@ -289,8 +289,7 @@ dependencies {
     compile group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.1.0'
     compile group: 'uk.gov.hmcts.reform.auth', name: 'auth-checker-lib', version: versions.authCheckerLib
     compile group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceAuthProviderClient
-    compile group: 'uk.gov.hmcts.reform.probate', name: 'probate-commons', version: versions.probateCommons
-
+    compile group: 'com.github.hmcts', name: 'probate-commons', version: versions.probateCommonsVersion
     compile group: 'commons-io', name: 'commons-io', version: versions.commonsIO
 
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.springfoxSwagger
