@@ -263,7 +263,7 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase {
             .relaxedHTTPSValidation()
             .headers(utils.getCitizenHeaders())
             .when()
-            .post(DATA_EXTRACT_SMEE_AND_FORD_URL + "/" + invalidDateFrom +"/" + invalidDateTo)
+            .post(DATA_EXTRACT_SMEE_AND_FORD_URL + "/" + invalidDateFrom + "/" + invalidDateTo)
             .then()
             .assertThat()
             .statusCode(400);
