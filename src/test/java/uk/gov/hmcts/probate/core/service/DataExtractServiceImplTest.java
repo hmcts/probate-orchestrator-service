@@ -7,7 +7,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import uk.gov.hmcts.probate.service.BackOfficeService;
 import uk.gov.hmcts.reform.probate.model.client.ApiClientException;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -24,7 +23,7 @@ public class DataExtractServiceImplTest {
     private DataExtractDateValidator dataExtractDateValidator;
 
     @Mock
-    private BackOfficeService backOfficeService;
+    private BackOfficeServiceImpl backOfficeService;
 
     @Mock
     ResponseEntity<String> responseEntity;
@@ -92,4 +91,21 @@ public class DataExtractServiceImplTest {
         assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.ACCEPTED));
         assertThat(responseEntity.getBody(), equalTo("Perform Exela data extract finished"));
     }
+
+    @Test
+    public void shouldInitiateSmeeAndFordExtractDateRange() {
+
+        ResponseEntity<String> responseEntity = dataExtractService
+            .initiateSmeeAndFordExtractDateRange(FROM_DATE, TO_DATE);
+        assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.ACCEPTED));
+        assertThat(responseEntity.getBody(), equalTo("Perform Smee And Ford data extract finished"));
+    }
+
+    @Test(expected = ApiClientException.class)
+    public void shouldThrowDateExceptionOnInitiateSmeeAndFordExtractDateRange() {
+
+        doThrow(ApiClientException.class).when(dataExtractDateValidator).validate(FROM_DATE, TO_DATE);
+        dataExtractService.initiateSmeeAndFordExtractDateRange(FROM_DATE, TO_DATE);
+    }
+
 }
