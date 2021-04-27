@@ -255,4 +255,17 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase {
         Assert.assertEquals(SMEE_AND_FORD_EXTRACT_FINISHED, response);
     }
 
+    @Test
+    public void performSmeeAndFordDataExtractForAnInvalidDate() {
+        String invalidDateFrom = "2020-11-49";
+        String invalidDateTo = "2020-12-49";
+        RestAssured.given()
+            .relaxedHTTPSValidation()
+            .headers(utils.getCitizenHeaders())
+            .when()
+            .post(DATA_EXTRACT_SMEE_AND_FORD_URL + "/" + invalidDateFrom +"/" + invalidDateTo)
+            .then()
+            .assertThat()
+            .statusCode(400);
+    }
 }
