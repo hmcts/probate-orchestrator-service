@@ -15,7 +15,7 @@ plugins {
     id 'com.gorylenko.gradle-git-properties' version '2.0.0'
     id 'info.solidsoft.pitest' version '1.5.2'
     id 'au.com.dius.pact' version '3.5.24'
-    id 'uk.gov.hmcts.java' version '0.12.2'
+    id 'uk.gov.hmcts.java' version '0.12.8'
 }
 
 apply plugin: 'java'
