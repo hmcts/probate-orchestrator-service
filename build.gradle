@@ -1,8 +1,8 @@
 buildscript {
     dependencies {
-        classpath group: 'org.sonarsource.scanner.gradle', name: 'sonarqube-gradle-plugin', version: '3.1.1'
-        classpath("net.serenity-bdd:serenity-gradle-plugin:2.0.83")
-        classpath("net.serenity-bdd:serenity-single-page-report:2.1.4")
+        classpath group: 'org.sonarsource.scanner.gradle', name: 'sonarqube-gradle-plugin', version: '3.2.0'
+        classpath("net.serenity-bdd:serenity-gradle-plugin:2.4.24")
+        classpath("net.serenity-bdd:serenity-single-page-report:2.4.21")
     }
 }
 
@@ -12,10 +12,10 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'org.springframework.boot' version '2.3.4.RELEASE'
     id 'com.github.ben-manes.versions' version '0.38.0'
-    id 'com.gorylenko.gradle-git-properties' version '2.0.0'
+    id 'com.gorylenko.gradle-git-properties' version '2.3.1'
     id 'info.solidsoft.pitest' version '1.5.2'
-    id 'au.com.dius.pact' version '3.5.24'
-    id 'uk.gov.hmcts.java' version '0.12.2'
+    id 'au.com.dius.pact' version '4.2.4'
+    id 'uk.gov.hmcts.java' version '0.12.8'
 }
 
 apply plugin: 'java'
@@ -225,7 +225,7 @@ dependencyManagement {
         dependency group: 'junit', name: 'junit', version: '4.13.2'
 
         //CVE-2021-22112
-        dependencySet(group: 'org.springframework.security', version: '5.3.8.RELEASE') {
+        dependencySet(group: 'org.springframework.security', version: '5.4.6') {
             entry 'spring-security-config'
             entry 'spring-security-core'
             entry 'spring-security-crypto'
