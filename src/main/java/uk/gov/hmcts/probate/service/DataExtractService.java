@@ -11,4 +11,6 @@ public interface DataExtractService {
     ResponseEntity initiateExelaExtract(String date);
 
     ResponseEntity initiateExelaExtractDateRange(String fromDate, String toDate);
+
+    ResponseEntity initiateSmeeAndFordExtractDateRange(String fromDate, String toDate);
 }
