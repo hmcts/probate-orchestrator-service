@@ -3,7 +3,7 @@
 
 The Probate Orchestrator is an [API Gateway](https://microservices.io/patterns/apigateway.html) that mediates API calls between [Probate frontend](https://github.com/hmcts/probate-frontend) and APIs such as the [back office](https://github.com/hmcts/probate-back-office), [submit service](https://github.com/hmcts/probate-submit-service/) and [business service](https://github.com/hmcts/probate-business-service/).
 
-It is written Java and uses the Sprint Boot framework.
+It is written Java and uses the Sprint Boot framework..
 
 ## Getting Started
 ### Prerequisites
