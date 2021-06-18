@@ -26,12 +26,16 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     ]
 }
 
+// Configure branches to sync with master branch
+def branchesToSync = ['demo', 'ithc', 'perftest']
+
 withPipeline("java", product, component) {
     loadVaultSecrets(secrets)
     enableAksStagingDeployment()
     disableLegacyDeployment()
     enableSlackNotifications('#probate-jenkins')
     env.IDAM_CLIENT="probate"
+    syncBranchesWithMaster(branchesToSync)
 
 //    before('buildinfra:prod') {
 //            error 'Deliberately breaking pipeline to prevent prod deployment'
