@@ -199,6 +199,9 @@ public class BusinessServiceImpl implements BusinessService {
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
 
+        log.info("Service authorisation for getInviteData: {}", serviceAuthorisation);
+        log.info("Authorisation for getInviteData: {}", authorisation);
+        log.info("Invite id: {}", inviteId);
         ProbateCaseDetails probateCaseDetails = submitServiceApi.getCaseByInvitationId(authorisation,
                 serviceAuthorisation, inviteId, CaseType.GRANT_OF_REPRESENTATION.name());
         GrantOfRepresentationData grantOfRepresentationData =
