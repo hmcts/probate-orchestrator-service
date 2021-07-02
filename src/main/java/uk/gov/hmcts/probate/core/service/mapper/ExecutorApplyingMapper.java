@@ -28,7 +28,8 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "value.applyingExecutorOtherNames",
         expression = "java(BooleanUtils.isTrue(executor.getHasOtherName()) ? executor.getCurrentName() : null)")
     @Mapping(target = "value.applyingExecutorOtherNamesReason",
-        expression = "java(BooleanUtils.isTrue(executor.getHasOtherName()) ? "
+        expression = "java(BooleanUtils.isTrue(executor.getHasOtherName()) && executor.getCurrentNameReason() != null "
+            + "&& !executor.getCurrentNameReason().isEmpty() ? "
             + "AliasReason.fromString(executor.getCurrentNameReason()) : null)")
     @Mapping(target = "value.applyingExecutorOtherReason",
         expression = "java(BooleanUtils.isTrue(executor.getHasOtherName()) ? executor.getOtherReason() : null)")
