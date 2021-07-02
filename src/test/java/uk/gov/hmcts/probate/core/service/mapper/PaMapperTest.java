@@ -10,10 +10,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import uk.gov.hmcts.reform.probate.model.AliasReason;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
+import uk.gov.hmcts.reform.probate.model.forms.Address;
 import uk.gov.hmcts.reform.probate.model.forms.Copies;
 import uk.gov.hmcts.reform.probate.model.forms.Declaration;
 import uk.gov.hmcts.reform.probate.model.forms.DeclarationDeclaration;
@@ -31,6 +33,8 @@ import uk.gov.hmcts.reform.probate.model.forms.pa.PaForm;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -50,6 +54,7 @@ public class PaMapperTest {
     private GrantOfRepresentationData grantOfRepresentationSingleExecutor;
 
     private ObjectMapper objectMapper = new ObjectMapper();
+    private static String APPLICANT_ADDRESSES = "[{\"formatted_address\":\"102 Petty France London SW1H 9EX\"}]";
 
     @Before
     public void setUp() throws IOException {
@@ -72,6 +77,24 @@ public class PaMapperTest {
         PaForm actualPaForm = mapper.fromCaseData(grantOfRepresentationMultipleExecutors);
         assertThat(actualPaForm).isEqualToComparingFieldByFieldRecursively(paFormMultipleExecutors);
         assertThat(actualPaForm.getExecutors().getList()).isNotEmpty();
+    }
+
+    @Test
+    public void shouldNotMapGrantOfRepresentationToPaFormAliasReason() {
+        paFormMultipleExecutors.setApplicant(PaApplicant.builder()
+            .alias("King of the North")
+            .aliasReason("")
+            .address(Address.builder().addressLine1("The Wall")
+                .postTown("North Westeros").postCode("GOT567").formattedAddress("The Wall North Westeros GOT567")
+                .build())
+            .lastName("Smith")
+            .firstName("John")
+            .phoneNumber("00000000")
+            .postcode("HA5")
+            .nameAsOnTheWill(true)
+            .build()); 
+        GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(paFormMultipleExecutors);
+        assertThat(actualGrantOfRepresentation.getPrimaryApplicantAliasReason()).isNull();
     }
 
     @Test
