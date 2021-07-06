@@ -111,11 +111,10 @@ public class BusinessServiceImpl implements BusinessService {
                             invitation.getInviteId(),
                             invitation.getLeadExecutorName(), invitation.getExecutorName());
                     log.info("Invitation data saved with id: {} ", invitation.getInviteId());
-                    if (grantOfRepresentationData.getExecutorApplyingByEmailAddress(invitation.getEmail()) != null) {
-                        log.info("Executor applying invitation Id: {}",
+                    log.info("Executor applying invitation Id: {}",
+                        grantOfRepresentationData.getExecutorApplyingByEmailAddress(invitation.getEmail()) != null ?
                             grantOfRepresentationData.getExecutorApplyingByEmailAddress(invitation.getEmail())
-                                .getApplyingExecutorInvitationId());
-                    }
+                                .getApplyingExecutorInvitationId() : null);
                 } else {
                     if (isBilingual) {
                         businessServiceApi.inviteBilingual(invitation.getInviteId(), invitation, sessionId);
