@@ -21,7 +21,7 @@
         <notes><![CDATA[
          Suppressing as it's a false positives
         ]]></notes>
-        <filePath regex="true">.*spring-(aop|beans|context|context-support|expression|jcl|webmvc|web|core)-5\.3\.8\.jar</filePath>
+        <filePath regex="true">.*spring-(aop|beans|context|context-support|expression|jcl|webmvc|web|core)-5\.2\.9\.RELEASE\.jar</filePath>
         <cpe>cpe:/a:pivotal_software:spring</cpe>
         <cve>CVE-2021-22118</cve>
     </suppress>
