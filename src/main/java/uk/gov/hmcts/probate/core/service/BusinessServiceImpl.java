@@ -111,9 +111,8 @@ public class BusinessServiceImpl implements BusinessService {
                             invitation.getInviteId(),
                             invitation.getLeadExecutorName(), invitation.getExecutorName());
                     log.info("Invitation data saved with id: {} ", invitation.getInviteId());
-                    log.info("Invitation data saved with email: {} ", invitation.getEmail());
-                    log.info("Invitation data saved with lead exec name: {} ", invitation.getLeadExecutorName());
-                    log.info("Invitation data saved with exec name: {} ", invitation.getExecutorName());
+                    log.info("Invitation data being saved email: {}, lead exec name: {}, exec name {}",
+                        invitation.getEmail(), invitation.getLeadExecutorName(), invitation.getExecutorName());
                 } else {
                     if (isBilingual) {
                         businessServiceApi.inviteBilingual(invitation.getInviteId(), invitation, sessionId);
