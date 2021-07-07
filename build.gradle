@@ -224,10 +224,6 @@ dependencyManagement {
         //CVE-2020-15250
         dependency group: 'junit', name: 'junit', version: '4.13.2'
 
-        //CVE-2021-27568
-        dependency group: 'net.minidev', name: 'json-smart', version: '2.4.1'
-        dependency group: 'net.minidev', name: 'accessors-smart', version: '2.4.1'
-
         //CVE-2021-22112
         dependencySet(group: 'org.springframework.security', version: '5.4.6') {
             entry 'spring-security-config'
@@ -237,7 +233,7 @@ dependencyManagement {
         }
 
         //CVE-2021-22118
-        dependencySet(group: 'org.springframework', version: '5.3.8') {
+        dependencySet(group: 'org.springframework', version: '5.2.9.RELEASE') {
             entry 'spring-aop'
             entry 'spring-beans'
             entry 'spring-context'
@@ -351,7 +347,7 @@ dependencies {
     testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
     testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-single-page-report', version: versions.serenityreporter
     testFunctionalCompile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.0'
-    testFunctionalCompile group: 'io.rest-assured', name: 'rest-assured', version: '4.4.0'
+    testFunctionalCompile group: 'io.rest-assured', name: 'rest-assured', version: '3.1.1'
     testFunctionalCompile group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     testFunctionalCompile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
     testFunctionalCompile sourceSets.main.runtimeClasspath
