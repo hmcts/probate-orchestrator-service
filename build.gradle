@@ -2,7 +2,7 @@ buildscript {
     dependencies {
         classpath group: 'org.sonarsource.scanner.gradle', name: 'sonarqube-gradle-plugin', version: '3.3'
         classpath("net.serenity-bdd:serenity-gradle-plugin:2.4.34")
-        classpath("net.serenity-bdd:serenity-single-page-report:2.4.47")
+        classpath("net.serenity-bdd:serenity-single-page-report:2.4.48")
     }
 }
 
@@ -180,7 +180,7 @@ def versions = [
         restAssured                     : '3.0.7',
         piTest                          : '1.3.2',
         commonMark                      : '0.11.0',
-        probateCommonsVersion           : '1.2.0',
+        probateCommonsVersion           : '1.2.3',
         jacksonDatabind                 : '2.9.8',
         pact_version                    : '3.5.24',
         feignHttpClient                 : '10.2.3'
@@ -216,7 +216,7 @@ dependencyManagement {
     }
     dependencies {
         //CVE-2020-26939
-        dependency group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.67'
+        dependency group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.68'
 
         //CWE79
         dependency group: 'com.netflix.hystrix', name: 'hystrix-core', version: '1.5.18'
