@@ -90,6 +90,6 @@ cron:
   grantDelayed:
     schedule: "0 15 2 * * *"
   grantAwaitingDocuments:
-    schedule: "* * * * * *"
+    schedule: "0 * * * * *"
   caveatExpiry:
     schedule: "0 0 3 * * *"
