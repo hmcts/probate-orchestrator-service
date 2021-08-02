@@ -3,7 +3,7 @@
 
 export PYTHONDONTWRITEBYTECODE=1
 
-zap-api-scan.py -t ${TEST_URL}/v2/api-docs?group=orchestratorApi -f openapi -S -d -u ${SecurityRules} -P 1001 -l FAIL
+zap-api-scan.py -t ${TEST_URL}/v2/api-docs -f openapi -S -d -u ${SecurityRules} -P 1001 -l FAIL
 cat zap.out
 curl --fail http://0.0.0.0:1001/OTHER/core/other/jsonreport/?formMethod=GET --output report.json
 export LC_ALL=C.UTF-8
