@@ -335,6 +335,7 @@ dependencies {
     testRuntime "org.junit.jupiter:junit-jupiter-engine:5.6.2"
     testImplementation'org.junit.jupiter:junit-jupiter-api:5.6.2'
     testImplementation('io.github.openfeign:feign-core:11.0')
+    testImplementation 'com.github.hmcts:fortify-client:1.2.0:all'
 
     testSmokeCompile group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
     testSmokeCompile sourceSets.main.runtimeClasspath
@@ -379,6 +380,12 @@ task printbranch {
     doLast {
         print project.pactBrokerTag
     }
+}
+
+task fortifyScan(type: JavaExec)  {
+    main = "uk.gov.hmcts.fortifyclient.FortifyClientMainApp"
+    classpath += sourceSets.test.runtimeClasspath
+    jvmArgs = ['--add-opens=java.base/java.lang.reflect=ALL-UNNAMED']
 }
 
 pact {
