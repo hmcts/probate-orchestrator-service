@@ -173,7 +173,7 @@ def versions = [
         springCloudStarterNetflixHystrix: '2.1.3.RELEASE',
         serenity                        : '2.4.51',
         jjwt                            : '0.9.0',
-        serviceAuthProviderClient       : '3.0.0',
+        serviceAuthProviderClient       : '4.0.0',
         restAssured                     : '4.4.0',
         piTest                          : '1.6.7',
         commonMark                      : '0.17.0',
