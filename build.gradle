@@ -165,7 +165,7 @@ def versions = [
         serviceTokenGenerator           : '0.6.0',
         lombok                          : '1.18.20',
         springfoxSwagger                : '3.0.0',
-        springCloudWiremock             : '2.1.5.RELEASE',
+        springCloudWiremock             : '3.0.3',
         springBootVersion               : '2.3.4.RELEASE',
         springSecurityVersion           : '5.3.5.RELEASE',
         mapStruct                       : '1.3.0.Final',
