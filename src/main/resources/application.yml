@@ -73,10 +73,13 @@ azure:
 feign:
   client:
     config:
+      default:
+        loggerLevel: full
       submit-service-api:
         connectTimeout: 10000
         readTimeout: 10000
         loggerLevel: basic
+        loggerLevel: full
 
 cron:
   hmrc:
