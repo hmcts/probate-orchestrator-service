@@ -33,11 +33,18 @@ java:
     probate:
       secrets:
         - AppInsightsInstrumentationKey
-        - s2s-probate-backend
+          alias: azure.application-insights.instrumentation-key
         - ccidam-idam-api-secrets-probate
+          alias: AUTH2_CLIENT_SECRET
         - s2sAuthTotpSecret
+          alias: S2S_AUTH_TOTP_SECRET
         - idamRedirectUrl
+          alias: IDAM_API_REDIRECT_URL
         - payCaseWorkerPass
+          alias: PAYMENT_CASEWORKER_PASSWORD
         - payCaseWorkerUser
+          alias: PAYMENT_CASEWORKER_USERNAME
         - schedulerCaseWorkerUser
+          alias: SCHEDULER_CASEWORKER_USERNAME
         - schedulerCaseWorkerPass
+          alias: SCHEDULER_CASEWORKER_PASSWORD
