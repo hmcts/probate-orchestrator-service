@@ -83,6 +83,8 @@ public class SubmitServiceImpl implements SubmitService {
         log.info("Get all cases called");
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
+        log.info("serviceAuthorisation {}", serviceAuthorisation); //TODO REMOVE
+        log.info("authorisation {}", authorisation); //TODO REMOVE
         List<ProbateCaseDetails> probateCaseDetails = submitServiceApi.getAllCases(authorisation,
             serviceAuthorisation, CaseType.GRANT_OF_REPRESENTATION.name());
         List<CaseSummary> caseSummaries = probateCaseDetails.stream().map(caseSummaryMapper::createCaseSummary)
