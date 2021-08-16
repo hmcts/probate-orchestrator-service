@@ -278,7 +278,7 @@ public class BusinessServiceImpl implements BusinessService {
 
     private void updateCaseData(ProbateCaseDetails probateCaseDetails, String formdataId) {
         log.info("====================== updateCaseData");
-        log.ingo(probateCaseDetails.toString());
+        log.info(probateCaseDetails.toString());
         
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
