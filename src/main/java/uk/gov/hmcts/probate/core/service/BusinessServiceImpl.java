@@ -277,10 +277,14 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     private void updateCaseData(ProbateCaseDetails probateCaseDetails, String formdataId) {
+        log.info("====================== updateCaseData");
+        log.ingo(probateCaseDetails.toString());
+        
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
         submitServiceApi.saveCase(authorisation, serviceAuthorisation,
                 formdataId, probateCaseDetails);
+        log.info("=== end of update case data");
     }
 
     private void updateCaseDataAsCaseWorker(ProbateCaseDetails probateCaseDetails, String formdataId) {
