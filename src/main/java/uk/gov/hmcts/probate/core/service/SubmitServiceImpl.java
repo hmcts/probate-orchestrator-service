@@ -150,7 +150,7 @@ public class SubmitServiceImpl implements SubmitService {
 
     @Override
     public Form saveCase(String identifier, Form form) {
-        log.info("Save case called");
+        log.info("========================= Save case called");
         assertIdentifier(identifier, form);
         FormMapper formMapper = mappers.get(form.getType());
         ProbateCaseDetails probateCaseDetails = submitServiceApi.saveCase(
@@ -159,6 +159,7 @@ public class SubmitServiceImpl implements SubmitService {
             identifier,
             ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
         );
+        log.info(probateCaseDetails.toString());
         return mapFromCase(formMapper, probateCaseDetails);
     }
 
@@ -305,6 +306,8 @@ public class SubmitServiceImpl implements SubmitService {
     private Form mapFromCase(FormMapper formMapper, ProbateCaseDetails probateCaseDetails) {
         Form formResponse = formMapper.fromCaseData(probateCaseDetails.getCaseData());
         updateCcdCase(probateCaseDetails, formResponse);
+        log.info("==============================mapFromCase  response ===");
+        log.info(formResponse.toString());
         return formResponse;
     }
 }
