@@ -155,11 +155,11 @@ public class SubmitServiceImpl implements SubmitService {
         assertIdentifier(identifier, form);
         FormMapper formMapper = mappers.get(form.getType());
         CaseInfo caseInfo = new CaseInfo();
-        log.info(form);
+        log.info(form.toString());
         if (form.getEventDescription() != null && form.getEventDescription() != "null") {
             log.info(form.getEventDescription());
             caseInfo.setEventDescription(form.getEventDescription());
-        }else{
+        } else {
             log.info("coming to not having event description");
         }
         ProbateCaseDetails probateCaseDetails = submitServiceApi.saveCase(
