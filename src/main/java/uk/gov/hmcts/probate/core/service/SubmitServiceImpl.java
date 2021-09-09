@@ -156,7 +156,7 @@ public class SubmitServiceImpl implements SubmitService {
         FormMapper formMapper = mappers.get(form.getType());
         CaseInfo caseInfo = new CaseInfo();
         log.info(form.toString());
-        if (form.getEventDescription() != null && form.getEventDescription().equals("null")) {
+        if (form.getEventDescription() != null && !form.getEventDescription().equals("null")) {
             log.info(form.getEventDescription());
             caseInfo.setEventDescription(form.getEventDescription());
         } else {
