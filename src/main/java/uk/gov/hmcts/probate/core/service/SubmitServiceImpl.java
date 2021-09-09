@@ -15,6 +15,7 @@ import uk.gov.hmcts.probate.service.SubmitService;
 import uk.gov.hmcts.reform.probate.model.PaymentStatus;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.CaseData;
+import uk.gov.hmcts.reform.probate.model.cases.CaseInfo;
 import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
@@ -150,14 +151,22 @@ public class SubmitServiceImpl implements SubmitService {
 
     @Override
     public Form saveCase(String identifier, Form form) {
-        log.info("Save case called");
+        log.info("================= Save case called");
         assertIdentifier(identifier, form);
         FormMapper formMapper = mappers.get(form.getType());
+        CaseInfo caseInfo = new CaseInfo();
+        log.info(form);
+        if (form.getEventDescription() != null && form.getEventDescription() != "null") {
+            log.info(form.getEventDescription());
+            caseInfo.setEventDescription(form.getEventDescription());
+        }else{
+            log.info("coming to not having event description");
+        }
         ProbateCaseDetails probateCaseDetails = submitServiceApi.saveCase(
             securityUtils.getAuthorisation(),
             securityUtils.getServiceAuthorisation(),
             identifier,
-            ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
+            ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).caseInfo(caseInfo).build()
         );
         return mapFromCase(formMapper, probateCaseDetails);
     }
