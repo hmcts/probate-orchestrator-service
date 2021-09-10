@@ -66,7 +66,7 @@ public class SubmitServiceImpl implements SubmitService {
 
     @Override
     public Form getCase(String identifier, ProbateType probateType) {
-        log.info("Get case called for : {}", probateType.getName());
+        log.info("============================ Get case called for : {}", probateType.getName());
 
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
@@ -81,7 +81,7 @@ public class SubmitServiceImpl implements SubmitService {
 
     @Override
     public CaseSummaryHolder getAllCases() {
-        log.info("Get all cases called");
+        log.info("========================== Get all cases called");
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
         List<ProbateCaseDetails> probateCaseDetails = submitServiceApi.getAllCases(authorisation,
@@ -122,7 +122,7 @@ public class SubmitServiceImpl implements SubmitService {
     public CaseSummaryHolder initiateCase(ProbateType probateType) {
 
         CaseSummaryHolder allCases = getAllCases();
-        log.info("Initiate case called");
+        log.info("================================ Initiate case called");
         FormMapper formMapper = mappers.get(probateType);
         ProbateCaseDetails probateCaseDetails = submitServiceApi.initiateCase(
             securityUtils.getAuthorisation(),
@@ -151,7 +151,7 @@ public class SubmitServiceImpl implements SubmitService {
 
     @Override
     public Form saveCase(String identifier, Form form) {
-        log.info("================= Save case called");
+        log.info("=========================  Save case called");
         assertIdentifier(identifier, form);
         FormMapper formMapper = mappers.get(form.getType());
         CaseInfo caseInfo = new CaseInfo();
@@ -173,7 +173,7 @@ public class SubmitServiceImpl implements SubmitService {
 
     @Override
     public Form submit(String identifier, Form form) {
-        log.info("Submit called for");
+        log.info("========================= Submit called forn {}", form.toString());
         assertIdentifier(identifier, form);
         FormMapper formMapper = mappers.get(form.getType());
         log.debug("calling submit on submitserviceapi");
