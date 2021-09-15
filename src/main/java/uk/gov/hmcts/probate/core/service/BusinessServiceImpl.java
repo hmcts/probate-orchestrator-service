@@ -280,7 +280,7 @@ public class BusinessServiceImpl implements BusinessService {
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
         submitServiceApi.saveCase(authorisation, serviceAuthorisation,
-                formdataId, probateCaseDetails);
+                formdataId, probateCaseDetails, "event update case data");
     }
 
     private void updateCaseDataAsCaseWorker(ProbateCaseDetails probateCaseDetails, String formdataId) {

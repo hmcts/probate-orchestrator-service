@@ -250,13 +250,13 @@ public class SubmitServiceImplTest {
 
     private void shouldSaveDraftForm(Form form, ProbateCaseDetails caseDetails, String identifier) {
         when(submitServiceApi.saveCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-            eq(identifier), any(ProbateCaseDetails.class))).thenReturn(caseDetails);
+            eq(identifier), any(ProbateCaseDetails.class), eq("event description"))).thenReturn(caseDetails);
 
         Form formResponse = submitService.saveCase(identifier, form);
 
         assertThat(formResponse, is(form));
         verify(submitServiceApi, times(1)).saveCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-            eq(identifier), any(ProbateCaseDetails.class));
+            eq(identifier), any(ProbateCaseDetails.class), eq("event description"));
         verify(securityUtils, times(1)).getAuthorisation();
         verify(securityUtils, times(1)).getServiceAuthorisation();
     }
