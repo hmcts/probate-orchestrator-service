@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 import uk.gov.hmcts.probate.client.backoffice.BackOfficeApi;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackRequest;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCaseDetails;
@@ -22,6 +23,7 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepr
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -116,6 +118,15 @@ public class BackOfficeServiceImpl implements BackOfficeService {
                 BEARER_PREFIX + securityUtils.getServiceAuthorisation(), date);
     }
 
+    @Override
+    public List<String> uploadDocument(String authorizationToken, List<MultipartFile> files) {
+        if (files.isEmpty()) {
+            throw new IllegalArgumentException("There needs to be at least one file");
+        }
+        return backOfficeApi.uploadDocument(authorizationToken, securityUtils.getServiceAuthorisation(),
+            files.get(0));
+    }
+    
     private Function<ProbateCaseDetails, CaseData> raiseCaveat() {
         return probateCaseDetails -> {
             BackOfficeCallbackRequest backOfficeCallbackRequest = createBackOfficeCallbackRequest(probateCaseDetails);

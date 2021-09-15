@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import uk.gov.hmcts.probate.TestUtils;
+import uk.gov.hmcts.probate.service.BackOfficeService;
 import uk.gov.hmcts.probate.service.BusinessService;
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
@@ -25,7 +26,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -49,6 +49,9 @@ public class DocumentsControllerTest {
 
     @MockBean
     private BusinessService businessService;
+
+    @MockBean
+    private BackOfficeService backOfficeService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -154,19 +157,8 @@ public class DocumentsControllerTest {
             .header("user-id", userId))
             .andExpect(status().isOk());
 
-        verify(businessService, times(1)).uploadDocument(eq(authorisation),
-            eq(userId), eq(Lists.newArrayList(file)));
+        verify(backOfficeService, times(1)).uploadDocument(eq(authorisation),
+            eq(Lists.newArrayList(file)));
     }
 
-    @Test
-    public void shouldDelete() throws Exception {
-        String userId = "USERID1234";
-        String documentId = "DOCID1234";
-
-        mockMvc.perform(delete(DOCUMENT_DELETE_ENDPOINT, documentId)
-            .header("user-id", userId))
-            .andExpect(status().isOk());
-
-        verify(businessService, times(1)).delete(userId, documentId);
-    }
 }

@@ -6,16 +6,12 @@ import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
 import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.probate.client.business.BusinessServiceApi;
-import uk.gov.hmcts.probate.client.business.BusinessServiceDocumentsApi;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.mapper.ExecutorApplyingToInvitationMapper;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
@@ -58,8 +54,6 @@ public class BusinessServiceImplTest {
     @Mock
     private BusinessServiceApi businessServiceApi;
     @Mock
-    private BusinessServiceDocumentsApi businessServiceDocumentsApi;
-    @Mock
     private SubmitServiceApi submitServiceApi;
     @Mock
     private SecurityUtils securityUtils;
@@ -88,7 +82,7 @@ public class BusinessServiceImplTest {
         when(mockCaseInfo.getCaseId()).thenReturn("123456789101112");
 
         pdfExample = new byte[10];
-        businessService = new BusinessServiceImpl(businessServiceApi, businessServiceDocumentsApi,
+        businessService = new BusinessServiceImpl(businessServiceApi,
             submitServiceApi, securityUtils, mockExecutorApplyingToInvitationMapper);
     }
 
@@ -375,34 +369,4 @@ public class BusinessServiceImplTest {
             .build();
     }
 
-    @Test
-    public void shouldUploadSuccessfully() {
-        MockMultipartFile file = new MockMultipartFile("file", "orig",
-            MediaType.IMAGE_PNG_VALUE, "bar".getBytes());
-        String authorizationToken = "AUTHTOKEN12345";
-        String userId = "USERID12345";
-
-        businessService.uploadDocument(authorizationToken, userId, Lists.newArrayList(file));
-
-        verify(businessServiceDocumentsApi).uploadDocument(userId, authorizationToken, file);
-    }
-
-    @Test()
-    public void shouldThrowExceptoinIfFilesAreEmpty() {
-        String authorizationToken = "AUTHTOKEN12345";
-        String userId = "USERID12345";
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            businessService.uploadDocument(authorizationToken, userId, Lists.newArrayList());
-        });
-    }
-
-    @Test
-    public void shouldDeleteSuccessfully() {
-        String documentId = "DOC12345";
-        String userId = "USERID12345";
-
-        businessService.delete(userId, documentId);
-
-        verify(businessServiceDocumentsApi).delete(userId, documentId);
-    }
 }
