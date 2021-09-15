@@ -163,8 +163,8 @@ public class BusinessServiceImplTest {
         Assert.assertThat(result, Matchers.equalTo(invitationId));
         verify(mockGrantOfRepresentationData).setInvitationDetailsForExecutorApplying(invitation.getEmail(),
             invitationId, invitation.getLeadExecutorName(), executorName);
-        verify(submitServiceApi).saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId,
-            mockProbateCaseDetails, "event description");
+        verify(submitServiceApi).saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId,"event description",
+            mockProbateCaseDetails);
 
     }
 
@@ -191,7 +191,7 @@ public class BusinessServiceImplTest {
             .setInvitationDetailsForExecutorApplying(newInvitation.getEmail(), invitationId,
                 newInvitation.getLeadExecutorName(), executorName);
         verify(submitServiceApi).saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId,
-            mockProbateCaseDetails, "event description");
+            "event description", mockProbateCaseDetails);
 
         Assert.assertThat(newInvitation.getInviteId(), Matchers.equalTo(invitationId));
 
@@ -220,7 +220,7 @@ public class BusinessServiceImplTest {
             .setInvitationDetailsForExecutorApplying(newInvitation.getEmail(), invitationId,
                 newInvitation.getLeadExecutorName(), executorName);
         verify(submitServiceApi).saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId,
-            mockProbateCaseDetails, "event description");
+            "event description", mockProbateCaseDetails);
 
         Assert.assertThat(newInvitation.getInviteId(), Matchers.equalTo(invitationId));
 
@@ -250,7 +250,7 @@ public class BusinessServiceImplTest {
         verify(mockGrantOfRepresentationData)
             .updateInvitationContactDetailsForExecutorApplying(invitationId, emailaddress, phoneNumber);
         verify(submitServiceApi).saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId,
-            mockProbateCaseDetails, "event description");
+            "event description", mockProbateCaseDetails);
 
     }
 
@@ -274,7 +274,7 @@ public class BusinessServiceImplTest {
         verifyGetCaseCalls();
         verify(mockGrantOfRepresentationData).resetExecutorsApplyingAgreedFlags();
         verify(submitServiceApi).saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId,
-            mockProbateCaseDetails, "event description");
+            "event description", mockProbateCaseDetails);
 
     }
 
@@ -286,8 +286,7 @@ public class BusinessServiceImplTest {
         verifyGetCaseCalls();
         verify(mockGrantOfRepresentationData).deleteInvitation(invitationId);
         verify(submitServiceApi).saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId,
-            mockProbateCaseDetails, "event description");
-
+            "event description", mockProbateCaseDetails);
     }
 
     @Test

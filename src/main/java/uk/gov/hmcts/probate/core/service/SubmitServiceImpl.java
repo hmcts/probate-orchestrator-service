@@ -157,8 +157,8 @@ public class SubmitServiceImpl implements SubmitService {
             securityUtils.getAuthorisation(),
             securityUtils.getServiceAuthorisation(),
             identifier,
-            ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build(),
-            form.getEventDescription()
+            form.getEventDescription(),
+            ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
         );
         return mapFromCase(formMapper, probateCaseDetails);
     }
