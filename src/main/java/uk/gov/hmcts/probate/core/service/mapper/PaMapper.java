@@ -55,7 +55,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "applicationType", expression = "java(ApplicationType.PERSONAL)")
     @Mapping(target = "grantType", expression = "java(GrantType.GRANT_OF_PROBATE)")
     @Mapping(target = "applicationSubmittedDate", expression = "java(LocalDate.now())")
-    @Mapping(target = "willHasVisibleDamage", source = "will.hasVisibleDamage")
+    @Mapping(target = "willHasVisibleDamage", source = "will.willHasVisibleDamage")
     @Mapping(target = "willHasCodicils", source = "will.codicils")
     @Mapping(target = "willNumberOfCodicils", source = "will.codicilsNumber")
     @Mapping(target = "deceasedSurname", source = "deceased.lastName")
