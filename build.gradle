@@ -165,7 +165,7 @@ def versions = [
         restAssured                     : '3.0.3',
         serviceTokenGenerator           : '0.6.0',
         lombok                          : '1.18.8',
-        springfoxSwagger                : '2.10.5',
+        springfoxSwagger                : '3.0.0',
         springCloudWiremock             : '2.1.5.RELEASE',
         springBootVersion               : '2.3.4.RELEASE',
         springSecurityVersion           : '5.3.5.RELEASE',
@@ -180,7 +180,7 @@ def versions = [
         restAssured                     : '3.0.7',
         piTest                          : '1.3.2',
         commonMark                      : '0.11.0',
-        probateCommonsVersion           : '1.2.3',
+        probateCommonsVersion           : '1.2.4',
         jacksonDatabind                 : '2.9.8',
         pact_version                    : '3.5.24',
         feignHttpClient                 : '10.2.3'
@@ -256,7 +256,7 @@ configurations.all {
     resolutionStrategy {
         eachDependency { DependencyResolveDetails details ->
             if (details.requested.group in ['org.apache.tomcat.embed']) {
-                details.useVersion '9.0.43'
+                details.useVersion '9.0.50'
             }
             if (details.requested.group == 'org.gradle') {
                 details.useVersion '1.4'
@@ -304,9 +304,8 @@ dependencies {
     compile group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceAuthProviderClient
     compile group: 'com.github.hmcts', name: 'probate-commons', version: versions.probateCommonsVersion
     compile group: 'commons-io', name: 'commons-io', version: versions.commonsIO
-
-    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.springfoxSwagger
-    compile group: 'io.springfox', name: 'springfox-swagger2', version: versions.springfoxSwagger
+    
+    compile group: 'io.springfox', name: 'springfox-boot-starter', version: versions.springfoxSwagger
     compile group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     compile group: 'org.mapstruct', name: 'mapstruct-jdk8', version: versions.mapStruct
     compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: versions.jacksonDatabind
@@ -336,6 +335,7 @@ dependencies {
     testRuntime "org.junit.jupiter:junit-jupiter-engine:5.6.2"
     testImplementation'org.junit.jupiter:junit-jupiter-api:5.6.2'
     testImplementation('io.github.openfeign:feign-core:11.0')
+    testImplementation 'com.github.hmcts:fortify-client:1.2.0:all'
 
     testSmokeCompile group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
     testSmokeCompile sourceSets.main.runtimeClasspath
@@ -380,6 +380,12 @@ task printbranch {
     doLast {
         print project.pactBrokerTag
     }
+}
+
+task fortifyScan(type: JavaExec)  {
+    main = "uk.gov.hmcts.fortifyclient.FortifyClientMainApp"
+    classpath += sourceSets.test.runtimeClasspath
+    jvmArgs = ['--add-opens=java.base/java.lang.reflect=ALL-UNNAMED']
 }
 
 pact {
