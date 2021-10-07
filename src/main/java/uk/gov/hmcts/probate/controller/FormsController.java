@@ -70,7 +70,6 @@ public class FormsController {
     public ResponseEntity<Form> saveForm(@RequestBody Form form,
                                          @PathVariable("identifier") String identifier) {
         log.info("Save form called");
-        System.out.println(form);
         return new ResponseEntity<>(submitService.saveCase(identifier, form), HttpStatus.OK);
     }
 
