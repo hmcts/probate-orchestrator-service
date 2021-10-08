@@ -186,6 +186,8 @@ public final class PaSingleExecutorTestDataCreator {
     private static final String DAMAGE_CULPRIT_LAST_NAME = "CulpritLast";
     private static final boolean DAMAGE_DATE_KNOWN = true;
     private static final String DAMAGE_DATE = "4/10/2021";
+    private static final boolean CODICILS_DAMAGE_REASON_KNOWN = true;
+    private static final String CODICILS_DAMAGE_REASON_DESC = "Some other damage description";
     private static String LEGAL_DECLARATION_JSON =
         "{\"legalDeclaration\":{\"headers\":[\"header0\",\"header1\",\"header2\"],"
             + "\"sections\":[{\"headingType\":\"large\",\"title\":\"section title\","
@@ -241,6 +243,12 @@ public final class PaSingleExecutorTestDataCreator {
                     .build())
                 .willDamageDateKnown(DAMAGE_DATE_KNOWN)
                 .willDamageDate(DAMAGE_DATE)
+                .codicilsDamage(Damage.builder()
+                    .damageTypesList(SELECTED_DAMAGE_TYPES)
+                    .otherDamageDescription(DAMAGE_TYPE_OTHER_DESC)
+                    .build())
+                .codicilsDamageReasonKnown(CODICILS_DAMAGE_REASON_KNOWN)
+                .codicilsDamageReasonDescription(CODICILS_DAMAGE_REASON_DESC) 
                 .build())
             .copies(
                 Copies.builder()

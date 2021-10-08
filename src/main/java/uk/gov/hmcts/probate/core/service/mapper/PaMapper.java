@@ -67,6 +67,8 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "willNumberOfCodicils", source = "will.codicilsNumber")
     @Mapping(target = "codicilsHasVisibleDamage", source = "will.codicilsHasVisibleDamage")
     @Mapping(target = "codicilsDamage", source = "will.codicilsDamage")
+    @Mapping(target = "codicilsDamageReasonKnown", source = "will.codicilsDamageReasonKnown")
+    @Mapping(target = "codicilsDamageReasonDescription", source = "will.codicilsDamageReasonDescription")
     @Mapping(target = "deceasedSurname", source = "deceased.lastName")
     @Mapping(target = "deceasedForenames", source = "deceased.firstName")
     @Mapping(target = "deceasedAnyOtherNames", source = "deceased.alias")
