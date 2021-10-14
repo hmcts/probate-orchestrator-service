@@ -10,7 +10,7 @@ plugins {
     id 'application'
     id 'pmd'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'org.springframework.boot' version '2.5.4'
+    id 'org.springframework.boot' version '2.5.5'
     id 'com.github.ben-manes.versions' version '0.39.0'
     id 'com.gorylenko.gradle-git-properties' version '2.3.1'
     id 'info.solidsoft.pitest' version '1.6.0'
@@ -167,7 +167,7 @@ def versions = [
         lombok                          : '1.18.20',
         springfoxSwagger                : '3.0.0',
         springCloudWiremock             : '3.0.3',
-        springBootVersion               : '2.5.4',
+        springBootVersion               : '2.5.5',
         springSecurityVersion           : '5.5.1',
         mapStruct                       : '1.3.0.Final',
         authCheckerLib                  : '2.1.4',
