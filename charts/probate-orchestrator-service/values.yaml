@@ -38,8 +38,6 @@ java:
           alias: S2S_AUTH_TOTP_SECRET
         - name: ccidam-idam-api-secrets-probate
           alias: AUTH2_CLIENT_SECRET
-        - name: s2sAuthTotpSecret
-          alias: S2S_AUTH_TOTP_SECRET
         - name: idamRedirectUrl
           alias: IDAM_API_REDIRECT_URL
         - name: payCaseWorkerPass
