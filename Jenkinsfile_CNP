@@ -7,7 +7,7 @@ String component = "orchestrator-service"
 
 def secrets = [
         'probate-${env}'      : [
-        secret('s2sAuthTotpSecret', 'S2S_AUTH_TOTP_SECRET'),
+        secret('s2s-probate-backend', 'S2S_AUTH_TOTP_SECRET'),
         secret('probateIdamSecret', 'IDAM_SECRET'),
         secret('serviceAuthProviderBaseUrl', 'SERVICE_AUTH_PROVIDER_BASE_URL'),
         secret('probateUserAuthUrl', 'USER_AUTH_PROVIDER_OAUTH2_URL'),
