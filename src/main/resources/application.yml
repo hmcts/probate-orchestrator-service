@@ -8,8 +8,6 @@ spring:
   info:
     git:
       location: classpath:uk/gov/hmcts/probate/services/orchestrator/git.properties
-  config:
-    import: "optional:configtree:/mnt/secrets/probate/"
 
 server:
   port: 8888

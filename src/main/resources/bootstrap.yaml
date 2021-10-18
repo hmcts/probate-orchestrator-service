@@ -1,0 +1,14 @@
+spring:
+  cloud:
+    propertiesvolume:
+      prefixed: false
+      paths: /mnt/secrets/probate
+      aliases:
+        AppInsightsInstrumentationKey: azure.application-insights.instrumentation-key
+        s2s-probate-backend: S2S_AUTH_TOTP_SECRET
+        idamRedirectUrl:   IDAM_API_REDIRECT_URL
+        payCaseWorkerUser: PAYMENT_CASEWORKER_USERNAME
+        payCaseWorkerPass: PAYMENT_CASEWORKER_PASSWORD
+        schedulerCaseWorkerUser: SCHEDULER_CASEWORKER_USERNAME
+        schedulerCaseWorkerPass: SCHEDULER_CASEWORKER_PASSWORD
+        ccidam-idam-api-secrets-probate: AUTH2_CLIENT_SECRET
