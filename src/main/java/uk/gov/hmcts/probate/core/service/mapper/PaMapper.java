@@ -183,7 +183,8 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
         expression = "java(grantOfRepresentationData.getOutsideUkGrantCopies() == null ? "
             + "null : grantOfRepresentationData.getOutsideUkGrantCopies() > 0L)")
     @Mapping(target = "applicant.aliasReason",
-        expression = "java(grantOfRepresentationData.getPrimaryApplicantAliasReason()!=null ? "
+        expression = "java(grantOfRepresentationData.getPrimaryApplicantAliasReason()!=null "
+            + "&& !grantOfRepresentationData.getPrimaryApplicantAliasReason().isEmpty() ? "
             + "grantOfRepresentationData.getPrimaryApplicantAliasReason().getDescription() : null)")
     @Mapping(target = "applicant.address", source = "primaryApplicantAddress", qualifiedBy = {ToFormAddress.class})
     @Mapping(target = "applicant.addresses", source = "primaryApplicantAddresses", qualifiedBy = {ToMap.class})
