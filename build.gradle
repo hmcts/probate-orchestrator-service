@@ -1,8 +1,8 @@
 buildscript {
     dependencies {
-        classpath group: 'org.sonarsource.scanner.gradle', name: 'sonarqube-gradle-plugin', version: '3.2.0'
-        classpath("net.serenity-bdd:serenity-gradle-plugin:2.4.24")
-        classpath("net.serenity-bdd:serenity-single-page-report:2.4.21")
+        classpath group: 'org.sonarsource.scanner.gradle', name: 'sonarqube-gradle-plugin', version: '3.3'
+        classpath("net.serenity-bdd:serenity-gradle-plugin:2.5.8")
+        classpath("net.serenity-bdd:serenity-single-page-report:2.5.8")
     }
 }
 
@@ -10,12 +10,12 @@ plugins {
     id 'application'
     id 'pmd'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'org.springframework.boot' version '2.3.4.RELEASE'
-    id 'com.github.ben-manes.versions' version '0.38.0'
+    id 'org.springframework.boot' version '2.5.5'
+    id 'com.github.ben-manes.versions' version '0.39.0'
     id 'com.gorylenko.gradle-git-properties' version '2.3.1'
-    id 'info.solidsoft.pitest' version '1.5.2'
-    id 'au.com.dius.pact' version '4.2.4'
-    id 'uk.gov.hmcts.java' version '0.12.8'
+    id 'info.solidsoft.pitest' version '1.6.0'
+    id 'au.com.dius.pact' version '4.2.8'
+    id 'uk.gov.hmcts.java' version '0.12.12'
 }
 
 apply plugin: 'java'
@@ -161,30 +161,27 @@ task runConsumerPactTests(type: Test) {
 
 def versions = [
         commonsIO                       : '2.8.0',
-        hmctsJavaLogging                : '5.1.5',
+        hmctsJavaLogging                : '5.1.7',
         restAssured                     : '3.0.3',
         serviceTokenGenerator           : '0.6.0',
-        lombok                          : '1.18.8',
-        springfoxSwagger                : '2.10.5',
-        springCloudWiremock             : '2.1.5.RELEASE',
-        springBootVersion               : '2.3.4.RELEASE',
-        springSecurityVersion           : '5.3.5.RELEASE',
+        lombok                          : '1.18.20',
+        springfoxSwagger                : '3.0.0',
+        springCloudWiremock             : '3.0.3',
+        springBootVersion               : '2.5.5',
+        springSecurityVersion           : '5.5.1',
         mapStruct                       : '1.3.0.Final',
         authCheckerLib                  : '2.1.4',
-        springCloudStarterNetflixHystrix: '2.1.3.RELEASE',
-        serenity                        : '2.0.23',
-        serenityreporter                : '2.1.4',
-        serentity                       : '2.0.17',
+        serenity                        : '2.5.8',
         jjwt                            : '0.9.0',
-        serviceAuthProviderClient       : '3.0.0',
-        restAssured                     : '3.0.7',
-        piTest                          : '1.3.2',
-        commonMark                      : '0.11.0',
-        probateCommonsVersion           : '1.2.0',
-        jacksonDatabind                 : '2.9.8',
-        pact_version                    : '3.5.24',
-        feignHttpClient                 : '10.2.3'
-
+        serviceAuthProviderClient       : '4.0.0',
+        restAssured                     : '4.4.0',
+        piTest                          : '1.6.9',
+        commonMark                      : '0.17.0',
+        probateCommonsVersion           : '1.2.5',
+        jacksonDatabind                 : '2.12.4',
+        pact_version                    : '3.6.15',
+        feign                           : '11.6',
+        junitJupiter                    : '5.8.0-M1'
 ]
 
 jacocoTestReport {
@@ -206,44 +203,23 @@ repositories {
     mavenLocal()
     mavenCentral()
     jcenter()
-    maven { url "http://repo.maven.apache.org/maven2" }
     maven { url "https://jitpack.io" }
 }
 
 dependencyManagement {
     imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springcloud_version}"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2020.0.3"
     }
     dependencies {
         //CVE-2020-26939
-        dependency group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.67'
+        dependency group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.68'
 
         //CWE79
         dependency group: 'com.netflix.hystrix', name: 'hystrix-core', version: '1.5.18'
 
         //CVE-2020-15250
         dependency group: 'junit', name: 'junit', version: '4.13.2'
-
-        //CVE-2021-22112
-        dependencySet(group: 'org.springframework.security', version: '5.4.6') {
-            entry 'spring-security-config'
-            entry 'spring-security-core'
-            entry 'spring-security-crypto'
-            entry 'spring-security-web'
-        }
-
-        //CVE-2021-22118
-        dependencySet(group: 'org.springframework', version: '5.2.9.RELEASE') {
-            entry 'spring-aop'
-            entry 'spring-beans'
-            entry 'spring-context'
-            entry 'spring-context-support'
-            entry 'spring-core'
-            entry 'spring-expression'
-            entry 'spring-jcl'
-            entry 'spring-web'
-            entry 'spring-webmvc'
-        }
+        
     }
 }
 processResources {
@@ -256,7 +232,7 @@ configurations.all {
     resolutionStrategy {
         eachDependency { DependencyResolveDetails details ->
             if (details.requested.group in ['org.apache.tomcat.embed']) {
-                details.useVersion '9.0.43'
+                details.useVersion '9.0.50'
             }
             if (details.requested.group == 'org.gradle') {
                 details.useVersion '1.4'
@@ -267,119 +243,101 @@ configurations.all {
 }
 
 dependencies {
-    implementation('com.fasterxml.jackson.core:jackson-databind:2.11.2') {
-        force = true
-    }
-    implementation('io.github.openfeign:feign-core:10.2.3') {
-        force = true
-    }
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: versions.springBootVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: versions.springBootVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: versions.springBootVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: versions.springBootVersion
+    implementation group: 'org.springframework.retry', name: 'spring-retry', version: '1.3.1'
+    implementation group: 'com.google.guava', name: 'guava', version: '30.1.1-jre'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-hateoas', version: versions.springBootVersion
+    implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: versions.feign
 
-    implementation('org.springframework.cloud:spring-cloud-openfeign-core:2.1.3.RELEASE') {
-        force = true
-    }
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: versions.springBootVersion
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: versions.springBootVersion
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: versions.springBootVersion
-    compile group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: versions.springBootVersion
-    compile group: 'org.springframework.retry', name: 'spring-retry', version: '1.2.4.RELEASE'
-    compile group: 'com.google.guava', name: 'guava', version: '30.1-jre'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-hateoas', version: versions.springBootVersion
+    implementation group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
+    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
+    implementation group: 'uk.gov.hmcts.reform', name: 'logging-spring', version: versions.hmctsJavaLogging
+    implementation group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.hmctsJavaLogging
+    implementation group: 'uk.gov.hmcts.reform', name: 'logging-httpcomponents', version: versions.hmctsJavaLogging
+    implementation group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.hmctsJavaLogging
+    implementation group: 'uk.gov.hmcts.reform.auth', name: 'auth-checker-lib', version: versions.authCheckerLib
+    implementation group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceAuthProviderClient
+    implementation group: 'com.github.hmcts', name: 'probate-commons', version: versions.probateCommonsVersion
+    implementation group: 'commons-io', name: 'commons-io', version: versions.commonsIO
+    
+    implementation group: 'io.springfox', name: 'springfox-boot-starter', version: versions.springfoxSwagger
+    implementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+    implementation group: 'org.mapstruct', name: 'mapstruct-jdk8', version: versions.mapStruct
+    implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: versions.jacksonDatabind
 
-    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: versions.springCloudStarterNetflixHystrix
-    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix-dashboard', version: versions.springCloudStarterNetflixHystrix
-    compile(group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: versions.springCloudStarterNetflixHystrix) {
-        force = true
-    }
-    compile group: 'io.github.openfeign', name: 'feign-httpclient', version: versions.feignHttpClient
-
-    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
-    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
-    compile group: 'uk.gov.hmcts.reform', name: 'logging-spring', version: versions.hmctsJavaLogging
-    compile group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.hmctsJavaLogging
-    compile group: 'uk.gov.hmcts.reform', name: 'logging-httpcomponents', version: versions.hmctsJavaLogging
-    compile group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.hmctsJavaLogging
-    compile group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.1.0'
-    compile group: 'uk.gov.hmcts.reform.auth', name: 'auth-checker-lib', version: versions.authCheckerLib
-    compile group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceAuthProviderClient
-    compile group: 'com.github.hmcts', name: 'probate-commons', version: versions.probateCommonsVersion
-    compile group: 'commons-io', name: 'commons-io', version: versions.commonsIO
-
-    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.springfoxSwagger
-    compile group: 'io.springfox', name: 'springfox-swagger2', version: versions.springfoxSwagger
-    compile group: 'org.projectlombok', name: 'lombok', version: versions.lombok
-    compile group: 'org.mapstruct', name: 'mapstruct-jdk8', version: versions.mapStruct
-    compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: versions.jacksonDatabind
-
-    compile group: 'org.pitest', name: 'pitest', version: versions.piTest
-    compile group: 'com.atlassian.commonmark', name: 'commonmark', version: versions.commonMark
-    compile 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.5.2'
-    compile 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'
-    compileOnly group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
-    compileOnly group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
+    implementation group: 'org.pitest', name: 'pitest', version: versions.piTest
+    implementation group: 'com.atlassian.commonmark', name: 'commonmark', version: versions.commonMark
+    implementation 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.6.0'
+    implementation 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'
+    implementation group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
 
-    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
-    testCompile group: 'org.springframework.security', name: 'spring-security-test', version: versions.springSecurityVersion
-    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-hateoas', version: versions.springBootVersion
-    testCompile group: 'org.springframework.cloud', name: 'spring-cloud-contract-wiremock', version: versions.springCloudWiremock
-    testCompile group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
-    testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
-    testCompile group: 'org.mapstruct', name: 'mapstruct-jdk8', version: versions.mapStruct
-    testCompile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
-    testCompile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: versions.jacksonDatabind
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: versions.springSecurityVersion
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-hateoas', version: versions.springBootVersion
+    testImplementation group: 'org.springframework.cloud', name: 'spring-cloud-contract-wiremock', version: versions.springCloudWiremock
+    testImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
+    testImplementation group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
+    testImplementation group: 'org.mapstruct', name: 'mapstruct-jdk8', version: versions.mapStruct
+    testImplementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
+    testImplementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: versions.jacksonDatabind
     testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     testAnnotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
 
-    testCompile "org.junit.jupiter:junit-jupiter-api:5.6.2"
-    testRuntime "org.junit.jupiter:junit-jupiter-engine:5.6.2"
-    testImplementation'org.junit.jupiter:junit-jupiter-api:5.6.2'
-    testImplementation('io.github.openfeign:feign-core:11.0')
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: versions.junitJupiter
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
+    testImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
+    testImplementation 'com.github.hmcts:fortify-client:1.2.1:all'
 
-    testSmokeCompile group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
-    testSmokeCompile sourceSets.main.runtimeClasspath
-    testSmokeCompile sourceSets.test.runtimeClasspath
+    testSmokeImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
+    testSmokeImplementation sourceSets.main.runtimeClasspath
+    testSmokeImplementation sourceSets.test.runtimeClasspath
 
-    testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
-    testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
-    testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenity
-    testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
-    testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-single-page-report', version: versions.serenityreporter
-    testFunctionalCompile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.0'
-    testFunctionalCompile group: 'io.rest-assured', name: 'rest-assured', version: '3.1.1'
-    testFunctionalCompile group: 'org.projectlombok', name: 'lombok', version: versions.lombok
-    testFunctionalCompile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
-    testFunctionalCompile sourceSets.main.runtimeClasspath
-    testFunctionalCompile sourceSets.test.runtimeClasspath
+    testFunctionalImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
+    testFunctionalImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
+    testFunctionalImplementation group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenity
+    testFunctionalImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
+    testFunctionalImplementation group: 'net.serenity-bdd', name: 'serenity-single-page-report', version: versions.serenity
+    testFunctionalImplementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    testFunctionalImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
+    testFunctionalImplementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+    testFunctionalImplementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
+    testFunctionalImplementation sourceSets.main.runtimeClasspath
+    testFunctionalImplementation sourceSets.test.runtimeClasspath
     testFunctionalAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
 
-    testContractImplementation(group: 'io.github.openfeign', name: 'feign-core', version: '9.7.0') {
-        force = true
-    }
-    testContractCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
-    testCompile group: 'au.com.dius', name: 'pact-jvm-provider-spring_2.12', version: versions.pact_version
-    testContractCompile group: 'au.com.dius', name: 'pact-jvm-provider-spring_2.12', version: versions.pact_version
-    testContractCompile group: 'au.com.dius', name: 'pact-jvm-consumer-junit5_2.12', version: versions.pact_version
-    testContractCompile group: 'au.com.dius', name: 'pact-jvm-consumer-java8_2.12', version: versions.pact_version
-    testContractCompile("org.junit.jupiter:junit-jupiter-api:5.6.2")
-    testContractRuntime("org.junit.jupiter:junit-jupiter-engine:5.6.2")
-    testContractImplementation('org.junit.jupiter:junit-jupiter-api:5.6.2')
-    testContractCompile sourceSets.main.runtimeClasspath
-    testContractCompile sourceSets.test.runtimeClasspath
-    testContractCompile(group: 'io.github.openfeign', name: 'feign-core', version: '9.7.0') {
-        force = true
-    }
-    testContractRuntime(group: 'io.github.openfeign', name: 'feign-core', version: '9.7.0') {
-        force = true
-    }
-
-
+    testContractImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
+    testContractImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    testSmokeImplementation group: 'au.com.dius', name: 'pact-jvm-provider-spring_2.12', version: versions.pact_version
+    testContractImplementation group: 'au.com.dius', name: 'pact-jvm-provider-spring_2.12', version: versions.pact_version
+    testContractImplementation group: 'au.com.dius', name: 'pact-jvm-consumer-junit5_2.12', version: versions.pact_version
+    testContractImplementation group: 'au.com.dius', name: 'pact-jvm-consumer-java8_2.12', version: versions.pact_version
+    testContractImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
+    testContractRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: versions.junitJupiter
+    testContractImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
+    
+    testContractImplementation sourceSets.main.runtimeClasspath
+    testContractImplementation sourceSets.test.runtimeClasspath
+    testContractImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign 
 }
+
 task printbranch {
     doLast {
         print project.pactBrokerTag
     }
+}
+
+task fortifyScan(type: JavaExec)  {
+    main = "uk.gov.hmcts.fortifyclient.FortifyClientMainApp"
+    classpath += sourceSets.test.runtimeClasspath
+    jvmArgs = ['--add-opens=java.base/java.lang.reflect=ALL-UNNAMED']
 }
 
 pact {
@@ -400,7 +358,7 @@ tasks.withType(JavaCompile) {
 }
 
 bootJar {
-    archiveName = 'probate-orchestrator-service.jar'
+    archiveFileName = 'probate-orchestrator-service.jar'
     manifest {
         attributes 'Implementation-Title': project.name,
                 'Implementation-Version': project.version
