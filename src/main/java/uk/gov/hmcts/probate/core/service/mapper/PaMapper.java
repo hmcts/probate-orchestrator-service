@@ -90,7 +90,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "primaryApplicantEmailAddress", source = "applicantEmail")
     @Mapping(target = "primaryApplicantAlias", source = "applicant.alias")
     @Mapping(target = "primaryApplicantAliasReason", expression = "java(form.getApplicant()!= null && "
-        + "form.getApplicant().getAliasReason() != null ? "
+        + "form.getApplicant().getAliasReason() != null && !form.getApplicant().getAliasReason().isEmpty() ? "
         + "AliasReason.fromString(form.getApplicant().getAliasReason()) : null)")
     @Mapping(target = "primaryApplicantAddress", source = "applicant.address", qualifiedBy = {ToCaseAddress.class})
     @Mapping(target = "primaryApplicantPostCode", source = "applicant.postcode")

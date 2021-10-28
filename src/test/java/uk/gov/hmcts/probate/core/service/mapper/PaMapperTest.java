@@ -28,6 +28,7 @@ import uk.gov.hmcts.reform.probate.model.forms.pa.PaApplicant;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaAssets;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaDeceased;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaForm;
+import uk.gov.hmcts.reform.probate.model.forms.Address;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -50,6 +51,7 @@ public class PaMapperTest {
     private GrantOfRepresentationData grantOfRepresentationSingleExecutor;
 
     private ObjectMapper objectMapper = new ObjectMapper();
+    private static String APPLICANT_ADDRESSES = "[{\"formatted_address\":\"102 Petty France London SW1H 9EX\"}]";
 
     @Before
     public void setUp() throws IOException {
@@ -78,6 +80,24 @@ public class PaMapperTest {
     public void shouldMapNullPaFormToGrantOfRepresentation() {
         GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(null);
         Assert.assertThat(actualGrantOfRepresentation, is(nullValue()));
+    }
+
+    @Test
+    public void shouldNotMapGrantOfRepresentationToPaFormAliasReason() {
+        paFormMultipleExecutors.setApplicant(PaApplicant.builder()
+            .alias("King of the North")
+            .aliasReason("")
+            .address(Address.builder().addressLine1("The Wall")
+                .postTown("North Westeros").postCode("GOT567").formattedAddress("The Wall North Westeros GOT567")
+                .build())
+            .lastName("Smith")
+            .firstName("John")
+            .phoneNumber("00000000")
+            .postcode("HA5")
+            .nameAsOnTheWill(true)
+            .build());
+        GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(paFormMultipleExecutors);
+        assertThat(actualGrantOfRepresentation.getPrimaryApplicantAliasReason()).isNull();
     }
 
     @Test
