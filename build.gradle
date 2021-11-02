@@ -142,9 +142,9 @@ task functional(type: Test) {
 
 functional.finalizedBy(aggregate)
 
-serenity {
-    reports = ["single-page-html"]
-}
+//serenity {
+//    reports = ["single-page-html"]
+//}
 
 task runProviderPactTests(type: Test) {
     description = "Runs Contract Tests"
