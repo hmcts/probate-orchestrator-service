@@ -219,7 +219,7 @@ dependencyManagement {
 
         //CVE-2020-15250
         dependency group: 'junit', name: 'junit', version: '4.13.2'
-        
+
     }
 }
 processResources {
@@ -263,7 +263,7 @@ dependencies {
     implementation group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceAuthProviderClient
     implementation group: 'com.github.hmcts', name: 'probate-commons', version: versions.probateCommonsVersion
     implementation group: 'commons-io', name: 'commons-io', version: versions.commonsIO
-    
+
     implementation group: 'io.springfox', name: 'springfox-boot-starter', version: versions.springfoxSwagger
     implementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     implementation group: 'org.mapstruct', name: 'mapstruct-jdk8', version: versions.mapStruct
@@ -326,7 +326,7 @@ dependencies {
     testContractImplementation sourceSets.main.runtimeClasspath
     testContractImplementation sourceSets.test.runtimeClasspath
     testContractImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign 
-}
+    }
 
 task printbranch {
     doLast {
