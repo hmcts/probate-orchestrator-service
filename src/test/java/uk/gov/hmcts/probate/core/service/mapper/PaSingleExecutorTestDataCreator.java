@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import uk.gov.hmcts.reform.probate.model.AliasReason;
+import uk.gov.hmcts.reform.probate.model.IhtFormEstate;
 import uk.gov.hmcts.reform.probate.model.IhtFormType;
 import uk.gov.hmcts.reform.probate.model.PaymentStatus;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
@@ -50,6 +51,8 @@ import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.Boolean.TRUE;
+
 public final class PaSingleExecutorTestDataCreator {
 
     public static final String REGISTRY_ADDRESS = "old trafford";
@@ -60,6 +63,12 @@ public final class PaSingleExecutorTestDataCreator {
     private static final String APPLICANT_EMAIL = "mainapplicant@gmail.com";
     private static final BigDecimal NET_VALUE = new BigDecimal("20000.00");
     private static final BigDecimal GROSS_VALUE = new BigDecimal("20000.00");
+    private static final BigDecimal ESTATE_GROSS_VALUE = new BigDecimal("30000.00");
+    private static final String ESTATE_GROSS_VALUE_FIELD = "30000";
+    private static final BigDecimal ESTATE_NET_VALUE = new BigDecimal("20000.00");
+    private static final String ESTATE_NET_VALUE_FIELD = "20000";
+    private static final BigDecimal ESTATE_NET_QUALIFYING_VALUE = new BigDecimal("10000.00");
+    private static final String ESTATE_NET_QUALIFYING_VALUE_FIELD = "10000";
     private static final String IDENTIFIER = "IHT1234567";
     private static final Long OVERSEAS = 0L;
     private static final Long UK = 1L;
@@ -200,13 +209,23 @@ public final class PaSingleExecutorTestDataCreator {
             .caseType(GrantType.GRANT_OF_PROBATE.getName())
             .applicantEmail(APPLICANT_EMAIL)
             .applicationSubmittedDate(LocalDate.now())
-            .language(Language.builder().bilingual(Boolean.TRUE).build())
+            .language(Language.builder().bilingual(TRUE).build())
             .iht(InheritanceTax.builder()
                 .ihtFormId(IhtFormType.NOTAPPLICABLE.name())
                 .form(IhtFormType.NOTAPPLICABLE.name())
                 .method(IHT_METHOD)
                 .netValue(NET_VALUE)
                 .grossValue(GROSS_VALUE)
+                .estateValueCompleted(TRUE)
+                .ihtFormEstateId(IhtFormType.optionIHT400421.name())
+                .estateGrossValue(ESTATE_GROSS_VALUE)
+                .estateGrossValueField(ESTATE_GROSS_VALUE_FIELD)
+                .estateNetValue(ESTATE_NET_VALUE)
+                .estateNetValueField(ESTATE_NET_VALUE_FIELD)
+                .estateNetQualifyingValue(ESTATE_NET_QUALIFYING_VALUE)
+                .estateNetQualifyingValueField(ESTATE_NET_QUALIFYING_VALUE_FIELD)
+                .deceasedHadLateSpouseOrCivilPartner(TRUE)
+                .unusedAllowanceClaimed(TRUE)
                 .identifier(IDENTIFIER)
                 .build())
             .will(Will.builder()
@@ -283,10 +302,10 @@ public final class PaSingleExecutorTestDataCreator {
                         .firstName(APPLICANT_FIRSTNAME)
                         .lastName(APPLICANT__LASTNAME)
                         .isApplying(FIRST_EXECUTOR_IS_APPLYING)
-                        .isApplicant(Boolean.TRUE)
+                        .isApplicant(TRUE)
                         .build()
                 ))
-                .invitesSent(Boolean.TRUE)
+                .invitesSent(TRUE)
                 .executorsNumber(EXECUTORS_NUMBER)
                 .build())
             .declaration(uk.gov.hmcts.reform.probate.model.forms.Declaration.builder()
@@ -385,7 +404,7 @@ public final class PaSingleExecutorTestDataCreator {
             .primaryApplicantPostCode(APPLICANT_POSTCODE)
             .primaryApplicantIsApplying(true)
             .applicationSubmittedDate(LocalDate.now())
-            .languagePreferenceWelsh(Boolean.TRUE)
+            .languagePreferenceWelsh(TRUE)
             .registryLocation(RegistryLocation.findRegistryLocationByName(MANCHESTER))
             .registryAddress(REGISTRY_ADDRESS)
             .registryEmailAddress(REGISTRY_EMAIL_ADDRESS)
@@ -398,6 +417,16 @@ public final class PaSingleExecutorTestDataCreator {
             .ihtReferenceNumber(IDENTIFIER)
             .ihtFormCompletedOnline(true)
             .ihtFormId(IhtFormType.NOTAPPLICABLE)
+            .ihtFormEstateValuesCompleted(TRUE)
+            .ihtFormEstate(IhtFormEstate.optionIHT400421)
+            .ihtEstateGrossValue(ESTATE_GROSS_VALUE.multiply(BigDecimal.valueOf(100)).longValue())
+            .ihtEstateGrossValueField(ESTATE_GROSS_VALUE_FIELD)
+            .ihtEstateNetValue(ESTATE_NET_VALUE.multiply(BigDecimal.valueOf(100)).longValue())
+            .ihtEstateNetValueField(ESTATE_NET_VALUE_FIELD)
+            .ihtEstateNetQualifyingValue(ESTATE_NET_QUALIFYING_VALUE.multiply(BigDecimal.valueOf(100)).longValue())
+            .ihtEstateNetQualifyingValueField(ESTATE_NET_QUALIFYING_VALUE_FIELD)
+            .deceasedHadLateSpouseOrCivilPartner(TRUE)
+            .ihtUnusedAllowanceClaimed(TRUE)
             .primaryApplicantForenames(APPLICANT_FIRSTNAME)
             .primaryApplicantSurname(APPLICANT__LASTNAME)
             .primaryApplicantSurname(APPLICANT__LASTNAME)
