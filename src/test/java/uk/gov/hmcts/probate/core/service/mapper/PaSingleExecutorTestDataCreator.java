@@ -19,7 +19,10 @@ import uk.gov.hmcts.reform.probate.model.cases.UploadDocument;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.forms.Address;
+import uk.gov.hmcts.reform.probate.model.forms.CombinedName;
 import uk.gov.hmcts.reform.probate.model.forms.Copies;
+import uk.gov.hmcts.reform.probate.model.forms.Damage;
+import uk.gov.hmcts.reform.probate.model.forms.Declaration;
 import uk.gov.hmcts.reform.probate.model.forms.DeclarationDeclaration;
 import uk.gov.hmcts.reform.probate.model.forms.DeclarationHolder;
 import uk.gov.hmcts.reform.probate.model.forms.DocumentUpload;
@@ -29,6 +32,8 @@ import uk.gov.hmcts.reform.probate.model.forms.Fees;
 import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
 import uk.gov.hmcts.reform.probate.model.forms.Language;
+import uk.gov.hmcts.reform.probate.model.forms.LegalStatement;
+import uk.gov.hmcts.reform.probate.model.forms.LegalStatementExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.forms.LegalStatementHolder;
 import uk.gov.hmcts.reform.probate.model.forms.Payment;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
@@ -47,6 +52,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -170,6 +176,24 @@ public final class PaSingleExecutorTestDataCreator {
     private static final String DOCUMENT_FILENAME = "document_filename.png";
     private static final String SOT_DOCUMENT_URL = "http://sot-doc-url";
     private static final String SOT_DOCUMENT_FILENAME = "sot_document_filename.png";
+    private static final List<String> SELECTED_DAMAGE_TYPES = Arrays.asList("stapleOrPunchHoles","paperClipMarks", 
+        "tornEdges", "otherVisibleDamage");
+    private static final String DAMAGE_TYPE_OTHER_DESC = "Some other damage description";
+    private static final boolean DAMAGE_REASON_KNOWN = true;
+    private static final String DAMAGE_REASON_DESC = "Some other damage description";
+    private static final boolean DAMAGE_CULPRIT_KNOWN = true;
+    private static final String DAMAGE_CULPRIT_FIRST_NAME = "CilpritFirst";
+    private static final String DAMAGE_CULPRIT_LAST_NAME = "CulpritLast";
+    private static final boolean DAMAGE_DATE_KNOWN = true;
+    private static final String DAMAGE_DATE = "4/10/2021";
+    private static final boolean CODICILS_DAMAGE_REASON_KNOWN = true;
+    private static final String CODICILS_DAMAGE_REASON_DESC = "Some other codicil damage description";
+    private static final boolean CODICILS_DAMAGE_CULPRIT_KNOWN = true;
+    private static final String CODICILS_DAMAGE_CULPRIT_FIRST_NAME = "CodicilCilpritFirst";
+    private static final String CODICILS_DAMAGE_CULPRIT_LAST_NAME = "CodicilCulpritLast";
+    private static final boolean CODICILS_DAMAGE_DATE_KNOWN = true;
+    private static final String CODICILS_DAMAGE_DATE = "5/10/2021";
+    private static final boolean DECEASED_WRITTEN_WISHES = true;
     private static String LEGAL_DECLARATION_JSON =
         "{\"legalDeclaration\":{\"headers\":[\"header0\",\"header1\",\"header2\"],"
             + "\"sections\":[{\"headingType\":\"large\",\"title\":\"section title\","
@@ -212,6 +236,33 @@ public final class PaSingleExecutorTestDataCreator {
             .will(Will.builder()
                 .codicils(CODICILS)
                 .codicilsNumber(CODICILS_NUMBER)
+                .willDamage(Damage.builder()
+                    .damageTypesList(SELECTED_DAMAGE_TYPES)
+                    .otherDamageDescription(DAMAGE_TYPE_OTHER_DESC)
+                    .build())
+                .willDamageReasonKnown(DAMAGE_REASON_KNOWN)
+                .willDamageReasonDescription(DAMAGE_REASON_DESC)
+                .willDamageCulpritKnown(DAMAGE_CULPRIT_KNOWN)
+                .willDamageCulpritName(CombinedName.builder()
+                    .firstName(DAMAGE_CULPRIT_FIRST_NAME)
+                    .lastName(DAMAGE_CULPRIT_LAST_NAME)
+                    .build())
+                .willDamageDateKnown(DAMAGE_DATE_KNOWN)
+                .willDamageDate(DAMAGE_DATE)
+                .codicilsDamage(Damage.builder()
+                    .damageTypesList(SELECTED_DAMAGE_TYPES)
+                    .otherDamageDescription(DAMAGE_TYPE_OTHER_DESC)
+                    .build())
+                .codicilsDamageReasonKnown(CODICILS_DAMAGE_REASON_KNOWN)
+                .codicilsDamageReasonDescription(CODICILS_DAMAGE_REASON_DESC) 
+                .codicilsDamageCulpritKnown(CODICILS_DAMAGE_CULPRIT_KNOWN)
+                .codicilsDamageCulpritName(CombinedName.builder()
+                    .firstName(CODICILS_DAMAGE_CULPRIT_FIRST_NAME)
+                    .lastName(CODICILS_DAMAGE_CULPRIT_LAST_NAME)
+                    .build())
+                .codicilsDamageDateKnown(CODICILS_DAMAGE_DATE_KNOWN)
+                .codicilsDamageDate(CODICILS_DAMAGE_DATE)
+                .deceasedWrittenWishes(DECEASED_WRITTEN_WISHES)
                 .build())
             .copies(
                 Copies.builder()
@@ -289,7 +340,7 @@ public final class PaSingleExecutorTestDataCreator {
                 .invitesSent(Boolean.TRUE)
                 .executorsNumber(EXECUTORS_NUMBER)
                 .build())
-            .declaration(uk.gov.hmcts.reform.probate.model.forms.Declaration.builder()
+            .declaration(Declaration.builder()
                 .softStop(SOFT_STOP)
                 .declaration(
                     DeclarationDeclaration.builder()
@@ -321,13 +372,13 @@ public final class PaSingleExecutorTestDataCreator {
                             .build())
                         .build()
                 )
-                .legalStatement(uk.gov.hmcts.reform.probate.model.forms.LegalStatement.builder().en(
+                .legalStatement(LegalStatement.builder().en(
                     LegalStatementHolder.builder()
                         .intro(INTRO)
                         .deceased(DECEASED)
                         .applicant(APPLICANT)
                         .executorsApplying(Lists.newArrayList(
-                            uk.gov.hmcts.reform.probate.model.forms.LegalStatementExecutorApplying.builder()
+                            LegalStatementExecutorApplying.builder()
                                 .name(NAME)
                                 .sign(SIGN)
                                 .build()
@@ -525,6 +576,33 @@ public final class PaSingleExecutorTestDataCreator {
             .deceasedAddresses(DECEASED_ADDRESSES)
             .primaryApplicantAddresses(APPLICANT_ADDRESSES)
             .pcqId(PCQ_ID)
+            .willDamage(uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.Damage.builder()
+                .damageTypesList(SELECTED_DAMAGE_TYPES)
+                .otherDamageDescription(DAMAGE_TYPE_OTHER_DESC)
+                .build())
+            .willDamageReasonKnown(DAMAGE_REASON_KNOWN)
+            .willDamageReasonDescription(DAMAGE_REASON_DESC)
+            .willDamageCulpritKnown(DAMAGE_CULPRIT_KNOWN)
+            .willDamageCulpritName(uk.gov.hmcts.reform.probate.model.cases.CombinedName.builder()
+                .firstName(DAMAGE_CULPRIT_FIRST_NAME)
+                .lastName(DAMAGE_CULPRIT_LAST_NAME)
+                .build())
+            .willDamageDateKnown(DAMAGE_DATE_KNOWN)
+            .willDamageDate(DAMAGE_DATE)
+            .codicilsDamage(uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.Damage.builder()
+                .damageTypesList(SELECTED_DAMAGE_TYPES)
+                .otherDamageDescription(DAMAGE_TYPE_OTHER_DESC)
+                .build())
+            .codicilsDamageReasonKnown(CODICILS_DAMAGE_REASON_KNOWN)
+            .codicilsDamageReasonDescription(CODICILS_DAMAGE_REASON_DESC)
+            .codicilsDamageCulpritKnown(CODICILS_DAMAGE_CULPRIT_KNOWN)
+            .codicilsDamageCulpritName(uk.gov.hmcts.reform.probate.model.cases.CombinedName.builder()
+                .firstName(CODICILS_DAMAGE_CULPRIT_FIRST_NAME)
+                .lastName(CODICILS_DAMAGE_CULPRIT_LAST_NAME)
+                .build())
+            .codicilsDamageDateKnown(CODICILS_DAMAGE_DATE_KNOWN)
+            .codicilsDamageDate(CODICILS_DAMAGE_DATE)
+            .deceasedWrittenWishes(DECEASED_WRITTEN_WISHES)
             .build();
     }
 }

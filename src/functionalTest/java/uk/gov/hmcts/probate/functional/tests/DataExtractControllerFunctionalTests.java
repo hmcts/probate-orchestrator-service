@@ -84,7 +84,6 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String todayDate = dateTimeFormatter.format(LocalDate.now());
         String yesterdayDate = dateTimeFormatter.format(LocalDate.now().minusDays(1L));
-        System.out.println("test:" + DATA_EXTRACT_HMRC_URL + "/" + yesterdayDate + "/" + todayDate);
         String response = RestAssured.given()
             .relaxedHTTPSValidation()
             .headers(utils.getCaseworkerHeaders())
@@ -102,7 +101,6 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String todayDate = dateTimeFormatter.format(LocalDate.now());
         String yesterdayDate = "2020-44-12";
-        System.out.println("test:" + DATA_EXTRACT_HMRC_URL + "/" + yesterdayDate + "/" + todayDate);
         RestAssured.given()
             .relaxedHTTPSValidation()
             .headers(utils.getCaseworkerHeaders())
