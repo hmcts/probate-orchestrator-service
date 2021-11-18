@@ -2,6 +2,7 @@ package uk.gov.hmcts.probate.core.service.mapper;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import uk.gov.hmcts.reform.probate.model.IhtFormEstate;
 import uk.gov.hmcts.reform.probate.model.IhtFormType;
 import uk.gov.hmcts.reform.probate.model.PaymentStatus;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
@@ -34,6 +35,8 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Map;
 
+import static java.lang.Boolean.TRUE;
+
 public final class IntestacyTestDataCreator {
 
     public static final String UPLOAD_DOCUMENT_URL = "http://document-management/document/12345";
@@ -65,6 +68,12 @@ public final class IntestacyTestDataCreator {
     private static final String IHT_IDENTIFIER = "ihtIdentifier";
     private static final BigDecimal NET_VALUE = new BigDecimal("90000.00");
     private static final Long NET_VALUE_LONG = 9000000L;
+    private static final BigDecimal ESTATE_GROSS_VALUE = new BigDecimal("30000.00");
+    private static final String ESTATE_GROSS_VALUE_FIELD = "30000";
+    private static final BigDecimal ESTATE_NET_VALUE = new BigDecimal("20000.00");
+    private static final String ESTATE_NET_VALUE_FIELD = "20000";
+    private static final BigDecimal ESTATE_NET_QUALIFYING_VALUE = new BigDecimal("10000.00");
+    private static final String ESTATE_NET_QUALIFYING_VALUE_FIELD = "10000";
     private static final BigDecimal PAYMENT_AMOUNT = new BigDecimal("250.00");
     private static final long PAYMENT_AMOUNT_LONG = 25000L;
     private static final String PAYMENT_CHANNEL = "payment_channel";
@@ -144,6 +153,16 @@ public final class IntestacyTestDataCreator {
                 .netValue(NET_VALUE)
                 .assetsOutside(Boolean.TRUE)
                 .assetsOutsideNetValue(ASSETS_OVERSEAS_NET_VALUE)
+                .estateValueCompleted(TRUE)
+                .ihtFormEstateId(IhtFormType.optionIHT400421.name())
+                .estateGrossValue(ESTATE_GROSS_VALUE)
+                .estateGrossValueField(ESTATE_GROSS_VALUE_FIELD)
+                .estateNetValue(ESTATE_NET_VALUE)
+                .estateNetValueField(ESTATE_NET_VALUE_FIELD)
+                .estateNetQualifyingValue(ESTATE_NET_QUALIFYING_VALUE)
+                .estateNetQualifyingValueField(ESTATE_NET_QUALIFYING_VALUE_FIELD)
+                .deceasedHadLateSpouseOrCivilPartner(TRUE)
+                .unusedAllowanceClaimed(TRUE)
                 .build())
             .payments(Lists.newArrayList(Payment.builder()
                 .amount(PAYMENT_AMOUNT)
@@ -221,6 +240,17 @@ public final class IntestacyTestDataCreator {
         grantOfRepresentation.setIhtGrossValue(GROSS_VALUE_LONG);
         grantOfRepresentation.setIhtNetValue(NET_VALUE_LONG);
         grantOfRepresentation.setIhtReferenceNumber(IHT_IDENTIFIER);
+        grantOfRepresentation.setIhtFormEstateValuesCompleted(TRUE);
+        grantOfRepresentation.setIhtFormEstate(IhtFormEstate.optionIHT400421);
+        grantOfRepresentation.setIhtEstateGrossValue(ESTATE_GROSS_VALUE.multiply(BigDecimal.valueOf(100)).longValue());
+        grantOfRepresentation.setIhtEstateGrossValueField(ESTATE_GROSS_VALUE_FIELD);
+        grantOfRepresentation.setIhtEstateNetValue(ESTATE_NET_VALUE.multiply(BigDecimal.valueOf(100)).longValue());
+        grantOfRepresentation.setIhtEstateNetValueField(ESTATE_NET_VALUE_FIELD);
+        grantOfRepresentation.setIhtEstateNetQualifyingValue(ESTATE_NET_QUALIFYING_VALUE
+            .multiply(BigDecimal.valueOf(100)).longValue());
+        grantOfRepresentation.setIhtEstateNetQualifyingValueField(ESTATE_NET_QUALIFYING_VALUE_FIELD);
+        grantOfRepresentation.setDeceasedHadLateSpouseOrCivilPartner(TRUE);
+        grantOfRepresentation.setIhtUnusedAllowanceClaimed(TRUE);
 
         grantOfRepresentation.setExtraCopiesOfGrant(COPIES_UK);
         grantOfRepresentation.setOutsideUkGrantCopies(COPIES_OVERSEAS);
