@@ -82,16 +82,16 @@ feign:
 
 cron:
   hmrc:
-    schedule: "0 0 2 * * *"
+    schedule: "0 * * * * *"
   ironMountain:
-    schedule: "0 5 2 * * *"
+    schedule: "5 * * * * *"
   exela:
-    schedule: "0 10 2 * * *"
+    schedule: "10 * * * * *"
   smeeAndFord:
-    schedule: "0 25 2 * * *"
+    schedule: "15 * * * * *"
   grantDelayed:
-    schedule: "0 15 2 * * *"
+    schedule: "20 * * * * *"
   grantAwaitingDocuments:
-    schedule: "0 20 2 1 1 *"
+    schedule: "25 * * * * *"
   caveatExpiry:
-    schedule: "0 0 3 * * *"
+    schedule: "30 * * * * *"
