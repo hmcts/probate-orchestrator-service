@@ -38,6 +38,7 @@ public class BackOfficeServiceImplTest {
     private static final String AUTHORIZATION = "AUTH1234567";
     private static final String CAVEAT_EXPIRY_DATE = "2019-12-31";
     private static final String CAVEAT_SUBMITTED_DATE = "2019-12-01";
+    private static final String BEARER_PREFIX = "Bearer ";
 
     @Mock
     private BackOfficeApi backOfficeApi;
@@ -115,7 +116,9 @@ public class BackOfficeServiceImplTest {
     @Test
     public void shouldInitiateHmrcExtract() {
         when(backOfficeApi
-            .initiateHmrcExtract(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(String.class), any(String.class)))
+            .initiateHmrcExtract(eq(BEARER_PREFIX + AUTHORIZATION), 
+                eq(BEARER_PREFIX + SERVICE_AUTHORIZATION), any(String.class),
+                any(String.class)))
             .thenReturn(responseEntity);
 
         assertThat(backOfficeService.initiateHmrcExtract("2020-02-27", "2020-02-28")).isEqualTo(responseEntity);
@@ -123,7 +126,8 @@ public class BackOfficeServiceImplTest {
 
     @Test
     public void shouldInitiateIronMountainExtract() {
-        when(backOfficeApi.initiateIronMountainExtract(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(String.class)))
+        when(backOfficeApi.initiateIronMountainExtract(eq(BEARER_PREFIX + AUTHORIZATION), 
+            eq(BEARER_PREFIX + SERVICE_AUTHORIZATION), any(String.class)))
             .thenReturn(responseEntity);
 
         assertThat(backOfficeService.initiateIronMountainExtract("2020-02-27")).isEqualTo(responseEntity);
@@ -131,7 +135,8 @@ public class BackOfficeServiceImplTest {
 
     @Test
     public void shouldInitiateExelaExtract() {
-        when(backOfficeApi.initiateExelaExtract(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(String.class)))
+        when(backOfficeApi.initiateExelaExtract(eq(BEARER_PREFIX + AUTHORIZATION), 
+            eq(BEARER_PREFIX + SERVICE_AUTHORIZATION), any(String.class)))
             .thenReturn(responseEntity);
 
         assertThat(backOfficeService.initiateExelaExtract("2020-02-27")).isEqualTo(responseEntity);
@@ -140,7 +145,8 @@ public class BackOfficeServiceImplTest {
     @Test
     public void shouldInitiateExelaExtractDateRange() {
         when(backOfficeApi
-            .initiateExelaExtractDateRange(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(String.class),
+            .initiateExelaExtractDateRange(eq(BEARER_PREFIX + AUTHORIZATION), 
+                eq(BEARER_PREFIX + SERVICE_AUTHORIZATION), any(String.class),
                 any(String.class)))
             .thenReturn(responseEntity);
 
@@ -151,7 +157,8 @@ public class BackOfficeServiceImplTest {
     @Test
     public void shouldInitiateSmeeAndFordExtractDateRange() {
         when(backOfficeApi
-            .initiateSmeeAndFordExtractDateRange(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(String.class),
+            .initiateSmeeAndFordExtractDateRange(eq(BEARER_PREFIX + AUTHORIZATION), 
+                eq(BEARER_PREFIX + SERVICE_AUTHORIZATION), any(String.class),
                 any(String.class)))
             .thenReturn(responseEntity);
 
