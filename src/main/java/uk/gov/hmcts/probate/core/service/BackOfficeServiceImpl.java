@@ -59,7 +59,8 @@ public class BackOfficeServiceImpl implements BackOfficeService {
         securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateHmrcExtract as scheduler");
         return backOfficeApi
-            .initiateHmrcExtract(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
+            .initiateHmrcExtract(BEARER_PREFIX + securityUtils.getAuthorisation(),
+                BEARER_PREFIX + securityUtils.getServiceAuthorisation(),
                 fromDate, toDate);
     }
 
@@ -68,7 +69,9 @@ public class BackOfficeServiceImpl implements BackOfficeService {
         securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateIronMountainExtract as scheduler");
         return backOfficeApi
-            .initiateIronMountainExtract(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
+            .initiateIronMountainExtract(
+                BEARER_PREFIX + securityUtils.getAuthorisation(),
+                BEARER_PREFIX + securityUtils.getServiceAuthorisation(),
                 date);
     }
 
@@ -77,7 +80,8 @@ public class BackOfficeServiceImpl implements BackOfficeService {
         securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateExelaExtract as scheduler");
         return backOfficeApi
-            .initiateExelaExtract(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
+            .initiateExelaExtract(BEARER_PREFIX + securityUtils.getAuthorisation(),
+                BEARER_PREFIX + securityUtils.getServiceAuthorisation(),
                 date);
     }
 
@@ -86,7 +90,8 @@ public class BackOfficeServiceImpl implements BackOfficeService {
         securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateExelaExtract as scheduler");
         return backOfficeApi
-            .initiateExelaExtractDateRange(securityUtils.getAuthorisation(), securityUtils.getServiceAuthorisation(),
+            .initiateExelaExtractDateRange(BEARER_PREFIX + securityUtils.getAuthorisation(),
+                BEARER_PREFIX + securityUtils.getServiceAuthorisation(),
                 fromDate, toDate);
     }
 
@@ -95,8 +100,8 @@ public class BackOfficeServiceImpl implements BackOfficeService {
         securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateSmeeAndFordExtract as scheduler");
         return backOfficeApi
-            .initiateSmeeAndFordExtractDateRange(securityUtils.getAuthorisation(), 
-                securityUtils.getServiceAuthorisation(), fromDate, toDate);
+            .initiateSmeeAndFordExtractDateRange(BEARER_PREFIX + securityUtils.getAuthorisation(),
+                BEARER_PREFIX + securityUtils.getServiceAuthorisation(), fromDate, toDate);
     }
 
     @Override
