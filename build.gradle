@@ -239,7 +239,7 @@ configurations.all {
                 details.because 'API breakage in higher versions'
             }
             if (details.requested.group in ['org.apache.logging.log4j']) {
-                details.useVersion '2.15.0'
+                details.useVersion '2.16.0'
             }
         }
     }
