@@ -16,7 +16,7 @@ String component = "orchestrator-service"
 List<LinkedHashMap<String, Object>> secrets = [
         secret('probatePersistenceUrl', 'TEST_PERSISTENCE_URL'),
         secret('probateBusinessUrl', 'TEST_BUSINESS_URL'),
-        secret('s2sAuthTotpSecret', 'S2S_AUTH_TOTP_SECRET'),
+        secret('s2s-probate-backend', 'S2S_AUTH_TOTP_SECRET'),
         secret('probateIdamSecret', 'IDAM_SECRET'),
         secret('probateIdamUserName', 'IDAM_USERNAME'),
         secret('probateIdamPassword', 'IDAM_PASSWORD'),
