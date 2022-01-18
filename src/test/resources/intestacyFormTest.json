@@ -117,5 +117,6 @@
       "reference": "RC-1543-8527-2465-2900",
       "transactionId": "v5bf26kn5rq9rvdq7gsvn7v11d"
     }
-  ]
+  ],
+  "eventDescription": "event description"
 }
