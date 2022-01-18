@@ -88,6 +88,7 @@ public interface SubmitServiceApi {
         @RequestHeader(AUTHORIZATION) String authorisation,
         @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
         @PathVariable(SubmitServiceConfiguration.APPLICATION_ID) String applicationId,
+        @RequestParam(name = "eventDescription", defaultValue = "Probate Application") String eventDescription,
         @RequestBody ProbateCaseDetails probateCaseDetails
     );
 
