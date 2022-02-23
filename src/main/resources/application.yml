@@ -28,6 +28,10 @@ management:
     git:
       mode: full
 
+springfox:
+  documentation:
+    auto-startup: false
+
 authorised.services: probate_backend,probate_frontend
 
 auth.provider.service.client:
