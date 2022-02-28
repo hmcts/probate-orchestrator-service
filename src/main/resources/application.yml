@@ -28,9 +28,10 @@ management:
     git:
       mode: full
 
-springfox:
-  documentation:
-    auto-startup: false
+springdoc:
+  packagesToScan: uk.gov.hmcts.probate
+  pathsToMatch: /**
+
 
 authorised.services: probate_backend,probate_frontend
 

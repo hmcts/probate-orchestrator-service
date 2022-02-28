@@ -165,7 +165,7 @@ def versions = [
         restAssured                     : '3.0.3',
         serviceTokenGenerator           : '0.6.0',
         lombok                          : '1.18.20',
-        springfoxSwagger                : '3.0.0',
+        springDocOpenUi                 : '1.6.6',
         springCloudWiremock             : '3.0.3',
         springBootVersion               : '2.6.3',
         springSecurityVersion           : '5.6.1',
@@ -268,7 +268,8 @@ dependencies {
     implementation group: 'com.github.hmcts', name: 'probate-commons', version: versions.probateCommonsVersion
     implementation group: 'commons-io', name: 'commons-io', version: versions.commonsIO
 
-    implementation group: 'io.springfox', name: 'springfox-boot-starter', version: versions.springfoxSwagger
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: versions.springDocOpenUi
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-security', version: versions.springDocOpenUi
     implementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     implementation group: 'org.mapstruct', name: 'mapstruct-jdk8', version: versions.mapStruct
     implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: versions.jacksonDatabind
