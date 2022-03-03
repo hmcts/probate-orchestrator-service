@@ -52,7 +52,7 @@ auth.idam:
     username: ${SCHEDULER_CASEWORKER_USERNAME:ProbateSchedulerDEV@gmail.com}
     password: ${SCHEDULER_CASEWORKER_PASSWORD:Pa55word11}
 
-s2s.auth.totp.secret: ${S2S_AUTH_TOTP_SECRET:'AAAAAAAAAAAAAAAA'}
+s2s.auth.totp.secret: ${S2S_AUTH_TOTP_SECRET}
 service.name: ${auth.provider.service.client.microservice}
 
 submit.service.api.url: ${SUBMIT_SERVICE_API_URL:http://localhost:8181}
