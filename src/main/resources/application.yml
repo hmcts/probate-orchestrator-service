@@ -33,7 +33,7 @@ authorised.services: probate_backend,probate_frontend
 auth.provider.service.client:
   baseUrl: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
   microservice: ${AUTH_S2S_CLIENT_ID:probate_backend}
-  # key: ${S2S_AUTH_TOTP_SECRET:'AAAAAAAAAAAAAAAA'}
+  # key: ${S2S_PROBATE_BACKEND_SECRET:'AAAAAAAAAAAAAAAA'}
   tokenTimeToLiveInSeconds: '900'
 
 idam.s2s-auth.url: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
