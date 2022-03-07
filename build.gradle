@@ -2,7 +2,6 @@ buildscript {
     dependencies {
         classpath group: 'org.sonarsource.scanner.gradle', name: 'sonarqube-gradle-plugin', version: '3.3'
         classpath("net.serenity-bdd:serenity-gradle-plugin:2.5.8")
-        classpath("net.serenity-bdd:serenity-single-page-report:2.5.8")
     }
 }
 
@@ -14,7 +13,7 @@ plugins {
     id 'com.github.ben-manes.versions' version '0.39.0'
     id 'com.gorylenko.gradle-git-properties' version '2.3.1'
     id 'info.solidsoft.pitest' version '1.6.0'
-    id 'au.com.dius.pact' version '4.2.8'
+    id 'au.com.dius.pact' version '4.1.7' // do not change, otherwise serenity report fails
     id 'uk.gov.hmcts.java' version '0.12.12'
 }
 
@@ -141,10 +140,6 @@ task functional(type: Test) {
 }
 
 functional.finalizedBy(aggregate)
-
-serenity {
-    reports = ["single-page-html"]
-}
 
 task runProviderPactTests(type: Test) {
     description = "Runs Contract Tests"
@@ -305,10 +300,9 @@ dependencies {
     testSmokeImplementation sourceSets.test.runtimeClasspath
 
     testFunctionalImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
-    testFunctionalImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
+    testFunctionalImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: '3.2.0'
     testFunctionalImplementation group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenity
     testFunctionalImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
-    testFunctionalImplementation group: 'net.serenity-bdd', name: 'serenity-single-page-report', version: versions.serenity
     testFunctionalImplementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
     testFunctionalImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
     testFunctionalImplementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
