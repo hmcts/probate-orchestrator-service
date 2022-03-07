@@ -104,9 +104,25 @@ withPipeline("java", product, component) {
 
     after('functionalTest:aat') {
       steps.archiveArtifacts allowEmptyArchive: true, artifacts: '*/**/serenity/**/*'
+      publishHTML target: [
+                allowMissing : true,
+                alwaysLinkToLastBuild: true,
+                keepAll : true,
+                reportDir : "build/reports/serenity/functional/tests",
+                reportFiles : "index.html",
+                reportName : "Probate Orchestrator API Serenity Functional Test Report"
+      ]
     }
 
     after('functionalTest:preview') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: '*/**/serenity/**/*'
+        publishHTML target: [
+                allowMissing : true,
+                alwaysLinkToLastBuild: true,
+                keepAll : true,
+                reportDir : "build/reports/serenity/functional/tests",
+                reportFiles : "index.html",
+                reportName : "Probate Orchestrator API Serenity Functional Test Report"
+        ]
     }
 }
