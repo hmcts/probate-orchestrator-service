@@ -93,36 +93,20 @@ withPipeline("java", product, component) {
         ]
 
         publishHTML target: [
-                allowMissing         : true,
+                allowMissing : true,
                 alwaysLinkToLastBuild: true,
-                keepAll              : true,
-                reportDir            : "build/reports/findbugs",
-                reportFiles          : "main.html",
-                reportName           : "probate-orchestrator-service find Bugs Report"
+                keepAll : true,
+                reportDir : "build/reports/serenity/functional/tests",
+                reportFiles : "index.html",
+                reportName : "Probate Orchestrator API Serenity Functional Test Report"
         ]
     }
 
     after('functionalTest:aat') {
-        publishHTML target: [
-                allowMissing : true,
-                alwaysLinkToLastBuild: true,
-                keepAll : true,
-                reportDir : "build/reports/serenity/functional/tests",
-                reportFiles : "index.html",
-                reportName : "Probate Orchestrator API Serenity Functional Test Report"
-        ]
-        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '*/**/serenity/**/*'
+      steps.archiveArtifacts allowEmptyArchive: true, artifacts: '*/**/serenity/**/*'
     }
 
     after('functionalTest:preview') {
-        publishHTML target: [
-                allowMissing : true,
-                alwaysLinkToLastBuild: true,
-                keepAll : true,
-                reportDir : "build/reports/serenity/functional/tests",
-                reportFiles : "index.html",
-                reportName : "Probate Orchestrator API Serenity Functional Test Report"
-        ]
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: '*/**/serenity/**/*'
     }
 }
