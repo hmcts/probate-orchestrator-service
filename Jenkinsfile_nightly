@@ -27,4 +27,15 @@ withNightlyPipeline(type, product, component) {
     after('fortify-scan') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
     }
+
+    after('fullFunctionalTest') {
+        publishHTML target: [
+            allowMissing : true,
+            alwaysLinkToLastBuild: true,
+            keepAll : true,
+            reportDir : "build/reports/serenity/functional",
+            reportFiles : "index.html",
+            reportName : "IdAM API Serenity Functional Test Report"
+        ]
+    }
 }

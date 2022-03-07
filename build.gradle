@@ -140,8 +140,6 @@ task functional(type: Test) {
     environment("APPINSIGHTS_INSTRUMENTATIONKEY", "test-key")
 }
 
-functional.finalizedBy(aggregate)
-
 serenity {
     reports = ["single-page-html"]
 }
