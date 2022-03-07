@@ -35,7 +35,7 @@ withNightlyPipeline(type, product, component) {
             keepAll : true,
             reportDir : "build/reports/serenity/functional",
             reportFiles : "index.html",
-            reportName : "IdAM API Serenity Functional Test Report"
+            reportName : "Probate Orchestrator API Serenity Functional Test Report"
         ]
     }
 }
