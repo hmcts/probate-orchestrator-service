@@ -108,9 +108,9 @@ withPipeline("java", product, component) {
                 allowMissing : true,
                 alwaysLinkToLastBuild: true,
                 keepAll : true,
-                reportDir : "build/reports/serenity/functional/tests",
+                reportDir : "target/site/serenity/",
                 reportFiles : "index.html",
-                reportName : "Probate Orchestrator API Serenity Functional Test Report"
+                reportName : "Functional Test Report"
       ]
     }
 
@@ -120,9 +120,9 @@ withPipeline("java", product, component) {
                 allowMissing : true,
                 alwaysLinkToLastBuild: true,
                 keepAll : true,
-                reportDir : "build/reports/serenity/functional/tests",
+                reportDir : "target/site/serenity/",
                 reportFiles : "index.html",
-                reportName : "Probate Orchestrator API Serenity Functional Test Report"
+                reportName : "Functional Test Report"
         ]
     }
 }
