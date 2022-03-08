@@ -93,36 +93,36 @@ withPipeline("java", product, component) {
         ]
 
         publishHTML target: [
-                allowMissing : true,
+                allowMissing         : true,
                 alwaysLinkToLastBuild: true,
-                keepAll : true,
-                reportDir : "build/reports/serenity/functional/tests",
-                reportFiles : "index.html",
-                reportName : "Probate Orchestrator API Serenity Functional Test Report"
+                keepAll              : true,
+                reportDir            : "build/reports/findbugs",
+                reportFiles          : "main.html",
+                reportName           : "probate-orchestrator-service find Bugs Report"
         ]
     }
 
     after('functionalTest:aat') {
-      steps.archiveArtifacts allowEmptyArchive: true, artifacts: '*/**/serenity/**/*'
-      publishHTML target: [
-                allowMissing : true,
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
+        publishHTML target: [
+                allowMissing         : true,
                 alwaysLinkToLastBuild: true,
-                keepAll : true,
-                reportDir : "target/site/serenity/",
-                reportFiles : "index.html",
-                reportName : "Functional Test Report"
-      ]
+                keepAll              : true,
+                reportDir            : "target/site/serenity/",
+                reportFiles          : "index.html",
+                reportName           : "Functional Tests Report"
+        ]
     }
 
     after('functionalTest:preview') {
-        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '*/**/serenity/**/*'
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
         publishHTML target: [
-                allowMissing : true,
+                allowMissing         : true,
                 alwaysLinkToLastBuild: true,
-                keepAll : true,
-                reportDir : "target/site/serenity/",
-                reportFiles : "index.html",
-                reportName : "Functional Test Report"
+                keepAll              : true,
+                reportDir            : "target/site/serenity/",
+                reportFiles          : "index.html",
+                reportName           : "Functional Tests Report"
         ]
     }
 }
