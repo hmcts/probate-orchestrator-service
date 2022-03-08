@@ -300,7 +300,7 @@ dependencies {
     testSmokeImplementation sourceSets.test.runtimeClasspath
 
     testFunctionalImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
-    testFunctionalImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: '3.2.0'
+    testFunctionalImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
     testFunctionalImplementation group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenity
     testFunctionalImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
     testFunctionalImplementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
