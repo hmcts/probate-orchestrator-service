@@ -33,7 +33,7 @@ authorised.services: probate_backend,probate_frontend
 auth.provider.service.client:
   baseUrl: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
   microservice: ${AUTH_S2S_CLIENT_ID:probate_backend}
-  # key: ${S2S_AUTH_TOTP_SECRET:'AAAAAAAAAAAAAAAA'}
+  # key: ${S2S_PROBATE_BACKEND_SECRET:'AAAAAAAAAAAAAAAA'}
   tokenTimeToLiveInSeconds: '900'
 
 idam.s2s-auth.url: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
@@ -52,7 +52,7 @@ auth.idam:
     username: ${SCHEDULER_CASEWORKER_USERNAME:ProbateSchedulerDEV@gmail.com}
     password: ${SCHEDULER_CASEWORKER_PASSWORD:Pa55word11}
 
-s2s.auth.totp.secret: ${S2S_AUTH_TOTP_SECRET:'AAAAAAAAAAAAAAAA'}
+s2s.auth.totp.secret: ${S2S_PROBATE_BACKEND_SECRET:'AAAAAAAAAAAAAAAA'}
 service.name: ${auth.provider.service.client.microservice}
 
 submit.service.api.url: ${SUBMIT_SERVICE_API_URL:http://localhost:8181}
