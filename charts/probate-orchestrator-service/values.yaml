@@ -35,7 +35,7 @@ java:
         - name: AppInsightsInstrumentationKey
           alias: azure.application-insights.instrumentation-key
         - name: s2s-probate-backend
-          alias: S2S_PROBATE_BACKEND_SECRET
+          alias: S2S_AUTH_TOTP_SECRET
         - name: ccidam-idam-api-secrets-probate
           alias: AUTH2_CLIENT_SECRET
         - name: idamRedirectUrl
