@@ -157,6 +157,7 @@ public class SubmitServiceImpl implements SubmitService {
             securityUtils.getAuthorisation(),
             securityUtils.getServiceAuthorisation(),
             identifier,
+            form.getEventDescription(),
             ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
         );
         return mapFromCase(formMapper, probateCaseDetails);
@@ -288,14 +289,11 @@ public class SubmitServiceImpl implements SubmitService {
 
     @Override
     public Form validate(String identifier, ProbateType probateType) {
-        log.info("Validate case called for : {}, identifier in orch service :{}", probateType.getName(), identifier);
         FormMapper formMapper = mappers.get(probateType);
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
         ProbateCaseDetails probateCaseDetails = submitServiceApi.validate(authorisation,
             serviceAuthorisation, identifier, probateType.getCaseType().name());
-        log.info("case id from probateCaseDetails ID:{}, State: {}", probateCaseDetails.getCaseInfo().getCaseId(),
-            probateCaseDetails.getCaseInfo().getState());
         Form form = formMapper.fromCaseData(probateCaseDetails.getCaseData());
         updateCcdCase(probateCaseDetails, form);
         return form;

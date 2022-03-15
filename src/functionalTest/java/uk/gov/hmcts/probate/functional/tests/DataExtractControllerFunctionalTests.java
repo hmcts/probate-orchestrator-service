@@ -18,6 +18,8 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase {
     private static final String EXELA_DATA_EXTRACT_FINISHED = "Perform Exela data extract finished";
     private static final String HMRC_DATA_EXTRACT_FINISHED = "Perform HMRC data extract finished";
     private static final String IRON_MOUNTAIN_DATA_EXTRACT_FINISHED = "Perform Iron Mountain data extract finished";
+    private static final String DATA_EXTRACT_SMEE_AND_FORD_URL = "/data-extract/smee-and-ford";
+    private static final String SMEE_AND_FORD_EXTRACT_FINISHED = "Perform Smee And Ford data extract finished";
 
 
     @Test
@@ -82,7 +84,6 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String todayDate = dateTimeFormatter.format(LocalDate.now());
         String yesterdayDate = dateTimeFormatter.format(LocalDate.now().minusDays(1L));
-        System.out.println("test:" + DATA_EXTRACT_HMRC_URL + "/" + yesterdayDate + "/" + todayDate);
         String response = RestAssured.given()
             .relaxedHTTPSValidation()
             .headers(utils.getCaseworkerHeaders())
@@ -100,7 +101,6 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String todayDate = dateTimeFormatter.format(LocalDate.now());
         String yesterdayDate = "2020-44-12";
-        System.out.println("test:" + DATA_EXTRACT_HMRC_URL + "/" + yesterdayDate + "/" + todayDate);
         RestAssured.given()
             .relaxedHTTPSValidation()
             .headers(utils.getCaseworkerHeaders())
@@ -220,6 +220,48 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase {
             .headers(utils.getCitizenHeaders())
             .when()
             .post(DATA_EXTRACT_IRON_MOUNTAIN_URL + "/" + invalidDate)
+            .then()
+            .assertThat()
+            .statusCode(400);
+    }
+
+    @Test
+    public void performSmeeAndFordDataExtractScheduled() {
+        String response = RestAssured.given()
+            .relaxedHTTPSValidation()
+            .headers(utils.getCaseworkerHeaders())
+            .when()
+            .post(DATA_EXTRACT_SMEE_AND_FORD_URL)
+            .then()
+            .assertThat()
+            .statusCode(202)
+            .extract().response().getBody().prettyPrint();
+        Assert.assertEquals(SMEE_AND_FORD_EXTRACT_FINISHED, response);
+    }
+
+    @Test
+    public void performSmeeAndFordDataExtractForDateRange() {
+        String response = RestAssured.given()
+            .relaxedHTTPSValidation()
+            .headers(utils.getCaseworkerHeaders())
+            .when()
+            .post(DATA_EXTRACT_SMEE_AND_FORD_URL + "/2020-09-11/2020-09-24")
+            .then()
+            .assertThat()
+            .statusCode(202)
+            .extract().response().getBody().prettyPrint();
+        Assert.assertEquals(SMEE_AND_FORD_EXTRACT_FINISHED, response);
+    }
+
+    @Test
+    public void performSmeeAndFordDataExtractForAnInvalidDate() {
+        String invalidDateFrom = "2020-11-49";
+        String invalidDateTo = "2020-12-49";
+        RestAssured.given()
+            .relaxedHTTPSValidation()
+            .headers(utils.getCitizenHeaders())
+            .when()
+            .post(DATA_EXTRACT_SMEE_AND_FORD_URL + "/" + invalidDateFrom + "/" + invalidDateTo)
             .then()
             .assertThat()
             .statusCode(400);

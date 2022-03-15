@@ -111,6 +111,8 @@ public class BusinessServiceImpl implements BusinessService {
                             invitation.getInviteId(),
                             invitation.getLeadExecutorName(), invitation.getExecutorName());
                     log.info("Invitation data saved with id: {} ", invitation.getInviteId());
+                    log.info("Invitation data being saved email: {}, lead exec name: {}, exec name {}",
+                        invitation.getEmail(), invitation.getLeadExecutorName(), invitation.getExecutorName());
                 } else {
                     if (isBilingual) {
                         businessServiceApi.inviteBilingual(invitation.getInviteId(), invitation, sessionId);
@@ -199,6 +201,9 @@ public class BusinessServiceImpl implements BusinessService {
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
 
+        log.info("Service authorisation for getInviteData: {}", serviceAuthorisation);
+        log.info("Authorisation for getInviteData: {}", authorisation);
+        log.info("Invite id: {}", inviteId);
         ProbateCaseDetails probateCaseDetails = submitServiceApi.getCaseByInvitationId(authorisation,
                 serviceAuthorisation, inviteId, CaseType.GRANT_OF_REPRESENTATION.name());
         GrantOfRepresentationData grantOfRepresentationData =
@@ -275,7 +280,7 @@ public class BusinessServiceImpl implements BusinessService {
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
         submitServiceApi.saveCase(authorisation, serviceAuthorisation,
-                formdataId, probateCaseDetails);
+                formdataId, "event update case data", probateCaseDetails);
     }
 
     private void updateCaseDataAsCaseWorker(ProbateCaseDetails probateCaseDetails, String formdataId) {

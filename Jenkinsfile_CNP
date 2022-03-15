@@ -7,7 +7,7 @@ String component = "orchestrator-service"
 
 def secrets = [
         'probate-${env}'      : [
-        secret('s2sAuthTotpSecret', 'S2S_AUTH_TOTP_SECRET'),
+        secret('s2s-probate-backend', 'S2S_AUTH_TOTP_SECRET'),
         secret('probateIdamSecret', 'IDAM_SECRET'),
         secret('serviceAuthProviderBaseUrl', 'SERVICE_AUTH_PROVIDER_BASE_URL'),
         secret('probateUserAuthUrl', 'USER_AUTH_PROVIDER_OAUTH2_URL'),
@@ -26,12 +26,16 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     ]
 }
 
+// Configure branches to sync with master branch
+def branchesToSync = ['demo', 'ithc', 'perftest']
+
 withPipeline("java", product, component) {
     loadVaultSecrets(secrets)
     enableAksStagingDeployment()
     disableLegacyDeployment()
     enableSlackNotifications('#probate-jenkins')
     env.IDAM_CLIENT="probate"
+    syncBranchesWithMaster(branchesToSync)
 
 //    before('buildinfra:prod') {
 //            error 'Deliberately breaking pipeline to prevent prod deployment'
@@ -100,9 +104,25 @@ withPipeline("java", product, component) {
 
     after('functionalTest:aat') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
+        publishHTML target: [
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "target/site/serenity/",
+                reportFiles          : "index.html",
+                reportName           : "Functional Tests Report"
+        ]
     }
 
     after('functionalTest:preview') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
+        publishHTML target: [
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "target/site/serenity/",
+                reportFiles          : "index.html",
+                reportName           : "Functional Tests Report"
+        ]
     }
 }

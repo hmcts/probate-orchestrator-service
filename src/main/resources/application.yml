@@ -8,6 +8,8 @@ spring:
   info:
     git:
       location: classpath:uk/gov/hmcts/probate/services/orchestrator/git.properties
+  config:
+    import: "optional:configtree:/mnt/secrets/probate/"
 
 server:
   port: 8888
@@ -85,6 +87,8 @@ cron:
     schedule: "0 5 2 * * *"
   exela:
     schedule: "0 10 2 * * *"
+  smeeAndFord:
+    schedule: "0 25 2 * * *"
   grantDelayed:
     schedule: "0 15 2 * * *"
   grantAwaitingDocuments:

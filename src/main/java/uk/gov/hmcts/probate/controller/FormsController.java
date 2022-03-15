@@ -145,7 +145,6 @@ public class FormsController {
     @ResponseBody
     public ResponseEntity<Form> validate(@PathVariable("identifier") String identifier,
                                          @RequestParam("probateType") ProbateType probateType) {
-        log.info("FormsController.validate() probateType: {}, identifier: {}", probateType.getName(), identifier);
         return new ResponseEntity<>(submitService.validate(identifier, probateType), HttpStatus.OK);
     }
 
