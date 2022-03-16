@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import uk.gov.hmcts.probate.client.FeignErrorDecoder;
 
-@EnableFeignClients
+@EnableFeignClients(basePackages = {"uk.gov.hmcts.reform.idam", "uk.gov.hmcts.probate.client"})
 @EnableAsync
 @EnableScheduling
 @SpringBootApplication
@@ -30,4 +30,3 @@ public class OrchestratorApplication {
         return new FeignErrorDecoder();
     }
 }
-                                                                              
