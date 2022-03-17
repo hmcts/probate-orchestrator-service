@@ -41,7 +41,19 @@ auth.provider.service.client:
   # key: ${S2S_AUTH_TOTP_SECRET:'AAAAAAAAAAAAAAAA'}
   tokenTimeToLiveInSeconds: '900'
 
-idam.s2s-auth.url: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
+idam:
+  s2s-auth:
+    totp_secret: ${S2S_AUTH_TOTP_SECRET:AAAAAAAAAAAAAAAA}
+    microservice: ${AUTH_S2S_CLIENT_ID:probate_backend}
+    url: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
+  service:
+    host: ${S2S_AUTH_URL:http://localhost:4502}
+  api:
+    url: ${IDAM_SERVICE_HOST:http://localhost:5000}
+  client:
+    redirect_uri: ${AUTH_IDAM_CLIENT_BASEURL:http://localhost:5000}
+    id: ${IDAM_CLIENT_ID:ccd_gateway}
+    secret: ${AUTH2_CLIENT_SECRET:ccd_gateway_secret}
 
 service.auth.provider.base.url: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
 
@@ -58,7 +70,7 @@ auth.idam:
     password: ${SCHEDULER_CASEWORKER_PASSWORD:Pa55word11}
 
 s2s.auth.totp.secret: ${S2S_AUTH_TOTP_SECRET:'AAAAAAAAAAAAAAAA'}
-service.name: ${auth.provider.service.client.microservice}
+service.name: ${auth.provider.service.client.microservice:probate_backend}
 
 submit.service.api.url: ${SUBMIT_SERVICE_API_URL:http://localhost:8181}
 persistence.service.api.url: ${SERVICES_PERSISTENCE_BASEURL:probate-persistence-service-aat.service.core-compute-aat.internal}
