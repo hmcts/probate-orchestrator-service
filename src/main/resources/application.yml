@@ -44,7 +44,7 @@ idam:
   service:
     host: ${S2S_AUTH_URL:http://localhost:4502}
   api:
-    url: ${IDAM_SERVICE_HOST:http://localhost:5000}
+    url: ${AUTH_IDAM_CLIENT_BASEURL:http://localhost:5000}
   client:
     redirect_uri: ${AUTH_IDAM_CLIENT_BASEURL:http://localhost:5000}
     id: ${IDAM_CLIENT_ID:ccd_gateway}
@@ -98,7 +98,7 @@ cron:
   ironMountain:
     schedule: "0 5 2 * * *"
   exela:
-    schedule: "0 10 2 * * *"
+    schedule: "0 0/5 * * *"
   smeeAndFord:
     schedule: "0 25 2 * * *"
   grantDelayed:
