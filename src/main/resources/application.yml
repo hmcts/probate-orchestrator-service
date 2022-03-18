@@ -98,7 +98,7 @@ cron:
   ironMountain:
     schedule: "0 5 2 * * *"
   exela:
-    schedule: "0 0/5 * * *"
+    schedule: "0 0/5 * * * *"
   smeeAndFord:
     schedule: "0 25 2 * * *"
   grantDelayed:
