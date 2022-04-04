@@ -172,7 +172,7 @@ def versions = [
         restAssured                     : '4.4.0',
         piTest                          : '1.6.9',
         commonMark                      : '0.17.0',
-        probateCommonsVersion           : '1.3.6.DTSPB-247-resend-email',
+        probateCommonsVersion           : '1.3.8.DTSPB-247-resend-email',
         jacksonDatabind                 : '2.13.2',
         pact_version                    : '3.6.15',
         feign                           : '11.6',
