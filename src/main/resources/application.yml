@@ -28,6 +28,11 @@ management:
     git:
       mode: full
 
+springdoc:
+  packagesToScan: uk.gov.hmcts.probate
+  pathsToMatch: /**
+
+
 authorised.services: probate_backend,probate_frontend
 
 auth.provider.service.client:

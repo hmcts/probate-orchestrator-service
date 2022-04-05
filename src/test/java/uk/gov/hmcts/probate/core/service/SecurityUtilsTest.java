@@ -88,7 +88,7 @@ public class SecurityUtilsTest {
 
         assertThat(securityUtils.getAuthorisation(), equalTo(USER_TOKEN));
     }
-    
+
     @Test
     public void shouldSecurityContextUserAsScheduler() {
         ReflectionTestUtils.setField(securityUtils, "authRedirectUrl", REDIRECT);
