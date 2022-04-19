@@ -79,7 +79,7 @@ public class SecurityUtils {
 
     private String getIdamOauth2Token(String username, String password) {
         String basicAuthHeader = getBasicAuthHeader(username, password);
-        
+
         AuthenticateUserResponse authenticateUserResponse = idamClient.authenticateUser(
             basicAuthHeader,
             CODE,
