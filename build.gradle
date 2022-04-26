@@ -9,7 +9,7 @@ plugins {
     id 'application'
     id 'pmd'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'org.springframework.boot' version '2.6.6'
+    id 'org.springframework.boot' version '2.6.7'
     id 'com.github.ben-manes.versions' version '0.39.0'
     id 'com.gorylenko.gradle-git-properties' version '2.3.1'
     id 'info.solidsoft.pitest' version '1.6.0'
@@ -162,7 +162,7 @@ def versions = [
         lombok                          : '1.18.20',
         springDocOpenUi                 : '1.6.6',
         springCloudWiremock             : '3.0.3',
-        springBootVersion               : '2.6.6',
+        springBootVersion               : '2.6.7',
         springSecurityVersion           : '5.6.1',
         mapStruct                       : '1.3.0.Final',
         authCheckerLib                  : '2.1.4',
@@ -172,7 +172,7 @@ def versions = [
         restAssured                     : '4.4.0',
         piTest                          : '1.6.9',
         commonMark                      : '0.17.0',
-        probateCommonsVersion           : '1.3.8.DTSPB-247-resend-email',
+        probateCommonsVersion           : '1.3.9',
         jacksonDatabind                 : '2.13.2',
         pact_version                    : '3.6.15',
         feign                           : '11.6',
