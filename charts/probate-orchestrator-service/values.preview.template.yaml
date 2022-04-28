@@ -1,5 +1,6 @@
 java:
   environment:
     LOG_LEVEL: DEBUG
+    BACK_OFFICE_API_URL: "http://probate-back-office-pr-1891.service.core-compute-preview.internal"
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}

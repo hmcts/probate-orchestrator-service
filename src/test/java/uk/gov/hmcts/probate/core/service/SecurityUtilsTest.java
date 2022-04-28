@@ -9,15 +9,16 @@ import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.test.context.TestSecurityContextHolder;
 import org.springframework.test.util.ReflectionTestUtils;
 import uk.gov.hmcts.probate.client.IdamClientApi;
-import uk.gov.hmcts.probate.model.idam.AuthenticateUserResponse;
-import uk.gov.hmcts.probate.model.idam.TokenExchangeResponse;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
+import uk.gov.hmcts.reform.probate.model.idam.TokenRequest;
+import uk.gov.hmcts.reform.probate.model.idam.TokenResponse;
+
+import java.time.Instant;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.times;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.atMostOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -34,6 +35,7 @@ public class SecurityUtilsTest {
     private static final String AUTH_CLIENT_ID = "authClientId";
     private static final String REDIRECT = "http://redirect";
     public static final String CODE = "CODE_VAL";
+    private static final String BEARER = "Bearer ";
 
     @Mock
     private AuthTokenGenerator authTokenGenerator;
@@ -51,7 +53,7 @@ public class SecurityUtilsTest {
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
 
         assertThat(serviceAuthorisation, equalTo(SERVICE_TOKEN));
-        verify(authTokenGenerator, times(1)).generate();
+        verify(authTokenGenerator, atMostOnce()).generate();
     }
 
     @Test
@@ -72,21 +74,13 @@ public class SecurityUtilsTest {
         ReflectionTestUtils.setField(securityUtils, "caseworkerUserName", CASEWORKER_USER_NAME);
         ReflectionTestUtils.setField(securityUtils, "caseworkerPassword", CASEWORKER_PASSWORD);
 
-        AuthenticateUserResponse authenticateUserResponse = AuthenticateUserResponse.builder().code(CODE).build();
-        when(idamClient.authenticateUser(anyString(), eq("code"), eq(AUTH_CLIENT_ID), eq(REDIRECT)))
-            .thenReturn(authenticateUserResponse);
-
-        TokenExchangeResponse tokenExchangeResponse = TokenExchangeResponse.builder()
-            .accessToken(USER_TOKEN)
-            .build();
-
-        when(idamClient.exchangeCode(eq(CODE), eq("authorization_code"), eq(REDIRECT), eq(AUTH_CLIENT_ID),
-            eq(AUTH_CLIENT_SECRET)))
-            .thenReturn(tokenExchangeResponse);
+        TokenResponse tokenResponse = new TokenResponse(USER_TOKEN,null,USER_TOKEN,null,null,null);
+        when(idamClient.generateOpenIdToken(any(TokenRequest.class)))
+                .thenReturn(tokenResponse);
 
         securityUtils.setSecurityContextUserAsCaseworker();
 
-        assertThat(securityUtils.getAuthorisation(), equalTo(USER_TOKEN));
+        assertThat(securityUtils.getAuthorisation(), equalTo(BEARER + USER_TOKEN));
     }
 
     @Test
@@ -97,20 +91,58 @@ public class SecurityUtilsTest {
         ReflectionTestUtils.setField(securityUtils, "schedulerUserName", SCHEDULER_USER_NAME);
         ReflectionTestUtils.setField(securityUtils, "schedulerPassword", SCHEDULER_PASSWORD);
 
-        AuthenticateUserResponse authenticateUserResponse = AuthenticateUserResponse.builder().code(CODE).build();
-        when(idamClient.authenticateUser(anyString(), eq("code"), eq(AUTH_CLIENT_ID), eq(REDIRECT)))
-            .thenReturn(authenticateUserResponse);
-
-        TokenExchangeResponse tokenExchangeResponse = TokenExchangeResponse.builder()
-            .accessToken(USER_TOKEN)
-            .build();
-
-        when(idamClient.exchangeCode(eq(CODE), eq("authorization_code"), eq(REDIRECT), eq(AUTH_CLIENT_ID),
-            eq(AUTH_CLIENT_SECRET)))
-            .thenReturn(tokenExchangeResponse);
+        TokenResponse tokenResponse = new TokenResponse(USER_TOKEN,null,USER_TOKEN,null,null,null);
+        when(idamClient.generateOpenIdToken(any(TokenRequest.class)))
+                .thenReturn(tokenResponse);
 
         securityUtils.setSecurityContextUserAsScheduler();
 
-        assertThat(securityUtils.getAuthorisation(), equalTo(USER_TOKEN));
+        assertThat(securityUtils.getAuthorisation(), equalTo(BEARER + USER_TOKEN));
+    }
+
+    @Test
+    public void shouldReturnCacheTokenAsCaseworker() {
+        ReflectionTestUtils.setField(securityUtils, "caseworkerUserName", CASEWORKER_USER_NAME);
+        ReflectionTestUtils.setField(securityUtils, "caseworkerPassword", CASEWORKER_PASSWORD);
+
+        Instant instant = Instant.now().plusSeconds(3600);
+        TokenResponse tokenResponse = new TokenResponse(USER_TOKEN,instant.toString(),USER_TOKEN,null,null,null);
+        when(idamClient.generateOpenIdToken(any(TokenRequest.class)))
+                .thenReturn(tokenResponse);
+
+        // first time
+        securityUtils.setSecurityContextUserAsCaseworker();
+
+        assertThat(securityUtils.getAuthorisation(), equalTo(BEARER + USER_TOKEN));
+
+        // second time
+        securityUtils.setSecurityContextUserAsCaseworker();
+
+        assertThat(securityUtils.getAuthorisation(), equalTo(BEARER + USER_TOKEN));
+
+        verify(idamClient, atMostOnce()).generateOpenIdToken(any(TokenRequest.class));
+    }
+
+    @Test
+    public void shouldReturnCacheTokenAsScheduler() {
+        ReflectionTestUtils.setField(securityUtils, "schedulerUserName", SCHEDULER_USER_NAME);
+        ReflectionTestUtils.setField(securityUtils, "schedulerPassword", SCHEDULER_PASSWORD);
+
+        Instant instant = Instant.now().plusSeconds(3600);
+        TokenResponse tokenResponse = new TokenResponse(USER_TOKEN,instant.toString(),USER_TOKEN,null,null,null);
+        when(idamClient.generateOpenIdToken(any(TokenRequest.class)))
+                .thenReturn(tokenResponse);
+
+        // first time
+        securityUtils.setSecurityContextUserAsScheduler();
+
+        assertThat(securityUtils.getAuthorisation(), equalTo(BEARER + USER_TOKEN));
+
+        // second time
+        securityUtils.setSecurityContextUserAsScheduler();
+
+        assertThat(securityUtils.getAuthorisation(), equalTo(BEARER + USER_TOKEN));
+
+        verify(idamClient, atMostOnce()).generateOpenIdToken(any(TokenRequest.class));
     }
 }
