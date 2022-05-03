@@ -13,8 +13,6 @@ import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.probate.model.idam.TokenRequest;
 import uk.gov.hmcts.reform.probate.model.idam.TokenResponse;
 
-import java.time.Instant;
-
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -74,7 +72,7 @@ public class SecurityUtilsTest {
         ReflectionTestUtils.setField(securityUtils, "caseworkerUserName", CASEWORKER_USER_NAME);
         ReflectionTestUtils.setField(securityUtils, "caseworkerPassword", CASEWORKER_PASSWORD);
 
-        TokenResponse tokenResponse = new TokenResponse(USER_TOKEN,null,USER_TOKEN,null,null,null);
+        TokenResponse tokenResponse = new TokenResponse(USER_TOKEN,"360000",USER_TOKEN,null,null,null);
         when(idamClient.generateOpenIdToken(any(TokenRequest.class)))
                 .thenReturn(tokenResponse);
 
@@ -91,7 +89,7 @@ public class SecurityUtilsTest {
         ReflectionTestUtils.setField(securityUtils, "schedulerUserName", SCHEDULER_USER_NAME);
         ReflectionTestUtils.setField(securityUtils, "schedulerPassword", SCHEDULER_PASSWORD);
 
-        TokenResponse tokenResponse = new TokenResponse(USER_TOKEN,null,USER_TOKEN,null,null,null);
+        TokenResponse tokenResponse = new TokenResponse(USER_TOKEN,"360000",USER_TOKEN,null,null,null);
         when(idamClient.generateOpenIdToken(any(TokenRequest.class)))
                 .thenReturn(tokenResponse);
 
@@ -105,8 +103,7 @@ public class SecurityUtilsTest {
         ReflectionTestUtils.setField(securityUtils, "caseworkerUserName", CASEWORKER_USER_NAME);
         ReflectionTestUtils.setField(securityUtils, "caseworkerPassword", CASEWORKER_PASSWORD);
 
-        Instant instant = Instant.now().plusSeconds(3600);
-        TokenResponse tokenResponse = new TokenResponse(USER_TOKEN,instant.toString(),USER_TOKEN,null,null,null);
+        TokenResponse tokenResponse = new TokenResponse(USER_TOKEN,"360000",USER_TOKEN,null,null,null);
         when(idamClient.generateOpenIdToken(any(TokenRequest.class)))
                 .thenReturn(tokenResponse);
 
@@ -128,8 +125,7 @@ public class SecurityUtilsTest {
         ReflectionTestUtils.setField(securityUtils, "schedulerUserName", SCHEDULER_USER_NAME);
         ReflectionTestUtils.setField(securityUtils, "schedulerPassword", SCHEDULER_PASSWORD);
 
-        Instant instant = Instant.now().plusSeconds(3600);
-        TokenResponse tokenResponse = new TokenResponse(USER_TOKEN,instant.toString(),USER_TOKEN,null,null,null);
+        TokenResponse tokenResponse = new TokenResponse(USER_TOKEN,"360000",USER_TOKEN,null,null,null);
         when(idamClient.generateOpenIdToken(any(TokenRequest.class)))
                 .thenReturn(tokenResponse);
 
