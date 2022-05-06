@@ -1,6 +1,5 @@
 package uk.gov.hmcts.probate.client;
 
-import feign.Response;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
