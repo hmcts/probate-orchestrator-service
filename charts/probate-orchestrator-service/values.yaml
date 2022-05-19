@@ -29,6 +29,10 @@ java:
     MIGRATION_JOB_SCHEDULER: false
   image: hmctspublic.azurecr.io/probate/orchestrator-service:latest
   aadIdentityName: probate
+  autoscaling:
+    enabled: true
+    maxReplicas: 4
+    targetCPUUtilizationPercentage: 80 # Default is 80% target CPU utilization
   keyVaults:
     probate:
       secrets:
