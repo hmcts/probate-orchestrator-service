@@ -205,12 +205,6 @@ dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:2021.0.1"
     }
-    dependencies {
-        //CVE-2016-1000027
-        dependencySet(group: 'org.springframework', version: '5.3.20') {
-            entry 'spring-core'
-        }
-    }
 }
 processResources {
     from('src/lib/AI-Agent.xml') {
