@@ -13,5 +13,7 @@
    ]]></notes>
         <packageUrl regex="true">^pkg:maven/org\.springframework/spring-core@.*$</packageUrl>
         <vulnerabilityName>CVE-2016-1000027</vulnerabilityName>
+        <vulnerabilityName>CVE-2022-22970</vulnerabilityName>
+        <vulnerabilityName>CVE-2022-22971</vulnerabilityName>
     </suppress>
 </suppressions>
