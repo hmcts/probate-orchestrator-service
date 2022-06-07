@@ -172,11 +172,12 @@ def versions = [
         restAssured                     : '4.4.0',
         piTest                          : '1.6.9',
         commonMark                      : '0.17.0',
-        probateCommonsVersion           : '1.3.16',
+        probateCommonsVersion           : 'DTSPB-1714-1.3.16',
         jacksonDatabind                 : '2.13.2',
         pact_version                    : '3.6.15',
         feign                           : '11.6',
-        junitJupiter                    : '5.8.0-M1'
+        junitJupiter                    : '5.8.0-M1',
+        springfoxSwagger                : '2.9.2'
 ]
 
 jacocoTestReport {
@@ -230,6 +231,7 @@ configurations.all {
 }
 
 dependencies {
+    implementation group: 'io.springfox', name: 'springfox-swagger2', version: versions.springfoxSwagger
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: versions.springBootVersion
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: versions.springBootVersion
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: versions.springBootVersion
