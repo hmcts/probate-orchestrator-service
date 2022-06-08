@@ -1,10 +1,10 @@
 package uk.gov.hmcts.probate.core.service;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.probate.model.backoffice.GrantScheduleResponse;
 import uk.gov.hmcts.probate.service.BackOfficeService;
 
@@ -17,7 +17,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(SpringExtension.class)
 public class GrantAwaitingDocumentsNotifierTest {
 
 
@@ -26,7 +26,7 @@ public class GrantAwaitingDocumentsNotifierTest {
 
     GrantAwaitingDocumentsNotifier grantAwaitingDocumentsNotifier;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         grantAwaitingDocumentsNotifier = new GrantAwaitingDocumentsNotifier(backOfficeService);
     }

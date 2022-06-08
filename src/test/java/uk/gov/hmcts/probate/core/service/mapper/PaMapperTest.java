@@ -3,17 +3,17 @@ package uk.gov.hmcts.probate.core.service.mapper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
+import uk.gov.hmcts.reform.probate.model.forms.Address;
 import uk.gov.hmcts.reform.probate.model.forms.Copies;
 import uk.gov.hmcts.reform.probate.model.forms.Declaration;
 import uk.gov.hmcts.reform.probate.model.forms.DeclarationDeclaration;
@@ -28,7 +28,6 @@ import uk.gov.hmcts.reform.probate.model.forms.pa.PaApplicant;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaAssets;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaDeceased;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaForm;
-import uk.gov.hmcts.reform.probate.model.forms.Address;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -36,8 +35,9 @@ import java.time.LocalDate;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class PaMapperTest {
 
@@ -53,7 +53,7 @@ public class PaMapperTest {
     private ObjectMapper objectMapper = new ObjectMapper();
     private static String APPLICANT_ADDRESSES = "[{\"formatted_address\":\"102 Petty France London SW1H 9EX\"}]";
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
         paFormMultipleExecutors = PaMultipleExecutorTestDataCreator.createPaForm();
         grantOfRepresentationMultipleExecutors = PaMultipleExecutorTestDataCreator.createGrantOfRepresentation();
@@ -79,7 +79,7 @@ public class PaMapperTest {
     @Test
     public void shouldMapNullPaFormToGrantOfRepresentation() {
         GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(null);
-        Assert.assertThat(actualGrantOfRepresentation, is(nullValue()));
+        assertEquals(actualGrantOfRepresentation, is(nullValue()));
     }
 
     @Test
@@ -103,7 +103,7 @@ public class PaMapperTest {
     @Test
     public void shouldMapNullGrantOfRepresentationToGrantOfPaForm() {
         PaForm actualPaForm = mapper.fromCaseData(null);
-        Assert.assertThat(actualPaForm, is(nullValue()));
+        assertEquals(actualPaForm, is(nullValue()));
     }
 
     @Test

@@ -1,10 +1,11 @@
 package uk.gov.hmcts.probate.core.service.mapper;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.probate.model.cases.DocumentLink;
 import uk.gov.hmcts.reform.probate.model.forms.DocumentUpload;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StatementOfTruthMapperTest {
 
@@ -16,25 +17,25 @@ public class StatementOfTruthMapperTest {
     void shouldMapToUploadDocuments() {
 
         DocumentLink documentLink = statementOfTruthMapper.toUploadDocuments(null);
-        Assert.assertThat(documentLink, CoreMatchers.nullValue());
+        assertEquals(documentLink, CoreMatchers.nullValue());
 
         DocumentLink documentLink1 = statementOfTruthMapper.toUploadDocuments(
                 DocumentUpload.builder().filename(FILENAME).url(URL).build());
-        Assert.assertThat(documentLink1.getDocumentFilename(), CoreMatchers.equalTo(FILENAME));
-        Assert.assertThat(documentLink1.getDocumentUrl(), CoreMatchers.equalTo(URL));
-        Assert.assertThat(documentLink1.getDocumentBinaryUrl(), CoreMatchers.equalTo("url/binary"));
+        assertEquals(documentLink1.getDocumentFilename(), CoreMatchers.equalTo(FILENAME));
+        assertEquals(documentLink1.getDocumentUrl(), CoreMatchers.equalTo(URL));
+        assertEquals(documentLink1.getDocumentBinaryUrl(), CoreMatchers.equalTo("url/binary"));
     }
 
     @Test
     void shouldMapFromDocumentLink() {
 
         DocumentUpload documentUpload = statementOfTruthMapper.fromDocumentLink(null);
-        Assert.assertThat(documentUpload, CoreMatchers.nullValue());
+        assertEquals(documentUpload, CoreMatchers.nullValue());
 
         DocumentUpload documentUpload1 = statementOfTruthMapper.fromDocumentLink(DocumentLink.builder()
                 .documentFilename(FILENAME)
               .documentUrl(URL).build());
-        Assert.assertThat(documentUpload1.getFilename(), CoreMatchers.equalTo(FILENAME));
-        Assert.assertThat(documentUpload1.getUrl(), CoreMatchers.equalTo(URL));
+        assertEquals(documentUpload1.getFilename(), CoreMatchers.equalTo(FILENAME));
+        assertEquals(documentUpload1.getUrl(), CoreMatchers.equalTo(URL));
     }
 }

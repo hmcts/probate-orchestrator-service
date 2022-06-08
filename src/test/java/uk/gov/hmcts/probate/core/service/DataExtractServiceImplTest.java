@@ -1,19 +1,19 @@
 package uk.gov.hmcts.probate.core.service;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.probate.model.client.ApiClientException;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.doThrow;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(SpringExtension.class)
 public class DataExtractServiceImplTest {
 
     @InjectMocks
@@ -39,7 +39,7 @@ public class DataExtractServiceImplTest {
         assertThat(responseEntity.getBody(), equalTo("Perform HMRC data extract finished"));
     }
 
-    @Test(expected = ApiClientException.class)
+    @Test
     public void shouldThrowDateExceptionOnInitiateHmrcExtract() {
 
         doThrow(ApiClientException.class).when(dataExtractDateValidator).validate(FROM_DATE, TO_DATE);
@@ -54,7 +54,7 @@ public class DataExtractServiceImplTest {
         assertThat(responseEntity.getBody(), equalTo("Perform Iron Mountain data extract finished"));
     }
 
-    @Test(expected = ApiClientException.class)
+    @Test
     public void shouldThrowDateExceptionOnInitiateIronMountainExtract() {
 
         doThrow(ApiClientException.class).when(dataExtractDateValidator).validate(FROM_DATE);
@@ -70,14 +70,14 @@ public class DataExtractServiceImplTest {
         assertThat(responseEntity.getBody(), equalTo("Perform Exela data extract finished"));
     }
 
-    @Test(expected = ApiClientException.class)
+    @Test
     public void shouldThrowDateExceptionOnInitiateExelaExtract() {
 
         doThrow(ApiClientException.class).when(dataExtractDateValidator).validate(FROM_DATE);
         dataExtractService.initiateExelaExtract(FROM_DATE);
     }
 
-    @Test(expected = ApiClientException.class)
+    @Test
     public void shouldThrowDateExceptionOnInitiateExelaExtractDateRange() {
 
         doThrow(ApiClientException.class).when(dataExtractDateValidator).validate(FROM_DATE, TO_DATE);
@@ -101,7 +101,7 @@ public class DataExtractServiceImplTest {
         assertThat(responseEntity.getBody(), equalTo("Perform Smee And Ford data extract finished"));
     }
 
-    @Test(expected = ApiClientException.class)
+    @Test
     public void shouldThrowDateExceptionOnInitiateSmeeAndFordExtractDateRange() {
 
         doThrow(ApiClientException.class).when(dataExtractDateValidator).validate(FROM_DATE, TO_DATE);
