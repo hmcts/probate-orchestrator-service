@@ -154,6 +154,11 @@ task runConsumerPactTests(type: Test) {
     classpath = sourceSets.testContract.runtimeClasspath
 }
 
+test {
+    maxHeapSize = "1024m"
+    useJUnitPlatform()
+}
+
 def versions = [
         commonsIO                       : '2.8.0',
         hmctsJavaLogging                : '5.1.7',

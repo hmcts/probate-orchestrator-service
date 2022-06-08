@@ -33,7 +33,7 @@ public class SubmitServiceApiErrorDecoderTest {
                     .headers(headers)
                     .build();
 
-            errorDecoder.decode("Service#foo()", response);
+            throw errorDecoder.decode("Service#foo()", response);
         });
 
     }

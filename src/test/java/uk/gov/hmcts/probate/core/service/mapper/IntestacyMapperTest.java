@@ -29,10 +29,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -65,13 +63,13 @@ public class IntestacyMapperTest {
     @Test
     public void shouldMapNullIntestacyFormToGrantOfRepresentation() {
         GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(null);
-        assertEquals(actualGrantOfRepresentation, is(nullValue()));
+        assertNull(actualGrantOfRepresentation);
     }
 
     @Test
     public void shouldMapNullGrantOfRepresentationToGrantOfIntestacyForm() {
         IntestacyForm actualIntestacyForm = mapper.fromCaseData(null);
-        assertEquals(actualIntestacyForm, is(nullValue()));
+        assertNull(actualIntestacyForm);
     }
 
     @Test
@@ -91,7 +89,7 @@ public class IntestacyMapperTest {
                 .statementOfTruthDocument(DocumentUpload.builder().filename("filename").url("url").build())
                 .applicant(IntestacyApplicant.builder().spouseNotApplyingReason("optionRenouncing").build()).build();
         GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(iform);
-        assertEquals(actualGrantOfRepresentation, equalTo(expectedGrantOfRepresentation));
+        assertEquals(expectedGrantOfRepresentation, actualGrantOfRepresentation);
         assertThat(actualGrantOfRepresentation)
             .isEqualToComparingFieldByFieldRecursively(expectedGrantOfRepresentation);
 

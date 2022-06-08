@@ -11,6 +11,7 @@ import uk.gov.hmcts.reform.probate.model.client.ApiClientException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doThrow;
 
 @ExtendWith(SpringExtension.class)
@@ -43,7 +44,9 @@ public class DataExtractServiceImplTest {
     public void shouldThrowDateExceptionOnInitiateHmrcExtract() {
 
         doThrow(ApiClientException.class).when(dataExtractDateValidator).validate(FROM_DATE, TO_DATE);
-        dataExtractService.initiateHmrcExtract(FROM_DATE, TO_DATE);
+        assertThrows(ApiClientException.class, () -> {
+            dataExtractService.initiateHmrcExtract(FROM_DATE, TO_DATE);
+        });
     }
 
     @Test
@@ -58,7 +61,9 @@ public class DataExtractServiceImplTest {
     public void shouldThrowDateExceptionOnInitiateIronMountainExtract() {
 
         doThrow(ApiClientException.class).when(dataExtractDateValidator).validate(FROM_DATE);
-        dataExtractService.initiateIronMountainExtract(FROM_DATE);
+        assertThrows(ApiClientException.class, () -> {
+            dataExtractService.initiateIronMountainExtract(FROM_DATE);
+        });
 
     }
 
@@ -74,14 +79,18 @@ public class DataExtractServiceImplTest {
     public void shouldThrowDateExceptionOnInitiateExelaExtract() {
 
         doThrow(ApiClientException.class).when(dataExtractDateValidator).validate(FROM_DATE);
-        dataExtractService.initiateExelaExtract(FROM_DATE);
+        assertThrows(ApiClientException.class, () -> {
+            dataExtractService.initiateExelaExtract(FROM_DATE);
+        });
     }
 
     @Test
     public void shouldThrowDateExceptionOnInitiateExelaExtractDateRange() {
 
         doThrow(ApiClientException.class).when(dataExtractDateValidator).validate(FROM_DATE, TO_DATE);
-        dataExtractService.initiateExelaExtractDateRange(FROM_DATE, TO_DATE);
+        assertThrows(ApiClientException.class, () -> {
+            dataExtractService.initiateExelaExtractDateRange(FROM_DATE, TO_DATE);
+        });
     }
 
     @Test
@@ -103,9 +112,11 @@ public class DataExtractServiceImplTest {
 
     @Test
     public void shouldThrowDateExceptionOnInitiateSmeeAndFordExtractDateRange() {
-
         doThrow(ApiClientException.class).when(dataExtractDateValidator).validate(FROM_DATE, TO_DATE);
-        dataExtractService.initiateSmeeAndFordExtractDateRange(FROM_DATE, TO_DATE);
+        assertThrows(ApiClientException.class, () -> {
+            dataExtractService.initiateSmeeAndFordExtractDateRange(FROM_DATE, TO_DATE);
+        });
+
     }
 
 }

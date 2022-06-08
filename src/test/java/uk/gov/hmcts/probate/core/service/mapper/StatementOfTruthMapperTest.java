@@ -1,11 +1,11 @@
 package uk.gov.hmcts.probate.core.service.mapper;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.probate.model.cases.DocumentLink;
 import uk.gov.hmcts.reform.probate.model.forms.DocumentUpload;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class StatementOfTruthMapperTest {
 
@@ -17,25 +17,25 @@ public class StatementOfTruthMapperTest {
     void shouldMapToUploadDocuments() {
 
         DocumentLink documentLink = statementOfTruthMapper.toUploadDocuments(null);
-        assertEquals(documentLink, CoreMatchers.nullValue());
+        assertNull(documentLink);
 
         DocumentLink documentLink1 = statementOfTruthMapper.toUploadDocuments(
                 DocumentUpload.builder().filename(FILENAME).url(URL).build());
-        assertEquals(documentLink1.getDocumentFilename(), CoreMatchers.equalTo(FILENAME));
-        assertEquals(documentLink1.getDocumentUrl(), CoreMatchers.equalTo(URL));
-        assertEquals(documentLink1.getDocumentBinaryUrl(), CoreMatchers.equalTo("url/binary"));
+        assertEquals(FILENAME, documentLink1.getDocumentFilename());
+        assertEquals(URL, documentLink1.getDocumentUrl());
+        assertEquals("url/binary", documentLink1.getDocumentBinaryUrl());
     }
 
     @Test
     void shouldMapFromDocumentLink() {
 
         DocumentUpload documentUpload = statementOfTruthMapper.fromDocumentLink(null);
-        assertEquals(documentUpload, CoreMatchers.nullValue());
+        assertNull(documentUpload);
 
         DocumentUpload documentUpload1 = statementOfTruthMapper.fromDocumentLink(DocumentLink.builder()
                 .documentFilename(FILENAME)
               .documentUrl(URL).build());
-        assertEquals(documentUpload1.getFilename(), CoreMatchers.equalTo(FILENAME));
-        assertEquals(documentUpload1.getUrl(), CoreMatchers.equalTo(URL));
+        assertEquals(FILENAME, documentUpload1.getFilename());
+        assertEquals(URL, documentUpload1.getUrl());
     }
 }

@@ -2,7 +2,6 @@ package uk.gov.hmcts.probate.core.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -162,7 +161,7 @@ public class BusinessServiceImplTest {
 
         verify(businessServiceApi).invite(invitation, sessionId);
         verifyGetCaseCalls();
-        assertEquals(result, Matchers.equalTo(invitationId));
+        assertEquals(invitationId, result);
         verify(mockGrantOfRepresentationData).setInvitationDetailsForExecutorApplying(invitation.getEmail(),
             invitationId, invitation.getLeadExecutorName(), executorName);
         verify(submitServiceApi).saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, "event update case data",
@@ -195,7 +194,7 @@ public class BusinessServiceImplTest {
         verify(submitServiceApi).saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId,
             EVENT_DESCRIPTION, mockProbateCaseDetails);
 
-        assertEquals(newInvitation.getInviteId(), Matchers.equalTo(invitationId));
+        assertEquals(invitationId, newInvitation.getInviteId());
 
     }
 
@@ -224,7 +223,7 @@ public class BusinessServiceImplTest {
         verify(submitServiceApi).saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId,
             EVENT_DESCRIPTION, mockProbateCaseDetails);
 
-        assertEquals(newInvitation.getInviteId(), Matchers.equalTo(invitationId));
+        assertEquals(invitationId, newInvitation.getInviteId());
 
     }
 
@@ -241,7 +240,7 @@ public class BusinessServiceImplTest {
 
         when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.TRUE);
         Boolean result = businessService.haveAllIniviteesAgreed(formdataId);
-        assertEquals(result, Matchers.equalTo(Boolean.TRUE));
+        assertEquals(Boolean.TRUE, result);
     }
 
     @Test

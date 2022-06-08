@@ -16,8 +16,8 @@ import uk.gov.hmcts.reform.probate.model.forms.pa.Executor;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -58,27 +58,27 @@ public class ExecutorsMapperTest {
     public void shouldMapNonApplyingExecutors() {
         List<CollectionMember<ExecutorNotApplying>> collectionMembersNonApplying =
             mapper.toExecutorNotApplyingCollectionMember(executorList);
-        assertEquals(collectionMembersNonApplying.size(), equalTo(1));
+        assertEquals(1, collectionMembersNonApplying.size());
         ExecutorNotApplying executorNotApplying = collectionMembersNonApplying.get(0).getValue();
-        assertEquals(executorNotApplying.getNotApplyingExecutorName(), equalTo("Jackie Smith"));
-        assertEquals(executorNotApplying.getNotApplyingExecutorIsDead(), equalTo(Boolean.TRUE));
-        assertEquals(executorNotApplying.getNotApplyingExecutorDiedBefore(), equalTo(Boolean.FALSE));
+        assertEquals("Jackie Smith", executorNotApplying.getNotApplyingExecutorName());
+        assertEquals(Boolean.TRUE, executorNotApplying.getNotApplyingExecutorIsDead());
+        assertEquals(Boolean.FALSE, executorNotApplying.getNotApplyingExecutorDiedBefore());
     }
 
     @Test
     public void shouldMapApplyingExecutors() {
         List<CollectionMember<ExecutorApplying>> collectionMembers =
             mapper.toExecutorApplyingCollectionMember(executorList);
-        assertEquals(collectionMembers.size(), equalTo(1));
+        assertEquals(1, collectionMembers.size());
         ExecutorApplying executorApplying = collectionMembers.get(0).getValue();
-        assertEquals(executorApplying.getApplyingExecutorName(), equalTo("Bobby Smith"));
-        assertEquals(executorApplying.getApplyingExecutorFirstName(), equalTo("Bobby"));
-        assertEquals(executorApplying.getApplyingExecutorLastName(), equalTo("Smith"));
-        assertEquals(executorApplying.getApplyingExecutorInvitationId(), equalTo("12345"));
-        assertEquals(executorApplying.getApplyingExecutorAddress().getAddressLine1(), equalTo(ADDRESS_LINE_1));
-        assertEquals(executorApplying.getApplyingExecutorAddress().getPostCode(), equalTo(POSTCODE));
-        assertEquals(executorApplying.getApplyingExecutorApplicant(), equalTo(Boolean.FALSE));
-        assertEquals(executorApplying.getApplyingExecutorHasOtherName(), equalTo(Boolean.TRUE));
+        assertEquals("Bobby Smith", executorApplying.getApplyingExecutorName());
+        assertEquals("Bobby", executorApplying.getApplyingExecutorFirstName());
+        assertEquals("Smith", executorApplying.getApplyingExecutorLastName());
+        assertEquals("12345", executorApplying.getApplyingExecutorInvitationId());
+        assertEquals(ADDRESS_LINE_1, executorApplying.getApplyingExecutorAddress().getAddressLine1());
+        assertEquals(POSTCODE, executorApplying.getApplyingExecutorAddress().getPostCode());
+        assertEquals(Boolean.FALSE, executorApplying.getApplyingExecutorApplicant());
+        assertEquals(Boolean.TRUE, executorApplying.getApplyingExecutorHasOtherName());
     }
 
     @Test
@@ -98,16 +98,16 @@ public class ExecutorsMapperTest {
 
         List<CollectionMember<ExecutorApplying>> collectionMembers =
             mapper.toExecutorApplyingCollectionMember(executorList);
-        assertEquals(collectionMembers.size(), equalTo(1));
+        assertEquals(1, collectionMembers.size());
         ExecutorApplying executorApplying = collectionMembers.get(0).getValue();
-        assertEquals(executorApplying.getApplyingExecutorName(), equalTo("Bobby Smith"));
-        assertEquals(executorApplying.getApplyingExecutorFirstName(), equalTo("Bobby"));
-        assertEquals(executorApplying.getApplyingExecutorLastName(), equalTo("Smith"));
-        assertEquals(executorApplying.getApplyingExecutorInvitationId(), equalTo("12345"));
-        assertEquals(executorApplying.getApplyingExecutorAddress().getAddressLine1(), equalTo(ADDRESS_LINE_1));
-        assertEquals(executorApplying.getApplyingExecutorAddress().getPostCode(), equalTo(POSTCODE));
-        assertEquals(executorApplying.getApplyingExecutorApplicant(), equalTo(Boolean.FALSE));
-        assertEquals(executorApplying.getApplyingExecutorHasOtherName(), equalTo(Boolean.TRUE));
+        assertEquals("Bobby Smith", executorApplying.getApplyingExecutorName());
+        assertEquals("Bobby", executorApplying.getApplyingExecutorFirstName());
+        assertEquals("Smith", executorApplying.getApplyingExecutorLastName());
+        assertEquals("12345", executorApplying.getApplyingExecutorInvitationId());
+        assertEquals(ADDRESS_LINE_1, executorApplying.getApplyingExecutorAddress().getAddressLine1());
+        assertEquals(POSTCODE, executorApplying.getApplyingExecutorAddress().getPostCode());
+        assertEquals(Boolean.FALSE, executorApplying.getApplyingExecutorApplicant());
+        assertEquals(Boolean.TRUE, executorApplying.getApplyingExecutorHasOtherName());
     }
 
     @Test
@@ -126,25 +126,26 @@ public class ExecutorsMapperTest {
 
         List<CollectionMember<ExecutorApplying>> collectionMembers =
             mapper.toExecutorApplyingCollectionMember(executorList);
-        assertEquals(collectionMembers.size(), equalTo(2));
+        assertEquals(2, collectionMembers.size());
         ExecutorApplying executorApplying1 = collectionMembers.get(0).getValue();
-        assertEquals(executorApplying1.getApplyingExecutorName(), equalTo("Bobby Smith"));
-        assertEquals(executorApplying1.getApplyingExecutorFirstName(), equalTo("Bobby"));
-        assertEquals(executorApplying1.getApplyingExecutorLastName(), equalTo("Smith"));
-        assertEquals(executorApplying1.getApplyingExecutorInvitationId(), equalTo("12345"));
-        assertEquals(executorApplying1.getApplyingExecutorAddress().getAddressLine1(), equalTo(ADDRESS_LINE_1));
-        assertEquals(executorApplying1.getApplyingExecutorAddress().getPostCode(), equalTo(POSTCODE));
-        assertEquals(executorApplying1.getApplyingExecutorApplicant(), equalTo(Boolean.FALSE));
-        assertEquals(executorApplying1.getApplyingExecutorHasOtherName(), equalTo(Boolean.TRUE));
+        assertEquals("Bobby Smith", executorApplying1.getApplyingExecutorName());
+        assertEquals("Bobby", executorApplying1.getApplyingExecutorFirstName());
+        assertEquals("Smith", executorApplying1.getApplyingExecutorLastName());
+        assertEquals("12345", executorApplying1.getApplyingExecutorInvitationId());
+        assertEquals(ADDRESS_LINE_1, executorApplying1.getApplyingExecutorAddress().getAddressLine1());
+        assertEquals(POSTCODE, executorApplying1.getApplyingExecutorAddress().getPostCode());
+        assertEquals(Boolean.FALSE, executorApplying1.getApplyingExecutorApplicant());
+        assertEquals(Boolean.TRUE, executorApplying1.getApplyingExecutorHasOtherName());
+
         ExecutorApplying executorApplying = collectionMembers.get(1).getValue();
-        assertEquals(executorApplying.getApplyingExecutorName(), equalTo("Robert Smyth"));
-        assertEquals(executorApplying.getApplyingExecutorFirstName(), equalTo("Robert"));
-        assertEquals(executorApplying.getApplyingExecutorLastName(), equalTo("Smyth"));
-        assertEquals(executorApplying.getApplyingExecutorInvitationId(), equalTo("56789"));
-        assertEquals(executorApplying.getApplyingExecutorAddress().getAddressLine1(), equalTo(ADDRESS_LINE_1));
-        assertEquals(executorApplying.getApplyingExecutorAddress().getPostCode(), equalTo(POSTCODE));
-        assertEquals(executorApplying.getApplyingExecutorApplicant(), equalTo(null));
-        assertEquals(executorApplying.getApplyingExecutorHasOtherName(), equalTo(Boolean.TRUE));
+        assertEquals("Robert Smyth", executorApplying.getApplyingExecutorName());
+        assertEquals("Robert", executorApplying.getApplyingExecutorFirstName());
+        assertEquals("Smyth", executorApplying.getApplyingExecutorLastName());
+        assertEquals("56789", executorApplying.getApplyingExecutorInvitationId());
+        assertEquals(ADDRESS_LINE_1, executorApplying.getApplyingExecutorAddress().getAddressLine1());
+        assertEquals(POSTCODE, executorApplying.getApplyingExecutorAddress().getPostCode());
+        assertNull(executorApplying.getApplyingExecutorApplicant());
+        assertEquals(Boolean.TRUE, executorApplying.getApplyingExecutorHasOtherName());
     }
 
     @Test
@@ -152,6 +153,6 @@ public class ExecutorsMapperTest {
 
         List<Executor> executors =
             mapper.fromCollectionMember(PaMultipleExecutorTestDataCreator.createGrantOfRepresentation());
-        assertEquals(executors.get(0).getIsApplicant(), equalTo(Boolean.TRUE));
+        assertEquals(Boolean.TRUE, executors.get(0).getIsApplicant());
     }
 }

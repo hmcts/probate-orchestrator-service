@@ -23,7 +23,6 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepr
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -171,7 +170,7 @@ public class BackOfficeServiceImplTest {
 
         GrantScheduleResponse response = backOfficeService.initiateGrantDelayedNotification(date);
 
-        assertEquals(response.getScheduleResponseData().size(), equalTo(2));
+        assertEquals(response.getScheduleResponseData().size(), 2);
         verify(backOfficeApi)
             .initiateGrantDelayedNotification(eq("Bearer " + AUTHORIZATION), eq("Bearer "
                     + SERVICE_AUTHORIZATION),
@@ -190,7 +189,7 @@ public class BackOfficeServiceImplTest {
 
         GrantScheduleResponse response = backOfficeService.initiateGrantAwaitingDocumentsNotification(date);
 
-        assertEquals(response.getScheduleResponseData().size(), equalTo(2));
+        assertEquals(response.getScheduleResponseData().size(), 2);
         verify(backOfficeApi).initiateGrantAwaitingDocumentsNotification(eq("Bearer " + AUTHORIZATION),
             eq("Bearer " + SERVICE_AUTHORIZATION), eq(date));
     }

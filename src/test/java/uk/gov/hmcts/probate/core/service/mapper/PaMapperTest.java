@@ -33,9 +33,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -79,7 +77,7 @@ public class PaMapperTest {
     @Test
     public void shouldMapNullPaFormToGrantOfRepresentation() {
         GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(null);
-        assertEquals(actualGrantOfRepresentation, is(nullValue()));
+        assertNull(actualGrantOfRepresentation);
     }
 
     @Test
@@ -103,7 +101,7 @@ public class PaMapperTest {
     @Test
     public void shouldMapNullGrantOfRepresentationToGrantOfPaForm() {
         PaForm actualPaForm = mapper.fromCaseData(null);
-        assertEquals(actualPaForm, is(nullValue()));
+        assertNull(actualPaForm);
     }
 
     @Test
