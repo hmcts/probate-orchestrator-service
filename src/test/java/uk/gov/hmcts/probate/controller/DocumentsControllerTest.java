@@ -117,8 +117,6 @@ public class DocumentsControllerTest {
 
     @Test
     public void generateBulkScanCoversheetPdf_withValidJson_shouldReturn200() throws Exception {
-        //when(businessService.
-        // generateBulkScanCoverSheetPdf(any(BulkScanCoverSheet.class))).thenReturn(any(byte[].class));
 
         String bulkScanJosn = TestUtils.getJsonFromFile("businessDocuments/validBulkScanCoverSheet.json");
 
