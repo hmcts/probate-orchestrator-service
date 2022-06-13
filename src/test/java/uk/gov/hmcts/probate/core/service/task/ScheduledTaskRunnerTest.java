@@ -1,18 +1,18 @@
 package uk.gov.hmcts.probate.core.service.task;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.ApplicationContext;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verifyNoInteractions;
 
-@ExtendWith(MockitoExtension.class)
-class ScheduledTaskRunnerTest {
+@RunWith(MockitoJUnitRunner.class)
+public class ScheduledTaskRunnerTest {
 
     @Mock
     private ApplicationContext context;
@@ -24,7 +24,7 @@ class ScheduledTaskRunnerTest {
     private ScheduledTaskRunner taskRunner;
 
     @Test
-    void shouldFindTheBean() {
+    public void shouldFindTheBean() {
         when(context.getBean("lowerCaseBean")).thenReturn(task);
 
         taskRunner.run("LowerCaseBean");
@@ -33,7 +33,7 @@ class ScheduledTaskRunnerTest {
     }
 
     @Test
-    void shouldNotFindTheBean() {
+    public void shouldNotFindTheBean() {
         when(context.getBean("missingBean")).thenThrow();
 
         taskRunner.run("missingBean");

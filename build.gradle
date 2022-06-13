@@ -65,7 +65,7 @@ sonarqube {
         property "sonar.exclusions", "**uk/gov/hmcts/probate/appinsights/*, **/PaMapper.java, **/IntestacyMapper.java, " +
                 "**/ScheduledConfiguration.java, **/AuthenticateUserResponse.java, **/TokenExchangeResponse.java, " +
                 "**/FormDataMigrator.java, **/IdamUserEmail.java, **/IdamUsersCsvLoader.java, " +
-                "**uk/gov/hmcts/probate/OrchestratorApplication"
+                "**uk/gov/hmcts/probate/OrchestratorApplication.java"
         property "sonar.projectName", "PROBATE :: Probate-Orchestrator-Service"
         property "sonar.projectKey", "Probate-Orchestrator-Service"
         property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
