@@ -24,6 +24,14 @@ public class DataExtractControllerUnitTest {
     DataExtractController dataExtractController;
 
     @Test
+    public void shouldInitiateSmeeAndFordDataExtractForNoDate() {
+        ResponseEntity responseEntity = Mockito.mock(ResponseEntity.class);
+        when(dataExtractService.initiateSmeeAndFordExtractDateRange(any(), anyString())).thenReturn(responseEntity);
+        ResponseEntity response = dataExtractController.initiateSmeeAndFordExtract();
+        assertThat(response).isEqualTo(responseEntity);
+    }
+
+    @Test
     public void shouldInitiateSmeeAndFordDataExtractForDateRange() {
         ResponseEntity responseEntity = Mockito.mock(ResponseEntity.class);
         when(dataExtractService.initiateSmeeAndFordExtractDateRange(any(), anyString())).thenReturn(responseEntity);
