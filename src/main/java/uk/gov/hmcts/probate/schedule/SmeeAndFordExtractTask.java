@@ -19,9 +19,9 @@ public class SmeeAndFordExtractTask implements Runnable {
 
     @Override
     public void run() {
-        log.info("Scheduled task started to extract data for Excela");
+        log.info("Scheduled task started to extract data for Smee and Ford");
         String date = DATE_FORMAT.format(LocalDate.now().minusDays(1L));
-        log.info("Calling perform Smee And Ford data extract from date, to date {} {}", date, date);
+        log.info("Calling perform Smee and Ford data extract from date, to date {} {}", date, date);
         dataExtractService.initiateSmeeAndFordExtractDateRange(date, date);
     }
 
