@@ -7,20 +7,25 @@ import org.mockito.Mock;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import uk.gov.hmcts.probate.core.service.DataExtractServiceImpl;
+import uk.gov.hmcts.probate.core.service.DataExtractDateValidator;
+import uk.gov.hmcts.probate.service.BackOfficeService;
+import uk.gov.hmcts.reform.probate.model.client.ApiClientException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 @ExtendWith(SpringExtension.class)
 public class SmeeAndFordExtractTaskTest {
 
     @Mock
-    private DataExtractServiceImpl dataExtractService;
+    private DataExtractDateValidator dataExtractDateValidator;
+
+    @Mock
+    private BackOfficeService backOfficeService;
 
     @InjectMocks
     private SmeeAndFordExtractTask smeeAndFordExtractTask;
@@ -33,10 +38,21 @@ public class SmeeAndFordExtractTaskTest {
         String date = DATE_FORMAT.format(LocalDate.now().minusDays(1L));
         ResponseEntity<String> responseEntity = ResponseEntity.accepted()
                 .body("Perform Smee And Ford data extract finished");
-        when(dataExtractService.initiateSmeeAndFordExtractDateRange(date, date)).thenReturn(responseEntity);
+        when(backOfficeService.initiateSmeeAndFordExtract(date, date)).thenReturn(responseEntity);
         smeeAndFordExtractTask.run();
         assertEquals(HttpStatus.ACCEPTED, responseEntity.getStatusCode());
         assertEquals("Perform Smee And Ford data extract finished", responseEntity.getBody());
-        verify(dataExtractService).initiateSmeeAndFordExtractDateRange(date,date);
+        verify(dataExtractDateValidator).validate(date,date);
+        verify(backOfficeService).initiateSmeeAndFordExtract(date,date);
+    }
+
+    @Test
+    public void shouldThrowClientExceptionWithBadRequestForSmeeAndFordExtractWithIncorrectDateFormat() {
+        String date = DATE_FORMAT.format(LocalDate.now().minusDays(1L));
+        doThrow(new ApiClientException(HttpStatus.BAD_REQUEST.value(), null)).when(dataExtractDateValidator)
+                .validate(date, date);
+        smeeAndFordExtractTask.run();
+        verify(dataExtractDateValidator).validate(date,date);
+        verifyNoInteractions(backOfficeService);
     }
 }
