@@ -1,7 +1,7 @@
 package uk.gov.hmcts.probate.core.service.mapper;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.probate.model.cases.RegistryLocation;
 
 public class RegistryLocationMapperTest {
