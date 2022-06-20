@@ -63,7 +63,7 @@ public class SmeeAndFordExtractTaskTest {
     }
 
     @Test
-    public void shouldThrowFeignExceptionForSmeeAndFordExtract() {
+    void shouldThrowFeignExceptionForSmeeAndFordExtract() {
         String date = DATE_FORMAT.format(LocalDate.now().minusDays(1L));
         when(backOfficeService.initiateSmeeAndFordExtract(date, date)).thenThrow(FeignException
                 .errorStatus("initiateSmeeAndFordExtractDateRange", Response.builder()
@@ -84,7 +84,7 @@ public class SmeeAndFordExtractTaskTest {
     }
 
     @Test
-    public void shouldThrowExceptionForSmeeAndFordExtract() {
+    void shouldThrowExceptionForSmeeAndFordExtract() {
         String date = DATE_FORMAT.format(LocalDate.now().minusDays(1L));
         doThrow(new NullPointerException()).when(dataExtractDateValidator)
                 .validate(date, date);
