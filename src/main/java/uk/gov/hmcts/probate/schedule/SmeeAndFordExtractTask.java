@@ -1,5 +1,6 @@
 package uk.gov.hmcts.probate.schedule;
 
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -32,6 +33,10 @@ public class SmeeAndFordExtractTask implements Runnable {
             log.info("Perform Smee And Ford data extract from date finished");
         } catch (ApiClientException e) {
             log.error(e.getMessage());
+        } catch (FeignException e) {
+            log.error("Error on calling BackOfficeAPI {}", e.getMessage());
+        } catch (Exception e) {
+            log.error("Error on SmeeAndFordExtractTask Scheduler {}", e.getMessage());
         }
     }
 
