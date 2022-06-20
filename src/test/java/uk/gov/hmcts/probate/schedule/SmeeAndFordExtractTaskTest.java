@@ -82,4 +82,14 @@ public class SmeeAndFordExtractTaskTest {
         verify(dataExtractDateValidator).validate(date,date);
         verify(backOfficeService).initiateSmeeAndFordExtract(date, date);
     }
+
+    @Test
+    public void shouldThrowExceptionForSmeeAndFordExtract() {
+        String date = DATE_FORMAT.format(LocalDate.now().minusDays(1L));
+        doThrow(new NullPointerException()).when(dataExtractDateValidator)
+                .validate(date, date);
+        smeeAndFordExtractTask.run();
+        verify(dataExtractDateValidator).validate(date,date);
+        verifyNoInteractions(backOfficeService);
+    }
 }
