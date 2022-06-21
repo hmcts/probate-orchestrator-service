@@ -1,20 +1,21 @@
 package uk.gov.hmcts.probate.core.service;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.cases.standingsearch.StandingSearchData;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CaseSubmissionUpdaterTest {
 
     private CaseSubmissionUpdater caseSubmissionUpdater;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         caseSubmissionUpdater = new CaseSubmissionUpdater();
     }
@@ -48,8 +49,10 @@ public class CaseSubmissionUpdaterTest {
         assertThat(standingSearchData.getApplicationSubmittedDate(), nullValue());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void shouldThrowExceptionWhenCaseDataIsNull() {
-        caseSubmissionUpdater.updateCaseForSubmission(null);
+        assertThrows(IllegalArgumentException.class, () -> {
+            caseSubmissionUpdater.updateCaseForSubmission(null);
+        });
     }
 }

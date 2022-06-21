@@ -1,6 +1,6 @@
 package uk.gov.hmcts.probate.core.service.mapper;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.probate.model.cases.CaseInfo;
 import uk.gov.hmcts.reform.probate.model.cases.CaseState;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;

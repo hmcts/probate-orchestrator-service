@@ -3,11 +3,12 @@ package uk.gov.hmcts.probate.core.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.mapper.CaseSummaryMapper;
@@ -47,9 +48,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -59,7 +60,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(SpringExtension.class)
 public class SubmitServiceImplTest {
 
     public static final String EXTERNAL_REFERENCE = "EXT2213214";
@@ -115,7 +116,7 @@ public class SubmitServiceImplTest {
 
     private PaymentDto paymentDto;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         IdentifierConfiguration identifierConfiguration = new IdentifierConfiguration();
 
@@ -266,11 +267,13 @@ public class SubmitServiceImplTest {
         shouldSaveDraftForm(caveatForm, caveatCaseDetails, CAVEAT_IDENTIFIER);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void shouldThrowErrorOnSaveDraftIfEmailAddressDoesNotMatchForm() {
         ((CaveatForm) caveatForm).setApplicationId("test@Test.com");
 
-        submitService.saveCase(EMAIL_ADDRESS, caveatForm);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            submitService.saveCase(EMAIL_ADDRESS, caveatForm);
+        });
     }
 
     @Test
@@ -311,12 +314,13 @@ public class SubmitServiceImplTest {
     }
 
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void shouldThrowErrorOnSubmitIfEmailAddressDoesNotMatchForm() {
         //TODO Remove CAST
         ((IntestacyForm) intestacyForm).setApplicantEmail("test@Test.com");
-
-        submitService.submit(EMAIL_ADDRESS, intestacyForm);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            submitService.submit(EMAIL_ADDRESS, intestacyForm);
+        });
     }
 
     @Test
@@ -388,11 +392,13 @@ public class SubmitServiceImplTest {
         verify(securityUtils, times(1)).getServiceAuthorisation();
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void shouldThrowErrorOnUpdatePaymentsIfNoPaymentsOnForm() {
         intestacyForm.setPayments(null);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            submitService.updatePayments(EMAIL_ADDRESS, intestacyForm);
+        });
 
-        submitService.updatePayments(EMAIL_ADDRESS, intestacyForm);
     }
 
     @Test
