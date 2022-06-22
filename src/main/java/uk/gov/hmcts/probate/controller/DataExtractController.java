@@ -94,7 +94,6 @@ public class DataExtractController {
         return dataExtractService.initiateExelaExtractDateRange(fromDate, toDate);
     }
 
-    @Scheduled(cron = "${cron.smeeAndFord.schedule}")
     @ApiOperation(value = "Initiate Smee And Ford data extract", notes = "Will find cases for yesterdays date")
     @PostMapping(path = "/smee-and-ford")
     public ResponseEntity initiateSmeeAndFordExtract() {
