@@ -1,6 +1,6 @@
 package uk.gov.hmcts.probate.controller;
 
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,7 @@ public class CaveatController {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Scheduled(cron = "${cron.caveatExpiry.schedule}")
-    @ApiOperation(value = "Expire Raised Caveats yesterday")
+    @Operation(summary = "Expire Raised Caveats yesterday")
     @PostMapping(path = "/expire")
     public ResponseEntity expireCaveats() {
         String expireForDate = DATE_FORMAT.format(LocalDate.now().minusDays(1L));
