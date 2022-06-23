@@ -96,15 +96,6 @@ public class DataExtractController {
         return dataExtractService.initiateExelaExtractDateRange(fromDate, toDate);
     }
 
-    @Scheduled(cron = "${cron.smeeAndFord.schedule}")
-    @Operation(summary = "Initiate Smee And Ford data extract", description = "Will find cases for yesterdays date")
-    @PostMapping(path = "/smee-and-ford")
-    public ResponseEntity initiateSmeeAndFordExtract() {
-        log.info("Extract initiated for Excela");
-        String date = DATE_FORMAT.format(LocalDate.now().minusDays(1L));
-        return initiateSmeeAndFordExtractDateRange(date, date);
-    }
-
     @Operation(summary = "Initiate Smee and Ford data extract", description = " Date MUST be in format 'yyyy-MM-dd'")
     @PostMapping(path = "/smee-and-ford/{fromDate}/{toDate}")
     public ResponseEntity initiateSmeeAndFordExtractDateRange(
