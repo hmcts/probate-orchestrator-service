@@ -226,20 +226,6 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase {
     }
 
     @Test
-    public void performSmeeAndFordDataExtractScheduled() {
-        String response = RestAssured.given()
-            .relaxedHTTPSValidation()
-            .headers(utils.getCaseworkerHeaders())
-            .when()
-            .post(DATA_EXTRACT_SMEE_AND_FORD_URL)
-            .then()
-            .assertThat()
-            .statusCode(202)
-            .extract().response().getBody().prettyPrint();
-        Assert.assertEquals(SMEE_AND_FORD_EXTRACT_FINISHED, response);
-    }
-
-    @Test
     public void performSmeeAndFordDataExtractForDateRange() {
         String response = RestAssured.given()
             .relaxedHTTPSValidation()
