@@ -1,11 +1,9 @@
 package uk.gov.hmcts.probate.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import io.swagger.annotations.SwaggerDefinition;
-import io.swagger.annotations.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,8 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.probate.service.PaymentUpdateService;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
-@Api(tags = {"Payment Update Controller"})
-@SwaggerDefinition(tags = {@Tag(name = "PaymentUpdateController", description = "Payment Update API")})
+@Tag(name = "Payment Update Controller", description = "Payment Update API")
 @RestController
 @Slf4j
 public class PaymentUpdateController {
@@ -32,9 +29,9 @@ public class PaymentUpdateController {
         this.paymentUpdateService = paymentUpdateService;
     }
 
-    @ApiOperation(value = "Update payment", notes = "Update payment")
+    @Operation(summary = "Update payment", description = "Update payment")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Updated payment successfully")
+        @ApiResponse(responseCode = "200", description = "Updated payment successfully")
     })
     @PutMapping(path = PAYMENT_UPDATES, consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
