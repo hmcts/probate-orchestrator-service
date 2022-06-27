@@ -1,17 +1,15 @@
 package uk.gov.hmcts.probate.core.service;
 
 import com.google.common.collect.Lists;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.mock.web.MockMultipartFile;
 import uk.gov.hmcts.probate.client.backoffice.BackOfficeApi;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackRequest;
@@ -28,13 +26,14 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepr
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(SpringExtension.class)
 public class BackOfficeServiceImplTest {
 
     private static final String CASE_ID = "42343543";
@@ -57,7 +56,7 @@ public class BackOfficeServiceImplTest {
     @InjectMocks
     private BackOfficeServiceImpl backOfficeService;
 
-    @Before
+    @BeforeEach
     public void setUp() {
 
         backOfficeCaveatResponse = BackOfficeCaveatResponse.builder().caseData(BackOfficeCaveatData.builder()
@@ -175,7 +174,7 @@ public class BackOfficeServiceImplTest {
 
         GrantScheduleResponse response = backOfficeService.initiateGrantDelayedNotification(date);
 
-        Assert.assertThat(response.getScheduleResponseData().size(), equalTo(2));
+        assertEquals(response.getScheduleResponseData().size(), 2);
         verify(backOfficeApi)
             .initiateGrantDelayedNotification(eq("Bearer " + AUTHORIZATION), eq("Bearer "
                     + SERVICE_AUTHORIZATION),
@@ -194,7 +193,7 @@ public class BackOfficeServiceImplTest {
 
         GrantScheduleResponse response = backOfficeService.initiateGrantAwaitingDocumentsNotification(date);
 
-        Assert.assertThat(response.getScheduleResponseData().size(), equalTo(2));
+        assertEquals(response.getScheduleResponseData().size(), 2);
         verify(backOfficeApi).initiateGrantAwaitingDocumentsNotification(eq("Bearer " + AUTHORIZATION),
             eq("Bearer " + SERVICE_AUTHORIZATION), eq(date));
     }
@@ -215,7 +214,7 @@ public class BackOfficeServiceImplTest {
     @Test()
     public void shouldThrowExceptoinIfFilesAreEmpty() {
         String authorizationToken = "AUTHTOKEN12345";
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             backOfficeService.uploadDocument(authorizationToken, Lists.newArrayList());
         });
     }

@@ -1,11 +1,10 @@
 package uk.gov.hmcts.probate.core.service.mapper;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ExecutorApplyingToInvitationMapperTest {
 
@@ -33,13 +32,13 @@ public class ExecutorApplyingToInvitationMapperTest {
                 .build();
         Invitation invitation = executorApplyingToInvitationMapper.map(executorApplying);
 
-        Assert.assertThat(invitation.getExecutorName(), equalTo(APPLYING_EXECUTOR_NAME));
-        Assert.assertThat(invitation.getEmail(), equalTo(EXECUTOR_EMAIL));
-        Assert.assertThat(invitation.getPhoneNumber(), equalTo(PHONE_NUMBER));
-        Assert.assertThat(invitation.getFirstName(), equalTo(FIRST_NAME));
-        Assert.assertThat(invitation.getLastName(), equalTo(LAST_NAME));
-        Assert.assertThat(invitation.getLeadExecutorName(), equalTo(LEAD_NAME));
-        Assert.assertThat(invitation.getInviteId(), equalTo(APPLYING_EXECUTOR_INVITATION_ID));
-        Assert.assertThat(invitation.getAgreed(), equalTo(Boolean.TRUE));
+        assertEquals(APPLYING_EXECUTOR_NAME, invitation.getExecutorName());
+        assertEquals(EXECUTOR_EMAIL, invitation.getEmail());
+        assertEquals(PHONE_NUMBER, invitation.getPhoneNumber());
+        assertEquals(FIRST_NAME, invitation.getFirstName());
+        assertEquals(LAST_NAME, invitation.getLastName());
+        assertEquals(LEAD_NAME, invitation.getLeadExecutorName());
+        assertEquals(APPLYING_EXECUTOR_INVITATION_ID, invitation.getInviteId());
+        assertEquals(Boolean.TRUE, invitation.getAgreed());
     }
 }

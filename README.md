@@ -59,6 +59,31 @@ $ ./gradlew check
 
 Not currently available.
 
+### Crons
+
+You can manually run a cron task from the cli:
+
+```
+TASK_NAME=[task] java -jar probate-orchestrator-service.jar run
+
+# E.g.
+TASK_NAME=SmeeAndFordExtractTask java -jar probate-orchestrator-service.jar
+
+# or
+TASK_NAME=SmeeAndFordExtractTask ./gradlew bootRun
+```
+
+To configure a new cron in AAT please checkout the [cnp-flux-config](https://github.com/hmcts/cnp-flux-config/) repository and run:
+
+```
+./bin/add-cron.sh SmeeAndFordExtractTask ~/cnp-flux-config "0/10 * * * *"
+```
+
+Then create a PR in the cnp-flux-config repository.
+
+Note that the cron will only run in the aat-00 cluster as we don't have a way to run the job once over multiple clusters. Let's hope that cluster doesn't go down.
+
+
 ### IDE Settings
 
 #### Project Lombok Plugin

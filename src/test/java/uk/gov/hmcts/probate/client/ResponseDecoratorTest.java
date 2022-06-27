@@ -3,10 +3,10 @@ package uk.gov.hmcts.probate.client;
 import feign.Request;
 import feign.Response;
 import feign.Util;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.http.HttpMethod;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.reform.probate.model.client.ErrorResponse;
 import uk.gov.hmcts.reform.probate.model.client.ErrorType;
@@ -20,7 +20,7 @@ import java.util.Map;
 import static feign.Util.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(SpringExtension.class)
 public class ResponseDecoratorTest {
 
     private Map<String, Collection<String>> headers = new LinkedHashMap<>();
