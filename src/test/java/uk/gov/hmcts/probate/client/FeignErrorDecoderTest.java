@@ -12,7 +12,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class FeignErrorDecoderTest {
+class FeignErrorDecoderTest {
     private Map<String, Collection<String>> headers = new LinkedHashMap<>();
     private FeignErrorDecoder decoder = new FeignErrorDecoder();
 
