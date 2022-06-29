@@ -1,7 +1,7 @@
 apiVersion: v2
 name: probate-orchestrator-service
 home: https://github.com/hmcts/probate-orchestrator-service
-version: 1.0.25
+version: 1.0.26
 description: HMCTS Probate Orchestrator Service
 maintainers:
   - name: HMCTS Probate Team
@@ -9,4 +9,4 @@ maintainers:
 dependencies:
   - name: java
     version: 3.7.7
-    repository: '@hmctspublic'
+    repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
