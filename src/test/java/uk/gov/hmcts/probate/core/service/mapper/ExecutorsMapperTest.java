@@ -1,12 +1,11 @@
 package uk.gov.hmcts.probate.core.service.mapper;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorNotApplying;
@@ -17,9 +16,10 @@ import uk.gov.hmcts.reform.probate.model.forms.pa.Executor;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class ExecutorsMapperTest {
 
@@ -31,7 +31,7 @@ public class ExecutorsMapperTest {
     private GrantOfRepresentationData grantOfRepresentation;
     private List<Executor> executorList = new ArrayList<>();
 
-    @Before
+    @BeforeEach
     public void setUptest() {
 
         grantOfRepresentation = PaMultipleExecutorTestDataCreator.createGrantOfRepresentation();
@@ -58,27 +58,27 @@ public class ExecutorsMapperTest {
     public void shouldMapNonApplyingExecutors() {
         List<CollectionMember<ExecutorNotApplying>> collectionMembersNonApplying =
             mapper.toExecutorNotApplyingCollectionMember(executorList);
-        Assert.assertThat(collectionMembersNonApplying.size(), equalTo(1));
+        assertEquals(1, collectionMembersNonApplying.size());
         ExecutorNotApplying executorNotApplying = collectionMembersNonApplying.get(0).getValue();
-        Assert.assertThat(executorNotApplying.getNotApplyingExecutorName(), equalTo("Jackie Smith"));
-        Assert.assertThat(executorNotApplying.getNotApplyingExecutorIsDead(), equalTo(Boolean.TRUE));
-        Assert.assertThat(executorNotApplying.getNotApplyingExecutorDiedBefore(), equalTo(Boolean.FALSE));
+        assertEquals("Jackie Smith", executorNotApplying.getNotApplyingExecutorName());
+        assertEquals(Boolean.TRUE, executorNotApplying.getNotApplyingExecutorIsDead());
+        assertEquals(Boolean.FALSE, executorNotApplying.getNotApplyingExecutorDiedBefore());
     }
 
     @Test
     public void shouldMapApplyingExecutors() {
         List<CollectionMember<ExecutorApplying>> collectionMembers =
             mapper.toExecutorApplyingCollectionMember(executorList);
-        Assert.assertThat(collectionMembers.size(), equalTo(1));
+        assertEquals(1, collectionMembers.size());
         ExecutorApplying executorApplying = collectionMembers.get(0).getValue();
-        Assert.assertThat(executorApplying.getApplyingExecutorName(), equalTo("Bobby Smith"));
-        Assert.assertThat(executorApplying.getApplyingExecutorFirstName(), equalTo("Bobby"));
-        Assert.assertThat(executorApplying.getApplyingExecutorLastName(), equalTo("Smith"));
-        Assert.assertThat(executorApplying.getApplyingExecutorInvitationId(), equalTo("12345"));
-        Assert.assertThat(executorApplying.getApplyingExecutorAddress().getAddressLine1(), equalTo(ADDRESS_LINE_1));
-        Assert.assertThat(executorApplying.getApplyingExecutorAddress().getPostCode(), equalTo(POSTCODE));
-        Assert.assertThat(executorApplying.getApplyingExecutorApplicant(), equalTo(Boolean.FALSE));
-        Assert.assertThat(executorApplying.getApplyingExecutorHasOtherName(), equalTo(Boolean.TRUE));
+        assertEquals("Bobby Smith", executorApplying.getApplyingExecutorName());
+        assertEquals("Bobby", executorApplying.getApplyingExecutorFirstName());
+        assertEquals("Smith", executorApplying.getApplyingExecutorLastName());
+        assertEquals("12345", executorApplying.getApplyingExecutorInvitationId());
+        assertEquals(ADDRESS_LINE_1, executorApplying.getApplyingExecutorAddress().getAddressLine1());
+        assertEquals(POSTCODE, executorApplying.getApplyingExecutorAddress().getPostCode());
+        assertEquals(Boolean.FALSE, executorApplying.getApplyingExecutorApplicant());
+        assertEquals(Boolean.TRUE, executorApplying.getApplyingExecutorHasOtherName());
     }
 
     @Test
@@ -98,16 +98,16 @@ public class ExecutorsMapperTest {
 
         List<CollectionMember<ExecutorApplying>> collectionMembers =
             mapper.toExecutorApplyingCollectionMember(executorList);
-        Assert.assertThat(collectionMembers.size(), equalTo(1));
+        assertEquals(1, collectionMembers.size());
         ExecutorApplying executorApplying = collectionMembers.get(0).getValue();
-        Assert.assertThat(executorApplying.getApplyingExecutorName(), equalTo("Bobby Smith"));
-        Assert.assertThat(executorApplying.getApplyingExecutorFirstName(), equalTo("Bobby"));
-        Assert.assertThat(executorApplying.getApplyingExecutorLastName(), equalTo("Smith"));
-        Assert.assertThat(executorApplying.getApplyingExecutorInvitationId(), equalTo("12345"));
-        Assert.assertThat(executorApplying.getApplyingExecutorAddress().getAddressLine1(), equalTo(ADDRESS_LINE_1));
-        Assert.assertThat(executorApplying.getApplyingExecutorAddress().getPostCode(), equalTo(POSTCODE));
-        Assert.assertThat(executorApplying.getApplyingExecutorApplicant(), equalTo(Boolean.FALSE));
-        Assert.assertThat(executorApplying.getApplyingExecutorHasOtherName(), equalTo(Boolean.TRUE));
+        assertEquals("Bobby Smith", executorApplying.getApplyingExecutorName());
+        assertEquals("Bobby", executorApplying.getApplyingExecutorFirstName());
+        assertEquals("Smith", executorApplying.getApplyingExecutorLastName());
+        assertEquals("12345", executorApplying.getApplyingExecutorInvitationId());
+        assertEquals(ADDRESS_LINE_1, executorApplying.getApplyingExecutorAddress().getAddressLine1());
+        assertEquals(POSTCODE, executorApplying.getApplyingExecutorAddress().getPostCode());
+        assertEquals(Boolean.FALSE, executorApplying.getApplyingExecutorApplicant());
+        assertEquals(Boolean.TRUE, executorApplying.getApplyingExecutorHasOtherName());
     }
 
     @Test
@@ -126,25 +126,26 @@ public class ExecutorsMapperTest {
 
         List<CollectionMember<ExecutorApplying>> collectionMembers =
             mapper.toExecutorApplyingCollectionMember(executorList);
-        Assert.assertThat(collectionMembers.size(), equalTo(2));
+        assertEquals(2, collectionMembers.size());
         ExecutorApplying executorApplying1 = collectionMembers.get(0).getValue();
-        Assert.assertThat(executorApplying1.getApplyingExecutorName(), equalTo("Bobby Smith"));
-        Assert.assertThat(executorApplying1.getApplyingExecutorFirstName(), equalTo("Bobby"));
-        Assert.assertThat(executorApplying1.getApplyingExecutorLastName(), equalTo("Smith"));
-        Assert.assertThat(executorApplying1.getApplyingExecutorInvitationId(), equalTo("12345"));
-        Assert.assertThat(executorApplying1.getApplyingExecutorAddress().getAddressLine1(), equalTo(ADDRESS_LINE_1));
-        Assert.assertThat(executorApplying1.getApplyingExecutorAddress().getPostCode(), equalTo(POSTCODE));
-        Assert.assertThat(executorApplying1.getApplyingExecutorApplicant(), equalTo(Boolean.FALSE));
-        Assert.assertThat(executorApplying1.getApplyingExecutorHasOtherName(), equalTo(Boolean.TRUE));
+        assertEquals("Bobby Smith", executorApplying1.getApplyingExecutorName());
+        assertEquals("Bobby", executorApplying1.getApplyingExecutorFirstName());
+        assertEquals("Smith", executorApplying1.getApplyingExecutorLastName());
+        assertEquals("12345", executorApplying1.getApplyingExecutorInvitationId());
+        assertEquals(ADDRESS_LINE_1, executorApplying1.getApplyingExecutorAddress().getAddressLine1());
+        assertEquals(POSTCODE, executorApplying1.getApplyingExecutorAddress().getPostCode());
+        assertEquals(Boolean.FALSE, executorApplying1.getApplyingExecutorApplicant());
+        assertEquals(Boolean.TRUE, executorApplying1.getApplyingExecutorHasOtherName());
+
         ExecutorApplying executorApplying = collectionMembers.get(1).getValue();
-        Assert.assertThat(executorApplying.getApplyingExecutorName(), equalTo("Robert Smyth"));
-        Assert.assertThat(executorApplying.getApplyingExecutorFirstName(), equalTo("Robert"));
-        Assert.assertThat(executorApplying.getApplyingExecutorLastName(), equalTo("Smyth"));
-        Assert.assertThat(executorApplying.getApplyingExecutorInvitationId(), equalTo("56789"));
-        Assert.assertThat(executorApplying.getApplyingExecutorAddress().getAddressLine1(), equalTo(ADDRESS_LINE_1));
-        Assert.assertThat(executorApplying.getApplyingExecutorAddress().getPostCode(), equalTo(POSTCODE));
-        Assert.assertThat(executorApplying.getApplyingExecutorApplicant(), equalTo(null));
-        Assert.assertThat(executorApplying.getApplyingExecutorHasOtherName(), equalTo(Boolean.TRUE));
+        assertEquals("Robert Smyth", executorApplying.getApplyingExecutorName());
+        assertEquals("Robert", executorApplying.getApplyingExecutorFirstName());
+        assertEquals("Smyth", executorApplying.getApplyingExecutorLastName());
+        assertEquals("56789", executorApplying.getApplyingExecutorInvitationId());
+        assertEquals(ADDRESS_LINE_1, executorApplying.getApplyingExecutorAddress().getAddressLine1());
+        assertEquals(POSTCODE, executorApplying.getApplyingExecutorAddress().getPostCode());
+        assertNull(executorApplying.getApplyingExecutorApplicant());
+        assertEquals(Boolean.TRUE, executorApplying.getApplyingExecutorHasOtherName());
     }
 
     @Test
@@ -152,6 +153,6 @@ public class ExecutorsMapperTest {
 
         List<Executor> executors =
             mapper.fromCollectionMember(PaMultipleExecutorTestDataCreator.createGrantOfRepresentation());
-        Assert.assertThat(executors.get(0).getIsApplicant(), equalTo(Boolean.TRUE));
+        assertEquals(Boolean.TRUE, executors.get(0).getIsApplicant());
     }
 }

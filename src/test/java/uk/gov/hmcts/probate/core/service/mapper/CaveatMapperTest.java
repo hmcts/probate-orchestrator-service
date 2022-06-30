@@ -1,13 +1,12 @@
 package uk.gov.hmcts.probate.core.service.mapper;
 
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
@@ -19,11 +18,12 @@ import uk.gov.hmcts.reform.probate.model.forms.caveat.CaveatDeceased;
 import uk.gov.hmcts.reform.probate.model.forms.caveat.CaveatForm;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class CaveatMapperTest {
 
@@ -33,7 +33,7 @@ public class CaveatMapperTest {
     private CaveatForm caveatForm;
     private CaveatData caveatData;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         caveatForm = CaveatTestDataCreator.createCaveatForm();
         caveatData = CaveatTestDataCreator.createCaveatData();
@@ -54,13 +54,13 @@ public class CaveatMapperTest {
     @Test
     public void shouldMapNullCaveatFormToCaveatData() {
         CaveatData actualCaveatData = mapper.toCaseData(null);
-        Assert.assertThat(actualCaveatData, is(nullValue()));
+        assertThat(actualCaveatData, is(nullValue()));
     }
 
     @Test
     public void shouldMapNullCaveatDataToCaveatForm() {
         CaveatForm actualCaveatForm = mapper.fromCaseData(null);
-        Assert.assertThat(actualCaveatForm, is(nullValue()));
+        assertThat(actualCaveatForm, is(nullValue()));
     }
 
     @Test
@@ -70,7 +70,7 @@ public class CaveatMapperTest {
         expectedCaveatData.setCaveatRaisedEmailNotificationRequested(true);
         expectedCaveatData.setPaperForm(false);
         CaveatData actualCaveatData = mapper.toCaseData(new CaveatForm());
-        Assert.assertThat(actualCaveatData, equalTo(expectedCaveatData));
+        assertThat(actualCaveatData, equalTo(expectedCaveatData));
         assertThat(actualCaveatData).isEqualToComparingFieldByFieldRecursively(expectedCaveatData);
     }
 

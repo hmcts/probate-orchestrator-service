@@ -1,6 +1,6 @@
 package uk.gov.hmcts.probate.controller;
 
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,7 @@ public class GrantController {
     private final GrantAwaitingDocumentsNotifier grantAwaitingDocumentsNotifier;
 
     @Scheduled(cron = "${cron.grantDelayed.schedule}")
-    @ApiOperation(value = "Notify grants delayed")
+    @Operation(summary = "Notify grants delayed")
     @PostMapping(path = "/delay-notification")
     public ResponseEntity initiateGrantDelayedSchedule() {
         log.info("Calling perform grant delayed notification for today ...");
@@ -41,7 +41,7 @@ public class GrantController {
     }
 
     @Scheduled(cron = "${cron.grantAwaitingDocuments.schedule}")
-    @ApiOperation(value = "Notify grants Awaiting Documents")
+    @Operation(summary = "Notify grants Awaiting Documents")
     @PostMapping(path = "/awaiting-documents-notification")
     public ResponseEntity initiateAwaitingDocumentsSchedule() {
         log.info("Calling perform grant Awaiting Documents notification for today ...");

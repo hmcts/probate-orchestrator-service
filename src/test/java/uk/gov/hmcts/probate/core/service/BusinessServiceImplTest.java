@@ -2,20 +2,14 @@ package uk.gov.hmcts.probate.core.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
-import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.probate.client.business.BusinessServiceApi;
-import uk.gov.hmcts.probate.client.business.BusinessServiceDocumentsApi;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.mapper.ExecutorApplyingToInvitationMapper;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
@@ -33,11 +27,12 @@ import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(SpringExtension.class)
 public class BusinessServiceImplTest {
 
     private static final String SERVICE_AUTHORIZATION = "SERVICEAUTH1234567";
@@ -60,8 +55,6 @@ public class BusinessServiceImplTest {
     @Mock
     private BusinessServiceApi businessServiceApi;
     @Mock
-    private BusinessServiceDocumentsApi businessServiceDocumentsApi;
-    @Mock
     private SubmitServiceApi submitServiceApi;
     @Mock
     private SecurityUtils securityUtils;
@@ -76,7 +69,7 @@ public class BusinessServiceImplTest {
     private ObjectMapper objectMapper;
 
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         objectMapper = new ObjectMapper();
 
@@ -90,7 +83,7 @@ public class BusinessServiceImplTest {
         when(mockCaseInfo.getCaseId()).thenReturn("123456789101112");
 
         pdfExample = new byte[10];
-        businessService = new BusinessServiceImpl(businessServiceApi, businessServiceDocumentsApi,
+        businessService = new BusinessServiceImpl(businessServiceApi,
             submitServiceApi, securityUtils, mockExecutorApplyingToInvitationMapper);
     }
 
@@ -162,7 +155,7 @@ public class BusinessServiceImplTest {
 
         verify(businessServiceApi).invite(invitation, sessionId);
         verifyGetCaseCalls();
-        Assert.assertThat(result, Matchers.equalTo(invitationId));
+        assertEquals(invitationId, result);
         verify(mockGrantOfRepresentationData).setInvitationDetailsForExecutorApplying(invitation.getEmail(),
             invitationId, invitation.getLeadExecutorName(), executorName);
         verify(submitServiceApi).saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, "event update case data",
@@ -195,7 +188,7 @@ public class BusinessServiceImplTest {
         verify(submitServiceApi).saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId,
             EVENT_DESCRIPTION, mockProbateCaseDetails);
 
-        Assert.assertThat(newInvitation.getInviteId(), Matchers.equalTo(invitationId));
+        assertEquals(invitationId, newInvitation.getInviteId());
 
     }
 
@@ -224,7 +217,7 @@ public class BusinessServiceImplTest {
         verify(submitServiceApi).saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId,
             EVENT_DESCRIPTION, mockProbateCaseDetails);
 
-        Assert.assertThat(newInvitation.getInviteId(), Matchers.equalTo(invitationId));
+        assertEquals(invitationId, newInvitation.getInviteId());
 
     }
 
@@ -241,7 +234,7 @@ public class BusinessServiceImplTest {
 
         when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.TRUE);
         Boolean result = businessService.haveAllIniviteesAgreed(formdataId);
-        Assert.assertThat(result, Matchers.equalTo(Boolean.TRUE));
+        assertEquals(Boolean.TRUE, result);
     }
 
     @Test
@@ -382,34 +375,4 @@ public class BusinessServiceImplTest {
             .build();
     }
 
-    @Test
-    public void shouldUploadSuccessfully() {
-        MockMultipartFile file = new MockMultipartFile("file", "orig",
-            MediaType.IMAGE_PNG_VALUE, "bar".getBytes());
-        String authorizationToken = "AUTHTOKEN12345";
-        String userId = "USERID12345";
-
-        businessService.uploadDocument(authorizationToken, userId, Lists.newArrayList(file));
-
-        verify(businessServiceDocumentsApi).uploadDocument(userId, authorizationToken, file);
-    }
-
-    @Test()
-    public void shouldThrowExceptoinIfFilesAreEmpty() {
-        String authorizationToken = "AUTHTOKEN12345";
-        String userId = "USERID12345";
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            businessService.uploadDocument(authorizationToken, userId, Lists.newArrayList());
-        });
-    }
-
-    @Test
-    public void shouldDeleteSuccessfully() {
-        String documentId = "DOC12345";
-        String userId = "USERID12345";
-
-        businessService.delete(userId, documentId);
-
-        verify(businessServiceDocumentsApi).delete(userId, documentId);
-    }
 }

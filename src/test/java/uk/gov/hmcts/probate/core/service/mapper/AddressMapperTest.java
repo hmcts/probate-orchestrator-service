@@ -4,8 +4,8 @@ import io.jsonwebtoken.lang.Assert;
 import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.probate.model.cases.Address;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 
 
 public class AddressMapperTest {

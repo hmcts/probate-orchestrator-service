@@ -13,7 +13,6 @@ public class DocumentsControllerFunctionalTests extends IntegrationTestBase {
     private static final String CHECK_ANSWERS_SUMMARY_URL = "/documents/generate/checkAnswersSummary";
     private static final String BULK_SCAN_COVERSHEET_URL = "/documents/generate/bulkScanCoversheet";
     private static final String DOCUMENTS_UPLOAD_URL = "/documents/upload";
-    private static final String DOCUMENTS_DELETE_URL = "/documents/delete/";
     private static final String INVALID_DOCUMENT_ID = "999938c0-4517-45a1-ae60-f5c170200bbb";
     private String documentId;
 
@@ -21,8 +20,6 @@ public class DocumentsControllerFunctionalTests extends IntegrationTestBase {
     @Test
     public void uploadAndDeleteDocumentSuccessfully() {
         uploadDocumentSuccessfully();
-        deleteDocumentSuccessfully();
-
     }
 
     public void uploadDocumentSuccessfully() {
@@ -40,30 +37,6 @@ public class DocumentsControllerFunctionalTests extends IntegrationTestBase {
                 .extract().jsonPath().prettify();
         documentId = response.substring(response.lastIndexOf("/") + 1, response.lastIndexOf("]") - 2);
 
-    }
-
-    public void deleteDocumentSuccessfully() {
-        RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
-                .header("user-id", "testuser")
-                .when()
-                .delete(DOCUMENTS_DELETE_URL + documentId)
-                .then()
-                .assertThat()
-                .statusCode(200);
-    }
-
-    @Test
-    public void deleteInvalidDocument() {
-        RestAssured.given()
-                .relaxedHTTPSValidation()
-                .headers(utils.getCitizenHeaders())
-                .when()
-                .delete(DOCUMENTS_DELETE_URL + INVALID_DOCUMENT_ID)
-                .then()
-                .assertThat()
-                .statusCode(400);
     }
 
     @Test

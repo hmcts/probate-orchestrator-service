@@ -1,20 +1,21 @@
 package uk.gov.hmcts.probate.controller;
 
 import com.google.common.collect.Lists;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import uk.gov.hmcts.probate.TestUtils;
+import uk.gov.hmcts.probate.service.BackOfficeService;
 import uk.gov.hmcts.probate.service.BusinessService;
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
@@ -25,13 +26,12 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 public class DocumentsControllerTest {
@@ -50,13 +50,16 @@ public class DocumentsControllerTest {
     @MockBean
     private BusinessService businessService;
 
+    @MockBean
+    private BackOfficeService backOfficeService;
+
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-    @Before
+    @BeforeEach
     public void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
@@ -117,8 +120,6 @@ public class DocumentsControllerTest {
 
     @Test
     public void generateBulkScanCoversheetPdf_withValidJson_shouldReturn200() throws Exception {
-        //when(businessService.
-        // generateBulkScanCoverSheetPdf(any(BulkScanCoverSheet.class))).thenReturn(any(byte[].class));
 
         String bulkScanJosn = TestUtils.getJsonFromFile("businessDocuments/validBulkScanCoverSheet.json");
 
@@ -154,19 +155,8 @@ public class DocumentsControllerTest {
             .header("user-id", userId))
             .andExpect(status().isOk());
 
-        verify(businessService, times(1)).uploadDocument(eq(authorisation),
-            eq(userId), eq(Lists.newArrayList(file)));
+        verify(backOfficeService, times(1)).uploadDocument(eq(authorisation),
+            eq(Lists.newArrayList(file)));
     }
 
-    @Test
-    public void shouldDelete() throws Exception {
-        String userId = "USERID1234";
-        String documentId = "DOCID1234";
-
-        mockMvc.perform(delete(DOCUMENT_DELETE_ENDPOINT, documentId)
-            .header("user-id", userId))
-            .andExpect(status().isOk());
-
-        verify(businessService, times(1)).delete(userId, documentId);
-    }
 }

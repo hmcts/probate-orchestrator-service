@@ -1,11 +1,9 @@
 package uk.gov.hmcts.probate.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import io.swagger.annotations.SwaggerDefinition;
-import io.swagger.annotations.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,8 +23,7 @@ import uk.gov.hmcts.reform.probate.model.forms.CaseSummaryHolder;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
-@Api(tags = {"FormsController"})
-@SwaggerDefinition(tags = {@Tag(name = "FormsController", description = "Forms API")})
+@Tag(name = "FormsController", description = "Forms API")
 @RestController
 @Slf4j
 @RequiredArgsConstructor
@@ -44,11 +41,11 @@ public class FormsController {
     private final SubmitService submitService;
 
 
-    @ApiOperation(value = "Initiate form data", notes = "Initiate form data")
+    @Operation(summary = "Initiate form data", description = "Initiate form data")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Form initiated successfully"),
-            @ApiResponse(code = 400, message = "Initate form failed"),
-            @ApiResponse(code = 422, message = "Invalid or missing attribute")
+            @ApiResponse(responseCode = "200", description = "Form initiated successfully"),
+            @ApiResponse(responseCode = "400", description = "Initate form failed"),
+            @ApiResponse(responseCode = "422", description = "Invalid or missing attribute")
     })
     @PostMapping(path = FORMS_NEW_CASE_ENDPOINT, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -58,11 +55,11 @@ public class FormsController {
         return new ResponseEntity<>(submitService.initiateCase(probateType), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Save form data", notes = "Save form data")
+    @Operation(summary = "Save form data", description = "Save form data")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Form saved successfully"),
-        @ApiResponse(code = 400, message = "Saving form failed"),
-        @ApiResponse(code = 422, message = "Invalid or missing attribute")
+        @ApiResponse(responseCode = "200", description = "Form saved successfully"),
+        @ApiResponse(responseCode = "400", description = "Saving form failed"),
+        @ApiResponse(responseCode = "422", description = "Invalid or missing attribute")
     })
     @PostMapping(path = FORMS_CASE_ENDPOINT, consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
@@ -73,10 +70,10 @@ public class FormsController {
         return new ResponseEntity<>(submitService.saveCase(identifier, form), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Get form data", notes = "Get form data")
+    @Operation(summary = "Get form data", description = "Get form data")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Retrieved form successfully"),
-        @ApiResponse(code = 400, message = "Retrieving form failed")
+        @ApiResponse(responseCode = "200", description = "Retrieved form successfully"),
+        @ApiResponse(responseCode = "400", description = "Retrieving form failed")
     })
     @GetMapping(path = FORMS_CASE_ENDPOINT, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -87,10 +84,10 @@ public class FormsController {
     }
 
 
-    @ApiOperation(value = "Get form data", notes = "Get form data")
+    @Operation(summary = "Get form data", description = "Get form data")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Retrieved form successfully"),
-            @ApiResponse(code = 400, message = "Retrieving form failed")
+            @ApiResponse(responseCode = "200", description = "Retrieved form successfully"),
+            @ApiResponse(responseCode = "400", description = "Retrieving form failed")
     })
     @GetMapping(path = FORMS_CASES_ENDPOINT, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -100,11 +97,11 @@ public class FormsController {
     }
 
 
-    @ApiOperation(value = "Submit form data", notes = "Submit form data")
+    @Operation(summary = "Submit form data", description = "Submit form data")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Form submitted successfully"),
-        @ApiResponse(code = 400, message = "Submitting form failed"),
-        @ApiResponse(code = 422, message = "Invalid or missing attribute")
+        @ApiResponse(responseCode = "200", description = "Form submitted successfully"),
+        @ApiResponse(responseCode = "400", description = "Submitting form failed"),
+        @ApiResponse(responseCode = "422", description = "Invalid or missing attribute")
     })
     @PostMapping(path = FORMS_SUBMISSIONS_ENDPOINT + SUBMISSIONS_ENDPOINT,
         consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -125,11 +122,11 @@ public class FormsController {
         return new ResponseEntity<>(submitService.update(identifier, probateType, paymentDto), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Update payments", notes = "Update payments")
+    @Operation(summary = "Update payments", description = "Update payments")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Payments saved successfully"),
-        @ApiResponse(code = 400, message = "Saving payment failed"),
-        @ApiResponse(code = 422, message = "Invalid or missing attribute")
+        @ApiResponse(responseCode = "200", description = "Payments saved successfully"),
+        @ApiResponse(responseCode = "400", description = "Saving payment failed"),
+        @ApiResponse(responseCode = "422", description = "Invalid or missing attribute")
     })
     @PostMapping(path = FORMS_SUBMISSIONS_ENDPOINT + PAYMENTS_ENDPOINT,
         consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -140,7 +137,7 @@ public class FormsController {
         return new ResponseEntity<>(submitService.updatePayments(identifier, form), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Validate case data", notes = "validate case data via identifier and probate type")
+    @Operation(summary = "Validate case data", description = "validate case data via identifier and probate type")
     @PutMapping(path = FORMS_SUBMISSIONS_ENDPOINT + VALIDATIONS_ENDPOINT, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Form> validate(@PathVariable("identifier") String identifier,
