@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -18,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import uk.gov.hmcts.probate.service.BackOfficeService;
 import uk.gov.hmcts.probate.service.BusinessService;
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
@@ -41,10 +40,12 @@ public class DocumentsController {
     protected static final String DOCUMENT_DELETE_ENDPOINT = "/delete/{documentId}";
 
     private final BusinessService businessService;
+    private final BackOfficeService backOfficeService;
 
     @Autowired
-    private DocumentsController(BusinessService businessService) {
+    private DocumentsController(BusinessService businessService, BackOfficeService backOfficeService) {
         this.businessService = businessService;
+        this.backOfficeService = backOfficeService;
     }
 
     @Operation(summary = "Generate PDF for Check Answers Summary")
@@ -87,17 +88,9 @@ public class DocumentsController {
                                                        String authorizationToken,
                                                @RequestHeader("user-id") String userID,
                                                @RequestPart("file") List<MultipartFile> files) {
-        log.info("Uploading document");
-        return new ResponseEntity<>(businessService.uploadDocument(authorizationToken, userID, files), HttpStatus.OK);
+        log.info("Uploading document to backoffice");
+
+        return new ResponseEntity<>(backOfficeService.uploadDocument(authorizationToken, files), HttpStatus.OK);
     }
 
-    @Operation(summary = "Delete document")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Document deleted successfully")})
-    @DeleteMapping(path = DOCUMENT_DELETE_ENDPOINT)
-    public ResponseEntity<String> delete(@RequestHeader("user-id") String userID,
-                                               @PathVariable("documentId") String documentId) {
-        log.info("Deleting document {}", documentId);
-        return new ResponseEntity<>(businessService.delete(userID, documentId), HttpStatus.OK);
-    }
 }
