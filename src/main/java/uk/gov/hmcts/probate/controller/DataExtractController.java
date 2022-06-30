@@ -107,4 +107,14 @@ public class DataExtractController {
         return dataExtractService.initiateSmeeAndFordExtractDateRange(fromDate, toDate);
     }
 
+    @Operation(summary = "Initiate Make dormant", description = " Date MUST be in format 'yyyy-MM-dd'")
+    @PostMapping(path = "/make-dormant/{fromDate}/{toDate}")
+    public ResponseEntity makeDormant(
+            @Parameter(name = "Date range to find cases against", required = true)
+            @PathVariable("fromDate") String fromDate,
+            @PathVariable("toDate") String toDate) {
+
+        log.info("Calling perform Smee And Ford data extract from date, to date {} {}", fromDate, toDate);
+        return dataExtractService.makeDormant(fromDate, toDate);
+    }
 }

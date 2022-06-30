@@ -15,7 +15,7 @@ import java.util.concurrent.Executors;
 @RequiredArgsConstructor
 @Component
 public class DataExtractServiceImpl implements DataExtractService {
-    
+
     private final DataExtractDateValidator dataExtractDateValidator;
     private final BackOfficeService backOfficeService;
 
@@ -36,7 +36,7 @@ public class DataExtractServiceImpl implements DataExtractService {
 
     @Override
     public ResponseEntity initiateIronMountainExtract(String date) {
-        
+
         dataExtractDateValidator.validate(date);
 
         log.info("Calling perform Iron Mountain data extract from date...");
@@ -52,7 +52,7 @@ public class DataExtractServiceImpl implements DataExtractService {
 
     @Override
     public ResponseEntity initiateExelaExtract(String date) {
-        
+
         dataExtractDateValidator.validate(date);
         log.info("Calling perform Exela data extract from date...");
         ExecutorService executor = Executors.newFixedThreadPool(1);
@@ -93,5 +93,20 @@ public class DataExtractServiceImpl implements DataExtractService {
         log.info("Perform Smee And Ford data extract from date finished");
 
         return ResponseEntity.accepted().body("Perform Smee And Ford data extract finished");
+    }
+
+    @Override
+    public ResponseEntity makeDormant(String fromDate, String toDate) {
+
+        dataExtractDateValidator.validate(fromDate, toDate);
+        log.info("Calling perform Make Dormant from date...");
+        ExecutorService executor = Executors.newFixedThreadPool(1);
+        executor.submit(() -> {
+            log.info("Perform Make Dormant from date started");
+            backOfficeService.makeDormant(fromDate, toDate);
+        });
+        log.info("Perform Make Dormant from date finished");
+
+        return ResponseEntity.accepted().body("Perform Make Dormant finished");
     }
 }

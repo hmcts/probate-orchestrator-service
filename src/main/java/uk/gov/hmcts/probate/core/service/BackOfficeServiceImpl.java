@@ -97,8 +97,17 @@ public class BackOfficeServiceImpl implements BackOfficeService {
         securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateSmeeAndFordExtract as scheduler");
         return backOfficeApi
-            .initiateSmeeAndFordExtractDateRange(securityUtils.getAuthorisation(), 
+            .initiateSmeeAndFordExtractDateRange(securityUtils.getAuthorisation(),
                 securityUtils.getServiceAuthorisation(), fromDate, toDate);
+    }
+
+    @Override
+    public ResponseEntity<String> makeDormant(String fromDate, String toDate) {
+        securityUtils.setSecurityContextUserAsScheduler();
+        log.info("Calling BackOfficeAPI to makeDormant as scheduler");
+        return backOfficeApi
+                .makeDormant(securityUtils.getAuthorisation(),
+                        securityUtils.getServiceAuthorisation(), fromDate, toDate);
     }
 
     @Override
