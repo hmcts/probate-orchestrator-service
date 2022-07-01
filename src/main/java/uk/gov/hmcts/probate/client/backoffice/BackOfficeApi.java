@@ -152,4 +152,15 @@ public interface BackOfficeApi {
             @RequestParam(value = "fromDate", required = true) String fromDate,
             @RequestParam(value = "toDate", required = true) String toDate
     );
+
+    @PostMapping(
+            value = "/data-extract/reactivate-dormant",
+            headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+    )
+    ResponseEntity<String> reactivateDormant(
+            @RequestHeader(AUTHORIZATION) String authorisation,
+            @RequestHeader(SubmitServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+            @RequestParam(value = "fromDate", required = true) String fromDate,
+            @RequestParam(value = "toDate", required = true) String toDate
+    );
 }

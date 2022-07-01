@@ -30,4 +30,6 @@ public interface BackOfficeService {
 
 
     ResponseEntity<String> makeDormant(String fromDate, String toDate);
+
+    ResponseEntity<String> reactivateDormant(String fromDate, String toDate);
 }

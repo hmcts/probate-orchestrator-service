@@ -114,7 +114,18 @@ public class DataExtractController {
             @PathVariable("fromDate") String fromDate,
             @PathVariable("toDate") String toDate) {
 
-        log.info("Calling perform Smee And Ford data extract from date, to date {} {}", fromDate, toDate);
+        log.info("Calling perform make dormant case from date, to date {} {}", fromDate, toDate);
         return dataExtractService.makeDormant(fromDate, toDate);
+    }
+
+    @Operation(summary = "Initiate Reactivate dormant", description = " Date MUST be in format 'yyyy-MM-dd'")
+    @PostMapping(path = "/reactivate-dormant/{fromDate}/{toDate}")
+    public ResponseEntity reactivateDormantCases(
+            @Parameter(name = "Date range to find cases against", required = true)
+            @PathVariable("fromDate") String fromDate,
+            @PathVariable("toDate") String toDate) {
+
+        log.info("Calling perform reactivate dormant case from date, to date {} {}", fromDate, toDate);
+        return dataExtractService.reactivateDormant(fromDate, toDate);
     }
 }

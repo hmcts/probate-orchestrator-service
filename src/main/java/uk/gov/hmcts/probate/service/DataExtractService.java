@@ -15,4 +15,6 @@ public interface DataExtractService {
     ResponseEntity initiateSmeeAndFordExtractDateRange(String fromDate, String toDate);
 
     ResponseEntity makeDormant(String fromDate, String toDate);
+
+    ResponseEntity reactivateDormant(String fromDate, String toDate);
 }

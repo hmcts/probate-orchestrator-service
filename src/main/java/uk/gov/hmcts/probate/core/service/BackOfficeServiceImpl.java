@@ -111,6 +111,15 @@ public class BackOfficeServiceImpl implements BackOfficeService {
     }
 
     @Override
+    public ResponseEntity<String> reactivateDormant(String fromDate, String toDate) {
+        securityUtils.setSecurityContextUserAsScheduler();
+        log.info("Calling BackOfficeAPI to Reactivate Dormant as scheduler");
+        return backOfficeApi
+                .reactivateDormant(securityUtils.getAuthorisation(),
+                        securityUtils.getServiceAuthorisation(), fromDate, toDate);
+    }
+
+    @Override
     public GrantScheduleResponse initiateGrantDelayedNotification(String date) {
         securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateGrantDelayedNotification as scheduler");
@@ -135,7 +144,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
         return backOfficeApi.uploadDocument(authorizationToken, securityUtils.getServiceAuthorisation(),
             files.get(0));
     }
-    
+
     private Function<ProbateCaseDetails, CaseData> raiseCaveat() {
         return probateCaseDetails -> {
             BackOfficeCallbackRequest backOfficeCallbackRequest = createBackOfficeCallbackRequest(probateCaseDetails);
