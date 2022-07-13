@@ -144,7 +144,7 @@ public class SecurityUtilsTest {
     }
 
     @Test
-    public void shouldSecurityContextUserAsCaseworkerThrowException() {
+    void shouldSecurityContextUserAsCaseworkerThrowException() {
         when(idamClient.generateOpenIdToken(any(TokenRequest.class)))
                 .thenThrow(new NullPointerException());
 
