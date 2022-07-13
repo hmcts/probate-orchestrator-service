@@ -1,6 +1,5 @@
 package uk.gov.hmcts.probate.core.service.mapper;
 
-import io.jsonwebtoken.lang.Assert;
 import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.LegalStatementExecutorNotApplying;
@@ -10,8 +9,9 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
-public class LegalStatementExecutorsNotApplyingMapperTest {
+class LegalStatementExecutorsNotApplyingMapperTest {
 
     private LegalStatementExecutorsNotApplyingMapper
             legalStatementExecutorsNotApplyingMapper = new LegalStatementExecutorsNotApplyingMapper();
@@ -28,9 +28,7 @@ public class LegalStatementExecutorsNotApplyingMapperTest {
 
     @Test
     void shouldHandleNullValueToCollectionMember() {
-        List<CollectionMember<LegalStatementExecutorNotApplying>> list =
-                legalStatementExecutorsNotApplyingMapper.toCollectionMember(null);
-        Assert.isNull(list);
+        assertThat(legalStatementExecutorsNotApplyingMapper.toCollectionMember(null), is(nullValue()));
     }
 
     @Test
@@ -48,8 +46,6 @@ public class LegalStatementExecutorsNotApplyingMapperTest {
 
     @Test
     void shouldHandleNullValueFromCollectionMember() {
-        List<String> list =
-                legalStatementExecutorsNotApplyingMapper.fromCollectionMember(null);
-        Assert.isNull(list);
+        assertThat(legalStatementExecutorsNotApplyingMapper.fromCollectionMember(null), is(nullValue()));
     }
 }
