@@ -13,7 +13,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-public class ExecutorNamesMapperTest {
+class ExecutorNamesMapperTest {
 
     private Executor executor;
 
@@ -51,6 +51,14 @@ public class ExecutorNamesMapperTest {
                 .lastName("Smith")
                 .build();
         assertEquals("James Smith", ExecutorNamesMapper.getFullname(executor));
+    }
+
+    @Test
+    void shouldReturnFullName() {
+        executor = Executor.builder()
+                .fullName("John Smith")
+                .build();
+        assertEquals("John Smith", ExecutorNamesMapper.getFullname(executor));
     }
 
     @Test

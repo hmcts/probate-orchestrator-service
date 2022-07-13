@@ -10,7 +10,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class LocalDateTimeMapperTest {
+class LocalDateTimeMapperTest {
 
     private LocalDateTimeMapper localDateTimeMapper = new LocalDateTimeMapper();
 
