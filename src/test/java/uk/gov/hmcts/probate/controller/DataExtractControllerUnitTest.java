@@ -30,4 +30,28 @@ public class DataExtractControllerUnitTest {
         ResponseEntity response = dataExtractController.initiateSmeeAndFordExtractDateRange("2020-12-30", "2020-12-31");
         assertThat(response).isEqualTo(responseEntity);
     }
+
+    @Test
+    void shouldInitiateHmrcExtractForDateRange() {
+        ResponseEntity responseEntity = Mockito.mock(ResponseEntity.class);
+        when(dataExtractService.initiateHmrcExtract(anyString(), anyString())).thenReturn(responseEntity);
+        ResponseEntity response = dataExtractController.initiateHmrcExtractFromToDate("2020-12-30", "2020-12-31");
+        assertThat(response).isEqualTo(responseEntity);
+    }
+
+    @Test
+    void shouldInitiateIronMountainExtract() {
+        ResponseEntity responseEntity = Mockito.mock(ResponseEntity.class);
+        when(dataExtractService.initiateIronMountainExtract(anyString())).thenReturn(responseEntity);
+        ResponseEntity response = dataExtractController.initiateIronMountainExtract("2020-12-30");
+        assertThat(response).isEqualTo(responseEntity);
+    }
+
+    @Test
+    void shouldInitiateExcelaExtractForDateRange() {
+        ResponseEntity responseEntity = Mockito.mock(ResponseEntity.class);
+        when(dataExtractService.initiateExelaExtractDateRange(anyString(), anyString())).thenReturn(responseEntity);
+        ResponseEntity response = dataExtractController.initiateExelaExtractDateRange("2020-12-30", "2020-12-31");
+        assertThat(response).isEqualTo(responseEntity);
+    }
 }
