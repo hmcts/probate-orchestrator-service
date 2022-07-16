@@ -49,4 +49,9 @@ class CaveatAliasNameMapperTest {
         Map<String, AliasOtherNames> result = mapper.fromCaveatCollectionMember(null);
         Assertions.assertThat(result).isNull();
     }
+
+    @Test
+    void shouldReturnNullOnCreateAliasOtherName() {
+        Assertions.assertThat(mapper.fromCaveatCollectionMember(null)).isNull();
+    }
 }
