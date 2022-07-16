@@ -78,6 +78,8 @@ public class PaymentUpdateServiceImplTest {
             .status(PaymentStatus.FAILED.getName())
             .build();
 
+        paymentUpdateService.paymentUpdate(paymentDto);
+
         verify(securityUtils, never()).setSecurityContextUserAsCaseworker();
         verify(paymentDtoMapper, never()).toCasePayment(paymentDto);
         verify(submitService, never()).updateByCaseId(eq(CCD_CASE_NUMBER), any(ProbateCaseDetails.class));

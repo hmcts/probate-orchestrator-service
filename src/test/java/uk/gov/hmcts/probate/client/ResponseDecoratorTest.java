@@ -12,6 +12,7 @@ import uk.gov.hmcts.reform.probate.model.client.ErrorResponse;
 import uk.gov.hmcts.reform.probate.model.client.ErrorType;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -19,6 +20,7 @@ import java.util.Map;
 
 import static feign.Util.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 public class ResponseDecoratorTest {
@@ -55,6 +57,27 @@ public class ResponseDecoratorTest {
 
         assertThat(response.body()).isNull();
         assertThat(body).isEqualTo("");
+    }
+
+    @Test
+    void bodyToStringShouldReturnEmptyStringIfResponseBodyIsNotNull() {
+        Response response = Response.builder()
+                .status(400)
+                .reason("Bad Request")
+                .request(Request.create(HttpMethod.GET.toString(), "/api", Collections.emptyMap(), null, Util.UTF_8))
+                .headers(headers)
+                .body(new InputStream() {
+                    @Override
+                    public int read() throws IOException {
+                        throw new IOException();
+                    }
+                }, 1)
+                .build();
+        ResponseDecorator responseDecorator = new ResponseDecorator(response);
+
+        String body = responseDecorator.bodyToString();
+
+        assertEquals("", body);
     }
 
     @Test
