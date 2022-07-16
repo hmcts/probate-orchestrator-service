@@ -39,7 +39,7 @@ public class PoundsConverterTest {
     }
 
     @Test
-    public void shouldConvertNullPenniesToPounds() {
-        assertThat(poundsConverter.poundsToPennies(null), is(nullValue()));
+     void shouldConvertNullPenniesToPounds() {
+        assertThat(poundsConverter.penniesToPounds(null), is(nullValue()));
     }
 }

@@ -15,6 +15,7 @@ import uk.gov.hmcts.reform.probate.model.idam.TokenResponse;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atMostOnce;
 import static org.mockito.Mockito.verify;
@@ -140,5 +141,15 @@ public class SecurityUtilsTest {
         assertThat(securityUtils.getAuthorisation(), equalTo(BEARER + USER_TOKEN));
 
         verify(idamClient, atMostOnce()).generateOpenIdToken(any(TokenRequest.class));
+    }
+
+    @Test
+    void shouldSecurityContextUserAsCaseworkerThrowException() {
+        when(idamClient.generateOpenIdToken(any(TokenRequest.class)))
+                .thenThrow(new NullPointerException());
+
+        assertThrows(NullPointerException.class, () -> {
+            securityUtils.setSecurityContextUserAsCaseworker();
+        });
     }
 }
