@@ -31,4 +31,10 @@ public class IhtMethodConverterTest {
         IhtMethod result = ihtMethodConverter.toIhtMethod(null);
         Assertions.assertThat(result).isNull();
     }
+
+    @Test
+    void toIhtMethodIsOnlineFalse() {
+        IhtMethod ihtMethod = ihtMethodConverter.toIhtMethod(Boolean.FALSE);
+        Assertions.assertThat(ihtMethod).isEqualTo(IhtMethod.BY_POST);
+    }
 }
