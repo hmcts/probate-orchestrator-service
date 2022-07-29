@@ -25,7 +25,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verifyNoInteractions;
 
 @ExtendWith(SpringExtension.class)
-public class MakeDormantCasesTaskTest {
+ class MakeDormantCasesTaskTest {
 
     @Mock
     private DataExtractDateValidator dataExtractDateValidator;
@@ -39,22 +39,22 @@ public class MakeDormantCasesTaskTest {
     private static DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Test
-    public void shouldMakeDormantCasesDateRange() {
+     void shouldMakeDormantCasesDateRange() {
 
-        String date = DATE_FORMAT.format(LocalDate.now().minusDays(1L));
+        String date = DATE_FORMAT.format(LocalDate.now().minusMonths(6L));
         ResponseEntity<String> responseEntity = ResponseEntity.accepted()
                 .body("Perform make dormant finished");
-        when(backOfficeService.makeDormant(date, date)).thenReturn(responseEntity);
+        when(backOfficeService.makeDormant(date)).thenReturn(responseEntity);
         makeDormantCasesTask.run();
         assertEquals(HttpStatus.ACCEPTED, responseEntity.getStatusCode());
         assertEquals("Perform make dormant finished", responseEntity.getBody());
         verify(dataExtractDateValidator).validate(date,date);
-        verify(backOfficeService).makeDormant(date,date);
+        verify(backOfficeService).makeDormant(date);
     }
 
     @Test
-    public void shouldThrowClientExceptionWithBadRequestForMakeDormantCasesWithIncorrectDateFormat() {
-        String date = DATE_FORMAT.format(LocalDate.now().minusDays(1L));
+     void shouldThrowClientExceptionWithBadRequestForMakeDormantCasesWithIncorrectDateFormat() {
+        String date = DATE_FORMAT.format(LocalDate.now().minusMonths(6L));
         doThrow(new ApiClientException(HttpStatus.BAD_REQUEST.value(), null)).when(dataExtractDateValidator)
                 .validate(date, date);
         makeDormantCasesTask.run();
@@ -64,8 +64,8 @@ public class MakeDormantCasesTaskTest {
 
     @Test
     void shouldThrowFeignExceptionForMakeDormantCases() {
-        String date = DATE_FORMAT.format(LocalDate.now().minusDays(1L));
-        when(backOfficeService.makeDormant(date, date)).thenThrow(FeignException
+        String date = DATE_FORMAT.format(LocalDate.now().minusMonths(6L));
+        when(backOfficeService.makeDormant(date)).thenThrow(FeignException
                 .errorStatus("makeDormant", Response.builder()
                         .status(404)
                         .reason("message error")
@@ -80,12 +80,12 @@ public class MakeDormantCasesTaskTest {
                         .build()));
         makeDormantCasesTask.run();
         verify(dataExtractDateValidator).validate(date,date);
-        verify(backOfficeService).makeDormant(date, date);
+        verify(backOfficeService).makeDormant(date);
     }
 
     @Test
     void shouldThrowExceptionForMakeDormantCases() {
-        String date = DATE_FORMAT.format(LocalDate.now().minusDays(1L));
+        String date = DATE_FORMAT.format(LocalDate.now().minusMonths(6L));
         doThrow(new NullPointerException()).when(dataExtractDateValidator)
                 .validate(date, date);
         makeDormantCasesTask.run();

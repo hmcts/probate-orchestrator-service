@@ -102,12 +102,12 @@ public class BackOfficeServiceImpl implements BackOfficeService {
     }
 
     @Override
-    public ResponseEntity<String> makeDormant(String fromDate, String toDate) {
+    public ResponseEntity<String> makeDormant(String date) {
         securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to makeDormant as scheduler");
         return backOfficeApi
                 .makeDormant(securityUtils.getAuthorisation(),
-                        securityUtils.getServiceAuthorisation(), fromDate, toDate);
+                        securityUtils.getServiceAuthorisation(), date);
     }
 
     @Override

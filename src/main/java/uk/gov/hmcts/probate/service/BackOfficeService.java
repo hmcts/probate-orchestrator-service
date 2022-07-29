@@ -29,7 +29,7 @@ public interface BackOfficeService {
     List<String> uploadDocument(String authorizationToken, List<MultipartFile> files);
 
 
-    ResponseEntity<String> makeDormant(String fromDate, String toDate);
+    ResponseEntity<String> makeDormant(String date);
 
     ResponseEntity<String> reactivateDormant(String fromDate, String toDate);
 }

@@ -24,12 +24,12 @@ public class MakeDormantCasesTask implements Runnable {
     @Override
     public void run() {
         log.info("Scheduled task MakeDormantCasesTask started to make dormant cases");
-        final String date = DATE_FORMAT.format(LocalDate.now().minusDays(1L));
+        final String date = DATE_FORMAT.format(LocalDate.now().minusMonths(6L));
         log.info("Calling perform make dormant from date, to date {} {}", date, date);
         try {
             dataExtractDateValidator.validate(date, date);
             log.info("Perform make dormant from date started");
-            backOfficeService.makeDormant(date, date);
+            backOfficeService.makeDormant(date);
             log.info("Perform make dormant from date finished");
         } catch (ApiClientException e) {
             log.error(e.getMessage());

@@ -119,4 +119,20 @@ public class DataExtractServiceImplTest {
 
     }
 
+    @Test
+    public void shouldMakeDormant() {
+        ResponseEntity<String> responseEntity = dataExtractService
+                .makeDormant(FROM_DATE);
+        assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.ACCEPTED));
+        assertThat(responseEntity.getBody(), equalTo("Perform Make Dormant finished"));
+    }
+
+    @Test
+    void shouldThrowDateExceptionOnMakeDormant() {
+        doThrow(ApiClientException.class).when(dataExtractDateValidator).validate(FROM_DATE, FROM_DATE);
+        assertThrows(ApiClientException.class, () -> {
+            dataExtractService.makeDormant(FROM_DATE);
+        });
+    }
+
 }

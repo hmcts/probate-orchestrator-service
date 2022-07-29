@@ -54,4 +54,12 @@ public class DataExtractControllerUnitTest {
         ResponseEntity response = dataExtractController.initiateExelaExtractDateRange("2020-12-30", "2020-12-31");
         assertThat(response).isEqualTo(responseEntity);
     }
+
+    @Test
+    void shouldMakeDormant() {
+        ResponseEntity responseEntity = Mockito.mock(ResponseEntity.class);
+        when(dataExtractService.makeDormant(anyString())).thenReturn(responseEntity);
+        ResponseEntity response = dataExtractController.makeDormant("2022-01-27");
+        assertThat(response).isEqualTo(responseEntity);
+    }
 }

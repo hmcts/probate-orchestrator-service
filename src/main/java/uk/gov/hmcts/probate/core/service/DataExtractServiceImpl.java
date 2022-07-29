@@ -96,14 +96,14 @@ public class DataExtractServiceImpl implements DataExtractService {
     }
 
     @Override
-    public ResponseEntity makeDormant(String fromDate, String toDate) {
+    public ResponseEntity makeDormant(String date) {
 
-        dataExtractDateValidator.validate(fromDate, toDate);
+        dataExtractDateValidator.validate(date, date);
         log.info("Calling perform Make Dormant from date...");
         ExecutorService executor = Executors.newFixedThreadPool(1);
         executor.submit(() -> {
             log.info("Perform Make Dormant from date started");
-            backOfficeService.makeDormant(fromDate, toDate);
+            backOfficeService.makeDormant(date);
         });
         log.info("Perform Make Dormant from date finished");
 
