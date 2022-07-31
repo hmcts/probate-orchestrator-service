@@ -62,4 +62,12 @@ public class DataExtractControllerUnitTest {
         ResponseEntity response = dataExtractController.makeDormant("2022-01-27");
         assertThat(response).isEqualTo(responseEntity);
     }
+
+    @Test
+    void shouldReactivateDormant() {
+        ResponseEntity responseEntity = Mockito.mock(ResponseEntity.class);
+        when(dataExtractService.reactivateDormant(anyString())).thenReturn(responseEntity);
+        ResponseEntity response = dataExtractController.reactivateDormantCases("2022-01-27");
+        assertThat(response).isEqualTo(responseEntity);
+    }
 }

@@ -173,6 +173,16 @@ public class BackOfficeServiceImplTest {
     }
 
     @Test
+    void shouldReactivateDormant() {
+        when(backOfficeApi
+                .reactivateDormant(AUTHORIZATION, SERVICE_AUTHORIZATION, "2022-01-27"))
+                .thenReturn(responseEntity);
+
+        assertThat(backOfficeService.reactivateDormant("2022-01-27"))
+                .isEqualTo(responseEntity);
+    }
+
+    @Test
     public void shouldInitiateGrantDelayedNotification() {
         String date = "someDate";
         GrantScheduleResponse responseBody =

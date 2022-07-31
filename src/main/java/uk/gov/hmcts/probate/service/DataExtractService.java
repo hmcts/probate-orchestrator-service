@@ -16,5 +16,5 @@ public interface DataExtractService {
 
     ResponseEntity makeDormant(String date);
 
-    ResponseEntity reactivateDormant(String fromDate, String toDate);
+    ResponseEntity reactivateDormant(String date);
 }

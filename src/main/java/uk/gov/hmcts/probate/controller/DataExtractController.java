@@ -118,13 +118,12 @@ public class DataExtractController {
     }
 
     @Operation(summary = "Initiate Reactivate dormant", description = " Date MUST be in format 'yyyy-MM-dd'")
-    @PostMapping(path = "/reactivate-dormant/{fromDate}/{toDate}")
+    @PostMapping(path = "/reactivate-dormant/{date}")
     public ResponseEntity reactivateDormantCases(
             @Parameter(name = "Date range to find cases against", required = true)
-            @PathVariable("fromDate") String fromDate,
-            @PathVariable("toDate") String toDate) {
+            @PathVariable("date") String date) {
 
-        log.info("Calling perform reactivate dormant case from date, to date {} {}", fromDate, toDate);
-        return dataExtractService.reactivateDormant(fromDate, toDate);
+        log.info("Calling perform reactivate dormant case from date {}", date);
+        return dataExtractService.reactivateDormant(date);
     }
 }

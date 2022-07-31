@@ -25,7 +25,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verifyNoInteractions;
 
 @ExtendWith(SpringExtension.class)
-public class ReactivateDormantCasesTaskTest {
+class ReactivateDormantCasesTaskTest {
 
     @Mock
     private DataExtractDateValidator dataExtractDateValidator;
@@ -39,33 +39,33 @@ public class ReactivateDormantCasesTaskTest {
     private static DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Test
-    public void shouldReactivateDormantCasesDateRange() {
+    void shouldReactivateDormantCasesDateRange() {
 
         String date = DATE_FORMAT.format(LocalDate.now().minusDays(1L));
         ResponseEntity<String> responseEntity = ResponseEntity.accepted()
                 .body("Perform reactivate dormant finished");
-        when(backOfficeService.reactivateDormant(date, date)).thenReturn(responseEntity);
+        when(backOfficeService.reactivateDormant(date)).thenReturn(responseEntity);
         reactivateDormantCasesTask.run();
         assertEquals(HttpStatus.ACCEPTED, responseEntity.getStatusCode());
         assertEquals("Perform reactivate dormant finished", responseEntity.getBody());
-        verify(dataExtractDateValidator).validate(date,date);
-        verify(backOfficeService).reactivateDormant(date,date);
+        verify(dataExtractDateValidator).validate(date, date);
+        verify(backOfficeService).reactivateDormant(date);
     }
 
     @Test
-    public void shouldThrowClientExceptionWithBadRequestForReactivateDormantCasesWithIncorrectDateFormat() {
+    void shouldThrowClientExceptionWithBadRequestForReactivateDormantCasesWithIncorrectDateFormat() {
         String date = DATE_FORMAT.format(LocalDate.now().minusDays(1L));
         doThrow(new ApiClientException(HttpStatus.BAD_REQUEST.value(), null)).when(dataExtractDateValidator)
                 .validate(date, date);
         reactivateDormantCasesTask.run();
-        verify(dataExtractDateValidator).validate(date,date);
+        verify(dataExtractDateValidator).validate(date, date);
         verifyNoInteractions(backOfficeService);
     }
 
     @Test
     void shouldThrowFeignExceptionForReactivateDormantCases() {
         String date = DATE_FORMAT.format(LocalDate.now().minusDays(1L));
-        when(backOfficeService.reactivateDormant(date, date)).thenThrow(FeignException
+        when(backOfficeService.reactivateDormant(date)).thenThrow(FeignException
                 .errorStatus("reactivateDormant", Response.builder()
                         .status(404)
                         .reason("message error")
@@ -79,8 +79,8 @@ public class ReactivateDormantCasesTaskTest {
                         .body(new byte[0])
                         .build()));
         reactivateDormantCasesTask.run();
-        verify(dataExtractDateValidator).validate(date,date);
-        verify(backOfficeService).reactivateDormant(date, date);
+        verify(dataExtractDateValidator).validate(date, date);
+        verify(backOfficeService).reactivateDormant(date);
     }
 
     @Test
@@ -89,7 +89,7 @@ public class ReactivateDormantCasesTaskTest {
         doThrow(new NullPointerException()).when(dataExtractDateValidator)
                 .validate(date, date);
         reactivateDormantCasesTask.run();
-        verify(dataExtractDateValidator).validate(date,date);
+        verify(dataExtractDateValidator).validate(date, date);
         verifyNoInteractions(backOfficeService);
     }
 }

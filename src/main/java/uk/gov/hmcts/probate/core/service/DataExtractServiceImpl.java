@@ -111,14 +111,14 @@ public class DataExtractServiceImpl implements DataExtractService {
     }
 
     @Override
-    public ResponseEntity reactivateDormant(String fromDate, String toDate) {
+    public ResponseEntity reactivateDormant(String date) {
 
-        dataExtractDateValidator.validate(fromDate, toDate);
+        dataExtractDateValidator.validate(date, date);
         log.info("Calling perform Reactivate Dormant from date...");
         ExecutorService executor = Executors.newFixedThreadPool(1);
         executor.submit(() -> {
             log.info("Perform Reactivate Dormant from date started");
-            backOfficeService.reactivateDormant(fromDate, toDate);
+            backOfficeService.reactivateDormant(date);
         });
         log.info("Perform Reactivate Dormant from date finished");
 

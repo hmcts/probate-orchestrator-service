@@ -29,7 +29,7 @@ public class ReactivateDormantCasesTask implements Runnable {
         try {
             dataExtractDateValidator.validate(date, date);
             log.info("Perform reactivate dormant from date started");
-            backOfficeService.reactivateDormant(date, date);
+            backOfficeService.reactivateDormant(date);
             log.info("Perform reactivate dormant from date finished");
         } catch (ApiClientException e) {
             log.error(e.getMessage());
