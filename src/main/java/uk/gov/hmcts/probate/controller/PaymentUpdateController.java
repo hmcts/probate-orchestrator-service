@@ -1,11 +1,9 @@
 package uk.gov.hmcts.probate.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import io.swagger.annotations.SwaggerDefinition;
-import io.swagger.annotations.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,8 +18,7 @@ import uk.gov.hmcts.probate.model.exception.InvalidTokenException;
 import uk.gov.hmcts.probate.service.PaymentUpdateService;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
-@Api(tags = {"Payment Update Controller"})
-@SwaggerDefinition(tags = {@Tag(name = "PaymentUpdateController", description = "Payment Update API")})
+@Tag(name = "Payment Update Controller", description = "Payment Update API")
 @RestController
 @Slf4j
 public class PaymentUpdateController {
@@ -37,13 +34,13 @@ public class PaymentUpdateController {
         this.paymentUpdateService = paymentUpdateService;
     }
 
-    @ApiOperation(value = "Update payment", notes = "Update payment")
+    @Operation(summary = "Update payment", description = "Update payment")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Updated payment successfully"),
-        @ApiResponse(code = 400, message = "Bad Request"),
-        @ApiResponse(code = 401, message = "Provided S2S token is missing or invalid"),
-        @ApiResponse(code = 403, message = "Calling service is not authorised to use the endpoint"),
-        @ApiResponse(code = 500, message = "Internal Server Error")})
+        @ApiResponse(responseCode = "200", description = "Updated payment successfully"),
+        @ApiResponse(responseCode = "400", description = "Bad Request"),
+        @ApiResponse(responseCode = "401", description = "Provided S2S token is missing or invalid"),
+        @ApiResponse(responseCode = "403", description = "Calling service is not authorised to use the endpoint"),
+        @ApiResponse(responseCode = "500", description = "Internal Server Error")})
     @PutMapping(path = PAYMENT_UPDATES, consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HttpStatus> updatePayment(

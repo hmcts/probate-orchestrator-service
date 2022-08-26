@@ -3,15 +3,16 @@ package uk.gov.hmcts.probate.client;
 import feign.Request;
 import feign.Response;
 import feign.Util;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.http.HttpMethod;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.reform.probate.model.client.ErrorResponse;
 import uk.gov.hmcts.reform.probate.model.client.ErrorType;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -19,8 +20,9 @@ import java.util.Map;
 
 import static feign.Util.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(SpringExtension.class)
 public class ResponseDecoratorTest {
 
     private Map<String, Collection<String>> headers = new LinkedHashMap<>();
@@ -55,6 +57,27 @@ public class ResponseDecoratorTest {
 
         assertThat(response.body()).isNull();
         assertThat(body).isEqualTo("");
+    }
+
+    @Test
+    void bodyToStringShouldReturnEmptyStringIfResponseBodyIsNotNull() {
+        Response response = Response.builder()
+                .status(400)
+                .reason("Bad Request")
+                .request(Request.create(HttpMethod.GET.toString(), "/api", Collections.emptyMap(), null, Util.UTF_8))
+                .headers(headers)
+                .body(new InputStream() {
+                    @Override
+                    public int read() throws IOException {
+                        throw new IOException();
+                    }
+                }, 1)
+                .build();
+        ResponseDecorator responseDecorator = new ResponseDecorator(response);
+
+        String body = responseDecorator.bodyToString();
+
+        assertEquals("", body);
     }
 
     @Test

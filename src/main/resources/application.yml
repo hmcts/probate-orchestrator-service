@@ -83,8 +83,8 @@ feign:
   client:
     config:
       submit-service-api:
-        connectTimeout: 10000
-        readTimeout: 10000
+        connectTimeout: 30000
+        readTimeout: 30000
         loggerLevel: basic
 
 cron:
@@ -94,8 +94,6 @@ cron:
     schedule: "0 5 2 * * *"
   exela:
     schedule: "0 10 2 * * *"
-  smeeAndFord:
-    schedule: "0 25 2 * * *"
   grantDelayed:
     schedule: "0 15 2 * * *"
   grantAwaitingDocuments:

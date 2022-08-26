@@ -64,6 +64,8 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "primaryApplicantAddress", source = "applicant.address", qualifiedBy = {ToCaseAddress.class})
     @Mapping(target = "primaryApplicantAddresses", source = "applicant.addresses", qualifiedBy = {FromMap.class})
     @Mapping(target = "primaryApplicantPostCode", source = "applicant.postcode")
+    @Mapping(target = "primaryApplicantNotRequiredToSendDocuments",
+        source = "applicant.notRequiredToSendDocuments")
     @Mapping(target = "deceasedAddress", source = "deceased.address", qualifiedBy = {ToCaseAddress.class})
     @Mapping(target = "deceasedPostCode", source = "deceased.postcode")
     @Mapping(target = "deceasedAddresses", source = "deceased.addresses", qualifiedBy = {FromMap.class})

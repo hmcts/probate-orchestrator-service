@@ -8,14 +8,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 import uk.gov.hmcts.probate.client.IdamClientApi;
 import uk.gov.hmcts.probate.model.exception.InvalidTokenException;
-import uk.gov.hmcts.probate.model.idam.AuthenticateUserResponse;
-import uk.gov.hmcts.probate.model.idam.TokenExchangeResponse;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.authorisation.validators.AuthTokenValidator;
+import uk.gov.hmcts.reform.probate.model.idam.TokenRequest;
+import uk.gov.hmcts.reform.probate.model.idam.TokenResponse;
 
-import java.util.Base64;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,6 +31,7 @@ public class SecurityUtils {
 
     private static final String BASIC = "Basic ";
     private static final String BEARER = "Bearer ";
+    private static final String OPENID_GRANT_TYPE = "password";
     private static final String AUTHORIZATION_CODE = "authorization_code";
     private static final String CODE = "code";
     private final AuthTokenGenerator authTokenGenerator;
@@ -55,12 +59,15 @@ public class SecurityUtils {
     @Value("${auth.idam.scheduler.password}")
     private String schedulerPassword;
 
+    private TokenResponse cacheCaseworkerTokenResponse;
+    private TokenResponse cacheSchedulerTokenResponse;
+
     @Autowired
     public SecurityUtils(IdamClientApi idamClient,
                          AuthTokenValidator authTokenValidator,
                          AuthTokenGenerator authTokenGenerator,
                          @Value("${auth.idam.s2s-auth.services-allowed-to-payment-update}")
-                             List<String> allowedToUpdateDetails) {
+                                 List<String> allowedToUpdateDetails) {
         this.authTokenGenerator = authTokenGenerator;
         this.authTokenValidator = authTokenValidator;
         this.allowedToUpdateDetails = allowedToUpdateDetails;
@@ -88,39 +95,53 @@ public class SecurityUtils {
     }
 
     private String getCaseworkerToken() {
-        return getIdamOauth2Token(caseworkerUserName, caseworkerPassword);
+        if (ObjectUtils.isEmpty(cacheCaseworkerTokenResponse) || isExpired(cacheCaseworkerTokenResponse)) {
+            log.info("No cached Case Worker IDAM token found, requesting from IDAM service.");
+            cacheCaseworkerTokenResponse = getOpenIdTokenResponse(caseworkerUserName, caseworkerPassword);
+        } else {
+            log.info("Using cached Case Worker IDAM token.");
+        }
+        log.info("Getting AccessToken...");
+        return BEARER + cacheCaseworkerTokenResponse.accessToken;
     }
 
     private String getSchedulerToken() {
-        return getIdamOauth2Token(schedulerUserName, schedulerPassword);
-    }
-
-    private String getIdamOauth2Token(String username, String password) {
-        String basicAuthHeader = getBasicAuthHeader(username, password);
-
-        AuthenticateUserResponse authenticateUserResponse = idamClient.authenticateUser(
-            basicAuthHeader,
-            CODE,
-            authClientId,
-            authRedirectUrl
-        );
-
-        log.info("Authenticated. Exchanging...");
-        TokenExchangeResponse tokenExchangeResponse = idamClient.exchangeCode(
-            authenticateUserResponse.getCode(),
-            AUTHORIZATION_CODE,
-            authRedirectUrl,
-            authClientId,
-            authClientSecret
-        );
-
+        if (ObjectUtils.isEmpty(cacheSchedulerTokenResponse) || isExpired(cacheSchedulerTokenResponse)) {
+            log.info("No cached Scheduler IDAM token found, requesting from IDAM service.");
+            cacheSchedulerTokenResponse = getOpenIdTokenResponse(schedulerUserName, schedulerPassword);
+        } else {
+            log.info("Using cached Scheduler IDAM token.");
+        }
         log.info("Getting AccessToken...");
-        return tokenExchangeResponse.getAccessToken();
+        return BEARER + cacheSchedulerTokenResponse.accessToken;
     }
 
-    private String getBasicAuthHeader(String username, String password) {
-        String authorisation = username + ":" + password;
-        return BASIC + Base64.getEncoder().encodeToString(authorisation.getBytes());
+    private TokenResponse getOpenIdTokenResponse(String username, String password) {
+        log.info("Client ID: {} . Authenticating...", authClientId);
+        try {
+            TokenResponse tokenResponse = idamClient.generateOpenIdToken(
+                    new TokenRequest(
+                            authClientId,
+                            authClientSecret,
+                            OPENID_GRANT_TYPE,
+                            authRedirectUrl,
+                            username,
+                            password,
+                            "openid profile roles",
+                            null,
+                            null
+                    ));
+            return tokenResponse;
+        } catch (Exception e) {
+            log.error("Exception" + e.getMessage());
+            throw e;
+        }
+    }
+
+    private boolean isExpired(TokenResponse tokenResponse) {
+        Instant now = Instant.now();
+        Instant expiresAt = ZonedDateTime.parse(tokenResponse.getExpiresAtTime()).toInstant();
+        return now.isAfter(expiresAt.minus(Duration.ofMinutes(1L)));
     }
 
     public Boolean checkIfServiceIsAllowed(String token) throws InvalidTokenException {
