@@ -81,8 +81,8 @@ feign:
   client:
     config:
       submit-service-api:
-        connectTimeout: 10000
-        readTimeout: 10000
+        connectTimeout: 30000
+        readTimeout: 30000
         loggerLevel: basic
 
 cron:
