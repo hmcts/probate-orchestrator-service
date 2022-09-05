@@ -270,7 +270,6 @@ dependencies {
     implementation 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'
     implementation group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
-    implementation group: 'org.yaml', name: 'snakeyaml', version: '1.31'
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
 
