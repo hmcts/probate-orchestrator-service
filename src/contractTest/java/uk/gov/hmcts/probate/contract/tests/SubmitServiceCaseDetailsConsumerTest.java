@@ -286,7 +286,7 @@ public class SubmitServiceCaseDetailsConsumerTest {
     public void verifyExecuteSuccessPostPartialDraftCaseDataPact() throws IOException, JSONException {
 
         ProbateCaseDetails caseDetails = submitServiceApi.saveCase(SOME_AUTHORIZATION_TOKEN,
-        SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM,
+        SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, "BOCASESTOPPED",
         contractTestUtils.getProbateCaseDetails("intestacyGrantOfRepresentation_partial_draft.json"));
         assertThat(caseDetails.getCaseInfo().getCaseId(), equalTo(CASE_ID));
     }
@@ -296,7 +296,7 @@ public class SubmitServiceCaseDetailsConsumerTest {
     public void verifyExecuteSuccessPostDraftCaseDataPact() throws IOException, JSONException {
 
         ProbateCaseDetails caseDetails = submitServiceApi.saveCase(SOME_AUTHORIZATION_TOKEN,
-        SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, contractTestUtils
+        SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM,"BOCASESTOPPED", contractTestUtils
         .getProbateCaseDetails("intestacyGrantOfRepresentation_full.json"));
         assertThat(caseDetails.getCaseInfo().getCaseId(), equalTo(CASE_ID));
     }

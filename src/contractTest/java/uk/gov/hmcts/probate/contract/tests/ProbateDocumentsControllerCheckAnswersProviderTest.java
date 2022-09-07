@@ -3,7 +3,6 @@ package uk.gov.hmcts.probate.contract.tests;
 import au.com.dius.pact.provider.junit.Provider;
 import au.com.dius.pact.provider.junit.State;
 import org.json.JSONException;
-import org.junit.Ignore;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import uk.gov.hmcts.probate.client.business.BusinessServiceApi;
 import uk.gov.hmcts.probate.core.service.SecurityUtils;
@@ -17,7 +16,7 @@ import static org.mockito.Mockito.when;
 
 
 @Provider("probate_orchestrator_service_documents_check_answers")
-public class ProbateDocumentsControllerCheckAnswersProviderTest extends ControllerProviderTest{
+public class ProbateDocumentsControllerCheckAnswersProviderTest extends ControllerProviderTest {
 
     @MockBean
     private BusinessServiceApi businessServiceApi;
@@ -30,8 +29,8 @@ public class ProbateDocumentsControllerCheckAnswersProviderTest extends Controll
 
         when(securityUtils.getAuthorisation()).thenReturn("someAuthorisationId");
         when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorisationId");
-        when(businessServiceApi.generateCheckAnswersSummaryPdf( anyString(),anyString(),
-        any(CheckAnswersSummary.class) )) .thenReturn("".getBytes());
+        when(businessServiceApi.generateCheckAnswersSummaryPdf(anyString(),anyString(),
+        any(CheckAnswersSummary.class))).thenReturn("".getBytes());
 
     }
 

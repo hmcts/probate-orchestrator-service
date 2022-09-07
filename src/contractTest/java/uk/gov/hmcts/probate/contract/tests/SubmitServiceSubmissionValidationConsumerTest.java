@@ -8,7 +8,6 @@ import au.com.dius.pact.model.RequestResponsePact;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -55,7 +54,7 @@ public class SubmitServiceSubmissionValidationConsumerTest {
     private String SERVICE_AUTHORIZATION = "ServiceAuthorization";
 
     @BeforeEach
-    public void setUpTest() throws InterruptedException{
+    public void setUpTest() throws InterruptedException {
         Thread.sleep(2000);
     }
 
@@ -63,7 +62,7 @@ public class SubmitServiceSubmissionValidationConsumerTest {
     @Pact(state = "provider POSTS submission with errors",
             provider = "probate_submitService_submissions", consumer = "probate_orchestrator_service")
     public RequestResponsePact ExecutePostSubmissionWithClientErrors(PactDslWithProvider builder)
-    throws IOException, JSONException {
+        throws IOException, JSONException {
         return builder
                 .given("provider POSTS submission with errors")
                 .uponReceiving("a request to PUT an invalid submission with client errors")

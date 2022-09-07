@@ -7,7 +7,6 @@ import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.model.RequestResponsePact;
 import org.json.JSONException;
-import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -43,12 +42,12 @@ public class BusinessServiceInviteConsumerTest {
     public static final String SOME_SESSION_ID = "someSessionId";
 
     @BeforeEach
-    public void setUpTest() throws InterruptedException{
+    public void setUpTest() throws InterruptedException {
         Thread.sleep(2000);
     }
 
     @Pact(state = "business service sends invitation", provider = "probate_business_service_invite",
-    consumer = "probate_orchestrator_service")
+        consumer = "probate_orchestrator_service")
     public RequestResponsePact executeSendInvitation(PactDslWithProvider builder) throws IOException, JSONException {
         // @formatter:off
         return builder
@@ -68,9 +67,9 @@ public class BusinessServiceInviteConsumerTest {
     }
 
     @Pact(state = "business service resends invitation", provider = "probate_business_service_invite",
-    consumer = "probate_orchestrator_service")
+        consumer = "probate_orchestrator_service")
     public RequestResponsePact executeResendInvitation(PactDslWithProvider builder) throws IOException,
-    JSONException {
+        JSONException {
         // @formatter:off
         return builder
                 .given("business service resends invitation")
@@ -90,7 +89,7 @@ public class BusinessServiceInviteConsumerTest {
 
 
     @Pact(state = "business service generates pin number", provider = "probate_business_service_invite",
-    consumer = "probate_orchestrator_service")
+        consumer = "probate_orchestrator_service")
     public RequestResponsePact executePinNumber(PactDslWithProvider builder) throws IOException, JSONException {
         // @formatter:off
         return builder
@@ -119,7 +118,7 @@ public class BusinessServiceInviteConsumerTest {
     @PactTestFor(pactMethod = "executeResendInvitation")
     public void verifyExecuteResendInvitation() throws JSONException, IOException {
         businessServiceApi.invite("54321", contractTestUtils.getInvitation("/invite/invitationResend.json"),
-        SOME_SESSION_ID);
+            SOME_SESSION_ID);
     }
 
     @Test

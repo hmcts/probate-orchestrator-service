@@ -3,7 +3,6 @@ package uk.gov.hmcts.probate.contract.tests;
 import au.com.dius.pact.provider.junit.Provider;
 import au.com.dius.pact.provider.junit.State;
 import org.json.JSONException;
-import org.junit.Ignore;
 import org.mockito.ArgumentMatchers;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import uk.gov.hmcts.probate.client.business.BusinessServiceApi;
@@ -37,7 +36,7 @@ public class InviteLinkControllerProviderTest extends ControllerProviderTest {
         when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorisation");
 
         ProbateCaseDetails probateCaseDetails =
-        getProbateCaseDetails("probate_orchestrator_service_invite_get_response.json");
+                getProbateCaseDetails("probate_orchestrator_service_invite_get_response.json");
         when(submitServiceApi.getCaseByInvitationId("authToken","someServiceAuthorisation","54321",
         CaseType.GRANT_OF_REPRESENTATION.name())).thenReturn(probateCaseDetails);
 
@@ -53,7 +52,7 @@ public class InviteLinkControllerProviderTest extends ControllerProviderTest {
 
         when(businessServiceApi.invite(ArgumentMatchers.any(Invitation.class), anyString())).thenReturn("54321");
         ProbateCaseDetails probateCaseDetails =
-        getProbateCaseDetails("probate_orchestrator_service_invite_send_response.json");
+                getProbateCaseDetails("probate_orchestrator_service_invite_send_response.json");
         when(submitServiceApi.getCase("authToken", "someServiceAuthorisation", "123456",
         ProbateType.PA.getCaseType().name())).thenReturn(probateCaseDetails);
 
@@ -65,10 +64,10 @@ public class InviteLinkControllerProviderTest extends ControllerProviderTest {
         when(securityUtils.getAuthorisation()).thenReturn("authToken");
         when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorisation");
 
-        when(businessServiceApi.invite( anyString(),ArgumentMatchers.any(Invitation.class),
+        when(businessServiceApi.invite(anyString(),ArgumentMatchers.any(Invitation.class),
         anyString())).thenReturn("54321");
         ProbateCaseDetails probateCaseDetails =
-        getProbateCaseDetails("probate_orchestrator_service_invite_send_response.json");
+                getProbateCaseDetails("probate_orchestrator_service_invite_send_response.json");
         when(submitServiceApi.getCase("authToken", "someServiceAuthorisation", "123456",
         ProbateType.PA.getCaseType().name())).thenReturn(probateCaseDetails);
 
