@@ -3,7 +3,6 @@ package uk.gov.hmcts.probate.contract.tests;
 import au.com.dius.pact.provider.junit.Provider;
 import au.com.dius.pact.provider.junit.State;
 import org.json.JSONException;
-import org.junit.Ignore;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -34,7 +33,7 @@ public class ProbateSubmissionsFormsControllerProviderTest extends ControllerPro
         ProbateCaseDetails probateCaseDetailsResponse = getProbateCaseDetails("prePaymentMadeCaseData.json");
         when(submitServiceApi.getCase("authToken", "someServiceAuthorization",
         "paymentinitiated.test8@gmail.com", CaseType.GRANT_OF_REPRESENTATION.toString()))
-        .thenReturn(probateCaseDetailsResponse);
+            .thenReturn(probateCaseDetailsResponse);
         when(submitServiceApi.createCase(
                 anyString(),
                 anyString(),
@@ -68,7 +67,7 @@ public class ProbateSubmissionsFormsControllerProviderTest extends ControllerPro
 
         ProbateCaseDetails probateCaseDetails =
         getProbateCaseDetails("probateGrantOfRepresentation_SingleProbateApplicant_submission.json");
-        ProbateCaseDetails probateCaseDetailsResponse =
+            ProbateCaseDetails probateCaseDetailsResponse =
         getProbateCaseDetails("probateGrantOfRepresentation_SingleProbateApplicant_submission_response.json");
 
         when(submitServiceApi.getCase("authToken", "someServiceAuthorization", "ccdcasedata1@gmail.com",
@@ -90,12 +89,12 @@ public class ProbateSubmissionsFormsControllerProviderTest extends ControllerPro
         when(securityUtils.getAuthorisation()).thenReturn("authToken");
         when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorization");
         ProbateCaseDetails probateCaseDetails =
- getProbateCaseDetails("probateGrantOfRepresentation_MultipleProbateApplicant_submission.json");
+            getProbateCaseDetails("probateGrantOfRepresentation_MultipleProbateApplicant_submission.json");
         ProbateCaseDetails probateCaseDetailsResponse =
- getProbateCaseDetails("probateGrantOfRepresentation_MultipleProbateApplicant_submission_response.json");
+            getProbateCaseDetails("probateGrantOfRepresentation_MultipleProbateApplicant_submission_response.json");
 
         when(submitServiceApi.getCase("authToken", "someServiceAuthorization", "maggy.penelope@sellcow.net",
- CaseType.GRANT_OF_REPRESENTATION.toString())).thenReturn(probateCaseDetailsResponse);
+        CaseType.GRANT_OF_REPRESENTATION.toString())).thenReturn(probateCaseDetailsResponse);
     }
 
 

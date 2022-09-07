@@ -3,7 +3,6 @@ package uk.gov.hmcts.probate.contract.tests;
 import au.com.dius.pact.provider.junit.Provider;
 import au.com.dius.pact.provider.junit.State;
 import org.json.JSONException;
-import org.junit.Ignore;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -37,7 +36,7 @@ public class ProbateDraftsFormsControllerProviderTest extends ControllerProvider
         when(securityUtils.getAuthorisation()).thenReturn("authToken");
         when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorization");
         ProbateCaseDetails probateCaseDetailsResponse =
-        getProbateCaseDetails("probate_orchestrator_service_probate_forms_get_with_sucess_response.json");
+                getProbateCaseDetails("probate_orchestrator_service_probate_forms_get_with_sucess_response.json");
         when(submitServiceApi.getCase("authToken", "someServiceAuthorization",
         "someemailaddress@host.com", ProbateType.PA.getCaseType().name())).thenReturn(probateCaseDetailsResponse);
 
@@ -49,11 +48,12 @@ public class ProbateDraftsFormsControllerProviderTest extends ControllerProvider
         when(securityUtils.getAuthorisation()).thenReturn("authToken");
         when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorization");
         ProbateCaseDetails probateCaseDetails =
-        getProbateCaseDetails("probate_orchestrator_service_probate_forms_persist_with_success_response.json");
+                getProbateCaseDetails("probate_orchestrator_service_probate_forms_persist_with_success_response.json");
         GrantOfRepresentationData grantOfRepresentationData =
-        (GrantOfRepresentationData) probateCaseDetails.getCaseData();
+                (GrantOfRepresentationData) probateCaseDetails.getCaseData();
         grantOfRepresentationData.setApplicationSubmittedDate(LocalDate.now());
         when(submitServiceApi.saveCase(
+                anyString(),
                 anyString(),
                 anyString(),
                 anyString(),

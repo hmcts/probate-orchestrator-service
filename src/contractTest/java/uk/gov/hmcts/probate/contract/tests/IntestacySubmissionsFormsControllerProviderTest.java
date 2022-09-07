@@ -6,8 +6,8 @@ import org.json.JSONException;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.SecurityUtils;
-import uk.gov.hmcts.reform.probate.persistence.cases.ProbateCaseDetails;
-import uk.gov.hmcts.reform.probate.persistence.cases.SubmitResult;
+import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
+import uk.gov.hmcts.reform.probate.model.cases.SubmitResult;
 
 import java.io.IOException;
 
@@ -28,13 +28,13 @@ public class IntestacySubmissionsFormsControllerProviderTest extends ControllerP
         when(securityUtils.getAuthorisation()).thenReturn("someAuthorisationId");
         when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorisationId");
         ProbateCaseDetails probateCaseDetails =
-        getProbateCaseDetails("intestacyGrantOfRepresentation_submission.json");
+            getProbateCaseDetails("intestacyGrantOfRepresentation_submission.json");
         ProbateCaseDetails probateCaseDetailsResponse =
-        getProbateCaseDetails("intestacyGrantOfRepresentation_submission_response.json");
+            getProbateCaseDetails("intestacyGrantOfRepresentation_submission_response.json");
         when(submitServiceApi.update("someAuthorisationId", "someServiceAuthorisationId",
-        "someemailaddress@host.com", probateCaseDetails))
-        .thenReturn(new SubmitResult(probateCaseDetailsResponse, null));
-}
+                "someemailaddress@host.com", probateCaseDetails))
+            .thenReturn(new SubmitResult(probateCaseDetailsResponse, null));
+    }
 
 
 }

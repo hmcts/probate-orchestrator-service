@@ -3,7 +3,6 @@ package uk.gov.hmcts.probate.contract.tests;
 import au.com.dius.pact.provider.junit.Provider;
 import au.com.dius.pact.provider.junit.State;
 import org.json.JSONException;
-import org.junit.Ignore;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import uk.gov.hmcts.probate.client.business.BusinessServiceApi;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
@@ -33,7 +32,7 @@ public class InviteAllAgreedControllerProviderTest extends ControllerProviderTes
         when(securityUtils.getAuthorisation()).thenReturn("authToken");
         when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorisation");
         ProbateCaseDetails probateCaseDetails =
-        getProbateCaseDetails("probate_orchestrator_service_executors_all_agreed_response.json");
+                getProbateCaseDetails("probate_orchestrator_service_executors_all_agreed_response.json");
         when(submitServiceApi.getCase("authToken", "someServiceAuthorisation", "123456",
         ProbateType.PA.getCaseType().name())).thenReturn(probateCaseDetails);
 
@@ -46,7 +45,7 @@ public class InviteAllAgreedControllerProviderTest extends ControllerProviderTes
         when(securityUtils.getAuthorisation()).thenReturn("authToken");
         when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorisation");
         ProbateCaseDetails probateCaseDetails =
-        getProbateCaseDetails("probate_orchestrator_service_executors_all_agreed_false_response.json");
+                getProbateCaseDetails("probate_orchestrator_service_executors_all_agreed_false_response.json");
         when(submitServiceApi.getCase("authToken", "someServiceAuthorisation",
         "123457", ProbateType.PA.getCaseType().name())).thenReturn(probateCaseDetails);
 

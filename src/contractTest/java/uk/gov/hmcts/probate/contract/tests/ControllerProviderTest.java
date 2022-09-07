@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,10 +40,10 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRestPactRunner.class)
 @ExtendWith(SpringExtension.class)
 @PactBroker(scheme = "${pact.broker.scheme}", host = "${pact.broker.baseUrl}", port = "${pact.broker.port}",
- tags={"${pact.broker.consumer.tag}"})
+        tags = {"${pact.broker.consumer.tag}"})
 @IgnoreNoPactsToVerify
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-abstract public class ControllerProviderTest {
+public abstract class ControllerProviderTest {
 
     @TestTarget
     @SuppressWarnings(value = "VisibilityModifier")
