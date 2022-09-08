@@ -6,7 +6,6 @@ import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.model.RequestResponsePact;
 import org.json.JSONException;
-import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,8 +17,8 @@ import uk.gov.hmcts.reform.probate.model.cases.SubmitResult;
 
 import java.io.IOException;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 
@@ -43,18 +42,18 @@ public class SubmitServiceSubmissionConsumerTest {
     @Autowired
     ContractTestUtils contractTestUtils;
 
-    private String SERVICE_AUTHORIZATION = "ServiceAuthorization";
+    private String serviceAuthorization = "ServiceAuthorization";
 
     @BeforeEach
-    public void setUpTest() throws InterruptedException{
+    public void setUpTest() throws InterruptedException {
         Thread.sleep(2000);
     }
 
 
     @Pact(state = "provider PUTS submission with success", provider = "probate_submitService_submissions",
-    consumer = "probate_orchestrator_service")
+        consumer = "probate_orchestrator_service")
     public RequestResponsePact executePostSubmissionWithSuccessPact(PactDslWithProvider builder)
-    throws IOException, JSONException {
+        throws IOException, JSONException {
         // @formatter:off
 
         return builder
@@ -62,7 +61,7 @@ public class SubmitServiceSubmissionConsumerTest {
                 .uponReceiving("a request to POST submission")
                 .path("/submissions/update/" + SOMEEMAILADDRESS_HOST_COM)
                 .method("POST")
-                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION,
+                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, serviceAuthorization,
                 SOME_SERVICE_AUTHORIZATION_TOKEN)
                 .matchHeader("FormDataContent-Type", "application/json")
                 .body(contractTestUtils.createJsonObject("intestacyGrantOfRepresentation_full.json"))
@@ -80,8 +79,8 @@ public class SubmitServiceSubmissionConsumerTest {
     public void verifyExecutePostSubmissionWithSuccessPact() throws IOException, JSONException {
 
         SubmitResult submitResult = submitServiceApi.update(SOME_AUTHORIZATION_TOKEN,
-        SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, contractTestUtils
-        .getProbateCaseDetails("intestacyGrantOfRepresentation_full.json"));
+            SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, contractTestUtils
+            .getProbateCaseDetails("intestacyGrantOfRepresentation_full.json"));
         assertThat(submitResult.getProbateCaseDetails().getCaseInfo().getCaseId(), equalTo(CASE_ID));
     }
 

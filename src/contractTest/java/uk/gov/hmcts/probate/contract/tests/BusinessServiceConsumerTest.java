@@ -62,7 +62,8 @@ public class BusinessServiceConsumerTest {
         + "and will be able to be viewed online.\",\"sections\":[{\"title\":\"\\n"
         + "The will\\n    \",\"type\":\"heading-medium\",\"questionAndAnswers\":[{\"question\":\"Did the person who"
         + "died leave a will?\",\"answers\":[\"Yes\"]},{\"question\":\"Do you have the original will?\",\"answers\":"
-        + "[\"Yes\"]},{\"question\":\"Were any updates (‘codicils’) made to the will?\",\"answers\":[\"Yes\"]},{\"question\""
+        + "[\"Yes\"]},{\"question\":\"Were any updates (‘codicils’) made to the will?\",\"answers\":[\"Yes\"]},"
+        + "{\"question\""
         + ":\"How many updates (‘codicils’) were made to the will?\",\"answers\":[\"4\"]},{\"question\":\""
         + "Do you have a death certificate?\",\"answers\":[\"Yes\"]},"
         + "{\"question\":\"Are you named as an executor on the will?\""
@@ -74,18 +75,22 @@ public class BusinessServiceConsumerTest {
         + "\"Gross value of the estate in £\",\"answers\":[\"10000\"]},{\"question\":\"Net value of the estate in £\","
         + "\"answers\":[\"9000\"]}]},{\"title\":\"The executors\",\"type\":\"heading-medium\",\"questionAndAnswers\":"
         + "[{\"question\":\"How many past and present executors are named on the will and any updates (‘codicils’)?\","
-        + "\"answers\":[\"1\"]}]},{\"title\":\"About you\",\"type\":\"heading-small\",\"questionAndAnswers\":[{\"question\""
-        + ":\"First name(s)\",\"answers\":[\"Jason\"]},{\"question\":\"Last name(s)\",\"answers\":[\"Smith\"]},{\"question\""
+        + "\"answers\":[\"1\"]}]},{\"title\":\"About you\",\"type\":\"heading-small\",\"questionAndAnswers\":["
+        + "{\"question\""
+        + ":\"First name(s)\",\"answers\":[\"Jason\"]},{\"question\":\"Last name(s)\",\"answers\":[\"Smith\"]},"
+        + "{\"question\""
         + ":\"Is your name ‘Jason Smith’ exactly what appears on the will?\",\"answers\":[\"Yes\"]},{\"question\":"
         + "\"Phone number\",\"answers\":[\"01206822777\"]},{\"question\":\"What is your address?\",\"answers\":"
-        + "[\"Address Line 1\\nAddress Line 2\\nAddress Line3\\nPost Code\"]}]},{\"title\":\"About the person who died\","
+        + "[\"Address Line 1\\nAddress Line 2\\nAddress Line3\\nPost Code\"]}]},"
+        + "{\"title\":\"About the person who died\","
         + "\"type\":\"heading-medium\",\"questionAndAnswers\":[{\"question\":\"First name(s)\",\"answers\":[\"Mike\"]},"
         + "{\"question\":\"Last name(s)\",\"answers\":[\"Samuels\"]},{\"question\":"
         + "\"Did Mike Samuels have assets in another name?\",\"answers\":[\"Yes\"]},{\"question\":"
         + "\"Names used by the deceased\",\"answers\":"
         + "[\"\\n                The old codger\\n            \"]},{\"question\":"
         + "\"Did Mike Samuels get married or enter into a civil partnership after the latest codicil was signed?\","
-        + "\"answers\":[\"Yes\"]},{\"question\":\"What was the date that they died?\",\"answers\":[\"20 September 2018\"]},"
+        + "\"answers\":[\"Yes\"]},{\"question\":\"What was the date that they died?\",\"answers\":"
+        + "[\"20 September 2018\"]},"
         + "{\"question\":\"What was their date of birth?\",\"answers\":[\"1 January 1966\"]},{\"question\":"
         + "\"At the time of their death did the person who died:\",\"answers\":"
         + "[\"live (domicile) permanently in England or Wales\"]},{\"question\":"
@@ -93,7 +98,8 @@ public class BusinessServiceConsumerTest {
         + "[\"Address Line 1\\nAddress Line 2\\nAddress Line3\\nPost Code\"]}]}]}";
 
     private String invalidCheckAnswersSummaryBody = "{\"pageTitle\":\"pageTitle\",\"mainParagraph\":null,\"sections\""
-        + ":[{\"title\":null,\"type\":\"heading-medium\",\"questionAndAnswers\":[{\"question\":\"question 1\",\"answers\":"
+        + ":[{\"title\":null,\"type\":\"heading-medium\",\"questionAndAnswers\":[{\"question\":\""
+        + "question 1\",\"answers\":"
         + "[\"not answered\"]}]}]}})\"";
 
     private String legalDeclarationBody = "{\"headers\":[\"In the High Court of Justice\",\"Family Division\","
@@ -102,15 +108,19 @@ public class BusinessServiceConsumerTest {
         + "nengland\\npost code\\n, make the following statement:\",\"values\":[]}]},{\"title\":"
         + "\"The person who died\",\"headingType\":\"small\",\"declarationItems\":[{\"title\":"
         + "\"Mike Samuels was born on 1 January 1977 and died on 20 October 2018, domiciled in England and Wales. \","
-        + "\"values\":[]}]},{\"title\":\"The estate of the person who died\",\"headingType\":\"small\",\"declarationItems\""
+        + "\"values\":[]}]},{\"title\":\"The estate of the person who died\",\"headingType\":\"small\",\""
+        + "declarationItems\""
         + ":[{\"title\":\"The gross value for the estate amounts to £10000 and the net value for the estate"
         + "amounts to £10000.\",\"values\":[]},{\"title\":\"To the best of my knowledge, information and belief,"
         + "there was no land vested in Mike Samuels which was settled previously to the death (and not by the will) of"
         + "Mike Samuels and which remained settled land notwithstanding such death.\",\"values\":[]}]},{\"title\":"
         + "\"Executors applying for probate\",\"headingType\":\"small\",\"declarationItems\":[{\"title\":"
-        + "\"I am an executor named in the will or codicils as Jason Smith, and I am applying for probate.\",\"values\":[]},"
-        + "{\"title\":\"I will sign and send to the probate registry what I believe to be the true and original last will"
-        + "and testament and any codicils of Mike Samuels.\",\"values\":[]}]},{\"title\":\"Declaration\",\"headingType\":"
+        + "\"I am an executor named in the will or codicils as Jason Smith, and I am applying for probate.\",\""
+        + "values\":[]},"
+        + "{\"title\":\""
+        + "I will sign and send to the probate registry what I believe to be the true and original last will"
+        + "and testament and any codicils of Mike Samuels.\",\"values\":[]}]},"
+        + "{\"title\":\"Declaration\",\"headingType\":"
         + "large\",\"declarationItems\":[{\"title\":\"I confirm that we will administer the estate of Mike Samuels,"
         + "according to law. I will:\",\"values\":[\"collect the whole estate\",\"keep full details (an inventory) of"
         + "the estate\",\"keep a full account of how the estate has been administered\"]},{\"title\":\"If the probate"
@@ -121,7 +131,8 @@ public class BusinessServiceConsumerTest {
         + "untruthful or dishonest\"]}]}],\"dateCreated\": \"31/10/2018, 10:15:44\", \"deceased\":\"Mike Samuels\"}";
 
     private String invalidLegalDeclarationBody = "{\"headers\":[\"header0\",\"header1\",\"header2\"],\"sections\":"
-        + "[{\"title\":\"title\",\"headingType\":\"large\",\"declarationItems\":[{\"title\":\"declaration title\",\"values\""
+        + "[{\"title\":\"title\",\"headingType\":\"large\",\"declarationItems\":[{\"title\":\""
+        + "declaration title\",\"values\""
         + ":[\"value0\",\"value1\",\"value2\"]}]}],\"dateCreated\":\"date and time\",\"deceased\":null}";
 
     private String bulkScanCoverSheetBody = "{\"title\":\"Cover Sheet\",\"applicantAddressIntro\":"
@@ -131,8 +142,10 @@ public class BusinessServiceConsumerTest {
         + ":\"Divorce Service\\nPO BOX 123\\nExela BSP Services\\nHarlow\\nCM19 5QS\"}";
 
     private String invalidBulkScanCoverSheetBody = "{\"title\":\"Download Cover Sheet\",\"applicantAddressIntro\""
-        + ":\"Your address\",\"applicantAddress\":\"addressLine1\",\"caseReferenceIntro\":\"Your unique reference\\nnumber"
-        + "is\",\"caseReference\":\"\",\"submitAddressIntro\":\"Please send this cover sheet along with your document(s)"
+        + ":\"Your address\",\"applicantAddress\":\"addressLine1\",\"caseReferenceIntro\":\""
+        + "Your unique reference\\nnumber"
+        + "is\",\"caseReference\":\"\",\"submitAddressIntro\":\""
+        + "Please send this cover sheet along with your document(s)"
         + "to the address shown below\",\"submitAddress\":null}";
 
 
@@ -326,7 +339,8 @@ public class BusinessServiceConsumerTest {
     public void verifyExecuteValidationErrorsLegalDeclarationPact() throws JSONException, IOException {
         assertThrows(UndeclaredThrowableException.class, () -> {
             businessServiceApi.generateLegalDeclarationPDF(SOME_AUTHORIZATION_TOKEN,
-                SOME_SERVICE_AUTHORIZATION_TOKEN, getLegalDeclaration("businessDocuments/invalidLegalDeclaration.json"));
+                SOME_SERVICE_AUTHORIZATION_TOKEN,
+                    getLegalDeclaration("businessDocuments/invalidLegalDeclaration.json"));
         });
 
     }

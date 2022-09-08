@@ -66,9 +66,9 @@ public class ProbateSubmissionsFormsControllerProviderTest extends ControllerPro
         when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorization");
 
         ProbateCaseDetails probateCaseDetails =
-        getProbateCaseDetails("probateGrantOfRepresentation_SingleProbateApplicant_submission.json");
-            ProbateCaseDetails probateCaseDetailsResponse =
-        getProbateCaseDetails("probateGrantOfRepresentation_SingleProbateApplicant_submission_response.json");
+            getProbateCaseDetails("probateGrantOfRepresentation_SingleProbateApplicant_submission.json");
+        ProbateCaseDetails probateCaseDetailsResponse =
+            getProbateCaseDetails("probateGrantOfRepresentation_SingleProbateApplicant_submission_response.json");
 
         when(submitServiceApi.getCase("authToken", "someServiceAuthorization", "ccdcasedata1@gmail.com",
         CaseType.GRANT_OF_REPRESENTATION.toString())).thenReturn(probateCaseDetailsResponse);
