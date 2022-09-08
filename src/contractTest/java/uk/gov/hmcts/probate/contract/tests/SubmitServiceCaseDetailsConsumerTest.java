@@ -7,7 +7,6 @@ import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.model.RequestResponsePact;
 import org.json.JSONException;
-import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,8 +21,8 @@ import uk.gov.hmcts.reform.probate.model.client.ApiClientException;
 import java.io.IOException;
 
 import static io.pactfoundation.consumer.dsl.LambdaDsl.newJsonBody;
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
@@ -49,7 +48,7 @@ public class SubmitServiceCaseDetailsConsumerTest {
     @Autowired
     ContractTestUtils contractTestUtils;
 
-    private String SERVICE_AUTHORIZATION = "ServiceAuthorization";
+    private String serviceAuthorization = "ServiceAuthorization";
 
 
     @BeforeEach
@@ -58,9 +57,9 @@ public class SubmitServiceCaseDetailsConsumerTest {
     }
 
     @Pact(state = "provider returns casedata with success", provider =
-    "probate_submitService_cases", consumer = "probate_orchestratorService")
+        "probate_submitService_cases", consumer = "probate_orchestratorService")
     public RequestResponsePact executeSuccessGetCaseDataPact(PactDslWithProvider builder)
-    throws IOException, JSONException {
+        throws IOException, JSONException {
         // @formatter:off
         return builder
                 .given("provider returns casedata with success")
@@ -68,7 +67,7 @@ public class SubmitServiceCaseDetailsConsumerTest {
                 .path("/cases/" + SOMEEMAILADDRESS_HOST_COM)
                 .method("GET")
                 .matchQuery("caseType", CaseType.GRANT_OF_REPRESENTATION.toString())
-                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION,
+                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, serviceAuthorization,
                 SOME_SERVICE_AUTHORIZATION_TOKEN)
                 .willRespondWith()
                 .status(200)
@@ -83,88 +82,86 @@ public class SubmitServiceCaseDetailsConsumerTest {
     private DslPart buildCaseDataPactDsl(String someemailaddressHostCom, boolean withExecutors) {
         return newJsonBody((o) -> {
             o.object("caseData", (cd) -> {
-                        cd.stringValue("type", CaseType.GRANT_OF_REPRESENTATION.getName())
-                                .stringValue("applicationType", "Personal")
-                                .stringType("primaryApplicantForenames", "Jon")
-                                .stringType("primaryApplicantSurname", "Snow")
-                                .stringMatcher("primaryApplicantAddressFound",
-                                        "Yes|No", "Yes")
-                                .stringMatcher("primaryApplicantPhoneNumber", "[0-9]+", "123455678")
-                                .stringMatcher("primaryApplicantRelationshipToDeceased",
-                                "partner|child|sibling|partner|parent|adoptedChild|other", "adoptedChild")
-                                .stringMatcher("primaryApplicantAdoptionInEnglandOrWales", "(Yes|No)", "Yes")
-                                .stringValue("primaryApplicantEmailAddress", someemailaddressHostCom)
-                                .object("primaryApplicantAddress", (address) ->
-                                        address.stringType("AddressLine1", "Pret a Manger")
-                                                .stringType("AddressLine2", "St. Georges Hospital")
-                                                .stringType("PostTown", "London")
-                                                .stringType("PostCode", "SW17 0QT")
-                                )
-                                .stringType("deceasedForenames", "Ned")
-                                .stringType("deceasedSurname", "Stark")
-                                .stringMatcher("deceasedDateOfBirth", REGEX_DATE, "1930-01-01")
-                                .stringMatcher("deceasedDateOfDeath", REGEX_DATE, "2018-01-01")
-                                .object("deceasedAddress", (address) ->
-                                        address.stringType("AddressLine1", "Winterfell")
-                                                .stringType("AddressLine2", "Westeros")
-                                                .stringType("PostTown", "London")
-                                                .stringType("PostCode", "SW17 0QT")
-                                )
-                                .stringMatcher("deceasedAddressFound", "Yes|No", "Yes")
-                                .stringMatcher("deceasedAnyOtherNames", "Yes|No", "No")
-                                .minArrayLike("deceasedAliasNameList", 0, 2,
-                                        alias -> alias
+                cd.stringValue("type", CaseType.GRANT_OF_REPRESENTATION.getName())
+                            .stringValue("applicationType", "Personal")
+                            .stringType("primaryApplicantForenames", "Jon")
+                            .stringType("primaryApplicantSurname", "Snow")
+                            .stringMatcher("primaryApplicantAddressFound",
+                                    "Yes|No", "Yes")
+                            .stringMatcher("primaryApplicantPhoneNumber", "[0-9]+", "123455678")
+                            .stringMatcher("primaryApplicantRelationshipToDeceased",
+                            "partner|child|sibling|partner|parent|adoptedChild|other", "adoptedChild")
+                            .stringMatcher("primaryApplicantAdoptionInEnglandOrWales", "(Yes|No)", "Yes")
+                            .stringValue("primaryApplicantEmailAddress", someemailaddressHostCom)
+                            .object("primaryApplicantAddress", (address) ->
+                                    address.stringType("AddressLine1", "Pret a Manger")
+                                            .stringType("AddressLine2", "St. Georges Hospital")
+                                            .stringType("PostTown", "London")
+                                            .stringType("PostCode", "SW17 0QT")
+                            )
+                            .stringType("deceasedForenames", "Ned")
+                            .stringType("deceasedSurname", "Stark")
+                            .stringMatcher("deceasedDateOfBirth", REGEX_DATE, "1930-01-01")
+                            .stringMatcher("deceasedDateOfDeath", REGEX_DATE, "2018-01-01")
+                            .object("deceasedAddress", (address) ->
+                                    address.stringType("AddressLine1", "Winterfell")
+                                            .stringType("AddressLine2", "Westeros")
+                                            .stringType("PostTown", "London")
+                                            .stringType("PostCode", "SW17 0QT")
+                            )
+                            .stringMatcher("deceasedAddressFound", "Yes|No", "Yes")
+                            .stringMatcher("deceasedAnyOtherNames", "Yes|No", "No")
+                            .minArrayLike("deceasedAliasNameList", 0, 2,
+                                alias -> alias
+                                            .object("value", (value) ->
+                                                    value.stringType("Forenames", "King")
+                                                            .stringType("LastName", "North")
+                                            ))
+                            .stringMatcher("deceasedMartialStatus",
+                            "marriedCivilPartnership|divorcedCivilPartnership|widowed|judicially|neverMarried")
+                            .stringMatcher("deceasedDivorcedInEnglandOrWales", "Yes|No", "No")
+                            .stringMatcher("deceasedSpouseNotApplyingReason",
+                            "renunciated|mentallyIncapable|other")
+                            .stringMatcher("deceasedOtherChildren", "Yes|No", "Yes")
+                            .stringMatcher("childrenOverEighteenSurvived", "Yes|No", "Yes")
+                            .stringMatcher("childrenDied", "Yes|No", "No")
+                            .stringMatcher("grandChildrenSurvivedUnderEighteen", "Yes|No", "No")
+                            .stringMatcher("deceasedAnyChildren", "Yes|No", "No")
+                            .stringMatcher("deceasedHasAssetsOutsideUK", "Yes|No", "Yes")
+                            .stringMatcher("deceasedAnyChildren", "Yes|No", "No")
+                            .stringMatcher("ihtFormId", "IHT205|IHT207|IHT400421", "IHT205")
+                            .stringMatcher("ihtFormCompletedOnline", "Yes|No", "No")
+                            .stringType("assetsOverseasNetValue", "10050")
+                            .stringType("ihtGrossValue", "100000")
+                            .stringType("ihtNetValue", "100000")
+                            .stringType("ihtReferenceNumber", "GOT123456")
+                            .stringMatcher("declarationCheckbox", "Yes|No", "No")
+                            .numberType("outsideUKGrantCopies", 6)
+                            .numberType("extraCopiesOfGrant", 3)
+                            .stringType("uploadDocumentUrl", "http://document-management/document/12345")
+                            .stringMatcher("registryLocation",
+                            "Oxford|Manchester|Birmingham|Leeds|Liverpool|Brighton|Cardiff|London|Winchester"
+                            + "|Newcastle|ctsc", "Oxford");
+                if (withExecutors) {
+                    cd.minArrayLike("executorsApplying", 0, 2,
+                        executorApplying -> executorApplying
                                                 .object("value", (value) ->
-                                                        value.stringType("Forenames", "King")
-                                                                .stringType("LastName", "North")
-                                                ))
-                                .stringMatcher("deceasedMartialStatus",
-                                "marriedCivilPartnership|divorcedCivilPartnership|widowed|judicially|neverMarried")
-                                .stringMatcher("deceasedDivorcedInEnglandOrWales", "Yes|No", "No")
-                                .stringMatcher("deceasedSpouseNotApplyingReason",
-                                "renunciated|mentallyIncapable|other")
-                                .stringMatcher("deceasedOtherChildren", "Yes|No", "Yes")
-                                .stringMatcher("childrenOverEighteenSurvived", "Yes|No", "Yes")
-                                .stringMatcher("childrenDied", "Yes|No", "No")
-                                .stringMatcher("grandChildrenSurvivedUnderEighteen", "Yes|No", "No")
-                                .stringMatcher("deceasedAnyChildren", "Yes|No", "No")
-                                .stringMatcher("deceasedHasAssetsOutsideUK", "Yes|No", "Yes")
-                                .stringMatcher("deceasedAnyChildren", "Yes|No", "No")
-                                .stringMatcher("ihtFormId", "IHT205|IHT207|IHT400421", "IHT205")
-                                .stringMatcher("ihtFormCompletedOnline", "Yes|No", "No")
-                                .stringType("assetsOverseasNetValue", "10050")
-                                .stringType("ihtGrossValue", "100000")
-                                .stringType("ihtNetValue", "100000")
-                                .stringType("ihtReferenceNumber", "GOT123456")
-                                .stringMatcher("declarationCheckbox", "Yes|No", "No")
-                                .numberType("outsideUKGrantCopies", 6)
-                                .numberType("extraCopiesOfGrant", 3)
-                                .stringType("uploadDocumentUrl", "http://document-management/document/12345")
-                                .stringMatcher("registryLocation",
-                                "Oxford|Manchester|Birmingham|Leeds|Liverpool|Brighton|Cardiff|London|Winchester"+
-                                "|Newcastle|ctsc", "Oxford");
-
-              if(withExecutors){
-                       cd.minArrayLike("executorsApplying", 0, 2,
-                              executorApplying -> executorApplying
-                                 .object("value", (value) ->
-                                     value.stringType("applyingExecutorName", "Jon Snow")
-                                           .stringMatcher("applyingExecutorPhoneNumber", "[0-9]+", "07981898999")
-                                           .stringMatcher("applyingExecutorAgreed", "Yes|No", "Yes")
-                                           .stringType("applyingExecutorEmail", "address@email.com")
-                                           .stringType("applyingExecutorInvitationId", "54321")
-                                           .stringType("applyingExecutorLeadName", "Graham Garderner")
-                                             .object("applyingExecutorAddress", (address) ->
-                                                        address.stringType("AddressLine1", "Winterfell")
-                                                        .stringType("AddressLine2", "Westeros")
-                                                        .stringType("PostTown", "London")
-                                                        .stringType("PostCode", "SW17 0QT")
-                                                        ).stringType("applyingExecutorOtherNames", "Graham Poll")
-                                                        .stringType("applyingExecutorOtherNamesReason", "Divorce")
-                                            ));
-                        }
-
-                    }
+                                                                value.stringType("applyingExecutorName", "Jon Snow")
+                                       .stringMatcher("applyingExecutorPhoneNumber", "[0-9]+", "07981898999")
+                                       .stringMatcher("applyingExecutorAgreed", "Yes|No", "Yes")
+                                       .stringType("applyingExecutorEmail", "address@email.com")
+                                       .stringType("applyingExecutorInvitationId", "54321")
+                                       .stringType("applyingExecutorLeadName", "Graham Garderner")
+                                         .object("applyingExecutorAddress", (address) ->
+                                                    address.stringType("AddressLine1", "Winterfell")
+                                                    .stringType("AddressLine2", "Westeros")
+                                                    .stringType("PostTown", "London")
+                                                    .stringType("PostCode", "SW17 0QT")
+                                                    ).stringType("applyingExecutorOtherNames", "Graham Poll")
+                                                    .stringType("applyingExecutorOtherNamesReason", "Divorce")
+                                        ));
+                }
+            }
             ).object("caseInfo", (ci) ->
                     ci.stringType("caseId", "12323213323")
                             .stringMatcher("state", "Draft|PaAppCreated|CaseCreated", "Draft")
@@ -175,9 +172,9 @@ public class SubmitServiceCaseDetailsConsumerTest {
 
 
     @Pact(state = "provider returns casedata for invite id with success",
-    provider = "probate_submitService_cases", consumer = "probate_orchestratorService")
+        provider = "probate_submitService_cases", consumer = "probate_orchestratorService")
     public RequestResponsePact executeSuccessGetCaseDataByInviteIdPact(PactDslWithProvider builder)
-    throws IOException, JSONException {
+        throws IOException, JSONException {
         // @formatter:off
 
         return builder
@@ -186,7 +183,7 @@ public class SubmitServiceCaseDetailsConsumerTest {
                 .path("/cases/invitation/" + SOME_INVITE_ID)
                 .method("GET")
                 .matchQuery("caseType", CaseType.GRANT_OF_REPRESENTATION.name())
-                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION,
+                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, serviceAuthorization,
                 SOME_SERVICE_AUTHORIZATION_TOKEN)
                 .willRespondWith()
                 .status(200)
@@ -197,7 +194,7 @@ public class SubmitServiceCaseDetailsConsumerTest {
     }
 
     @Pact(state = "provider returns casedata not found", provider = "probate_submitService_cases",
-    consumer = "probate_orchestratorService")
+        consumer = "probate_orchestratorService")
     public RequestResponsePact executeNotFoundGetCaseDataPact(PactDslWithProvider builder) {
         // @formatter:off
 
@@ -207,7 +204,7 @@ public class SubmitServiceCaseDetailsConsumerTest {
                 .path("/cases/" + SOMEEMAILADDRESS_HOST_COM)
                 .method("GET")
                 .matchQuery("caseType", CaseType.GRANT_OF_REPRESENTATION.toString())
-                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION,
+                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, serviceAuthorization,
                 SOME_SERVICE_AUTHORIZATION_TOKEN)
                 .willRespondWith()
                 .status(404)
@@ -216,9 +213,9 @@ public class SubmitServiceCaseDetailsConsumerTest {
     }
 
     @Pact(state = "provider POSTS draft casedata with success", provider = "probate_submitService_drafts",
-    consumer = "probate_orchestratorService")
+        consumer = "probate_orchestratorService")
     public RequestResponsePact executeSuccessPostDraftCaseDataPact(PactDslWithProvider builder)
-    throws IOException, JSONException {
+        throws IOException, JSONException {
         // @formatter:off
 
         return builder
@@ -226,7 +223,7 @@ public class SubmitServiceCaseDetailsConsumerTest {
                 .uponReceiving("a request to POST draft casedata")
                 .path("/drafts/" + SOMEEMAILADDRESS_HOST_COM)
                 .method("POST")
-                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION,
+                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, serviceAuthorization,
                 SOME_SERVICE_AUTHORIZATION_TOKEN)
                 .matchHeader("FormDataContent-Type", "application/json")
                 .body(contractTestUtils.createJsonObject("intestacyGrantOfRepresentation_full.json"))
@@ -240,9 +237,9 @@ public class SubmitServiceCaseDetailsConsumerTest {
 
 
     @Pact(state = "provider POSTS partial draft casedata with success",
-    provider = "probate_submitService_drafts", consumer = "probate_orchestratorService")
+        provider = "probate_submitService_drafts", consumer = "probate_orchestratorService")
     public RequestResponsePact executeSuccessPostPartialDraftCaseDataPact(PactDslWithProvider builder)
-    throws IOException, JSONException {
+        throws IOException, JSONException {
         // @formatter:off
 
         return builder
@@ -250,7 +247,7 @@ public class SubmitServiceCaseDetailsConsumerTest {
                 .uponReceiving("a request to POST partial draft casedata")
                 .path("/drafts/" + SOMEEMAILADDRESS_HOST_COM)
                 .method("POST")
-                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION,
+                .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, serviceAuthorization,
                 SOME_SERVICE_AUTHORIZATION_TOKEN)
                 .matchHeader("FormDataContent-Type", "application/json")
                 .body(contractTestUtils.createJsonObject("intestacyGrantOfRepresentation_partial_draft.json"))
@@ -267,7 +264,7 @@ public class SubmitServiceCaseDetailsConsumerTest {
     public void verifyExecuteSuccessGetCaseDataPact() {
 
         ProbateCaseDetails caseDetails = submitServiceApi.getCase(SOME_AUTHORIZATION_TOKEN,
-        SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, CaseType.GRANT_OF_REPRESENTATION.toString());
+            SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, CaseType.GRANT_OF_REPRESENTATION.toString());
         assertThat(caseDetails.getCaseInfo().getCaseId(), equalTo(CASE_ID));
     }
 
@@ -277,7 +274,7 @@ public class SubmitServiceCaseDetailsConsumerTest {
     public void verifyExecuteSuccessGetCaseDataByInviteIdPact() {
 
         ProbateCaseDetails caseDetails = submitServiceApi.getCaseByInvitationId(SOME_AUTHORIZATION_TOKEN,
-        SOME_SERVICE_AUTHORIZATION_TOKEN, SOME_INVITE_ID, CaseType.GRANT_OF_REPRESENTATION.name());
+            SOME_SERVICE_AUTHORIZATION_TOKEN, SOME_INVITE_ID, CaseType.GRANT_OF_REPRESENTATION.name());
         assertThat(caseDetails.getCaseInfo().getCaseId(), equalTo(CASE_ID));
     }
 
@@ -286,8 +283,8 @@ public class SubmitServiceCaseDetailsConsumerTest {
     public void verifyExecuteSuccessPostPartialDraftCaseDataPact() throws IOException, JSONException {
 
         ProbateCaseDetails caseDetails = submitServiceApi.saveCase(SOME_AUTHORIZATION_TOKEN,
-        SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, "BOCASESTOPPED",
-        contractTestUtils.getProbateCaseDetails("intestacyGrantOfRepresentation_partial_draft.json"));
+            SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM, "BOCASESTOPPED",
+            contractTestUtils.getProbateCaseDetails("intestacyGrantOfRepresentation_partial_draft.json"));
         assertThat(caseDetails.getCaseInfo().getCaseId(), equalTo(CASE_ID));
     }
 
@@ -296,8 +293,8 @@ public class SubmitServiceCaseDetailsConsumerTest {
     public void verifyExecuteSuccessPostDraftCaseDataPact() throws IOException, JSONException {
 
         ProbateCaseDetails caseDetails = submitServiceApi.saveCase(SOME_AUTHORIZATION_TOKEN,
-        SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM,"BOCASESTOPPED", contractTestUtils
-        .getProbateCaseDetails("intestacyGrantOfRepresentation_full.json"));
+            SOME_SERVICE_AUTHORIZATION_TOKEN, SOMEEMAILADDRESS_HOST_COM,"BOCASESTOPPED", contractTestUtils
+            .getProbateCaseDetails("intestacyGrantOfRepresentation_full.json"));
         assertThat(caseDetails.getCaseInfo().getCaseId(), equalTo(CASE_ID));
     }
 
@@ -306,7 +303,7 @@ public class SubmitServiceCaseDetailsConsumerTest {
     public void verifyExecuteNotFoundGetCaseDataPact() {
         assertThrows(ApiClientException.class, () -> {
             submitServiceApi.getCase(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN,
-            SOMEEMAILADDRESS_HOST_COM, CaseType.GRANT_OF_REPRESENTATION.toString());
+                SOMEEMAILADDRESS_HOST_COM, CaseType.GRANT_OF_REPRESENTATION.toString());
         });
 
     }
