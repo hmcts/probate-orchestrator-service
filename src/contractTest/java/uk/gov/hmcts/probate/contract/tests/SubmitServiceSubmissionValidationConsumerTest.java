@@ -87,7 +87,7 @@ public class SubmitServiceSubmissionValidationConsumerTest {
     }
 
     @Test
-    @PactTestFor(pactMethod = "ExecutePostSubmissionWithClientErrors")
+    @PactTestFor(pactMethod = "executePostSubmissionWithClientErrors")
     public void verifyExecutePostSubmissionWithClientErrors() {
         assertThrows(ApiClientException.class, () -> submitServiceApi.update(
                 SOME_AUTHORIZATION_TOKEN,
