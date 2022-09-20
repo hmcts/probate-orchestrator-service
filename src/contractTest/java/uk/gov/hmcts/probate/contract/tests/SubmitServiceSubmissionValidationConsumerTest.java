@@ -70,7 +70,7 @@ public class SubmitServiceSubmissionValidationConsumerTest {
                 .method("POST")
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, serviceAuthorization,
                 SOME_SERVICE_AUTHORIZATION_TOKEN)
-                .matchHeader("FormDataContent-Type", "application/json")
+                .matchHeader("Content-Type", "application/json")
                 .body(createJsonObject("intestacyGrantOfRepresentation_invalid_PAAPCREATED.json"))
                 .willRespondWith()
                 .status(400)
