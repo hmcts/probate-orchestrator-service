@@ -97,7 +97,7 @@ public class BusinessServiceConsumerTest {
         + "\"What was the permanent address at the time of their death?\",\"answers\":"
         + "[\"Address Line 1\\nAddress Line 2\\nAddress Line3\\nPost Code\"]}]}]}";
 
-    private String invalidCheckAnswersSummaryBody = "{\"pageTitle\":\"pageTitle\",\"mainParagraph\":null,\"sections\""
+    private String invalidCheckAnswersSummaryBody = "{\"checkAnswersSummary\":{\"pageTitle\":\"pageTitle\",\"mainParagraph\":null,\"sections\""
         + ":[{\"title\":null,\"type\":\"heading-medium\",\"questionAndAnswers\":[{\"question\":\""
         + "question 1\",\"answers\":"
         + "[\"not answered\"]}]}]}})\"";
@@ -141,12 +141,15 @@ public class BusinessServiceConsumerTest {
         + "\"Please send this cover sheet along with your document(s) to the address shown below\",\"submitAddress\""
         + ":\"Divorce Service\\nPO BOX 123\\nExela BSP Services\\nHarlow\\nCM19 5QS\"}";
 
-    private String invalidBulkScanCoverSheetBody = "{\"title\":\"Download Cover Sheet\",\"applicantAddressIntro\""
+    private String invalidBulkScanCoverSheetBody = "{\"bulkScanCoverSheet\" : {\"title\":\"Download Cover Sheet"
+        + "\",\"applicantAddressIntro\""
         + ":\"Your address\",\"applicantAddress\":\"addressLine1\",\"caseReferenceIntro\":\""
         + "Your unique reference\\nnumber"
-        + "is\",\"caseReference\":\"\",\"submitAddressIntro\":\""
-        + "Please send this cover sheet along with your document(s)"
-        + "to the address shown below\",\"submitAddress\":null}";
+        + " is\",\"caseReference\":\"\",\"submitAddressIntro\":\""
+        + "You must send these documents and this cover sheet to the address shown below\","
+        + "\"submitAddress\":null, \"checkListItems\":null,\"checkListItemsIntro\":\""
+        + "Send your documents and coversheet\",\"noDocumentsRequiredText\": null,\"applicantNameIntro"
+        + "\":\"Your name\",\"applicantName\":null,\"noDocumentsRequired\":null}}";
 
 
     @BeforeEach
