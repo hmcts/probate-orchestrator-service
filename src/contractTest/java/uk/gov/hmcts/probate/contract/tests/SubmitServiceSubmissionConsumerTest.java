@@ -24,12 +24,12 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @ExtendWith(PactConsumerTestExt.class)
 @ExtendWith(SpringExtension.class)
-@PactTestFor(providerName = "probate_submitService", port = "8891")
+@PactTestFor(providerName = "probate_submitService", port = "8101")
 @SpringBootTest({
         // overriding provider address
-        "probate_submitservice.ribbon.listOfServers: localhost:8891",
-        "submit.service.api.url : localhost:8891",
-        "core_case_data.api.url : localhost:8891"
+        "probate_submitservice.ribbon.listOfServers: localhost:8101",
+        "submit.service.api.url : localhost:8101",
+        "core_case_data.api.url : localhost:8101"
 })
 public class SubmitServiceSubmissionConsumerTest {
 
