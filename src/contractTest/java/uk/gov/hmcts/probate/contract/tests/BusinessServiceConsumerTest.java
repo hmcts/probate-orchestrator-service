@@ -130,10 +130,10 @@ public class BusinessServiceConsumerTest {
         + "given\",\"criminal proceedings for fraud may be brought against me if I am found to have been deliberately"
         + "untruthful or dishonest\"]}]}],\"dateCreated\": \"31/10/2018, 10:15:44\", \"deceased\":\"Mike Samuels\"}";
 
-    private String invalidLegalDeclarationBody = "{\"headers\":[\"header0\",\"header1\",\"header2\"],\"sections\":"
+    private String invalidLegalDeclarationBody = "{\"legalDeclaration\":{\"headers\":[\"header0\",\"header1\",\"header2\"],\"sections\":"
         + "[{\"title\":\"title\",\"headingType\":\"large\",\"declarationItems\":[{\"title\":\""
         + "declaration title\",\"values\""
-        + ":[\"value0\",\"value1\",\"value2\"]}]}],\"dateCreated\":\"date and time\",\"deceased\":null}";
+        + ":[\"value0\",\"value1\",\"value2\"]}]}],\"dateCreated\":\"date and time\",\"deceased\":null}}";
 
     private String bulkScanCoverSheetBody = "{\"title\":\"Cover Sheet\",\"applicantAddressIntro\":"
         + "\"The applicants address\",\"applicantAddress\":\"20 White City\\nLondon\\nW12 7PD\",\"caseReferenceIntro\""
