@@ -164,7 +164,7 @@ public class SubmitServiceCaseDetailsConsumerTest {
             }
             ).object("caseInfo", (ci) ->
                     ci.stringType("caseId", "12323213323")
-                            .stringMatcher("state", "Draft|PaAppCreated|CaseCreated", "Draft")
+                            .stringMatcher("state", "Pending|PaAppCreated|CaseCreated", "Pending")
             );
         }).build();
     }
