@@ -1,10 +1,32 @@
 # Probate Orchestrator
 
-[![codecov](https://codecov.io/gh/hmcts/probate-orchestrator-service/branch/develop/graph/badge.svg)](https://codecov.io/gh/hmcts/probate-orchestrator-service)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Probate-Orchestrator-Service&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Probate-Orchestrator-Service) [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Probate-Orchestrator-Service&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Probate-Orchestrator-Service) [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Probate-Orchestrator-Service&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Probate-Orchestrator-Service) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Probate-Orchestrator-Service&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Probate-Orchestrator-Service)
 
 The Probate Orchestrator is an [API Gateway](https://microservices.io/patterns/apigateway.html) that mediates API calls between [Probate frontend](https://github.com/hmcts/probate-frontend) and APIs such as the [back office](https://github.com/hmcts/probate-back-office), [submit service](https://github.com/hmcts/probate-submit-service/) and [business service](https://github.com/hmcts/probate-business-service/).
 
 It is written Java and uses the Sprint Boot framework.
+
+## Overview
+
+<p align="center">
+<a href="https://github.com/hmcts/probate-frontend">probate-frontend</a> • <a href="https://github.com/hmcts/probate-caveats-frontend">probate-caveats-frontend</a> • <a href="https://github.com/hmcts/probate-back-office">probate-back-office</a> • <b><a href="https://github.com/hmcts/probate-orchestrator-service">probate-orchestrator-service</a></b> • <a href="https://github.com/hmcts/probate-business-service">probate-business-service</a> • <a href="https://github.com/hmcts/probate-submit-service">probate-submit-service</a> • <a href="https://github.com/hmcts/probate-persistence-service">probate-persistence-service</a>
+</p>
+
+<br>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/hmcts/reform-api-docs/master/docs/c4/probate/images/structurizr-probate-overview.png" width="800"/>
+</p>
+
+<details>
+<summary>Citizen view</summary>
+<img src="https://raw.githubusercontent.com/hmcts/reform-api-docs/master/docs/c4/probate/images/structurizr-probate-citizen.png" width="700">
+</details>
+<details>
+<summary>Caseworker view</summary>
+<img src="https://raw.githubusercontent.com/hmcts/reform-api-docs/master/docs/c4/probate/images/structurizr-probate-caseworker.png" width="700">
+</details>
 
 ## Getting Started
 ### Prerequisites
