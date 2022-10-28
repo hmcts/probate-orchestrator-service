@@ -117,8 +117,9 @@ public class SubmitServiceCaseDetailsConsumerTest {
                                                     value.stringType("Forenames", "King")
                                                             .stringType("LastName", "North")
                                             ))
-                            .stringMatcher("deceasedMartialStatus",
-                            "marriedCivilPartnership|divorcedCivilPartnership|widowed|judicially|neverMarried")
+                            .stringMatcher("deceasedMaritalStatus",
+                            "marriedCivilPartnership|divorcedCivilPartnership|widowed|judicially|neverMarried",
+                            "marriedCivilPartnership")
                             .stringMatcher("deceasedDivorcedInEnglandOrWales", "Yes|No", "No")
                             .stringMatcher("deceasedSpouseNotApplyingReason",
                             "renunciated|mentallyIncapable|other")
@@ -131,14 +132,22 @@ public class SubmitServiceCaseDetailsConsumerTest {
                             .stringMatcher("deceasedAnyChildren", "Yes|No", "No")
                             .stringMatcher("ihtFormId", "IHT205|IHT207|IHT400421", "IHT205")
                             .stringMatcher("ihtFormCompletedOnline", "Yes|No", "No")
-                            .stringType("assetsOverseasNetValue", "10050")
+                            .stringType("assetsOutsideNetValue", "10050")
                             .stringType("ihtGrossValue", "100000")
                             .stringType("ihtNetValue", "100000")
                             .stringType("ihtReferenceNumber", "GOT123456")
                             .stringMatcher("declarationCheckbox", "Yes|No", "No")
                             .numberType("outsideUKGrantCopies", 6)
                             .numberType("extraCopiesOfGrant", 3)
-                            .stringType("uploadDocumentUrl", "http://document-management/document/12345")
+                            .minArrayLike("boDocumentsUploaded", 0, 3,
+                                doc -> doc
+                                        .stringType("Comment", "comment")
+                                        .stringType("DocumentType", "uploadedLegalStatement")
+                                        .object("DocumentLink", (value) ->
+                                                value.stringType("document_url", "http://document-management/document/12345")
+                                                     .stringType("document_filename", "LegalStatementUploaded.pdf")
+                                                     .stringType("document_binary_url", "http://dm-store:8080/documents/8367c8ee-c15e-43e3-8f30-cc6d334af0c2/binary")
+                                        ))
                             .stringMatcher("registryLocation",
                             "Oxford|Manchester|Birmingham|Leeds|Liverpool|Brighton|Cardiff|London|Winchester"
                             + "|Newcastle|ctsc", "Oxford");
@@ -221,15 +230,16 @@ public class SubmitServiceCaseDetailsConsumerTest {
         return builder
                 .given("provider POSTS draft casedata with success")
                 .uponReceiving("a request to POST draft casedata")
-                .path("/drafts/" + SOMEEMAILADDRESS_HOST_COM)
+                .path("/cases/" + SOMEEMAILADDRESS_HOST_COM)
                 .method("POST")
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, serviceAuthorization,
                 SOME_SERVICE_AUTHORIZATION_TOKEN)
-                .matchHeader("FormDataContent-Type", "application/json")
+                .matchHeader("Content-Type", "application/json")
+                .matchQuery("eventDescription", "BOCASESTOPPED")
                 .body(contractTestUtils.createJsonObject("intestacyGrantOfRepresentation_full.json"))
                 .willRespondWith()
                 .status(200)
-                .matchHeader("FormDataContent-Type", "application/json;charset=UTF-8")
+                .matchHeader("Content-Type", "application/json")
                 .body(buildCaseDataPactDsl(SOMEEMAILADDRESS_HOST_COM, false))
                 .toPact();
         // @formatter:on
@@ -245,15 +255,16 @@ public class SubmitServiceCaseDetailsConsumerTest {
         return builder
                 .given("provider POSTS partial draft casedata with success")
                 .uponReceiving("a request to POST partial draft casedata")
-                .path("/drafts/" + SOMEEMAILADDRESS_HOST_COM)
+                .path("/cases/" + SOMEEMAILADDRESS_HOST_COM)
                 .method("POST")
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, serviceAuthorization,
                 SOME_SERVICE_AUTHORIZATION_TOKEN)
-                .matchHeader("FormDataContent-Type", "application/json")
+                .matchHeader("Content-Type", "application/json")
+                .matchQuery("eventDescription", "BOCASESTOPPED")
                 .body(contractTestUtils.createJsonObject("intestacyGrantOfRepresentation_partial_draft.json"))
                 .willRespondWith()
                 .status(200)
-                .matchHeader("FormDataContent-Type", "application/json;charset=UTF-8")
+                .matchHeader("Content-Type", "application/json")
                 .body(contractTestUtils.createJsonObject("intestacyGrantOfRepresentation_partial_draft.json"))
                 .toPact();
         // @formatter:on

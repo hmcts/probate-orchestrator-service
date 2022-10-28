@@ -97,7 +97,8 @@ public class BusinessServiceConsumerTest {
         + "\"What was the permanent address at the time of their death?\",\"answers\":"
         + "[\"Address Line 1\\nAddress Line 2\\nAddress Line3\\nPost Code\"]}]}]}";
 
-    private String invalidCheckAnswersSummaryBody = "{\"checkAnswersSummary\":{\"pageTitle\":\"pageTitle\",\"mainParagraph\":null,\"sections\""
+    private String invalidCheckAnswersSummaryBody =
+        "{\"checkAnswersSummary\":{\"pageTitle\":\"pageTitle\",\"mainParagraph\":null,\"sections\""
         + ":[{\"title\":null,\"type\":\"heading-medium\",\"questionAndAnswers\":[{\"question\":\""
         + "question 1\",\"answers\":"
         + "[\"not answered\"]}]}]}})\"";
@@ -130,7 +131,8 @@ public class BusinessServiceConsumerTest {
         + "given\",\"criminal proceedings for fraud may be brought against me if I am found to have been deliberately"
         + "untruthful or dishonest\"]}]}],\"dateCreated\": \"31/10/2018, 10:15:44\", \"deceased\":\"Mike Samuels\"}";
 
-    private String invalidLegalDeclarationBody = "{\"legalDeclaration\":{\"headers\":[\"header0\",\"header1\",\"header2\"],\"sections\":"
+    private String invalidLegalDeclarationBody =
+        "{\"legalDeclaration\":{\"headers\":[\"header0\",\"header1\",\"header2\"],\"sections\":"
         + "[{\"title\":\"title\",\"headingType\":\"large\",\"declarationItems\":[{\"title\":\""
         + "declaration title\",\"values\""
         + ":[\"value0\",\"value1\",\"value2\"]}]}],\"dateCreated\":\"date and time\",\"deceased\":null}}";
