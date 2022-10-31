@@ -6,6 +6,7 @@ import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.model.RequestResponsePact;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.pactfoundation.consumer.dsl.LambdaDslJsonArray;
 import org.json.JSONException;
@@ -50,109 +51,14 @@ public class BusinessServiceConsumerTest {
     private BusinessServiceApi businessServiceApi;
 
     @Autowired
+    ContractTestUtils contractTestUtils;
+
+    @Autowired
     ObjectMapper objectMapper;
 
     public static final String SOME_AUTHORIZATION_TOKEN = "someAuthorizationToken";
     public static final String SOME_SERVICE_AUTHORIZATION_TOKEN = "someServiceAuthorizationToken";
     private String serviceAuthorization = "ServiceAuthorization";
-
-    private String checkAnswersSummaryBody = "{\"pageTitle\":\"\\n"
-        + "Check your answers\\n    \",\"mainParagraph\":\"Check the information below carefully."
-        + "This will form a record of your application for probate. It will also be stored as a public record,"
-        + "and will be able to be viewed online.\",\"sections\":[{\"title\":\"\\n"
-        + "The will\\n    \",\"type\":\"heading-medium\",\"questionAndAnswers\":[{\"question\":\"Did the person who"
-        + "died leave a will?\",\"answers\":[\"Yes\"]},{\"question\":\"Do you have the original will?\",\"answers\":"
-        + "[\"Yes\"]},{\"question\":\"Were any updates (‘codicils’) made to the will?\",\"answers\":[\"Yes\"]},"
-        + "{\"question\""
-        + ":\"How many updates (‘codicils’) were made to the will?\",\"answers\":[\"4\"]},{\"question\":\""
-        + "Do you have a death certificate?\",\"answers\":[\"Yes\"]},"
-        + "{\"question\":\"Are you named as an executor on the will?\""
-        + ",\"answers\":[\"Yes\"]},{\"question\":\"Are all the executors able to make their own decisions?\","
-        + "\"answers\":[\"Yes\"]}]},{\"title\":\"Inheritance tax\",\"type\":\"heading-medium\",\"questionAndAnswers\":"
-        + "[{\"question\":\"Has an Inheritance Tax (IHT) form been filled in?\",\"answers\":[\"Yes\"]},{\"question\":"
-        + "\"How was the Inheritance Tax (IHT) form submitted?\",\"answers\":[\"Through the HMRC online service\"]},"
-        + "{\"question\":\"Inheritance Tax identifier (IHT)\",\"answers\":[\"iti54\"]},{\"question\":"
-        + "\"Gross value of the estate in £\",\"answers\":[\"10000\"]},{\"question\":\"Net value of the estate in £\","
-        + "\"answers\":[\"9000\"]}]},{\"title\":\"The executors\",\"type\":\"heading-medium\",\"questionAndAnswers\":"
-        + "[{\"question\":\"How many past and present executors are named on the will and any updates (‘codicils’)?\","
-        + "\"answers\":[\"1\"]}]},{\"title\":\"About you\",\"type\":\"heading-small\",\"questionAndAnswers\":["
-        + "{\"question\""
-        + ":\"First name(s)\",\"answers\":[\"Jason\"]},{\"question\":\"Last name(s)\",\"answers\":[\"Smith\"]},"
-        + "{\"question\""
-        + ":\"Is your name ‘Jason Smith’ exactly what appears on the will?\",\"answers\":[\"Yes\"]},{\"question\":"
-        + "\"Phone number\",\"answers\":[\"01206822777\"]},{\"question\":\"What is your address?\",\"answers\":"
-        + "[\"Address Line 1\\nAddress Line 2\\nAddress Line3\\nPost Code\"]}]},"
-        + "{\"title\":\"About the person who died\","
-        + "\"type\":\"heading-medium\",\"questionAndAnswers\":[{\"question\":\"First name(s)\",\"answers\":[\"Mike\"]},"
-        + "{\"question\":\"Last name(s)\",\"answers\":[\"Samuels\"]},{\"question\":"
-        + "\"Did Mike Samuels have assets in another name?\",\"answers\":[\"Yes\"]},{\"question\":"
-        + "\"Names used by the deceased\",\"answers\":"
-        + "[\"\\n                The old codger\\n            \"]},{\"question\":"
-        + "\"Did Mike Samuels get married or enter into a civil partnership after the latest codicil was signed?\","
-        + "\"answers\":[\"Yes\"]},{\"question\":\"What was the date that they died?\",\"answers\":"
-        + "[\"20 September 2018\"]},"
-        + "{\"question\":\"What was their date of birth?\",\"answers\":[\"1 January 1966\"]},{\"question\":"
-        + "\"At the time of their death did the person who died:\",\"answers\":"
-        + "[\"live (domicile) permanently in England or Wales\"]},{\"question\":"
-        + "\"What was the permanent address at the time of their death?\",\"answers\":"
-        + "[\"Address Line 1\\nAddress Line 2\\nAddress Line3\\nPost Code\"]}]}]}";
-
-    private String invalidCheckAnswersSummaryBody =
-        "{\"checkAnswersSummary\":{\"pageTitle\":\"pageTitle\",\"mainParagraph\":null,\"sections\""
-        + ":[{\"title\":null,\"type\":\"heading-medium\",\"questionAndAnswers\":[{\"question\":\""
-        + "question 1\",\"answers\":"
-        + "[\"not answered\"]}]}]}})\"";
-
-    private String legalDeclarationBody = "{\"headers\":[\"In the High Court of Justice\",\"Family Division\","
-        + "\"(Probate)\"],\"sections\":[{\"title\":\"Legal statement\",\"headingType\":\"large\",\"declarationItems\":"
-        + "[{\"title\":\"I, Jason Smith of An address\\nsomewhere \\nin\\"
-        + "nengland\\npost code\\n, make the following statement:\",\"values\":[]}]},{\"title\":"
-        + "\"The person who died\",\"headingType\":\"small\",\"declarationItems\":[{\"title\":"
-        + "\"Mike Samuels was born on 1 January 1977 and died on 20 October 2018, domiciled in England and Wales. \","
-        + "\"values\":[]}]},{\"title\":\"The estate of the person who died\",\"headingType\":\"small\",\""
-        + "declarationItems\""
-        + ":[{\"title\":\"The gross value for the estate amounts to £10000 and the net value for the estate"
-        + "amounts to £10000.\",\"values\":[]},{\"title\":\"To the best of my knowledge, information and belief,"
-        + "there was no land vested in Mike Samuels which was settled previously to the death (and not by the will) of"
-        + "Mike Samuels and which remained settled land notwithstanding such death.\",\"values\":[]}]},{\"title\":"
-        + "\"Executors applying for probate\",\"headingType\":\"small\",\"declarationItems\":[{\"title\":"
-        + "\"I am an executor named in the will or codicils as Jason Smith, and I am applying for probate.\",\""
-        + "values\":[]},"
-        + "{\"title\":\""
-        + "I will sign and send to the probate registry what I believe to be the true and original last will"
-        + "and testament and any codicils of Mike Samuels.\",\"values\":[]}]},"
-        + "{\"title\":\"Declaration\",\"headingType\":"
-        + "large\",\"declarationItems\":[{\"title\":\"I confirm that we will administer the estate of Mike Samuels,"
-        + "according to law. I will:\",\"values\":[\"collect the whole estate\",\"keep full details (an inventory) of"
-        + "the estate\",\"keep a full account of how the estate has been administered\"]},{\"title\":\"If the probate"
-        + "registry (court) asks me to do so, I will:\",\"values\":[\"provide the full details of the estate and how it"
-        + "has been administered\",\"return the grant of probate to the court\"]},{\"title\":\"I understand that:\","
-        + "\"values\":[\"my application will be rejected if I do not answer any questions about the information I have"
-        + "given\",\"criminal proceedings for fraud may be brought against me if I am found to have been deliberately"
-        + "untruthful or dishonest\"]}]}],\"dateCreated\": \"31/10/2018, 10:15:44\", \"deceased\":\"Mike Samuels\"}";
-
-    private String invalidLegalDeclarationBody =
-        "{\"legalDeclaration\":{\"headers\":[\"header0\",\"header1\",\"header2\"],\"sections\":"
-        + "[{\"title\":\"title\",\"headingType\":\"large\",\"declarationItems\":[{\"title\":\""
-        + "declaration title\",\"values\""
-        + ":[\"value0\",\"value1\",\"value2\"]}]}],\"dateCreated\":\"date and time\",\"deceased\":null}}";
-
-    private String bulkScanCoverSheetBody = "{\"title\":\"Cover Sheet\",\"applicantAddressIntro\":"
-        + "\"The applicants address\",\"applicantAddress\":\"20 White City\\nLondon\\nW12 7PD\",\"caseReferenceIntro\""
-        + ":\"Your unique reference\\nnumber is\",\"caseReference\":\"1542-9021-4510-0350\",\"submitAddressIntro\":"
-        + "\"Please send this cover sheet along with your document(s) to the address shown below\",\"submitAddress\""
-        + ":\"Divorce Service\\nPO BOX 123\\nExela BSP Services\\nHarlow\\nCM19 5QS\"}";
-
-    private String invalidBulkScanCoverSheetBody = "{\"bulkScanCoverSheet\" : {\"title\":\"Download Cover Sheet"
-        + "\",\"applicantAddressIntro\""
-        + ":\"Your address\",\"applicantAddress\":\"addressLine1\",\"caseReferenceIntro\":\""
-        + "Your unique reference\\nnumber"
-        + " is\",\"caseReference\":\"\",\"submitAddressIntro\":\""
-        + "You must send these documents and this cover sheet to the address shown below\","
-        + "\"submitAddress\":null, \"checkListItems\":null,\"checkListItemsIntro\":\""
-        + "Send your documents and coversheet\",\"noDocumentsRequiredText\": null,\"applicantNameIntro"
-        + "\":\"Your name\",\"applicantName\":null,\"noDocumentsRequired\":null}}";
-
 
     @BeforeEach
     public void setUpTest() throws InterruptedException {
@@ -171,7 +77,7 @@ public class BusinessServiceConsumerTest {
                 .method("POST")
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, serviceAuthorization,
                 SOME_SERVICE_AUTHORIZATION_TOKEN)
-                .body(checkAnswersSummaryBody)
+                .body(contractTestUtils.createJsonObject("businessDocuments/checkAnswersSimpleSummary.json"))
                 .willRespondWith()
                 .status(200)
                 .matchHeader("FormDataContent-Type", "application/octet-stream")
@@ -192,7 +98,8 @@ public class BusinessServiceConsumerTest {
                 .method("POST")
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, serviceAuthorization,
                 SOME_SERVICE_AUTHORIZATION_TOKEN)
-                .body(invalidCheckAnswersSummaryBody)
+                //.body(invalidCheckAnswersSummaryBody)
+                .body(contractTestUtils.createJsonObject("businessDocuments/invalidCheckAnswersSummary.json"))
                 .willRespondWith()
                 .status(400)
                 .matchHeader("FormDataContent-Type", "application/json;charset=UTF-8")
@@ -224,7 +131,8 @@ public class BusinessServiceConsumerTest {
                     .method("POST")
                     .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, serviceAuthorization,
                     SOME_SERVICE_AUTHORIZATION_TOKEN)
-                    .body(legalDeclarationBody)
+                    .body(contractTestUtils.createJsonObject("businessDocuments/validLegalDeclaration.json"))
+                    .matchHeader("Content-Type", "application/json")
                     .willRespondWith()
                     .status(200)
                     .matchHeader("FormDataContent-Type", "application/octet-stream")
@@ -245,10 +153,10 @@ public class BusinessServiceConsumerTest {
                 .method("POST")
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, serviceAuthorization,
                 SOME_SERVICE_AUTHORIZATION_TOKEN)
-                .body(invalidLegalDeclarationBody)
+                .body(contractTestUtils.createJsonObject("businessDocuments/invalidLegalDeclaration.json"))
+                .matchHeader("Content-Type", "application/json")
                 .willRespondWith()
                 .status(400)
-                .matchHeader("FormDataContent-Type", "application/json;charset=UTF-8")
                 .body(newJsonBody((o) -> {
                     o.stringValue("path", "/businessDocument/generateLegalDeclarationPDF");
                     o.numberType("timestamp");
@@ -277,7 +185,8 @@ public class BusinessServiceConsumerTest {
                 .method("POST")
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, serviceAuthorization,
                 SOME_SERVICE_AUTHORIZATION_TOKEN)
-                .body(bulkScanCoverSheetBody)
+                .body(contractTestUtils.createJsonObject("businessDocuments/bulkScanCoverSheet.json"))
+                .matchHeader("Content-Type", "application/json")
                 .willRespondWith()
                 .status(200)
                 .matchHeader("FormDataContent-Type", "application/octet-stream")
@@ -298,10 +207,10 @@ public class BusinessServiceConsumerTest {
                 .method("POST")
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, serviceAuthorization,
                 SOME_SERVICE_AUTHORIZATION_TOKEN)
-                .body(invalidBulkScanCoverSheetBody)
+                .body(contractTestUtils.createJsonObject("businessDocuments/invalidBulkScanCoverSheet.json"))
+                .matchHeader("Content-Type", "application/json")
                 .willRespondWith()
                 .status(400)
-                .matchHeader("FormDataContent-Type", "application/json;charset=UTF-8")
                 .body(newJsonBody((o) -> {
                     o.stringValue("path", "/businessDocument/generateBulkScanCoverSheetPDF");
                     o.numberType("timestamp");
@@ -377,13 +286,8 @@ public class BusinessServiceConsumerTest {
 
     }
 
-    private CheckAnswersSummary getCheckAnswersSummary() throws JSONException, IOException {
-        CheckAnswersSummary businessDoc = objectMapper.readValue(checkAnswersSummaryBody, CheckAnswersSummary.class);
-        return businessDoc;
-    }
-
-
     private CheckAnswersSummary getCheckAnswersSummary(String fileName) throws JSONException, IOException {
+        objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
         File file = getFile(fileName);
         CheckAnswersSummary businessDoc = objectMapper.readValue(file, CheckAnswersSummary.class);
         return businessDoc;
@@ -391,12 +295,14 @@ public class BusinessServiceConsumerTest {
 
 
     private LegalDeclaration getLegalDeclaration(String fileName) throws JSONException, IOException {
+        objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
         File file = getFile(fileName);
         LegalDeclaration businessDoc = objectMapper.readValue(file, LegalDeclaration.class);
         return businessDoc;
     }
 
     private BulkScanCoverSheet getBulkScanCoverSheet(String fileName) throws JSONException, IOException {
+        objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
         File file = getFile(fileName);
         BulkScanCoverSheet businessDoc = objectMapper.readValue(file, BulkScanCoverSheet.class);
         return businessDoc;
@@ -438,6 +344,4 @@ public class BusinessServiceConsumerTest {
                 .stringType("objectName", docType)
         );
     }
-
-
 }

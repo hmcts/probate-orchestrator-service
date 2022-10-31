@@ -1,4 +1,5 @@
 {
+  "legalDeclaration": {
     "declarations": [
       {
         "headers": [
@@ -8,17 +9,24 @@
         ],
         "sections": [
           {
-            "headingType": "large",
             "title": "Legal statement",
+            "headingType": "large",
             "declarationItems": [
               {
-                "title": "I, Jason Smith of An address\nsomewhere \nin\nengland\npost code\n, make the following statement:"
+                "title": "title",
+                "values": [
+                  "I, Jason Smith of An address\n",
+                  "somewhere \nin\nengland\npost code\n",
+                  ", make the following statement:"
+                ]
               }
             ]
           }
-        ]
+        ],
+        "lastDeclaration": true
       }],
     "dateCreated": "31/10/2018, 10:15:44",
     "deceased": "Mike Samuels",
-    "bilingual": "false"
+    "bilingual": false
+  }
 }
