@@ -148,12 +148,14 @@ task runProviderPactTests(type: Test) {
     classpath = sourceSets.testContract.runtimeClasspath
 }
 
-task runConsumerPactTests(type: Test) {
+task runAndPublishConsumerPactTests(type: Test) {
     description = "Runs Contract Tests"
     useJUnitPlatform()
     testClassesDirs = sourceSets.testContract.output.classesDirs
     classpath = sourceSets.testContract.runtimeClasspath
 }
+
+runAndPublishConsumerPactTests.finalizedBy pactPublish
 
 test {
     maxHeapSize = "1024m"
