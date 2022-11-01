@@ -338,7 +338,7 @@ task fortifyScan(type: JavaExec)  {
 
 pact {
     publish {
-        pactDirectory = 'target/pacts'
+        pactDirectory = 'pacts'
         pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?: 'http://localhost:80'
         tags = [System.getenv("PACT_BRANCH_NAME") ?: 'Dev']
         version = project.pactVersion

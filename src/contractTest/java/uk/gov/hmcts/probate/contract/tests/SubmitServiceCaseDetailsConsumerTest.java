@@ -1,6 +1,7 @@
 package uk.gov.hmcts.probate.contract.tests;
 
 import au.com.dius.pact.consumer.Pact;
+import au.com.dius.pact.consumer.PactFolder;
 import au.com.dius.pact.consumer.dsl.DslPart;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
@@ -29,6 +30,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @ExtendWith(PactConsumerTestExt.class)
 @ExtendWith(SpringExtension.class)
 @PactTestFor(providerName = "probate_submitService", port = "8889")
+@PactFolder("pacts")
 @SpringBootTest({
         // overriding provider address
         "probate_submitservice.ribbon.listOfServers: localhost:8889",
