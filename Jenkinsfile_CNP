@@ -41,7 +41,7 @@ withPipeline("java", product, component) {
 //            error 'Deliberately breaking pipeline to prevent prod deployment'
 //    }
 
-    after('test') {
+    afterSuccess('test') {
 
 //        try {
 //            if (env.CHANGE_BRANCH || env.BRANCH_NAME == 'master') {
@@ -102,7 +102,7 @@ withPipeline("java", product, component) {
         ]
     }
 
-    after('functionalTest:aat') {
+    afterSuccess('functionalTest:aat') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
         publishHTML target: [
                 allowMissing         : true,
@@ -114,7 +114,7 @@ withPipeline("java", product, component) {
         ]
     }
 
-    after('functionalTest:preview') {
+    afterSuccess('functionalTest:preview') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
         publishHTML target: [
                 allowMissing         : true,
