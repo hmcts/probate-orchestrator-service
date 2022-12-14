@@ -65,4 +65,8 @@
        <packageUrl regex="true">^pkg:maven/commons\-logging/commons\-logging@.*$</packageUrl>
        <cve>CVE-2021-37533</cve>
     </suppress>
+    <suppress>
+       <packageUrl regex="true">^pkg:maven/commons\-codec/commons\-codec@.*$</packageUrl>
+       <cve>CVE-2021-37533</cve>
+   </suppress>
 </suppressions>
