@@ -178,7 +178,7 @@ def versions = [
         restAssured                     : '4.4.0',
         piTest                          : '1.6.9',
         commonMark                      : '0.17.0',
-        probateCommonsVersion           : '1.4.7',
+        probateCommonsVersion           : 'DTSPB-3219-v1-1.4.7',
         jacksonDatabind                 : '2.13.2',
         pact_version                    : '3.6.15',
         feign                           : '11.6',
