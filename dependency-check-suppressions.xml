@@ -11,22 +11,12 @@
     </suppress>
     <suppress>
         <notes><![CDATA[
-   file name: spring-core-5.3.19.jar
+   file name: spring-core-5.3.19.Ïjar
    ]]></notes>
         <packageUrl regex="true">^pkg:maven/org\.springframework/spring-core@.*$</packageUrl>
         <vulnerabilityName>CVE-2016-1000027</vulnerabilityName>
         <vulnerabilityName>CVE-2022-22970</vulnerabilityName>
         <vulnerabilityName>CVE-2022-22971</vulnerabilityName>
-    </suppress>
-    <suppress>
-        <packageUrl regex="true">^pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@.*$</packageUrl>
-        <cve>CVE-2022-34305</cve>
-        <cve>CVE-2022-42252</cve>
-    </suppress>
-    <suppress>
-        <packageUrl regex="true">^pkg:maven/org.apache.tomcat.embed/tomcat-embed-websocket@.*$</packageUrl>
-        <cve>CVE-2022-34305</cve>
-        <cve>CVE-2022-42252</cve>
     </suppress>
     <suppress until="2023-01-07">
         <cve>CVE-2022-31569</cve>
