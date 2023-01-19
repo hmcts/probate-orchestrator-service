@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -83,7 +84,7 @@ public class DocumentsControllerTest {
     @Test
     public void generateCheckAnswersSummaryPdf_withInvalidJson_shouldReturnBadRequest() throws Exception {
         String invalidCheckAnswersSummaryJson =
-            TestUtils.getJsonFromFile("businessDocuments/invalidCheckAnswersSummary.json");
+                TestUtils.getJsonFromFile("businessDocuments/invalidCheckAnswersSummary.json");
 
         mockMvc.perform(post(CHECK_ANSWERS_SUMMARY_ENDPOINT)
             .content(invalidCheckAnswersSummaryJson)
@@ -109,7 +110,7 @@ public class DocumentsControllerTest {
     @Test
     public void generateLegalDeclarationPdf_withInvalidJson_shouldReturnBadRequest() throws Exception {
         String invalidLegalDeclarationJson =
-            TestUtils.getJsonFromFile("businessDocuments/invalidLegalDeclaration.json");
+                TestUtils.getJsonFromFile("businessDocuments/invalidLegalDeclaration.json");
 
         mockMvc.perform(post(LEGAL_DECLARATION_ENDPOINT)
             .content(invalidLegalDeclarationJson)
@@ -156,7 +157,7 @@ public class DocumentsControllerTest {
             .andExpect(status().isOk());
 
         verify(backOfficeService, times(1)).uploadDocument(eq(authorisation),
-            eq(Lists.newArrayList(file)));
+            ArgumentMatchers.eq(Lists.newArrayList(file)));
     }
 
 }
