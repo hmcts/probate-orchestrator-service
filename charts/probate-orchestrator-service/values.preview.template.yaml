@@ -3,3 +3,6 @@ java:
     LOG_LEVEL: DEBUG
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
+  SUBMIT_SERVICE_API_URL: "https://probate-submit-service-pr-650.service.core-compute-preview.internal"
+  BUSINESS_SERVICE_API_URL: "https://probate-business-service-pr-684.service.core-compute-preview.internal"
+  BACK_OFFICE_API_URL: "https://probate-back-office-pr-2146.service.core-compute-preview.internal"
