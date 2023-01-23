@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class DocumentsControllerTest {
+public class DocumentsControllerIT {
 
     private static final String CHECK_ANSWERS_SUMMARY_ENDPOINT =
         DocumentsController.DOCUMENTS_BASEURL + DocumentsController.CHECK_ANSWERS_ENDPOINT;
