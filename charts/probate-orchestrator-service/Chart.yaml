@@ -8,5 +8,5 @@ maintainers:
     email: Probate@hmcts.net
 dependencies:
   - name: java
-    version: 4.0.6
+    version: 4.0.11
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
