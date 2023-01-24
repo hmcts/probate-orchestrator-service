@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class PaymentUpdateControllerTest {
+public class PaymentUpdateControllerIT {
 
     public static final String AUTH_TOKEN = "dummyToken";
     public static final String AUTH_TOKEN_EMPTY = " ";

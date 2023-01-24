@@ -25,7 +25,7 @@ import static org.hamcrest.Matchers.nullValue;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class CaveatMapperTest {
+public class CaveatMapperIT {
 
     @Autowired
     private CaveatMapper mapper;

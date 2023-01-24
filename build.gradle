@@ -122,7 +122,22 @@ sourceSets {
         }
         resources.srcDir file('src/contractTest/resources')
     }
+    testIntegration {
+        java {
+            compileClasspath += main.output
+            runtimeClasspath += main.output
+            srcDir file('src/integrationTest/java')
+        }
+        resources.srcDir file('src/integrationTest/resources')
+    }
 
+}
+
+task integration(type: Test) {
+    description = "Runs integration tests"
+    testClassesDirs = sourceSets.testIntegration.output.classesDirs
+    classpath = sourceSets.testIntegration.runtimeClasspath
+    useJUnitPlatform()
 }
 
 task smoke(type: Test) {
@@ -186,7 +201,7 @@ def versions = [
 ]
 
 jacocoTestReport {
-    executionData(test)
+    executionData(test, integration)
     reports {
         xml.enabled = true
         csv.enabled = false
@@ -194,6 +209,7 @@ jacocoTestReport {
     }
 }
 
+check.dependsOn(integration)
 
 pmd {
     ignoreFailures = true
@@ -290,6 +306,28 @@ dependencies {
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
     testImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
     testImplementation 'com.github.hmcts:fortify-client:1.2.1:all'
+
+
+    testIntegrationImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    testIntegrationImplementation group: 'org.springframework.security', name: 'spring-security-test', version: versions.springSecurityVersion
+    testIntegrationImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-hateoas', version: versions.springBootVersion
+    testIntegrationImplementation group: 'org.springframework.cloud', name: 'spring-cloud-contract-wiremock', version: versions.springCloudWiremock
+    testIntegrationImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
+    testIntegrationImplementation group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
+    testIntegrationImplementation group: 'org.mapstruct', name: 'mapstruct-jdk8', version: versions.mapStruct
+    testIntegrationImplementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
+    testIntegrationImplementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: versions.jacksonDatabind
+
+    testIntegrationImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
+    testIntegrationImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
+    testIntegrationImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
+    testIntegrationImplementation 'com.github.hmcts:fortify-client:1.2.1:all'
+    testIntegrationImplementation group: 'com.github.hmcts', name: 'probate-commons', version: versions.probateCommonsVersion
+    testIntegrationImplementation group: 'com.google.guava', name: 'guava', version: '30.1.1-jre'
+
+    testIntegrationImplementation sourceSets.main.runtimeClasspath
+    testIntegrationImplementation sourceSets.test.runtimeClasspath
+
 
     testSmokeImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
     testSmokeImplementation sourceSets.main.runtimeClasspath
