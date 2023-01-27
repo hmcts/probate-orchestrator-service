@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class FormsControllerTest {
+public class FormsControllerIT {
 
     private static final String EMAIL_ADDRESS = "1570130475566595";
 
