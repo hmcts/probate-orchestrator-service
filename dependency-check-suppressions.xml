@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd ">
     <suppress>
         <notes><![CDATA[
    file name: jackson-databind-2.13.2.jar
@@ -31,34 +33,34 @@
         <cve>CVE-2022-41854</cve>
         <cve>CVE-2022-1471</cve>
     </suppress>
-        <suppress>
-       <packageUrl regex="true">^pkg:maven/commons\-beanutils/commons\-beanutils@.*$</packageUrl>
-       <cve>CVE-2021-37533</cve>
+    <suppress>
+        <packageUrl regex="true">^pkg:maven/commons\-beanutils/commons\-beanutils@.*$</packageUrl>
+        <cve>CVE-2021-37533</cve>
     </suppress>
     <suppress>
-       <packageUrl regex="true">^pkg:maven/commons\-beanutils/commons\-beanutils@.*$</packageUrl>
-       <cve>CVE-2021-37533</cve>
+        <packageUrl regex="true">^pkg:maven/commons\-beanutils/commons\-beanutils@.*$</packageUrl>
+        <cve>CVE-2021-37533</cve>
     </suppress>
     <suppress>
-       <packageUrl regex="true">^pkg:maven/commons\-collections/commons\-collections@.*$</packageUrl>
-       <cve>CVE-2021-37533</cve>
+        <packageUrl regex="true">^pkg:maven/commons\-collections/commons\-collections@.*$</packageUrl>
+        <cve>CVE-2021-37533</cve>
     </suppress>
     <suppress>
-       <packageUrl regex="true">^pkg:maven/commons\-fileupload/commons\-fileupload@.*$</packageUrl>
-       <cve>CVE-2021-37533</cve>
+        <packageUrl regex="true">^pkg:maven/commons\-fileupload/commons\-fileupload@.*$</packageUrl>
+        <cve>CVE-2021-37533</cve>
     </suppress>
     <suppress>
-       <packageUrl regex="true">^pkg:maven/commons\-io/commons\-io@.*$</packageUrl>
-       <cve>CVE-2021-37533</cve>
+        <packageUrl regex="true">^pkg:maven/commons\-io/commons\-io@.*$</packageUrl>
+        <cve>CVE-2021-37533</cve>
     </suppress>
     <suppress>
-       <packageUrl regex="true">^pkg:maven/commons\-logging/commons\-logging@.*$</packageUrl>
-       <cve>CVE-2021-37533</cve>
+        <packageUrl regex="true">^pkg:maven/commons\-logging/commons\-logging@.*$</packageUrl>
+        <cve>CVE-2021-37533</cve>
     </suppress>
     <suppress>
-       <packageUrl regex="true">^pkg:maven/commons\-codec/commons\-codec@.*$</packageUrl>
-       <cve>CVE-2021-37533</cve>
-   </suppress>
+        <packageUrl regex="true">^pkg:maven/commons\-codec/commons\-codec@.*$</packageUrl>
+        <cve>CVE-2021-37533</cve>
+    </suppress>
     <suppress>
         <notes><![CDATA[
    file name: LatencyUtils-2.0.3.jar
@@ -79,6 +81,53 @@
    ]]></notes>
         <packageUrl regex="true">^pkg:maven/org\.yaml/snakeyaml@.*$</packageUrl>
         <cve>CVE-2022-3064</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: spring-security-config-5.7.3.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.springframework\.security/spring\-security\-config@.*$</packageUrl>
+        <cpe>cpe:/a:pivotal_software:spring_security</cpe>
+        <cpe>cpe:/a:vmware:spring_security</cpe>
+        <cve>CVE-2022-31690</cve>
+        <cve>CVE-2022-31692</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: spring-security-core-5.7.3.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.springframework\.security/spring\-security\-core@.*$</packageUrl>
+        <cpe>cpe:/a:pivotal_software:spring_security</cpe>
+        <cpe>cpe:/a:vmware:spring_security</cpe>
+        <cve>CVE-2022-31692</cve>
+        <cve>CVE-2022-31690</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: spring-security-crypto-5.7.3.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.springframework\.security/spring\-security\-crypto@.*$</packageUrl>
+        <cpe>cpe:/a:pivotal_software:spring_security</cpe>
+        <cpe>cpe:/a:vmware:spring_security</cpe>
+        <cve>CVE-2022-31692</cve>
+        <cve>CVE-2022-31690</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: spring-security-web-5.7.3.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.springframework\.security/spring\-security\-web@.*$</packageUrl>
+        <cpe>cpe:/a:pivotal_software:spring_security</cpe>
+        <cpe>cpe:/a:vmware:spring_security</cpe>
+        <cpe>cpe:/a:web_project:web</cpe>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: spring-security-web-5.7.3.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.springframework\.security/spring\-security\-web@.*$</packageUrl>
+        <cve>CVE-2022-31692</cve>
+        <cve>CVE-2022-31690</cve>
     </suppress>
 </suppressions>
 
