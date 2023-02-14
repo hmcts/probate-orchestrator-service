@@ -12,8 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import uk.gov.hmcts.probate.core.service.GrantAwaitingDocumentsNotifier;
-import uk.gov.hmcts.probate.core.service.GrantDelayedNotifier;
+import uk.gov.hmcts.probate.core.service.CaveatExpiryUpdater;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -25,12 +24,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class GrantControllerTest {
+public class CaveatControllerIT {
 
     @MockBean
-    private GrantDelayedNotifier grantDelayedNotifier;
-    @MockBean
-    private GrantAwaitingDocumentsNotifier grantAwaitingDocumentsNotifier;
+    private CaveatExpiryUpdater caveatExpiryUpdater;
 
     @Autowired
     private MockMvc mockMvc;
@@ -44,27 +41,15 @@ public class GrantControllerTest {
     }
 
     @Test
-    public void shouldInitiateGrantDelayedFromSchedule() throws Exception {
+    public void shouldExpireCaveatsFromSchedule() throws Exception {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String expiryDate = dateTimeFormatter.format(LocalDate.now().minusDays(1L));
 
-        mockMvc.perform(post("/grant/delay-notification")
+        mockMvc.perform(post("/caveat/expire")
             .content(expiryDate)
             .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
             .andExpect(status().isOk())
-            .andExpect(content().string("Perform grant delayed notification called"));
-    }
-
-    @Test
-    public void shouldInitiateGrantAwaitingDocsFromSchedule() throws Exception {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String expiryDate = dateTimeFormatter.format(LocalDate.now().minusDays(1L));
-
-        mockMvc.perform(post("/grant/awaiting-documents-notification")
-            .content(expiryDate)
-            .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
-            .andExpect(status().isOk())
-            .andExpect(content().string("Perform grant Awaiting Documents notification called"));
+            .andExpect(content().string("Perform expire caveats called"));
     }
 
 }
