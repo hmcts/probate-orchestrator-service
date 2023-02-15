@@ -49,7 +49,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 withParameterizedPipeline('java', product, component, params.ENVIRONMENT, 'sandbox') {
   env.PACT_BROKER_URL = "http://pact-broker.service.core-compute-saat.internal/"
   loadVaultSecrets(secrets)
-  after ('build') {
+  afterSucess('build') {
     try {
         sh './gradlew contract'
         sh './gradlew pactPublish'
@@ -58,7 +58,7 @@ withParameterizedPipeline('java', product, component, params.ENVIRONMENT, 'sandb
     }
   }
 
-  after('test') {
+  afterSuccess('test') {
     junit 'build/test-results/test/**/*.xml'
     archiveArtifacts 'build/reports/tests/test/index.html'
     publishHTML target: [
@@ -89,7 +89,7 @@ withParameterizedPipeline('java', product, component, params.ENVIRONMENT, 'sandb
     ]
   }
 
-  after('functionalTest:saat') {
+  afterSuccess('functionalTest:saat') {
       publishHTML target: [
               reportDir            : "target/site/serenity/",
               reportFiles          : "index.html",
@@ -98,11 +98,11 @@ withParameterizedPipeline('java', product, component, params.ENVIRONMENT, 'sandb
       ]
   }
 
-    after('functionalTest:aat') {
+    afterSuccess('functionalTest:aat') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
     }
 
-    after('functionalTest:preview') {
+    afterSuccess('functionalTest:preview') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
     }
 }
