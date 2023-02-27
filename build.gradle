@@ -403,7 +403,22 @@ task printVersion {
     }
 }
 
+task exportAatEnvVariables() {
+    "sh bin/export-aat-env-variables.sh".execute()
+}
+
 run {
+    if (new Boolean(System.getenv("POINT_TO_AAT"))) {
+        if (project.file('./.aat-env').exists()) {
+            project.file('./.aat-env').readLines().each() {
+                def index = it.indexOf("=")
+                def key = it.substring(0, index)
+                def value = it.substring(index + 1)
+                environment key, value
+            }
+        }
+    }
+
     if (debug == 'true') {
         jvmArgs = ['-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005']
     }
