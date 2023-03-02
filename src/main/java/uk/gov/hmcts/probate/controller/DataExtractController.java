@@ -26,7 +26,6 @@ public class DataExtractController {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private final DataExtractService dataExtractService;
 
-    @Scheduled(cron = "${cron.hmrc.schedule}")
     @Operation(summary = "Initiate HMRC data extract", description = "Will find cases for yesterdays date")
     @PostMapping(path = "/hmrc")
     public ResponseEntity initiateHmrcExtract() {
