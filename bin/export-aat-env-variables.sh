@@ -26,5 +26,4 @@ set -eu
   echo "SUBMIT_SERVICE_API_URL=http://probate-submit-service-aat.service.core-compute-aat.internal";
   echo "BUSINESS_SERVICE_API_URL=http://probate-business-service-aat.service.core-compute-aat.internal";
   echo "BACK_OFFICE_API_URL=http://probate-back-office-aat.service.core-compute-aat.internal";
-  echo "SERVICES_PERSISTENCE_BASEURL=http://probate-persistence-service-aat.service.core-compute-aat.internal";
 } >> .aat-env
