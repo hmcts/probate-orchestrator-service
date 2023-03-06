@@ -142,10 +142,16 @@ withPipeline("java", product, component) {
     env.PACT_BROKER_FULL_URL = 'https://pact-broker.platform.hmcts.net'
 
     onMaster() {
-        enablePactAs([AppPipelineDsl.PactRoles.CONSUMER])
+        enablePactAs([
+                AppPipelineDsl.PactRoles.CONSUMER,
+                AppPipelineDsl.PactRoles.PROVIDER
+        ])
     }
 
     onPR() {
-        enablePactAs([AppPipelineDsl.PactRoles.CONSUMER])
+        enablePactAs([
+                AppPipelineDsl.PactRoles.CONSUMER,
+                AppPipelineDsl.PactRoles.PROVIDER
+        ])
     }
 }
