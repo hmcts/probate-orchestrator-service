@@ -27,3 +27,5 @@
 git.properties
 .gradle
 /src/main/generated/
+
+.aat-env

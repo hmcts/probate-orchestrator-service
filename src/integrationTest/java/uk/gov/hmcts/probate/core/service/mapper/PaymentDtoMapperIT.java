@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class PaymentDtoMapperTest {
+public class PaymentDtoMapperIT {
 
     private static final BigDecimal AMOUNT = BigDecimal.valueOf(20000);
     private static final String CCD_CASE_NUMBER = "234937229";

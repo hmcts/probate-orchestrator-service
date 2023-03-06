@@ -9,12 +9,15 @@ import org.springframework.security.test.context.TestSecurityContextHolder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 import uk.gov.hmcts.probate.client.IdamClientApi;
+import uk.gov.hmcts.probate.model.exception.InvalidTokenException;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
+import uk.gov.hmcts.reform.authorisation.validators.AuthTokenValidator;
 import uk.gov.hmcts.reform.probate.model.idam.TokenRequest;
 import uk.gov.hmcts.reform.probate.model.idam.TokenResponse;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atMostOnce;
@@ -38,6 +41,9 @@ public class SecurityUtilsTest {
 
     @Mock
     private AuthTokenGenerator authTokenGenerator;
+
+    @Mock
+    private AuthTokenValidator authTokenValidator;
 
     @Mock
     private IdamClientApi idamClient;
@@ -151,5 +157,48 @@ public class SecurityUtilsTest {
         assertThrows(NullPointerException.class, () -> {
             securityUtils.setSecurityContextUserAsCaseworker();
         });
+    }
+
+    @Test
+    public void givenTokenIsNull_whenGetBearToken_thenReturnNull() {
+        testGetBearToken(null, null);
+    }
+
+    @Test
+    public void givenTokenIsBlank_whenGetBearToken_thenReturnBlank() {
+        testGetBearToken(" ", " ");
+    }
+
+    @Test
+    public void givenTokenDoesNotHaveBearer_whenGetBearToken_thenReturnWithBearer() {
+        testGetBearToken("TestToken", "Bearer TestToken");
+    }
+
+    @Test
+    public void givenTokenDoesHaveBearer_whenGetBearToken_thenReturnWithBearer() {
+        testGetBearToken("Bearer TestToken", "Bearer TestToken");
+    }
+
+    private void testGetBearToken(String input, String expected) {
+        assertEquals(securityUtils.getBearerToken(input), expected);
+    }
+
+    @Test
+    public void givenServiceNameIsAuthenticated() throws InvalidTokenException {
+        when(authTokenValidator.getServiceName("Bearer TestService")).thenReturn("TestService");
+        assertEquals("TestService", securityUtils.authenticate("TestService"));
+    }
+
+    @Test()
+    public void authenticateABlankToken() throws InvalidTokenException {
+        assertThrows(InvalidTokenException.class, () -> {
+            securityUtils.authenticate(" ");
+        });
+    }
+
+    @Test
+    public void givenServiceNameIsNullFromToken() throws InvalidTokenException {
+        when(authTokenValidator.getServiceName("Bearer TestService")).thenReturn(null);
+        assertEquals(Boolean.FALSE, securityUtils.checkIfServiceIsAllowed("TestService"));
     }
 }

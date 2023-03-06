@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class ExecutorsMapperTest {
+public class ExecutorsMapperIT {
 
     public static final String ADDRESS_LINE_1 = "addressLine1";
     public static final String POSTCODE = "postcode";

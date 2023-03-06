@@ -12,25 +12,22 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import uk.gov.hmcts.probate.TestUtils;
-import uk.gov.hmcts.probate.service.PaymentUpdateService;
-import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
+import uk.gov.hmcts.probate.core.service.CaveatExpiryUpdater;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class PaymentUpdateControllerTest {
-
-    private static final String PAYMENT_UPDATES = "/payment-updates";
+public class CaveatControllerIT {
 
     @MockBean
-    private PaymentUpdateService paymentUpdateService;
+    private CaveatExpiryUpdater caveatExpiryUpdater;
 
     @Autowired
     private MockMvc mockMvc;
@@ -44,13 +41,15 @@ public class PaymentUpdateControllerTest {
     }
 
     @Test
-    public void shouldUpdatePayment() throws Exception {
-        String paymentDtoJsonStr = TestUtils.getJsonFromFile("paymentDto.json");
+    public void shouldExpireCaveatsFromSchedule() throws Exception {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String expiryDate = dateTimeFormatter.format(LocalDate.now().minusDays(1L));
 
-        mockMvc.perform(put(PAYMENT_UPDATES)
-            .content(paymentDtoJsonStr)
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
-        verify(paymentUpdateService, times(1)).paymentUpdate(any(PaymentDto.class));
+        mockMvc.perform(post("/caveat/expire")
+            .content(expiryDate)
+            .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
+            .andExpect(status().isOk())
+            .andExpect(content().string("Perform expire caveats called"));
     }
+
 }

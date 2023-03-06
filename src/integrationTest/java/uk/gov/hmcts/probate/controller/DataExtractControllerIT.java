@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class DataExtractControllerTest {
+public class DataExtractControllerIT {
 
     @MockBean
     private DataExtractController dataExtractController;

@@ -37,7 +37,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class PaMapperTest {
+public class PaMapperIT {
 
     @Autowired
     private PaMapper mapper;

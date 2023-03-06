@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class InvitationControllerTest {
+public class InvitationControllerIT {
 
     @MockBean
     private BusinessService businessService;
