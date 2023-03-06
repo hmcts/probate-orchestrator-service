@@ -157,11 +157,14 @@ task functional(type: Test) {
 
 functional.finalizedBy(aggregate)
 
-task runProviderPactTests(type: Test) {
-    description = "Runs Contract Tests"
+task runProviderPactVerification(type: Test) {
+    useJUnitPlatform()
+    description = "Runs provider pact Tests"
     testClassesDirs = sourceSets.testContract.output.classesDirs
     classpath = sourceSets.testContract.runtimeClasspath
 }
+
+runProviderPactVerification.finalizedBy pactVerify
 
 task runAndPublishConsumerPactTests(type: Test) {
     description = "Runs Contract Tests"
