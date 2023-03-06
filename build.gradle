@@ -162,7 +162,7 @@ task runProviderPactVerification(type: Test) {
     description = "Runs provider pact Tests"
     testClassesDirs = sourceSets.testContract.output.classesDirs
     classpath = sourceSets.testContract.runtimeClasspath
-    systemProperty 'pact.verifier.publishResults', System.getProperty('pact.verifier.publishResults')
+    systemProperty 'pact.verifier.publishResults', 'true'
     systemProperty 'pact.provider.version', pactVersion.toString();
 }
 
