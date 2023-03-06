@@ -1,16 +1,11 @@
 package uk.gov.hmcts.probate.contract.tests;
 
-import au.com.dius.pact.provider.junit.loader.PactBroker;
-import au.com.dius.pact.provider.junit.target.Target;
-import au.com.dius.pact.provider.junit.target.TestTarget;
-import au.com.dius.pact.provider.spring.SpringRestPactRunner;
-import au.com.dius.pact.provider.spring.target.SpringBootHttpTarget;
+import au.com.dius.pact.provider.junitsupport.loader.PactBroker;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -36,16 +31,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRestPactRunner.class)
 @ExtendWith(SpringExtension.class)
 @PactBroker(scheme = "${pact.broker.scheme}", host = "${pact.broker.baseUrl}", port = "${pact.broker.port}",
         tags = {"${pact.broker.consumer.tag}"})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class ControllerProviderTest {
-
-    @TestTarget
-    @SuppressWarnings(value = "VisibilityModifier")
-    public final Target target = new SpringBootHttpTarget();
 
     @Autowired
     ObjectMapper objectMapper;

@@ -1,12 +1,12 @@
 package uk.gov.hmcts.probate.contract.tests;
 
-import au.com.dius.pact.consumer.Pact;
-import au.com.dius.pact.consumer.PactFolder;
+import au.com.dius.pact.core.model.annotations.Pact;
+import au.com.dius.pact.core.model.annotations.PactFolder;
 import au.com.dius.pact.consumer.dsl.DslPart;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
-import au.com.dius.pact.model.RequestResponsePact;
+import au.com.dius.pact.core.model.RequestResponsePact;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,8 +58,7 @@ public class SubmitServiceCaseDetailsConsumerTest {
         Thread.sleep(2000);
     }
 
-    @Pact(state = "provider returns casedata with success", provider =
-        "probate_submitService_cases", consumer = "probate_orchestratorService")
+    @Pact(provider = "probate_submitService_cases", consumer = "probate_orchestratorService")
     public RequestResponsePact executeSuccessGetCaseDataPact(PactDslWithProvider builder)
         throws IOException, JSONException {
         // @formatter:off
@@ -182,8 +181,7 @@ public class SubmitServiceCaseDetailsConsumerTest {
 
 
 
-    @Pact(state = "provider returns casedata for invite id with success",
-        provider = "probate_submitService_cases", consumer = "probate_orchestratorService")
+    @Pact(provider = "probate_submitService_cases", consumer = "probate_orchestratorService")
     public RequestResponsePact executeSuccessGetCaseDataByInviteIdPact(PactDslWithProvider builder)
         throws IOException, JSONException {
         // @formatter:off
@@ -204,8 +202,7 @@ public class SubmitServiceCaseDetailsConsumerTest {
         // @formatter:on
     }
 
-    @Pact(state = "provider returns casedata not found", provider = "probate_submitService_cases",
-        consumer = "probate_orchestratorService")
+    @Pact(provider = "probate_submitService_cases", consumer = "probate_orchestratorService")
     public RequestResponsePact executeNotFoundGetCaseDataPact(PactDslWithProvider builder) {
         // @formatter:off
 
@@ -223,8 +220,7 @@ public class SubmitServiceCaseDetailsConsumerTest {
         // @formatter:on
     }
 
-    @Pact(state = "provider POSTS draft casedata with success", provider = "probate_submitService_drafts",
-        consumer = "probate_orchestratorService")
+    @Pact(provider = "probate_submitService_drafts", consumer = "probate_orchestratorService")
     public RequestResponsePact executeSuccessPostDraftCaseDataPact(PactDslWithProvider builder)
         throws IOException, JSONException {
         // @formatter:off
@@ -248,8 +244,7 @@ public class SubmitServiceCaseDetailsConsumerTest {
     }
 
 
-    @Pact(state = "provider POSTS partial draft casedata with success",
-        provider = "probate_submitService_drafts", consumer = "probate_orchestratorService")
+    @Pact(provider = "probate_submitService_drafts", consumer = "probate_orchestratorService")
     public RequestResponsePact executeSuccessPostPartialDraftCaseDataPact(PactDslWithProvider builder)
         throws IOException, JSONException {
         // @formatter:off

@@ -1,7 +1,7 @@
 package uk.gov.hmcts.probate.contract.tests;
 
-import au.com.dius.pact.provider.junit.Provider;
-import au.com.dius.pact.provider.junit.State;
+import au.com.dius.pact.provider.junitsupport.Provider;
+import au.com.dius.pact.provider.junitsupport.State;
 import org.json.JSONException;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import uk.gov.hmcts.probate.client.business.BusinessServiceApi;

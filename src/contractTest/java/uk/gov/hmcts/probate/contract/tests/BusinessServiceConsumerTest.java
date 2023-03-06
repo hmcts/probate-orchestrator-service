@@ -1,12 +1,12 @@
 package uk.gov.hmcts.probate.contract.tests;
 
-import au.com.dius.pact.consumer.Pact;
-import au.com.dius.pact.consumer.PactFolder;
+import au.com.dius.pact.core.model.annotations.Pact;
+import au.com.dius.pact.core.model.annotations.PactFolder;
 import au.com.dius.pact.consumer.dsl.PM;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
-import au.com.dius.pact.model.RequestResponsePact;
+import au.com.dius.pact.core.model.RequestResponsePact;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.pactfoundation.consumer.dsl.LambdaDslJsonArray;
@@ -67,8 +67,7 @@ public class BusinessServiceConsumerTest {
         Thread.sleep(2000);
     }
 
-    @Pact(state = "business service returns check your answers document request with success", provider =
-        "probate_businessservice_documents", consumer = "probate_orchestrator_service")
+    @Pact(provider = "probate_businessservice_documents", consumer = "probate_orchestrator_service")
     public RequestResponsePact executeSuccessGetCheckYoursAnswersSummaryPact(PactDslWithProvider builder)
         throws IOException, JSONException {
         // @formatter:off
@@ -88,8 +87,7 @@ public class BusinessServiceConsumerTest {
     }
 
 
-    @Pact(state = "business service returns validation errors for invalid check answers summary", provider =
-        "probate_businessservice_documents", consumer = "probate_orchestrator_service")
+    @Pact(provider = "probate_businessservice_documents", consumer = "probate_orchestrator_service")
     public RequestResponsePact executeValidationErrorsCheckYoursAnswersSummaryPact(PactDslWithProvider builder)
         throws IOException, JSONException {
         // @formatter:off
@@ -121,8 +119,7 @@ public class BusinessServiceConsumerTest {
     }
 
 
-    @Pact(state = "business service returns legal declaration document request with success",
-        provider = "probate_businessservice_documents", consumer = "probate_orchestrator_service")
+    @Pact(provider = "probate_businessservice_documents", consumer = "probate_orchestrator_service")
     public RequestResponsePact executeSuccessGetLegalDeclarationPact(PactDslWithProvider builder)
         throws IOException, JSONException {
         // @formatter:off
@@ -143,8 +140,7 @@ public class BusinessServiceConsumerTest {
     }
 
 
-    @Pact(state = "business service returns validation errors for invalid legal declaration",
-        provider = "probate_businessservice_documents", consumer = "probate_orchestrator_service")
+    @Pact(provider = "probate_businessservice_documents", consumer = "probate_orchestrator_service")
     public RequestResponsePact executeValidationErrorsLegalDeclarationPact(PactDslWithProvider builder)
         throws IOException, JSONException {
         // @formatter:off
@@ -175,8 +171,7 @@ public class BusinessServiceConsumerTest {
     }
 
 
-    @Pact(state = "business service returns bulk scan coversheet document request with success",
-        provider = "probate_businessservice_documents", consumer = "probate_orchestrator_service")
+    @Pact(provider = "probate_businessservice_documents", consumer = "probate_orchestrator_service")
     public RequestResponsePact executeSuccessGetBulkScanCoversheetPact(PactDslWithProvider builder)
         throws IOException, JSONException {
         // @formatter:off
@@ -197,8 +192,7 @@ public class BusinessServiceConsumerTest {
     }
 
 
-    @Pact(state = "business service returns validation errors for invalid bulk scan coversheet",
-        provider = "probate_businessservice_documents", consumer = "probate_orchestrator_service")
+    @Pact(provider = "probate_businessservice_documents", consumer = "probate_orchestrator_service")
     public RequestResponsePact executeValidationErrorsBulkScanCoversheetPact(PactDslWithProvider builder)
         throws IOException, JSONException {
         // @formatter:off

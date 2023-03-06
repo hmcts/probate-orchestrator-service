@@ -1,11 +1,11 @@
 package uk.gov.hmcts.probate.contract.tests;
 
-import au.com.dius.pact.consumer.Pact;
-import au.com.dius.pact.consumer.PactFolder;
+import au.com.dius.pact.core.model.annotations.Pact;
+import au.com.dius.pact.core.model.annotations.PactFolder;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
-import au.com.dius.pact.model.RequestResponsePact;
+import au.com.dius.pact.core.model.RequestResponsePact;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,8 +61,7 @@ public class SubmitServiceSubmissionValidationConsumerTest {
     }
 
 
-    @Pact(state = "provider POSTS submission with errors",
-            provider = "probate_submitService_submissions", consumer = "probate_orchestrator_service")
+    @Pact(provider = "probate_submitService_submissions", consumer = "probate_orchestrator_service")
     public RequestResponsePact executePostSubmissionWithClientErrors(PactDslWithProvider builder)
         throws IOException, JSONException {
         return builder

@@ -1,12 +1,12 @@
 package uk.gov.hmcts.probate.contract.tests;
 
-import au.com.dius.pact.consumer.Pact;
-import au.com.dius.pact.consumer.PactFolder;
+import au.com.dius.pact.core.model.annotations.Pact;
+import au.com.dius.pact.core.model.annotations.PactFolder;
 import au.com.dius.pact.consumer.dsl.PactDslRootValue;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
-import au.com.dius.pact.model.RequestResponsePact;
+import au.com.dius.pact.core.model.RequestResponsePact;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,8 +48,7 @@ public class BusinessServiceInviteConsumerTest {
         Thread.sleep(2000);
     }
 
-    @Pact(state = "business service sends invitation", provider = "probate_business_service_invite",
-        consumer = "probate_orchestrator_service")
+    @Pact(provider = "probate_business_service_invite", consumer = "probate_orchestrator_service")
     public RequestResponsePact executeSendInvitation(PactDslWithProvider builder) throws IOException, JSONException {
         // @formatter:off
         return builder
@@ -68,8 +67,7 @@ public class BusinessServiceInviteConsumerTest {
         // @formatter:on
     }
 
-    @Pact(state = "business service resends invitation", provider = "probate_business_service_invite",
-        consumer = "probate_orchestrator_service")
+    @Pact(provider = "probate_business_service_invite", consumer = "probate_orchestrator_service")
     public RequestResponsePact executeResendInvitation(PactDslWithProvider builder) throws IOException,
         JSONException {
         // @formatter:off
@@ -90,8 +88,7 @@ public class BusinessServiceInviteConsumerTest {
     }
 
 
-    @Pact(state = "business service generates pin number", provider = "probate_business_service_invite",
-        consumer = "probate_orchestrator_service")
+    @Pact(provider = "probate_business_service_invite", consumer = "probate_orchestrator_service")
     public RequestResponsePact executePinNumber(PactDslWithProvider builder) throws IOException, JSONException {
         // @formatter:off
         return builder
