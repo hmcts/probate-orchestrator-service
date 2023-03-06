@@ -1,6 +1,5 @@
 package uk.gov.hmcts.probate.contract.tests;
 
-import au.com.dius.pact.provider.junit.IgnoreNoPactsToVerify;
 import au.com.dius.pact.provider.junit.loader.PactBroker;
 import au.com.dius.pact.provider.junit.target.Target;
 import au.com.dius.pact.provider.junit.target.TestTarget;
@@ -41,7 +40,6 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 @PactBroker(scheme = "${pact.broker.scheme}", host = "${pact.broker.baseUrl}", port = "${pact.broker.port}",
         tags = {"${pact.broker.consumer.tag}"})
-@IgnoreNoPactsToVerify
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class ControllerProviderTest {
 
@@ -77,8 +75,8 @@ public abstract class ControllerProviderTest {
 
         User user = new User("123", new HashSet<>());
         when(userRequestAuthorizer.authorise(any(HttpServletRequest.class))).thenReturn(user);
-        //System.getProperties().setProperty("pact.verifier.publishResults", "true");
-        //System.getProperties().setProperty("pact.provider.version", providerVersion);
+        System.getProperties().setProperty("pact.verifier.publishResults", "true");
+        System.getProperties().setProperty("pact.provider.version", providerVersion);
     }
 
     protected JSONObject createJsonObject(String fileName) throws JSONException, IOException {
