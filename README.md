@@ -60,6 +60,16 @@ npx @hmcts/probate-dev-env --create
 npx @hmcts/probate-dev-env
 ```
 
+### Running against AAT:
+
+You may run a local instance of orchestrator that points towards AAT BE services to use in conjunction with a local FE 
+instance (probate-frontend or probate-caveats). This allows one to debug the orchestrator by triggering events through local FE.
+
+Steps:
+1. Ensure VPN is on.
+2. Run `./gradlew generateAatEnvFile`
+3. Run `POINT_TO_AAT=true ./gradlew run`
+4. After ~10 seconds, orchestrator will be running.
 
 ### Unit tests
 
