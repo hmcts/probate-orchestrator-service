@@ -403,18 +403,27 @@ task printVersion {
     }
 }
 
-task exportAatEnvVariables() {
-    "sh bin/export-aat-env-variables.sh".execute()
+task generateAatEnvFile() {
+    doFirst {
+        print 'Generating AAT env var file'
+        "sh bin/generate-aat-env-file.sh".execute()
+        
+        // Sleep to allow secrets to be fetched:
+        sleep(20 * 1000)
+    }
 }
 
 run {
     if (new Boolean(System.getenv("POINT_TO_AAT"))) {
-        if (project.file('./.aat-env').exists()) {
-            project.file('./.aat-env').readLines().each() {
-                def index = it.indexOf("=")
-                def key = it.substring(0, index)
-                def value = it.substring(index + 1)
-                environment key, value
+        print 'Exporting AAT env vars'
+        doFirst {
+            if (project.file('./.aat-env').exists()) {
+                project.file('./.aat-env').readLines().each() {
+                    def index = it.indexOf("=")
+                    def key = it.substring(0, index)
+                    def value = it.substring(index + 1)
+                    environment key, value
+                }
             }
         }
     }

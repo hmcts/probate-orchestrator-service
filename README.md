@@ -67,7 +67,7 @@ instance (probate-frontend or probate-caveats). This allows one to debug the orc
 
 Steps:
 1. Ensure VPN is on.
-2. Run `./gradlew exportAatEnvVariables`
+2. Run `./gradlew generateAatEnvFile`
 3. Run `POINT_TO_AAT=true ./gradlew run`
 4. After ~10 seconds, orchestrator will be running.
 
