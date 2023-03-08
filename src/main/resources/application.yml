@@ -88,8 +88,6 @@ feign:
         loggerLevel: basic
 
 cron:
-  hmrc:
-    schedule: "0 0 2 * * *"
   ironMountain:
     schedule: "0 5 2 * * *"
   exela:
