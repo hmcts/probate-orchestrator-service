@@ -71,6 +71,8 @@ Steps:
 3. Run `POINT_TO_AAT=true ./gradlew run`
 4. After ~10 seconds, orchestrator will be running.
 
+note. in order for invite to work, you will need to do the above steps with the Business Service as well.
+
 ### Unit tests
 
 To run all unit tests please execute the following command:

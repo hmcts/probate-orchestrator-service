@@ -24,6 +24,6 @@ set -eu
   echo "SCHEDULER_CASEWORKER_USERNAME=$(az keyvault secret show --vault-name probate-aat -o tsv --query value --name schedulerCaseWorkerUser)";
   echo "SCHEDULER_CASEWORKER_PASSWORD=$(az keyvault secret show --vault-name probate-aat -o tsv --query value --name schedulerCaseWorkerPass)";
   echo "SUBMIT_SERVICE_API_URL=http://probate-submit-service-aat.service.core-compute-aat.internal";
-  echo "BUSINESS_SERVICE_API_URL=http://probate-business-service-aat.service.core-compute-aat.internal";
+  echo "BUSINESS_SERVICE_API_URL=http://localhost:8080";
   echo "BACK_OFFICE_API_URL=http://probate-back-office-aat.service.core-compute-aat.internal";
 } >> .aat-env
