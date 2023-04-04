@@ -180,7 +180,6 @@
     </suppress>
     <suppress>
         <notes><![CDATA[
-   spring dependency
    spring dependency:
    spring-aop-5.3.19.jar
    spring-beans-5.3.19.jar
