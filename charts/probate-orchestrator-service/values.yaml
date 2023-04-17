@@ -15,9 +15,9 @@ java:
     SERVICES_CORECASEDATA_BASEURL: "http://ccd-data-store-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
     SERVICES_AUTH_PROVIDER_BASEURL: "http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
     AUTH_IDAM_CLIENT_BASEURL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
-    SUBMIT_SERVICE_API_URL: "http://probate-submit-service-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
-    BUSINESS_SERVICE_API_URL: "http://probate-business-service-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
-    BACK_OFFICE_API_URL: "http://probate-back-office-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
+    SUBMIT_SERVICE_API_URL: "http://probate-submit-service-pr-685-java"
+    BUSINESS_SERVICE_API_URL: "http://probate-business-service-pr-730-java"
+    BACK_OFFICE_API_URL: "http://probate-back-office-pr-2277-java"
     MAIL_JAVAMAILPROPERTIES_MAIL_SMTP_SSL_ENABLE: false
     MAIL_JAVAMAILPROPERTIES_MAIL_SMTP_AUTH: false
     SERVICES_CORECASEDATA_ENABLED: true
