@@ -11,7 +11,7 @@ public class TokenExchangeResponse {
     @JsonProperty("access_token")
     private String accessToken;
 
-    public TokenExchangeResponse(){
+    public TokenExchangeResponse() {
     }
 
     public TokenExchangeResponse(String accessToken) {

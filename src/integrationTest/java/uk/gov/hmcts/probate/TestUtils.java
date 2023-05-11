@@ -10,7 +10,7 @@ public class TestUtils {
         return new String(Files.readAllBytes(Paths.get("src/test/resources", fileName)));
     }
 
-    private TestUtils(){
+    private TestUtils() {
     }
 
 }

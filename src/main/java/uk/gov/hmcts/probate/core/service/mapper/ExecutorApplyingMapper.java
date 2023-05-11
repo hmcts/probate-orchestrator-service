@@ -12,9 +12,9 @@ import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.forms.pa.Executor;
 
-@Mapper(componentModel = "spring", uses = {
-    AddressMapper.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE, imports = {BooleanUtils.class,
-    AddressMapper.class, AliasReason.class}
+@Mapper(componentModel = "spring", uses = {AddressMapper.class},
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        imports = {BooleanUtils.class, AddressMapper.class, AliasReason.class}
 )
 public interface ExecutorApplyingMapper {
 

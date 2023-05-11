@@ -30,46 +30,46 @@ public interface BusinessServiceApi {
     @PostMapping(
             value = "/businessDocument/generateCheckAnswersSummaryPDF",
             headers = {
-                    CONTENT_TYPE + "=" + APPLICATION_JSON_UTF8_VALUE,
-                    ACCEPT + "=" + APPLICATION_JSON_UTF8_VALUE
+                CONTENT_TYPE + "=" + APPLICATION_JSON_UTF8_VALUE,
+                ACCEPT + "=" + APPLICATION_JSON_UTF8_VALUE
             }
     )
     byte[] generateCheckAnswersSummaryPdf(
-            @RequestHeader(AUTHORIZATION) String authorization,
-            @RequestHeader(BusinessServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
-            @RequestBody CheckAnswersSummary checkAnswersSummary
+        @RequestHeader(AUTHORIZATION) String authorization,
+        @RequestHeader(BusinessServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+        @RequestBody CheckAnswersSummary checkAnswersSummary
     );
 
     @PostMapping(
             value = "/businessDocument/generateLegalDeclarationPDF",
             headers = {
-                    CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE,
-                    ACCEPT + "=" + APPLICATION_OCTET_STREAM_VALUE
+                CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE,
+                ACCEPT + "=" + APPLICATION_OCTET_STREAM_VALUE
             }
     )
     byte[] generateLegalDeclarationPDF(
-            @RequestHeader(AUTHORIZATION) String authorization,
-            @RequestHeader(BusinessServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
-            @RequestBody LegalDeclaration legalDeclaration
+        @RequestHeader(AUTHORIZATION) String authorization,
+        @RequestHeader(BusinessServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+        @RequestBody LegalDeclaration legalDeclaration
     );
 
     @PostMapping(
             value = "/businessDocument/generateBulkScanCoverSheetPDF",
             headers = {
-                    CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE,
-                    ACCEPT + "=" + APPLICATION_OCTET_STREAM_VALUE
+                CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE,
+                ACCEPT + "=" + APPLICATION_OCTET_STREAM_VALUE
             }
     )
     byte[] generateBulkScanCoverSheetPDF(
-            @RequestHeader(AUTHORIZATION) String authorization,
-            @RequestHeader(BusinessServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
-            @RequestBody BulkScanCoverSheet bulkScanCoverSheet
+        @RequestHeader(AUTHORIZATION) String authorization,
+        @RequestHeader(BusinessServiceConfiguration.SERVICE_AUTHORIZATION) String serviceAuthorization,
+        @RequestBody BulkScanCoverSheet bulkScanCoverSheet
     );
 
     @PostMapping(
             value = "/invite",
             headers = {
-                    CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+                CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
             }
     )
     String invite(@RequestBody Invitation invitation,
@@ -88,7 +88,7 @@ public interface BusinessServiceApi {
     @PostMapping(
             value = "/invite/bilingual",
             headers = {
-                    CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+                CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
             }
     )
     String inviteBilingual(@RequestBody Invitation invitation,

@@ -9,7 +9,7 @@ public class AuthenticateUserResponse {
 
     private String code;
 
-    public AuthenticateUserResponse(){
+    public AuthenticateUserResponse() {
     }
 
     public AuthenticateUserResponse(String code) {

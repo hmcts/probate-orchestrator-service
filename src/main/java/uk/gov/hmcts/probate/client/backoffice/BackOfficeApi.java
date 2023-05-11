@@ -44,7 +44,7 @@ public interface BackOfficeApi {
         @RequestHeader(SERVICE_AUTHORIZATION) String serviceAuthorization,
         @RequestBody BackOfficeCallbackRequest backOfficeCallbackRequest
     );
-    
+
     @PostMapping(
         value = "/data-extract/hmrc",
         headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
@@ -101,8 +101,8 @@ public interface BackOfficeApi {
     @PostMapping(
             value = "/notify/application-received",
             headers = {
-                    CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE,
-                    ACCEPT + "=" + APPLICATION_JSON_VALUE
+                CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE,
+                ACCEPT + "=" + APPLICATION_JSON_VALUE
             }
     )
     ProbateDocument applicationReceived(

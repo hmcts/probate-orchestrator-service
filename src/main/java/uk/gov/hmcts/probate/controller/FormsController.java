@@ -43,9 +43,9 @@ public class FormsController {
 
     @Operation(summary = "Initiate form data", description = "Initiate form data")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Form initiated successfully"),
-            @ApiResponse(responseCode = "400", description = "Initate form failed"),
-            @ApiResponse(responseCode = "422", description = "Invalid or missing attribute")
+        @ApiResponse(responseCode = "200", description = "Form initiated successfully"),
+        @ApiResponse(responseCode = "400", description = "Initate form failed"),
+        @ApiResponse(responseCode = "422", description = "Invalid or missing attribute")
     })
     @PostMapping(path = FORMS_NEW_CASE_ENDPOINT, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -86,8 +86,8 @@ public class FormsController {
 
     @Operation(summary = "Get form data", description = "Get form data")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Retrieved form successfully"),
-            @ApiResponse(responseCode = "400", description = "Retrieving form failed")
+        @ApiResponse(responseCode = "200", description = "Retrieved form successfully"),
+        @ApiResponse(responseCode = "400", description = "Retrieving form failed")
     })
     @GetMapping(path = FORMS_CASES_ENDPOINT, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody

@@ -26,7 +26,7 @@ public class TestUtils {
         return new ObjectMapper().readValue(json, new TypeReference<HashMap<String, JsonNode>>(){});
     }
 
-    private TestUtils(){
+    private TestUtils() {
     }
 }
 

@@ -37,8 +37,11 @@ group = 'uk.gov.hmcts.probate'
 version = "4.0.0"
 mainClassName = 'uk.gov.hmcts.probate.OrchestratorApplication'
 
-sourceCompatibility = 11
-targetCompatibility = 11
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
 
 //check.dependsOn dependencyCheckAnalyze
 // make build fail on Checkstyle issues (https://github.com/gradle/gradle/issues/881)
@@ -193,8 +196,8 @@ def versions = [
         restAssured                     : '4.4.0',
         piTest                          : '1.6.9',
         commonMark                      : '0.17.0',
-        probateCommonsVersion           : '1.4.8',
-        jacksonDatabind                 : '2.13.2',
+        probateCommonsVersion           : 'DTSPB-3524-A-v1.4.10',
+        jacksonDatabind                 : '2.14.2',
         pact_version                    : '3.6.15',
         feign                           : '11.6',
         junitJupiter                    : '5.8.0-M1'
@@ -203,9 +206,9 @@ def versions = [
 jacocoTestReport {
     executionData(test, integration)
     reports {
-        xml.enabled = true
-        csv.enabled = false
-        xml.destination = file("${project.buildDir}/reports/jacoco/test/jacocoTestReport.xml")
+        xml.required = true
+        csv.required = false
+        xml.outputLocation = file("${project.buildDir}/reports/jacoco/test/jacocoTestReport.xml")
     }
 }
 
@@ -226,11 +229,6 @@ repositories {
 dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:2021.0.1"
-    }
-}
-processResources {
-    from('src/lib/AI-Agent.xml') {
-        into 'lib'
     }
 }
 
@@ -260,15 +258,17 @@ dependencies {
     implementation group: 'org.springframework.retry', name: 'spring-retry', version: '1.3.1'
     implementation group: 'com.google.guava', name: 'guava', version: '30.1.1-jre'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.jacksonDatabind
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: versions.jacksonDatabind
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-hateoas', version: versions.springBootVersion
     implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: versions.feign
 
     implementation group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
     implementation group: 'uk.gov.hmcts.reform', name: 'logging-spring', version: versions.hmctsJavaLogging
-    implementation group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.hmctsJavaLogging
     implementation group: 'uk.gov.hmcts.reform', name: 'logging-httpcomponents', version: versions.hmctsJavaLogging
-    implementation group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.hmctsJavaLogging
+    implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: '6.0.1'
+    implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: '6.0.1'
     implementation group: 'uk.gov.hmcts.reform.auth', name: 'auth-checker-lib', version: versions.authCheckerLib
     implementation group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceAuthProviderClient
     implementation group: 'com.github.hmcts', name: 'probate-commons', version: versions.probateCommonsVersion
@@ -367,7 +367,7 @@ task printbranch {
 }
 
 task fortifyScan(type: JavaExec)  {
-    main = "uk.gov.hmcts.fortifyclient.FortifyClientMainApp"
+    getMainClass().set("uk.gov.hmcts.fortifyclient.FortifyClientMainApp")
     classpath += sourceSets.test.runtimeClasspath
     jvmArgs = ['--add-opens=java.base/java.lang.reflect=ALL-UNNAMED']
 }
@@ -389,6 +389,11 @@ tasks.withType(JavaCompile) {
     options.compilerArgs << "-parameters"
 }
 
+// https://github.com/gradle/gradle/issues/16791
+tasks.withType(JavaExec).configureEach {
+    javaLauncher.set(javaToolchains.launcherFor(java.toolchain))
+}
+
 bootJar {
     archiveFileName = 'probate-orchestrator-service.jar'
     manifest {
@@ -407,7 +412,7 @@ task generateAatEnvFile() {
     doFirst {
         print 'Generating AAT env var file'
         "sh bin/generate-aat-env-file.sh".execute()
-        
+
         // Sleep to allow secrets to be fetched:
         sleep(20 * 1000)
     }

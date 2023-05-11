@@ -8,9 +8,9 @@ import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.LegalStatement;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,
-    uses = {LegalStatementExecutorsApplyingMapper.class,
-    LegalStatementExecutorsNotApplyingMapper.class})
+@Mapper(componentModel = "spring",
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        uses = {LegalStatementExecutorsApplyingMapper.class, LegalStatementExecutorsNotApplyingMapper.class})
 public interface LegalStatementMapper {
 
 
