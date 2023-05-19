@@ -193,7 +193,7 @@ def versions = [
         restAssured                     : '4.4.0',
         piTest                          : '1.6.9',
         commonMark                      : '0.17.0',
-        probateCommonsVersion           : '1.4.8',
+        probateCommonsVersion           : 'DTSPB-3577-v1.4.11',
         jacksonDatabind                 : '2.13.2',
         pact_version                    : '3.6.15',
         feign                           : '11.6',
@@ -407,7 +407,7 @@ task generateAatEnvFile() {
     doFirst {
         print 'Generating AAT env var file'
         "sh bin/generate-aat-env-file.sh".execute()
-        
+
         // Sleep to allow secrets to be fetched:
         sleep(20 * 1000)
     }
