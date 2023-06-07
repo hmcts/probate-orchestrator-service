@@ -138,7 +138,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "ihtEstateGrossValueField", source = "iht.estateGrossValueField")
     @Mapping(target = "ihtEstateNetValue", source = "iht.estateNetValue", qualifiedBy = {ToPennies.class})
     @Mapping(target = "ihtEstateNetValueField", source = "iht.estateNetValueField")
-    @Mapping(target = "ihtEstateNetQualifyingValue", source = "iht.estateNetQualifyingValue", 
+    @Mapping(target = "ihtEstateNetQualifyingValue", source = "iht.estateNetQualifyingValue",
         qualifiedBy = {ToPennies.class})
     @Mapping(target = "ihtEstateNetQualifyingValueField", source = "iht.estateNetQualifyingValueField")
     @Mapping(target = "deceasedHadLateSpouseOrCivilPartner", source = "iht.deceasedHadLateSpouseOrCivilPartner")
@@ -223,6 +223,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "documents", source = "boDocumentsUploaded", qualifiedBy = {FromUploadDocs.class})
     @Mapping(target = "statementOfTruthDocument", source = "statementOfTruthDocument", qualifiedBy = {
         FromDocumentLink.class})
+    @Mapping(target = "documentsReceivedNotificationSent", source = "documentsReceivedNotificationSent")
     @InheritInverseConfiguration
     PaForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 }
