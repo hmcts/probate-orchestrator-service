@@ -1,9 +1,15 @@
 {
-  "formdataId": "123456",
-  "email": "address@email.com",
-  "executorName": "Jon Snow",
-  "firstName": "Jon",
-  "lastName": "Snow",
-  "phoneNumber": "07981898999",
-  "leadExecutorName": "Graham Garderner"
+  "invitation": {
+    "id": "123",
+    "formdataId": "123456",
+    "firstName": "Jon",
+    "lastName": "Snow",
+    "email": "address@email.com",
+    "phoneNumber": "07981898999",
+    "executorName": "Jon Snow",
+    "leadExecutorName": "Graham Garderner",
+    "inviteId": "98765",
+    "agreed": true,
+    "bilingual": "optionYes"
+  }
 }
