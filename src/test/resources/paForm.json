@@ -48,7 +48,7 @@
     {
       "reference": "RC-1551-3655-7880-7354",
       "transactionId": "kp5i7giksdji0ucuuaktsgt9t7",
-      "date": "2019-02-28T00:00:00.000+0000",
+      "date": "2019-02-28T00:00:00.000Z",
       "amount": 215.5,
       "siteId": "P223",
       "status": "Success",

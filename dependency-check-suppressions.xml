@@ -10,6 +10,7 @@
         <vulnerabilityName>CVE-2020-36518</vulnerabilityName>
         <cve>CVE-2022-42003</cve>
         <cve>CVE-2022-42004</cve>
+        <cve>CVE-2023-35116</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[
@@ -193,6 +194,7 @@
         <cve>CVE-2023-20860</cve>
         <cve>CVE-2023-20863</cve>
         <cve>CVE-2023-20873</cve>
+        <cve>CVE-2023-20883</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[

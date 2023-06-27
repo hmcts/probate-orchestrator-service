@@ -1,7 +1,9 @@
-ARG APP_INSIGHTS_AGENT_VERSION=2.5.1
-FROM hmctspublic.azurecr.io/base/java:11-distroless
+ # renovate: datasource=github-releases depName=microsoft/ApplicationInsights-Java
+ARG APP_INSIGHTS_AGENT_VERSION=3.4.12
+FROM hmctspublic.azurecr.io/base/java:17-distroless
 
-COPY build/libs/probate-orchestrator-service.jar lib/AI-Agent.xml /opt/app/
+COPY build/libs/probate-orchestrator-service.jar /opt/app/
+COPY lib/applicationinsights.json /opt/app/
 
 EXPOSE 8888
 CMD [ "probate-orchestrator-service.jar" ]
