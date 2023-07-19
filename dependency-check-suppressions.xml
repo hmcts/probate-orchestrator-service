@@ -203,4 +203,11 @@
         <packageUrl regex="true">^pkg:maven/net\.minidev/accessors\-smart@.*$</packageUrl>
         <cve>CVE-2022-45688</cve>
     </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: spring-hateoas-1.5.4.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.springframework\.hateoas/spring\-hateoas@.*$</packageUrl>
+        <cve>CVE-2023-34036</cve>
+    </suppress>
 </suppressions>
