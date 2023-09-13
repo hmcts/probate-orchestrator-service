@@ -154,6 +154,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
         ToDocumentLink.class})
     @Mapping(target = "languagePreferenceWelsh", source = "language.bilingual")
     @Mapping(target = "deceasedDiedEngOrWales", source = "deceased.diedEngOrWales")
+    @Mapping(target = "uniqueProbateCodeId", source = "uniqueProbateCodeId")
     @Mapping(target = "deceasedDeathCertificate", expression = "java(form.getDeceased()!= null ? "
         + "DeathCertificate.fromString(form.getDeceased().getDeathCertificate()) : null)")
     @Mapping(target = "deceasedForeignDeathCertInEnglish", source = "deceased.englishForeignDeathCert")

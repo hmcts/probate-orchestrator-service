@@ -128,6 +128,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "legalDeclarationJson", source = "legalDeclaration", qualifiedBy = {FromMap.class})
     @Mapping(target = "checkAnswersSummaryJson", source = "checkAnswersSummary", qualifiedBy = {FromMap.class})
     @Mapping(target = "payments", source = "payment")
+    @Mapping(target = "uniqueProbateCodeId", source = "uniqueProbateCodeId")
     @Mapping(target = "boDocumentsUploaded", source = "documents", qualifiedBy = {ToUploadDocs.class})
     @Mapping(target = "statementOfTruthDocument", source = "statementOfTruthDocument", qualifiedBy = {
         ToDocumentLink.class})
