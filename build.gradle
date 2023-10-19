@@ -236,7 +236,7 @@ configurations.all {
     resolutionStrategy {
         eachDependency { DependencyResolveDetails details ->
             if (details.requested.group in ['org.apache.tomcat.embed']) {
-                details.useVersion '9.0.69'
+                details.useVersion '9.0.82'
             }
             if (details.requested.group == 'org.gradle') {
                 details.useVersion '1.4'
