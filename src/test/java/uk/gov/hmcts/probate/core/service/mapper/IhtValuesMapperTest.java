@@ -82,4 +82,29 @@ public class IhtValuesMapperTest {
         assertThat(IhtValuesMapper.getNetIht400421(IhtFormType.optionIHT207, 10000L),
             IsNull.nullValue());
     }
+
+    @Test
+    public void shouldMapIHTNet400Value() {
+        assertThat(IhtValuesMapper.getNetIht400(IhtFormType.optionIHT400, 10000L),
+                equalTo(new BigDecimal("100.00")));
+    }
+
+    @Test
+    public void shouldReturnNullifNotIHT400() {
+        assertThat(IhtValuesMapper.getGrossIht400(IhtFormType.optionIHT207, 10000L),
+                IsNull.nullValue());
+    }
+
+    @Test
+    public void shouldMapNotRequired() {
+        assertThat(IhtValuesMapper.getNetNotRequired(IhtFormType.optionNotRequired, 10000L),
+                equalTo(new BigDecimal("100.00")));
+    }
+
+    @Test
+    public void shouldReturnNullifNotOptionNotRequired() {
+        assertThat(IhtValuesMapper.getGrossNotRequired(IhtFormType.optionIHT207, 10000L),
+                IsNull.nullValue());
+    }
 }
+

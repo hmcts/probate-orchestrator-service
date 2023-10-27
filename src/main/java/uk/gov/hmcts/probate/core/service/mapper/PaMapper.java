@@ -204,11 +204,11 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "iht.netIht400",
             expression = "java(IhtValuesMapper.getNetIht400(grantOfRepresentationData.getIhtFormId(), "
                     + "grantOfRepresentationData.getIhtNetValue()))")
-    @Mapping(target = "iht.grossValueFieldNotRequired",
-            expression = "java(IhtValuesMapper.grossValueFieldNotRequired(grantOfRepresentationData.getIhtFormId(), "
+    @Mapping(target = "iht.grossNotRequired",
+            expression = "java(IhtValuesMapper.grossNotRequired(grantOfRepresentationData.getIhtFormId(), "
                     + "grantOfRepresentationData.getIhtGrossValue()))")
-    @Mapping(target = "iht.netIht400",
-            expression = "java(IhtValuesMapper.grossValueFieldNotRequired(grantOfRepresentationData.getIhtFormId(), "
+    @Mapping(target = "iht.netNotRequired",
+            expression = "java(IhtValuesMapper.grossNotRequired(grantOfRepresentationData.getIhtFormId(), "
                     + "grantOfRepresentationData.getIhtNetValue()))")
     @Mapping(target = "executors.list", source = ".", qualifiedBy = {FromCollectionMember.class})
     @Mapping(target = "executors.invitesSent", expression = "java(grantOfRepresentationData.haveInvitesBeenSent())")
