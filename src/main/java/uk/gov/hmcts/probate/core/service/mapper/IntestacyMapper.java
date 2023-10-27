@@ -181,17 +181,17 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "iht.netIht400421",
         expression = "java(IhtValuesMapper.getNetIht400421(grantOfRepresentationData.getIhtFormId(), "
         + "grantOfRepresentationData.getIhtNetValue()))")
-    @Mapping(target = "iht.grossIht400",
+    @Mapping(target = "iht.grossIht40021",
             expression = "java(IhtValuesMapper.getGrossIht400(grantOfRepresentationData.getIhtFormId(), "
                     + "grantOfRepresentationData.getIhtGrossValue()))")
     @Mapping(target = "iht.netIht400",
             expression = "java(IhtValuesMapper.getNetIht400(grantOfRepresentationData.getIhtFormId(), "
                     + "grantOfRepresentationData.getIhtNetValue()))")
-    @Mapping(target = "iht.grossValueFieldNotRequired",
+    @Mapping(target = "iht.grossNotRequired",
             expression = "java(IhtValuesMapper.grossValueFieldNotRequired(grantOfRepresentationData.getIhtFormId(), "
                     + "grantOfRepresentationData.getIhtGrossValue()))")
-    @Mapping(target = "iht.netIht400",
-            expression = "java(IhtValuesMapper.grossValueFieldNotRequired(grantOfRepresentationData.getIhtFormId(), "
+    @Mapping(target = "iht.netNotRequired",
+            expression = "java(IhtValuesMapper.netValueFieldNotRequired(grantOfRepresentationData.getIhtFormId(), "
                     + "grantOfRepresentationData.getIhtNetValue()))")
     @Mapping(target = "iht.form", source = "ihtFormId")
     @Mapping(target = "iht.ihtFormId", source = "ihtFormId")
