@@ -129,6 +129,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "checkAnswersSummaryJson", source = "checkAnswersSummary", qualifiedBy = {FromMap.class})
     @Mapping(target = "payments", source = "payment")
     @Mapping(target = "uniqueProbateCodeId", source = "iht.uniqueProbateCodeId")
+    @Mapping(target = "hmrcLetterId", source = "iht.hmrcLetterId")
     @Mapping(target = "boDocumentsUploaded", source = "documents", qualifiedBy = {ToUploadDocs.class})
     @Mapping(target = "statementOfTruthDocument", source = "statementOfTruthDocument", qualifiedBy = {
         ToDocumentLink.class})
@@ -215,6 +216,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "payments", source = "payments", qualifiedBy = {FromCollectionMember.class})
     @Mapping(target = "documents", source = "boDocumentsUploaded", qualifiedBy = {FromUploadDocs.class})
     @Mapping(target = "iht.uniqueProbateCodeId", source = "uniqueProbateCodeId")
+    @Mapping(target = "iht.hmrcLetterId", source = "hmrcLetterId")
     @Mapping(target = "statementOfTruthDocument", source = "statementOfTruthDocument", qualifiedBy = {
         FromDocumentLink.class})
     @Mapping(target = "documentsReceivedNotificationSent", source = "documentsReceivedNotificationSent")

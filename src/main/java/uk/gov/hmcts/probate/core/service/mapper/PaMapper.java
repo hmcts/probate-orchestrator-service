@@ -155,6 +155,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "languagePreferenceWelsh", source = "language.bilingual")
     @Mapping(target = "deceasedDiedEngOrWales", source = "deceased.diedEngOrWales")
     @Mapping(target = "uniqueProbateCodeId", source = "iht.uniqueProbateCodeId")
+    @Mapping(target = "hmrcLetterId", source = "iht.hmrcLetterId")
     @Mapping(target = "deceasedDeathCertificate", expression = "java(form.getDeceased()!= null ? "
         + "DeathCertificate.fromString(form.getDeceased().getDeathCertificate()) : null)")
     @Mapping(target = "deceasedForeignDeathCertInEnglish", source = "deceased.englishForeignDeathCert")
@@ -235,6 +236,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "payments", source = "payments", qualifiedBy = {FromCollectionMember.class})
     @Mapping(target = "documents", source = "boDocumentsUploaded", qualifiedBy = {FromUploadDocs.class})
     @Mapping(target = "iht.uniqueProbateCodeId", source = "uniqueProbateCodeId")
+    @Mapping(target = "iht.hmrcLetterId", source = "hmrcLetterId")
     @Mapping(target = "statementOfTruthDocument", source = "statementOfTruthDocument", qualifiedBy = {
         FromDocumentLink.class})
     @Mapping(target = "documentsReceivedNotificationSent", source = "documentsReceivedNotificationSent")
