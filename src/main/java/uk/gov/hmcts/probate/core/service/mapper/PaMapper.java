@@ -133,6 +133,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "ihtGrossValueField", source = "iht.grossValueField")
     @Mapping(target = "ihtNetValueField", source = "iht.netValueField")
     @Mapping(target = "ihtFormEstateValuesCompleted", source = "iht.estateValueCompleted")
+    @Mapping(target = "calcCheckCompleted", source = "iht.calcCheckCompleted")
     @Mapping(target = "ihtFormEstate", source = "iht.ihtFormEstateId")
     @Mapping(target = "ihtEstateGrossValue", source = "iht.estateGrossValue", qualifiedBy = {ToPennies.class})
     @Mapping(target = "ihtEstateGrossValueField", source = "iht.estateGrossValueField")
@@ -204,12 +205,6 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
                     + "grantOfRepresentationData.getIhtGrossValue()))")
     @Mapping(target = "iht.netIht400",
             expression = "java(IhtValuesMapper.getNetIht400(grantOfRepresentationData.getIhtFormId(), "
-                    + "grantOfRepresentationData.getIhtNetValue()))")
-    @Mapping(target = "iht.grossNotRequired",
-            expression = "java(IhtValuesMapper.grossValueFieldNotRequired(grantOfRepresentationData.getIhtFormId(), "
-                    + "grantOfRepresentationData.getIhtGrossValue()))")
-    @Mapping(target = "iht.netNotRequired",
-            expression = "java(IhtValuesMapper.netValueFieldNotRequired(grantOfRepresentationData.getIhtFormId(), "
                     + "grantOfRepresentationData.getIhtNetValue()))")
     @Mapping(target = "executors.list", source = ".", qualifiedBy = {FromCollectionMember.class})
     @Mapping(target = "executors.invitesSent", expression = "java(grantOfRepresentationData.haveInvitesBeenSent())")
