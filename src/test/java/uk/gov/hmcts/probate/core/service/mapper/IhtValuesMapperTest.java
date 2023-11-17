@@ -94,16 +94,4 @@ public class IhtValuesMapperTest {
         assertThat(IhtValuesMapper.getGrossIht400(IhtFormType.optionIHT207, 10000L),
                 IsNull.nullValue());
     }
-
-    @Test
-    public void shouldMapIHTNetNotRequiredValue() {
-        assertThat(IhtValuesMapper.netValueFieldNotRequired(IhtFormType.optionNotRequired, 10000L),
-                equalTo(new BigDecimal("100.00")));
-    }
-
-    @Test
-    public void shouldReturnNullifNotOptionNotRequired() {
-        assertThat(IhtValuesMapper.grossValueFieldNotRequired(IhtFormType.optionIHT207, 10000L),
-                IsNull.nullValue());
-    }
 }
