@@ -151,6 +151,8 @@ public class SubmitServiceImpl implements SubmitService {
     @Override
     public Form saveCase(String identifier, Form form) {
         log.info("Save case called");
+        //@TODO removal
+        log.info("saveCase form: " + form);
         assertIdentifier(identifier, form);
         FormMapper formMapper = mappers.get(form.getType());
         ProbateCaseDetails probateCaseDetails = submitServiceApi.saveCase(
@@ -160,6 +162,8 @@ public class SubmitServiceImpl implements SubmitService {
             form.getEventDescription(),
             ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
         );
+        //@TODO removal
+        log.info("saveCase probateCaseDetails: " + probateCaseDetails);
         return mapFromCase(formMapper, probateCaseDetails);
     }
 

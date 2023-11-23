@@ -183,7 +183,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "iht.netIht400421",
         expression = "java(IhtValuesMapper.getNetIht400421(grantOfRepresentationData.getIhtFormId(), "
         + "grantOfRepresentationData.getIhtNetValue()))")
-    @Mapping(target = "iht.grossIht40021",
+    @Mapping(target = "iht.grossIht400",
             expression = "java(IhtValuesMapper.getGrossIht400(grantOfRepresentationData.getIhtFormId(), "
                     + "grantOfRepresentationData.getIhtGrossValue()))")
     @Mapping(target = "iht.netIht400",
