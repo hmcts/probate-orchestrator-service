@@ -335,7 +335,7 @@ dependencies {
     testFunctionalImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
     testFunctionalImplementation group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenity
     testFunctionalImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
-    testFunctionalImplementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    testFunctionalImplementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.12.3'
     testFunctionalImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
     testFunctionalImplementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     testFunctionalImplementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
