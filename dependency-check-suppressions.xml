@@ -302,9 +302,23 @@
     </suppress>
     <suppress>
         <notes><![CDATA[
-   file name: spring-boot-starter-web-services-2.7.14.jar
+   file name: spring-boot-configuration-processor-2.7.14.jar
    ]]></notes>
-        <packageUrl regex="true">^pkg:maven/org\.springframework\.boot/spring-boot-starter-web-services@.*$</packageUrl>
+        <packageUrl regex="true">^pkg:maven/org\.springframework\.boot/spring-boot-configuration-processor@.*$</packageUrl>
+        <cve>CVE-2023-34055</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: spring-boot-starter-hateoas-2.7.14.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.springframework\.boot/spring-boot-starter-hateoas@.*$</packageUrl>
+        <cve>CVE-2023-34055</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: spring-boot-starter-security-2.7.14.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.springframework\.boot/spring-boot-starter-security@.*$</packageUrl>
         <cve>CVE-2023-34055</cve>
     </suppress>
     <suppress>
