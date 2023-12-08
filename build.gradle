@@ -14,7 +14,7 @@ plugins {
     id 'com.gorylenko.gradle-git-properties' version '2.3.1'
     id 'info.solidsoft.pitest' version '1.6.0'
     id 'au.com.dius.pact' version '4.1.7' // do not change, otherwise serenity report fails
-    id 'uk.gov.hmcts.java' version '0.12.50'
+    id 'uk.gov.hmcts.java' version '0.12.51'
 }
 
 apply plugin: 'java'
