@@ -22,9 +22,5 @@ withNightlyPipeline(type, product, component) {
 
     env.Rules = params.SecurityRules
     enableSecurityScan()
-    enableFortifyScan('probate-aat')
-
-    afterAlways('fortify-scan') {
-        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
-    }
+    
 }
