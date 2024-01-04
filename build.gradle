@@ -194,7 +194,7 @@ def versions = [
         jjwt                            : '0.9.0',
         serviceAuthProviderClient       : '4.0.0',
         restAssured                     : '4.4.0',
-        piTest                          : '1.6.9',
+        piTest                          : '1.15.3',
         commonMark                      : '0.17.0',
         probateCommonsVersion           : '1.4.15',
         jacksonDatabind                 : '2.15.3',
