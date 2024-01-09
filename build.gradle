@@ -280,7 +280,7 @@ dependencies {
 
     implementation group: 'org.pitest', name: 'pitest', version: versions.piTest
     implementation group: 'com.atlassian.commonmark', name: 'commonmark', version: versions.commonMark
-    implementation 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.6.0'
+    implementation 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.15.0'
     implementation 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'
     implementation group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
