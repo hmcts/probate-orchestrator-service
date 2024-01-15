@@ -10,11 +10,11 @@ plugins {
     id 'pmd'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'org.springframework.boot' version '2.7.14'
-    id 'com.github.ben-manes.versions' version '0.39.0'
+    id 'com.github.ben-manes.versions' version '0.50.0'
     id 'com.gorylenko.gradle-git-properties' version '2.3.1'
     id 'info.solidsoft.pitest' version '1.6.0'
     id 'au.com.dius.pact' version '4.1.7' // do not change, otherwise serenity report fails
-    id 'uk.gov.hmcts.java' version '0.12.51'
+    id 'uk.gov.hmcts.java' version '0.12.55'
 }
 
 apply plugin: 'java'
@@ -189,12 +189,12 @@ def versions = [
         springBootVersion               : '2.7.14',
         springSecurityVersion           : '5.7.3',
         mapStruct                       : '1.3.0.Final',
-        authCheckerLib                  : '2.1.4',
+        authCheckerLib                  : '2.1.6',
         serenity                        : '2.5.8',
         jjwt                            : '0.9.0',
         serviceAuthProviderClient       : '4.0.0',
         restAssured                     : '4.4.0',
-        piTest                          : '1.6.9',
+        piTest                          : '1.15.3',
         commonMark                      : '0.17.0',
         probateCommonsVersion           : '1.4.43',
         jacksonDatabind                 : '2.15.3',
@@ -267,7 +267,7 @@ dependencies {
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.hmctsJavaLogging
     implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: versions.hmctsJavaLogging
-    implementation group: 'uk.gov.hmcts.reform.auth', name: 'auth-checker-lib', version: versions.authCheckerLib
+    implementation group: 'com.github.hmcts', name: 'auth-checker-lib', version: versions.authCheckerLib
     implementation group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceAuthProviderClient
     implementation group: 'com.github.hmcts', name: 'probate-commons', version: versions.probateCommonsVersion
     implementation group: 'commons-io', name: 'commons-io', version: versions.commonsIO
@@ -280,10 +280,11 @@ dependencies {
 
     implementation group: 'org.pitest', name: 'pitest', version: versions.piTest
     implementation group: 'com.atlassian.commonmark', name: 'commonmark', version: versions.commonMark
-    implementation 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.6.0'
+    implementation 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.15.0'
     implementation 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'
     implementation group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
+    implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '7.4'
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
 
