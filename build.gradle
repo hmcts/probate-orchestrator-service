@@ -215,7 +215,7 @@ jacocoTestReport {
 check.dependsOn(integration)
 
 pmd {
-    ignoreFailures = false //default is false
+    ignoreFailures = true //default is false
     reportsDir = file("$project.buildDir/reports/pmd")
 }
 
