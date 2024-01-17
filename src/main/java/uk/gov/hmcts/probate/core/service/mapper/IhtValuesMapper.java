@@ -50,4 +50,19 @@ public class IhtValuesMapper {
         }
         return null;
     }
+
+    public BigDecimal getGrossIht400(IhtFormType ihtFormType, Long ihtGrossValue) {
+        if (IhtFormType.optionIHT400.equals(ihtFormType)) {
+            return  new PoundsConverter().penniesToPounds(ihtGrossValue);
+        }
+        return null;
+    }
+
+    public BigDecimal getNetIht400(IhtFormType ihtFormType, Long ihtNetValue) {
+        if (IhtFormType.optionIHT400.equals(ihtFormType)) {
+            return  new PoundsConverter().penniesToPounds(ihtNetValue);
+        }
+        return null;
+    }
+
 }
