@@ -365,8 +365,8 @@ task printbranch {
     }
 }
 
-task fortifyScan(type: JavaExec)  {
-    getMainClass().set("uk.gov.hmcts.fortifyclient.FortifyClientMainApp")
+task fortifyScan(type: JavaExec) {
+    mainClass.set("uk.gov.hmcts.fortifyclient.FortifyClientMainApp")
     classpath += sourceSets.test.runtimeClasspath
     jvmArgs = ['--add-opens=java.base/java.lang.reflect=ALL-UNNAMED']
 }
