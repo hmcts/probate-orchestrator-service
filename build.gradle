@@ -200,7 +200,7 @@ def versions = [
         jacksonDatabind                 : '2.16.1',
         pact_version                    : '3.6.15',
         feign                           : '11.6',
-        junitJupiter                    : '5.8.0-M1'
+        junitJupiter                    : '5.10.2'
 ]
 
 jacocoTestReport {
