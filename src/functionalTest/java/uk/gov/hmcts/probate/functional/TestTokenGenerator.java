@@ -86,7 +86,7 @@ public class TestTokenGenerator {
     public String generateOpenIdToken(String email) {
         JsonPath jp = RestAssured.given().relaxedHTTPSValidation().post(idamUserBaseUrl + "/o/token?"
                         + "client_secret=" + secret
-                        + "&client_id==probate"
+                        + "&client_id="+ clientId
                         + "&redirect_uri=" + redirectUri
                         + "&username=" + email
                         + "&password=" + password
