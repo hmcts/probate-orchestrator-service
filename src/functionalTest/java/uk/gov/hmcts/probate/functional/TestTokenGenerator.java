@@ -58,6 +58,10 @@ public class TestTokenGenerator {
         return generateOpenIdToken(email);
     }
 
+    public String generateOldAuthorisation(String email) {
+        return generateOpenIdToken(email);
+    }
+
     private String generateClientToken(String email) {
         String code = generateClientCode(email);
         String token = RestAssured.given().post(idamUserBaseUrl + "/oauth2/token?" + "code=" + code
