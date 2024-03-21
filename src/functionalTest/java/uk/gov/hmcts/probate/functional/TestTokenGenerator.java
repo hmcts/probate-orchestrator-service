@@ -59,7 +59,7 @@ public class TestTokenGenerator {
     }
 
     public String generateOldAuthorisation(String email) {
-        return generateOpenIdToken(email);
+        return generateClientCode(email);
     }
 
     private String generateClientToken(String email) {
