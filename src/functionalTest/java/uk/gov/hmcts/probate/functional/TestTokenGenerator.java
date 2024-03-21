@@ -90,10 +90,9 @@ public class TestTokenGenerator {
                         + "&redirect_uri=" + redirectUri
                         + "&username=" + email
                         + "&password=" + password
-                        + "&grant_type=password&scope=openid")
+                        + "&grant_type=password&scope=openid profile roles")
                 .body().jsonPath();
         String token = jp.get("access_token");
-
         return token;
     }
 }
