@@ -68,19 +68,16 @@ public class TestUtils {
     }
 
     public Headers getCitizenHeaders() {
-        return getHeaders(citizenEmail);
+        return Headers.headers(
+                new Header("ServiceAuthorization", serviceToken),
+                new Header(CONTENT_TYPE, ContentType.JSON.toString()),
+                new Header(AUTHORIZATION, testTokenGenerator.generateAuthorisation(citizenEmail)));
     }
 
     public Headers getCaseworkerHeaders() {
-        return getHeaders(caseworkerEmail);
-    }
-
-    public Headers getHeaders(String email) {
         return Headers.headers(
                 new Header(CONTENT_TYPE, ContentType.JSON.toString()),
-                new Header(AUTHORIZATION, testTokenGenerator.generateAuthorisation(email)));
-
-
+                new Header(AUTHORIZATION, testTokenGenerator.generateAuthorisation(caseworkerEmail)));
     }
 
     public String getPaymentToken() {
