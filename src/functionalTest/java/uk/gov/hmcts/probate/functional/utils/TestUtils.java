@@ -69,9 +69,9 @@ public class TestUtils {
 
     public Headers getCitizenHeaders() {
         return Headers.headers(
-                new Header("ServiceAuthorization", serviceToken),
+                //new Header("ServiceAuthorization", serviceToken),
                 new Header(CONTENT_TYPE, ContentType.JSON.toString()),
-                new Header(AUTHORIZATION, testTokenGenerator.generateOldAuthorisation(citizenEmail)));
+                new Header(AUTHORIZATION, testTokenGenerator.generateAuthorisation(citizenEmail)));
     }
 
     public Headers getCaseworkerHeaders() {
