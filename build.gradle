@@ -193,7 +193,7 @@ def versions = [
         serenity                        : '2.5.8',
         jjwt                            : '0.9.0',
         serviceAuthProviderClient       : '4.0.0',
-        restAssured                     : '4.4.0',
+        restAssured                     : '5.4.0',
         piTest                          : '1.15.8',
         commonMark                      : '0.17.0',
         probateCommonsVersion           : '1.4.43',
