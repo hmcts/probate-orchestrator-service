@@ -184,7 +184,7 @@ def versions = [
         restAssured                     : '3.0.3',
         serviceTokenGenerator           : '0.6.0',
         lombok                          : '1.18.32',
-        springDocOpenUi                 : '1.7.0',
+        springDocOpenUi                 : '1.8.0',
         springCloudWiremock             : '3.0.3',
         springBootVersion               : '2.7.14',
         springSecurityVersion           : '5.7.3',
