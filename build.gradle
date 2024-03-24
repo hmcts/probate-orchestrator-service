@@ -199,7 +199,7 @@ def versions = [
         probateCommonsVersion           : '1.4.43',
         jacksonDatabind                 : '2.17.0',
         pact_version                    : '3.6.15',
-        feign                           : '11.6',
+        feign                           : '13.2.1',
         junitJupiter                    : '5.8.0-M1'
 ]
 
