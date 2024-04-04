@@ -179,7 +179,7 @@ test {
 }
 
 def versions = [
-        commonsIO                       : '2.15.1',
+        commonsIO                       : '2.16.0',
         hmctsJavaLogging                : '6.1.4',
         restAssured                     : '3.0.3',
         serviceTokenGenerator           : '0.6.0',
