@@ -1,24 +1,32 @@
 {
-    "headers": [
-      "header0",
-      "header1",
-      "header2"
-    ],
-    "sections": [
+  "legalDeclaration": {
+    "declarations": [
       {
-        "title" : "title",
-        "headingType": "large",
-        "declarationItems": [
+        "headers": [
+          "In the High Court of Justice",
+          "Family Division",
+          "(Probate)"
+        ],
+        "sections": [
           {
-            "title": "declaration title",
-            "values": [
-              "value0",
-              "value1",
-              "value2"
+            "title": "Legal statement",
+            "headingType": "large",
+            "declarationItems": [
+              {
+                "title": "title",
+                "values": [
+                  "I, Jason Smith of An address\n",
+                  "somewhere \nin\nengland\npost code\n",
+                  ", make the following statement:"
+                ]
+              }
             ]
           }
-        ]
-      }
-    ],
-    "dateCreated": "date and time"
+        ],
+        "lastDeclaration": true
+      }],
+    "dateCreated": "31/10/2018, 10:15:44",
+    "deceased": null,
+    "bilingual": false
+  }
 }
