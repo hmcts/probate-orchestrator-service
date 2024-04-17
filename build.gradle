@@ -7,6 +7,7 @@ buildscript {
 
 plugins {
     id 'application'
+    id 'checkstyle'
     id 'pmd'
     id 'io.spring.dependency-management' version '1.1.4'
     id 'org.springframework.boot' version '2.7.14'
@@ -43,17 +44,9 @@ java {
     }
 }
 
-//check.dependsOn dependencyCheckAnalyze
-// make build fail on Checkstyle issues (https://github.com/gradle/gradle/issues/881)
-tasks.withType(Checkstyle).each { checkstyleTask ->
-    checkstyleTask.doLast {
-        reports.all { report ->
-            def outputFile = report.destination
-            if (outputFile.exists() && outputFile.text.contains("<error ")) {
-                throw new GradleException("There were checkstyle warnings! For more info check $outputFile")
-            }
-        }
-    }
+checkstyle {
+    maxWarnings = 0
+    toolVersion = '10.15.0'
 }
 
 project.ext {
