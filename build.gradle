@@ -436,3 +436,7 @@ run {
         jvmArgs = ['-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005']
     }
 }
+
+rootProject.tasks.named("processResources") {
+    dependsOn("generateGitProperties")
+}
