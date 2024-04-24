@@ -824,5 +824,19 @@
         <packageUrl regex="true">^pkg:maven/org\.apache\.tomcat\.embed/tomcat\-embed\-websocket@.*$</packageUrl>
         <cpe>cpe:/a:apache_tomcat:apache_tomcat</cpe>
     </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: jackson-dataformat-yaml-2.13.5.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/com\.fasterxml\.jackson\.dataformat/jackson\-dataformat\-yaml@.*$</packageUrl>
+        <cpe>cpe:/a:fasterxml:jackson-dataformats-text</cpe>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: jackson-dataformat-yaml-2.13.5.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/com\.fasterxml\.jackson\.dataformat/jackson\-dataformat\-yaml@.*$</packageUrl>
+        <cve>CVE-2023-3894</cve>
+    </suppress>
 
 </suppressions>
