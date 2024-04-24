@@ -284,6 +284,7 @@
    ]]></notes>
     <packageUrl regex="true">^pkg:maven/org\.bouncycastle/bcprov\-jdk15on@.*$</packageUrl>
     <cpe>cpe:/a:bouncycastle:bouncy_castle_for_java</cpe>
+    </suppress>
     <suppress>
         <notes><![CDATA[
    file name: bcprov-jdk15on-1.68.jar
