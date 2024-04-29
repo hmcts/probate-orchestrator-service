@@ -46,7 +46,7 @@ java {
 
 checkstyle {
     maxWarnings = 0
-    toolVersion = '10.15.0'
+    toolVersion = '10.16.0'
 }
 
 project.ext {
