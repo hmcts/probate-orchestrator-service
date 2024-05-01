@@ -1,7 +1,7 @@
 apiVersion: v2
 name: probate-orchestrator-service
 home: https://github.com/hmcts/probate-orchestrator-service
-version: 1.0.41
+version: 1.0.42
 description: HMCTS Probate Orchestrator Service
 maintainers:
   - name: HMCTS Probate Team
