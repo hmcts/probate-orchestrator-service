@@ -51,5 +51,4 @@ public class CaveatControllerIT {
             .andExpect(status().isOk())
             .andExpect(content().string("Perform expire caveats called"));
     }
-
 }
