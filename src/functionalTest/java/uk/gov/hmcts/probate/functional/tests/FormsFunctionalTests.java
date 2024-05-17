@@ -2,16 +2,15 @@ package uk.gov.hmcts.probate.functional.tests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
-import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
+import net.serenitybdd.junit5.SerenityJUnit5Extension;
 import net.thucydides.core.annotations.Pending;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.Matchers;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.FixMethodOrder;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +30,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@RunWith(SpringIntegrationSerenityRunner.class)
+@ExtendWith(SerenityJUnit5Extension.class)
 public class FormsFunctionalTests extends IntegrationTestBase {
 
     private static final String FORMS_NEW_CASE = "/forms/newcase";
@@ -48,7 +47,6 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     private static long caseId;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    @Rule
     public TestRetryRule retryRule = new TestRetryRule(3);
     SimpleDateFormat df = new SimpleDateFormat("dd MMMMM yyyy");
     public String currentDate = df.format(new Date());
