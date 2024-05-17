@@ -1,10 +1,11 @@
 package uk.gov.hmcts.probate.security;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -20,11 +21,13 @@ public class AuthCheckerConfiguration {
     private List<String> authorisedServices;
 
     @Bean
+    @Qualifier("authorizedServiceExtractor")
     public Function<HttpServletRequest, Collection<String>> authorizedServicesExtractor() {
         return request -> authorisedServices;
     }
 
     @Bean
+    @Qualifier("authorizedRolesExtractor")
     public Function<HttpServletRequest, Collection<String>> authorizedRolesExtractor() {
         return (any) -> Collections.emptyList();
     }
