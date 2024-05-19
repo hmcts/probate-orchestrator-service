@@ -8,10 +8,10 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.Matchers;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.FixMethodOrder;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,7 +29,7 @@ import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 @ExtendWith(SerenityJUnit5Extension.class)
 public class FormsFunctionalTests extends IntegrationTestBase {
 
