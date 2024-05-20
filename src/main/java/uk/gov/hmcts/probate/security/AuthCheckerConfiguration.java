@@ -21,13 +21,13 @@ public class AuthCheckerConfiguration {
     private List<String> authorisedServices;
 
     @Bean
-    @Qualifier("authorizedServiceExtractor")
+    @Qualifier(value = "authorizedServiceExtractor")
     public Function<HttpServletRequest, Collection<String>> authorizedServicesExtractor() {
         return request -> authorisedServices;
     }
 
     @Bean
-    @Qualifier("authorizedRolesExtractor")
+    @Qualifier(value = "authorizedRolesExtractor")
     public Function<HttpServletRequest, Collection<String>> authorizedRolesExtractor() {
         return any -> Collections.emptyList();
     }

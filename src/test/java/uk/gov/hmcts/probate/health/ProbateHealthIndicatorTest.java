@@ -51,6 +51,7 @@ public class ProbateHealthIndicatorTest {
     public void shouldReturnStatusOfDownWhenHttpStatusIsNotOK() {
         when(mockRestTemplate.getForEntity(URL + endpoint, String.class)).thenReturn(mockResponseEntity);
         when(mockResponseEntity.getStatusCode()).thenReturn(HttpStatus.NO_CONTENT);
+        when(mockResponseEntity.getStatusCode().value()).thenReturn(HttpStatus.NO_CONTENT.value());
         Health health = businessHealthIndicator.health();
 
         assertThat(health.getStatus(), is(Status.DOWN));
