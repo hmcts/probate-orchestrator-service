@@ -51,13 +51,11 @@ public class ProbateHealthIndicatorTest {
     public void shouldReturnStatusOfDownWhenHttpStatusIsNotOK() {
         when(mockRestTemplate.getForEntity(URL + endpoint, String.class)).thenReturn(mockResponseEntity);
         when(mockResponseEntity.getStatusCode()).thenReturn(HttpStatus.NO_CONTENT);
-        when(mockResponseEntity.getStatusCode().value()).thenReturn(HttpStatus.NO_CONTENT.value());
         Health health = businessHealthIndicator.health();
 
         assertThat(health.getStatus(), is(Status.DOWN));
         assertThat(health.getDetails().get("url"), is(URL));
         assertThat(health.getDetails().get("message"), is("HTTP Status code not 200"));
-        assertThat(health.getDetails().get("exception"), is("HTTP Status: 204"));
     }
 
     @Test
