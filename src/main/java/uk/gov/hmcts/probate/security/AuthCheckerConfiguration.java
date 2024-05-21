@@ -20,14 +20,12 @@ public class AuthCheckerConfiguration {
     @Value("#{'${authorised.services}'.split(',\\s*')}")
     private List<String> authorisedServices;
 
-    @Bean
-    @Qualifier(value = "authorizedServiceExtractor")
+    @Bean(value = "authorizedServiceExtractor")
     public Function<HttpServletRequest, Collection<String>> authorizedServicesExtractor() {
         return request -> authorisedServices;
     }
 
-    @Bean
-    @Qualifier(value = "authorizedRolesExtractor")
+    @Bean(value = "authorizedRolesExtractor")
     public Function<HttpServletRequest, Collection<String>> authorizedRolesExtractor() {
         return any -> Collections.emptyList();
     }
