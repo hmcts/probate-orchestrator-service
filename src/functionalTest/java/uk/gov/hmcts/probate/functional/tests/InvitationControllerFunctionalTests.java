@@ -3,11 +3,11 @@ package uk.gov.hmcts.probate.functional.tests;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import net.serenitybdd.junit5.SerenityJUnit5Extension;
-import net.thucydides.core.annotations.Pending;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
@@ -94,7 +94,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     }
 
 
-    @Pending
+    @Disabled
     @Test
     public void generateInvitation() {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitation.json");
@@ -113,7 +113,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     }
 
 
-    @Pending
+    @Disabled
     @Test
     public void inviteAgreed() {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
@@ -132,7 +132,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
                 .extract().response().prettyPrint();
     }
 
-    @Pending
+    @Disabled
     @Test
     public void getInviteAllAgreedForValidFormDataId() {
         String response = RestAssured.given()
@@ -148,7 +148,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
 
     }
 
-    @Pending
+    @Disabled
     @Test
     public void getInviteAllAgreedForInValidFormDataId() {
         RestAssured.given()
@@ -161,7 +161,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
                 .statusCode(404);
     }
 
-    @Pending
+    @Disabled
     @Test
     public void inviteBilingual() {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
@@ -181,7 +181,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
                 .extract().jsonPath().prettify();
     }
 
-    @Pending
+    @Disabled
     @Test
     public void updateContactDetails() {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
@@ -200,7 +200,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
         assertEquals(response, INVITE_ID);
     }
 
-    @Pending
+    @Disabled
     @Test
     public void getInvitePin() throws JSONException {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
@@ -219,8 +219,8 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
                 .extract().response().getBody().prettyPrint();
         assertNotNull(response);
     }
-    
-    @Pending
+
+    @Disabled
     @Test
     public void getInvitePinBilingual() throws JSONException {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
@@ -240,7 +240,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
         assertNotNull(response);
     }
 
-    @Pending
+    @Disabled
     @Test
     public void resetAgreedFlags() {
         generateInvitation();
@@ -255,7 +255,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
                 .extract().body().equals(String.valueOf(formdataId));
     }
 
-    @Pending
+    @Disabled
     @Test
     public void getInviteData() {
         RestAssured.given()
@@ -269,7 +269,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
                 .extract().body().jsonPath().prettify();
     }
 
-    @Pending
+    @Disabled
     @Test
     public void deleteInvites() {
         generateInvitation();
@@ -287,7 +287,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
                 .extract().body().jsonPath().prettify();
     }
 
-    @Pending
+    @Disabled
     @Test
     public void getInvites() {
         RestAssured.given()

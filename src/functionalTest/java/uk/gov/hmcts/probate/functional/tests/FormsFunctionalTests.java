@@ -3,11 +3,11 @@ package uk.gov.hmcts.probate.functional.tests;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import net.serenitybdd.junit5.SerenityJUnit5Extension;
-import net.thucydides.core.annotations.Pending;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.Matchers;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -113,7 +113,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .statusCode(200);
     }
 
-    @Pending
+    @Disabled
     @Test
     public void shouldCreateDraftThenSubmitAndFinallyUpdatePayment() throws IOException, JSONException {
         setUpANewCase();
@@ -206,7 +206,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .body("ccdCase.state", equalTo("CaseCreated"));
     }
 
-    @Pending
+    @Disabled
     @Test
     public void shouldSubmitForm() throws IOException, JSONException {
         String submitJsonStr = utils.getJsonFromFile("caveatForm.json");
@@ -228,7 +228,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
 
     }
 
-    @Pending
+    @Disabled
     @Test
     public void shouldValidateFormSuccessfully() throws IOException {
         logger.info("CaseId shouldValidateFormSuccessfully : {}", caseId);
@@ -244,7 +244,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .body("ccdCase.id", equalTo(caseId));
     }
 
-    @Pending
+    @Disabled
     @Test
     public void testSubmitPaymentWithZeroTotalSuccessfully() throws IOException {
         setUpANewCase();
@@ -265,7 +265,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .body("ccdCase.state", equalTo("CaseCreated"));
     }
 
-    @Pending
+    @Disabled
     @Test
     public void testValidateFormForValidationErrors() throws IOException {
         setUpANewCase();
