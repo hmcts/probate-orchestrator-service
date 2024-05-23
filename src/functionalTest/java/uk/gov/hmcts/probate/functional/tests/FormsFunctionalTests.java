@@ -16,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import uk.gov.hmcts.probate.functional.IntegrationTestBase;
-import uk.gov.hmcts.probate.functional.TestRetryRule;
 import uk.gov.hmcts.reform.probate.model.forms.CaseSummary;
 import uk.gov.hmcts.reform.probate.model.forms.CaseSummaryHolder;
 
@@ -47,7 +46,6 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     private static long caseId;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    public TestRetryRule retryRule = new TestRetryRule(3);
     SimpleDateFormat df = new SimpleDateFormat("dd MMMMM yyyy");
     public String currentDate = df.format(new Date());
     private CaseSummaryHolder caseSummaryHolder;
