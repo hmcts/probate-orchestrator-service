@@ -2,17 +2,16 @@ package uk.gov.hmcts.probate.functional.tests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
-import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
-import net.thucydides.core.annotations.Pending;
+import net.serenitybdd.junit5.SerenityJUnit5Extension;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.Matchers;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.FixMethodOrder;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,8 +29,8 @@ import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@RunWith(SpringIntegrationSerenityRunner.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
+@ExtendWith(SerenityJUnit5Extension.class)
 public class FormsFunctionalTests extends IntegrationTestBase {
 
     private static final String FORMS_NEW_CASE = "/forms/newcase";
@@ -48,7 +47,6 @@ public class FormsFunctionalTests extends IntegrationTestBase {
     private static long caseId;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    @Rule
     public TestRetryRule retryRule = new TestRetryRule(3);
     SimpleDateFormat df = new SimpleDateFormat("dd MMMMM yyyy");
     public String currentDate = df.format(new Date());
@@ -115,7 +113,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .statusCode(200);
     }
 
-    @Pending
+    @Disabled
     @Test
     public void shouldCreateDraftThenSubmitAndFinallyUpdatePayment() throws IOException, JSONException {
         setUpANewCase();
@@ -208,7 +206,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .body("ccdCase.state", equalTo("CaseCreated"));
     }
 
-    @Pending
+    @Disabled
     @Test
     public void shouldSubmitForm() throws IOException, JSONException {
         String submitJsonStr = utils.getJsonFromFile("caveatForm.json");
@@ -230,7 +228,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
 
     }
 
-    @Pending
+    @Disabled
     @Test
     public void shouldValidateFormSuccessfully() throws IOException {
         logger.info("CaseId shouldValidateFormSuccessfully : {}", caseId);
@@ -246,7 +244,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .body("ccdCase.id", equalTo(caseId));
     }
 
-    @Pending
+    @Disabled
     @Test
     public void testSubmitPaymentWithZeroTotalSuccessfully() throws IOException {
         setUpANewCase();
@@ -267,7 +265,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .body("ccdCase.state", equalTo("CaseCreated"));
     }
 
-    @Pending
+    @Disabled
     @Test
     public void testValidateFormForValidationErrors() throws IOException {
         setUpANewCase();
