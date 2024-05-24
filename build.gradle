@@ -39,7 +39,6 @@ sonar {
         property "sonar.projectName", "PROBATE :: Probate-Orchestrator-Service"
         property "sonar.projectKey", "Probate-Orchestrator-Service"
         property "sonar.coverage.jacoco.xmlReportPaths", "${layout.buildDirectory.get()}/jacoco/test/html/jacocoTestReport.xml"
-        property "sonar.jacoco.reportPath", "${layout.buildDirectory.get()}/jacoco/test.exec" // this can go
         property "sonar.host.url", "https://sonar.reform.hmcts.net/"
         property "sonar.pitest.mode", "reuseReport"
         property "sonar.pitest.reportsDirectory", "build/reports/pitest"
