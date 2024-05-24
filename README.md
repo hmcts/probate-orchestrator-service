@@ -30,7 +30,7 @@ It is written Java and uses the Sprint Boot framework.
 
 ## Getting Started
 ### Prerequisites
-- Java 11
+- Java 21
 - Gradle
 - Docker
 
