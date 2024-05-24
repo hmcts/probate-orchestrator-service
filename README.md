@@ -32,7 +32,6 @@ It is written Java and uses the Sprint Boot framework.
 ### Prerequisites
 - Java 21
 - Gradle
-- Docker
 
 ### Running the application
 Run the service by executing the following command:  
@@ -86,10 +85,6 @@ To run all checks (including unit tests) please execute the following command:
 ```bash
 $ ./gradlew check
 ```
-
-## Docker Compose Environment
-
-Not currently available.
 
 ### Crons
 
