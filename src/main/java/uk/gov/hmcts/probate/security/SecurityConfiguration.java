@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import uk.gov.hmcts.reform.auth.checker.core.service.ServiceRequestAuthorizer;
@@ -36,36 +37,40 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .securityMatcher(
-                        "/swagger-ui.html",
-                        "/swagger-ui/**",
-                        "/swagger-resources/**",
-                        "/v3/**",
-                        "/health",
-                        "/health/liveness",
-                        "/info",
-                        "/migrateData",
-                        "/favicon.ico",
-                        "/"
-                )
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(
-                                "/documents/**",
-                                "/generate/**",
-                                "/forms/**",
-                                "/invite/**",
-                                "/invites/**"
-                        ).authenticated()
-                        .anyRequest().authenticated()
+                        "/documents/**",
+                        "/generate/**",
+                        "/forms/**",
+                        "/invite/**",
+                        "/invites/**"
                 )
                 .addFilter(authCheckerServiceAndUserFilter)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorize -> authorize
+                        .anyRequest().authenticated()
+                )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(authenticationExceptionHandler)
-            );
+                );
 
         return http.build();
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring().requestMatchers(
+                "/swagger-ui.html",
+                "/swagger-ui/**",
+                "/swagger-resources/**",
+                "/v3/**",
+                "/health",
+                "/health/liveness",
+                "/info",
+                "/migrateData",
+                "/favicon.ico",
+                "/"
+        );
     }
 }
