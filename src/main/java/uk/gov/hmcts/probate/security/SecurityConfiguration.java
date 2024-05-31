@@ -53,7 +53,7 @@ public class SecurityConfiguration {
                 )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(authenticationExceptionHandler)
-                );
+            );
 
         return http.build();
     }
