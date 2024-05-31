@@ -64,7 +64,7 @@ public class SecurityConfiguration {
                 .logout(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(authenticationExceptionHandler)
-                );
+            );
 
         return http.build();
     }
