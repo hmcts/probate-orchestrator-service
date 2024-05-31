@@ -35,19 +35,19 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .securityMatcher(
+                        "/swagger-ui.html",
+                        "/swagger-ui/**",
+                        "/swagger-resources/**",
+                        "/v3/**",
+                        "/health",
+                        "/health/liveness",
+                        "/info",
+                        "/migrateData",
+                        "/favicon.ico",
+                        "/"
+                )
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(
-                                "/swagger-ui.html",
-                                "/swagger-ui/**",
-                                "/swagger-resources/**",
-                                "/v3/**",
-                                "/health",
-                                "/health/liveness",
-                                "/info",
-                                "/migrateData",
-                                "/favicon.ico",
-                                "/"
-                        ).permitAll()
                         .requestMatchers(
                                 "/documents/**",
                                 "/generate/**",
