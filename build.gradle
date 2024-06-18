@@ -300,7 +300,7 @@ dependencies {
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: versions.junitJupiter
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
     testImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
-    testImplementation 'com.github.hmcts:fortify-client:1.4.2:all'
+    testImplementation 'com.github.hmcts:fortify-client:1.4.3:all'
 
 
     testIntegrationImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
@@ -316,7 +316,7 @@ dependencies {
     testIntegrationImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
     testIntegrationImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
     testIntegrationImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
-    testIntegrationImplementation 'com.github.hmcts:fortify-client:1.4.2:all'
+    testIntegrationImplementation 'com.github.hmcts:fortify-client:1.4.3:all'
     testIntegrationImplementation group: 'com.github.hmcts', name: 'probate-commons', version: versions.probateCommonsVersion
     testIntegrationImplementation group: 'com.google.guava', name: 'guava', version: '33.2.1-jre'
 
