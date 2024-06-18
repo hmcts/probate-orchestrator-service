@@ -1,7 +1,17 @@
 {
-  "title": "Cover Sheet",	
-  "applicantAddressIntro": "The applicants address",
-  "applicantAddress": "20 White City\nLondon\nW12 7PD",
-  "caseReference": "1542-9021-4510-0350",
-  "submitAddress": "Divorce Service\nPO BOX 123\nExela BSP Services\nHarlow\nCM19 5QS"
+    "bulkScanCoverSheet": {
+    "title": "Download Cover Sheet",
+    "applicantAddressIntro": "Your address",
+    "applicantNameIntro": "Your name",
+    "applicantName": "Last Name",
+    "applicantAddress": "20 White City\nLondon\nW12 7PD",
+    "caseReferenceIntro": "Your unique reference\nnumber is",
+    "caseReference": "1542-9021-4510-0350",
+    "submitAddressIntro": "You must send these documents and this cover sheet to the address shown below",
+    "submitAddress": "Divorce Service\nPO BOX 123\nExela BSP Services\nHarlow\nCM19 5QS",
+    "checkListItemsIntro": "Send your documents and coversheet",
+    "checkListItems": [],
+    "noDocumentsRequired": true,
+    "noDocumentsRequiredText": "Yes"
+    }
 }
