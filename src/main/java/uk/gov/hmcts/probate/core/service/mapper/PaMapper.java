@@ -136,6 +136,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "ihtGrossValueField", source = "iht.grossValueField")
     @Mapping(target = "ihtNetValueField", source = "iht.netValueField")
     @Mapping(target = "ihtFormEstateValuesCompleted", source = "iht.estateValueCompleted")
+    @Mapping(target = "calcCheckCompleted", source = "iht.calcCheckCompleted")
     @Mapping(target = "ihtFormEstate", source = "iht.ihtFormEstateId")
     @Mapping(target = "ihtEstateGrossValue", source = "iht.estateGrossValue", qualifiedBy = {ToPennies.class})
     @Mapping(target = "ihtEstateGrossValueField", source = "iht.estateGrossValueField")
@@ -157,6 +158,8 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
         ToDocumentLink.class})
     @Mapping(target = "languagePreferenceWelsh", source = "language.bilingual")
     @Mapping(target = "deceasedDiedEngOrWales", source = "deceased.diedEngOrWales")
+    @Mapping(target = "uniqueProbateCodeId", source = "iht.uniqueProbateCodeId")
+    @Mapping(target = "hmrcLetterId", source = "iht.hmrcLetterId")
     @Mapping(target = "deceasedDeathCertificate", expression = "java(form.getDeceased()!= null ? "
         + "DeathCertificate.fromString(form.getDeceased().getDeathCertificate()) : null)")
     @Mapping(target = "deceasedForeignDeathCertInEnglish", source = "deceased.englishForeignDeathCert")
@@ -203,6 +206,12 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "iht.netIht400421",
         expression = "java(IhtValuesMapper.getNetIht400421(grantOfRepresentationData.getIhtFormId(), "
             + "grantOfRepresentationData.getIhtNetValue()))")
+    @Mapping(target = "iht.grossIht400",
+            expression = "java(IhtValuesMapper.getGrossIht400(grantOfRepresentationData.getIhtFormId(), "
+                    + "grantOfRepresentationData.getIhtGrossValue()))")
+    @Mapping(target = "iht.netIht400",
+            expression = "java(IhtValuesMapper.getNetIht400(grantOfRepresentationData.getIhtFormId(), "
+                    + "grantOfRepresentationData.getIhtNetValue()))")
     @Mapping(target = "executors.list", source = ".", qualifiedBy = {FromCollectionMember.class})
     @Mapping(target = "executors.invitesSent", expression = "java(grantOfRepresentationData.haveInvitesBeenSent())")
     @Mapping(target = "iht.identifier", expression =
@@ -227,6 +236,8 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "payment", source = "payments")
     @Mapping(target = "payments", source = "payments", qualifiedBy = {FromCollectionMember.class})
     @Mapping(target = "documents", source = "boDocumentsUploaded", qualifiedBy = {FromUploadDocs.class})
+    @Mapping(target = "iht.uniqueProbateCodeId", source = "uniqueProbateCodeId")
+    @Mapping(target = "iht.hmrcLetterId", source = "hmrcLetterId")
     @Mapping(target = "statementOfTruthDocument", source = "statementOfTruthDocument", qualifiedBy = {
         FromDocumentLink.class})
     @Mapping(target = "documentsReceivedNotificationSent", source = "documentsReceivedNotificationSent")
