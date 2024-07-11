@@ -9,7 +9,7 @@ plugins {
     id 'application'
     id 'checkstyle'
     id 'pmd'
-    id 'io.spring.dependency-management' version '1.1.5'
+    id 'io.spring.dependency-management' version '1.1.6'
     id 'org.springframework.boot' version '2.7.18'
     id 'com.github.ben-manes.versions' version '0.51.0'
     id 'com.gorylenko.gradle-git-properties' version '2.4.2'
@@ -189,7 +189,7 @@ def versions = [
         piTest                          : '1.16.1',
         commonMark                      : '0.17.0',
         probateCommonsVersion           : '1.4.49',
-        jacksonDatabind                 : '2.17.1',
+        jacksonDatabind                 : '2.17.2',
         pact_version                    : '3.6.15',
         feign                           : '13.3',
         junitJupiter                    : '5.8.0-M1'
