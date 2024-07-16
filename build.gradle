@@ -157,6 +157,19 @@ task functional(type: Test) {
 
 functional.finalizedBy(aggregate)
 
+task runProviderPactTests(type: Test) {
+    description = "Runs Contract Tests"
+    testClassesDirs = sourceSets.contractTest.output.classesDirs
+    classpath = sourceSets.contractTest.runtimeClasspath
+}
+
+task runConsumerPactTests(type: Test) {
+    description = "Runs Contract Tests"
+    useJUnitPlatform()
+    testClassesDirs = sourceSets.contractTest.output.classesDirs
+    classpath = sourceSets.contractTest.runtimeClasspath
+}
+
 test {
     maxHeapSize = "1024m"
     useJUnitPlatform()
