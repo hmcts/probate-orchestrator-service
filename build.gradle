@@ -369,6 +369,12 @@ task fortifyScan(type: JavaExec)  {
     jvmArgs = ['--add-opens=java.base/java.lang.reflect=ALL-UNNAMED']
 }
 
+task runAndPublishConsumerPactTests(type: Test){
+    description = "Runs consumer pact Tests"
+    testClassesDirs = sourceSets.testPact.output.classesDirs
+    classpath = sourceSets.testPact.runtimeClasspath
+}
+
 pact {
     publish {
         pactDirectory = 'target/pacts'
