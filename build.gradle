@@ -110,7 +110,7 @@ sourceSets {
         }
         resources.srcDir file('src/functionalTest/resources')
     }
-    testContract {
+    contractTest {
         java {
             compileClasspath += main.output
             runtimeClasspath += main.output
