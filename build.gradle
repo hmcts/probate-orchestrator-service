@@ -129,6 +129,10 @@ sourceSets {
 
 }
 
+processContractTestResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
 task integration(type: Test) {
     description = "Runs integration tests"
     testClassesDirs = sourceSets.testIntegration.output.classesDirs
