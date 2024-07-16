@@ -328,20 +328,20 @@ dependencies {
     testFunctionalImplementation sourceSets.test.runtimeClasspath
     testFunctionalAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
 
-    testContractImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
-    testContractImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
-    testContractImplementation group: 'au.com.dius.pact.consumer', name: 'junit5', version: versions.pact_version
-    testContractImplementation group: 'au.com.dius.pact.consumer', name: 'java8', version: versions.pact_version
-    testContractImplementation group: 'au.com.dius.pact.provider', name: 'junit5', version: versions.pact_version
-    testContractImplementation group: 'au.com.dius.pact.provider', name: 'spring', version: versions.pact_version
-    testContractImplementation group: 'au.com.dius.pact.provider', name: 'junit5spring', version: versions.pact_version
-    testContractImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
-    testContractRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: versions.junitJupiter
-    testContractImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
+    contractTestImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
+    contractTestImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    contractTestImplementation group: 'au.com.dius.pact.consumer', name: 'junit5', version: versions.pact_version
+    contractTestImplementation group: 'au.com.dius.pact.consumer', name: 'java8', version: versions.pact_version
+    contractTestImplementation group: 'au.com.dius.pact.provider', name: 'junit5', version: versions.pact_version
+    contractTestImplementation group: 'au.com.dius.pact.provider', name: 'spring', version: versions.pact_version
+    contractTestImplementation group: 'au.com.dius.pact.provider', name: 'junit5spring', version: versions.pact_version
+    contractTestImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
+    contractTestRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: versions.junitJupiter
+    contractTestImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
 
-    testContractImplementation sourceSets.main.runtimeClasspath
-    testContractImplementation sourceSets.test.runtimeClasspath
-    testContractImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
+    contractTestImplementation sourceSets.main.runtimeClasspath
+    contractTestImplementation sourceSets.test.runtimeClasspath
+    contractTestImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
 }
 
 task printbranch {
