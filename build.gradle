@@ -158,13 +158,14 @@ task functional(type: Test) {
 functional.finalizedBy(aggregate)
 
 task runProviderPactTests(type: Test) {
-    description = "Runs Contract Tests"
+    description = "Runs Provider Contract Tests"
+    useJUnitPlatform()
     testClassesDirs = sourceSets.contractTest.output.classesDirs
     classpath = sourceSets.contractTest.runtimeClasspath
 }
 
 task runConsumerPactTests(type: Test) {
-    description = "Runs Contract Tests"
+    description = "Runs Consumer Contract Tests"
     useJUnitPlatform()
     testClassesDirs = sourceSets.contractTest.output.classesDirs
     classpath = sourceSets.contractTest.runtimeClasspath
@@ -375,7 +376,7 @@ task fortifyScan(type: JavaExec)  {
 
 
 task runAndPublishConsumerPactTests(type: Test){
-    logger.lifecycle("Runs consumer pact tests")
+    logger.lifecycle("Runs PublishConsumer pact tests")
     systemProperty 'pact.rootDir', "pacts"
     useJUnitPlatform()
     testClassesDirs = sourceSets.contractTest.output.classesDirs
@@ -384,9 +385,12 @@ task runAndPublishConsumerPactTests(type: Test){
 }
 
 pact {
+    broker {
+        pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?:'http://localxxshost:80'
+    }
     publish {
         pactDirectory = 'target/pacts'
-        pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?: 'http://localhost:80'
+        pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?: 'http://localxxhost:80'
         tags = [System.getenv("PACT_BRANCH_NAME") ?: 'Dev']
         version = project.pactVersion
     }

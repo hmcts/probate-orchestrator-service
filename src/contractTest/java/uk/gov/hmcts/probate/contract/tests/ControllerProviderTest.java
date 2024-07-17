@@ -40,7 +40,8 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @PactBroker(
-    url = "${pact.broker.baseUrl:localhost}",
+    host = "${PACT_BROKER_URL:localhost}",
+    port = "${PACT_BROKER_PORT:80}",
     consumerVersionSelectors = {
         @VersionSelector(tag = "${PACT_BRANCH_NAME:Dev}")
     },
@@ -76,7 +77,6 @@ public abstract class ControllerProviderTest {
 
     @BeforeAll
     public void setUpTest() {
-
         service = new Service(PRINCIPAL);
         when(serviceResolver.getTokenDetails(anyString())).thenReturn(service);
 
