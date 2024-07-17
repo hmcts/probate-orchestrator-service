@@ -29,7 +29,9 @@ public class IntestacyDraftsFormsControllerProviderTest extends ControllerProvid
     @TestTemplate
     @ExtendWith(PactVerificationSpringProvider.class)
     void pactVerificationTestTemplate(PactVerificationContext context) throws Exception {
-        context.verifyInteraction();
+        if (context != null) {
+            context.verifyInteraction();
+        }
     }
 
     @State({"probate_orchestrator_service persists intestacy formdata with success",

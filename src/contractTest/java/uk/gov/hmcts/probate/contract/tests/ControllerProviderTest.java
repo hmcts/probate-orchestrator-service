@@ -40,10 +40,9 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @PactBroker(
-    url="https://pact-broker.platform.hmcts.net",
-    scheme = "${PACT_BROKER_SCHEME:http}",
-    host = "${PACT_BROKER_URL:localhost}",
-    port = "${PACT_BROKER_PORT:80}",
+    scheme = "${pact.broker.scheme:http}",
+    host = "${pact.broker.baseUr:localhost}",
+    port = "${pact.broker.port:80}",
     consumerVersionSelectors = {
         @VersionSelector(tag = "${PACT_BRANCH_NAME:Dev}")
     },
