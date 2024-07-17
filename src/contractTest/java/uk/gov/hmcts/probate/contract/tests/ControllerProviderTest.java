@@ -42,6 +42,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @PactBroker(
+    scheme = "${PACT_BROKER_SCHEME:http}",
     host = "${PACT_BROKER_URL:localhost}",
     port = "${PACT_BROKER_PORT:80}",
     consumerVersionSelectors = {
@@ -79,7 +80,6 @@ public abstract class ControllerProviderTest {
 
     @BeforeAll
     public void setUpTest() {
-        System.out.println("setUpTest--->");
         service = new Service(PRINCIPAL);
         when(serviceResolver.getTokenDetails(anyString())).thenReturn(service);
 
@@ -87,23 +87,11 @@ public abstract class ControllerProviderTest {
         when(userRequestAuthorizer.authorise(any(HttpServletRequest.class))).thenReturn(user);
         System.getProperties().setProperty("pact.verifier.publishResults", "true");
         System.getProperties().setProperty("pact.provider.version", providerVersion);
-        System.out.println("setUpTest--->");
-    }
-
-    @BeforeEach
-    void before(PactVerificationContext context) {
-        MockMvcTestTarget testTarget = new MockMvcTestTarget();
-        System.out.println("before.context--->" + context);
-        System.out.println("before.context--->" + testTarget);
-        if (context != null) {
-            context.setTarget(testTarget);
-        }
     }
 
     @TestTemplate
     @ExtendWith(PactVerificationInvocationContextProvider.class)
     void pactVerificationTestTemplate(PactVerificationContext context) {
-        System.out.println("pactVerificationTestTemplate.context--->" + context);
         if (context != null) {
             context.verifyInteraction();
         }
