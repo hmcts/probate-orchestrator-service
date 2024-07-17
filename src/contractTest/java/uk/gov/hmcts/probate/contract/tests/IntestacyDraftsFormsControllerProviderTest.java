@@ -1,8 +1,12 @@
 package uk.gov.hmcts.probate.contract.tests;
 
+import au.com.dius.pact.provider.junit5.PactVerificationContext;
 import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
+import au.com.dius.pact.provider.spring.junit5.PactVerificationSpringProvider;
 import org.json.JSONException;
+import org.junit.jupiter.api.TestTemplate;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.SecurityUtils;
@@ -21,6 +25,12 @@ public class IntestacyDraftsFormsControllerProviderTest extends ControllerProvid
     private SecurityUtils securityUtils;
     @MockBean
     private ProbateCaseDetails probateCaseDetails;
+
+    @TestTemplate
+    @ExtendWith(PactVerificationSpringProvider.class)
+    void pactVerificationTestTemplate(PactVerificationContext context) throws Exception {
+        context.verifyInteraction();
+    }
 
     @State({"probate_orchestrator_service persists intestacy formdata with success",
             "probate_orchestrator_service persists intestacy formdata with success"})
