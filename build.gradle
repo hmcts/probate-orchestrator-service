@@ -386,11 +386,11 @@ task runAndPublishConsumerPactTests(type: Test){
 
 pact {
     broker {
-        pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?:'http://localxxshost:80'
+        pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?:'http://localshost:80'
     }
     publish {
         pactDirectory = 'target/pacts'
-        pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?: 'http://localxxhost:80'
+        pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?: 'http://localhost:80'
         tags = [System.getenv("PACT_BRANCH_NAME") ?: 'Dev']
         version = project.pactVersion
     }

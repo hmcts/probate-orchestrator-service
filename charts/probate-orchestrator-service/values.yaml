@@ -9,6 +9,7 @@ java:
     PACT_BROKER_URL: pact-broker.platform.hmcts.net
     PACT_BROKER_PORT: 443
     PACT_BROKER_SCHEME: https
+    PACT_BROKER_FULL_URL: "https://pact-broker.platform.hmcts.net"
     REFORM_ENVIRONMENT: "{{ .Values.global.environment }}"
     DEPLOYMENT_ENV: "{{ .Values.global.environment }}"
     SERVICES_PERSISTENCE_BASEURL: "http://probate-persistence-service-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
