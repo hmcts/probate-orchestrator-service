@@ -94,6 +94,7 @@ public abstract class ControllerProviderTest {
     void before(PactVerificationContext context) {
         MockMvcTestTarget testTarget = new MockMvcTestTarget();
         System.out.println("before.context--->" + context);
+        System.out.println("before.context--->" + testTarget);
         if (context != null) {
             context.setTarget(testTarget);
         }
