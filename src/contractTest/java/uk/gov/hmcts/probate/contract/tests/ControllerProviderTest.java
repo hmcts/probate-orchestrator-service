@@ -5,10 +5,12 @@ import au.com.dius.pact.provider.junitsupport.loader.PactBroker;
 import au.com.dius.pact.provider.junit5.PactVerificationContext;
 import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider;
 import au.com.dius.pact.provider.junitsupport.loader.VersionSelector;
+import au.com.dius.pact.provider.spring.junit5.MockMvcTestTarget;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.TestInstance;
@@ -77,6 +79,7 @@ public abstract class ControllerProviderTest {
 
     @BeforeAll
     public void setUpTest() {
+        System.out.println("setUpTest--->");
         service = new Service(PRINCIPAL);
         when(serviceResolver.getTokenDetails(anyString())).thenReturn(service);
 
@@ -84,11 +87,21 @@ public abstract class ControllerProviderTest {
         when(userRequestAuthorizer.authorise(any(HttpServletRequest.class))).thenReturn(user);
         System.getProperties().setProperty("pact.verifier.publishResults", "true");
         System.getProperties().setProperty("pact.provider.version", providerVersion);
+        System.out.println("setUpTest--->");
     }
 
+    @BeforeEach
+    void before(PactVerificationContext context) {
+        MockMvcTestTarget testTarget = new MockMvcTestTarget();
+        System.out.println("before.context--->"+context);
+        if (context != null) {
+            context.setTarget(testTarget);
+        }
+    }
     @TestTemplate
     @ExtendWith(PactVerificationInvocationContextProvider.class)
     void pactVerificationTestTemplate(PactVerificationContext context) {
+        System.out.println("pactVerificationTestTemplate.context--->"+context);
         if (context != null) {
             context.verifyInteraction();
         }
