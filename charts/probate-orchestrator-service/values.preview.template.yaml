@@ -3,3 +3,4 @@ java:
     LOG_LEVEL: DEBUG
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_NAME}.preview.platform.hmcts.net
+  PACT_BROKER_FULL_URL: "https://pact-broker.platform.hmcts.net"

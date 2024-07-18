@@ -40,9 +40,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @PactBroker(
-    scheme = "${pact.broker.scheme:http}",
-    host = "${pact.broker.baseUr:localhost}",
-    port = "${pact.broker.port:80}",
+    url = "${pact.broker.url:http://localhost}",
     consumerVersionSelectors = {
         @VersionSelector(tag = "${PACT_BRANCH_NAME:Dev}")
     },
@@ -85,6 +83,7 @@ public abstract class ControllerProviderTest {
         when(userRequestAuthorizer.authorise(any(HttpServletRequest.class))).thenReturn(user);
         System.getProperties().setProperty("pact.verifier.publishResults", "true");
         System.getProperties().setProperty("pact.provider.version", providerVersion);
+
     }
 
     @TestTemplate
