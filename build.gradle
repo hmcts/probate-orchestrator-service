@@ -156,6 +156,14 @@ task functional(type: Test) {
 }
 
 functional.finalizedBy(aggregate)
+task runProviderPactVerification(type: Test) {
+    testClassesDirs = sourceSets.contractTest.output.classesDirs
+    classpath = sourceSets.contractTest.runtimeClasspath
+    if (project.hasProperty('pact.verifier.publishResults')) {
+        systemProperty 'pact.verifier.publishResults', project.property('pact.verifier.publishResults')
+    }
+    systemProperty 'pact.provider.version', project.pactVersion
+}
 
 task runProviderPactTests(type: Test) {
     description = "Runs Provider Contract Tests"
