@@ -1,5 +1,6 @@
 
 java:
+  environment:
+    PACT_BROKER_FULL_URL: "https://pact-broker.platform.hmcts.net"
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
-  PACT_BROKER_FULL_URL: "https://pact-broker.platform.hmcts.net"
