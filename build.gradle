@@ -386,7 +386,7 @@ task runAndPublishConsumerPactTests(type: Test){
 
 pact {
     broker {
-        pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?:'http://localshost:80'
+        url = System.getenv("PACT_BROKER_FULL_URL") ?:'http://localshost:80'
     }
     publish {
         pactDirectory = 'target/pacts'
