@@ -1,5 +1,5 @@
 {
-  "bulkScanCoverSheet": {
+    "bulkScanCoverSheet": {
     "title": "Download Cover Sheet",
     "applicantAddressIntro": "Your address",
     "applicantNameIntro": "Your name",
@@ -13,5 +13,5 @@
     "checkListItems": [],
     "noDocumentsRequired": true,
     "noDocumentsRequiredText": "Yes"
-  }
+    }
 }

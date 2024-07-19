@@ -1,12 +1,25 @@
 {
   "probateCaseDetails": {
     "caseData": {
-      "deceasedMartialStatus": "marriedCivilPartnership",
+      "deceasedMaritalStatus": "marriedCivilPartnership",
       "primaryApplicantPhoneNumber": "123455678",
       "childrenOverEighteenSurvived": "Yes",
       "deceasedAddressFound": "Yes",
       "primaryApplicantAdoptionInEnglandOrWales": "Yes",
-      "uploadDocumentUrl": "http://document-management/document/12345",
+      "boDocumentsUploaded": [
+        {
+          "id": "f5a87162-361b-4637-b568-4975c855b996",
+          "value": {
+            "Comment": "comment",
+            "DocumentLink": {
+              "document_url": "http://dm-store:8080/documents/8367c8ee-c15e-43e3-8f30-cc6d334af0c2",
+              "document_filename": "LegalStatementUploaded.pdf",
+              "document_binary_url": "http://dm-store:8080/documents/8367c8ee-c15e-43e3-8f30-cc6d334af0c2/binary"
+            },
+            "DocumentType": "uploadedLegalStatement"
+          }
+        }
+      ],
       "childrenDied": "No",
       "deceasedSpouseNotApplyingReason": "mentallyIncapable",
       "declarationCheckbox": "Yes",
@@ -41,7 +54,7 @@
       },
       "deceasedDivorcedInEnglandOrWales": "No",
       "deceasedDateOfBirth": "1930-01-01",
-      "assetsOverseasNetValue": "10050",
+      "assetsOutsideNetValue": "10050",
       "caseType": "intestacy",
       "primaryApplicantAddressFound": "Yes",
       "deceasedOtherChildren": "Yes",
@@ -54,7 +67,7 @@
     },
     "caseInfo": {
       "caseId": "12323213323",
-      "state": "Draft"
+      "state": "Pending"
     }
   },
   "validatorResults": {

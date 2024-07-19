@@ -1,4 +1,17 @@
 {
-  "applicantAddress": "addressLine1",
-  "caseReference": "cRef"
+  "bulkScanCoverSheet": {
+    "title": "Download Cover Sheet",
+    "applicantAddressIntro": "Your address",
+    "applicantNameIntro": "Your name",
+    "applicantName": "Last Name",
+    "applicantAddress": null,
+    "caseReferenceIntro": "Your unique reference\nnumber is",
+    "caseReference": "1542-9021-4510-0350",
+    "submitAddressIntro": "You must send these documents and this cover sheet to the address shown below",
+    "submitAddress": null,
+    "checkListItemsIntro": "Send your documents and coversheet",
+    "checkListItems": [],
+    "noDocumentsRequired": null,
+    "noDocumentsRequiredText": null
+  }
 }
