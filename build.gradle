@@ -26,6 +26,10 @@ java {
     }
 }
 
+project.ext {
+    pactVersion = getCheckedOutGitCommitHash()
+}
+
 jacoco {
     toolVersion = '0.8.12'
 }
@@ -77,7 +81,7 @@ sourceSets {
         }
         resources.srcDir file('src/functionalTest/resources')
     }
-    testContract {
+    contractTest {
         java {
             compileClasspath += main.output
             runtimeClasspath += main.output
@@ -93,6 +97,10 @@ sourceSets {
         }
         resources.srcDir file('src/integrationTest/resources')
     }
+}
+
+processContractTestResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 task integration(type: Test) {
@@ -118,16 +126,29 @@ task functional(type: Test) {
 
 functional.finalizedBy(aggregate)
 
+task runProviderPactVerification(type: Test) {
+    testClassesDirs = sourceSets.contractTest.output.classesDirs
+    classpath = sourceSets.contractTest.runtimeClasspath
+    if (project.hasProperty('pact.verifier.publishResults')) {
+        systemProperty 'pact.verifier.publishResults', project.property('pact.verifier.publishResults')
+    }
+    systemProperty 'pact.provider.version', project.pactVersion
+}
+
 task runProviderPactTests(type: Test) {
-    description = "Runs Contract Tests"
-    testClassesDirs = sourceSets.testContract.output.classesDirs
-    classpath = sourceSets.testContract.runtimeClasspath
+    description = "Runs Provider Contract Tests"
+    println 'runProviderPactTests-PACT_BROKER_FULL_URL=' + System.getenv("PACT_BROKER_FULL_URL")
+    useJUnitPlatform()
+    testClassesDirs = sourceSets.contractTest.output.classesDirs
+    classpath = sourceSets.contractTest.runtimeClasspath
 }
 
 task runConsumerPactTests(type: Test) {
     description = "Runs Contract Tests"
-    testClassesDirs = sourceSets.testContract.output.classesDirs
-    classpath = sourceSets.testContract.runtimeClasspath
+    println 'runProviderPactTests-PACT_BROKER_FULL_URL=' + System.getenv("PACT_BROKER_FULL_URL")
+    useJUnitPlatform()
+    testClassesDirs = sourceSets.contractTest.output.classesDirs
+    classpath = sourceSets.contractTest.runtimeClasspath
 }
 
 tasks.withType(Test) {
@@ -145,7 +166,7 @@ def versions = [
         junitJupiter                    : '5.10.2',
         lombok                          : '1.18.32',
         mapStruct                       : '1.3.0.Final',
-        pact_version                    : '4.0.10',
+        pact_version                    : '4.1.34',
         piTest                          : '1.16.1',
         probateCommonsVersion           : '1.5.2',
         restAssured                     : '5.4.0',
@@ -270,15 +291,19 @@ dependencies {
     testFunctionalImplementation sourceSets.main.runtimeClasspath
     testFunctionalImplementation sourceSets.test.runtimeClasspath
 
-    testContractImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
-    testContractImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
-    testContractImplementation group: 'au.com.dius', name: 'pact-jvm-provider', version: versions.pact_version
-    testContractImplementation group: 'au.com.dius', name: 'pact-jvm-consumer', version: versions.pact_version
-    testContractImplementation group: 'au.com.dius', name: 'pact-jvm-consumer-junit', version: versions.pact_version
-    testContractImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
-    testContractRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: versions.junitJupiter
-    testContractImplementation sourceSets.main.runtimeClasspath
-    testContractImplementation sourceSets.test.runtimeClasspath
+    contractTestImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
+    contractTestImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    contractTestImplementation group: 'au.com.dius.pact.consumer', name: 'junit5', version: versions.pact_version
+    contractTestImplementation group: 'au.com.dius.pact.consumer', name: 'java8', version: versions.pact_version
+    contractTestImplementation group: 'au.com.dius.pact.provider', name: 'junit5', version: versions.pact_version
+    contractTestImplementation group: 'au.com.dius.pact.provider', name: 'spring', version: versions.pact_version
+    contractTestImplementation group: 'au.com.dius.pact.provider', name: 'junit5spring', version: versions.pact_version
+    contractTestImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
+    contractTestRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: versions.junitJupiter
+    contractTestImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
+    contractTestImplementation sourceSets.main.runtimeClasspath
+    contractTestImplementation sourceSets.test.runtimeClasspath
+    contractTestImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
 }
 
 task fortifyScan(type: JavaExec)  {
@@ -295,7 +320,22 @@ project.ext {
     pactVersion = getCheckedOutGitCommitHash()
 }
 
+task runAndPublishConsumerPactTests(type: Test){
+    logger.lifecycle("Runs PublishConsumer pact tests")
+    systemProperty 'pact.rootDir', "pacts"
+    println 'runAndPublishConsumerPactTests-PACT_BROKER_FULL_URL=' + System.getenv("PACT_BROKER_FULL_URL")
+    println 'runAndPublishConsumerPactTests-pact.rootDir=' + System.getenv("pact.rootDir")
+    useJUnitPlatform()
+    testClassesDirs = sourceSets.contractTest.output.classesDirs
+    classpath = sourceSets.contractTest.runtimeClasspath
+
+}
+
 pact {
+    println 'pact-PACT_BROKER_FULL_URL=' + System.getenv("PACT_BROKER_FULL_URL")
+    broker {
+        pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?:'http://localshost:80'
+    }
     publish {
         pactDirectory = 'target/pacts'
         pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?: 'http://localhost:80'
