@@ -8,6 +8,7 @@ import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.mapper.ExecutorApplyingToInvitationMapper;
 import uk.gov.hmcts.probate.service.BusinessService;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
+import uk.gov.hmcts.reform.probate.model.YesNo;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
@@ -16,6 +17,8 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepr
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
+import uk.gov.hmcts.reform.probate.model.jackson.YesNoDeserializer;
+import uk.gov.hmcts.reform.probate.model.multiapplicant.ExecutorNotification;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
 import java.util.ArrayList;
@@ -164,6 +167,21 @@ public class BusinessServiceImpl implements BusinessService {
         grantOfRepresentationData.setInvitationAgreedFlagForExecutorApplying(invitation.getInviteId(),
                 invitation.getAgreed());
         updateCaseDataAsCaseWorker(probateCaseDetails, formdataId);
+        ExecutorNotification executorNotification = ExecutorNotification.builder()
+                .applicantName(invitation.getLeadExecutorName())
+                .ccdReference(probateCaseDetails.getCaseInfo().getCaseId())
+                .deceasedDod(grantOfRepresentationData.getDeceasedDateOfDeath())
+                .executorName(invitation.getExecutorName())
+                .deceasedName(grantOfRepresentationData.getDeceasedForenames() + grantOfRepresentationData.getDeceasedSurname())
+                .build();
+        if (invitation.getBilingual().equals(Boolean.TRUE)) {
+            businessServiceApi.signedBilingual(executorNotification);
+        } else {
+            businessServiceApi.signedExec(executorNotification);
+        }
+        if (haveAllIniviteesAgreed(formdataId).equals(Boolean.TRUE)) {
+            businessServiceApi.signedExecAll(executorNotification);
+        }
         return invitation.getInviteId();
     }
 
