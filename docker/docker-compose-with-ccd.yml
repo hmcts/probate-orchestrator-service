@@ -16,7 +16,7 @@ services:
     - idam-api
 
   shared-database:
-    image: postgres:16.2-alpine
+    image: postgres:16.3-alpine
     container_name: shared-database
     ports:
     - 5342:5432
@@ -463,7 +463,7 @@ services:
       - 8080:8080
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.2
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.3
     container_name: elasticsearch
     environment:
       ES_JAVA_OPTS: "-Xms256m -Xmx256m"
@@ -483,7 +483,7 @@ services:
     - elasticsearch
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:8.12.2
+    image: docker.elastic.co/kibana/kibana:8.14.3
     container_name: kibana
     ports:
     - 5601:5601
