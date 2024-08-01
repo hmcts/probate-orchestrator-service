@@ -2,20 +2,17 @@ package uk.gov.hmcts.probate.functional.tests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
-import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
-import net.thucydides.core.annotations.Pending;
+import net.serenitybdd.junit5.SerenityJUnit5Extension;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.gov.hmcts.probate.functional.IntegrationTestBase;
-import uk.gov.hmcts.probate.functional.TestRetryRule;
 import uk.gov.hmcts.reform.probate.model.forms.CaseSummary;
 import uk.gov.hmcts.reform.probate.model.forms.CaseSummaryHolder;
 
@@ -24,8 +21,10 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@RunWith(SpringIntegrationSerenityRunner.class)
+@ExtendWith(SerenityJUnit5Extension.class)
 public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     private static final String INVITE_URL = "/invite";
     private static final String INVITE_AGREED_URL = "/invite/agreed/";
@@ -50,10 +49,8 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private CaseSummaryHolder caseSummaryHolder;
-    @Rule
-    public TestRetryRule retryRule = new TestRetryRule(3);
 
-    @Before
+    @BeforeEach
     public void init() throws IOException, JSONException {
         if (setUp) {
             String responseJsonStr = RestAssured.given()
@@ -97,7 +94,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     }
 
 
-    @Pending
+    @Disabled
     @Test
     public void generateInvitation() {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitation.json");
@@ -116,7 +113,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
     }
 
 
-    @Pending
+    @Disabled
     @Test
     public void inviteAgreed() {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
@@ -135,7 +132,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
                 .extract().response().prettyPrint();
     }
 
-    @Pending
+    @Disabled
     @Test
     public void getInviteAllAgreedForValidFormDataId() {
         String response = RestAssured.given()
@@ -147,11 +144,11 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
                 .assertThat()
                 .statusCode(200)
                 .extract().response().getBody().prettyPrint();
-        Assert.assertEquals("false", response);
+        assertEquals("false", response);
 
     }
 
-    @Pending
+    @Disabled
     @Test
     public void getInviteAllAgreedForInValidFormDataId() {
         RestAssured.given()
@@ -164,7 +161,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
                 .statusCode(404);
     }
 
-    @Pending
+    @Disabled
     @Test
     public void inviteBilingual() {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
@@ -184,7 +181,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
                 .extract().jsonPath().prettify();
     }
 
-    @Pending
+    @Disabled
     @Test
     public void updateContactDetails() {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
@@ -200,10 +197,10 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
                 .assertThat()
                 .statusCode(200)
                 .extract().response().getBody().prettyPrint();
-        Assert.assertEquals(response, INVITE_ID);
+        assertEquals(response, INVITE_ID);
     }
 
-    @Pending
+    @Disabled
     @Test
     public void getInvitePin() throws JSONException {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
@@ -220,10 +217,10 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
                 .assertThat()
                 .statusCode(200)
                 .extract().response().getBody().prettyPrint();
-        Assert.assertNotNull(response);
+        assertNotNull(response);
     }
-    
-    @Pending
+
+    @Disabled
     @Test
     public void getInvitePinBilingual() throws JSONException {
         String validInvitationJsonStr = utils.getJsonFromFile("validInvitationWithInviteId.json");
@@ -240,10 +237,10 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
                 .assertThat()
                 .statusCode(200)
                 .extract().response().getBody().prettyPrint();
-        Assert.assertNotNull(response);
+        assertNotNull(response);
     }
 
-    @Pending
+    @Disabled
     @Test
     public void resetAgreedFlags() {
         generateInvitation();
@@ -258,7 +255,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
                 .extract().body().equals(String.valueOf(formdataId));
     }
 
-    @Pending
+    @Disabled
     @Test
     public void getInviteData() {
         RestAssured.given()
@@ -272,7 +269,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
                 .extract().body().jsonPath().prettify();
     }
 
-    @Pending
+    @Disabled
     @Test
     public void deleteInvites() {
         generateInvitation();
@@ -290,7 +287,7 @@ public class InvitationControllerFunctionalTests extends IntegrationTestBase {
                 .extract().body().jsonPath().prettify();
     }
 
-    @Pending
+    @Disabled
     @Test
     public void getInvites() {
         RestAssured.given()

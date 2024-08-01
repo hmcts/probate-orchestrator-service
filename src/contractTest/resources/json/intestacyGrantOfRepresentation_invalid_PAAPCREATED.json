@@ -34,7 +34,6 @@
         }
       }
     ],
-    "deceasedMartialStatus": "marriedCivilPartnership",
     "deceasedDivorcedInEnglandOrWales": "No",
     "deceasedSpouseNotApplyingReason": "mentallyIncapable",
     "deceasedOtherChildren": "Yes",
@@ -43,7 +42,6 @@
     "grandChildrenSurvivedUnderEighteen": "No",
     "deceasedAnyChildren": "No",
     "registryLocation": "Birmingham",
-    "assetsOverseasNetValue": "10050",
     "deceasedHasAssetsOutsideUK": "Yes",
     "ihtFormId": "IHT205",
     "ihtFormCompletedOnline": "Yes",
@@ -52,8 +50,7 @@
     "ihtReferenceNumber": "GOT123456",
     "declarationCheckbox": "Yes",
     "extraCopiesOfGrant": 5,
-    "outsideUKGrantCopies": 6,
-    "uploadDocumentUrl": "http://document-management/document/12345"
+    "outsideUKGrantCopies": 6
   },
   "caseInfo": {
     "caseId": "12323213323",

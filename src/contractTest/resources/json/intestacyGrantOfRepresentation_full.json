@@ -18,7 +18,10 @@
     "deceasedDateOfBirth": "1930-01-01",
     "deceasedDateOfDeath": "2018-01-01",
     "deceasedAddress": {
-      "AddressLine1": "Winterfell, Westeros"
+      "AddressLine1": "Winterfell",
+      "AddressLine2": "Westeros",
+      "PostTown": "London",
+      "PostCode": "SW17 0QT"
     },
     "deceasedAddressFound": "Yes",
     "deceasedAnyOtherNames": "No",
@@ -30,7 +33,6 @@
         }
       }
     ],
-    "deceasedMartialStatus": "marriedCivilPartnership",
     "deceasedDivorcedInEnglandOrWales": "No",
     "deceasedSpouseNotApplyingReason": "mentallyIncapable",
     "deceasedOtherChildren": "Yes",
@@ -39,7 +41,7 @@
     "grandChildrenSurvivedUnderEighteen": "No",
     "deceasedAnyChildren": "No",
     "registryLocation": "Birmingham",
-    "assetsOverseasNetValue": "10050",
+    "assetsOutsideNetValue": "10050",
     "deceasedHasAssetsOutsideUK": "Yes",
     "ihtFormId": "IHT205",
     "ihtFormCompletedOnline": "Yes",
@@ -47,12 +49,26 @@
     "ihtNetValue": "100000",
     "ihtReferenceNumber": "GOT123456",
     "declarationCheckbox": "Yes",
-    "extraCopiesOfGrant": 5,
+    "extraCopiesOfGrant": 3,
     "outsideUKGrantCopies": 6,
-    "uploadDocumentUrl": "http://document-management/document/12345"
+    "deceasedMaritalStatus": "marriedCivilPartnership",
+    "boDocumentsUploaded": [
+      {
+        "id": "f5a87162-361b-4637-b568-4975c855b996",
+        "value": {
+          "Comment": "comment",
+          "DocumentLink": {
+            "document_url": "http://dm-store:8080/documents/8367c8ee-c15e-43e3-8f30-cc6d334af0c2",
+            "document_filename": "LegalStatementUploaded.pdf",
+            "document_binary_url": "http://dm-store:8080/documents/8367c8ee-c15e-43e3-8f30-cc6d334af0c2/binary"
+          },
+          "DocumentType": "uploadedLegalStatement"
+        }
+      }
+    ]
   },
   "caseInfo": {
     "caseId": "12323213323",
-    "state": "Draft"
+    "state": "Pending"
   }
 }
