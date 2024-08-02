@@ -22,6 +22,7 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepr
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
+import uk.gov.hmcts.reform.probate.model.multiapplicant.ExecutorNotification;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
 import java.util.Arrays;
@@ -253,6 +254,7 @@ public class BusinessServiceImplTest {
     public void shouldSetInviteAgreedOnCase() {
 
         Invitation invitation = getInvitation(formdataId);
+        invitation.setBilingual(Boolean.FALSE);
         businessService.inviteAgreed(formdataId, invitation);
         verifyGetCaseCalls();
         verify(mockGrantOfRepresentationData)
@@ -260,6 +262,66 @@ public class BusinessServiceImplTest {
         verify(submitServiceApi)
             .updateCaseAsCaseWorker(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
 
+    }
+
+    @Test
+    public void shouldSendIfExecAgreed(){
+        Invitation invitation = getInvitation(formdataId);
+        invitation.setBilingual(Boolean.FALSE);
+        ExecutorNotification executorNotification = ExecutorNotification.builder()
+                .ccdReference(formdataId)
+                .executorName(invitation.getExecutorName())
+                .applicantName(invitation.getLeadExecutorName())
+                .deceasedName(invitation.getFirstName() + " " + invitation.getLastName())
+                .build();
+        when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
+        businessService.inviteAgreed(formdataId, invitation);
+        verifyGetCaseCalls();
+        verify(businessServiceApi).signedExec(executorNotification);
+        verify(mockGrantOfRepresentationData)
+                .setInvitationAgreedFlagForExecutorApplying(invitationId, invitation.getAgreed());
+        verify(submitServiceApi)
+                .updateCaseAsCaseWorker(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
+    }
+
+    @Test
+    public void shouldSendIfExecAgreedBilingual(){
+        Invitation invitation = getInvitation(formdataId);
+        invitation.setBilingual(Boolean.TRUE);
+        ExecutorNotification executorNotification = ExecutorNotification.builder()
+                .ccdReference(formdataId)
+                .executorName(invitation.getExecutorName())
+                .applicantName(invitation.getLeadExecutorName())
+                .deceasedName(invitation.getFirstName() + " " + invitation.getLastName())
+                .build();
+        when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
+        businessService.inviteAgreed(formdataId, invitation);
+        verifyGetCaseCalls();
+        verify(businessServiceApi).signedBilingual(executorNotification);
+        verify(mockGrantOfRepresentationData)
+                .setInvitationAgreedFlagForExecutorApplying(invitationId, invitation.getAgreed());
+        verify(submitServiceApi)
+                .updateCaseAsCaseWorker(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
+    }
+
+    @Test
+    public void shouldSendIfAllExecAgreed(){
+        Invitation invitation = getInvitation(formdataId);
+        invitation.setBilingual(Boolean.FALSE);
+        ExecutorNotification executorNotification = ExecutorNotification.builder()
+                .ccdReference(formdataId)
+                .executorName(invitation.getExecutorName())
+                .applicantName(invitation.getLeadExecutorName())
+                .deceasedName(invitation.getFirstName() + " " + invitation.getLastName())
+                .build();
+        when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.TRUE);
+        businessService.inviteAgreed(formdataId, invitation);
+        verifyGetCaseCalls();
+        verify(businessServiceApi).signedExecAll(executorNotification);
+        verify(mockGrantOfRepresentationData)
+                .setInvitationAgreedFlagForExecutorApplying(invitationId, invitation.getAgreed());
+        verify(submitServiceApi)
+                .updateCaseAsCaseWorker(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
     }
 
     @Test
