@@ -265,16 +265,16 @@ public class BusinessServiceImplTest {
     }
 
     @Test
-    public void shouldSendIfExecAgreed(){
+    public void shouldSendIfExecAgreed() {
         Invitation invitation = getInvitation(formdataId);
         invitation.setBilingual(Boolean.FALSE);
+        when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
         ExecutorNotification executorNotification = ExecutorNotification.builder()
                 .ccdReference(formdataId)
                 .executorName(invitation.getExecutorName())
                 .applicantName(invitation.getLeadExecutorName())
                 .deceasedName(invitation.getFirstName() + " " + invitation.getLastName())
                 .build();
-        when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
         businessService.inviteAgreed(formdataId, invitation);
         verifyGetCaseCalls();
         verify(businessServiceApi).signedExec(executorNotification);
@@ -285,16 +285,16 @@ public class BusinessServiceImplTest {
     }
 
     @Test
-    public void shouldSendIfExecAgreedBilingual(){
+    public void shouldSendIfExecAgreedBilingual() {
         Invitation invitation = getInvitation(formdataId);
         invitation.setBilingual(Boolean.TRUE);
+        when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
         ExecutorNotification executorNotification = ExecutorNotification.builder()
                 .ccdReference(formdataId)
                 .executorName(invitation.getExecutorName())
                 .applicantName(invitation.getLeadExecutorName())
                 .deceasedName(invitation.getFirstName() + " " + invitation.getLastName())
                 .build();
-        when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
         businessService.inviteAgreed(formdataId, invitation);
         verifyGetCaseCalls();
         verify(businessServiceApi).signedBilingual(executorNotification);
@@ -305,16 +305,16 @@ public class BusinessServiceImplTest {
     }
 
     @Test
-    public void shouldSendIfAllExecAgreed(){
+    public void shouldSendIfAllExecAgreed() {
         Invitation invitation = getInvitation(formdataId);
         invitation.setBilingual(Boolean.FALSE);
+        when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.TRUE);
         ExecutorNotification executorNotification = ExecutorNotification.builder()
                 .ccdReference(formdataId)
                 .executorName(invitation.getExecutorName())
                 .applicantName(invitation.getLeadExecutorName())
                 .deceasedName(invitation.getFirstName() + " " + invitation.getLastName())
                 .build();
-        when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.TRUE);
         businessService.inviteAgreed(formdataId, invitation);
         verifyGetCaseCalls();
         verify(businessServiceApi).signedExecAll(executorNotification);
