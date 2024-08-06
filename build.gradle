@@ -110,7 +110,7 @@ sourceSets {
         }
         resources.srcDir file('src/functionalTest/resources')
     }
-    testContract {
+    contractTest {
         java {
             compileClasspath += main.output
             runtimeClasspath += main.output
@@ -127,6 +127,10 @@ sourceSets {
         resources.srcDir file('src/integrationTest/resources')
     }
 
+}
+
+processContractTestResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 task integration(type: Test) {
@@ -152,18 +156,28 @@ task functional(type: Test) {
 }
 
 functional.finalizedBy(aggregate)
+task runProviderPactVerification(type: Test) {
+    testClassesDirs = sourceSets.contractTest.output.classesDirs
+    classpath = sourceSets.contractTest.runtimeClasspath
+    if (project.hasProperty('pact.verifier.publishResults')) {
+        systemProperty 'pact.verifier.publishResults', project.property('pact.verifier.publishResults')
+    }
+    systemProperty 'pact.provider.version', project.pactVersion
+}
 
 task runProviderPactTests(type: Test) {
-    description = "Runs Contract Tests"
-    testClassesDirs = sourceSets.testContract.output.classesDirs
-    classpath = sourceSets.testContract.runtimeClasspath
+    description = "Runs Provider Contract Tests"
+    println 'runProviderPactTests-PACT_BROKER_FULL_URL=' + System.getenv("PACT_BROKER_FULL_URL")
+    useJUnitPlatform()
+    testClassesDirs = sourceSets.contractTest.output.classesDirs
+    classpath = sourceSets.contractTest.runtimeClasspath
 }
 
 task runConsumerPactTests(type: Test) {
-    description = "Runs Contract Tests"
+    description = "Runs Consumer Contract Tests"
     useJUnitPlatform()
-    testClassesDirs = sourceSets.testContract.output.classesDirs
-    classpath = sourceSets.testContract.runtimeClasspath
+    testClassesDirs = sourceSets.contractTest.output.classesDirs
+    classpath = sourceSets.contractTest.runtimeClasspath
 }
 
 test {
@@ -190,7 +204,7 @@ def versions = [
         commonMark                      : '0.17.0',
         probateCommonsVersion           : '1.4.49',
         jacksonDatabind                 : '2.17.2',
-        pact_version                    : '3.6.15',
+        pact_version                    : '4.1.34',
         feign                           : '13.3',
         junitJupiter                    : '5.8.0-M1'
 ]
@@ -250,7 +264,7 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: versions.springBootVersion
     implementation group: 'org.springframework.security', name: 'spring-security-core', version: versions.springSecurityVersion
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-openfeign-core'
-    implementation group: 'org.springframework.retry', name: 'spring-retry', version: '2.0.7'
+    implementation group: 'org.springframework.retry', name: 'spring-retry', version: '2.0.6'
     implementation group: 'com.google.guava', name: 'guava', version: '33.2.1-jre'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.jacksonDatabind
@@ -266,6 +280,7 @@ dependencies {
     implementation group: 'com.github.hmcts', name: 'auth-checker-lib', version: versions.authCheckerLib
     implementation group: 'com.github.hmcts', name: 'service-auth-provider-java-client', version: versions.serviceAuthProviderClient
     implementation group: 'com.github.hmcts', name: 'probate-commons', version: versions.probateCommonsVersion
+    implementation group: 'com.microsoft.azure', name: 'applicationinsights-spring-boot-starter', version: '2.6.4'
     implementation group: 'commons-io', name: 'commons-io', version: versions.commonsIO
 
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: versions.springDocOpenUi
@@ -340,19 +355,20 @@ dependencies {
     testFunctionalImplementation sourceSets.test.runtimeClasspath
     testFunctionalAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
 
-    testContractImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
-    testContractImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
-    testSmokeImplementation group: 'au.com.dius', name: 'pact-jvm-provider-spring_2.12', version: versions.pact_version
-    testContractImplementation group: 'au.com.dius', name: 'pact-jvm-provider-spring_2.12', version: versions.pact_version
-    testContractImplementation group: 'au.com.dius', name: 'pact-jvm-consumer-junit5_2.12', version: versions.pact_version
-    testContractImplementation group: 'au.com.dius', name: 'pact-jvm-consumer-java8_2.12', version: versions.pact_version
-    testContractImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
-    testContractRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: versions.junitJupiter
-    testContractImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
+    contractTestImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
+    contractTestImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    contractTestImplementation group: 'au.com.dius.pact.consumer', name: 'junit5', version: versions.pact_version
+    contractTestImplementation group: 'au.com.dius.pact.consumer', name: 'java8', version: versions.pact_version
+    contractTestImplementation group: 'au.com.dius.pact.provider', name: 'junit5', version: versions.pact_version
+    contractTestImplementation group: 'au.com.dius.pact.provider', name: 'spring', version: versions.pact_version
+    contractTestImplementation group: 'au.com.dius.pact.provider', name: 'junit5spring', version: versions.pact_version
+    contractTestImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
+    contractTestRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: versions.junitJupiter
+    contractTestImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
 
-    testContractImplementation sourceSets.main.runtimeClasspath
-    testContractImplementation sourceSets.test.runtimeClasspath
-    testContractImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
+    contractTestImplementation sourceSets.main.runtimeClasspath
+    contractTestImplementation sourceSets.test.runtimeClasspath
+    contractTestImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
 }
 
 task printbranch {
@@ -367,7 +383,23 @@ task fortifyScan(type: JavaExec)  {
     jvmArgs = ['--add-opens=java.base/java.lang.reflect=ALL-UNNAMED']
 }
 
+
+task runAndPublishConsumerPactTests(type: Test){
+    logger.lifecycle("Runs PublishConsumer pact tests")
+    systemProperty 'pact.rootDir', "pacts"
+    println 'runAndPublishConsumerPactTests-PACT_BROKER_FULL_URL=' + System.getenv("PACT_BROKER_FULL_URL")
+    println 'runAndPublishConsumerPactTests-pact.rootDir=' + System.getenv("pact.rootDir")
+    useJUnitPlatform()
+    testClassesDirs = sourceSets.contractTest.output.classesDirs
+    classpath = sourceSets.contractTest.runtimeClasspath
+
+}
+
 pact {
+    println 'pact-PACT_BROKER_FULL_URL=' + System.getenv("PACT_BROKER_FULL_URL")
+    broker {
+        pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?:'http://localshost:80'
+    }
     publish {
         pactDirectory = 'target/pacts'
         pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?: 'http://localhost:80'

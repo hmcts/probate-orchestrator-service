@@ -1,4 +1,6 @@
 #!groovy
+import uk.gov.hmcts.contino.AppPipelineDsl
+import uk.gov.hmcts.contino.GradleBuilder
 
 @Library("Infrastructure")
 
@@ -28,6 +30,8 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 
 // Configure branches to sync with master branch
 def branchesToSync = ['demo', 'ithc', 'perftest']
+
+GradleBuilder builder = new GradleBuilder(this, product)
 
 withPipeline("java", product, component) {
     loadVaultSecrets(secrets)
@@ -133,5 +137,22 @@ withPipeline("java", product, component) {
                 reportFiles          : "index.html",
                 reportName           : "Functional Tests Report"
         ]
+    }
+
+    env.PACT_BROKER_FULL_URL = 'https://pact-broker.platform.hmcts.net'
+
+    onMaster() {
+        env.PACT_BRANCH_NAME = "master"
+        enablePactAs([
+                AppPipelineDsl.PactRoles.CONSUMER,
+                AppPipelineDsl.PactRoles.PROVIDER
+        ])
+    }
+
+    onPR() {
+        enablePactAs([
+                AppPipelineDsl.PactRoles.CONSUMER,
+                AppPipelineDsl.PactRoles.PROVIDER
+        ])
     }
 }
