@@ -111,6 +111,9 @@ public interface BusinessServiceApi {
     @GetMapping(path = "/executor-notification/all", consumes = MediaType.APPLICATION_JSON_VALUE)
     String signedExecAll(@RequestBody ExecutorNotification executorNotification);
 
+    @GetMapping(path = "/executor-notification/all-bilingual", consumes = MediaType.APPLICATION_JSON_VALUE)
+    String signedExecAllBilingual(@RequestBody ExecutorNotification executorNotification);
+
 
     @GetMapping(path = "/pin/bilingual")
     String pinNumberBilingual(@RequestParam("phoneNumber") String phoneNumber,

@@ -172,7 +172,10 @@ public class BusinessServiceImpl implements BusinessService {
                 .executorName(invitation.getExecutorName())
                 .deceasedName(invitation.getFirstName() + " " + invitation.getLastName())
                 .build();
-        if (Boolean.TRUE.equals(grantOfRepresentationData.haveAllExecutorsAgreed())) {
+        if (Boolean.TRUE.equals(grantOfRepresentationData.haveAllExecutorsAgreed())
+                && invitation.getBilingual().equals(Boolean.TRUE)) {
+            businessServiceApi.signedExecAllBilingual(executorNotification);
+        } else if (Boolean.TRUE.equals(grantOfRepresentationData.haveAllExecutorsAgreed())) {
             businessServiceApi.signedExecAll(executorNotification);
         } else if (invitation.getBilingual().equals(Boolean.TRUE)) {
             businessServiceApi.signedBilingual(executorNotification);

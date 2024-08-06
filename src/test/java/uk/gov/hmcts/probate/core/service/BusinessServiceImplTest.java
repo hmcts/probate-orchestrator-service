@@ -325,6 +325,26 @@ public class BusinessServiceImplTest {
     }
 
     @Test
+    void shouldSendIfAllExecAgreedBilingual() {
+        Invitation invitation = getInvitation(formdataId);
+        invitation.setBilingual(Boolean.TRUE);
+        when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.TRUE);
+        ExecutorNotification executorNotification = ExecutorNotification.builder()
+                .ccdReference(formdataId)
+                .executorName(invitation.getExecutorName())
+                .applicantName(invitation.getLeadExecutorName())
+                .deceasedName(invitation.getFirstName() + " " + invitation.getLastName())
+                .build();
+        businessService.inviteAgreed(formdataId, invitation);
+        verifyGetCaseCalls();
+        verify(businessServiceApi).signedExecAllBilingual(executorNotification);
+        verify(mockGrantOfRepresentationData)
+                .setInvitationAgreedFlagForExecutorApplying(invitationId, invitation.getAgreed());
+        verify(submitServiceApi)
+                .updateCaseAsCaseWorker(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
+    }
+
+    @Test
     public void shouldResetInviteAgreedOnCase() {
 
         businessService.resetAgreedFlags(formdataId);
