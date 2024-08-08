@@ -168,7 +168,7 @@ public class BusinessServiceImpl implements BusinessService {
         ExecutorNotification executorNotification = ExecutorNotification.builder()
                 .applicantName(invitation.getLeadExecutorName())
                 .ccdReference(formdataId)
-                .deceasedDod(grantOfRepresentationData.getDeceasedDateOfDeath())
+                .deceasedDod(grantOfRepresentationData.getDeceasedDateOfDeath().toString())
                 .executorName(invitation.getExecutorName())
                 .deceasedName(invitation.getFirstName() + " " + invitation.getLastName())
                 .build();

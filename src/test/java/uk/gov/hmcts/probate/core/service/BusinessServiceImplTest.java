@@ -25,6 +25,7 @@ import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.ExecutorNotification;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -82,6 +83,7 @@ public class BusinessServiceImplTest {
         when(mockProbateCaseDetails.getCaseData()).thenReturn(mockGrantOfRepresentationData);
         when(mockProbateCaseDetails.getCaseInfo()).thenReturn(mockCaseInfo);
         when(mockCaseInfo.getCaseId()).thenReturn("123456789101112");
+        when(mockGrantOfRepresentationData.getDeceasedDateOfDeath()).thenReturn(LocalDate.now());
 
         pdfExample = new byte[10];
         businessService = new BusinessServiceImpl(businessServiceApi,
@@ -274,6 +276,7 @@ public class BusinessServiceImplTest {
                 .executorName(invitation.getExecutorName())
                 .applicantName(invitation.getLeadExecutorName())
                 .deceasedName(invitation.getFirstName() + " " + invitation.getLastName())
+                .deceasedDod(mockGrantOfRepresentationData.getDeceasedDateOfDeath().toString())
                 .build();
         businessService.inviteAgreed(formdataId, invitation);
         verifyGetCaseCalls();
@@ -294,6 +297,7 @@ public class BusinessServiceImplTest {
                 .executorName(invitation.getExecutorName())
                 .applicantName(invitation.getLeadExecutorName())
                 .deceasedName(invitation.getFirstName() + " " + invitation.getLastName())
+                .deceasedDod(mockGrantOfRepresentationData.getDeceasedDateOfDeath().toString())
                 .build();
         businessService.inviteAgreed(formdataId, invitation);
         verifyGetCaseCalls();
@@ -314,6 +318,7 @@ public class BusinessServiceImplTest {
                 .executorName(invitation.getExecutorName())
                 .applicantName(invitation.getLeadExecutorName())
                 .deceasedName(invitation.getFirstName() + " " + invitation.getLastName())
+                .deceasedDod(mockGrantOfRepresentationData.getDeceasedDateOfDeath().toString())
                 .build();
         businessService.inviteAgreed(formdataId, invitation);
         verifyGetCaseCalls();
@@ -334,6 +339,7 @@ public class BusinessServiceImplTest {
                 .executorName(invitation.getExecutorName())
                 .applicantName(invitation.getLeadExecutorName())
                 .deceasedName(invitation.getFirstName() + " " + invitation.getLastName())
+                .deceasedDod(mockGrantOfRepresentationData.getDeceasedDateOfDeath().toString())
                 .build();
         businessService.inviteAgreed(formdataId, invitation);
         verifyGetCaseCalls();
