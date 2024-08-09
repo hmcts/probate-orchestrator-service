@@ -16,6 +16,7 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepr
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
+import uk.gov.hmcts.reform.probate.model.multiapplicant.ExecutorNotification;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
 import java.util.ArrayList;
@@ -164,6 +165,23 @@ public class BusinessServiceImpl implements BusinessService {
         grantOfRepresentationData.setInvitationAgreedFlagForExecutorApplying(invitation.getInviteId(),
                 invitation.getAgreed());
         updateCaseDataAsCaseWorker(probateCaseDetails, formdataId);
+        ExecutorNotification executorNotification = ExecutorNotification.builder()
+                .applicantName(invitation.getLeadExecutorName())
+                .ccdReference(formdataId)
+                .deceasedDod(grantOfRepresentationData.getDeceasedDateOfDeath().toString())
+                .executorName(invitation.getExecutorName())
+                .deceasedName(invitation.getFirstName() + " " + invitation.getLastName())
+                .build();
+        if (Boolean.TRUE.equals(grantOfRepresentationData.haveAllExecutorsAgreed())
+                && invitation.getBilingual().equals(Boolean.TRUE)) {
+            businessServiceApi.signedExecAllBilingual(executorNotification);
+        } else if (Boolean.TRUE.equals(grantOfRepresentationData.haveAllExecutorsAgreed())) {
+            businessServiceApi.signedExecAll(executorNotification);
+        } else if (invitation.getBilingual().equals(Boolean.TRUE)) {
+            businessServiceApi.signedBilingual(executorNotification);
+        } else {
+            businessServiceApi.signedExec(executorNotification);
+        }
         return invitation.getInviteId();
     }
 
