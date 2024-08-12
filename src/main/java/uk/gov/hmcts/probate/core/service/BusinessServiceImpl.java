@@ -171,7 +171,8 @@ public class BusinessServiceImpl implements BusinessService {
                         + " " + grantOfRepresentationData.getPrimaryApplicantSurname())
                 .ccdReference(formdataId)
                 .deceasedDod(grantOfRepresentationData.getDeceasedDateOfDeath().toString())
-                .executorName(invitation.getExecutorName())
+                .executorName(grantOfRepresentationData.getExecutorApplyingByInviteId(invitation.getInviteId())
+                        .getApplyingExecutorName())
                 .deceasedName(grantOfRepresentationData.getDeceasedForenames()
                         + " " + grantOfRepresentationData.getDeceasedSurname())
                 .build();

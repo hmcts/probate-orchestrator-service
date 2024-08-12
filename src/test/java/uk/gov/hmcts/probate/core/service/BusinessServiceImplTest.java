@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -88,6 +89,8 @@ public class BusinessServiceImplTest {
         when(mockGrantOfRepresentationData.getPrimaryApplicantSurname()).thenReturn("Testerson");
         when(mockGrantOfRepresentationData.getDeceasedForenames()).thenReturn("Test");
         when(mockGrantOfRepresentationData.getDeceasedSurname()).thenReturn("Testerson");
+        when(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(anyString()))
+                .thenReturn(ExecutorApplying.builder().applyingExecutorName("Test Executor").build());
 
         pdfExample = new byte[10];
         businessService = new BusinessServiceImpl(businessServiceApi,
@@ -277,7 +280,8 @@ public class BusinessServiceImplTest {
         when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.FALSE);
         ExecutorNotification executorNotification = ExecutorNotification.builder()
                 .ccdReference(formdataId)
-                .executorName(invitation.getExecutorName())
+                .executorName(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(invitation.getInviteId())
+                        .getApplyingExecutorName())
                 .applicantName(mockGrantOfRepresentationData.getPrimaryApplicantForenames()
                         + " " + mockGrantOfRepresentationData.getPrimaryApplicantSurname())
                 .deceasedName(mockGrantOfRepresentationData.getDeceasedForenames()
@@ -298,9 +302,12 @@ public class BusinessServiceImplTest {
         Invitation invitation = getInvitation(formdataId);
         when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
         when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.TRUE);
+        when(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(invitation.getInviteId()))
+                .thenReturn(ExecutorApplying.builder().applyingExecutorName("Test Executor").build());
         ExecutorNotification executorNotification = ExecutorNotification.builder()
                 .ccdReference(formdataId)
-                .executorName(invitation.getExecutorName())
+                .executorName(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(invitation.getInviteId())
+                        .getApplyingExecutorName())
                 .applicantName(mockGrantOfRepresentationData.getPrimaryApplicantForenames()
                         + " " + mockGrantOfRepresentationData.getPrimaryApplicantSurname())
                 .deceasedName(mockGrantOfRepresentationData.getDeceasedForenames()
@@ -323,7 +330,8 @@ public class BusinessServiceImplTest {
         when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.FALSE);
         ExecutorNotification executorNotification = ExecutorNotification.builder()
                 .ccdReference(formdataId)
-                .executorName(invitation.getExecutorName())
+                .executorName(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(invitation.getInviteId())
+                        .getApplyingExecutorName())
                 .applicantName(mockGrantOfRepresentationData.getPrimaryApplicantForenames()
                         + " " + mockGrantOfRepresentationData.getPrimaryApplicantSurname())
                 .deceasedName(mockGrantOfRepresentationData.getDeceasedForenames()
@@ -346,7 +354,8 @@ public class BusinessServiceImplTest {
         when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.TRUE);
         ExecutorNotification executorNotification = ExecutorNotification.builder()
                 .ccdReference(formdataId)
-                .executorName(invitation.getExecutorName())
+                .executorName(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(invitation.getInviteId())
+                        .getApplyingExecutorName())
                 .applicantName(mockGrantOfRepresentationData.getPrimaryApplicantForenames()
                         + " " + mockGrantOfRepresentationData.getPrimaryApplicantSurname())
                 .deceasedName(mockGrantOfRepresentationData.getDeceasedForenames()
