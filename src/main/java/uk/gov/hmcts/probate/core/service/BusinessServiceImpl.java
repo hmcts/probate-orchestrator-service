@@ -167,24 +167,21 @@ public class BusinessServiceImpl implements BusinessService {
         updateCaseDataAsCaseWorker(probateCaseDetails, formdataId);
         log.info("building executor notification");
         ExecutorNotification executorNotification = ExecutorNotification.builder()
-                .applicantName(invitation.getLeadExecutorName())
+                .applicantName(grantOfRepresentationData.getPrimaryApplicantForenames()
+                        + " " + grantOfRepresentationData.getPrimaryApplicantSurname() )
                 .ccdReference(formdataId)
                 .deceasedDod(grantOfRepresentationData.getDeceasedDateOfDeath().toString())
                 .executorName(invitation.getExecutorName())
-                .deceasedName(invitation.getFirstName() + " " + invitation.getLastName())
+                .deceasedName(grantOfRepresentationData.getDeceasedForenames()
+                        + " " +grantOfRepresentationData.getDeceasedSurname())
                 .build();
         if (Boolean.TRUE.equals(grantOfRepresentationData.haveAllExecutorsAgreed())
                 && grantOfRepresentationData.getLanguagePreferenceWelsh().equals(Boolean.TRUE)) {
             businessServiceApi.signedExecAllBilingual(executorNotification);
         } else if (Boolean.TRUE.equals(grantOfRepresentationData.haveAllExecutorsAgreed())) {
             log.info("signedExecAll function called");
+            log.info(invitation.toString());
             log.info(executorNotification.toString());
-            log.info(executorNotification.getExecutorName());
-            log.info(executorNotification.getApplicantName());
-            log.info(executorNotification.getEmail());
-            log.info(executorNotification.getCcdReference());
-            log.info(executorNotification.getDeceasedName());
-            log.info(executorNotification.getDeceasedDod());
             businessServiceApi.signedExecAll(executorNotification);
         } else if (grantOfRepresentationData.getLanguagePreferenceWelsh().equals(Boolean.TRUE)) {
             businessServiceApi.signedBilingual(executorNotification);
