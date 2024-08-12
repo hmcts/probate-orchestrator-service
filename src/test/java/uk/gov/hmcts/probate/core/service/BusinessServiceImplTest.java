@@ -84,6 +84,10 @@ public class BusinessServiceImplTest {
         when(mockProbateCaseDetails.getCaseInfo()).thenReturn(mockCaseInfo);
         when(mockCaseInfo.getCaseId()).thenReturn("123456789101112");
         when(mockGrantOfRepresentationData.getDeceasedDateOfDeath()).thenReturn(LocalDate.now());
+        when(mockGrantOfRepresentationData.getPrimaryApplicantForenames()).thenReturn("Testana");
+        when(mockGrantOfRepresentationData.getPrimaryApplicantSurname()).thenReturn("Testerson");
+        when(mockGrantOfRepresentationData.getDeceasedForenames()).thenReturn("Test");
+        when(mockGrantOfRepresentationData.getDeceasedSurname()).thenReturn("Testerson");
 
         pdfExample = new byte[10];
         businessService = new BusinessServiceImpl(businessServiceApi,
@@ -274,8 +278,10 @@ public class BusinessServiceImplTest {
         ExecutorNotification executorNotification = ExecutorNotification.builder()
                 .ccdReference(formdataId)
                 .executorName(invitation.getExecutorName())
-                .applicantName(invitation.getLeadExecutorName())
-                .deceasedName(invitation.getFirstName() + " " + invitation.getLastName())
+                .applicantName(mockGrantOfRepresentationData.getPrimaryApplicantForenames()
+                        + " " + mockGrantOfRepresentationData.getPrimaryApplicantSurname())
+                .deceasedName(mockGrantOfRepresentationData.getDeceasedForenames()
+                        + " " + mockGrantOfRepresentationData.getDeceasedSurname())
                 .deceasedDod(mockGrantOfRepresentationData.getDeceasedDateOfDeath().toString())
                 .build();
         businessService.inviteAgreed(formdataId, invitation);
@@ -295,8 +301,10 @@ public class BusinessServiceImplTest {
         ExecutorNotification executorNotification = ExecutorNotification.builder()
                 .ccdReference(formdataId)
                 .executorName(invitation.getExecutorName())
-                .applicantName(invitation.getLeadExecutorName())
-                .deceasedName(invitation.getFirstName() + " " + invitation.getLastName())
+                .applicantName(mockGrantOfRepresentationData.getPrimaryApplicantForenames()
+                        + " " + mockGrantOfRepresentationData.getPrimaryApplicantSurname())
+                .deceasedName(mockGrantOfRepresentationData.getDeceasedForenames()
+                        + " " + mockGrantOfRepresentationData.getDeceasedSurname())
                 .deceasedDod(mockGrantOfRepresentationData.getDeceasedDateOfDeath().toString())
                 .build();
         businessService.inviteAgreed(formdataId, invitation);
@@ -316,8 +324,10 @@ public class BusinessServiceImplTest {
         ExecutorNotification executorNotification = ExecutorNotification.builder()
                 .ccdReference(formdataId)
                 .executorName(invitation.getExecutorName())
-                .applicantName(invitation.getLeadExecutorName())
-                .deceasedName(invitation.getFirstName() + " " + invitation.getLastName())
+                .applicantName(mockGrantOfRepresentationData.getPrimaryApplicantForenames()
+                        + " " + mockGrantOfRepresentationData.getPrimaryApplicantSurname())
+                .deceasedName(mockGrantOfRepresentationData.getDeceasedForenames()
+                        + " " + mockGrantOfRepresentationData.getDeceasedSurname())
                 .deceasedDod(mockGrantOfRepresentationData.getDeceasedDateOfDeath().toString())
                 .build();
         businessService.inviteAgreed(formdataId, invitation);
@@ -337,8 +347,10 @@ public class BusinessServiceImplTest {
         ExecutorNotification executorNotification = ExecutorNotification.builder()
                 .ccdReference(formdataId)
                 .executorName(invitation.getExecutorName())
-                .applicantName(invitation.getLeadExecutorName())
-                .deceasedName(invitation.getFirstName() + " " + invitation.getLastName())
+                .applicantName(mockGrantOfRepresentationData.getPrimaryApplicantForenames()
+                        + " " + mockGrantOfRepresentationData.getPrimaryApplicantSurname())
+                .deceasedName(mockGrantOfRepresentationData.getDeceasedForenames()
+                        + " " + mockGrantOfRepresentationData.getDeceasedSurname())
                 .deceasedDod(mockGrantOfRepresentationData.getDeceasedDateOfDeath().toString())
                 .build();
         businessService.inviteAgreed(formdataId, invitation);
