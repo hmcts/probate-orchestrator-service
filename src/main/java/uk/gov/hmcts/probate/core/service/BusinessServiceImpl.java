@@ -178,6 +178,13 @@ public class BusinessServiceImpl implements BusinessService {
             businessServiceApi.signedExecAllBilingual(executorNotification);
         } else if (Boolean.TRUE.equals(grantOfRepresentationData.haveAllExecutorsAgreed())) {
             log.info("signedExecAll function called");
+            log.info(executorNotification.toString());
+            log.info(executorNotification.getExecutorName());
+            log.info(executorNotification.getApplicantName());
+            log.info(executorNotification.getEmail());
+            log.info(executorNotification.getCcdReference());
+            log.info(executorNotification.getDeceasedName());
+            log.info(executorNotification.getDeceasedDod());
             businessServiceApi.signedExecAll(executorNotification);
         } else if (grantOfRepresentationData.getLanguagePreferenceWelsh().equals(Boolean.TRUE)) {
             businessServiceApi.signedBilingual(executorNotification);
