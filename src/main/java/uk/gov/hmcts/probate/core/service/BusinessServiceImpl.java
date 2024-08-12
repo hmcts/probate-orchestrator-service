@@ -168,12 +168,12 @@ public class BusinessServiceImpl implements BusinessService {
         log.info("building executor notification");
         ExecutorNotification executorNotification = ExecutorNotification.builder()
                 .applicantName(grantOfRepresentationData.getPrimaryApplicantForenames()
-                        + " " + grantOfRepresentationData.getPrimaryApplicantSurname() )
+                        + " " + grantOfRepresentationData.getPrimaryApplicantSurname())
                 .ccdReference(formdataId)
                 .deceasedDod(grantOfRepresentationData.getDeceasedDateOfDeath().toString())
                 .executorName(invitation.getExecutorName())
                 .deceasedName(grantOfRepresentationData.getDeceasedForenames()
-                        + " " +grantOfRepresentationData.getDeceasedSurname())
+                        + " " + grantOfRepresentationData.getDeceasedSurname())
                 .build();
         if (Boolean.TRUE.equals(grantOfRepresentationData.haveAllExecutorsAgreed())
                 && grantOfRepresentationData.getLanguagePreferenceWelsh().equals(Boolean.TRUE)) {
