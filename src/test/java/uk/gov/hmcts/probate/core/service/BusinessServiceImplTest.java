@@ -269,8 +269,8 @@ public class BusinessServiceImplTest {
     @Test
     public void shouldSendIfExecAgreed() {
         Invitation invitation = getInvitation(formdataId);
-        invitation.setBilingual(Boolean.FALSE);
         when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
+        when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.FALSE);
         ExecutorNotification executorNotification = ExecutorNotification.builder()
                 .ccdReference(formdataId)
                 .executorName(invitation.getExecutorName())
@@ -290,8 +290,8 @@ public class BusinessServiceImplTest {
     @Test
     public void shouldSendIfExecAgreedBilingual() {
         Invitation invitation = getInvitation(formdataId);
-        invitation.setBilingual(Boolean.TRUE);
         when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
+        when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.TRUE);
         ExecutorNotification executorNotification = ExecutorNotification.builder()
                 .ccdReference(formdataId)
                 .executorName(invitation.getExecutorName())
@@ -311,8 +311,8 @@ public class BusinessServiceImplTest {
     @Test
     public void shouldSendIfAllExecAgreed() {
         Invitation invitation = getInvitation(formdataId);
-        invitation.setBilingual(Boolean.FALSE);
         when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.TRUE);
+        when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.FALSE);
         ExecutorNotification executorNotification = ExecutorNotification.builder()
                 .ccdReference(formdataId)
                 .executorName(invitation.getExecutorName())
@@ -332,8 +332,8 @@ public class BusinessServiceImplTest {
     @Test
     void shouldSendIfAllExecAgreedBilingual() {
         Invitation invitation = getInvitation(formdataId);
-        invitation.setBilingual(Boolean.TRUE);
         when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.TRUE);
+        when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.TRUE);
         ExecutorNotification executorNotification = ExecutorNotification.builder()
                 .ccdReference(formdataId)
                 .executorName(invitation.getExecutorName())
