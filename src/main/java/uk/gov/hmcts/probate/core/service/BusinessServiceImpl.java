@@ -175,6 +175,7 @@ public class BusinessServiceImpl implements BusinessService {
                         .getApplyingExecutorName())
                 .deceasedName(grantOfRepresentationData.getDeceasedForenames()
                         + " " + grantOfRepresentationData.getDeceasedSurname())
+                .email(grantOfRepresentationData.getPrimaryApplicantEmailAddress())
                 .build();
         if (Boolean.TRUE.equals(grantOfRepresentationData.haveAllExecutorsAgreed())
                 && grantOfRepresentationData.getLanguagePreferenceWelsh().equals(Boolean.TRUE)) {

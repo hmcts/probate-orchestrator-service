@@ -91,6 +91,7 @@ public class BusinessServiceImplTest {
         when(mockGrantOfRepresentationData.getDeceasedSurname()).thenReturn("Testerson");
         when(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(anyString()))
                 .thenReturn(ExecutorApplying.builder().applyingExecutorName("Test Executor").build());
+        when(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress()).thenReturn(emailaddress);
 
         pdfExample = new byte[10];
         businessService = new BusinessServiceImpl(businessServiceApi,
@@ -287,6 +288,7 @@ public class BusinessServiceImplTest {
                 .deceasedName(mockGrantOfRepresentationData.getDeceasedForenames()
                         + " " + mockGrantOfRepresentationData.getDeceasedSurname())
                 .deceasedDod(mockGrantOfRepresentationData.getDeceasedDateOfDeath().toString())
+                .email(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress())
                 .build();
         businessService.inviteAgreed(formdataId, invitation);
         verifyGetCaseCalls();
@@ -313,6 +315,7 @@ public class BusinessServiceImplTest {
                 .deceasedName(mockGrantOfRepresentationData.getDeceasedForenames()
                         + " " + mockGrantOfRepresentationData.getDeceasedSurname())
                 .deceasedDod(mockGrantOfRepresentationData.getDeceasedDateOfDeath().toString())
+                .email(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress())
                 .build();
         businessService.inviteAgreed(formdataId, invitation);
         verifyGetCaseCalls();
@@ -337,6 +340,7 @@ public class BusinessServiceImplTest {
                 .deceasedName(mockGrantOfRepresentationData.getDeceasedForenames()
                         + " " + mockGrantOfRepresentationData.getDeceasedSurname())
                 .deceasedDod(mockGrantOfRepresentationData.getDeceasedDateOfDeath().toString())
+                .email(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress())
                 .build();
         businessService.inviteAgreed(formdataId, invitation);
         verifyGetCaseCalls();
@@ -361,6 +365,7 @@ public class BusinessServiceImplTest {
                 .deceasedName(mockGrantOfRepresentationData.getDeceasedForenames()
                         + " " + mockGrantOfRepresentationData.getDeceasedSurname())
                 .deceasedDod(mockGrantOfRepresentationData.getDeceasedDateOfDeath().toString())
+                .email(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress())
                 .build();
         businessService.inviteAgreed(formdataId, invitation);
         verifyGetCaseCalls();
