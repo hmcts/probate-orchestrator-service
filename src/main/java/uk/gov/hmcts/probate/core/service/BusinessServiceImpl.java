@@ -165,7 +165,6 @@ public class BusinessServiceImpl implements BusinessService {
         grantOfRepresentationData.setInvitationAgreedFlagForExecutorApplying(invitation.getInviteId(),
                 invitation.getAgreed());
         updateCaseDataAsCaseWorker(probateCaseDetails, formdataId);
-        log.info("building executor notification");
         ExecutorNotification executorNotification = ExecutorNotification.builder()
                 .applicantName(grantOfRepresentationData.getPrimaryApplicantForenames()
                         + " " + grantOfRepresentationData.getPrimaryApplicantSurname())
@@ -181,14 +180,10 @@ public class BusinessServiceImpl implements BusinessService {
                 && grantOfRepresentationData.getLanguagePreferenceWelsh().equals(Boolean.TRUE)) {
             businessServiceApi.signedExecAllBilingual(executorNotification);
         } else if (Boolean.TRUE.equals(grantOfRepresentationData.haveAllExecutorsAgreed())) {
-            log.info("signedExecAll function called");
-            log.info(invitation.toString());
-            log.info(executorNotification.toString());
             businessServiceApi.signedExecAll(executorNotification);
         } else if (grantOfRepresentationData.getLanguagePreferenceWelsh().equals(Boolean.TRUE)) {
             businessServiceApi.signedBilingual(executorNotification);
         } else {
-            log.info("signedExec function called");
             businessServiceApi.signedExec(executorNotification);
         }
         return invitation.getInviteId();

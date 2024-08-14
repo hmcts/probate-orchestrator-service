@@ -275,7 +275,7 @@ public class BusinessServiceImplTest {
     }
 
     @Test
-    public void shouldSendIfExecAgreed() {
+    void shouldSendIfExecAgreed() {
         Invitation invitation = getInvitation(formdataId);
         when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
         when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.FALSE);
@@ -300,7 +300,7 @@ public class BusinessServiceImplTest {
     }
 
     @Test
-    public void shouldSendIfExecAgreedBilingual() {
+    void shouldSendIfExecAgreedBilingual() {
         Invitation invitation = getInvitation(formdataId);
         when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
         when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.TRUE);
@@ -327,7 +327,7 @@ public class BusinessServiceImplTest {
     }
 
     @Test
-    public void shouldSendIfAllExecAgreed() {
+    void shouldSendIfAllExecAgreed() {
         Invitation invitation = getInvitation(formdataId);
         when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.TRUE);
         when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.FALSE);
