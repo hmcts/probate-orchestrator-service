@@ -160,7 +160,7 @@ public class SubmitServiceCaseDetailsConsumerTest {
                                                     .stringType("PostTown", "London")
                                                     .stringType("PostCode", "SW17 0QT")
                                                     ).stringType("applyingExecutorOtherNames", "Graham Poll")
-                                         .stringType("applyingExecutorOtherNamesReason", "divorceOrDissolution")
+                                         .stringType("applyingExecutorOtherNamesReason", "Divorce")
                                         ));
                 }
             }
