@@ -32,7 +32,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashSet;
+import javax.servlet.http.HttpServletRequest;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -78,6 +80,7 @@ public abstract class ControllerProviderTest {
         when(serviceResolver.getTokenDetails(anyString())).thenReturn(service);
 
         User user = new User("123", new HashSet<>());
+        when(userRequestAuthorizer.authorise(any(HttpServletRequest.class))).thenReturn(user);
         System.getProperties().setProperty("pact.verifier.publishResults", "true");
         System.getProperties().setProperty("pact.provider.version", providerVersion);
 
