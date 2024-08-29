@@ -138,15 +138,6 @@ task runProviderPactVerification(type: Test) {
     systemProperty 'pact.provider.version', project.pactVersion
 }
 
-task runProviderPactVerification(type: Test) {
-    testClassesDirs = sourceSets.contractTest.output.classesDirs
-    classpath = sourceSets.contractTest.runtimeClasspath
-    if (project.hasProperty('pact.verifier.publishResults')) {
-        systemProperty 'pact.verifier.publishResults', project.property('pact.verifier.publishResults')
-    }
-    systemProperty 'pact.provider.version', project.pactVersion
-}
-
 task runProviderPactTests(type: Test) {
     description = "Runs Provider Contract Tests"
     println 'runProviderPactTests-PACT_BROKER_FULL_URL=' + System.getenv("PACT_BROKER_FULL_URL")
