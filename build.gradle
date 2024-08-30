@@ -46,7 +46,7 @@ java {
 
 checkstyle {
     maxWarnings = 0
-    toolVersion = '10.17.0'
+    toolVersion = '10.18.0'
 }
 
 project.ext {
@@ -200,7 +200,7 @@ def versions = [
         serenity                        : '2.5.8',
         serviceAuthProviderClient       : '4.1.2',
         restAssured                     : '4.5.1',
-        piTest                          : '1.16.1',
+        piTest                          : '1.16.2',
         commonMark                      : '0.17.0',
         probateCommonsVersion           : '1.6.4',
         jacksonDatabind                 : '2.17.2',
@@ -264,8 +264,8 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: versions.springBootVersion
     implementation group: 'org.springframework.security', name: 'spring-security-core', version: versions.springSecurityVersion
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-openfeign-core'
-    implementation group: 'org.springframework.retry', name: 'spring-retry', version: '2.0.6'
-    implementation group: 'com.google.guava', name: 'guava', version: '33.2.1-jre'
+    implementation group: 'org.springframework.retry', name: 'spring-retry', version: '2.0.8'
+    implementation group: 'com.google.guava', name: 'guava', version: '33.3.0-jre'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.jacksonDatabind
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: versions.jacksonDatabind
@@ -333,7 +333,7 @@ dependencies {
     testIntegrationImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
     testIntegrationImplementation 'com.github.hmcts:fortify-client:1.4.4:all'
     testIntegrationImplementation group: 'com.github.hmcts', name: 'probate-commons', version: versions.probateCommonsVersion
-    testIntegrationImplementation group: 'com.google.guava', name: 'guava', version: '33.2.1-jre'
+    testIntegrationImplementation group: 'com.google.guava', name: 'guava', version: '33.3.0-jre'
 
     testIntegrationImplementation sourceSets.main.runtimeClasspath
     testIntegrationImplementation sourceSets.test.runtimeClasspath
