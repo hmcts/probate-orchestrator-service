@@ -181,9 +181,10 @@ public class BusinessServiceImpl implements BusinessService {
             businessServiceApi.signedExecAllBilingual(executorNotification);
         } else if (Boolean.TRUE.equals(grantOfRepresentationData.haveAllExecutorsAgreed())) {
             businessServiceApi.signedExecAll(executorNotification);
-        } else if (grantOfRepresentationData.getLanguagePreferenceWelsh().equals(Boolean.TRUE)) {
+        } else if (grantOfRepresentationData.getLanguagePreferenceWelsh().equals(Boolean.TRUE)
+                && invitation.getAgreed().equals(Boolean.TRUE)) {
             businessServiceApi.signedBilingual(executorNotification);
-        } else {
+        } else if(invitation.getAgreed().equals(Boolean.TRUE)) {
             businessServiceApi.signedExec(executorNotification);
         }
         return invitation.getInviteId();

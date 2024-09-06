@@ -300,6 +300,20 @@ public class BusinessServiceImplTest {
     }
 
     @Test
+    void shouldNotSendIfExecNotAgreed() {
+        Invitation invitation = getInvitation(formdataId);
+        when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
+        when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.FALSE);
+        invitation.setAgreed(Boolean.FALSE);
+        businessService.inviteAgreed(formdataId, invitation);
+        verifyGetCaseCalls();
+        verify(mockGrantOfRepresentationData)
+                .setInvitationAgreedFlagForExecutorApplying(invitationId, invitation.getAgreed());
+        verify(submitServiceApi)
+                .updateCaseAsCaseWorker(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
+    }
+
+    @Test
     void shouldSendIfExecAgreedBilingual() {
         Invitation invitation = getInvitation(formdataId);
         when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
