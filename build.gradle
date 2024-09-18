@@ -200,7 +200,7 @@ def versions = [
         serenity                        : '2.5.8',
         serviceAuthProviderClient       : '4.1.2',
         restAssured                     : '4.5.1',
-        piTest                          : '1.16.3',
+        piTest                          : '1.17.0',
         commonMark                      : '0.17.0',
         probateCommonsVersion           : '1.6.7',
         jacksonDatabind                 : '2.17.2',
