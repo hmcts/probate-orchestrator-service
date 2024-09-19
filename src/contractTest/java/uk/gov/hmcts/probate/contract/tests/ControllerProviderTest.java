@@ -27,12 +27,12 @@ import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaForm;
 import uk.gov.hmcts.probate.security.SecurityConfiguration;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashSet;
-import javax.servlet.http.HttpServletRequest;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;

@@ -1,16 +1,17 @@
 package uk.gov.hmcts.probate.functional.tests;
 
 import io.restassured.RestAssured;
-import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import net.serenitybdd.junit5.SerenityJUnit5Extension;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import uk.gov.hmcts.probate.functional.IntegrationTestBase;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-@RunWith(SpringIntegrationSerenityRunner.class)
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@ExtendWith(SerenityJUnit5Extension.class)
 public class DataExtractControllerFunctionalTests extends IntegrationTestBase {
     private static final String DATA_EXTRACT_HMRC_URL = "/data-extract/hmrc";
     private static final String DATA_EXTRACT_EXELA_URL = "/data-extract/exela";
@@ -33,7 +34,7 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase {
             .assertThat()
             .statusCode(202)
             .extract().response().getBody().prettyPrint();
-        Assert.assertEquals(HMRC_DATA_EXTRACT_FINISHED, response);
+        assertEquals(HMRC_DATA_EXTRACT_FINISHED, response);
     }
 
     @Test
@@ -47,7 +48,7 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase {
             .assertThat()
             .statusCode(202)
             .extract().response().getBody().prettyPrint();
-        Assert.assertEquals(HMRC_DATA_EXTRACT_FINISHED, response);
+        assertEquals(HMRC_DATA_EXTRACT_FINISHED, response);
     }
 
     @Test
@@ -63,7 +64,7 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase {
             .assertThat()
             .statusCode(202)
             .extract().response().getBody().prettyPrint();
-        Assert.assertEquals(HMRC_DATA_EXTRACT_FINISHED, response);
+        assertEquals(HMRC_DATA_EXTRACT_FINISHED, response);
     }
 
     @Test
@@ -93,7 +94,7 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase {
             .assertThat()
             .statusCode(202)
             .extract().response().getBody().prettyPrint();
-        Assert.assertEquals(HMRC_DATA_EXTRACT_FINISHED, response);
+        assertEquals(HMRC_DATA_EXTRACT_FINISHED, response);
     }
 
     @Test
@@ -122,7 +123,7 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase {
             .assertThat()
             .statusCode(202)
             .extract().response().getBody().prettyPrint();
-        Assert.assertEquals(EXELA_DATA_EXTRACT_FINISHED, response);
+        assertEquals(EXELA_DATA_EXTRACT_FINISHED, response);
     }
 
     @Test
@@ -136,7 +137,7 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase {
             .assertThat()
             .statusCode(202)
             .extract().response().getBody().prettyPrint();
-        Assert.assertEquals(EXELA_DATA_EXTRACT_FINISHED, response);
+        assertEquals(EXELA_DATA_EXTRACT_FINISHED, response);
     }
 
     @Test
@@ -152,7 +153,7 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase {
             .assertThat()
             .statusCode(202)
             .extract().response().getBody().prettyPrint();
-        Assert.assertEquals(EXELA_DATA_EXTRACT_FINISHED, response);
+        assertEquals(EXELA_DATA_EXTRACT_FINISHED, response);
     }
 
     @Test
@@ -179,7 +180,7 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase {
             .assertThat()
             .statusCode(202)
             .extract().response().getBody().prettyPrint();
-        Assert.assertEquals(IRON_MOUNTAIN_DATA_EXTRACT_FINISHED, response);
+        assertEquals(IRON_MOUNTAIN_DATA_EXTRACT_FINISHED, response);
     }
 
     @Test
@@ -193,7 +194,7 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase {
             .assertThat()
             .statusCode(202)
             .extract().response().getBody().prettyPrint();
-        Assert.assertEquals(IRON_MOUNTAIN_DATA_EXTRACT_FINISHED, response);
+        assertEquals(IRON_MOUNTAIN_DATA_EXTRACT_FINISHED, response);
     }
 
     @Test
@@ -209,7 +210,7 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase {
             .assertThat()
             .statusCode(202)
             .extract().response().getBody().prettyPrint();
-        Assert.assertEquals(IRON_MOUNTAIN_DATA_EXTRACT_FINISHED, response);
+        assertEquals(IRON_MOUNTAIN_DATA_EXTRACT_FINISHED, response);
     }
 
     @Test
@@ -236,7 +237,7 @@ public class DataExtractControllerFunctionalTests extends IntegrationTestBase {
             .assertThat()
             .statusCode(202)
             .extract().response().getBody().prettyPrint();
-        Assert.assertEquals(SMEE_AND_FORD_EXTRACT_FINISHED, response);
+        assertEquals(SMEE_AND_FORD_EXTRACT_FINISHED, response);
     }
 
     @Test

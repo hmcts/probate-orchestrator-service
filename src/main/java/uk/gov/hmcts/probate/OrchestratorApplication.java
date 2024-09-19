@@ -12,7 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import uk.gov.hmcts.probate.client.FeignErrorDecoder;
 import uk.gov.hmcts.probate.core.service.task.ScheduledTaskRunner;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.util.TimeZone;
 
 @EnableFeignClients

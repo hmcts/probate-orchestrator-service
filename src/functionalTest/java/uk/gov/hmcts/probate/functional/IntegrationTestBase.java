@@ -3,15 +3,15 @@ package uk.gov.hmcts.probate.functional;
 import io.restassured.RestAssured;
 import io.restassured.parsing.Parser;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationMethodRule;
-import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
+import net.serenitybdd.junit5.SerenityJUnit5Extension;
 import org.junit.Rule;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import uk.gov.hmcts.probate.functional.utils.TestUtils;
 
-@RunWith(SpringIntegrationSerenityRunner.class)
+@ExtendWith(SerenityJUnit5Extension.class)
 @ContextConfiguration(classes = TestContextConfiguration.class)
 public abstract class IntegrationTestBase {
 
