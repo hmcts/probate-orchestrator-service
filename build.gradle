@@ -174,7 +174,7 @@ def versions = [
         probateCommonsVersion           : '2.0.3',
         restAssured                     : '5.4.0',
         serenity                        : '4.1.6',
-        serviceAuthProviderClient       : '5.1.2',
+        serviceAuthProviderClient       : '5.2.0',
         serviceTokenGenerator           : '0.6.0',
         springBootVersion               : '3.3.4',
         springCloudWiremock             : '4.1.4',
