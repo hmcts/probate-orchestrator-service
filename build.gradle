@@ -168,7 +168,7 @@ def versions = [
         jacksonDatabind                 : '2.17.2',
         junitJupiter                    : '5.10.2',
         lombok                          : '1.18.34',
-        mapStruct                       : '1.3.0.Final',
+        mapStruct                       : '1.6.2',
         pact_version                    : '4.1.34',
         piTest                          : '1.17.0',
         probateCommonsVersion           : '2.0.3',
@@ -239,7 +239,7 @@ dependencies {
     implementation group: 'commons-io', name: 'commons-io', version: versions.commonsIO
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: versions.springDocOpenUi
     implementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
-    implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.5.5.Final'
+    implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.6.2'
     implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: versions.jacksonDatabind
     implementation group: 'org.pitest', name: 'pitest', version: versions.piTest
     implementation group: 'com.atlassian.commonmark', name: 'commonmark', version: versions.commonMark
