@@ -169,7 +169,7 @@ def versions = [
         junitJupiter                    : '5.10.2',
         lombok                          : '1.18.34',
         mapStruct                       : '1.3.0.Final',
-        pact_version                    : '4.1.34',
+        pact_version                    : '4.6.14',
         piTest                          : '1.17.0',
         probateCommonsVersion           : '2.0.3',
         restAssured                     : '5.4.0',
