@@ -2,6 +2,8 @@ package uk.gov.hmcts.probate.functional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import uk.gov.hmcts.probate.functional.model.Role;
 import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 import static io.restassured.RestAssured.given;
 
@@ -36,6 +39,8 @@ public class TestTokenGenerator {
     @Autowired
     private ServiceAuthTokenGenerator tokenGenerator;
 
+    private final Cache<String, String> cache = Caffeine.newBuilder().expireAfterWrite(30, TimeUnit.MINUTES).build();
+
     public String generateServiceAuthorisation() {
         return tokenGenerator.generate();
     }
@@ -54,7 +59,7 @@ public class TestTokenGenerator {
     }
 
     public String generateAuthorisation(String email) {
-        return generateOpenIdToken(email);
+        return getCachedIdamOpenIdToken(email);
     }
 
     public String generateOpenIdToken(String email) {
@@ -68,5 +73,14 @@ public class TestTokenGenerator {
                 .body().jsonPath();
         String token = jp.get("access_token");
         return token;
+    }
+
+    private String getCachedIdamOpenIdToken(String email) {
+        String userToken = cache.getIfPresent(email);
+        if (userToken == null) {
+            userToken = generateOpenIdToken(email);
+            cache.put(email, userToken);
+        }
+        return userToken;
     }
 }

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -19,21 +19,21 @@ public class AuthCheckerConfiguration {
     @Value("#{'${authorised.services}'.split(',\\s*')}")
     private List<String> authorisedServices;
 
-    @Bean
+    @Bean(value = "authorizedServiceExtractor")
     public Function<HttpServletRequest, Collection<String>> authorizedServicesExtractor() {
         return request -> authorisedServices;
     }
 
-    @Bean
+    @Bean(value = "authorizedRolesExtractor")
     public Function<HttpServletRequest, Collection<String>> authorizedRolesExtractor() {
-        return (any) -> Collections.emptyList();
+        return any -> Collections.emptyList();
     }
 
     @Bean
     public Function<HttpServletRequest, Optional<String>> userIdExtractor() {
         Pattern pattern = Pattern.compile("^/users/([^/]+)/.+$");
 
-        return (request) -> {
+        return request -> {
             Matcher matcher = pattern.matcher(request.getRequestURI());
             boolean matched = matcher.find();
             return Optional.ofNullable(matched ? matcher.group(1) : null);
