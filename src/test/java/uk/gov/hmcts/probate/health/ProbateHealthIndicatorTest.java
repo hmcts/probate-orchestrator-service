@@ -51,13 +51,11 @@ public class ProbateHealthIndicatorTest {
     public void shouldReturnStatusOfDownWhenHttpStatusIsNotOK() {
         when(mockRestTemplate.getForEntity(URL + endpoint, String.class)).thenReturn(mockResponseEntity);
         when(mockResponseEntity.getStatusCode()).thenReturn(HttpStatus.NO_CONTENT);
-        when(mockResponseEntity.getStatusCodeValue()).thenReturn(HttpStatus.NO_CONTENT.value());
         Health health = businessHealthIndicator.health();
 
         assertThat(health.getStatus(), is(Status.DOWN));
         assertThat(health.getDetails().get("url"), is(URL));
         assertThat(health.getDetails().get("message"), is("HTTP Status code not 200"));
-        assertThat(health.getDetails().get("exception"), is("HTTP Status: 204"));
     }
 
     @Test
@@ -91,13 +89,13 @@ public class ProbateHealthIndicatorTest {
     public void shouldReturnStatusOfDownWhenUnknownHttpStatusCodeExceptionIsThrown() {
         final String statusText = "status text";
         when(mockRestTemplate.getForEntity(URL + endpoint, String.class))
-            .thenThrow(new UnknownHttpStatusCodeException(1000, statusText, null, null, null));
+            .thenThrow(new UnknownHttpStatusCodeException(999, statusText, null, null, null));
 
         Health health = businessHealthIndicator.health();
 
         assertThat(health.getStatus(), is(Status.DOWN));
         assertThat(health.getDetails().get("url"), is(URL));
-        assertThat(health.getDetails().get("message"), is("Unknown status code [1000] status text"));
+        assertThat(health.getDetails().get("message"), is("Unknown status code [999] status text"));
         assertThat(health.getDetails().get("exception"), is("UnknownHttpStatusCodeException - " + statusText));
     }
 

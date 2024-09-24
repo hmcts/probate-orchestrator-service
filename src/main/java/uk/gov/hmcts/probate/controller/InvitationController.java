@@ -13,7 +13,7 @@ import uk.gov.hmcts.probate.service.BusinessService;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.InvitationsResult;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController

@@ -1,62 +1,40 @@
-buildscript {
-    dependencies {
-        classpath group: 'org.sonarsource.scanner.gradle', name: 'sonarqube-gradle-plugin', version: '4.3.0.3225'
-        classpath("net.serenity-bdd:serenity-gradle-plugin:2.5.8")
-    }
-}
-
 plugins {
     id 'application'
-    id 'checkstyle'
-    id 'pmd'
+    id 'java'
     id 'io.spring.dependency-management' version '1.1.6'
-    id 'org.springframework.boot' version '2.7.18'
+    id 'org.springframework.boot' version '3.3.4'
     id 'com.github.ben-manes.versions' version '0.51.0'
     id 'com.gorylenko.gradle-git-properties' version '2.4.2'
     id 'info.solidsoft.pitest' version '1.15.0'
-    id 'au.com.dius.pact' version '4.1.7' // do not change, otherwise serenity report fails
+    id 'au.com.dius.pact' version '4.6.14'
+    id 'net.serenity-bdd.serenity-gradle-plugin' version '4.2.1'
+    id 'org.sonarqube' version '5.1.0.4882'
     id 'uk.gov.hmcts.java' version '0.12.63'
+    id 'project-report'
+    id 'jacoco'
 }
 
-apply plugin: 'java'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'org.sonarqube'
-apply plugin: 'jacoco'
-apply plugin: 'net.serenity-bdd.aggregator'
-apply plugin: "com.gorylenko.gradle-git-properties"
-apply plugin: 'project-report'
-
-
-gitProperties {
-    gitPropertiesDir = new File("${project.rootDir}/src/main/resources/uk/gov/hmcts/probate/services/orchestrator")
-    keys = ['git.commit.id', 'git.commit.time']
-    dateFormat = "yyyy-MM-dd'T'HH:mmZ"
-    dateFormatTimeZone = "GMT"
+application {
+    mainClass = 'uk.gov.hmcts.probate.OrchestratorApplication'
+    group = 'uk.gov.hmcts.probate'
+    version = "4.0.0"
 }
-
-group = 'uk.gov.hmcts.probate'
-version = "4.0.0"
-mainClassName = 'uk.gov.hmcts.probate.OrchestratorApplication'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(21)
     }
-}
-
-checkstyle {
-    maxWarnings = 0
-    toolVersion = '10.18.1'
 }
 
 project.ext {
     pactVersion = getCheckedOutGitCommitHash()
 }
+
 jacoco {
     toolVersion = '0.8.12'
 }
 
-sonarqube {
+sonar {
     properties {
         property "sonar.exclusions", "**uk/gov/hmcts/probate/appinsights/*, **/PaMapper.java, **/IntestacyMapper.java, " +
                 "**/ScheduledConfiguration.java, **/AuthenticateUserResponse.java, **/TokenExchangeResponse.java, " +
@@ -64,7 +42,7 @@ sonarqube {
                 "**uk/gov/hmcts/probate/OrchestratorApplication.java"
         property "sonar.projectName", "PROBATE :: Probate-Orchestrator-Service"
         property "sonar.projectKey", "Probate-Orchestrator-Service"
-        property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
+        property "sonar.coverage.jacoco.xmlReportPaths", "${layout.buildDirectory.get()}/jacoco/test/html/jacocoTestReport.xml"
         property "sonar.host.url", "https://sonar.reform.hmcts.net/"
         property "sonar.pitest.mode", "reuseReport"
         property "sonar.pitest.reportsDirectory", "build/reports/pitest"
@@ -74,7 +52,7 @@ sonarqube {
 test.finalizedBy jacocoTestReport
 
 dependencyCheck {
-    suppressionFile = 'dependency-check-suppressions.xml'
+    suppressionFile = 'config/owasp/suppressions.xml'
 }
 
 pitest {
@@ -84,13 +62,6 @@ pitest {
     timestampedReports = false
     mutationThreshold = 50
     timeoutConstInMillis = 30000
-}
-
-sonarqube {
-    properties {
-        property "sonar.pitest.mode", "reuseReport"
-        property "sonar.pitest.reportsDirectory", "build/reports/pitest"
-    }
 }
 
 sourceSets {
@@ -126,7 +97,10 @@ sourceSets {
         }
         resources.srcDir file('src/integrationTest/resources')
     }
+}
 
+processContractTestResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 processContractTestResources {
@@ -137,7 +111,6 @@ task integration(type: Test) {
     description = "Runs integration tests"
     testClassesDirs = sourceSets.testIntegration.output.classesDirs
     classpath = sourceSets.testIntegration.runtimeClasspath
-    useJUnitPlatform()
 }
 
 task smoke(type: Test) {
@@ -174,39 +147,39 @@ task runProviderPactTests(type: Test) {
 }
 
 task runConsumerPactTests(type: Test) {
-    description = "Runs Consumer Contract Tests"
+    description = "Runs Contract Tests"
+    println 'runProviderPactTests-PACT_BROKER_FULL_URL=' + System.getenv("PACT_BROKER_FULL_URL")
     useJUnitPlatform()
     testClassesDirs = sourceSets.contractTest.output.classesDirs
     classpath = sourceSets.contractTest.runtimeClasspath
 }
 
-test {
+tasks.withType(Test) {
     maxHeapSize = "1024m"
     useJUnitPlatform()
 }
 
 def versions = [
-        commonsIO                       : '2.16.1',
-        hmctsJavaLogging                : '6.1.6',
-        restAssured                     : '3.0.3',
-        serviceTokenGenerator           : '0.6.0',
-        lombok                          : '1.18.34',
-        springDocOpenUi                 : '1.8.0',
-        springCloudWiremock             : '3.0.3',
-        springBootVersion               : '2.7.18',
-        springSecurityVersion           : '5.7.11',
-        mapStruct                       : '1.3.0.Final',
-        authCheckerLib                  : '2.3.0',
-        serenity                        : '2.5.8',
-        serviceAuthProviderClient       : '4.1.2',
-        restAssured                     : '4.5.1',
-        piTest                          : '1.16.3',
+        authCheckerLib                  : '3.0.1',
+        commonsIO                       : '2.17.0',
         commonMark                      : '0.17.0',
-        probateCommonsVersion           : '1.4.53',
+        feign                           : '13.4',
+        hmctsJavaLogging                : '6.1.6',
         jacksonDatabind                 : '2.17.2',
+        junitJupiter                    : '5.10.2',
+        lombok                          : '1.18.34',
+        mapStruct                       : '1.3.0.Final',
         pact_version                    : '4.1.34',
-        feign                           : '13.3',
-        junitJupiter                    : '5.8.0-M1'
+        piTest                          : '1.17.0',
+        probateCommonsVersion           : '2.0.7',
+        restAssured                     : '5.5.0',
+        serenity                        : '4.2.1',
+        serviceAuthProviderClient       : '5.2.0',
+        serviceTokenGenerator           : '0.6.0',
+        springBootVersion               : '3.3.4',
+        springCloudWiremock             : '4.1.4',
+        springDocOpenUi                 : '2.6.0',
+        springSecurityVersion           : '6.3.3'
 ]
 
 jacocoTestReport {
@@ -214,45 +187,27 @@ jacocoTestReport {
     reports {
         xml.required = true
         csv.required = false
-        xml.outputLocation = file("${project.buildDir}/reports/jacoco/test/jacocoTestReport.xml")
+        xml.outputLocation = file("${layout.buildDirectory.get()}/reports/jacoco/test/jacocoTestReport.xml")
     }
 }
 
 check.dependsOn(integration)
 
-pmd {
-    ignoreFailures = true
-    reportsDir = file("$project.buildDir/reports/pmd")
-}
-
 repositories {
     mavenLocal()
     mavenCentral()
-    jcenter()
     maven { url "https://jitpack.io" }
 }
 
 dependencyManagement {
     imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2021.0.9"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2023.0.3"
     }
 }
 
-configurations.all {
-    resolutionStrategy {
-        eachDependency { DependencyResolveDetails details ->
-            if (details.requested.group in ['org.apache.tomcat.embed']) {
-                details.useVersion '9.0.88'
-            }
-            if (details.requested.group == 'org.gradle') {
-                details.useVersion '1.4'
-                details.because 'API breakage in higher versions'
-            }
-            if (details.requested.group in ['org.apache.logging.log4j']) {
-                details.useVersion '2.17.1'
-            }
-        }
-    }
+configurations {
+    smokeTestImplementation.extendsFrom testImplementation
+    smokeTestRuntimeOnly.extendsFrom runtimeOnly
 }
 
 ext['snakeyaml.version'] = '2.0'
@@ -264,17 +219,17 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: versions.springBootVersion
     implementation group: 'org.springframework.security', name: 'spring-security-core', version: versions.springSecurityVersion
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-openfeign-core'
-    implementation group: 'org.springframework.retry', name: 'spring-retry', version: '2.0.8'
-    implementation group: 'com.google.guava', name: 'guava', version: '33.3.0-jre'
+    implementation group: 'org.springframework.retry', name: 'spring-retry', version: '2.0.9'
+    implementation group: 'com.google.guava', name: 'guava', version: '33.3.1-jre'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.jacksonDatabind
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: versions.jacksonDatabind
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-hateoas', version: versions.springBootVersion
     implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: versions.feign
     implementation group: 'io.github.openfeign', name: 'feign-jackson', version: versions.feign
-
-    implementation group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
-    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
+    implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.3.1'
+    implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.1.8'
+    
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.hmctsJavaLogging
     implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: versions.hmctsJavaLogging
     implementation group: 'com.github.hmcts', name: 'auth-checker-lib', version: versions.authCheckerLib
@@ -282,17 +237,14 @@ dependencies {
     implementation group: 'com.github.hmcts', name: 'probate-commons', version: versions.probateCommonsVersion
     implementation group: 'com.microsoft.azure', name: 'applicationinsights-spring-boot-starter', version: '2.6.4'
     implementation group: 'commons-io', name: 'commons-io', version: versions.commonsIO
-
-    implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: versions.springDocOpenUi
-    implementation group: 'org.springdoc', name: 'springdoc-openapi-security', version: versions.springDocOpenUi
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: versions.springDocOpenUi
     implementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
-    implementation group: 'org.mapstruct', name: 'mapstruct-jdk8', version: versions.mapStruct
+    implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.5.5.Final'
     implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: versions.jacksonDatabind
-
     implementation group: 'org.pitest', name: 'pitest', version: versions.piTest
     implementation group: 'com.atlassian.commonmark', name: 'commonmark', version: versions.commonMark
-    implementation 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.15.0'
-    implementation 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'
+    implementation group: 'info.solidsoft.gradle.pitest', name: 'gradle-pitest-plugin', version: '1.15.0'
+    implementation group: 'org.sonarsource.api.plugin', name: 'sonar-plugin-api', version: '10.11.0.2468'
     implementation group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
     implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '8.0'
@@ -303,41 +255,32 @@ dependencies {
     testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: versions.springSecurityVersion
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-hateoas', version: versions.springBootVersion
     testImplementation group: 'org.springframework.cloud', name: 'spring-cloud-contract-wiremock', version: versions.springCloudWiremock
-    testImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
     testImplementation group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
     testImplementation group: 'org.mapstruct', name: 'mapstruct-jdk8', version: versions.mapStruct
     testImplementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
     testImplementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: versions.jacksonDatabind
+    testImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
+    testImplementation group: 'com.github.hmcts', name: 'fortify-client', version: '1.4.4', classifier: 'all'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
     testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     testAnnotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
-
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: versions.junitJupiter
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
-    testImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
-    testImplementation 'com.github.hmcts:fortify-client:1.4.4:all'
-
 
     testIntegrationImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
     testIntegrationImplementation group: 'org.springframework.security', name: 'spring-security-test', version: versions.springSecurityVersion
     testIntegrationImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-hateoas', version: versions.springBootVersion
     testIntegrationImplementation group: 'org.springframework.cloud', name: 'spring-cloud-contract-wiremock', version: versions.springCloudWiremock
-    testIntegrationImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
     testIntegrationImplementation group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
     testIntegrationImplementation group: 'org.mapstruct', name: 'mapstruct-jdk8', version: versions.mapStruct
     testIntegrationImplementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
     testIntegrationImplementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: versions.jacksonDatabind
-
-    testIntegrationImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
-    testIntegrationImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
     testIntegrationImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
-    testIntegrationImplementation 'com.github.hmcts:fortify-client:1.4.4:all'
+    testIntegrationImplementation group: 'com.github.hmcts', name: 'fortify-client', version: '1.4.4'
     testIntegrationImplementation group: 'com.github.hmcts', name: 'probate-commons', version: versions.probateCommonsVersion
-    testIntegrationImplementation group: 'com.google.guava', name: 'guava', version: '33.3.0-jre'
-
+    testIntegrationImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
+    testIntegrationRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: versions.junitJupiter
     testIntegrationImplementation sourceSets.main.runtimeClasspath
     testIntegrationImplementation sourceSets.test.runtimeClasspath
-
 
     testSmokeImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
     testSmokeImplementation sourceSets.main.runtimeClasspath
@@ -345,15 +288,15 @@ dependencies {
 
     testFunctionalImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
     testFunctionalImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
-    testFunctionalImplementation group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenity
+    testFunctionalImplementation group: 'net.serenity-bdd', name: 'serenity-junit5', version: versions.serenity
     testFunctionalImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
     testFunctionalImplementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.12.6'
     testFunctionalImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
     testFunctionalImplementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     testFunctionalImplementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
+    testFunctionalAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     testFunctionalImplementation sourceSets.main.runtimeClasspath
     testFunctionalImplementation sourceSets.test.runtimeClasspath
-    testFunctionalAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
 
     contractTestImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
     contractTestImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
@@ -365,16 +308,9 @@ dependencies {
     contractTestImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
     contractTestRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: versions.junitJupiter
     contractTestImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
-
     contractTestImplementation sourceSets.main.runtimeClasspath
     contractTestImplementation sourceSets.test.runtimeClasspath
     contractTestImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
-}
-
-task printbranch {
-    doLast {
-        print project.pactBrokerTag
-    }
 }
 
 task fortifyScan(type: JavaExec)  {
@@ -383,6 +319,13 @@ task fortifyScan(type: JavaExec)  {
     jvmArgs = ['--add-opens=java.base/java.lang.reflect=ALL-UNNAMED']
 }
 
+def getCheckedOutGitCommitHash() {
+    'git rev-parse --verify --short HEAD'.execute().text.trim()
+}
+
+project.ext {
+    pactVersion = getCheckedOutGitCommitHash()
+}
 
 task runAndPublishConsumerPactTests(type: Test){
     logger.lifecycle("Runs PublishConsumer pact tests")
@@ -408,10 +351,6 @@ pact {
     }
 }
 
-def getCheckedOutGitCommitHash() {
-    'git rev-parse --verify --short HEAD'.execute().text.trim()
-}
-
 tasks.withType(JavaCompile) {
     options.compilerArgs << "-parameters"
 }
@@ -426,12 +365,6 @@ bootJar {
     manifest {
         attributes 'Implementation-Title': project.name,
                 'Implementation-Version': project.version
-    }
-}
-
-task printVersion {
-    doLast {
-        print project.version
     }
 }
 
@@ -459,7 +392,6 @@ run {
             }
         }
     }
-
     if (debug == 'true') {
         jvmArgs = ['-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005']
     }

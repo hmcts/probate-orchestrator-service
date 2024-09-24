@@ -16,7 +16,7 @@ import org.springframework.util.ResourceUtils;
 import uk.gov.hmcts.probate.functional.TestContextConfiguration;
 import uk.gov.hmcts.probate.functional.TestTokenGenerator;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;

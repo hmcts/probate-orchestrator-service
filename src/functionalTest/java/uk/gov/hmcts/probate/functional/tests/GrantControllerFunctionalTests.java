@@ -1,13 +1,14 @@
 package uk.gov.hmcts.probate.functional.tests;
 
 import io.restassured.RestAssured;
-import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import net.serenitybdd.junit5.SerenityJUnit5Extension;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import uk.gov.hmcts.probate.functional.IntegrationTestBase;
 
-@RunWith(SpringIntegrationSerenityRunner.class)
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@ExtendWith(SerenityJUnit5Extension.class)
 public class GrantControllerFunctionalTests extends IntegrationTestBase {
     private static final String GRANT_AWAITING_DOCUMENTS_NOTIFICATION = "/grant/awaiting-documents-notification";
     private static final String GRANT_DELAY_NOTIFICATION = "/grant/delay-notification";
@@ -26,7 +27,7 @@ public class GrantControllerFunctionalTests extends IntegrationTestBase {
                 .assertThat()
                 .statusCode(200)
                 .extract().response().getBody().prettyPrint();
-        Assert.assertEquals(GRANT_AWAITING_DOCUMENTS_NOTIFICATION_CALLED, response);
+        assertEquals(GRANT_AWAITING_DOCUMENTS_NOTIFICATION_CALLED, response);
     }
 
     @Test
@@ -40,7 +41,7 @@ public class GrantControllerFunctionalTests extends IntegrationTestBase {
                 .assertThat()
                 .statusCode(200)
                 .extract().response().getBody().prettyPrint();
-        Assert.assertEquals(GRANT_DELAY_NOTIFICATION_CALLED, response);
+        assertEquals(GRANT_DELAY_NOTIFICATION_CALLED, response);
     }
 
     @Test
