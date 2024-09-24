@@ -102,16 +102,16 @@ public interface BusinessServiceApi {
                   @RequestBody Invitation invitation,
                   @RequestHeader("Session-Id") String sessionId);
 
-    @GetMapping(path = "/executor-notification/bilingual", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/executor-notification/bilingual", consumes = MediaType.APPLICATION_JSON_VALUE)
     String signedBilingual(@RequestBody ExecutorNotification executorNotification);
 
-    @GetMapping(path = "/executor-notification", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/executor-notification", consumes = MediaType.APPLICATION_JSON_VALUE)
     String signedExec(@RequestBody ExecutorNotification executorNotification);
 
-    @GetMapping(path = "/executor-notification/all", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/executor-notification/all", consumes = MediaType.APPLICATION_JSON_VALUE)
     String signedExecAll(@RequestBody ExecutorNotification executorNotification);
 
-    @GetMapping(path = "/executor-notification/all-bilingual", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/executor-notification/all-bilingual", consumes = MediaType.APPLICATION_JSON_VALUE)
     String signedExecAllBilingual(@RequestBody ExecutorNotification executorNotification);
 
 
