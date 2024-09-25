@@ -16,6 +16,7 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepr
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
+import uk.gov.hmcts.reform.probate.model.multiapplicant.ExecutorNotification;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
 import java.util.ArrayList;
@@ -164,6 +165,28 @@ public class BusinessServiceImpl implements BusinessService {
         grantOfRepresentationData.setInvitationAgreedFlagForExecutorApplying(invitation.getInviteId(),
                 invitation.getAgreed());
         updateCaseDataAsCaseWorker(probateCaseDetails, formdataId);
+        ExecutorNotification executorNotification = ExecutorNotification.builder()
+                .applicantName(grantOfRepresentationData.getPrimaryApplicantForenames()
+                        + " " + grantOfRepresentationData.getPrimaryApplicantSurname())
+                .ccdReference(formdataId)
+                .deceasedDod(grantOfRepresentationData.getDeceasedDateOfDeath().toString())
+                .executorName(grantOfRepresentationData.getExecutorApplyingByInviteId(invitation.getInviteId())
+                        .getApplyingExecutorName())
+                .deceasedName(grantOfRepresentationData.getDeceasedForenames()
+                        + " " + grantOfRepresentationData.getDeceasedSurname())
+                .email(grantOfRepresentationData.getPrimaryApplicantEmailAddress())
+                .build();
+        if (Boolean.TRUE.equals(grantOfRepresentationData.haveAllExecutorsAgreed())
+                && grantOfRepresentationData.getLanguagePreferenceWelsh().equals(Boolean.TRUE)) {
+            businessServiceApi.signedExecAllBilingual(executorNotification);
+        } else if (Boolean.TRUE.equals(grantOfRepresentationData.haveAllExecutorsAgreed())) {
+            businessServiceApi.signedExecAll(executorNotification);
+        } else if (grantOfRepresentationData.getLanguagePreferenceWelsh().equals(Boolean.TRUE)
+                && invitation.getAgreed().equals(Boolean.TRUE)) {
+            businessServiceApi.signedBilingual(executorNotification);
+        } else if (invitation.getAgreed().equals(Boolean.TRUE)) {
+            businessServiceApi.signedExec(executorNotification);
+        }
         return invitation.getInviteId();
     }
 

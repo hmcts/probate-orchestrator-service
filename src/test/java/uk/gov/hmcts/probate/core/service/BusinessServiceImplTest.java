@@ -22,12 +22,15 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepr
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
+import uk.gov.hmcts.reform.probate.model.multiapplicant.ExecutorNotification;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -81,6 +84,14 @@ public class BusinessServiceImplTest {
         when(mockProbateCaseDetails.getCaseData()).thenReturn(mockGrantOfRepresentationData);
         when(mockProbateCaseDetails.getCaseInfo()).thenReturn(mockCaseInfo);
         when(mockCaseInfo.getCaseId()).thenReturn("123456789101112");
+        when(mockGrantOfRepresentationData.getDeceasedDateOfDeath()).thenReturn(LocalDate.now());
+        when(mockGrantOfRepresentationData.getPrimaryApplicantForenames()).thenReturn("Testana");
+        when(mockGrantOfRepresentationData.getPrimaryApplicantSurname()).thenReturn("Testerson");
+        when(mockGrantOfRepresentationData.getDeceasedForenames()).thenReturn("Test");
+        when(mockGrantOfRepresentationData.getDeceasedSurname()).thenReturn("Testerson");
+        when(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(anyString()))
+                .thenReturn(ExecutorApplying.builder().applyingExecutorName("Test Executor").build());
+        when(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress()).thenReturn(emailaddress);
 
         pdfExample = new byte[10];
         businessService = new BusinessServiceImpl(businessServiceApi,
@@ -253,6 +264,7 @@ public class BusinessServiceImplTest {
     public void shouldSetInviteAgreedOnCase() {
 
         Invitation invitation = getInvitation(formdataId);
+        invitation.setBilingual(Boolean.FALSE);
         businessService.inviteAgreed(formdataId, invitation);
         verifyGetCaseCalls();
         verify(mockGrantOfRepresentationData)
@@ -260,6 +272,122 @@ public class BusinessServiceImplTest {
         verify(submitServiceApi)
             .updateCaseAsCaseWorker(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
 
+    }
+
+    @Test
+    void shouldSendIfExecAgreed() {
+        Invitation invitation = getInvitation(formdataId);
+        when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
+        when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.FALSE);
+        ExecutorNotification executorNotification = ExecutorNotification.builder()
+                .ccdReference(formdataId)
+                .executorName(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(invitation.getInviteId())
+                        .getApplyingExecutorName())
+                .applicantName(mockGrantOfRepresentationData.getPrimaryApplicantForenames()
+                        + " " + mockGrantOfRepresentationData.getPrimaryApplicantSurname())
+                .deceasedName(mockGrantOfRepresentationData.getDeceasedForenames()
+                        + " " + mockGrantOfRepresentationData.getDeceasedSurname())
+                .deceasedDod(mockGrantOfRepresentationData.getDeceasedDateOfDeath().toString())
+                .email(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress())
+                .build();
+        businessService.inviteAgreed(formdataId, invitation);
+        verifyGetCaseCalls();
+        verify(businessServiceApi).signedExec(executorNotification);
+        verify(mockGrantOfRepresentationData)
+                .setInvitationAgreedFlagForExecutorApplying(invitationId, invitation.getAgreed());
+        verify(submitServiceApi)
+                .updateCaseAsCaseWorker(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
+    }
+
+    @Test
+    void shouldNotSendIfExecNotAgreed() {
+        Invitation invitation = getInvitation(formdataId);
+        when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
+        when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.FALSE);
+        invitation.setAgreed(Boolean.FALSE);
+        businessService.inviteAgreed(formdataId, invitation);
+        verifyGetCaseCalls();
+        verify(mockGrantOfRepresentationData)
+                .setInvitationAgreedFlagForExecutorApplying(invitationId, invitation.getAgreed());
+        verify(submitServiceApi)
+                .updateCaseAsCaseWorker(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
+    }
+
+    @Test
+    void shouldSendIfExecAgreedBilingual() {
+        Invitation invitation = getInvitation(formdataId);
+        when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
+        when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.TRUE);
+        when(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(invitation.getInviteId()))
+                .thenReturn(ExecutorApplying.builder().applyingExecutorName("Test Executor").build());
+        ExecutorNotification executorNotification = ExecutorNotification.builder()
+                .ccdReference(formdataId)
+                .executorName(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(invitation.getInviteId())
+                        .getApplyingExecutorName())
+                .applicantName(mockGrantOfRepresentationData.getPrimaryApplicantForenames()
+                        + " " + mockGrantOfRepresentationData.getPrimaryApplicantSurname())
+                .deceasedName(mockGrantOfRepresentationData.getDeceasedForenames()
+                        + " " + mockGrantOfRepresentationData.getDeceasedSurname())
+                .deceasedDod(mockGrantOfRepresentationData.getDeceasedDateOfDeath().toString())
+                .email(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress())
+                .build();
+        businessService.inviteAgreed(formdataId, invitation);
+        verifyGetCaseCalls();
+        verify(businessServiceApi).signedBilingual(executorNotification);
+        verify(mockGrantOfRepresentationData)
+                .setInvitationAgreedFlagForExecutorApplying(invitationId, invitation.getAgreed());
+        verify(submitServiceApi)
+                .updateCaseAsCaseWorker(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
+    }
+
+    @Test
+    void shouldSendIfAllExecAgreed() {
+        Invitation invitation = getInvitation(formdataId);
+        when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.TRUE);
+        when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.FALSE);
+        ExecutorNotification executorNotification = ExecutorNotification.builder()
+                .ccdReference(formdataId)
+                .executorName(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(invitation.getInviteId())
+                        .getApplyingExecutorName())
+                .applicantName(mockGrantOfRepresentationData.getPrimaryApplicantForenames()
+                        + " " + mockGrantOfRepresentationData.getPrimaryApplicantSurname())
+                .deceasedName(mockGrantOfRepresentationData.getDeceasedForenames()
+                        + " " + mockGrantOfRepresentationData.getDeceasedSurname())
+                .deceasedDod(mockGrantOfRepresentationData.getDeceasedDateOfDeath().toString())
+                .email(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress())
+                .build();
+        businessService.inviteAgreed(formdataId, invitation);
+        verifyGetCaseCalls();
+        verify(businessServiceApi).signedExecAll(executorNotification);
+        verify(mockGrantOfRepresentationData)
+                .setInvitationAgreedFlagForExecutorApplying(invitationId, invitation.getAgreed());
+        verify(submitServiceApi)
+                .updateCaseAsCaseWorker(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
+    }
+
+    @Test
+    void shouldSendIfAllExecAgreedBilingual() {
+        Invitation invitation = getInvitation(formdataId);
+        when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.TRUE);
+        when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.TRUE);
+        ExecutorNotification executorNotification = ExecutorNotification.builder()
+                .ccdReference(formdataId)
+                .executorName(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(invitation.getInviteId())
+                        .getApplyingExecutorName())
+                .applicantName(mockGrantOfRepresentationData.getPrimaryApplicantForenames()
+                        + " " + mockGrantOfRepresentationData.getPrimaryApplicantSurname())
+                .deceasedName(mockGrantOfRepresentationData.getDeceasedForenames()
+                        + " " + mockGrantOfRepresentationData.getDeceasedSurname())
+                .deceasedDod(mockGrantOfRepresentationData.getDeceasedDateOfDeath().toString())
+                .email(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress())
+                .build();
+        businessService.inviteAgreed(formdataId, invitation);
+        verifyGetCaseCalls();
+        verify(businessServiceApi).signedExecAllBilingual(executorNotification);
+        verify(mockGrantOfRepresentationData)
+                .setInvitationAgreedFlagForExecutorApplying(invitationId, invitation.getAgreed());
+        verify(submitServiceApi)
+                .updateCaseAsCaseWorker(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
     }
 
     @Test
