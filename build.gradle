@@ -165,7 +165,7 @@ def versions = [
         commonMark                      : '0.17.0',
         feign                           : '13.4',
         hmctsJavaLogging                : '6.1.6',
-        jacksonDatabind                 : '2.17.2',
+        jacksonDatabind                 : '2.18.0',
         junitJupiter                    : '5.10.2',
         lombok                          : '1.18.34',
         mapStruct                       : '1.3.0.Final',
