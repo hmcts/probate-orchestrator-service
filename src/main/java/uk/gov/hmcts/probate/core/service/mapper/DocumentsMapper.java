@@ -50,7 +50,6 @@ public class DocumentsMapper {
 
     private UploadDocument mapUploadDocument(DocumentUpload documentUpload) {
         return UploadDocument.builder()
-            .documentType(DocumentType.DEATH_CERT)
             .documentLink(DocumentLink.builder()
                 .documentUrl(documentUpload.getUrl().trim())
                 .documentBinaryUrl(documentUpload.getUrl().trim() + "/" + BINARY_URL_SUFFIX)
