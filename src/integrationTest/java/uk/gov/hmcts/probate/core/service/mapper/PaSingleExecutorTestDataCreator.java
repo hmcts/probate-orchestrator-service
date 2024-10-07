@@ -13,7 +13,6 @@ import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.DeathCertificate;
 import uk.gov.hmcts.reform.probate.model.cases.DocumentLink;
-import uk.gov.hmcts.reform.probate.model.cases.DocumentType;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCalculatedFees;
 import uk.gov.hmcts.reform.probate.model.cases.RegistryLocation;
 import uk.gov.hmcts.reform.probate.model.cases.UploadDocument;
@@ -590,7 +589,6 @@ public final class PaSingleExecutorTestDataCreator {
                             .documentBinaryUrl(DOCUMENT_URL + "/binary")
                             .build())
                         .comment(DOCUMENT_FILENAME)
-                        .documentType(DocumentType.DEATH_CERT)
                         .build())
                     .build()
 
