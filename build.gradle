@@ -163,7 +163,7 @@ def versions = [
         authCheckerLib                  : '3.0.1',
         commonsIO                       : '2.17.0',
         commonMark                      : '0.17.0',
-        feign                           : '13.4',
+        feign                           : '13.5',
         hmctsJavaLogging                : '6.1.6',
         jacksonDatabind                 : '2.18.0',
         junitJupiter                    : '5.10.2',
