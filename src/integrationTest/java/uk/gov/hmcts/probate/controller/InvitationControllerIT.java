@@ -45,6 +45,7 @@ public class InvitationControllerIT {
     private ObjectMapper objectMapper;
 
     private String invitationStr;
+    private String documentNotificationStr;
     private Invitation invitation;
     private Invitation invitation2;
     private List<Invitation> invitationsResult;
@@ -61,6 +62,7 @@ public class InvitationControllerIT {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
         invitationStr = TestUtils.getJsonFromFile("invite/invitation.json");
+        documentNotificationStr = TestUtils.getJsonFromFile("businessDocuments/documentNotification.json");
         this.invitation = objectMapper.readValue(invitationStr, Invitation.class);
         this.invitation2 = objectMapper.readValue(invitationStr, Invitation.class);
         invitationArrayStr = new StringBuilder("[").append(invitationStr).append("]").toString();
