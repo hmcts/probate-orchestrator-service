@@ -36,5 +36,7 @@ public interface BusinessService {
     String getPinNumber(String phoneNumber, String sessionId, Boolean isBilingual);
 
     List<Invitation> sendInvitations(List<Invitation> invitations, String sessionId, Boolean isBilingual);
+
+    void documentUploadNotification(String formDataId);
 }
 

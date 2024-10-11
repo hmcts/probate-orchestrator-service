@@ -15,13 +15,18 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApp
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
+import uk.gov.hmcts.reform.probate.model.documents.DocumentNotification;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
+import uk.gov.hmcts.reform.probate.model.forms.CitizenDocument;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.ExecutorNotification;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -32,6 +37,7 @@ public class BusinessServiceImpl implements BusinessService {
     private final SubmitServiceApi submitServiceApi;
     private final SecurityUtils securityUtils;
     private final ExecutorApplyingToInvitationMapper executorApplyingToInvitationMapper;
+    private static final String RESPONSE_DATE_FORMAT = "dd MMMM yyyy";
 
 
     @Override
@@ -191,6 +197,54 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
+    public void documentUploadNotification(String formDataId) {
+        log.info("Setting response submitted date and sending document upload notification");
+        ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(formDataId);
+        GrantOfRepresentationData grantOfRepresentationData =
+                (GrantOfRepresentationData) probateCaseDetails.getCaseData();
+        log.info("Got the case details now response submitted date: {}", formDataId);
+        grantOfRepresentationData.setCitizenResponseSubmittedDate(getResponseSubmittedDate());
+        updateCaseDataAsCaseWorker(probateCaseDetails, formDataId);
+        DocumentNotification documentNotification = DocumentNotification.builder()
+                .applicantName(grantOfRepresentationData.getPrimaryApplicantForenames()
+                        + " " + grantOfRepresentationData.getPrimaryApplicantSurname())
+                .ccdReference(formDataId)
+                .deceasedDod(grantOfRepresentationData.getDeceasedDateOfDeath().toString())
+                .deceasedName(grantOfRepresentationData.getDeceasedForenames()
+                        + " " + grantOfRepresentationData.getDeceasedSurname())
+                .email(grantOfRepresentationData.getPrimaryApplicantEmailAddress())
+                .citizenResponse(grantOfRepresentationData.getCitizenResponse())
+                .fileName(getDocumentNames(grantOfRepresentationData.getCitizenUploadedDocuments()))
+                .citizenResponseSubmittedDate(grantOfRepresentationData.getCitizenResponseSubmittedDate())
+                .build();
+        if (Boolean.FALSE.equals(grantOfRepresentationData.getDocumentUploadIssue())
+                && Boolean.TRUE.equals(grantOfRepresentationData.getLanguagePreferenceWelsh())) {
+            businessServiceApi.documentUploadBilingual(documentNotification);
+        } else if (Boolean.FALSE.equals(grantOfRepresentationData.getDocumentUploadIssue())) {
+            businessServiceApi.documentUpload(documentNotification);
+        } else if (Boolean.TRUE.equals(grantOfRepresentationData.getLanguagePreferenceWelsh())
+                && Boolean.TRUE.equals(grantOfRepresentationData.getDocumentUploadIssue())) {
+            businessServiceApi.documentUploadIssueBilingual(documentNotification);
+        } else if (Boolean.TRUE.equals(grantOfRepresentationData.getDocumentUploadIssue())) {
+            businessServiceApi.documentUploadIssue(documentNotification);
+        }
+    }
+
+    private List<String> getDocumentNames(List<CitizenDocument> citizenDocuments) {
+        if (citizenDocuments == null) {
+            return new ArrayList<>();
+        } else {
+            return citizenDocuments.stream().map(citizenDocument -> citizenDocument.getDocumentLink()
+                            .getDocumentFilename()).collect(Collectors.toList());
+        }
+    }
+
+    private String getResponseSubmittedDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(RESPONSE_DATE_FORMAT);
+        return LocalDate.now().plusWeeks(7).format(formatter);
+    }
+
+    @Override
     public void resetAgreedFlags(String formdataId) {
         log.info("Reset agreed flags");
         ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(formdataId);
@@ -295,5 +349,4 @@ public class BusinessServiceImpl implements BusinessService {
         submitServiceApi.updateCaseAsCaseWorker(authorisation, serviceAuthorisation,
                 formdataId, probateCaseDetails);
     }
-
 }

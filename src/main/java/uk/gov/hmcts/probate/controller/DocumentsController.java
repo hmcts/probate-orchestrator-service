@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -23,6 +24,7 @@ import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 
 import jakarta.validation.Valid;
+
 import java.util.List;
 
 
@@ -37,6 +39,7 @@ public class DocumentsController {
     protected static final String LEGAL_DECLARATION_ENDPOINT = "/generate/legalDeclaration";
     protected static final String BULK_SCAN_COVERSHEET_ENDPOINT = "/generate/bulkScanCoversheet";
     protected static final String DOCUMENT_UPLOAD_ENDPOINT = "/upload";
+    protected static final String DOCUMENT_UPLOAD_NOTIFICATION_ENDPOINT = "/notification";
     protected static final String DOCUMENT_DELETE_ENDPOINT = "/delete/{documentId}";
 
     private final BusinessService businessService;
@@ -93,4 +96,15 @@ public class DocumentsController {
         return new ResponseEntity<>(backOfficeService.uploadDocument(authorizationToken, files), HttpStatus.OK);
     }
 
+    @Operation(summary = "send document notification")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "Document upload notification sent successfully")})
+    @PostMapping(path = DOCUMENT_UPLOAD_NOTIFICATION_ENDPOINT + "/{formdataId}",
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String uploadNotification(@PathVariable("formdataId") String formdataId) {
+        log.info("Sending notification for document upload to Business service");
+
+        businessService.documentUploadNotification(formdataId);
+        return formdataId;
+    }
 }

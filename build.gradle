@@ -229,7 +229,7 @@ dependencies {
     implementation group: 'io.github.openfeign', name: 'feign-jackson', version: versions.feign
     implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.3.1'
     implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.1.8'
-    
+
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.hmctsJavaLogging
     implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: versions.hmctsJavaLogging
     implementation group: 'com.github.hmcts', name: 'auth-checker-lib', version: versions.authCheckerLib
