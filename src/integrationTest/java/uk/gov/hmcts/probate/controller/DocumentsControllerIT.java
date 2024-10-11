@@ -45,6 +45,9 @@ public class DocumentsControllerIT {
         DocumentsController.DOCUMENTS_BASEURL + DocumentsController.BULK_SCAN_COVERSHEET_ENDPOINT;
     private static final String DOCUMENT_UPLOAD_ENDPOINT =
         DocumentsController.DOCUMENTS_BASEURL + DocumentsController.DOCUMENT_UPLOAD_ENDPOINT;
+
+    private static final String DOCUMENT_UPLOAD_NOTIFICATION_ENDPOINT =
+            DocumentsController.DOCUMENTS_BASEURL + DocumentsController.DOCUMENT_UPLOAD_NOTIFICATION_ENDPOINT;
     private static final String DOCUMENT_DELETE_ENDPOINT =
         DocumentsController.DOCUMENTS_BASEURL + DocumentsController.DOCUMENT_DELETE_ENDPOINT;
 
@@ -59,6 +62,7 @@ public class DocumentsControllerIT {
 
     @Autowired
     private WebApplicationContext webApplicationContext;
+    private String documentNotificationStr;
 
     @BeforeEach
     public void setup() {
@@ -158,6 +162,19 @@ public class DocumentsControllerIT {
 
         verify(backOfficeService, times(1)).uploadDocument(eq(authorisation),
             ArgumentMatchers.eq(Lists.newArrayList(file)));
+    }
+
+    @Test
+    public void shouldReturn200ForDocumentUpload() throws Exception {
+
+        documentNotificationStr = TestUtils.getJsonFromFile("businessDocuments/documentNotification.json");
+
+        mockMvc.perform(post(DOCUMENT_UPLOAD_NOTIFICATION_ENDPOINT + "/12345")
+                        .header("Session-Id", "someSessionId")
+                        .content(documentNotificationStr)
+                        .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
+                .andExpect(status().isOk());
+        verify(businessService, times(1)).documentUploadNotification(eq("12345"));
     }
 
 }
