@@ -100,7 +100,7 @@ public class DocumentsController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200",
             description = "Document upload notification sent successfully")})
     @PostMapping(path = DOCUMENT_UPLOAD_NOTIFICATION_ENDPOINT + "/{formdataId}",
-            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String uploadNotification(@PathVariable("formdataId") String formDataId) {
         log.info("Sending notification for document upload to Business service");
 

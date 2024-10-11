@@ -22,6 +22,7 @@ import uk.gov.hmcts.reform.probate.model.multiapplicant.ExecutorNotification;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +37,7 @@ public class BusinessServiceImpl implements BusinessService {
     private final SubmitServiceApi submitServiceApi;
     private final SecurityUtils securityUtils;
     private final ExecutorApplyingToInvitationMapper executorApplyingToInvitationMapper;
+    private static final String RESPONSE_DATE_FORMAT = "dd MMMM yyyy";
 
 
     @Override
@@ -201,7 +203,7 @@ public class BusinessServiceImpl implements BusinessService {
         GrantOfRepresentationData grantOfRepresentationData =
                 (GrantOfRepresentationData) probateCaseDetails.getCaseData();
         log.info("Got the case details now response submitted date: {}", formDataId);
-        grantOfRepresentationData.setCitizenResponseSubmittedDate(LocalDate.now().plusWeeks(7));
+        grantOfRepresentationData.setCitizenResponseSubmittedDate(getResponseSubmittedDate());
         updateCaseDataAsCaseWorker(probateCaseDetails, formDataId);
         DocumentNotification documentNotification = DocumentNotification.builder()
                 .applicantName(grantOfRepresentationData.getPrimaryApplicantForenames()
@@ -213,7 +215,7 @@ public class BusinessServiceImpl implements BusinessService {
                 .email(grantOfRepresentationData.getPrimaryApplicantEmailAddress())
                 .citizenResponse(grantOfRepresentationData.getCitizenResponse())
                 .fileName(getDocumentNames(grantOfRepresentationData.getCitizenUploadedDocuments()))
-                .citizenResponseSubmittedDate(grantOfRepresentationData.getCitizenResponseSubmittedDate().toString())
+                .citizenResponseSubmittedDate(grantOfRepresentationData.getCitizenResponseSubmittedDate())
                 .build();
         if (Boolean.FALSE.equals(grantOfRepresentationData.getDocumentUploadIssue())
                 && Boolean.TRUE.equals(grantOfRepresentationData.getLanguagePreferenceWelsh())) {
@@ -235,6 +237,11 @@ public class BusinessServiceImpl implements BusinessService {
             return citizenDocuments.stream().map(citizenDocument -> citizenDocument.getDocumentLink()
                             .getDocumentFilename()).collect(Collectors.toList());
         }
+    }
+
+    private String getResponseSubmittedDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(RESPONSE_DATE_FORMAT);
+        return LocalDate.now().plusWeeks(7).format(formatter);
     }
 
     @Override
