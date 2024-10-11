@@ -96,9 +96,6 @@ public class DocumentsController {
         return new ResponseEntity<>(backOfficeService.uploadDocument(authorizationToken, files), HttpStatus.OK);
     }
 
-    @Operation(summary = "send document notification")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200",
-            description = "Document upload notification sent successfully")})
     @PostMapping(path = DOCUMENT_UPLOAD_NOTIFICATION_ENDPOINT + "/{formdataId}",
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String uploadNotification(@PathVariable("formdataId") String formdataId) {
