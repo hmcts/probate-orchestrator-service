@@ -101,10 +101,10 @@ public class DocumentsController {
             description = "Document upload notification sent successfully")})
     @PostMapping(path = DOCUMENT_UPLOAD_NOTIFICATION_ENDPOINT + "/{formdataId}",
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String uploadNotification(@PathVariable("formdataId") String formDataId) {
+    public String uploadNotification(@PathVariable("formdataId") String formdataId) {
         log.info("Sending notification for document upload to Business service");
 
-        businessService.documentUploadNotification(formDataId);
-        return formDataId;
+        businessService.documentUploadNotification(formdataId);
+        return formdataId;
     }
 }
