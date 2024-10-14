@@ -11,13 +11,13 @@ import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
+import uk.gov.hmcts.reform.probate.model.cases.UploadDocument;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.DocumentNotification;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
-import uk.gov.hmcts.reform.probate.model.forms.CitizenDocument;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.ExecutorNotification;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
@@ -214,7 +214,7 @@ public class BusinessServiceImpl implements BusinessService {
                         + " " + grantOfRepresentationData.getDeceasedSurname())
                 .email(grantOfRepresentationData.getPrimaryApplicantEmailAddress())
                 .citizenResponse(grantOfRepresentationData.getCitizenResponse())
-                .fileName(getDocumentNames(grantOfRepresentationData.getCitizenUploadedDocuments()))
+                .fileName(getDocumentNames(grantOfRepresentationData.getBoDocumentsUploaded()))
                 .citizenResponseSubmittedDate(grantOfRepresentationData.getCitizenResponseSubmittedDate())
                 .build();
         if (Boolean.FALSE.equals(grantOfRepresentationData.getDocumentUploadIssue())
@@ -230,11 +230,11 @@ public class BusinessServiceImpl implements BusinessService {
         }
     }
 
-    private List<String> getDocumentNames(List<CitizenDocument> citizenDocuments) {
+    private List<String> getDocumentNames(List<CollectionMember<UploadDocument>> citizenDocuments) {
         if (citizenDocuments == null) {
             return new ArrayList<>();
         } else {
-            return citizenDocuments.stream().map(citizenDocument -> citizenDocument.getDocumentLink()
+            return citizenDocuments.stream().map(citizenDocument -> citizenDocument.getValue().getDocumentLink()
                             .getDocumentFilename()).collect(Collectors.toList());
         }
     }
