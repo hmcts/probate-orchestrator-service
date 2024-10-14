@@ -18,18 +18,19 @@ import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.DocumentLink;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
+import uk.gov.hmcts.reform.probate.model.cases.UploadDocument;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.DocumentNotification;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
-import uk.gov.hmcts.reform.probate.model.forms.CitizenDocument;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.ExecutorNotification;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -99,8 +100,10 @@ public class BusinessServiceImplTest {
         when(mockGrantOfRepresentationData.getCitizenResponse()).thenReturn("response");
         when(mockGrantOfRepresentationData.getCitizenResponseSubmittedDate()).thenReturn(LocalDate.now()
                 .plusWeeks(7).format(formatter));
-        when(mockGrantOfRepresentationData.getCitizenUploadedDocuments()).thenReturn(List.of(CitizenDocument.builder()
-                .documentLink(DocumentLink.builder().documentFilename("fileName.pdf").build()).build()));
+        List<CollectionMember<UploadDocument>> documents = new ArrayList();
+        documents.add(CollectionMember.<UploadDocument>builder().value(UploadDocument.builder()
+                .documentLink(DocumentLink.builder().documentFilename("fileName.pdf").build()).build()).build());
+        when(mockGrantOfRepresentationData.getBoDocumentsUploaded()).thenReturn(documents);
         when(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(anyString()))
                 .thenReturn(ExecutorApplying.builder().applyingExecutorName("Test Executor").build());
         when(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress()).thenReturn(emailaddress);
