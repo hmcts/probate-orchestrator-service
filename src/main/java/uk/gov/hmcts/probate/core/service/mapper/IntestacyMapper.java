@@ -138,9 +138,10 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "deceasedDiedEngOrWales", source = "deceased.diedEngOrWales")
     @Mapping(target = "deceasedDeathCertificate", expression = "java(form.getDeceased()!= null ? "
         + "DeathCertificate.fromString(form.getDeceased().getDeathCertificate()) : null)")
-    @Mapping(target = "citizenResponse", source = "provideinformation.citizenResponse")
-    @Mapping(target = "documentUploadIssue", source = "provideinformation.documentUploadIssue")
-    @Mapping(target = "citizenResponseCheckbox", source = "reviewresponse.citizenResponseCheckbox")
+    @Mapping(target = "citizenResponse", source = "citizenResponse")
+    @Mapping(target = "documentUploadIssue", source = "documentUploadIssue")
+    @Mapping(target = "citizenResponseCheckbox", source = "citizenResponseCheckbox")
+    @Mapping(target = "citizenResponseSubmittedDate", source = "citizenResponseSubmittedDate")
     GrantOfRepresentationData toCaseData(IntestacyForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.INTESTACY)")
@@ -218,9 +219,10 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "statementOfTruthDocument", source = "statementOfTruthDocument", qualifiedBy = {
         FromDocumentLink.class})
     @Mapping(target = "documentsReceivedNotificationSent", source = "documentsReceivedNotificationSent")
-    @Mapping(target = "provideinformation.citizenResponse", source = "citizenResponse")
-    @Mapping(target = "provideinformation.documentUploadIssue", source = "documentUploadIssue")
-    @Mapping(target = "reviewresponse.citizenResponseCheckbox", source = "citizenResponseCheckbox")
+    @Mapping(target = "citizenResponse", source = "citizenResponse")
+    @Mapping(target = "documentUploadIssue", source = "documentUploadIssue")
+    @Mapping(target = "citizenResponseCheckbox", source = "citizenResponseCheckbox")
+    @Mapping(target = "citizenResponseSubmittedDate", source = "citizenResponseSubmittedDate")
     @InheritInverseConfiguration
     IntestacyForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 }
