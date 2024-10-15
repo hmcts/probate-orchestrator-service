@@ -37,7 +37,7 @@ public class BusinessServiceImpl implements BusinessService {
     private final SubmitServiceApi submitServiceApi;
     private final SecurityUtils securityUtils;
     private final ExecutorApplyingToInvitationMapper executorApplyingToInvitationMapper;
-    private static final String RESPONSE_DATE_FORMAT = "dd MMMM yyyy";
+    private static final String RESPONSE_DATE_FORMAT = "yyyy-MM-dd";
 
 
     @Override

@@ -75,7 +75,7 @@ public class BusinessServiceImplTest {
     private byte[] pdfExample;
 
     private ObjectMapper objectMapper;
-    private static final String RESPONSE_DATE_FORMAT = "dd MMMM yyyy";
+    private static final String RESPONSE_DATE_FORMAT = "yyyy-MM-dd";
 
 
 
