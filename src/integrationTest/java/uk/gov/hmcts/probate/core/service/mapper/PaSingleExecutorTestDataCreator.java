@@ -8,14 +8,7 @@ import uk.gov.hmcts.reform.probate.model.IhtFormEstate;
 import uk.gov.hmcts.reform.probate.model.IhtFormType;
 import uk.gov.hmcts.reform.probate.model.PaymentStatus;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
-import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
-import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
-import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
-import uk.gov.hmcts.reform.probate.model.cases.DeathCertificate;
-import uk.gov.hmcts.reform.probate.model.cases.DocumentLink;
-import uk.gov.hmcts.reform.probate.model.cases.ProbateCalculatedFees;
-import uk.gov.hmcts.reform.probate.model.cases.RegistryLocation;
-import uk.gov.hmcts.reform.probate.model.cases.UploadDocument;
+import uk.gov.hmcts.reform.probate.model.cases.*;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.forms.Address;
@@ -586,9 +579,11 @@ public final class PaSingleExecutorTestDataCreator {
                         .documentLink(DocumentLink.builder()
                             .documentUrl(DOCUMENT_URL)
                             .documentFilename(DOCUMENT_FILENAME)
+
                             .documentBinaryUrl(DOCUMENT_URL + "/binary")
                             .build())
                         .comment(DOCUMENT_FILENAME)
+                         .documentType(DocumentType.CITIZEN_HUB_UPLOAD)
                         .build())
                     .build()
 
