@@ -7,6 +7,7 @@ import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromUploadDocs;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToUploadDocs;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.DocumentLink;
+import uk.gov.hmcts.reform.probate.model.cases.DocumentType;
 import uk.gov.hmcts.reform.probate.model.cases.UploadDocument;
 import uk.gov.hmcts.reform.probate.model.forms.DocumentUpload;
 import uk.gov.hmcts.reform.probate.model.forms.Documents;
@@ -41,6 +42,7 @@ public class DocumentsMapper {
         List<DocumentUpload> documentUploads = collectionMembers
             .stream()
             .map(CollectionMember::getValue)
+            .filter(uploadDocument -> uploadDocument.getDocumentType().equals(DocumentType.CITIZEN_HUB_UPLOAD))
             .map(this::mapDocumentUpload)
             .collect(Collectors.toList());
 
@@ -49,6 +51,7 @@ public class DocumentsMapper {
 
     private UploadDocument mapUploadDocument(DocumentUpload documentUpload) {
         return UploadDocument.builder()
+            .documentType(DocumentType.CITIZEN_HUB_UPLOAD)
             .documentLink(DocumentLink.builder()
                 .documentUrl(documentUpload.getUrl().trim())
                 .documentBinaryUrl(documentUpload.getUrl().trim() + "/" + BINARY_URL_SUFFIX)
