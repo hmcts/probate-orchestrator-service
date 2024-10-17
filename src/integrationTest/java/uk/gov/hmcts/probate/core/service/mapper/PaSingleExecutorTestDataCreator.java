@@ -37,7 +37,9 @@ import uk.gov.hmcts.reform.probate.model.forms.LegalStatement;
 import uk.gov.hmcts.reform.probate.model.forms.LegalStatementExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.forms.LegalStatementHolder;
 import uk.gov.hmcts.reform.probate.model.forms.Payment;
+import uk.gov.hmcts.reform.probate.model.forms.ProvideInformation;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
+import uk.gov.hmcts.reform.probate.model.forms.ReviewResponse;
 import uk.gov.hmcts.reform.probate.model.forms.Will;
 import uk.gov.hmcts.reform.probate.model.forms.pa.Executor;
 import uk.gov.hmcts.reform.probate.model.forms.pa.Executors;
@@ -58,6 +60,7 @@ import java.util.List;
 import java.util.Map;
 
 import static java.lang.Boolean.TRUE;
+import static java.lang.Boolean.FALSE;
 
 public final class PaSingleExecutorTestDataCreator {
 
@@ -220,6 +223,8 @@ public final class PaSingleExecutorTestDataCreator {
         "[{\"formatted_address\":\"Adam & Eve 81 Petty France London SW1H 9EX\"}]";
 
     private static String APPLICANT_ADDRESSES = "[{\"formatted_address\":\"102 Petty France London SW1H 9EX\"}]";
+
+    private static String CITIZEN_RESPONSE = "response";
 
     private PaSingleExecutorTestDataCreator() {
 
@@ -435,6 +440,10 @@ public final class PaSingleExecutorTestDataCreator {
                     .url(SOT_DOCUMENT_URL)
                     .build()
             )
+            .provideInformation(ProvideInformation.builder()
+                    .citizenResponse(CITIZEN_RESPONSE)
+                    .documentUploadIssue(FALSE).build())
+            .reviewResponse(ReviewResponse.builder().citizenResponseCheckbox(TRUE).build())
             .legalDeclaration(objectMapper.readValue(LEGAL_DECLARATION_JSON, new TypeReference<Map<String, Object>>() {
             }))
             .checkAnswersSummary(objectMapper.readValue(CHECK_ANSWERS_JSON, new TypeReference<Map<String, Object>>() {
@@ -633,6 +642,9 @@ public final class PaSingleExecutorTestDataCreator {
             .codicilsDamageDateKnown(CODICILS_DAMAGE_DATE_KNOWN)
             .codicilsDamageDate(CODICILS_DAMAGE_DATE)
             .deceasedWrittenWishes(DECEASED_WRITTEN_WISHES)
+            .citizenResponse(CITIZEN_RESPONSE)
+            .documentUploadIssue(FALSE)
+            .citizenResponseCheckbox(TRUE)
             .build();
     }
 }

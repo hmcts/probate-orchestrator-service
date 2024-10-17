@@ -138,9 +138,9 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "deceasedDiedEngOrWales", source = "deceased.diedEngOrWales")
     @Mapping(target = "deceasedDeathCertificate", expression = "java(form.getDeceased()!= null ? "
         + "DeathCertificate.fromString(form.getDeceased().getDeathCertificate()) : null)")
-    @Mapping(target = "citizenResponse", source = "citizenResponse")
-    @Mapping(target = "documentUploadIssue", source = "documentUploadIssue")
-    @Mapping(target = "citizenResponseCheckbox", source = "citizenResponseCheckbox")
+    @Mapping(target = "citizenResponse", source = "provideInformation.citizenResponse")
+    @Mapping(target = "documentUploadIssue", source = "provideInformation.documentUploadIssue")
+    @Mapping(target = "citizenResponseCheckbox", source = "reviewResponse.citizenResponseCheckbox")
     @Mapping(target = "citizenResponseSubmittedDate", source = "citizenResponseSubmittedDate")
     GrantOfRepresentationData toCaseData(IntestacyForm form);
 
@@ -219,9 +219,9 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "statementOfTruthDocument", source = "statementOfTruthDocument", qualifiedBy = {
         FromDocumentLink.class})
     @Mapping(target = "documentsReceivedNotificationSent", source = "documentsReceivedNotificationSent")
-    @Mapping(target = "citizenResponse", source = "citizenResponse")
-    @Mapping(target = "documentUploadIssue", source = "documentUploadIssue")
-    @Mapping(target = "citizenResponseCheckbox", source = "citizenResponseCheckbox")
+    @Mapping(target = "provideInformation.citizenResponse", source = "citizenResponse")
+    @Mapping(target = "provideInformation.documentUploadIssue", source = "documentUploadIssue")
+    @Mapping(target = "reviewResponse.citizenResponseCheckbox", source = "citizenResponseCheckbox")
     @Mapping(target = "citizenResponseSubmittedDate", source = "citizenResponseSubmittedDate")
     @InheritInverseConfiguration
     IntestacyForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);

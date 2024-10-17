@@ -21,7 +21,9 @@ import uk.gov.hmcts.reform.probate.model.forms.Equality;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
 import uk.gov.hmcts.reform.probate.model.forms.Language;
 import uk.gov.hmcts.reform.probate.model.forms.LegalStatement;
+import uk.gov.hmcts.reform.probate.model.forms.ProvideInformation;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
+import uk.gov.hmcts.reform.probate.model.forms.ReviewResponse;
 import uk.gov.hmcts.reform.probate.model.forms.Will;
 import uk.gov.hmcts.reform.probate.model.forms.pa.Executors;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaApplicant;
@@ -140,6 +142,8 @@ public class PaMapperIT {
         declaration.setLegalStatement(LegalStatement.builder().build());
         expectedPaForm.setDeclaration(declaration);
         expectedPaForm.setEquality(new Equality());
+        expectedPaForm.setProvideInformation(new ProvideInformation());
+        expectedPaForm.setReviewResponse(new ReviewResponse());
         PaForm actualPaForm = mapper.fromCaseData(new GrantOfRepresentationData());
         assertThat(actualPaForm).isEqualToComparingFieldByFieldRecursively(expectedPaForm);
     }
