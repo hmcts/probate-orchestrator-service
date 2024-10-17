@@ -142,8 +142,8 @@ public class PaMapperIT {
         declaration.setLegalStatement(LegalStatement.builder().build());
         expectedPaForm.setDeclaration(declaration);
         expectedPaForm.setEquality(new Equality());
-        expectedPaForm.setProvideInformation(new ProvideInformation());
-        expectedPaForm.setReviewResponse(new ReviewResponse());
+        expectedPaForm.setProvideinformation(new ProvideInformation());
+        expectedPaForm.setReviewresponse(new ReviewResponse());
         PaForm actualPaForm = mapper.fromCaseData(new GrantOfRepresentationData());
         assertThat(actualPaForm).isEqualToComparingFieldByFieldRecursively(expectedPaForm);
     }
