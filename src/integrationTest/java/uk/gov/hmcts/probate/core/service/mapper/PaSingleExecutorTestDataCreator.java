@@ -440,10 +440,10 @@ public final class PaSingleExecutorTestDataCreator {
                     .url(SOT_DOCUMENT_URL)
                     .build()
             )
-            .provideInformation(ProvideInformation.builder()
+            .provideinformation(ProvideInformation.builder()
                     .citizenResponse(CITIZEN_RESPONSE)
                     .documentUploadIssue(FALSE).build())
-            .reviewResponse(ReviewResponse.builder().citizenResponseCheckbox(TRUE).build())
+            .reviewresponse(ReviewResponse.builder().citizenResponseCheckbox(TRUE).build())
             .legalDeclaration(objectMapper.readValue(LEGAL_DECLARATION_JSON, new TypeReference<Map<String, Object>>() {
             }))
             .checkAnswersSummary(objectMapper.readValue(CHECK_ANSWERS_JSON, new TypeReference<Map<String, Object>>() {

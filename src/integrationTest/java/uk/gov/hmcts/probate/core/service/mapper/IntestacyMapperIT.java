@@ -110,8 +110,8 @@ public class IntestacyMapperIT {
         expectedIntestacyForm.setDeclaration(new Declaration());
         expectedIntestacyForm.setLanguage(new Language());
         expectedIntestacyForm.setEquality(new Equality());
-        expectedIntestacyForm.setProvideInformation(new ProvideInformation());
-        expectedIntestacyForm.setReviewResponse(new ReviewResponse());
+        expectedIntestacyForm.setProvideinformation(new ProvideInformation());
+        expectedIntestacyForm.setReviewresponse(new ReviewResponse());
         IntestacyForm actualIntestacyForm = mapper.fromCaseData(new GrantOfRepresentationData());
         assertThat(actualIntestacyForm).isEqualToComparingFieldByFieldRecursively(expectedIntestacyForm);
     }
