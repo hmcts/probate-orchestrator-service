@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
+import uk.gov.hmcts.reform.probate.model.documents.DocumentNotification;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.ExecutorNotification;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
@@ -114,6 +115,17 @@ public interface BusinessServiceApi {
     @PostMapping(path = "/executor-notification/all-bilingual", consumes = MediaType.APPLICATION_JSON_VALUE)
     String signedExecAllBilingual(@RequestBody ExecutorNotification executorNotification);
 
+    @PostMapping(path = "/document-upload-notification/bilingual", consumes = MediaType.APPLICATION_JSON_VALUE)
+    String documentUploadBilingual(@RequestBody DocumentNotification executorNotification);
+
+    @PostMapping(path = "/document-upload-notification", consumes = MediaType.APPLICATION_JSON_VALUE)
+    String documentUpload(@RequestBody DocumentNotification executorNotification);
+
+    @PostMapping(path = "/document-upload-issue-notification/bilingual", consumes = MediaType.APPLICATION_JSON_VALUE)
+    String documentUploadIssueBilingual(@RequestBody DocumentNotification executorNotification);
+
+    @PostMapping(path = "/document-upload-issue-notification", consumes = MediaType.APPLICATION_JSON_VALUE)
+    String documentUploadIssue(@RequestBody DocumentNotification executorNotification);
 
     @GetMapping(path = "/pin/bilingual")
     String pinNumberBilingual(@RequestParam("phoneNumber") String phoneNumber,

@@ -164,6 +164,10 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
         + "DeathCertificate.fromString(form.getDeceased().getDeathCertificate()) : null)")
     @Mapping(target = "deceasedForeignDeathCertInEnglish", source = "deceased.englishForeignDeathCert")
     @Mapping(target = "deceasedForeignDeathCertTranslation", source = "deceased.foreignDeathCertTranslation")
+    @Mapping(target = "citizenResponse", source = "citizenResponse")
+    @Mapping(target = "documentUploadIssue", source = "documentUploadIssue")
+    @Mapping(target = "citizenResponseCheckbox", source = "citizenResponseCheckbox")
+    @Mapping(target = "citizenResponseSubmittedDate", source = "citizenResponseSubmittedDate")
     GrantOfRepresentationData toCaseData(PaForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.PA)")
@@ -241,6 +245,10 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "statementOfTruthDocument", source = "statementOfTruthDocument", qualifiedBy = {
         FromDocumentLink.class})
     @Mapping(target = "documentsReceivedNotificationSent", source = "documentsReceivedNotificationSent")
+    @Mapping(target = "citizenResponse", source = "citizenResponse")
+    @Mapping(target = "documentUploadIssue", source = "documentUploadIssue")
+    @Mapping(target = "citizenResponseCheckbox", source = "citizenResponseCheckbox")
+    @Mapping(target = "citizenResponseSubmittedDate", source = "citizenResponseSubmittedDate")
     @InheritInverseConfiguration
     PaForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 }

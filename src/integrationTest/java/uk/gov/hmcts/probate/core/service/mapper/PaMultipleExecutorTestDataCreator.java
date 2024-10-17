@@ -566,7 +566,7 @@ public final class PaMultipleExecutorTestDataCreator {
                             .documentBinaryUrl(DOCUMENT_URL + "/binary")
                             .build())
                         .comment(DOCUMENT_FILENAME)
-                        .documentType(DocumentType.DEATH_CERT)
+                        .documentType(DocumentType.CITIZEN_HUB_UPLOAD)
                         .build())
                     .build()
 

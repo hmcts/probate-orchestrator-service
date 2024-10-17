@@ -42,6 +42,7 @@ public class DocumentsMapper {
         List<DocumentUpload> documentUploads = collectionMembers
             .stream()
             .map(CollectionMember::getValue)
+            .filter(uploadDocument -> uploadDocument.getDocumentType().equals(DocumentType.CITIZEN_HUB_UPLOAD))
             .map(this::mapDocumentUpload)
             .collect(Collectors.toList());
 
@@ -50,7 +51,7 @@ public class DocumentsMapper {
 
     private UploadDocument mapUploadDocument(DocumentUpload documentUpload) {
         return UploadDocument.builder()
-            .documentType(DocumentType.DEATH_CERT)
+            .documentType(DocumentType.CITIZEN_HUB_UPLOAD)
             .documentLink(DocumentLink.builder()
                 .documentUrl(documentUpload.getUrl().trim())
                 .documentBinaryUrl(documentUpload.getUrl().trim() + "/" + BINARY_URL_SUFFIX)
