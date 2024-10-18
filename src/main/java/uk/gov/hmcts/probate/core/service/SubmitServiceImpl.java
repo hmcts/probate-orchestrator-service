@@ -160,6 +160,7 @@ public class SubmitServiceImpl implements SubmitService {
             form.getEventDescription(),
             ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
         );
+        log.info("case ref: {} , ProbateCaseDetails: {}", identifier, probateCaseDetails.getCaseData());
         return mapFromCase(formMapper, probateCaseDetails);
     }
 
