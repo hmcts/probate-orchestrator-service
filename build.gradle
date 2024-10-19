@@ -219,7 +219,7 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: versions.springBootVersion
     implementation group: 'org.springframework.security', name: 'spring-security-core', version: versions.springSecurityVersion
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-openfeign-core'
-    implementation group: 'org.springframework.retry', name: 'spring-retry', version: '2.0.9'
+    implementation group: 'org.springframework.retry', name: 'spring-retry', version: '2.0.10'
     implementation group: 'com.google.guava', name: 'guava', version: '33.3.1-jre'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.jacksonDatabind
