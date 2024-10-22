@@ -179,7 +179,7 @@ def versions = [
         springBootVersion               : '3.3.4',
         springCloudWiremock             : '4.1.4',
         springDocOpenUi                 : '2.6.0',
-        springSecurityVersion           : '6.3.3'
+        springSecurityVersion           : '6.3.4'
 ]
 
 jacocoTestReport {
