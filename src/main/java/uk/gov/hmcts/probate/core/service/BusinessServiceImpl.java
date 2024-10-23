@@ -237,7 +237,7 @@ public class BusinessServiceImpl implements BusinessService {
             return new ArrayList<>();
         } else {
             return citizenDocuments.stream().map(citizenDocument -> citizenDocument.getValue().getDocumentLink()
-                            .getDocumentFilename()).collect(Collectors.toList());
+                            .getDocumentFilename()).toList();
         }
     }
 
