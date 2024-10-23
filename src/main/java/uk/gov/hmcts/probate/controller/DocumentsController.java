@@ -96,7 +96,8 @@ public class DocumentsController {
         return new ResponseEntity<>(backOfficeService.uploadDocument(authorizationToken, files), HttpStatus.OK);
     }
 
-    @PostMapping(path = DOCUMENT_UPLOAD_NOTIFICATION_ENDPOINT + "/{formdataId}/{citizenResponseCheckbox}", produces = MediaType.TEXT_PLAIN_VALUE)
+    @PostMapping(path = DOCUMENT_UPLOAD_NOTIFICATION_ENDPOINT + "/{formdataId}/{citizenResponseCheckbox}",
+            produces = MediaType.TEXT_PLAIN_VALUE)
     public String uploadNotification(@PathVariable("formdataId") String formdataId,
                                                    @PathVariable("citizenResponseCheckbox")
                                                    String citizenResponseCheckbox) {
