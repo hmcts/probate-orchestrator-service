@@ -169,12 +169,12 @@ public class DocumentsControllerIT {
 
         documentNotificationStr = TestUtils.getJsonFromFile("businessDocuments/documentNotification.json");
 
-        mockMvc.perform(post(DOCUMENT_UPLOAD_NOTIFICATION_ENDPOINT + "/12345")
+        mockMvc.perform(post(DOCUMENT_UPLOAD_NOTIFICATION_ENDPOINT + "/12345/true")
                         .header("Session-Id", "someSessionId")
                         .content(documentNotificationStr)
                         .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
                 .andExpect(status().isOk());
-        verify(businessService, times(1)).documentUploadNotification(eq("12345"));
+        verify(businessService, times(1)).documentUploadNotification(eq("12345"), eq("true"));
     }
 
 }

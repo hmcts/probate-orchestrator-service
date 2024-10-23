@@ -421,7 +421,7 @@ public class BusinessServiceImplTest {
                 .citizenResponse(mockGrantOfRepresentationData.getCitizenResponse())
                 .citizenResponseSubmittedDate(mockGrantOfRepresentationData.getCitizenResponseSubmittedDate())
                 .build();
-        businessService.documentUploadNotification(formdataId);
+        businessService.documentUploadNotification(formdataId, "true");
         verifyGetCaseCalls();
         verify(businessServiceApi).documentUpload(documentNotification);
         verify(submitServiceApi)
@@ -445,7 +445,7 @@ public class BusinessServiceImplTest {
                 .citizenResponseSubmittedDate(mockGrantOfRepresentationData.getCitizenResponseSubmittedDate()
                         .toString())
                 .build();
-        businessService.documentUploadNotification(formdataId);
+        businessService.documentUploadNotification(formdataId, "true");
         verifyGetCaseCalls();
         verify(businessServiceApi).documentUploadBilingual(documentNotification);
         verify(submitServiceApi)
@@ -469,7 +469,7 @@ public class BusinessServiceImplTest {
                 .citizenResponseSubmittedDate(mockGrantOfRepresentationData.getCitizenResponseSubmittedDate()
                         .toString())
                 .build();
-        businessService.documentUploadNotification(formdataId);
+        businessService.documentUploadNotification(formdataId, "true");
         verifyGetCaseCalls();
         verify(businessServiceApi).documentUploadIssue(documentNotification);
         verify(submitServiceApi)
@@ -492,7 +492,7 @@ public class BusinessServiceImplTest {
                 .citizenResponse(mockGrantOfRepresentationData.getCitizenResponse())
                 .citizenResponseSubmittedDate(mockGrantOfRepresentationData.getCitizenResponseSubmittedDate())
                 .build();
-        businessService.documentUploadNotification(formdataId);
+        businessService.documentUploadNotification(formdataId, "true");
         verifyGetCaseCalls();
         verify(businessServiceApi).documentUploadIssueBilingual(documentNotification);
         verify(submitServiceApi)

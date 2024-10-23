@@ -37,6 +37,6 @@ public interface BusinessService {
 
     List<Invitation> sendInvitations(List<Invitation> invitations, String sessionId, Boolean isBilingual);
 
-    void documentUploadNotification(String formDataId);
+    void documentUploadNotification(String formDataId, String citizenResponseCheckbox);
 }
 
