@@ -197,13 +197,15 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
-    public void documentUploadNotification(String formDataId) {
+    public void documentUploadNotification(String formDataId, String citizenResponseCheckbox) {
         log.info("Setting response submitted date and sending document upload notification");
         ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(formDataId);
         GrantOfRepresentationData grantOfRepresentationData =
                 (GrantOfRepresentationData) probateCaseDetails.getCaseData();
         log.info("Got the case details now response submitted date: {}", formDataId);
         grantOfRepresentationData.setCitizenResponseSubmittedDate(getResponseSubmittedDate());
+        grantOfRepresentationData.setCitizenResponseCheckbox(Boolean.parseBoolean(citizenResponseCheckbox));
+        probateCaseDetails.setCaseData(grantOfRepresentationData);
         updateCaseDataAsCaseWorker(probateCaseDetails, formDataId);
         DocumentNotification documentNotification = DocumentNotification.builder()
                 .applicantName(grantOfRepresentationData.getPrimaryApplicantForenames()
