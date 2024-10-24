@@ -223,6 +223,8 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "provideinformation.documentUploadIssue", source = "documentUploadIssue")
     @Mapping(target = "reviewresponse.citizenResponseCheckbox", source = "citizenResponseCheckbox")
     @Mapping(target = "citizenResponseSubmittedDate", source = "citizenResponseSubmittedDate")
+    @Mapping(target = "informationNeeded", source = "informationNeeded")
+    @Mapping(target = "informationNeededByPost", source = "informationNeededByPost")
     @InheritInverseConfiguration
     IntestacyForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 }
