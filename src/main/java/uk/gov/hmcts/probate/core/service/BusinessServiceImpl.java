@@ -206,7 +206,7 @@ public class BusinessServiceImpl implements BusinessService {
         grantOfRepresentationData.setCitizenResponseSubmittedDate(getResponseSubmittedDate());
         grantOfRepresentationData.setCitizenResponseCheckbox(Boolean.parseBoolean(citizenResponseCheckbox));
         probateCaseDetails.setCaseData(grantOfRepresentationData);
-        updateCaseDataAsCaseWorker(probateCaseDetails, formDataId);
+        updateCaseData(probateCaseDetails, formDataId);
         DocumentNotification documentNotification = DocumentNotification.builder()
                 .applicantName(grantOfRepresentationData.getPrimaryApplicantForenames()
                         + " " + grantOfRepresentationData.getPrimaryApplicantSurname())

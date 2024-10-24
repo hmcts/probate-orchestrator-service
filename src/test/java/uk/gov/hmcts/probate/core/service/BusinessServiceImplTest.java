@@ -425,7 +425,7 @@ public class BusinessServiceImplTest {
         verifyGetCaseCalls();
         verify(businessServiceApi).documentUpload(documentNotification);
         verify(submitServiceApi)
-                .updateCaseAsCaseWorker(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
+                .saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, EVENT_DESCRIPTION, mockProbateCaseDetails);
     }
 
     @Test
@@ -449,7 +449,7 @@ public class BusinessServiceImplTest {
         verifyGetCaseCalls();
         verify(businessServiceApi).documentUploadBilingual(documentNotification);
         verify(submitServiceApi)
-                .updateCaseAsCaseWorker(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
+                .saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, EVENT_DESCRIPTION, mockProbateCaseDetails);
     }
 
     @Test
@@ -473,7 +473,7 @@ public class BusinessServiceImplTest {
         verifyGetCaseCalls();
         verify(businessServiceApi).documentUploadIssue(documentNotification);
         verify(submitServiceApi)
-                .updateCaseAsCaseWorker(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
+                .saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, EVENT_DESCRIPTION, mockProbateCaseDetails);
     }
 
     @Test
@@ -496,7 +496,7 @@ public class BusinessServiceImplTest {
         verifyGetCaseCalls();
         verify(businessServiceApi).documentUploadIssueBilingual(documentNotification);
         verify(submitServiceApi)
-                .updateCaseAsCaseWorker(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
+                .saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, EVENT_DESCRIPTION, mockProbateCaseDetails);
     }
 
     @Test
