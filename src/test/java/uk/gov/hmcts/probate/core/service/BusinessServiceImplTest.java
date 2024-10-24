@@ -98,7 +98,7 @@ public class BusinessServiceImplTest {
         when(mockGrantOfRepresentationData.getDeceasedForenames()).thenReturn("Test");
         when(mockGrantOfRepresentationData.getDeceasedSurname()).thenReturn("Testerson");
         when(mockGrantOfRepresentationData.getCitizenResponse()).thenReturn("response");
-        when(mockGrantOfRepresentationData.getCitizenResponseSubmittedDate()).thenReturn(LocalDate.now()
+        when(mockGrantOfRepresentationData.getExpectedResponseDate()).thenReturn(LocalDate.now()
                 .plusWeeks(7).format(formatter));
         List<CollectionMember<UploadDocument>> documents = new ArrayList();
         documents.add(CollectionMember.<UploadDocument>builder().value(UploadDocument.builder()
@@ -419,7 +419,7 @@ public class BusinessServiceImplTest {
                 .email(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress())
                 .fileName(List.of("fileName.pdf"))
                 .citizenResponse(mockGrantOfRepresentationData.getCitizenResponse())
-                .citizenResponseSubmittedDate(mockGrantOfRepresentationData.getCitizenResponseSubmittedDate())
+                .expectedResponseDate(mockGrantOfRepresentationData.getExpectedResponseDate())
                 .build();
         businessService.documentUploadNotification(formdataId, "true");
         verifyGetCaseCalls();
@@ -442,7 +442,7 @@ public class BusinessServiceImplTest {
                 .email(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress())
                 .fileName(List.of("fileName.pdf"))
                 .citizenResponse(mockGrantOfRepresentationData.getCitizenResponse())
-                .citizenResponseSubmittedDate(mockGrantOfRepresentationData.getCitizenResponseSubmittedDate()
+                .expectedResponseDate(mockGrantOfRepresentationData.getExpectedResponseDate()
                         .toString())
                 .build();
         businessService.documentUploadNotification(formdataId, "true");
@@ -466,7 +466,7 @@ public class BusinessServiceImplTest {
                 .email(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress())
                 .fileName(List.of("fileName.pdf"))
                 .citizenResponse(mockGrantOfRepresentationData.getCitizenResponse())
-                .citizenResponseSubmittedDate(mockGrantOfRepresentationData.getCitizenResponseSubmittedDate()
+                .expectedResponseDate(mockGrantOfRepresentationData.getExpectedResponseDate()
                         .toString())
                 .build();
         businessService.documentUploadNotification(formdataId, "true");
@@ -490,7 +490,7 @@ public class BusinessServiceImplTest {
                 .email(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress())
                 .fileName(List.of("fileName.pdf"))
                 .citizenResponse(mockGrantOfRepresentationData.getCitizenResponse())
-                .citizenResponseSubmittedDate(mockGrantOfRepresentationData.getCitizenResponseSubmittedDate())
+                .expectedResponseDate(mockGrantOfRepresentationData.getExpectedResponseDate())
                 .build();
         businessService.documentUploadNotification(formdataId, "true");
         verifyGetCaseCalls();

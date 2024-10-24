@@ -203,7 +203,7 @@ public class BusinessServiceImpl implements BusinessService {
         GrantOfRepresentationData grantOfRepresentationData =
                 (GrantOfRepresentationData) probateCaseDetails.getCaseData();
         log.info("Got the case details now response submitted date: {}", formDataId);
-        grantOfRepresentationData.setCitizenResponseSubmittedDate(getResponseSubmittedDate());
+        grantOfRepresentationData.setExpectedResponseDate(getResponseSubmittedDate());
         grantOfRepresentationData.setCitizenResponseCheckbox(Boolean.parseBoolean(citizenResponseCheckbox));
         probateCaseDetails.setCaseData(grantOfRepresentationData);
         updateCaseData(probateCaseDetails, formDataId);
@@ -217,7 +217,7 @@ public class BusinessServiceImpl implements BusinessService {
                 .email(grantOfRepresentationData.getPrimaryApplicantEmailAddress())
                 .citizenResponse(grantOfRepresentationData.getCitizenResponse())
                 .fileName(getDocumentNames(grantOfRepresentationData.getBoDocumentsUploaded()))
-                .citizenResponseSubmittedDate(grantOfRepresentationData.getCitizenResponseSubmittedDate())
+                .expectedResponseDate(grantOfRepresentationData.getExpectedResponseDate())
                 .build();
         if (Boolean.FALSE.equals(grantOfRepresentationData.getDocumentUploadIssue())
                 && Boolean.TRUE.equals(grantOfRepresentationData.getLanguagePreferenceWelsh())) {
