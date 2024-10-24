@@ -141,7 +141,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "citizenResponse", source = "provideinformation.citizenResponse")
     @Mapping(target = "documentUploadIssue", source = "provideinformation.documentUploadIssue")
     @Mapping(target = "citizenResponseCheckbox", source = "reviewresponse.citizenResponseCheckbox")
-    @Mapping(target = "citizenResponseSubmittedDate", source = "citizenResponseSubmittedDate")
+    @Mapping(target = "expectedResponseDate", source = "expectedResponseDate")
     GrantOfRepresentationData toCaseData(IntestacyForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.INTESTACY)")
@@ -222,7 +222,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "provideinformation.citizenResponse", source = "citizenResponse")
     @Mapping(target = "provideinformation.documentUploadIssue", source = "documentUploadIssue")
     @Mapping(target = "reviewresponse.citizenResponseCheckbox", source = "citizenResponseCheckbox")
-    @Mapping(target = "citizenResponseSubmittedDate", source = "citizenResponseSubmittedDate")
+    @Mapping(target = "expectedResponseDate", source = "expectedResponseDate")
     @Mapping(target = "informationNeeded", source = "informationNeeded")
     @Mapping(target = "informationNeededByPost", source = "informationNeededByPost")
     @InheritInverseConfiguration
