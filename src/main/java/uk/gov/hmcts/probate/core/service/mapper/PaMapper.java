@@ -249,6 +249,8 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "provideinformation.documentUploadIssue", source = "documentUploadIssue")
     @Mapping(target = "reviewresponse.citizenResponseCheckbox", source = "citizenResponseCheckbox")
     @Mapping(target = "citizenResponseSubmittedDate", source = "citizenResponseSubmittedDate")
+    @Mapping(target = "informationNeeded", source = "informationNeeded")
+    @Mapping(target = "informationNeededByPost", source = "informationNeededByPost")
     @InheritInverseConfiguration
     PaForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 }
