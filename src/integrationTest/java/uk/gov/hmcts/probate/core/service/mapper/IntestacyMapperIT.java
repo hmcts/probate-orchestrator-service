@@ -77,7 +77,7 @@ public class IntestacyMapperIT {
     @Test
     public void shouldMapEmptyIntestacyFormToGrantOfRepresentation() {
         GrantOfRepresentationData expectedGrantOfRepresentation = new GrantOfRepresentationData();
-        expectedGrantOfRepresentation.setBoDocumentsUploaded(new ArrayList<>());
+        expectedGrantOfRepresentation.setCitizenDocumentsUploaded(new ArrayList<>());
         expectedGrantOfRepresentation.setApplicationSubmittedDate(LocalDate.now());
         expectedGrantOfRepresentation.setApplicationType(ApplicationType.PERSONAL);
         expectedGrantOfRepresentation.setGrantType(GrantType.INTESTACY);

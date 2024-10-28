@@ -113,7 +113,7 @@ public class PaMapperIT {
         expectedGrantOfRepresentation.setGrantType(GrantType.GRANT_OF_PROBATE);
         expectedGrantOfRepresentation.setApplicationSubmittedDate(LocalDate.now());
         expectedGrantOfRepresentation.setNumberOfApplicants(0L);
-        expectedGrantOfRepresentation.setBoDocumentsUploaded(Lists.newArrayList());
+        expectedGrantOfRepresentation.setCitizenDocumentsUploaded(Lists.newArrayList());
         expectedGrantOfRepresentation.setPrimaryApplicantIsApplying(true);
         GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(new PaForm());
         assertThat(actualGrantOfRepresentation)

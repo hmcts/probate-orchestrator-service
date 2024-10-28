@@ -568,7 +568,7 @@ public final class PaMultipleExecutorTestDataCreator {
                 .total(FEES_TOTAL.multiply(BigDecimal.valueOf(100)).longValue())
                 .build()
             )
-            .boDocumentsUploaded(Lists.newArrayList(
+            .citizenDocumentsUploaded(Lists.newArrayList(
                 CollectionMember.<UploadDocument>builder()
                     .value(UploadDocument.builder()
                         .documentLink(DocumentLink.builder()
