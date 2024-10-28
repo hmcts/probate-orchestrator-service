@@ -131,7 +131,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "payments", source = "payment")
     @Mapping(target = "uniqueProbateCodeId", source = "iht.uniqueProbateCodeId")
     @Mapping(target = "hmrcLetterId", source = "iht.hmrcLetterId")
-    @Mapping(target = "boDocumentsUploaded", source = "documents", qualifiedBy = {ToUploadDocs.class})
+    @Mapping(target = "citizenDocumentsUploaded", source = "documents", qualifiedBy = {ToUploadDocs.class})
     @Mapping(target = "statementOfTruthDocument", source = "statementOfTruthDocument", qualifiedBy = {
         ToDocumentLink.class})
     @Mapping(target = "languagePreferenceWelsh", source = "language.bilingual")
@@ -140,6 +140,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
         + "DeathCertificate.fromString(form.getDeceased().getDeathCertificate()) : null)")
     @Mapping(target = "citizenResponse", source = "provideinformation.citizenResponse")
     @Mapping(target = "documentUploadIssue", source = "provideinformation.documentUploadIssue")
+    @Mapping(target = "isSaveAndClose", source = "provideinformation.isSaveAndClose")
     @Mapping(target = "citizenResponseCheckbox", source = "reviewresponse.citizenResponseCheckbox")
     @Mapping(target = "expectedResponseDate", source = "expectedResponseDate")
     GrantOfRepresentationData toCaseData(IntestacyForm form);
@@ -213,7 +214,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "checkAnswersSummary", source = "checkAnswersSummaryJson", qualifiedBy = {ToMap.class})
     @Mapping(target = "payment", source = "payments")
     @Mapping(target = "payments", source = "payments", qualifiedBy = {FromCollectionMember.class})
-    @Mapping(target = "documents", source = "boDocumentsUploaded", qualifiedBy = {FromUploadDocs.class})
+    @Mapping(target = "documents", source = "citizenDocumentsUploaded", qualifiedBy = {FromUploadDocs.class})
     @Mapping(target = "iht.uniqueProbateCodeId", source = "uniqueProbateCodeId")
     @Mapping(target = "iht.hmrcLetterId", source = "hmrcLetterId")
     @Mapping(target = "statementOfTruthDocument", source = "statementOfTruthDocument", qualifiedBy = {
