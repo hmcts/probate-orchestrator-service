@@ -248,6 +248,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "documentsReceivedNotificationSent", source = "documentsReceivedNotificationSent")
     @Mapping(target = "provideinformation.citizenResponse", source = "citizenResponse")
     @Mapping(target = "provideinformation.documentUploadIssue", source = "documentUploadIssue")
+    @Mapping(target = "provideinformation.isSaveAndClose", source = "isSaveAndClose")
     @Mapping(target = "reviewresponse.citizenResponseCheckbox", source = "citizenResponseCheckbox")
     @Mapping(target = "expectedResponseDate", source = "expectedResponseDate")
     @Mapping(target = "informationNeeded", source = "informationNeeded")
