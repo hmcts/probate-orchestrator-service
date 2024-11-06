@@ -171,7 +171,7 @@ def versions = [
         mapStruct                       : '1.3.0.Final',
         pact_version                    : '4.1.34',
         piTest                          : '1.17.1',
-        probateCommonsVersion           : '2.0.28',
+        probateCommonsVersion           : '2.0.27',
         restAssured                     : '5.5.0',
         serenity                        : '4.2.6',
         serviceAuthProviderClient       : '5.2.0',
