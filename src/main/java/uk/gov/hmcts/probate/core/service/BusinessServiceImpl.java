@@ -218,7 +218,7 @@ public class BusinessServiceImpl implements BusinessService {
                         + " " + grantOfRepresentationData.getDeceasedSurname())
                 .email(grantOfRepresentationData.getPrimaryApplicantEmailAddress())
                 .citizenResponse(grantOfRepresentationData.getCitizenResponse())
-                .fileName(getDocumentNames(grantOfRepresentationData.getBoDocumentsUploaded()))
+                .fileName(getDocumentNames(grantOfRepresentationData.getCitizenDocumentsUploaded()))
                 .expectedResponseDate(grantOfRepresentationData.getExpectedResponseDate())
                 .build();
         if (Boolean.FALSE.equals(grantOfRepresentationData.getDocumentUploadIssue())

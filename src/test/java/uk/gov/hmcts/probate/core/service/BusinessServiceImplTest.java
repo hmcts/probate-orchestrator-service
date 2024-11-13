@@ -103,7 +103,7 @@ public class BusinessServiceImplTest {
         List<CollectionMember<UploadDocument>> documents = new ArrayList();
         documents.add(CollectionMember.<UploadDocument>builder().value(UploadDocument.builder()
                 .documentLink(DocumentLink.builder().documentFilename("fileName.pdf").build()).build()).build());
-        when(mockGrantOfRepresentationData.getBoDocumentsUploaded()).thenReturn(documents);
+        when(mockGrantOfRepresentationData.getCitizenDocumentsUploaded()).thenReturn(documents);
         when(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(anyString()))
                 .thenReturn(ExecutorApplying.builder().applyingExecutorName("Test Executor").build());
         when(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress()).thenReturn(emailaddress);
