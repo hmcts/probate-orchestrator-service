@@ -221,6 +221,7 @@ public class BusinessServiceImpl implements BusinessService {
                 .fileName(getDocumentNames(grantOfRepresentationData.getCitizenDocumentsUploaded()))
                 .expectedResponseDate(grantOfRepresentationData.getExpectedResponseDate())
                 .build();
+        log.info("Document notification: {}", documentNotification);
         if (Boolean.FALSE.equals(grantOfRepresentationData.getDocumentUploadIssue())
                 && Boolean.TRUE.equals(grantOfRepresentationData.getLanguagePreferenceWelsh())) {
             businessServiceApi.documentUploadBilingual(documentNotification);
@@ -230,6 +231,7 @@ public class BusinessServiceImpl implements BusinessService {
                 && Boolean.TRUE.equals(grantOfRepresentationData.getDocumentUploadIssue())) {
             businessServiceApi.documentUploadIssueBilingual(documentNotification);
         } else if (Boolean.TRUE.equals(grantOfRepresentationData.getDocumentUploadIssue())) {
+            log.info("Call to BS to send upload issue email: {}", formDataId);
             businessServiceApi.documentUploadIssue(documentNotification);
         }
     }
