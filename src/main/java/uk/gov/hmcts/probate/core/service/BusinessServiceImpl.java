@@ -38,6 +38,7 @@ public class BusinessServiceImpl implements BusinessService {
     private final SecurityUtils securityUtils;
     private final ExecutorApplyingToInvitationMapper executorApplyingToInvitationMapper;
     private static final String RESPONSE_DATE_FORMAT = "yyyy-MM-dd";
+    private static final String FALSE = "false";
 
 
     @Override
@@ -232,10 +233,12 @@ public class BusinessServiceImpl implements BusinessService {
         } else if (Boolean.TRUE.equals(grantOfRepresentationData.getLanguagePreferenceWelsh())
                 && Boolean.TRUE.equals(grantOfRepresentationData.getDocumentUploadIssue())) {
             businessServiceApi.documentUploadIssueBilingual(documentNotification);
-        } else if (Boolean.TRUE.equals(grantOfRepresentationData.getDocumentUploadIssue())) {
+        } else if (Boolean.TRUE.equals(grantOfRepresentationData.getDocumentUploadIssue())
+                || FALSE.equals(citizenResponseCheckbox) ) {
             log.info("Call to BS to send upload issue email: {}", formDataId);
             businessServiceApi.documentUploadIssue(documentNotification);
         }
+
     }
 
     private List<String> getDocumentNames(List<CollectionMember<UploadDocument>> citizenDocuments) {
