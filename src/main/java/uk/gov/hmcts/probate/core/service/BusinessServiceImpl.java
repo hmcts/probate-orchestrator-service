@@ -231,7 +231,8 @@ public class BusinessServiceImpl implements BusinessService {
         } else if (Boolean.FALSE.equals(grantOfRepresentationData.getDocumentUploadIssue())) {
             businessServiceApi.documentUpload(documentNotification);
         } else if (Boolean.TRUE.equals(grantOfRepresentationData.getLanguagePreferenceWelsh())
-                && Boolean.TRUE.equals(grantOfRepresentationData.getDocumentUploadIssue())) {
+                && (Boolean.TRUE.equals(grantOfRepresentationData.getDocumentUploadIssue())
+                || FALSE.equals(citizenResponseCheckbox))) {
             businessServiceApi.documentUploadIssueBilingual(documentNotification);
         } else if (Boolean.TRUE.equals(grantOfRepresentationData.getDocumentUploadIssue())
                 || FALSE.equals(citizenResponseCheckbox)) {
