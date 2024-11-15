@@ -234,7 +234,7 @@ public class BusinessServiceImpl implements BusinessService {
                 && Boolean.TRUE.equals(grantOfRepresentationData.getDocumentUploadIssue())) {
             businessServiceApi.documentUploadIssueBilingual(documentNotification);
         } else if (Boolean.TRUE.equals(grantOfRepresentationData.getDocumentUploadIssue())
-                || FALSE.equals(citizenResponseCheckbox) ) {
+                || FALSE.equals(citizenResponseCheckbox)) {
             log.info("Call to BS to send upload issue email: {}", formDataId);
             businessServiceApi.documentUploadIssue(documentNotification);
         }
