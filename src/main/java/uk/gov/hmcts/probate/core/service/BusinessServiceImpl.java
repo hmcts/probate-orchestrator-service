@@ -82,7 +82,6 @@ public class BusinessServiceImpl implements BusinessService {
                 invitation.getLeadExecutorName(), invitation.getExecutorName());
         log.info("Updating case with invitation details");
         updateCaseData(probateCaseDetails, invitation.getFormdataId());
-        log.info("Invitation data saved with id: {} ", invitationId);
         return invitationId;
     }
 
@@ -108,9 +107,6 @@ public class BusinessServiceImpl implements BusinessService {
                     grantOfRepresentationData.setInvitationDetailsForExecutorApplying(invitation.getEmail(),
                             invitation.getInviteId(),
                             invitation.getLeadExecutorName(), invitation.getExecutorName());
-                    log.info("Invitation data saved with id: {} ", invitation.getInviteId());
-                    log.info("Invitation data being saved email: {}, lead exec name: {}, exec name {}",
-                        invitation.getEmail(), invitation.getLeadExecutorName(), invitation.getExecutorName());
                 } else {
                     if (isBilingual) {
                         businessServiceApi.inviteBilingual(invitation.getInviteId(), invitation, sessionId);
@@ -160,8 +156,8 @@ public class BusinessServiceImpl implements BusinessService {
         ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(formdataId);
         GrantOfRepresentationData grantOfRepresentationData =
                 (GrantOfRepresentationData) probateCaseDetails.getCaseData();
+        // To the best of my understanding formdataId here is the case reference, thus not sensitive
         log.info("Got the case details now set agreed flag: {}", formdataId);
-        log.info("Updating case with  agreed flag for {}", invitation.getInviteId());
         grantOfRepresentationData.setInvitationAgreedFlagForExecutorApplying(invitation.getInviteId(),
                 invitation.getAgreed());
         updateCaseDataAsCaseWorker(probateCaseDetails, formdataId);
@@ -221,9 +217,6 @@ public class BusinessServiceImpl implements BusinessService {
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
 
-        log.info("Service authorisation for getInviteData: {}", serviceAuthorisation);
-        log.info("Authorisation for getInviteData: {}", authorisation);
-        log.info("Invite id: {}", inviteId);
         ProbateCaseDetails probateCaseDetails = submitServiceApi.getCaseByInvitationId(authorisation,
                 serviceAuthorisation, inviteId, CaseType.GRANT_OF_REPRESENTATION.name());
         GrantOfRepresentationData grantOfRepresentationData =
