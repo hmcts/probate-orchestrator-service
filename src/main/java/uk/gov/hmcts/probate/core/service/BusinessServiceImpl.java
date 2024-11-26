@@ -217,8 +217,6 @@ public class BusinessServiceImpl implements BusinessService {
                 .fileName(getDocumentNames(grantOfRepresentationData.getCitizenDocumentsUploaded()))
                 .expectedResponseDate(grantOfRepresentationData.getExpectedResponseDate())
                 .build();
-        log.info("language preference upload issue: {} {}", grantOfRepresentationData.getLanguagePreferenceWelsh(),
-                grantOfRepresentationData.getDocumentUploadIssue());
         if (Boolean.FALSE.equals(grantOfRepresentationData.getDocumentUploadIssue())
                 && Boolean.TRUE.equals(grantOfRepresentationData.getLanguagePreferenceWelsh())) {
             businessServiceApi.documentUploadBilingual(documentNotification);
