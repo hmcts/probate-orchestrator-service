@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -218,7 +217,6 @@ public class BusinessServiceImpl implements BusinessService {
                 .fileName(getDocumentNames(grantOfRepresentationData.getCitizenDocumentsUploaded()))
                 .expectedResponseDate(grantOfRepresentationData.getExpectedResponseDate())
                 .build();
-        log.info("Document notification: {}", documentNotification);
         log.info("language preference upload issue: {} {}", grantOfRepresentationData.getLanguagePreferenceWelsh(),
                 grantOfRepresentationData.getDocumentUploadIssue());
         if (Boolean.FALSE.equals(grantOfRepresentationData.getDocumentUploadIssue())
@@ -232,7 +230,6 @@ public class BusinessServiceImpl implements BusinessService {
             businessServiceApi.documentUploadIssueBilingual(documentNotification);
         } else if (Boolean.TRUE.equals(grantOfRepresentationData.getDocumentUploadIssue())
                 || FALSE.equals(citizenResponseCheckbox)) {
-            log.info("Call to BS to send upload issue email: {}", formDataId);
             businessServiceApi.documentUploadIssue(documentNotification);
         }
 

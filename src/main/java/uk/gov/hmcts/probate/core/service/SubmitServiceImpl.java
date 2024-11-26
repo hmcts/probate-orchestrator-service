@@ -160,8 +160,6 @@ public class SubmitServiceImpl implements SubmitService {
             form.getEventDescription(),
             ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
         );
-        //TODO need to remove
-        log.info("case ref: {} , ProbateCaseDetails: {}", identifier, probateCaseDetails.getCaseData());
         return mapFromCase(formMapper, probateCaseDetails);
     }
 
@@ -247,7 +245,6 @@ public class SubmitServiceImpl implements SubmitService {
 
         log.info("Update case for submission");
         updateCaseForSubmission(existingCase);
-        //TODO: PRO-5580 - Uncomment once applicationSubmittedDate has been re-added to the spreadsheet
 
         log.debug("calling create case in submitServiceApi");
         ProbateCaseDetails probateCaseDetails = submitServiceApi.createCase(

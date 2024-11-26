@@ -24,7 +24,6 @@ import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 
 import jakarta.validation.Valid;
-
 import java.util.List;
 
 
@@ -98,9 +97,8 @@ public class DocumentsController {
 
     @PostMapping(path = DOCUMENT_UPLOAD_NOTIFICATION_ENDPOINT + "/{formdataId}/{citizenResponseCheckbox}")
     public void uploadNotification(@PathVariable("formdataId") String formdataId,
-                                                   @PathVariable("citizenResponseCheckbox")
-                                                   String citizenResponseCheckbox) {
-        log.info("Sending notification for document upload to Business service");
+                                   @PathVariable("citizenResponseCheckbox") String citizenResponseCheckbox) {
+        log.info("Sending notification for document upload to Business service for case : {}", formdataId);
         businessService.documentUploadNotification(formdataId,citizenResponseCheckbox);
     }
 
