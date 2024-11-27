@@ -16,7 +16,7 @@ services:
     - idam-api
 
   shared-database:
-    image: postgres:17.1-alpine
+    image: postgres:17.2-alpine
     container_name: shared-database
     ports:
     - 5342:5432
