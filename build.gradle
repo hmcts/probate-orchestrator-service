@@ -161,7 +161,7 @@ tasks.withType(Test) {
 
 def versions = [
         authCheckerLib                  : '3.0.1',
-        commonsIO                       : '2.17.0',
+        commonsIO                       : '2.18.0',
         commonMark                      : '0.17.0',
         feign                           : '13.5',
         hmctsJavaLogging                : '6.1.7',
