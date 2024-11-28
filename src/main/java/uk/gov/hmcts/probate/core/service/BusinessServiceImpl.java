@@ -11,14 +11,18 @@ import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
+import uk.gov.hmcts.reform.probate.model.cases.UploadDocument;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
+import uk.gov.hmcts.reform.probate.model.documents.DocumentNotification;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.ExecutorNotification;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +36,8 @@ public class BusinessServiceImpl implements BusinessService {
     private final SubmitServiceApi submitServiceApi;
     private final SecurityUtils securityUtils;
     private final ExecutorApplyingToInvitationMapper executorApplyingToInvitationMapper;
+    private static final String RESPONSE_DATE_FORMAT = "yyyy-MM-dd";
+    private static final String FALSE = "false";
 
 
     @Override
@@ -187,6 +193,61 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
+    public void documentUploadNotification(String formDataId, String citizenResponseCheckbox) {
+        log.info("Setting response submitted date and sending document upload notification");
+        ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(formDataId);
+        GrantOfRepresentationData grantOfRepresentationData =
+                (GrantOfRepresentationData) probateCaseDetails.getCaseData();
+        log.info("Got the case details now response submitted date: {}", formDataId);
+        grantOfRepresentationData.setExpectedResponseDate(getResponseSubmittedDate());
+        grantOfRepresentationData.setCitizenResponseCheckbox(Boolean.parseBoolean(citizenResponseCheckbox));
+        probateCaseDetails.setCaseData(grantOfRepresentationData);
+        if (Boolean.TRUE.equals(Boolean.parseBoolean(citizenResponseCheckbox))) {
+            updateCaseData(probateCaseDetails, formDataId);
+        }
+        DocumentNotification documentNotification = DocumentNotification.builder()
+                .applicantName(grantOfRepresentationData.getPrimaryApplicantForenames()
+                        + " " + grantOfRepresentationData.getPrimaryApplicantSurname())
+                .ccdReference(formDataId)
+                .deceasedDod(grantOfRepresentationData.getDeceasedDateOfDeath().toString())
+                .deceasedName(grantOfRepresentationData.getDeceasedForenames()
+                        + " " + grantOfRepresentationData.getDeceasedSurname())
+                .email(grantOfRepresentationData.getPrimaryApplicantEmailAddress())
+                .citizenResponse(grantOfRepresentationData.getCitizenResponse())
+                .fileName(getDocumentNames(grantOfRepresentationData.getCitizenDocumentsUploaded()))
+                .expectedResponseDate(grantOfRepresentationData.getExpectedResponseDate())
+                .build();
+        if (Boolean.FALSE.equals(grantOfRepresentationData.getDocumentUploadIssue())
+                && Boolean.TRUE.equals(grantOfRepresentationData.getLanguagePreferenceWelsh())) {
+            businessServiceApi.documentUploadBilingual(documentNotification);
+        } else if (Boolean.FALSE.equals(grantOfRepresentationData.getDocumentUploadIssue())) {
+            businessServiceApi.documentUpload(documentNotification);
+        } else if (Boolean.TRUE.equals(grantOfRepresentationData.getLanguagePreferenceWelsh())
+                && (Boolean.TRUE.equals(grantOfRepresentationData.getDocumentUploadIssue())
+                || FALSE.equals(citizenResponseCheckbox))) {
+            businessServiceApi.documentUploadIssueBilingual(documentNotification);
+        } else if (Boolean.TRUE.equals(grantOfRepresentationData.getDocumentUploadIssue())
+                || FALSE.equals(citizenResponseCheckbox)) {
+            businessServiceApi.documentUploadIssue(documentNotification);
+        }
+
+    }
+
+    private List<String> getDocumentNames(List<CollectionMember<UploadDocument>> citizenDocuments) {
+        if (citizenDocuments == null) {
+            return new ArrayList<>();
+        } else {
+            return citizenDocuments.stream().map(citizenDocument -> citizenDocument.getValue().getDocumentLink()
+                            .getDocumentFilename()).toList();
+        }
+    }
+
+    private String getResponseSubmittedDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(RESPONSE_DATE_FORMAT);
+        return LocalDate.now().plusWeeks(7).format(formatter);
+    }
+
+    @Override
     public void resetAgreedFlags(String formdataId) {
         log.info("Reset agreed flags");
         ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(formdataId);
@@ -288,5 +349,4 @@ public class BusinessServiceImpl implements BusinessService {
         submitServiceApi.updateCaseAsCaseWorker(authorisation, serviceAuthorisation,
                 formdataId, probateCaseDetails);
     }
-
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -37,6 +38,7 @@ public class DocumentsController {
     protected static final String LEGAL_DECLARATION_ENDPOINT = "/generate/legalDeclaration";
     protected static final String BULK_SCAN_COVERSHEET_ENDPOINT = "/generate/bulkScanCoversheet";
     protected static final String DOCUMENT_UPLOAD_ENDPOINT = "/upload";
+    protected static final String DOCUMENT_UPLOAD_NOTIFICATION_ENDPOINT = "/notification";
     protected static final String DOCUMENT_DELETE_ENDPOINT = "/delete/{documentId}";
 
     private final BusinessService businessService;
@@ -91,6 +93,13 @@ public class DocumentsController {
         log.info("Uploading document to backoffice");
 
         return new ResponseEntity<>(backOfficeService.uploadDocument(authorizationToken, files), HttpStatus.OK);
+    }
+
+    @PostMapping(path = DOCUMENT_UPLOAD_NOTIFICATION_ENDPOINT + "/{formdataId}/{citizenResponseCheckbox}")
+    public void uploadNotification(@PathVariable("formdataId") String formdataId,
+                                   @PathVariable("citizenResponseCheckbox") String citizenResponseCheckbox) {
+        log.info("Sending notification for document upload to Business service for case : {}", formdataId);
+        businessService.documentUploadNotification(formdataId,citizenResponseCheckbox);
     }
 
 }

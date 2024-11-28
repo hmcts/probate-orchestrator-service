@@ -16,16 +16,21 @@ import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.CaseInfo;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
+import uk.gov.hmcts.reform.probate.model.cases.DocumentLink;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
+import uk.gov.hmcts.reform.probate.model.cases.UploadDocument;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
+import uk.gov.hmcts.reform.probate.model.documents.DocumentNotification;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.ExecutorNotification;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -70,11 +75,14 @@ public class BusinessServiceImplTest {
     private byte[] pdfExample;
 
     private ObjectMapper objectMapper;
+    private static final String RESPONSE_DATE_FORMAT = "yyyy-MM-dd";
+
 
 
     @BeforeEach
     public void setUp() throws Exception {
         objectMapper = new ObjectMapper();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(RESPONSE_DATE_FORMAT);
 
         when(securityUtils.getAuthorisation()).thenReturn(AUTHORIZATION);
         when(securityUtils.getServiceAuthorisation()).thenReturn(SERVICE_AUTHORIZATION);
@@ -89,6 +97,13 @@ public class BusinessServiceImplTest {
         when(mockGrantOfRepresentationData.getPrimaryApplicantSurname()).thenReturn("Testerson");
         when(mockGrantOfRepresentationData.getDeceasedForenames()).thenReturn("Test");
         when(mockGrantOfRepresentationData.getDeceasedSurname()).thenReturn("Testerson");
+        when(mockGrantOfRepresentationData.getCitizenResponse()).thenReturn("response");
+        when(mockGrantOfRepresentationData.getExpectedResponseDate()).thenReturn(LocalDate.now()
+                .plusWeeks(7).format(formatter));
+        List<CollectionMember<UploadDocument>> documents = new ArrayList();
+        documents.add(CollectionMember.<UploadDocument>builder().value(UploadDocument.builder()
+                .documentLink(DocumentLink.builder().documentFilename("fileName.pdf").build()).build()).build());
+        when(mockGrantOfRepresentationData.getCitizenDocumentsUploaded()).thenReturn(documents);
         when(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(anyString()))
                 .thenReturn(ExecutorApplying.builder().applyingExecutorName("Test Executor").build());
         when(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress()).thenReturn(emailaddress);
@@ -388,6 +403,100 @@ public class BusinessServiceImplTest {
                 .setInvitationAgreedFlagForExecutorApplying(invitationId, invitation.getAgreed());
         verify(submitServiceApi)
                 .updateCaseAsCaseWorker(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, mockProbateCaseDetails);
+    }
+
+    @Test
+    void shouldSendEmailForDocumentUploadSuccessful() {
+        when(mockGrantOfRepresentationData.getDocumentUploadIssue()).thenReturn(Boolean.FALSE);
+        when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.FALSE);
+        DocumentNotification documentNotification = DocumentNotification.builder()
+                .ccdReference(formdataId)
+                .applicantName(mockGrantOfRepresentationData.getPrimaryApplicantForenames()
+                        + " " + mockGrantOfRepresentationData.getPrimaryApplicantSurname())
+                .deceasedName(mockGrantOfRepresentationData.getDeceasedForenames()
+                        + " " + mockGrantOfRepresentationData.getDeceasedSurname())
+                .deceasedDod(mockGrantOfRepresentationData.getDeceasedDateOfDeath().toString())
+                .email(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress())
+                .fileName(List.of("fileName.pdf"))
+                .citizenResponse(mockGrantOfRepresentationData.getCitizenResponse())
+                .expectedResponseDate(mockGrantOfRepresentationData.getExpectedResponseDate())
+                .build();
+        businessService.documentUploadNotification(formdataId, "true");
+        verifyGetCaseCalls();
+        verify(businessServiceApi).documentUpload(documentNotification);
+        verify(submitServiceApi)
+                .saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, EVENT_DESCRIPTION, mockProbateCaseDetails);
+    }
+
+    @Test
+    void shouldSendEmailForWelshDocumentUploadSuccessful() {
+        when(mockGrantOfRepresentationData.getDocumentUploadIssue()).thenReturn(Boolean.FALSE);
+        when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.TRUE);
+        DocumentNotification documentNotification = DocumentNotification.builder()
+                .ccdReference(formdataId)
+                .applicantName(mockGrantOfRepresentationData.getPrimaryApplicantForenames()
+                        + " " + mockGrantOfRepresentationData.getPrimaryApplicantSurname())
+                .deceasedName(mockGrantOfRepresentationData.getDeceasedForenames()
+                        + " " + mockGrantOfRepresentationData.getDeceasedSurname())
+                .deceasedDod(mockGrantOfRepresentationData.getDeceasedDateOfDeath().toString())
+                .email(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress())
+                .fileName(List.of("fileName.pdf"))
+                .citizenResponse(mockGrantOfRepresentationData.getCitizenResponse())
+                .expectedResponseDate(mockGrantOfRepresentationData.getExpectedResponseDate()
+                        .toString())
+                .build();
+        businessService.documentUploadNotification(formdataId, "true");
+        verifyGetCaseCalls();
+        verify(businessServiceApi).documentUploadBilingual(documentNotification);
+        verify(submitServiceApi)
+                .saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, EVENT_DESCRIPTION, mockProbateCaseDetails);
+    }
+
+    @Test
+    void shouldSendEmailForDocumentUploadIssue() {
+        when(mockGrantOfRepresentationData.getDocumentUploadIssue()).thenReturn(Boolean.TRUE);
+        when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.FALSE);
+        DocumentNotification documentNotification = DocumentNotification.builder()
+                .ccdReference(formdataId)
+                .applicantName(mockGrantOfRepresentationData.getPrimaryApplicantForenames()
+                        + " " + mockGrantOfRepresentationData.getPrimaryApplicantSurname())
+                .deceasedName(mockGrantOfRepresentationData.getDeceasedForenames()
+                        + " " + mockGrantOfRepresentationData.getDeceasedSurname())
+                .deceasedDod(mockGrantOfRepresentationData.getDeceasedDateOfDeath().toString())
+                .email(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress())
+                .fileName(List.of("fileName.pdf"))
+                .citizenResponse(mockGrantOfRepresentationData.getCitizenResponse())
+                .expectedResponseDate(mockGrantOfRepresentationData.getExpectedResponseDate()
+                        .toString())
+                .build();
+        businessService.documentUploadNotification(formdataId, "true");
+        verifyGetCaseCalls();
+        verify(businessServiceApi).documentUploadIssue(documentNotification);
+        verify(submitServiceApi)
+                .saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, EVENT_DESCRIPTION, mockProbateCaseDetails);
+    }
+
+    @Test
+    void shouldSendEmailForWelshDocumentUploadIssue() {
+        when(mockGrantOfRepresentationData.getDocumentUploadIssue()).thenReturn(Boolean.TRUE);
+        when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.TRUE);
+        DocumentNotification documentNotification = DocumentNotification.builder()
+                .ccdReference(formdataId)
+                .applicantName(mockGrantOfRepresentationData.getPrimaryApplicantForenames()
+                        + " " + mockGrantOfRepresentationData.getPrimaryApplicantSurname())
+                .deceasedName(mockGrantOfRepresentationData.getDeceasedForenames()
+                        + " " + mockGrantOfRepresentationData.getDeceasedSurname())
+                .deceasedDod(mockGrantOfRepresentationData.getDeceasedDateOfDeath().toString())
+                .email(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress())
+                .fileName(List.of("fileName.pdf"))
+                .citizenResponse(mockGrantOfRepresentationData.getCitizenResponse())
+                .expectedResponseDate(mockGrantOfRepresentationData.getExpectedResponseDate())
+                .build();
+        businessService.documentUploadNotification(formdataId, "true");
+        verifyGetCaseCalls();
+        verify(businessServiceApi).documentUploadIssueBilingual(documentNotification);
+        verify(submitServiceApi)
+                .saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, EVENT_DESCRIPTION, mockProbateCaseDetails);
     }
 
     @Test

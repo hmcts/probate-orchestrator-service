@@ -153,7 +153,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "legalDeclarationJson", source = "legalDeclaration", qualifiedBy = {FromMap.class})
     @Mapping(target = "checkAnswersSummaryJson", source = "checkAnswersSummary", qualifiedBy = {FromMap.class})
     @Mapping(target = "payments", source = "payment")
-    @Mapping(target = "boDocumentsUploaded", source = "documents", qualifiedBy = {ToUploadDocs.class})
+    @Mapping(target = "citizenDocumentsUploaded", source = "documents", qualifiedBy = {ToUploadDocs.class})
     @Mapping(target = "statementOfTruthDocument", source = "statementOfTruthDocument", qualifiedBy = {
         ToDocumentLink.class})
     @Mapping(target = "languagePreferenceWelsh", source = "language.bilingual")
@@ -164,6 +164,11 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
         + "DeathCertificate.fromString(form.getDeceased().getDeathCertificate()) : null)")
     @Mapping(target = "deceasedForeignDeathCertInEnglish", source = "deceased.englishForeignDeathCert")
     @Mapping(target = "deceasedForeignDeathCertTranslation", source = "deceased.foreignDeathCertTranslation")
+    @Mapping(target = "citizenResponse", source = "provideinformation.citizenResponse")
+    @Mapping(target = "documentUploadIssue", source = "provideinformation.documentUploadIssue")
+    @Mapping(target = "isSaveAndClose", source = "provideinformation.isSaveAndClose")
+    @Mapping(target = "citizenResponseCheckbox", source = "reviewresponse.citizenResponseCheckbox")
+    @Mapping(target = "expectedResponseDate", source = "expectedResponseDate")
     GrantOfRepresentationData toCaseData(PaForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.PA)")
@@ -235,12 +240,19 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "checkAnswersSummary", source = "checkAnswersSummaryJson", qualifiedBy = {ToMap.class})
     @Mapping(target = "payment", source = "payments")
     @Mapping(target = "payments", source = "payments", qualifiedBy = {FromCollectionMember.class})
-    @Mapping(target = "documents", source = "boDocumentsUploaded", qualifiedBy = {FromUploadDocs.class})
+    @Mapping(target = "documents", source = "citizenDocumentsUploaded", qualifiedBy = {FromUploadDocs.class})
     @Mapping(target = "iht.uniqueProbateCodeId", source = "uniqueProbateCodeId")
     @Mapping(target = "iht.hmrcLetterId", source = "hmrcLetterId")
     @Mapping(target = "statementOfTruthDocument", source = "statementOfTruthDocument", qualifiedBy = {
         FromDocumentLink.class})
     @Mapping(target = "documentsReceivedNotificationSent", source = "documentsReceivedNotificationSent")
+    @Mapping(target = "provideinformation.citizenResponse", source = "citizenResponse")
+    @Mapping(target = "provideinformation.documentUploadIssue", source = "documentUploadIssue")
+    @Mapping(target = "provideinformation.isSaveAndClose", source = "isSaveAndClose")
+    @Mapping(target = "reviewresponse.citizenResponseCheckbox", source = "citizenResponseCheckbox")
+    @Mapping(target = "expectedResponseDate", source = "expectedResponseDate")
+    @Mapping(target = "informationNeeded", source = "informationNeeded")
+    @Mapping(target = "informationNeededByPost", source = "informationNeededByPost")
     @InheritInverseConfiguration
     PaForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 }
