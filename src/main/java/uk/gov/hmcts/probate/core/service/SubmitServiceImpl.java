@@ -245,7 +245,6 @@ public class SubmitServiceImpl implements SubmitService {
 
         log.info("Update case for submission");
         updateCaseForSubmission(existingCase);
-        //TODO: PRO-5580 - Uncomment once applicationSubmittedDate has been re-added to the spreadsheet
 
         log.debug("calling create case in submitServiceApi");
         ProbateCaseDetails probateCaseDetails = submitServiceApi.createCase(

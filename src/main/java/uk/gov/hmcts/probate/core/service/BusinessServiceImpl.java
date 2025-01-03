@@ -11,14 +11,18 @@ import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
+import uk.gov.hmcts.reform.probate.model.cases.UploadDocument;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
+import uk.gov.hmcts.reform.probate.model.documents.DocumentNotification;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.ExecutorNotification;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +36,8 @@ public class BusinessServiceImpl implements BusinessService {
     private final SubmitServiceApi submitServiceApi;
     private final SecurityUtils securityUtils;
     private final ExecutorApplyingToInvitationMapper executorApplyingToInvitationMapper;
+    private static final String RESPONSE_DATE_FORMAT = "yyyy-MM-dd";
+    private static final String FALSE = "false";
 
 
     @Override
@@ -82,7 +88,6 @@ public class BusinessServiceImpl implements BusinessService {
                 invitation.getLeadExecutorName(), invitation.getExecutorName());
         log.info("Updating case with invitation details");
         updateCaseData(probateCaseDetails, invitation.getFormdataId());
-        log.info("Invitation data saved with id: {} ", invitationId);
         return invitationId;
     }
 
@@ -108,9 +113,6 @@ public class BusinessServiceImpl implements BusinessService {
                     grantOfRepresentationData.setInvitationDetailsForExecutorApplying(invitation.getEmail(),
                             invitation.getInviteId(),
                             invitation.getLeadExecutorName(), invitation.getExecutorName());
-                    log.info("Invitation data saved with id: {} ", invitation.getInviteId());
-                    log.info("Invitation data being saved email: {}, lead exec name: {}, exec name {}",
-                        invitation.getEmail(), invitation.getLeadExecutorName(), invitation.getExecutorName());
                 } else {
                     if (isBilingual) {
                         businessServiceApi.inviteBilingual(invitation.getInviteId(), invitation, sessionId);
@@ -160,8 +162,8 @@ public class BusinessServiceImpl implements BusinessService {
         ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(formdataId);
         GrantOfRepresentationData grantOfRepresentationData =
                 (GrantOfRepresentationData) probateCaseDetails.getCaseData();
+        // To the best of my understanding formdataId here is the case reference, thus not sensitive
         log.info("Got the case details now set agreed flag: {}", formdataId);
-        log.info("Updating case with  agreed flag for {}", invitation.getInviteId());
         grantOfRepresentationData.setInvitationAgreedFlagForExecutorApplying(invitation.getInviteId(),
                 invitation.getAgreed());
         updateCaseDataAsCaseWorker(probateCaseDetails, formdataId);
@@ -188,6 +190,61 @@ public class BusinessServiceImpl implements BusinessService {
             businessServiceApi.signedExec(executorNotification);
         }
         return invitation.getInviteId();
+    }
+
+    @Override
+    public void documentUploadNotification(String formDataId, String citizenResponseCheckbox) {
+        log.info("Setting response submitted date and sending document upload notification");
+        ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(formDataId);
+        GrantOfRepresentationData grantOfRepresentationData =
+                (GrantOfRepresentationData) probateCaseDetails.getCaseData();
+        log.info("Got the case details now response submitted date: {}", formDataId);
+        grantOfRepresentationData.setExpectedResponseDate(getResponseSubmittedDate());
+        grantOfRepresentationData.setCitizenResponseCheckbox(Boolean.parseBoolean(citizenResponseCheckbox));
+        probateCaseDetails.setCaseData(grantOfRepresentationData);
+        if (Boolean.TRUE.equals(Boolean.parseBoolean(citizenResponseCheckbox))) {
+            updateCaseData(probateCaseDetails, formDataId);
+        }
+        DocumentNotification documentNotification = DocumentNotification.builder()
+                .applicantName(grantOfRepresentationData.getPrimaryApplicantForenames()
+                        + " " + grantOfRepresentationData.getPrimaryApplicantSurname())
+                .ccdReference(formDataId)
+                .deceasedDod(grantOfRepresentationData.getDeceasedDateOfDeath().toString())
+                .deceasedName(grantOfRepresentationData.getDeceasedForenames()
+                        + " " + grantOfRepresentationData.getDeceasedSurname())
+                .email(grantOfRepresentationData.getPrimaryApplicantEmailAddress())
+                .citizenResponse(grantOfRepresentationData.getCitizenResponse())
+                .fileName(getDocumentNames(grantOfRepresentationData.getCitizenDocumentsUploaded()))
+                .expectedResponseDate(grantOfRepresentationData.getExpectedResponseDate())
+                .build();
+        if (Boolean.FALSE.equals(grantOfRepresentationData.getDocumentUploadIssue())
+                && Boolean.TRUE.equals(grantOfRepresentationData.getLanguagePreferenceWelsh())) {
+            businessServiceApi.documentUploadBilingual(documentNotification);
+        } else if (Boolean.FALSE.equals(grantOfRepresentationData.getDocumentUploadIssue())) {
+            businessServiceApi.documentUpload(documentNotification);
+        } else if (Boolean.TRUE.equals(grantOfRepresentationData.getLanguagePreferenceWelsh())
+                && (Boolean.TRUE.equals(grantOfRepresentationData.getDocumentUploadIssue())
+                || FALSE.equals(citizenResponseCheckbox))) {
+            businessServiceApi.documentUploadIssueBilingual(documentNotification);
+        } else if (Boolean.TRUE.equals(grantOfRepresentationData.getDocumentUploadIssue())
+                || FALSE.equals(citizenResponseCheckbox)) {
+            businessServiceApi.documentUploadIssue(documentNotification);
+        }
+
+    }
+
+    private List<String> getDocumentNames(List<CollectionMember<UploadDocument>> citizenDocuments) {
+        if (citizenDocuments == null) {
+            return new ArrayList<>();
+        } else {
+            return citizenDocuments.stream().map(citizenDocument -> citizenDocument.getValue().getDocumentLink()
+                            .getDocumentFilename()).toList();
+        }
+    }
+
+    private String getResponseSubmittedDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(RESPONSE_DATE_FORMAT);
+        return LocalDate.now().plusWeeks(7).format(formatter);
     }
 
     @Override
@@ -221,9 +278,6 @@ public class BusinessServiceImpl implements BusinessService {
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
 
-        log.info("Service authorisation for getInviteData: {}", serviceAuthorisation);
-        log.info("Authorisation for getInviteData: {}", authorisation);
-        log.info("Invite id: {}", inviteId);
         ProbateCaseDetails probateCaseDetails = submitServiceApi.getCaseByInvitationId(authorisation,
                 serviceAuthorisation, inviteId, CaseType.GRANT_OF_REPRESENTATION.name());
         GrantOfRepresentationData grantOfRepresentationData =
@@ -295,5 +349,4 @@ public class BusinessServiceImpl implements BusinessService {
         submitServiceApi.updateCaseAsCaseWorker(authorisation, serviceAuthorisation,
                 formdataId, probateCaseDetails);
     }
-
 }

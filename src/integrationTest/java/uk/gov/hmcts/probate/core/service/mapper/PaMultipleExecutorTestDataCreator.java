@@ -37,7 +37,9 @@ import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
 import uk.gov.hmcts.reform.probate.model.forms.Language;
 import uk.gov.hmcts.reform.probate.model.forms.LegalStatementHolder;
 import uk.gov.hmcts.reform.probate.model.forms.Payment;
+import uk.gov.hmcts.reform.probate.model.forms.ProvideInformation;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
+import uk.gov.hmcts.reform.probate.model.forms.ReviewResponse;
 import uk.gov.hmcts.reform.probate.model.forms.Will;
 import uk.gov.hmcts.reform.probate.model.forms.pa.Executor;
 import uk.gov.hmcts.reform.probate.model.forms.pa.Executors;
@@ -55,6 +57,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
+
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 
 public final class PaMultipleExecutorTestDataCreator {
 
@@ -201,6 +206,8 @@ public final class PaMultipleExecutorTestDataCreator {
         "[{\"formatted_address\":\"Adam & Eve 81 Petty France London SW1H 9EX\"}]";
 
     private static String APPLICANT_ADDRESSES = "[{\"formatted_address\":\"102 Petty France London SW1H 9EX\"}]";
+
+    private static final String CITIZEN_RESPONSE = "response";
 
     private PaMultipleExecutorTestDataCreator() {
 
@@ -400,6 +407,10 @@ public final class PaMultipleExecutorTestDataCreator {
                     .url(SOT_DOCUMENT_URL)
                     .build()
             )
+            .provideinformation(ProvideInformation.builder()
+                    .citizenResponse(CITIZEN_RESPONSE)
+                    .documentUploadIssue(FALSE).build())
+            .reviewresponse(ReviewResponse.builder().citizenResponseCheckbox(TRUE).build())
             .legalDeclaration(objectMapper.readValue(LEGAL_DECLARATION_JSON, new TypeReference<Map<String, Object>>() {
             }))
             .checkAnswersSummary(objectMapper.readValue(CHECK_ANSWERS_JSON, new TypeReference<Map<String, Object>>() {
@@ -557,7 +568,7 @@ public final class PaMultipleExecutorTestDataCreator {
                 .total(FEES_TOTAL.multiply(BigDecimal.valueOf(100)).longValue())
                 .build()
             )
-            .boDocumentsUploaded(Lists.newArrayList(
+            .citizenDocumentsUploaded(Lists.newArrayList(
                 CollectionMember.<UploadDocument>builder()
                     .value(UploadDocument.builder()
                         .documentLink(DocumentLink.builder()
@@ -566,7 +577,7 @@ public final class PaMultipleExecutorTestDataCreator {
                             .documentBinaryUrl(DOCUMENT_URL + "/binary")
                             .build())
                         .comment(DOCUMENT_FILENAME)
-                        .documentType(DocumentType.DEATH_CERT)
+                        .documentType(DocumentType.CITIZEN_HUB_UPLOAD)
                         .build())
                     .build()
 
@@ -576,6 +587,9 @@ public final class PaMultipleExecutorTestDataCreator {
                 .documentUrl(SOT_DOCUMENT_URL)
                 .documentFilename(SOT_DOCUMENT_FILENAME)
                 .build())
+            .citizenResponse(CITIZEN_RESPONSE)
+            .documentUploadIssue(FALSE)
+            .citizenResponseCheckbox(TRUE)
             .legalDeclarationJson(LEGAL_DECLARATION_JSON)
             .checkAnswersSummaryJson(CHECK_ANSWERS_JSON)
             .deceasedAddresses(DECEASED_ADDRESSES)
