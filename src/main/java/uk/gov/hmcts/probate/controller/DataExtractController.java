@@ -50,7 +50,6 @@ public class DataExtractController {
         return dataExtractService.initiateHmrcExtract(fromDate, toDate);
     }
 
-    @Scheduled(cron = "${cron.ironMountain.schedule}")
     @Operation(summary = "Initiate IronMountain data extract", description = "Will find cases for yesterdays date")
     @PostMapping(path = "/iron-mountain")
     public ResponseEntity initiateIronMountainExtract() {

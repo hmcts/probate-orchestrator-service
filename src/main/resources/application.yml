@@ -88,8 +88,6 @@ feign:
         loggerLevel: basic
 
 cron:
-  ironMountain:
-    schedule: "0 5 2 * * *"
   exela:
     schedule: "0 10 2 * * *"
   grantDelayed:
