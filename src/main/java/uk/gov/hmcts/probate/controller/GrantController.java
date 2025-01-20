@@ -26,7 +26,6 @@ public class GrantController {
     private final GrantDelayedNotifier grantDelayedNotifier;
     private final GrantAwaitingDocumentsNotifier grantAwaitingDocumentsNotifier;
 
-    @Scheduled(cron = "${cron.grantDelayed.schedule}")
     @Operation(summary = "Notify grants delayed")
     @PostMapping(path = "/delay-notification")
     public ResponseEntity initiateGrantDelayedSchedule() {
