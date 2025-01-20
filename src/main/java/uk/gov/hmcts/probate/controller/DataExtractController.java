@@ -66,7 +66,6 @@ public class DataExtractController {
         return dataExtractService.initiateIronMountainExtract(date);
     }
 
-    @Scheduled(cron = "${cron.exela.schedule}")
     @Operation(summary = "Initiate Excela data extract", description = "Will find cases for yesterdays date")
     @PostMapping(path = "/exela")
     public ResponseEntity initiateExelaExtract() {
