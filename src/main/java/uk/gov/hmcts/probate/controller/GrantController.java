@@ -39,7 +39,6 @@ public class GrantController {
         return ResponseEntity.ok("Perform grant delayed notification called");
     }
 
-    @Scheduled(cron = "${cron.grantAwaitingDocuments.schedule}")
     @Operation(summary = "Notify grants Awaiting Documents")
     @PostMapping(path = "/awaiting-documents-notification")
     public ResponseEntity initiateAwaitingDocumentsSchedule() {
