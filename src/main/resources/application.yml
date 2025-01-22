@@ -88,11 +88,5 @@ feign:
         loggerLevel: basic
 
 cron:
-  exela:
-    schedule: "0 10 2 * * *"
-  grantDelayed:
-    schedule: "0 15 2 * * *"
-  grantAwaitingDocuments:
-    schedule: "0 20 2 31 2 *"
   caveatExpiry:
     schedule: "0 0 3 * * *"
