@@ -3,7 +3,7 @@ plugins {
     id 'java'
     id 'io.spring.dependency-management' version '1.1.7'
     id 'org.springframework.boot' version '3.3.5'
-    id 'com.github.ben-manes.versions' version '0.51.0'
+    id 'com.github.ben-manes.versions' version '0.52.0'
     id 'com.gorylenko.gradle-git-properties' version '2.4.2'
     id 'info.solidsoft.pitest' version '1.15.0'
     id 'au.com.dius.pact' version '4.6.16'
@@ -228,14 +228,14 @@ dependencies {
     implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: versions.feign
     implementation group: 'io.github.openfeign', name: 'feign-jackson', version: versions.feign
     implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.3.1'
-    implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.1.8'
+    implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.2.0'
 
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.hmctsJavaLogging
-    implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: versions.hmctsJavaLogging
     implementation group: 'com.github.hmcts', name: 'auth-checker-lib', version: versions.authCheckerLib
     implementation group: 'com.github.hmcts', name: 'service-auth-provider-java-client', version: versions.serviceAuthProviderClient
     implementation group: 'com.github.hmcts', name: 'probate-commons', version: versions.probateCommonsVersion
-    implementation group: 'com.microsoft.azure', name: 'applicationinsights-spring-boot-starter', version: '2.6.4'
+    implementation group: 'com.microsoft.azure', name: 'applicationinsights-core', version: '3.6.2'
+    implementation group: 'com.microsoft.azure', name: 'applicationinsights-runtime-attach', version: '3.6.2'
     implementation group: 'commons-io', name: 'commons-io', version: versions.commonsIO
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: versions.springDocOpenUi
     implementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
