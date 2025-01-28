@@ -227,6 +227,11 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "expectedResponseDate", source = "expectedResponseDate")
     @Mapping(target = "informationNeeded", source = "informationNeeded")
     @Mapping(target = "informationNeededByPost", source = "informationNeededByPost")
+    @Mapping(target = "copies.overseas", source = "outsideUkGrantCopies")
+    @Mapping(target = "copies.uk", source = "extraCopiesOfGrant")
+    @Mapping(target = "assets.assetsoverseas",
+            expression = "java(grantOfRepresentationData.getOutsideUkGrantCopies() == null ? "
+                    + "null : grantOfRepresentationData.getOutsideUkGrantCopies() > 0L)")
     @InheritInverseConfiguration
     IntestacyForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 }
