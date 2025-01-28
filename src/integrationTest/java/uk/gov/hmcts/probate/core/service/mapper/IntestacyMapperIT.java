@@ -26,6 +26,7 @@ import uk.gov.hmcts.reform.probate.model.forms.ReviewResponse;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyApplicant;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyDeceased;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
+import uk.gov.hmcts.reform.probate.model.forms.pa.PaAssets;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -112,6 +113,7 @@ public class IntestacyMapperIT {
         expectedIntestacyForm.setEquality(new Equality());
         expectedIntestacyForm.setProvideinformation(new ProvideInformation());
         expectedIntestacyForm.setReviewresponse(new ReviewResponse());
+        expectedIntestacyForm.setAssets(new PaAssets());
         IntestacyForm actualIntestacyForm = mapper.fromCaseData(new GrantOfRepresentationData());
         assertThat(actualIntestacyForm).isEqualToComparingFieldByFieldRecursively(expectedIntestacyForm);
     }
