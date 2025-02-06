@@ -29,7 +29,8 @@
   },
   "ccdCase": {
     "id": 1535574519543819,
-    "state": "CaseCreated"
+    "state": "CaseCreated",
+    "lastModifiedDate": "2018-01-01"
   },
   "registry": {
     "name": "Birmingham"
