@@ -462,7 +462,6 @@ public final class PaSingleExecutorTestDataCreator {
             .primaryApplicantEmailAddress(APPLICANT_EMAIL)
             .primaryApplicantPostCode(APPLICANT_POSTCODE)
             .primaryApplicantIsApplying(true)
-            .applicationSubmittedDate(LocalDate.now())
             .languagePreferenceWelsh(TRUE)
             .registryLocation(RegistryLocation.findRegistryLocationByName(MANCHESTER))
             .registryAddress(REGISTRY_ADDRESS)

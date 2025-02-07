@@ -429,7 +429,6 @@ public final class PaMultipleExecutorTestDataCreator {
             .primaryApplicantEmailAddress(APPLICANT_EMAIL)
             .primaryApplicantPostCode(APPLICANT_POSTCODE)
             .primaryApplicantIsApplying(true)
-            .applicationSubmittedDate(LocalDate.now())
             .languagePreferenceWelsh(Boolean.TRUE)
             .registryLocation(RegistryLocation.findRegistryLocationByName(MANCHESTER))
             .registryAddress(REGISTRY_ADDRESS)
