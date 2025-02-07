@@ -237,7 +237,6 @@ public final class PaSingleExecutorTestDataCreator {
             .type(ProbateType.PA)
             .caseType(GrantType.GRANT_OF_PROBATE.getName())
             .applicantEmail(APPLICANT_EMAIL)
-            .applicationSubmittedDate(LocalDate.now())
             .language(Language.builder().bilingual(TRUE).build())
             .iht(InheritanceTax.builder()
                 .ihtFormId(IhtFormType.NOTAPPLICABLE.name())

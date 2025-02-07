@@ -220,7 +220,6 @@ public final class PaMultipleExecutorTestDataCreator {
             .type(ProbateType.PA)
             .caseType(GrantType.GRANT_OF_PROBATE.getName())
             .applicantEmail(APPLICANT_EMAIL)
-            .applicationSubmittedDate(LocalDate.now())
             .language(Language.builder().bilingual(Boolean.TRUE).build())
             .iht(InheritanceTax.builder()
                 .ihtFormId(IhtFormType.NOTAPPLICABLE.name())
