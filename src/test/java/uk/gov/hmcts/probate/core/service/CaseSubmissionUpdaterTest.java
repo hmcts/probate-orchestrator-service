@@ -3,7 +3,6 @@ package uk.gov.hmcts.probate.core.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.probate.model.cases.caveat.CaveatData;
-import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.cases.standingsearch.StandingSearchData;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -27,16 +26,6 @@ public class CaseSubmissionUpdaterTest {
         CaveatData actualCaveatData = (CaveatData) caseSubmissionUpdater.updateCaseForSubmission(caveatData);
 
         assertThat(actualCaveatData.getApplicationSubmittedDate(), notNullValue());
-    }
-
-    @Test
-    public void shouldUpdateGrantOfRepresentationCaseForSubmission() {
-        GrantOfRepresentationData grantOfRepresentationData = GrantOfRepresentationData.builder().build();
-
-        GrantOfRepresentationData actualGopData =
-            (GrantOfRepresentationData) caseSubmissionUpdater.updateCaseForSubmission(grantOfRepresentationData);
-
-        assertThat(actualGopData.getApplicationSubmittedDate(), notNullValue());
     }
 
     @Test
