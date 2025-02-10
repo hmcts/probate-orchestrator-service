@@ -50,7 +50,6 @@ import java.time.LocalDate;
 public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, IntestacyForm> {
 
     @Mapping(target = "applicationType", expression = "java(ApplicationType.PERSONAL)")
-    @Mapping(target = "applicationSubmittedDate", source = "applicationSubmittedDate")
     @Mapping(target = "grantType", expression = "java(GrantType.INTESTACY)")
     @Mapping(target = "primaryApplicantForenames", source = "applicant.firstName")
     @Mapping(target = "primaryApplicantSurname", source = "applicant.lastName")
