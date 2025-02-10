@@ -7,7 +7,7 @@ plugins {
     id 'com.gorylenko.gradle-git-properties' version '2.4.2'
     id 'info.solidsoft.pitest' version '1.15.0'
     id 'au.com.dius.pact' version '4.6.16'
-    id 'net.serenity-bdd.serenity-gradle-plugin' version '4.2.13'
+    id 'net.serenity-bdd.serenity-gradle-plugin' version '4.2.16'
     id 'org.sonarqube' version '6.0.1.5171'
     id 'uk.gov.hmcts.java' version '0.12.64'
     id 'project-report'
@@ -173,7 +173,7 @@ def versions = [
         piTest                          : '1.17.4',
         probateCommonsVersion           : '2.0.39',
         restAssured                     : '5.5.0',
-        serenity                        : '4.2.12',
+        serenity                        : '4.2.15',
         serviceAuthProviderClient       : '5.3.0',
         serviceTokenGenerator           : '0.6.0',
         springBootVersion               : '3.3.5',
@@ -260,7 +260,7 @@ dependencies {
     testImplementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
     testImplementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: versions.jacksonDatabind
     testImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
-    testImplementation group: 'com.github.hmcts', name: 'fortify-client', version: '1.4.6', classifier: 'all'
+    testImplementation group: 'com.github.hmcts', name: 'fortify-client', version: '1.4.7', classifier: 'all'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
     testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     testAnnotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
@@ -275,7 +275,7 @@ dependencies {
     testIntegrationImplementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
     testIntegrationImplementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: versions.jacksonDatabind
     testIntegrationImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
-    testIntegrationImplementation group: 'com.github.hmcts', name: 'fortify-client', version: '1.4.6'
+    testIntegrationImplementation group: 'com.github.hmcts', name: 'fortify-client', version: '1.4.7'
     testIntegrationImplementation group: 'com.github.hmcts', name: 'probate-commons', version: versions.probateCommonsVersion
     testIntegrationImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
     testIntegrationRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: versions.junitJupiter
