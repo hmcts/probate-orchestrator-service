@@ -9,7 +9,7 @@ plugins {
     id 'au.com.dius.pact' version '4.6.16'
     id 'net.serenity-bdd.serenity-gradle-plugin' version '4.2.16'
     id 'org.sonarqube' version '6.0.1.5171'
-    id 'uk.gov.hmcts.java' version '0.12.64'
+    id 'uk.gov.hmcts.java' version '0.12.65'
     id 'project-report'
     id 'jacoco'
 }
@@ -164,7 +164,7 @@ def versions = [
         commonsIO                       : '2.18.0',
         commonMark                      : '0.17.0',
         feign                           : '13.5',
-        hmctsJavaLogging                : '6.1.7',
+        hmctsJavaLogging                : '6.1.8',
         jacksonDatabind                 : '2.18.2',
         junitJupiter                    : '5.10.2',
         lombok                          : '1.18.36',

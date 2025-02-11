@@ -226,6 +226,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "iht.form", source = "ihtFormId")
     @Mapping(target = "iht.ihtFormId", source = "ihtFormId")
     @Mapping(target = "copies.overseas", source = "outsideUkGrantCopies")
+    @Mapping(target = "copies.uk", source = "extraCopiesOfGrant")
     @Mapping(target = "assets.assetsoverseas",
         expression = "java(grantOfRepresentationData.getOutsideUkGrantCopies() == null ? "
             + "null : grantOfRepresentationData.getOutsideUkGrantCopies() > 0L)")
