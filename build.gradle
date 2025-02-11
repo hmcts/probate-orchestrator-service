@@ -164,7 +164,7 @@ def versions = [
         commonsIO                       : '2.18.0',
         commonMark                      : '0.17.0',
         feign                           : '13.5',
-        hmctsJavaLogging                : '6.1.7',
+        hmctsJavaLogging                : '6.1.8',
         jacksonDatabind                 : '2.18.2',
         junitJupiter                    : '5.10.2',
         lombok                          : '1.18.36',
