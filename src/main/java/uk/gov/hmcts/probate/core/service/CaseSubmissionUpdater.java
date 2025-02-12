@@ -43,7 +43,6 @@ public class CaseSubmissionUpdater {
 
     private CaseData updateGrantOfRepresentation(CaseData caseData) {
         GrantOfRepresentationData grantOfRepresentationData = (GrantOfRepresentationData) caseData;
-        grantOfRepresentationData.setApplicationSubmittedDate(LocalDate.now());
         return grantOfRepresentationData;
     }
 }
