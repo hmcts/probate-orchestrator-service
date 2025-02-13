@@ -50,7 +50,6 @@ import java.time.LocalDate;
 public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, IntestacyForm> {
 
     @Mapping(target = "applicationType", expression = "java(ApplicationType.PERSONAL)")
-    @Mapping(target = "applicationSubmittedDate", expression = "java(LocalDate.now())")
     @Mapping(target = "grantType", expression = "java(GrantType.INTESTACY)")
     @Mapping(target = "primaryApplicantForenames", source = "applicant.firstName")
     @Mapping(target = "primaryApplicantSurname", source = "applicant.lastName")
@@ -227,6 +226,11 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "expectedResponseDate", source = "expectedResponseDate")
     @Mapping(target = "informationNeeded", source = "informationNeeded")
     @Mapping(target = "informationNeededByPost", source = "informationNeededByPost")
+    @Mapping(target = "copies.overseas", source = "outsideUkGrantCopies")
+    @Mapping(target = "copies.uk", source = "extraCopiesOfGrant")
+    @Mapping(target = "assets.assetsoverseas",
+            expression = "java(grantOfRepresentationData.getOutsideUkGrantCopies() == null ? "
+                    + "null : grantOfRepresentationData.getOutsideUkGrantCopies() > 0L)")
     @InheritInverseConfiguration
     IntestacyForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 }

@@ -54,7 +54,6 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
 
     @Mapping(target = "applicationType", expression = "java(ApplicationType.PERSONAL)")
     @Mapping(target = "grantType", expression = "java(GrantType.GRANT_OF_PROBATE)")
-    @Mapping(target = "applicationSubmittedDate", expression = "java(LocalDate.now())")
     @Mapping(target = "willHasVisibleDamage", source = "will.willHasVisibleDamage")
     @Mapping(target = "willDamage", source = "will.willDamage")
     @Mapping(target = "willDamageReasonKnown", source = "will.willDamageReasonKnown")
@@ -229,6 +228,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "iht.form", source = "ihtFormId")
     @Mapping(target = "iht.ihtFormId", source = "ihtFormId")
     @Mapping(target = "copies.overseas", source = "outsideUkGrantCopies")
+    @Mapping(target = "copies.uk", source = "extraCopiesOfGrant")
     @Mapping(target = "assets.assetsoverseas",
         expression = "java(grantOfRepresentationData.getOutsideUkGrantCopies() == null ? "
             + "null : grantOfRepresentationData.getOutsideUkGrantCopies() > 0L)")

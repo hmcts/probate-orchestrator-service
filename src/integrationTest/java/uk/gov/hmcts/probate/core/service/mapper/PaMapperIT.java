@@ -32,7 +32,6 @@ import uk.gov.hmcts.reform.probate.model.forms.pa.PaDeceased;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaForm;
 
 import java.io.IOException;
-import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -111,7 +110,6 @@ public class PaMapperIT {
         GrantOfRepresentationData expectedGrantOfRepresentation = new GrantOfRepresentationData();
         expectedGrantOfRepresentation.setApplicationType(ApplicationType.PERSONAL);
         expectedGrantOfRepresentation.setGrantType(GrantType.GRANT_OF_PROBATE);
-        expectedGrantOfRepresentation.setApplicationSubmittedDate(LocalDate.now());
         expectedGrantOfRepresentation.setNumberOfApplicants(0L);
         expectedGrantOfRepresentation.setCitizenDocumentsUploaded(Lists.newArrayList());
         expectedGrantOfRepresentation.setPrimaryApplicantIsApplying(true);
