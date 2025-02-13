@@ -119,6 +119,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "numberOfApplicants", expression = "java(form.getExecutors() == null || "
         + "form.getExecutors().getList() == null ? 0L : Long.valueOf(form.getExecutors().getList().size()))")
     @Mapping(target = "numberOfExecutors", source = "executors.executorsNumber")
+    @Mapping(target = "executorsNamed", source = "executors.executorsNamed")
     @Mapping(target = "executorsAllAlive", source = "executors.allalive")
     @Mapping(target = "otherExecutorsApplying", source = "executors.otherExecutorsApplying")
     @Mapping(target = "executorsHaveAlias", source = "executors.alias")
@@ -218,6 +219,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
                     + "grantOfRepresentationData.getIhtNetValue()))")
     @Mapping(target = "executors.list", source = ".", qualifiedBy = {FromCollectionMember.class})
     @Mapping(target = "executors.invitesSent", expression = "java(grantOfRepresentationData.haveInvitesBeenSent())")
+    @Mapping(target = "executors.executorsNamed", source = "executorsNamed")
     @Mapping(target = "iht.identifier", expression =
         "java(grantOfRepresentationData.getIhtReferenceNumber() == null || "
             + "grantOfRepresentationData.getIhtReferenceNumber().equals(\"Not applicable\") ? "
