@@ -4,7 +4,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.7'
     id 'org.springframework.boot' version '3.3.5'
     id 'com.github.ben-manes.versions' version '0.52.0'
-    id 'com.gorylenko.gradle-git-properties' version '2.4.2'
+    id 'com.gorylenko.gradle-git-properties' version '2.5.0'
     id 'info.solidsoft.pitest' version '1.15.0'
     id 'au.com.dius.pact' version '4.6.17'
     id 'net.serenity-bdd.serenity-gradle-plugin' version '4.2.16'
