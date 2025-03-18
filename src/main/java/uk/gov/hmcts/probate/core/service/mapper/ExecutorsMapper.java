@@ -13,7 +13,6 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepr
 import uk.gov.hmcts.reform.probate.model.forms.pa.Executor;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,7 +33,6 @@ public class ExecutorsMapper {
             .filter(executor -> executor.getIsApplying() == null
                 || BooleanUtils.isFalse(executor.getIsApplying()))
             .map(executorNotApplyingMapper::toExecutorNotApplying)
-            .sorted(Comparator.comparing(e -> e.getValue().getNotApplyingExecutorName()))
             .collect(Collectors.toList());
     }
 
@@ -57,22 +55,22 @@ public class ExecutorsMapper {
                 && grantOfRepresentationData.getExecutorsNotApplying() == null)) {
             return null;//NOSONAR
         }
-        List<Executor> executors = new ArrayList<>();
 
         List<Executor> applyingExecutors = new ArrayList<>();
+
+        addPrimaryApplicantExecutor(grantOfRepresentationData, applyingExecutors);
         if (grantOfRepresentationData.getExecutorsApplying() != null) {
             applyingExecutors.addAll(grantOfRepresentationData.getExecutorsApplying().stream()
                 .map(executorApplyingMapper::fromExecutorApplying)
-                .collect(Collectors.toList()));
+                .toList());
         }
 
-        addPrimaryApplicantExecutor(grantOfRepresentationData, applyingExecutors);
-        executors = applyingExecutors.stream().toList();
+        List<Executor> executors = new ArrayList<>(applyingExecutors);
 
         if (grantOfRepresentationData.getExecutorsNotApplying() != null) {
             executors.addAll(grantOfRepresentationData.getExecutorsNotApplying().stream()
                 .map(executorNotApplyingMapper::fromExecutorNotApplying)
-                .collect(Collectors.toList()));
+                .toList());
         }
 
         return executors;
