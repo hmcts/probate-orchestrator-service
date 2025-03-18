@@ -170,7 +170,7 @@ def versions = [
         lombok                          : '1.18.36',
         mapStruct                       : '1.3.0.Final',
         pact_version                    : '4.1.34',
-        piTest                          : '1.18.2',
+        piTest                          : '1.19.0',
         probateCommonsVersion           : '2.0.45',
         restAssured                     : '5.5.1',
         serenity                        : '4.2.17',
