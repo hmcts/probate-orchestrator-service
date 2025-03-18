@@ -47,7 +47,6 @@ public class ExecutorsMapper {
             .filter(executor -> BooleanUtils.isTrue(executor.getIsApplying())
                 && !BooleanUtils.isTrue(executor.getIsApplicant()))
             .map(executorApplyingMapper::toExecutorApplying)
-            .sorted(Comparator.comparing(e -> e.getValue().getApplyingExecutorName()))
             .collect(Collectors.toList());
     }
 
