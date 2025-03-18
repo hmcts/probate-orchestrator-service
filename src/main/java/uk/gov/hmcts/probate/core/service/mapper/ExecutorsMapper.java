@@ -67,10 +67,7 @@ public class ExecutorsMapper {
         }
 
         addPrimaryApplicantExecutor(grantOfRepresentationData, applyingExecutors);
-        executors = applyingExecutors.stream()
-            .sorted(Comparator.comparing(e -> e.getIsApplicant() == null
-                || !e.getIsApplicant()))
-            .collect(Collectors.toList());
+        executors = applyingExecutors.stream().toList();
 
         if (grantOfRepresentationData.getExecutorsNotApplying() != null) {
             executors.addAll(grantOfRepresentationData.getExecutorsNotApplying().stream()
