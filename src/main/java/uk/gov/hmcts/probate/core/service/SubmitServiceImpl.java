@@ -222,6 +222,7 @@ public class SubmitServiceImpl implements SubmitService {
         formResponse.setCcdCase(CcdCase.builder()
             .id(Long.valueOf(probateCaseDetails.getCaseInfo().getCaseId()))
             .state(probateCaseDetails.getCaseInfo().getState().getName())
+            .lastModifiedDate(probateCaseDetails.getCaseInfo().getLastModifiedDate())
             .build());
     }
 
