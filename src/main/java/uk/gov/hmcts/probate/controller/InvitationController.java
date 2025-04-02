@@ -2,6 +2,7 @@ package uk.gov.hmcts.probate.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -98,27 +99,30 @@ public class InvitationController {
     @GetMapping(path = INVITE_PIN_URL)
     public String invitePin(@RequestParam("phoneNumber") String phoneNumber,
                             @RequestHeader("Session-Id") String sessionId) {
-        return businessService.getPinNumber(phoneNumber, sessionId, Boolean.FALSE);
+        return businessService.getPinNumber(new PhonePin(phoneNumber), sessionId, Boolean.FALSE);
     }
 
     @GetMapping(path = INVITE_PIN_BILINGUAL_URL)
     public String invitePinBilingual(@RequestParam("phoneNumber") String phoneNumber,
                                      @RequestHeader("Session-Id") String sessionId) {
-        return businessService.getPinNumber(phoneNumber, sessionId, Boolean.TRUE);
+        return businessService.getPinNumber(new PhonePin(phoneNumber), sessionId, Boolean.TRUE);
     }
 
     @PostMapping(path = INVITE_PIN_URL)
     public String invitePinPost(
             @RequestHeader("Session-Id") final String sessionId,
-            @RequestBody final PhonePin phonePin) {
-        return businessService.getPinNumber(phonePin.phoneNumber, sessionId, Boolean.FALSE);
+            @Valid @RequestBody final PhonePin phonePin,
+            final BindingResult bindingResult) {
+
+        return businessService.getPinNumber(phonePin, sessionId, Boolean.FALSE);
     }
 
     @PostMapping(path = INVITE_PIN_BILINGUAL_URL)
     public String invitePinBilingualPost(
             @RequestHeader("Session-Id") final String sessionId,
-            @RequestBody final PhonePin phonePin) {
-        return businessService.getPinNumber(phonePin.phoneNumber, sessionId, Boolean.TRUE);
+            @Valid @RequestBody final PhonePin phonePin,
+            final BindingResult bindingResult) {
+        return businessService.getPinNumber(phonePin, sessionId, Boolean.TRUE);
     }
 
 }
