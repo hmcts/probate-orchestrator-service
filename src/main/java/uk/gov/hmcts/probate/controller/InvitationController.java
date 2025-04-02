@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.probate.service.BusinessService;
+import uk.gov.hmcts.reform.probate.model.PhonePin;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.InvitationsResult;
 
@@ -106,5 +107,18 @@ public class InvitationController {
         return businessService.getPinNumber(phoneNumber, sessionId, Boolean.TRUE);
     }
 
+    @PostMapping(path = INVITE_PIN_URL)
+    public String invitePinPost(
+            @RequestHeader("Session-Id") final String sessionId,
+            @RequestBody final PhonePin phonePin) {
+        return businessService.getPinNumber(phonePin.phoneNumber, sessionId, Boolean.FALSE);
+    }
+
+    @PostMapping(path = INVITE_PIN_BILINGUAL_URL)
+    public String invitePinBilingualPost(
+            @RequestHeader("Session-Id") final String sessionId,
+            @RequestBody final PhonePin phonePin) {
+        return businessService.getPinNumber(phonePin.phoneNumber, sessionId, Boolean.TRUE);
+    }
 
 }
