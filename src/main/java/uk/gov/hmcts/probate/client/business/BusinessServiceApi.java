@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
+import uk.gov.hmcts.reform.probate.model.PhonePin;
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.DocumentNotification;
@@ -87,6 +88,11 @@ public interface BusinessServiceApi {
     @GetMapping(path = "/pin")
     String pinNumber(@RequestParam("phoneNumber") String phoneNumber, @RequestHeader("Session-Id") String sessionId);
 
+    @PostMapping(path = "/pin", consumes = MediaType.APPLICATION_JSON_VALUE)
+    String pinNumberPost(
+            @RequestHeader("Session-Id") String sessionId,
+            @RequestBody PhonePin phonePin);
+
     @PostMapping(
             value = "/invite/bilingual",
             headers = {
@@ -130,5 +136,10 @@ public interface BusinessServiceApi {
     @GetMapping(path = "/pin/bilingual")
     String pinNumberBilingual(@RequestParam("phoneNumber") String phoneNumber,
                               @RequestHeader("Session-Id") String sessionId);
+
+    @PostMapping(path = "/pin/bilingual", consumes = MediaType.APPLICATION_JSON_VALUE)
+    String pinNumberBilingualPost(
+            @RequestHeader("Session-Id") String sessionId,
+            @RequestBody PhonePin phonePin);
 
 }
