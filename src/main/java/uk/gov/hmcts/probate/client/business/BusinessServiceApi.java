@@ -2,12 +2,10 @@ package uk.gov.hmcts.probate.client.business;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
 import uk.gov.hmcts.reform.probate.model.PhonePin;
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
@@ -85,9 +83,6 @@ public interface BusinessServiceApi {
                          @RequestBody Invitation invitation,
                          @RequestHeader("Session-Id") String sessionId);
 
-    @GetMapping(path = "/pin")
-    String pinNumber(@RequestParam("phoneNumber") String phoneNumber, @RequestHeader("Session-Id") String sessionId);
-
     @PostMapping(path = "/pin", consumes = MediaType.APPLICATION_JSON_VALUE)
     String pinNumberPost(
             @RequestHeader("Session-Id") String sessionId,
@@ -132,10 +127,6 @@ public interface BusinessServiceApi {
 
     @PostMapping(path = "/document-upload-issue-notification", consumes = MediaType.APPLICATION_JSON_VALUE)
     String documentUploadIssue(@RequestBody DocumentNotification executorNotification);
-
-    @GetMapping(path = "/pin/bilingual")
-    String pinNumberBilingual(@RequestParam("phoneNumber") String phoneNumber,
-                              @RequestHeader("Session-Id") String sessionId);
 
     @PostMapping(path = "/pin/bilingual", consumes = MediaType.APPLICATION_JSON_VALUE)
     String pinNumberBilingualPost(
