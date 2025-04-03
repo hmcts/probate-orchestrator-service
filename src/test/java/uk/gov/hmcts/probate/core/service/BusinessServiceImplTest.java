@@ -12,6 +12,7 @@ import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.probate.client.business.BusinessServiceApi;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.mapper.ExecutorApplyingToInvitationMapper;
+import uk.gov.hmcts.reform.probate.model.PhonePin;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.CaseInfo;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
@@ -36,6 +37,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -523,12 +525,13 @@ public class BusinessServiceImplTest {
 
     @Test
     public void shouldGetPinNumber() {
+        final PhonePin phonePin = new PhonePin(phoneNumber);
 
-        businessService.getPinNumber(phoneNumber, sessionId, Boolean.FALSE);
-        verify(businessServiceApi).pinNumber(phoneNumber, sessionId);
+        businessService.getPinNumber(phonePin, sessionId, Boolean.FALSE);
+        verify(businessServiceApi).pinNumberPost(eq(sessionId), eq(phonePin));
 
-        businessService.getPinNumber(phoneNumber, sessionId, Boolean.TRUE);
-        verify(businessServiceApi).pinNumberBilingual(phoneNumber, sessionId);
+        businessService.getPinNumber(phonePin, sessionId, Boolean.TRUE);
+        verify(businessServiceApi).pinNumberBilingualPost(eq(sessionId), eq(phonePin));
     }
 
     @Test

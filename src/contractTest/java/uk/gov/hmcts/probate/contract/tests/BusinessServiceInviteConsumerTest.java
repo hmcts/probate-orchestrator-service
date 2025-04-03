@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.probate.client.business.BusinessServiceApi;
+import uk.gov.hmcts.reform.probate.model.PhonePin;
 
 import java.io.IOException;
 
@@ -123,7 +124,7 @@ public class BusinessServiceInviteConsumerTest {
     @Test
     @PactTestFor(pactMethod = "executePinNumber")
     public void verifyExecutePinNumber() throws JSONException, IOException {
-        businessServiceApi.pinNumber("07986777788", SOME_SESSION_ID);
+        businessServiceApi.pinNumberPost(SOME_SESSION_ID, new PhonePin("07986777788"));
     }
 }
 
