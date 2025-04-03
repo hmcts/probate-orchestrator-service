@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.probate.service.BusinessService;
+import uk.gov.hmcts.reform.probate.model.PhonePin;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
 import java.util.ArrayList;
@@ -116,30 +117,33 @@ public class InvitationControllerIT {
 
     @Test
     public void pinRequest_shouldReturn200() throws Exception {
-
-        when(businessService.getPinNumber(eq("07987676542"), eq("someSessionId"), eq(Boolean.FALSE)))
+        final String phoneNumber = "07987676542";
+        final PhonePin phonePin = new PhonePin(phoneNumber);
+        when(businessService.getPinNumber(eq(phonePin), eq("someSessionId"), eq(Boolean.FALSE)))
             .thenReturn("54321");
 
         mockMvc.perform(get(InvitationController.INVITE_PIN_URL)
                 .header("Session-Id", "someSessionId")
-                .param("phoneNumber", "07987676542"))
+                .param("phoneNumber", phoneNumber))
                 .andExpect(status().isOk());
-        verify(businessService, times(1)).getPinNumber(eq("07987676542"),
-            eq("someSessionId"), eq(Boolean.FALSE));
+        verify(businessService, times(1))
+                .getPinNumber(eq(phonePin), eq("someSessionId"), eq(Boolean.FALSE));
     }
 
     @Test
     public void bilingualPinRequest_shouldReturn200() throws Exception {
+        final String phoneNumber = "07987676542";
+        final PhonePin phonePin = new PhonePin(phoneNumber);
 
-        when(businessService.getPinNumber(eq("07987676542"), eq("someSessionId"),
+        when(businessService.getPinNumber(eq(phonePin), eq("someSessionId"),
             eq(Boolean.TRUE))).thenReturn("54321");
 
         mockMvc.perform(get(InvitationController.INVITE_PIN_BILINGUAL_URL)
                 .header("Session-Id", "someSessionId")
-                .param("phoneNumber", "07987676542"))
+                .param("phoneNumber", phoneNumber))
                 .andExpect(status().isOk());
-        verify(businessService, times(1)).getPinNumber(eq("07987676542"),
-            eq("someSessionId"), eq(Boolean.TRUE));
+        verify(businessService, times(1))
+                .getPinNumber(eq(phonePin), eq("someSessionId"), eq(Boolean.TRUE));
     }
 
     @Test
