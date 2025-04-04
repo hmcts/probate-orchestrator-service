@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.probate.model.exception.PhonePinException;
 import uk.gov.hmcts.probate.service.BusinessService;
@@ -95,18 +94,6 @@ public class InvitationController {
     @GetMapping(path = INVITES_BASEURL + "/{formdataId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public InvitationsResult getAllInviteData(@PathVariable String formdataId) {
         return InvitationsResult.builder().invitations(businessService.getAllInviteData(formdataId)).build();
-    }
-
-    @GetMapping(path = INVITE_PIN_URL)
-    public String invitePin(@RequestParam("phoneNumber") String phoneNumber,
-                            @RequestHeader("Session-Id") String sessionId) {
-        return businessService.getPinNumber(new PhonePin(phoneNumber), sessionId, Boolean.FALSE);
-    }
-
-    @GetMapping(path = INVITE_PIN_BILINGUAL_URL)
-    public String invitePinBilingual(@RequestParam("phoneNumber") String phoneNumber,
-                                     @RequestHeader("Session-Id") String sessionId) {
-        return businessService.getPinNumber(new PhonePin(phoneNumber), sessionId, Boolean.TRUE);
     }
 
     @PostMapping(path = INVITE_PIN_URL)
