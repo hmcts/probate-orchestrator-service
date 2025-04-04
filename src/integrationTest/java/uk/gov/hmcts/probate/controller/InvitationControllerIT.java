@@ -23,7 +23,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -120,23 +122,63 @@ public class InvitationControllerIT {
     public void pinRequest_shouldReturn200() throws Exception {
         final String phoneNumber = "07987676542";
         final PhonePin phonePin = new PhonePin(phoneNumber);
-        final String requestContent = new StringBuilder()
-                .append("{")
-                .append("\"phoneNumber\": \"")
-                .append(phoneNumber)
-                .append("\"")
-                .append("}")
-                .toString();
+        final String requestContent = String.format("""
+                {
+                  "phoneNumber": "%s"
+                }""",
+                phoneNumber);
+
         when(businessService.getPinNumber(eq(phonePin), eq("someSessionId"), eq(Boolean.FALSE)))
-            .thenReturn("54321");
+                .thenReturn("54321");
 
         mockMvc.perform(post(InvitationController.INVITE_PIN_URL)
-                .header("Session-Id", "someSessionId")
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .content(requestContent))
+                        .header("Session-Id", "someSessionId")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .content(requestContent))
                 .andExpect(status().isOk());
         verify(businessService, times(1))
                 .getPinNumber(eq(phonePin), eq("someSessionId"), eq(Boolean.FALSE));
+    }
+
+    @Test
+    public void pinRequest_withMissingField_shouldReturn400() throws Exception {
+        final String requestContent = "{}";
+
+        mockMvc.perform(post(InvitationController.INVITE_PIN_URL)
+                        .header("Session-Id", "someSessionId")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .content(requestContent))
+                .andExpect(status().is4xxClientError());
+        verify(businessService, never())
+                .getPinNumber(any(), any(), any());
+    }
+
+    @Test
+    public void pinRequest_withMisspelledField_shouldReturn400() throws Exception {
+        final String phoneNumber = "07987676542";
+        final String requestContent = String.format("""
+                {
+                  "phone": "%s"
+                }""",
+                phoneNumber);
+
+        mockMvc.perform(post(InvitationController.INVITE_PIN_URL)
+                        .header("Session-Id", "someSessionId")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .content(requestContent))
+                .andExpect(status().is4xxClientError());
+        verify(businessService, never())
+                .getPinNumber(any(), any(), any());
+    }
+
+    @Test
+    public void pinRequest_withNoBody_shouldReturn400() throws Exception {
+        mockMvc.perform(post(InvitationController.INVITE_PIN_URL)
+                        .header("Session-Id", "someSessionId")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().is4xxClientError());
+        verify(businessService, never())
+                .getPinNumber(any(), any(), any());
     }
 
     @Test
@@ -161,6 +203,47 @@ public class InvitationControllerIT {
                 .andExpect(status().isOk());
         verify(businessService, times(1))
                 .getPinNumber(eq(phonePin), eq("someSessionId"), eq(Boolean.TRUE));
+    }
+
+    @Test
+    public void bilingualPinRequest_withMissingField_shouldReturn400() throws Exception {
+        final String requestContent = "{}";
+
+        mockMvc.perform(post(InvitationController.INVITE_PIN_BILINGUAL_URL)
+                        .header("Session-Id", "someSessionId")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .content(requestContent))
+                .andExpect(status().is4xxClientError());
+        verify(businessService, never())
+                .getPinNumber(any(), any(), any());
+    }
+
+    @Test
+    public void bilingualPinRequest_withMisspelledField_shouldReturn400() throws Exception {
+        final String phoneNumber = "07987676542";
+        final String requestContent = String.format("""
+                {
+                  "phone": "%s"
+                }""",
+                phoneNumber);
+
+        mockMvc.perform(post(InvitationController.INVITE_PIN_BILINGUAL_URL)
+                        .header("Session-Id", "someSessionId")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .content(requestContent))
+                .andExpect(status().is4xxClientError());
+        verify(businessService, never())
+                .getPinNumber(any(), any(), any());
+    }
+
+    @Test
+    public void bilingualPinRequest_withNoBody_shouldReturn400() throws Exception {
+        mockMvc.perform(post(InvitationController.INVITE_PIN_BILINGUAL_URL)
+                        .header("Session-Id", "someSessionId")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().is4xxClientError());
+        verify(businessService, never())
+                .getPinNumber(any(), any(), any());
     }
 
     @Test
