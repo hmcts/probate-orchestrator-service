@@ -1,6 +1,7 @@
 package uk.gov.hmcts.probate.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -119,12 +120,20 @@ public class InvitationControllerIT {
     public void pinRequest_shouldReturn200() throws Exception {
         final String phoneNumber = "07987676542";
         final PhonePin phonePin = new PhonePin(phoneNumber);
+        final String requestContent = new StringBuilder()
+                .append("{")
+                .append("\"phoneNumber\": \"")
+                .append(phoneNumber)
+                .append("\"")
+                .append("}")
+                .toString();
         when(businessService.getPinNumber(eq(phonePin), eq("someSessionId"), eq(Boolean.FALSE)))
             .thenReturn("54321");
 
-        mockMvc.perform(get(InvitationController.INVITE_PIN_URL)
+        mockMvc.perform(post(InvitationController.INVITE_PIN_URL)
                 .header("Session-Id", "someSessionId")
-                .param("phoneNumber", phoneNumber))
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .content(requestContent))
                 .andExpect(status().isOk());
         verify(businessService, times(1))
                 .getPinNumber(eq(phonePin), eq("someSessionId"), eq(Boolean.FALSE));
@@ -134,13 +143,21 @@ public class InvitationControllerIT {
     public void bilingualPinRequest_shouldReturn200() throws Exception {
         final String phoneNumber = "07987676542";
         final PhonePin phonePin = new PhonePin(phoneNumber);
+        final String requestContent = new StringBuilder()
+                .append("{")
+                .append("\"phoneNumber\": \"")
+                .append(phoneNumber)
+                .append("\"")
+                .append("}")
+                .toString();
 
         when(businessService.getPinNumber(eq(phonePin), eq("someSessionId"),
             eq(Boolean.TRUE))).thenReturn("54321");
 
-        mockMvc.perform(get(InvitationController.INVITE_PIN_BILINGUAL_URL)
+        mockMvc.perform(post(InvitationController.INVITE_PIN_BILINGUAL_URL)
                 .header("Session-Id", "someSessionId")
-                .param("phoneNumber", phoneNumber))
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .content(requestContent))
                 .andExpect(status().isOk());
         verify(businessService, times(1))
                 .getPinNumber(eq(phonePin), eq("someSessionId"), eq(Boolean.TRUE));
