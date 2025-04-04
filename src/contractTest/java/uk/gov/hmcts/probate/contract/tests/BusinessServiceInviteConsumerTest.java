@@ -7,6 +7,7 @@ import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.RequestResponsePact;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
 
+@Slf4j
 @ExtendWith(PactConsumerTestExt.class)
 @ExtendWith(SpringExtension.class)
 @PactTestFor(providerName = "probate_business_service_invite", port = "8894")
@@ -124,7 +126,12 @@ public class BusinessServiceInviteConsumerTest {
     @Test
     @PactTestFor(pactMethod = "executePinNumber")
     public void verifyExecutePinNumber() throws JSONException, IOException {
-        businessServiceApi.pinNumberPost(SOME_SESSION_ID, new PhonePin("07986777788"));
+        try {
+            businessServiceApi.pinNumberPost(SOME_SESSION_ID, new PhonePin("07986777788"));
+        } catch (Exception e) {
+            log.error("???", e);
+            throw e;
+        }
     }
 }
 
