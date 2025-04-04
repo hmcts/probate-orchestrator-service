@@ -7,6 +7,7 @@ import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.RequestResponsePact;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,12 +17,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.probate.client.business.BusinessServiceApi;
+import uk.gov.hmcts.reform.probate.model.PhonePin;
 
 import java.io.IOException;
 
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
 
+@Slf4j
 @ExtendWith(PactConsumerTestExt.class)
 @ExtendWith(SpringExtension.class)
 @PactTestFor(providerName = "probate_business_service_invite", port = "8894")
@@ -93,11 +96,11 @@ public class BusinessServiceInviteConsumerTest {
         // @formatter:off
         return builder
                 .given("business service generates pin number")
-                .uponReceiving("a request to GET a pin number ")
+                .uponReceiving("a POST to generate a pin number ")
                 .path("/pin")
-                .method("GET")
-                .matchQuery("phoneNumber", "07986777788")
+                .method("POST")
                 .headers("Session-Id", SOME_SESSION_ID)
+                .body(contractTestUtils.createJsonObject("/invite/requestPin.json"))
                 .willRespondWith()
                 .status(200)
                 .matchHeader("FormDataContent-Type", "text/plain;charset=UTF-8")
@@ -123,7 +126,12 @@ public class BusinessServiceInviteConsumerTest {
     @Test
     @PactTestFor(pactMethod = "executePinNumber")
     public void verifyExecutePinNumber() throws JSONException, IOException {
-        businessServiceApi.pinNumber("07986777788", SOME_SESSION_ID);
+        try {
+            businessServiceApi.pinNumberPost(SOME_SESSION_ID, new PhonePin("07986777788"));
+        } catch (Exception e) {
+            log.error("???", e);
+            throw e;
+        }
     }
 }
 
