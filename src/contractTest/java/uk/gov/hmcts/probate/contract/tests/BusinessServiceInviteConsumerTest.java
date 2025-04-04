@@ -94,11 +94,11 @@ public class BusinessServiceInviteConsumerTest {
         // @formatter:off
         return builder
                 .given("business service generates pin number")
-                .uponReceiving("a request to GET a pin number ")
+                .uponReceiving("a POST to generate a pin number ")
                 .path("/pin")
-                .method("GET")
-                .matchQuery("phoneNumber", "07986777788")
-                .headers("Session-Id", SOME_SESSION_ID)
+                .method("POST")
+                .headers(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE, "Session-Id", SOME_SESSION_ID)
+                .body(contractTestUtils.createJsonObject("/invite/requestPin.json"))
                 .willRespondWith()
                 .status(200)
                 .matchHeader("FormDataContent-Type", "text/plain;charset=UTF-8")
