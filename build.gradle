@@ -247,7 +247,7 @@ dependencies {
     implementation group: 'org.sonarsource.api.plugin', name: 'sonar-plugin-api', version: '11.3.0.2824'
     implementation group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
-    implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '8.0'
+    implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '8.1'
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
 
