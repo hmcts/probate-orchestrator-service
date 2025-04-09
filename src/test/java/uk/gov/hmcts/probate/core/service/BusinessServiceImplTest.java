@@ -37,7 +37,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -528,10 +527,10 @@ public class BusinessServiceImplTest {
         final PhonePin phonePin = new PhonePin(phoneNumber);
 
         businessService.getPinNumber(phonePin, sessionId, Boolean.FALSE);
-        verify(businessServiceApi).pinNumberPost(eq(sessionId), eq(phonePin));
+        verify(businessServiceApi).pinNumberPost(sessionId, phonePin);
 
         businessService.getPinNumber(phonePin, sessionId, Boolean.TRUE);
-        verify(businessServiceApi).pinNumberBilingualPost(eq(sessionId), eq(phonePin));
+        verify(businessServiceApi).pinNumberBilingualPost(sessionId, phonePin);
     }
 
     @Test
