@@ -120,7 +120,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
         + "form.getExecutors().getList() == null ? 0L : Long.valueOf(form.getExecutors().getList().size()))")
     @Mapping(target = "numberOfExecutors", source = "executors.executorsNumber")
     @Mapping(target = "executorsNamed", source = "executors.executorsNamed")
-    @Mapping(target = "executorsAllAlive", source = "executors.allalive")
+    @Mapping(target = "anyExecutorsDied", source = "executors.anyExecutorsDied")
     @Mapping(target = "otherExecutorsApplying", source = "executors.otherExecutorsApplying")
     @Mapping(target = "executorsHaveAlias", source = "executors.alias")
     @Mapping(target = "ihtReferenceNumber", expression =
