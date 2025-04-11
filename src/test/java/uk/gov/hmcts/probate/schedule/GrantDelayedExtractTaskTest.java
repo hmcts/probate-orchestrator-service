@@ -33,7 +33,7 @@ class GrantDelayedExtractTaskTest {
     @Mock
     private BackOfficeService backOfficeService;
 
-    private static DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @InjectMocks
     private GrantDelayedExtractTask grantDelayedExtractTask;
@@ -66,7 +66,7 @@ class GrantDelayedExtractTaskTest {
     @Test
     void shouldThrowClientExceptionWithBadRequestForGrantDelayedExtractWithIncorrectDateFormat() {
         doThrow(new ApiClientException(HttpStatus.BAD_REQUEST.value(), null)).when(dataExtractDateValidator)
-                .dateValidator(DATE);
+                .validate(DATE);
         grantDelayedExtractTask.run();
         verify(dataExtractDateValidator).validate(DATE);
         verifyNoInteractions(backOfficeService);

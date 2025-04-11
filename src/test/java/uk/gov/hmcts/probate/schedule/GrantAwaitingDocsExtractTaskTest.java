@@ -12,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.probate.core.service.DataExtractDateValidator;
 import uk.gov.hmcts.probate.service.BackOfficeService;
-import uk.gov.hmcts.probate.service.GrantNotificationService;
-import uk.gov.hmcts.probate.service.dataextract.DataExtractDateValidator;
 import uk.gov.hmcts.reform.probate.model.client.ApiClientException;
 
 import java.time.LocalDate;
@@ -25,7 +23,6 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
-import static uk.gov.hmcts.probate.model.Constants.DATE_FORMAT;
 
 @ExtendWith(SpringExtension.class)
 class GrantAwaitingDocsExtractTaskTest {
@@ -36,7 +33,7 @@ class GrantAwaitingDocsExtractTaskTest {
     @Mock
     private BackOfficeService backOfficeService;
 
-    private static DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @InjectMocks
     private GrantAwaitingDocsExtractTask grantAwaitingDocsExtractTask;
@@ -71,7 +68,7 @@ class GrantAwaitingDocsExtractTaskTest {
     @Test
     void shouldThrowClientExceptionWithBadRequestForGrantAwaitingDocumentationExtractWithIncorrectDateFormat() {
         doThrow(new ApiClientException(HttpStatus.BAD_REQUEST.value(), null)).when(dataExtractDateValidator)
-                .dateValidator(DATE);
+                .validate(DATE);
         grantAwaitingDocsExtractTask.run();
         verify(dataExtractDateValidator).validate(DATE);
         verifyNoInteractions(backOfficeService);

@@ -33,7 +33,7 @@ class ExelaExtractTaskTest {
     @Mock
     private BackOfficeService backOfficeService;
 
-    private static DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @InjectMocks
     private ExelaExtractTask exelaExtractTask;
@@ -80,7 +80,7 @@ class ExelaExtractTaskTest {
     @Test
     void shouldThrowClientExceptionWithBadRequestForExelaExtractWithIncorrectDateFormat() {
         doThrow(new ApiClientException(HttpStatus.BAD_REQUEST.value(), null)).when(dataExtractDateValidator)
-                .dateValidator(DATE, DATE);
+                .validate(DATE, DATE);
         exelaExtractTask.run();
         verify(dataExtractDateValidator).validate(DATE, DATE);
         verifyNoInteractions(backOfficeService);
