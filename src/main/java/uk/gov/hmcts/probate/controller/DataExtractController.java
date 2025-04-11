@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,7 +49,6 @@ public class DataExtractController {
         return dataExtractService.initiateHmrcExtract(fromDate, toDate);
     }
 
-    @Scheduled(cron = "${cron.ironMountain.schedule}")
     @Operation(summary = "Initiate IronMountain data extract", description = "Will find cases for yesterdays date")
     @PostMapping(path = "/iron-mountain")
     public ResponseEntity initiateIronMountainExtract() {
@@ -67,7 +65,6 @@ public class DataExtractController {
         return dataExtractService.initiateIronMountainExtract(date);
     }
 
-    @Scheduled(cron = "${cron.exela.schedule}")
     @Operation(summary = "Initiate Excela data extract", description = "Will find cases for yesterdays date")
     @PostMapping(path = "/exela")
     public ResponseEntity initiateExelaExtract() {
