@@ -7,6 +7,7 @@ import uk.gov.hmcts.probate.client.business.BusinessServiceApi;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.mapper.ExecutorApplyingToInvitationMapper;
 import uk.gov.hmcts.probate.service.BusinessService;
+import uk.gov.hmcts.reform.probate.model.PhonePin;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
@@ -320,12 +321,12 @@ public class BusinessServiceImpl implements BusinessService {
 
 
     @Override
-    public String getPinNumber(String phoneNumber, String sessionId, Boolean isBilingual) {
+    public String getPinNumber(PhonePin phonePin, String sessionId, Boolean isBilingual) {
         log.info("Get PIN number");
         if (isBilingual) {
-            return businessServiceApi.pinNumberBilingual(phoneNumber, sessionId);
+            return businessServiceApi.pinNumberBilingualPost(sessionId, phonePin);
         } else {
-            return businessServiceApi.pinNumber(phoneNumber, sessionId);
+            return businessServiceApi.pinNumberPost(sessionId, phonePin);
         }
     }
 

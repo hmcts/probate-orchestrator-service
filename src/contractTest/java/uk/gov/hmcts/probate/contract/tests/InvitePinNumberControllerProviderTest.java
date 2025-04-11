@@ -6,9 +6,11 @@ import org.json.JSONException;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import uk.gov.hmcts.probate.client.business.BusinessServiceApi;
 import uk.gov.hmcts.probate.core.service.SecurityUtils;
+import uk.gov.hmcts.reform.probate.model.PhonePin;
 
 import java.io.IOException;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -26,7 +28,8 @@ public class InvitePinNumberControllerProviderTest extends ControllerProviderTes
 
         when(securityUtils.getAuthorisation()).thenReturn("authToken");
         when(securityUtils.getServiceAuthorisation()).thenReturn("someServiceAuthorisation");
-        when(businessServiceApi.pinNumber(anyString(), anyString())).thenReturn("123457");
+        when(businessServiceApi.pinNumberPost(anyString(), any(PhonePin.class)))
+                .thenReturn("123457");
 
     }
 
