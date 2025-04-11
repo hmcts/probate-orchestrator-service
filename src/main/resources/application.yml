@@ -85,3 +85,6 @@ feign:
 cron:
   caveatExpiry:
     schedule: "0 0 3 * * *"
+
+adhocSchedulerJobDate: ${ADHOC_JOB_DATE:}
+adhocSchedulerJobToDate: ${ADHOC_JOB_TO_DATE:}
