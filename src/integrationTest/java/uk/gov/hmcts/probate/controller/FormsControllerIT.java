@@ -1,4 +1,4 @@
-package uk.gov.hmcts.probate.controller;
+  package uk.gov.hmcts.probate.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +23,7 @@ import uk.gov.hmcts.reform.probate.model.forms.pa.PaForm;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
@@ -40,6 +41,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class FormsControllerIT {
 
     private static final String EMAIL_ADDRESS = "1570130475566595";
+    private static final LocalDateTime LAST_MODIFIED_DATE_TIME = LocalDateTime.of(2018, 1, 1,
+            12, 12, 12).withNano(123 * 1_000_000);
+    private static final String LAST_MODIFIED_DATE_TIME_STRING = "2018-01-01T12:12:12.123";
 
     private static final String FORMS_ENDPOINT = "/forms";
     private static final String FORMS_CASE_ENDPOINT = "/forms/case";
@@ -105,27 +109,33 @@ public class FormsControllerIT {
 
     @Test
     public void shouldSaveCaveatForm() throws Exception {
-        when(submitService.saveCase(eq(EMAIL_ADDRESS), eq(caveatForm))).thenReturn(caveatForm);
+        when(submitService.saveCase(eq(EMAIL_ADDRESS), eq(LAST_MODIFIED_DATE_TIME),
+                eq(caveatForm))).thenReturn(caveatForm);
 
-        mockMvc.perform(post(FORMS_CASE_ENDPOINT + "/" + EMAIL_ADDRESS)
+        mockMvc.perform(post(FORMS_CASE_ENDPOINT + "/" + EMAIL_ADDRESS
+                        + "/" + LAST_MODIFIED_DATE_TIME_STRING)
             .content(caveatFormJsonStr)
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().json(caveatFormJsonStr, true));
-        verify(submitService, times(1)).saveCase(eq(EMAIL_ADDRESS), eq(caveatForm));
+        verify(submitService, times(1)).saveCase(eq(EMAIL_ADDRESS),
+                eq(LAST_MODIFIED_DATE_TIME), eq(caveatForm));
     }
 
     @Test
     public void shouldSaveIntestacyForm() throws Exception {
-        when(submitService.saveCase(eq(EMAIL_ADDRESS), eq(intestacyForm))).thenReturn(intestacyForm);
+        when(submitService.saveCase(eq(EMAIL_ADDRESS), eq(LAST_MODIFIED_DATE_TIME),
+                eq(intestacyForm))).thenReturn(intestacyForm);
 
-        mockMvc.perform(post(FORMS_CASE_ENDPOINT + "/" + EMAIL_ADDRESS)
+        mockMvc.perform(post(FORMS_CASE_ENDPOINT + "/" + EMAIL_ADDRESS
+                        + "/" + LAST_MODIFIED_DATE_TIME_STRING)
             .content(intestacyFormJsonStr)
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().json(intestacyFormJsonStr, true));
 
-        verify(submitService, times(1)).saveCase(eq(EMAIL_ADDRESS), eq(intestacyForm));
+        verify(submitService, times(1)).saveCase(eq(EMAIL_ADDRESS),
+                eq(LAST_MODIFIED_DATE_TIME), eq(intestacyForm));
     }
 
     @Test
@@ -154,7 +164,8 @@ public class FormsControllerIT {
             .andExpect(status().isOk())
             .andExpect(content().json(paFormJsonStr, true));
 
-        verify(submitService, times(1)).update(eq(EMAIL_ADDRESS), eq(ProbateType.PA), eq(paymentDto));
+        verify(submitService, times(1)).update(eq(EMAIL_ADDRESS), eq(ProbateType.PA)
+                , eq(paymentDto));
     }
 
 
@@ -172,7 +183,8 @@ public class FormsControllerIT {
             .andExpect(status().isOk())
             .andExpect(content().json(paFormJsonStr, true));
 
-        verify(submitService, times(1)).update(eq("123456"), eq(ProbateType.INTESTACY), eq(paymentDto));
+        verify(submitService, times(1)).update(eq("123456"), eq(ProbateType.INTESTACY)
+                , eq(paymentDto));
     }
 
     @Test
