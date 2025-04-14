@@ -15,6 +15,7 @@ import uk.gov.hmcts.probate.service.SubmitService;
 import uk.gov.hmcts.reform.probate.model.PaymentStatus;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.CaseData;
+import uk.gov.hmcts.reform.probate.model.cases.CaseInfo;
 import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
@@ -30,6 +31,7 @@ import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaForm;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -149,16 +151,18 @@ public class SubmitServiceImpl implements SubmitService {
 
 
     @Override
-    public Form saveCase(String identifier, Form form) {
+    public Form saveCase(String identifier, LocalDateTime lastModefiedDateTime, Form form) {
         log.info("Save case called");
         assertIdentifier(identifier, form);
         FormMapper formMapper = mappers.get(form.getType());
+        CaseInfo caseInfo = new CaseInfo();
+        caseInfo.setLastModifiedDateTime(lastModefiedDateTime);
         ProbateCaseDetails probateCaseDetails = submitServiceApi.saveCase(
             securityUtils.getAuthorisation(),
             securityUtils.getServiceAuthorisation(),
             identifier,
             form.getEventDescription(),
-            ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).build()
+            ProbateCaseDetails.builder().caseData(mapToCase(form, formMapper)).caseInfo(caseInfo).build()
         );
         return mapFromCase(formMapper, probateCaseDetails);
     }
@@ -223,6 +227,7 @@ public class SubmitServiceImpl implements SubmitService {
             .id(Long.valueOf(probateCaseDetails.getCaseInfo().getCaseId()))
             .state(probateCaseDetails.getCaseInfo().getState().getName())
             .lastModifiedDate(probateCaseDetails.getCaseInfo().getLastModifiedDate())
+            .lastModifiedDateTime(probateCaseDetails.getCaseInfo().getLastModifiedDateTime())
             .build());
     }
 

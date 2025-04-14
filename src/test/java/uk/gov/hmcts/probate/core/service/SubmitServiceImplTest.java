@@ -40,6 +40,7 @@ import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,6 +72,7 @@ public class SubmitServiceImplTest {
     private static final CaseState STATE = CaseState.DRAFT;
     private static final String CAVEAT_IDENTIFIER = "Id";
     private static final String CAVEAT_EXPIRY_DATE = "2020-12-31";
+    private static final LocalDateTime LAST_MODIFIED_DATE_TIME = LocalDateTime.of(2019, 1, 1, 0, 0, 0);
     private Map<ProbateType, FormMapper> mappers;
 
     @Mock
@@ -253,7 +255,7 @@ public class SubmitServiceImplTest {
         when(submitServiceApi.saveCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
             eq(identifier),eq("event description"), any(ProbateCaseDetails.class))).thenReturn(caseDetails);
 
-        Form formResponse = submitService.saveCase(identifier, form);
+        Form formResponse = submitService.saveCase(identifier, LAST_MODIFIED_DATE_TIME, form);
 
         assertThat(formResponse, is(form));
         verify(submitServiceApi, times(1)).saveCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
@@ -272,7 +274,7 @@ public class SubmitServiceImplTest {
         ((CaveatForm) caveatForm).setApplicationId("test@Test.com");
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            submitService.saveCase(EMAIL_ADDRESS, caveatForm);
+            submitService.saveCase(EMAIL_ADDRESS, LAST_MODIFIED_DATE_TIME, caveatForm);
         });
     }
 
