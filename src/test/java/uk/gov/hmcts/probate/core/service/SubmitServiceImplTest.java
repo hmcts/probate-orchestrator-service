@@ -1,6 +1,9 @@
 package uk.gov.hmcts.probate.core.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Assertions;
@@ -136,6 +139,9 @@ public class SubmitServiceImplTest {
 
         // Intestacy setup
         String intestacyFormStr = TestUtils.getJsonFromFile("intestacyFormTest.json");
+        objectMapper.registerModule(new Jdk8Module());
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         intestacyForm = objectMapper.readValue(intestacyFormStr, IntestacyForm.class);
         CasePayment intestacyCasePayment = new CasePayment();
         intestacyCaseData = GrantOfRepresentationData.builder().grantType(GrantType.INTESTACY).payments(
