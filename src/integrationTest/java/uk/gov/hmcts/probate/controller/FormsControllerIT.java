@@ -1,4 +1,4 @@
-  package uk.gov.hmcts.probate.controller;
+package uk.gov.hmcts.probate.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -164,8 +164,8 @@ public class FormsControllerIT {
             .andExpect(status().isOk())
             .andExpect(content().json(paFormJsonStr, true));
 
-        verify(submitService, times(1)).update(eq(EMAIL_ADDRESS), eq(ProbateType.PA)
-                , eq(paymentDto));
+        verify(submitService, times(1)).update(eq(EMAIL_ADDRESS),
+                eq(ProbateType.PA), eq(paymentDto));
     }
 
 
@@ -183,8 +183,8 @@ public class FormsControllerIT {
             .andExpect(status().isOk())
             .andExpect(content().json(paFormJsonStr, true));
 
-        verify(submitService, times(1)).update(eq("123456"), eq(ProbateType.INTESTACY)
-                , eq(paymentDto));
+        verify(submitService, times(1)).update(eq("123456"),
+                eq(ProbateType.INTESTACY), eq(paymentDto));
     }
 
     @Test
