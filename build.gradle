@@ -225,7 +225,7 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.jacksonDatabind
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: versions.jacksonDatabind
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-hateoas', version: versions.springBootVersion
-    implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: versions.feign
+    implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: '13.5'
     implementation group: 'io.github.openfeign', name: 'feign-jackson', version: versions.feign
     implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.3.1'
     implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.2.0'
