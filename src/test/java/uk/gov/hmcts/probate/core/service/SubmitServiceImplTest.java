@@ -137,11 +137,11 @@ public class SubmitServiceImplTest {
         when(securityUtils.getServiceAuthorisation()).thenReturn(SERVICE_AUTHORIZATION);
         caseInfo = CaseInfo.builder().state(STATE).caseId(CASE_ID).build();
 
-        // Intestacy setup
-        String intestacyFormStr = TestUtils.getJsonFromFile("intestacyFormTest.json");
         objectMapper.registerModule(new Jdk8Module());
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        // Intestacy setup
+        String intestacyFormStr = TestUtils.getJsonFromFile("intestacyFormTest.json");
         intestacyForm = objectMapper.readValue(intestacyFormStr, IntestacyForm.class);
         CasePayment intestacyCasePayment = new CasePayment();
         intestacyCaseData = GrantOfRepresentationData.builder().grantType(GrantType.INTESTACY).payments(
