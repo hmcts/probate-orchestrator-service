@@ -149,7 +149,7 @@ public class FormsFunctionalTests extends IntegrationTestBase {
                 .headers(utils.getCitizenHeaders())
                 .body(draftJsonStr)
                 .when()
-                .post(FORMS_CASES + caseId + "/" + "2018-01-01T12:12:12.123")
+                .post(FORMS_CASES + caseId + "/" + "2099-01-01T12:12:12.123")
                 .then()
                 .assertThat()
                 .statusCode(200)
