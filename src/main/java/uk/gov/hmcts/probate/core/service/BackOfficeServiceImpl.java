@@ -112,7 +112,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
     @Override
     public GrantScheduleResponse initiateGrantAwaitingDocumentsNotification(String date) {
         securityUtils.setSecurityContextUserAsScheduler();
-        log.info("Calling BackOfficeAPI to initiateGrantAwaitingDocumentsNotification as caseworker");
+        log.info("Calling BackOfficeAPI to initiateGrantAwaitingDocumentsNotification as scheduler");
         return backOfficeApi
             .initiateGrantAwaitingDocumentsNotification(BEARER_PREFIX + securityUtils.getAuthorisation(),
                 BEARER_PREFIX + securityUtils.getServiceAuthorisation(), date);
