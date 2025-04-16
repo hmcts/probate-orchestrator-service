@@ -2,7 +2,7 @@ plugins {
     id 'application'
     id 'java'
     id 'io.spring.dependency-management' version '1.1.7'
-    id 'org.springframework.boot' version '3.3.5'
+    id 'org.springframework.boot' version '3.3.10'
     id 'com.github.ben-manes.versions' version '0.52.0'
     id 'com.gorylenko.gradle-git-properties' version '2.5.0'
     id 'info.solidsoft.pitest' version '1.15.0'
@@ -161,7 +161,7 @@ tasks.withType(Test) {
 
 def versions = [
         authCheckerLib                  : '3.1.0',
-        commonsIO                       : '2.18.0',
+        commonsIO                       : '2.19.0',
         commonMark                      : '0.17.0',
         feign                           : '13.5',
         hmctsJavaLogging                : '6.1.8',
@@ -173,10 +173,10 @@ def versions = [
         piTest                          : '1.19.1',
         probateCommonsVersion           : '2.0.56',
         restAssured                     : '5.5.1',
-        serenity                        : '4.2.17',
+        serenity                        : '4.2.19',
         serviceAuthProviderClient       : '5.3.0',
         serviceTokenGenerator           : '0.6.0',
-        springBootVersion               : '3.3.5',
+        springBootVersion               : '3.3.10',
         springCloudWiremock             : '4.2.1',
         springDocOpenUi                 : '2.6.0',
         springSecurityVersion           : '6.4.4'
@@ -220,7 +220,7 @@ dependencies {
     implementation group: 'org.springframework.security', name: 'spring-security-core', version: versions.springSecurityVersion
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-openfeign-core'
     implementation group: 'org.springframework.retry', name: 'spring-retry', version: '2.0.11'
-    implementation group: 'com.google.guava', name: 'guava', version: '33.4.7-jre'
+    implementation group: 'com.google.guava', name: 'guava', version: '33.4.8-jre'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.jacksonDatabind
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: versions.jacksonDatabind
