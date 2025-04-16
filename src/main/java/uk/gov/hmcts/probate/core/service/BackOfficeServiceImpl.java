@@ -34,7 +34,6 @@ import java.util.function.Function;
 public class BackOfficeServiceImpl implements BackOfficeService {
 
     private static final String CAVEAT_DATE_FORMAT = "yyyy-MM-dd";
-    private static final String BEARER_PREFIX = "Bearer ";
 
     private final BackOfficeApi backOfficeApi;
 
@@ -105,17 +104,20 @@ public class BackOfficeServiceImpl implements BackOfficeService {
     public GrantScheduleResponse initiateGrantDelayedNotification(String date) {
         securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateGrantDelayedNotification as scheduler");
-        return backOfficeApi.initiateGrantDelayedNotification(BEARER_PREFIX + securityUtils.getAuthorisation(),
-            BEARER_PREFIX + securityUtils.getServiceAuthorisation(), date);
+        return backOfficeApi.initiateGrantDelayedNotification(
+                securityUtils.getAuthorisation(),
+                securityUtils.getServiceAuthorisation(),
+                date);
     }
 
     @Override
     public GrantScheduleResponse initiateGrantAwaitingDocumentsNotification(String date) {
         securityUtils.setSecurityContextUserAsScheduler();
         log.info("Calling BackOfficeAPI to initiateGrantAwaitingDocumentsNotification as scheduler");
-        return backOfficeApi
-            .initiateGrantAwaitingDocumentsNotification(BEARER_PREFIX + securityUtils.getAuthorisation(),
-                BEARER_PREFIX + securityUtils.getServiceAuthorisation(), date);
+        return backOfficeApi.initiateGrantAwaitingDocumentsNotification(
+                securityUtils.getAuthorisation(),
+                securityUtils.getServiceAuthorisation(),
+                date);
     }
 
     @Override
