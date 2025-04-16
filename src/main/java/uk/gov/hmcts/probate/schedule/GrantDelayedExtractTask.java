@@ -42,11 +42,11 @@ public class GrantDelayedExtractTask implements Runnable {
             backOfficeService.initiateGrantDelayedNotification(fromDate);
             log.info("Perform grant delayed data extract from date finished");
         } catch (ApiClientException e) {
-            log.error(e.getMessage());
+            log.error("ApiClientException from grant delayed", e);
         } catch (FeignException e) {
-            log.error("Error on calling BackOfficeAPI {}", e.getMessage());
+            log.error("FeignException from grant delayed", e);
         } catch (Exception e) {
-            log.error("Error on GrantDelayedExtractTask Scheduler {}", e.getMessage());
+            log.error("Exception from grant delayed", e);
         }
     }
 }
