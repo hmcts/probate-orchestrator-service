@@ -45,11 +45,11 @@ public class ExelaExtractTask implements Runnable {
             backOfficeService.initiateExelaExtractDateRange(fromDate, toDate);
             log.info("Perform Exela data extract from date finished");
         } catch (ApiClientException e) {
-            log.error(e.getMessage());
+            log.error("ApiClientException from Exela data extract", e);
         } catch (FeignException e) {
-            log.error("Error on calling BackOfficeAPI {}", e.getMessage());
+            log.error("FeignException from Exela data extract", e);
         } catch (Exception e) {
-            log.error("Error on ExelaExtractTask Scheduler {}", e.getMessage());
+            log.error("Exception from Exela data extract", e);
         }
     }
 
