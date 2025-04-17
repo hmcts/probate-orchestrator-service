@@ -23,6 +23,9 @@ import uk.gov.hmcts.reform.probate.model.forms.CaseSummaryHolder;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Tag(name = "FormsController", description = "Forms API")
 @RestController
 @Slf4j
@@ -30,6 +33,7 @@ import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 public class FormsController {
 
     private static final String FORMS_CASE_ENDPOINT = "/forms/case/{identifier}";
+    private static final String FORMS_SAVE_CASE_ENDPOINT = "/forms/case/{identifier}/{lastModifiedDateTime}";
     private static final String FORMS_CASES_ENDPOINT = "/forms/cases";
     private static final String FORMS_NEW_CASE_ENDPOINT = "/forms/newcase";
     private static final String SUBMISSIONS_ENDPOINT = "/submissions";
@@ -37,7 +41,7 @@ public class FormsController {
     private static final String VALIDATIONS_ENDPOINT = "/validations";
     private static final String PAYMENTS_ENDPOINT = "/payments";
     private static final String MIGRATE_DATA_ENDPOINT = "/migrateData";
-
+    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
     private final SubmitService submitService;
 
 
@@ -61,13 +65,15 @@ public class FormsController {
         @ApiResponse(responseCode = "400", description = "Saving form failed"),
         @ApiResponse(responseCode = "422", description = "Invalid or missing attribute")
     })
-    @PostMapping(path = FORMS_CASE_ENDPOINT, consumes = MediaType.APPLICATION_JSON_VALUE,
+    @PostMapping(path = FORMS_SAVE_CASE_ENDPOINT, consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Form> saveForm(@RequestBody Form form,
-                                         @PathVariable("identifier") String identifier) {
-        log.info("Save form called");
-        return new ResponseEntity<>(submitService.saveCase(identifier, form), HttpStatus.OK);
+                                         @PathVariable("identifier") String identifier,
+                                         @PathVariable("lastModifiedDateTime") String lastModifiedDateTime) {
+        log.info("Save form called with identifier {} lastModifiedDateTime {}", identifier, lastModifiedDateTime);
+        LocalDateTime lastModifiedDateTimeParsed = LocalDateTime.parse(lastModifiedDateTime, DATE_TIME_FORMAT);
+        return new ResponseEntity<>(submitService.saveCase(identifier,lastModifiedDateTimeParsed, form), HttpStatus.OK);
     }
 
     @Operation(summary = "Get form data", description = "Get form data")

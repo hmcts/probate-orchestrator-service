@@ -7,6 +7,7 @@ import uk.gov.hmcts.reform.probate.model.forms.CaseSummaryHolder;
 import uk.gov.hmcts.reform.probate.model.forms.Form;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +21,7 @@ public interface SubmitService {
 
     CaseSummaryHolder getAllCases();
 
-    Form saveCase(String identifier, Form form);
+    Form saveCase(String identifier, LocalDateTime lastModefidDateTime, Form form);
 
     Form submit(String identifier, Form form);
 
