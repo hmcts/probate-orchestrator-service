@@ -21,7 +21,7 @@ public interface SubmitService {
 
     CaseSummaryHolder getAllCases();
 
-    Form saveCase(String identifier, LocalDateTime lastModefidDateTime, Form form);
+    Form saveCase(String identifier, LocalDateTime lastModifiedDateTime, Form form);
 
     Form submit(String identifier, Form form);
 

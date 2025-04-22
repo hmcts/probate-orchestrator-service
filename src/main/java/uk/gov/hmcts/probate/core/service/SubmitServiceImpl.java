@@ -151,12 +151,12 @@ public class SubmitServiceImpl implements SubmitService {
 
 
     @Override
-    public Form saveCase(String identifier, LocalDateTime lastModefiedDateTime, Form form) {
-        log.info("Save case called lastModefiedDateTime {} :", lastModefiedDateTime);
+    public Form saveCase(String identifier, LocalDateTime lastModifiedDateTime, Form form) {
+        log.info("Save case called lastModifiedDateTime {} :", lastModifiedDateTime);
         assertIdentifier(identifier, form);
         FormMapper formMapper = mappers.get(form.getType());
         CaseInfo caseInfo = new CaseInfo();
-        caseInfo.setLastModifiedDateTime(lastModefiedDateTime);
+        caseInfo.setLastModifiedDateTime(lastModifiedDateTime);
         log.info("Save case called submitServiceApi.saveCase");
         ProbateCaseDetails probateCaseDetails = submitServiceApi.saveCase(
             securityUtils.getAuthorisation(),
