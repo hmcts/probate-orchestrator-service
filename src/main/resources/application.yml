@@ -83,13 +83,5 @@ feign:
         loggerLevel: basic
 
 cron:
-  ironMountain:
-    schedule: "0 5 2 * * *"
-  exela:
-    schedule: "0 10 2 * * *"
-  grantDelayed:
-    schedule: "0 15 2 * * *"
-  grantAwaitingDocuments:
-    schedule: "0 20 2 31 2 *"
   caveatExpiry:
     schedule: "0 0 3 * * *"
