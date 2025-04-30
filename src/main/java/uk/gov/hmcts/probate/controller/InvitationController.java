@@ -1,5 +1,6 @@
 package uk.gov.hmcts.probate.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.probate.model.exception.PhonePinException;
 import uk.gov.hmcts.probate.service.BusinessService;
@@ -19,6 +21,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
+@Slf4j
 public class InvitationController {
 
     protected static final String INVITE_BASEURL = "/invite";
@@ -96,6 +99,17 @@ public class InvitationController {
         return InvitationsResult.builder().invitations(businessService.getAllInviteData(formdataId)).build();
     }
 
+    //
+    // The below should be removed ASAP but need to exist to provide a bridge during deployment
+    //
+    @GetMapping(path = INVITE_PIN_URL)
+    public String invitePin(@RequestParam("phoneNumber") String phoneNumber,
+                            @RequestHeader("Session-Id") String sessionId) {
+        log.warn("using unsafe GET for /invite/pin");
+        final PhonePin phonePin = new PhonePin(phoneNumber);
+        return businessService.getPinNumber(phonePin, sessionId, Boolean.FALSE);
+    }
+
     @PostMapping(path = INVITE_PIN_URL)
     public String invitePinPost(
             @RequestHeader("Session-Id") final String sessionId,
@@ -105,6 +119,17 @@ public class InvitationController {
             throw new PhonePinException("PhonePin did not validate", bindingResult.getFieldErrors());
         }
         return businessService.getPinNumber(phonePin, sessionId, Boolean.FALSE);
+    }
+
+    //
+    // The below should be removed ASAP but need to exist to provide a bridge during deployment
+    //
+    @GetMapping(path = INVITE_PIN_BILINGUAL_URL)
+    public String invitePinBilingual(@RequestParam("phoneNumber") String phoneNumber,
+                                     @RequestHeader("Session-Id") String sessionId) {
+        log.warn("using unsafe GET for /invite/pin/bilingual");
+        final PhonePin phonePin = new PhonePin(phoneNumber);
+        return businessService.getPinNumber(phonePin, sessionId, Boolean.TRUE);
     }
 
     @PostMapping(path = INVITE_PIN_BILINGUAL_URL)
