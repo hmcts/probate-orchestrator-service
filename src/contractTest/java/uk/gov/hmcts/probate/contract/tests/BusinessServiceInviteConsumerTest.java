@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.probate.client.business.BusinessServiceApi;
+import uk.gov.hmcts.reform.probate.model.PhonePin;
 
 import java.io.IOException;
 
@@ -93,11 +94,11 @@ public class BusinessServiceInviteConsumerTest {
         // @formatter:off
         return builder
                 .given("business service generates pin number")
-                .uponReceiving("a request to GET a pin number ")
+                .uponReceiving("a POST to generate a pin number ")
                 .path("/pin")
-                .method("GET")
-                .matchQuery("phoneNumber", "07986777788")
-                .headers("Session-Id", SOME_SESSION_ID)
+                .method("POST")
+                .headers(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE, "Session-Id", SOME_SESSION_ID)
+                .body(contractTestUtils.createJsonObject("/invite/requestPin.json"))
                 .willRespondWith()
                 .status(200)
                 .matchHeader("FormDataContent-Type", "text/plain;charset=UTF-8")
@@ -123,7 +124,7 @@ public class BusinessServiceInviteConsumerTest {
     @Test
     @PactTestFor(pactMethod = "executePinNumber")
     public void verifyExecutePinNumber() throws JSONException, IOException {
-        businessServiceApi.pinNumber("07986777788", SOME_SESSION_ID);
+        businessServiceApi.pinNumberPost(SOME_SESSION_ID, new PhonePin("07986777788"));
     }
 }
 

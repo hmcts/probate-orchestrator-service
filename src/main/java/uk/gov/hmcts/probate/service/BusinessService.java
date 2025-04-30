@@ -1,5 +1,6 @@
 package uk.gov.hmcts.probate.service;
 
+import uk.gov.hmcts.reform.probate.model.PhonePin;
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
@@ -33,7 +34,7 @@ public interface BusinessService {
 
     List<Invitation> getAllInviteData(String formdataId);
 
-    String getPinNumber(String phoneNumber, String sessionId, Boolean isBilingual);
+    String getPinNumber(PhonePin phonePin, String sessionId, Boolean isBilingual);
 
     List<Invitation> sendInvitations(List<Invitation> invitations, String sessionId, Boolean isBilingual);
 
