@@ -43,7 +43,8 @@
   "ccdCase": {
     "id": 1551365512754035,
     "state": "CaseCreated",
-    "lastModifiedDate": "2018-01-01"
+    "lastModifiedDate": "2018-01-01",
+    "lastModifiedDateTime": "2018-01-01T12:12:12.123"
   },
   "payments": [
     {
