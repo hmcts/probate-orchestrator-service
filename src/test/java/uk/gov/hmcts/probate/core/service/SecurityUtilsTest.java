@@ -160,27 +160,27 @@ public class SecurityUtilsTest {
     }
 
     @Test
-    public void givenTokenIsNull_whenGetBearToken_thenReturnNull() {
-        testGetBearToken(null, null);
+    public void givenTokenIsNull_whenGetBearerToken_thenReturnNull() {
+        testGetBearerToken(null, null);
     }
 
     @Test
-    public void givenTokenIsBlank_whenGetBearToken_thenReturnBlank() {
-        testGetBearToken(" ", " ");
+    public void givenTokenIsBlank_whenGetBearerToken_thenReturnBlank() {
+        testGetBearerToken(" ", " ");
     }
 
     @Test
     public void givenTokenDoesNotHaveBearer_whenGetBearToken_thenReturnWithBearer() {
-        testGetBearToken("TestToken", "Bearer TestToken");
+        testGetBearerToken("TestToken", "Bearer TestToken");
     }
 
     @Test
-    public void givenTokenDoesHaveBearer_whenGetBearToken_thenReturnWithBearer() {
-        testGetBearToken("Bearer TestToken", "Bearer TestToken");
+    public void givenTokenDoesHaveBearer_whenGetBearerToken_thenReturnWithBearer() {
+        testGetBearerToken("Bearer TestToken", "Bearer TestToken");
     }
 
-    private void testGetBearToken(String input, String expected) {
-        assertEquals(securityUtils.getBearerToken(input), expected);
+    private void testGetBearerToken(String input, String expected) {
+        assertEquals(expected, securityUtils.getBearerToken(input));
     }
 
     @Test
