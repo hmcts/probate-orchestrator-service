@@ -43,16 +43,14 @@ public class InvitationController {
         consumes = MediaType.APPLICATION_JSON_VALUE)
     public InvitationsResult invite(@Valid @RequestBody List<Invitation> invitations,
                                     @RequestHeader("Session-Id") String sessionId) {
-        return InvitationsResult.builder()
-            .invitations(businessService.sendInvitations(invitations, sessionId, Boolean.FALSE)).build();
+        return businessService.sendInvitations(invitations, sessionId, Boolean.FALSE);
     }
 
     @PostMapping(path = INVITE_BILINGUAL_URL,
         consumes = MediaType.APPLICATION_JSON_VALUE)
     public InvitationsResult inviteBilingual(@Valid @RequestBody List<Invitation> invitations,
                                              @RequestHeader("Session-Id") String sessionId) {
-        return InvitationsResult.builder()
-            .invitations(businessService.sendInvitations(invitations, sessionId, Boolean.TRUE)).build();
+        return businessService.sendInvitations(invitations, sessionId, Boolean.FALSE);
     }
 
 

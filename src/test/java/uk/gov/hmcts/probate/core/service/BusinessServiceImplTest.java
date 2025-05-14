@@ -28,6 +28,7 @@ import uk.gov.hmcts.reform.probate.model.documents.DocumentNotification;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.ExecutorNotification;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
+import uk.gov.hmcts.reform.probate.model.multiapplicant.InvitationsResult;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -108,6 +109,10 @@ public class BusinessServiceImplTest {
         when(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(anyString()))
                 .thenReturn(ExecutorApplying.builder().applyingExecutorName("Test Executor").build());
         when(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress()).thenReturn(emailaddress);
+
+        when(submitServiceApi.saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
+                formdataId, "event update case data", mockProbateCaseDetails))
+                .thenReturn(mockProbateCaseDetails);
 
         pdfExample = new byte[10];
         businessService = new BusinessServiceImpl(businessServiceApi,
@@ -203,7 +208,7 @@ public class BusinessServiceImplTest {
         when(businessServiceApi.invite(resendInvitation.getInviteId(), resendInvitation, sessionId))
             .thenReturn(resendInvitation.getInviteId());
 
-        List<Invitation> results = businessService
+        InvitationsResult results = businessService
             .sendInvitations(Lists.newArrayList(newInvitation, resendInvitation), sessionId, Boolean.FALSE);
 
         verify(businessServiceApi).invite(newInvitation, sessionId);
@@ -232,7 +237,7 @@ public class BusinessServiceImplTest {
         when(businessServiceApi.inviteBilingual(resendInvitation.getInviteId(), resendInvitation, sessionId))
             .thenReturn(resendInvitation.getInviteId());
 
-        List<Invitation> results = businessService
+        InvitationsResult results = businessService
             .sendInvitations(Lists.newArrayList(newInvitation, resendInvitation), sessionId, Boolean.TRUE);
 
         verify(businessServiceApi).inviteBilingual(newInvitation, sessionId);
@@ -268,6 +273,7 @@ public class BusinessServiceImplTest {
     public void shouldUpdateContactDetailsOnCase() {
 
         businessService.updateContactDetails(formdataId, getInvitation(formdataId));
+
         verifyGetCaseCalls();
         verify(mockGrantOfRepresentationData)
             .updateInvitationContactDetailsForExecutorApplying(invitationId, emailaddress, phoneNumber);

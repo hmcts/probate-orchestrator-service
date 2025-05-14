@@ -21,8 +21,10 @@ import uk.gov.hmcts.reform.probate.model.documents.DocumentNotification;
 import uk.gov.hmcts.reform.probate.model.documents.LegalDeclaration;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.ExecutorNotification;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
+import uk.gov.hmcts.reform.probate.model.multiapplicant.InvitationsResult;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,15 +89,15 @@ public class BusinessServiceImpl implements BusinessService {
                 (GrantOfRepresentationData) probateCaseDetails.getCaseData();
         grantOfRepresentationData.setInvitationDetailsForExecutorApplying(invitation.getEmail(), invitationId,
                 invitation.getLeadExecutorName(), invitation.getExecutorName());
-        log.info("Updating case with invitation details");
         updateCaseData(probateCaseDetails, invitation.getFormdataId());
         return invitationId;
     }
 
 
     @Override
-    public List<Invitation> sendInvitations(List<Invitation> invitations, String sessionId, Boolean isBilingual) {
-        log.info("Send Invitations data ...calling businessServiceApi");
+    public InvitationsResult sendInvitations(List<Invitation> invitations, String sessionId, Boolean isBilingual) {
+        log.info("Send Invitations SSS data ...calling businessServiceApi");
+        LocalDateTime lastModifiedDateTime = null;
         Optional<Invitation> optionalInvitation = invitations.stream().findFirst();
         if (optionalInvitation.isPresent()) {
             final ProbateCaseDetails probateCaseDetails =
@@ -126,7 +128,8 @@ public class BusinessServiceImpl implements BusinessService {
             log.info("Updating case with invitation details");
             updateCaseData(probateCaseDetails, formDataId);
         }
-        return invitations;
+        return InvitationsResult.builder()
+                .invitations(invitations).lastModifiedDateTime(lastModifiedDateTime).build();
     }
 
 
@@ -337,11 +340,12 @@ public class BusinessServiceImpl implements BusinessService {
                 caseId, ProbateType.PA.getCaseType().name());
     }
 
-    private void updateCaseData(ProbateCaseDetails probateCaseDetails, String formdataId) {
+    private LocalDateTime updateCaseData(ProbateCaseDetails probateCaseDetails, String formdataId) {
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
-        submitServiceApi.saveCase(authorisation, serviceAuthorisation,
+        ProbateCaseDetails resultProbateCaseDetails = submitServiceApi.saveCase(authorisation, serviceAuthorisation,
                 formdataId, "event update case data", probateCaseDetails);
+        return resultProbateCaseDetails.getCaseInfo().getLastModifiedDateTime();
     }
 
     private void updateCaseDataAsCaseWorker(ProbateCaseDetails probateCaseDetails, String formdataId) {
