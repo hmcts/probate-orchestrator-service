@@ -100,7 +100,7 @@ public class InvitationControllerIT {
                 .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
                 .andExpect(status().isOk());
         verify(businessService, times(1)).sendInvitations(eq(Arrays.asList(invitation)),
-            eq("someSessionId"), eq(Boolean.TRUE));
+            eq("someSessionId"), eq(Boolean.FALSE));
     }
 
     @Test
