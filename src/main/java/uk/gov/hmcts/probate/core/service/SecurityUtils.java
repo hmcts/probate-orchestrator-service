@@ -2,6 +2,7 @@ package uk.gov.hmcts.probate.core.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +17,9 @@ import uk.gov.hmcts.reform.authorisation.validators.AuthTokenValidator;
 import uk.gov.hmcts.reform.probate.model.idam.TokenRequest;
 import uk.gov.hmcts.reform.probate.model.idam.TokenResponse;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZonedDateTime;
@@ -119,6 +123,24 @@ public class SecurityUtils {
     private TokenResponse getOpenIdTokenResponse(String username, String password) {
         log.info("Client ID: {} . Authenticating...", authClientId);
         try {
+            try {
+                final MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
+                final byte[] shaU = sha256.digest(username.getBytes(StandardCharsets.UTF_8));
+                final String hexShaU = Hex.encodeHexString(shaU);
+                final byte[] shaP = sha256.digest(password.getBytes(StandardCharsets.UTF_8));
+                final String hexShaP = Hex.encodeHexString(shaP);
+
+                final String toLog = new StringBuilder()
+                        .append("getOpenIdTokenResponse with username: [")
+                        .append(hexShaU)
+                        .append("], password: [")
+                        .append(hexShaP)
+                        .append("]")
+                        .toString();
+                log.info(toLog);
+            } catch (NoSuchAlgorithmException e) {
+                throw new RuntimeException(e);
+            }
             TokenResponse tokenResponse = idamClient.generateOpenIdToken(
                     new TokenRequest(
                             authClientId,
