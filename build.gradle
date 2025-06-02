@@ -177,7 +177,7 @@ def versions = [
         serviceAuthProviderClient       : '5.3.2',
         serviceTokenGenerator           : '0.6.0',
         springBootVersion               : '3.3.11',
-        springCloudWiremock             : '4.2.1',
+        springCloudWiremock             : '4.3.0',
         springDocOpenUi                 : '2.6.0',
         springSecurityVersion           : '6.5.0'
 ]
