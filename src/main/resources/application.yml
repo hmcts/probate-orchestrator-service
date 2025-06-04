@@ -93,3 +93,10 @@ cron:
     schedule: "0 20 2 31 2 *"
   caveatExpiry:
     schedule: "0 0 3 * * *"
+
+ld:
+  sdk_key: ${LAUNCHDARKLY_KEY:dummy}
+  user:
+    key: ${LD_USER_KEY:dummy_key}
+    firstName: Probate
+    lastName: Backend

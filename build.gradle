@@ -249,6 +249,8 @@ dependencies {
     implementation group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
     implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '8.1'
+    implementation group: 'com.launchdarkly', name: 'launchdarkly-java-server-sdk', version: '7.9.0'
+
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
 
