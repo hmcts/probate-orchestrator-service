@@ -93,7 +93,7 @@ public interface SubmitServiceApi {
     );
 
     @PostMapping(
-            value = "/cases/initate",
+            value = "/cases/initiate",
             headers = CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
     )
     ProbateCaseDetails initiateCase(
