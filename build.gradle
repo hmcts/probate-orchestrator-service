@@ -161,6 +161,7 @@ tasks.withType(Test) {
 
 def versions = [
         authCheckerLib                  : '3.1.1',
+        commonsBeanutils                : '1.11.0',
         commonsIO                       : '2.19.0',
         commonMark                      : '0.17.0',
         feign                           : '13.5',
@@ -312,6 +313,13 @@ dependencies {
     contractTestImplementation sourceSets.main.runtimeClasspath
     contractTestImplementation sourceSets.test.runtimeClasspath
     contractTestImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
+
+    constraints {
+        checkstyle group: 'commons-beanutils', name: 'commons-beanutils', version: versions.commonsBeanutils
+        implementation group: 'commons-beanutils', name: 'commons-beanutils', version: versions.commonsBeanutils
+        testFunctionalImplementation group: 'commons-beanutils', name: 'commons-beanutils', version: versions.commonsBeanutils
+        testIntegrationImplementation group: 'commons-beanutils', name: 'commons-beanutils', version: versions.commonsBeanutils
+    }
 }
 
 task fortifyScan(type: JavaExec)  {
