@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd ">
-    <suppress>
+    <suppress until = "2025-10-15">
         <!--
           Pebble literal templates can permit loading from the filesystem.
           If a user could control the template input this would be an issue,
@@ -9,5 +9,13 @@
           in probate-commons.
         -->
         <cve>CVE-2025-1686</cve>
+    </suppress>
+    <suppress until = "2025-10-15">
+        <!--
+            The direct dependencies on commons-beanutils have been coerced
+            into using an updated version but sonar-plugin-api bundles its
+            own affected version.
+        -->
+        <cve>CVE-2025-48734</cve>
     </suppress>
 </suppressions>
