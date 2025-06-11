@@ -8,7 +8,7 @@ import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -51,10 +51,10 @@ public class DocumentsControllerIT {
     private static final String DOCUMENT_DELETE_ENDPOINT =
         DocumentsController.DOCUMENTS_BASEURL + DocumentsController.DOCUMENT_DELETE_ENDPOINT;
 
-    @MockBean
+    @MockitoBean
     private BusinessService businessService;
 
-    @MockBean
+    @MockitoBean
     private BackOfficeService backOfficeService;
 
     @Autowired
