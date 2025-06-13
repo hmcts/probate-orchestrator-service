@@ -9,6 +9,7 @@ import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import io.pactfoundation.consumer.dsl.LambdaDslJsonArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -259,6 +260,7 @@ public class BusinessServiceConsumerTest {
     @PactTestFor(pactMethod = "executeSuccessGetLegalDeclarationPact")
     public void verifyExecuteSuccessGetLegalDeclarationPact() throws JSONException, IOException {
         objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
+        objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
         businessServiceApi.generateLegalDeclarationPDF(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN,
             getLegalDeclaration("businessDocuments/validLegalDeclaration.json"));
 
@@ -268,6 +270,7 @@ public class BusinessServiceConsumerTest {
     @PactTestFor(pactMethod = "executeSuccessGetBulkScanCoversheetPact")
     public void verifyExecuteSuccessGetBulkScanCoversheetPact() throws JSONException, IOException {
         objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
+        objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
         businessServiceApi.generateBulkScanCoverSheetPDF(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN,
             getBulkScanCoverSheet("businessDocuments/bulkScanCoverSheet.json"));
 
