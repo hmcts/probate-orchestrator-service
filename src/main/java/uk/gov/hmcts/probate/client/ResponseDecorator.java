@@ -17,7 +17,7 @@ public class ResponseDecorator {
 
     private ObjectMapper objectMapper;
 
-    ResponseDecorator(Response response) {
+    public ResponseDecorator(Response response) {
 
         this.response = response;
         this.objectMapper = ApplicationContextProvider.getApplicationContext().getBean(ObjectMapper.class);

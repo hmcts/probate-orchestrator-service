@@ -12,6 +12,7 @@ import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
 @RequiredArgsConstructor
@@ -19,14 +20,13 @@ public class ObjectMapperConfiguration {
 
 
     @Bean
+    @Primary
     public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = JsonMapper
                 .builder()
                 .addModule(new JavaTimeModule())
                 .addModule(new Jdk8Module())
                 .addModule(new ParameterNamesModule(JsonCreator.Mode.PROPERTIES))
-                .enable(SerializationFeature.WRAP_ROOT_VALUE)
-                .enable(DeserializationFeature.UNWRAP_ROOT_VALUE)
                 .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 .disable(JsonGenerator.Feature.AUTO_CLOSE_JSON_CONTENT)

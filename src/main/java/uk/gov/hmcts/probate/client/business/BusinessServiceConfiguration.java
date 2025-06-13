@@ -1,8 +1,6 @@
 package uk.gov.hmcts.probate.client.business;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import feign.Logger;
 import feign.codec.Encoder;
 import feign.jackson.JacksonEncoder;
