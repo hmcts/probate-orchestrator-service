@@ -258,6 +258,7 @@ public class BusinessServiceConsumerTest {
     @Test
     @PactTestFor(pactMethod = "executeSuccessGetLegalDeclarationPact")
     public void verifyExecuteSuccessGetLegalDeclarationPact() throws JSONException, IOException {
+        objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
         businessServiceApi.generateLegalDeclarationPDF(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN,
             getLegalDeclaration("businessDocuments/validLegalDeclaration.json"));
 
@@ -266,6 +267,7 @@ public class BusinessServiceConsumerTest {
     @Test
     @PactTestFor(pactMethod = "executeSuccessGetBulkScanCoversheetPact")
     public void verifyExecuteSuccessGetBulkScanCoversheetPact() throws JSONException, IOException {
+        objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
         businessServiceApi.generateBulkScanCoverSheetPDF(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN,
             getBulkScanCoverSheet("businessDocuments/bulkScanCoverSheet.json"));
 
