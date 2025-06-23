@@ -15,7 +15,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.ResourceUtils;
 import uk.gov.hmcts.reform.auth.checker.core.RequestAuthorizer;
@@ -60,13 +60,13 @@ public abstract class ControllerProviderTest {
 
     private static final String AUTHORIZATION = "Authorization";
 
-    @MockBean
+    @MockitoBean
     private SubjectResolver<Service> serviceResolver;
 
-    @MockBean
+    @MockitoBean
     private RequestAuthorizer<User> userRequestAuthorizer;
 
-    @MockBean
+    @MockitoBean
     private SecurityConfiguration securityConfiguration;
 
     private Service service;

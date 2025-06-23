@@ -3,7 +3,7 @@ package uk.gov.hmcts.probate.contract.tests;
 import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
 import org.json.JSONException;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.SecurityUtils;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
@@ -16,9 +16,9 @@ import static org.mockito.Mockito.when;
 @Provider("probate_orchestrator_service_intestacy_submit")
 public class IntestacySubmissionsFormsControllerProviderTest extends ControllerProviderTest {
 
-    @MockBean
+    @MockitoBean
     private SubmitServiceApi submitServiceApi;
-    @MockBean
+    @MockitoBean
     private SecurityUtils securityUtils;
 
     @State({"probate_orchestrator_service submits intestacy formdata with success",
