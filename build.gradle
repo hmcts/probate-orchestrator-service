@@ -2,14 +2,14 @@ plugins {
     id 'application'
     id 'java'
     id 'io.spring.dependency-management' version '1.1.7'
-    id 'org.springframework.boot' version '3.3.5'
+    id 'org.springframework.boot' version '3.5.3'
     id 'com.github.ben-manes.versions' version '0.52.0'
     id 'com.gorylenko.gradle-git-properties' version '2.5.0'
     id 'info.solidsoft.pitest' version '1.15.0'
     id 'au.com.dius.pact' version '4.6.17'
-    id 'net.serenity-bdd.serenity-gradle-plugin' version '4.2.16'
-    id 'org.sonarqube' version '6.1.0.5360'
-    id 'uk.gov.hmcts.java' version '0.12.65'
+    id 'net.serenity-bdd.serenity-gradle-plugin' version '4.2.33'
+    id 'org.sonarqube' version '6.2.0.5505'
+    id 'uk.gov.hmcts.java' version '0.12.66'
     id 'project-report'
     id 'jacoco'
 }
@@ -107,20 +107,20 @@ processContractTestResources {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
-task integration(type: Test) {
+tasks.register('integration', Test) {
     description = "Runs integration tests"
     testClassesDirs = sourceSets.testIntegration.output.classesDirs
     classpath = sourceSets.testIntegration.runtimeClasspath
 }
 
-task smoke(type: Test) {
+tasks.register('smoke', Test) {
     description = "Runs Smoke Tests"
     testClassesDirs = sourceSets.testSmoke.output.classesDirs
     classpath = sourceSets.testSmoke.runtimeClasspath
     environment("APPINSIGHTS_INSTRUMENTATIONKEY", "test-key")
 }
 
-task functional(type: Test) {
+tasks.register('functional', Test) {
     description = "Runs functional Tests"
     testClassesDirs = sourceSets.testFunctional.output.classesDirs
     classpath = sourceSets.testFunctional.runtimeClasspath
@@ -129,7 +129,7 @@ task functional(type: Test) {
 }
 
 functional.finalizedBy(aggregate)
-task runProviderPactVerification(type: Test) {
+tasks.register('runProviderPactVerification', Test) {
     testClassesDirs = sourceSets.contractTest.output.classesDirs
     classpath = sourceSets.contractTest.runtimeClasspath
     if (project.hasProperty('pact.verifier.publishResults')) {
@@ -138,7 +138,7 @@ task runProviderPactVerification(type: Test) {
     systemProperty 'pact.provider.version', project.pactVersion
 }
 
-task runProviderPactTests(type: Test) {
+tasks.register('runProviderPactTests', Test) {
     description = "Runs Provider Contract Tests"
     println 'runProviderPactTests-PACT_BROKER_FULL_URL=' + System.getenv("PACT_BROKER_FULL_URL")
     useJUnitPlatform()
@@ -146,7 +146,7 @@ task runProviderPactTests(type: Test) {
     classpath = sourceSets.contractTest.runtimeClasspath
 }
 
-task runConsumerPactTests(type: Test) {
+tasks.register('runConsumerPactTests', Test) {
     description = "Runs Contract Tests"
     println 'runProviderPactTests-PACT_BROKER_FULL_URL=' + System.getenv("PACT_BROKER_FULL_URL")
     useJUnitPlatform()
@@ -154,32 +154,34 @@ task runConsumerPactTests(type: Test) {
     classpath = sourceSets.contractTest.runtimeClasspath
 }
 
-tasks.withType(Test) {
+tasks.withType(Test).configureEach {
     maxHeapSize = "1024m"
     useJUnitPlatform()
 }
 
 def versions = [
-        authCheckerLib                  : '3.1.0',
+        authCheckerLib                  : '3.1.1',
+        commonsBeanutils                : '1.11.0',
         commonsIO                       : '2.19.0',
         commonMark                      : '0.17.0',
         feign                           : '13.6',
-        hmctsJavaLogging                : '6.1.8',
-        jacksonDatabind                 : '2.18.3',
-        junitJupiter                    : '5.10.2',
+        fortifyClient                   : '1.4.9',
+        hmctsJavaLogging                : '6.1.9',
+        jacksonDatabind                 : '2.19.1',
+        junitJupiter                    : '5.12.2',
         lombok                          : '1.18.38',
         mapStruct                       : '1.3.0.Final',
         pact_version                    : '4.1.34',
-        piTest                          : '1.19.1',
-        probateCommonsVersion           : '2.0.56',
-        restAssured                     : '5.5.1',
-        serenity                        : '4.2.17',
-        serviceAuthProviderClient       : '5.3.0',
+        piTest                          : '1.20.0',
+        probateCommonsVersion           : '2.2.2',
+        restAssured                     : '5.5.5',
+        serenity                        : '4.2.34',
+        serviceAuthProviderClient       : '5.3.2',
         serviceTokenGenerator           : '0.6.0',
-        springBootVersion               : '3.3.5',
-        springCloudWiremock             : '4.2.1',
-        springDocOpenUi                 : '2.6.0',
-        springSecurityVersion           : '6.4.4'
+        springBootVersion               : '3.5.3',
+        springCloudWiremock             : '4.3.0',
+        springDocOpenUi                 : '2.8.9',
+        springSecurityVersion           : '6.5.1',
 ]
 
 jacocoTestReport {
@@ -196,12 +198,12 @@ check.dependsOn(integration)
 repositories {
     mavenLocal()
     mavenCentral()
-    maven { url "https://jitpack.io" }
+    maven { url 'https://pkgs.dev.azure.com/hmcts/Artifacts/_packaging/hmcts-lib/maven/v1' }
 }
 
 dependencyManagement {
     imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2023.0.5"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2025.0.0"
     }
 }
 
@@ -219,23 +221,23 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: versions.springBootVersion
     implementation group: 'org.springframework.security', name: 'spring-security-core', version: versions.springSecurityVersion
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-openfeign-core'
-    implementation group: 'org.springframework.retry', name: 'spring-retry', version: '2.0.11'
-    implementation group: 'com.google.guava', name: 'guava', version: '33.4.7-jre'
+    implementation group: 'org.springframework.retry', name: 'spring-retry', version: '2.0.12'
+    implementation group: 'com.google.guava', name: 'guava', version: '33.4.8-jre'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.jacksonDatabind
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: versions.jacksonDatabind
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-hateoas', version: versions.springBootVersion
     implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: versions.feign
     implementation group: 'io.github.openfeign', name: 'feign-jackson', version: versions.feign
-    implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.3.1'
-    implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.2.0'
+    implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.5'
+    implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.2.1'
 
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.hmctsJavaLogging
     implementation group: 'com.github.hmcts', name: 'auth-checker-lib', version: versions.authCheckerLib
     implementation group: 'com.github.hmcts', name: 'service-auth-provider-java-client', version: versions.serviceAuthProviderClient
     implementation group: 'com.github.hmcts', name: 'probate-commons', version: versions.probateCommonsVersion
-    implementation group: 'com.microsoft.azure', name: 'applicationinsights-core', version: '3.7.1'
-    implementation group: 'com.microsoft.azure', name: 'applicationinsights-runtime-attach', version: '3.7.1'
+    implementation group: 'com.microsoft.azure', name: 'applicationinsights-core', version: '3.7.3'
+    implementation group: 'com.microsoft.azure', name: 'applicationinsights-runtime-attach', version: '3.7.3'
     implementation group: 'commons-io', name: 'commons-io', version: versions.commonsIO
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: versions.springDocOpenUi
     implementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
@@ -244,7 +246,7 @@ dependencies {
     implementation group: 'org.pitest', name: 'pitest', version: versions.piTest
     implementation group: 'com.atlassian.commonmark', name: 'commonmark', version: versions.commonMark
     implementation group: 'info.solidsoft.gradle.pitest', name: 'gradle-pitest-plugin', version: '1.15.0'
-    implementation group: 'org.sonarsource.api.plugin', name: 'sonar-plugin-api', version: '11.3.0.2824'
+    implementation group: 'org.sonarsource.api.plugin', name: 'sonar-plugin-api', version: '12.0.0.2960'
     implementation group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
     implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '8.1'
@@ -260,7 +262,7 @@ dependencies {
     testImplementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
     testImplementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: versions.jacksonDatabind
     testImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
-    testImplementation group: 'com.github.hmcts', name: 'fortify-client', version: '1.4.8', classifier: 'all'
+    testImplementation group: 'com.github.hmcts', name: 'fortify-client', version: versions.fortifyClient, classifier: 'all'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
     testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     testAnnotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
@@ -275,7 +277,7 @@ dependencies {
     testIntegrationImplementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
     testIntegrationImplementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: versions.jacksonDatabind
     testIntegrationImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
-    testIntegrationImplementation group: 'com.github.hmcts', name: 'fortify-client', version: '1.4.8'
+    testIntegrationImplementation group: 'com.github.hmcts', name: 'fortify-client', version: versions.fortifyClient
     testIntegrationImplementation group: 'com.github.hmcts', name: 'probate-commons', version: versions.probateCommonsVersion
     testIntegrationImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
     testIntegrationRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: versions.junitJupiter
@@ -311,15 +313,22 @@ dependencies {
     contractTestImplementation sourceSets.main.runtimeClasspath
     contractTestImplementation sourceSets.test.runtimeClasspath
     contractTestImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
+
+    constraints {
+        checkstyle group: 'commons-beanutils', name: 'commons-beanutils', version: versions.commonsBeanutils
+        implementation group: 'commons-beanutils', name: 'commons-beanutils', version: versions.commonsBeanutils
+        testFunctionalImplementation group: 'commons-beanutils', name: 'commons-beanutils', version: versions.commonsBeanutils
+        testIntegrationImplementation group: 'commons-beanutils', name: 'commons-beanutils', version: versions.commonsBeanutils
+    }
 }
 
-task fortifyScan(type: JavaExec)  {
+tasks.register('fortifyScan', JavaExec) {
     mainClass.set("uk.gov.hmcts.fortifyclient.FortifyClientMainApp")
     classpath += sourceSets.test.runtimeClasspath
     jvmArgs = ['--add-opens=java.base/java.lang.reflect=ALL-UNNAMED']
 }
 
-def getCheckedOutGitCommitHash() {
+static def getCheckedOutGitCommitHash() {
     'git rev-parse --verify --short HEAD'.execute().text.trim()
 }
 
@@ -327,7 +336,7 @@ project.ext {
     pactVersion = getCheckedOutGitCommitHash()
 }
 
-task runAndPublishConsumerPactTests(type: Test){
+tasks.register('runAndPublishConsumerPactTests', Test) {
     logger.lifecycle("Runs PublishConsumer pact tests")
     systemProperty 'pact.rootDir', "pacts"
     println 'runAndPublishConsumerPactTests-PACT_BROKER_FULL_URL=' + System.getenv("PACT_BROKER_FULL_URL")
@@ -351,7 +360,7 @@ pact {
     }
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.compilerArgs << "-parameters"
 }
 
@@ -368,7 +377,7 @@ bootJar {
     }
 }
 
-task generateAatEnvFile() {
+tasks.register('generateAatEnvFile') {
     doFirst {
         print 'Generating AAT env var file'
         "sh bin/generate-aat-env-file.sh".execute()

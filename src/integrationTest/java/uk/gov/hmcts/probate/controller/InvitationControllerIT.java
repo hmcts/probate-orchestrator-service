@@ -1,13 +1,14 @@
 package uk.gov.hmcts.probate.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -15,13 +16,16 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.probate.service.BusinessService;
+import uk.gov.hmcts.reform.probate.model.PhonePin;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -35,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class InvitationControllerIT {
 
-    @MockBean
+    @MockitoBean
     private BusinessService businessService;
 
     @Autowired
@@ -116,30 +120,130 @@ public class InvitationControllerIT {
 
     @Test
     public void pinRequest_shouldReturn200() throws Exception {
+        final String phoneNumber = "07987676542";
+        final PhonePin phonePin = new PhonePin(phoneNumber);
+        final String requestContent = String.format("""
+                {
+                  "phoneNumber": "%s"
+                }""",
+                phoneNumber);
 
-        when(businessService.getPinNumber(eq("07987676542"), eq("someSessionId"), eq(Boolean.FALSE)))
-            .thenReturn("54321");
+        when(businessService.getPinNumber(eq(phonePin), eq("someSessionId"), eq(Boolean.FALSE)))
+                .thenReturn("54321");
 
-        mockMvc.perform(get(InvitationController.INVITE_PIN_URL)
-                .header("Session-Id", "someSessionId")
-                .param("phoneNumber", "07987676542"))
+        mockMvc.perform(post(InvitationController.INVITE_PIN_URL)
+                        .header("Session-Id", "someSessionId")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .content(requestContent))
                 .andExpect(status().isOk());
-        verify(businessService, times(1)).getPinNumber(eq("07987676542"),
-            eq("someSessionId"), eq(Boolean.FALSE));
+        verify(businessService, times(1))
+                .getPinNumber(eq(phonePin), eq("someSessionId"), eq(Boolean.FALSE));
+    }
+
+    @Test
+    public void pinRequest_withMissingField_shouldReturn400() throws Exception {
+        final String requestContent = "{}";
+
+        mockMvc.perform(post(InvitationController.INVITE_PIN_URL)
+                        .header("Session-Id", "someSessionId")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .content(requestContent))
+                .andExpect(status().is4xxClientError());
+        verify(businessService, never())
+                .getPinNumber(any(), any(), any());
+    }
+
+    @Test
+    public void pinRequest_withMisspelledField_shouldReturn400() throws Exception {
+        final String phoneNumber = "07987676542";
+        final String requestContent = String.format("""
+                {
+                  "phone": "%s"
+                }""",
+                phoneNumber);
+
+        mockMvc.perform(post(InvitationController.INVITE_PIN_URL)
+                        .header("Session-Id", "someSessionId")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .content(requestContent))
+                .andExpect(status().is4xxClientError());
+        verify(businessService, never())
+                .getPinNumber(any(), any(), any());
+    }
+
+    @Test
+    public void pinRequest_withNoBody_shouldReturn400() throws Exception {
+        mockMvc.perform(post(InvitationController.INVITE_PIN_URL)
+                        .header("Session-Id", "someSessionId")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().is4xxClientError());
+        verify(businessService, never())
+                .getPinNumber(any(), any(), any());
     }
 
     @Test
     public void bilingualPinRequest_shouldReturn200() throws Exception {
+        final String phoneNumber = "07987676542";
+        final PhonePin phonePin = new PhonePin(phoneNumber);
+        final String requestContent = new StringBuilder()
+                .append("{")
+                .append("\"phoneNumber\": \"")
+                .append(phoneNumber)
+                .append("\"")
+                .append("}")
+                .toString();
 
-        when(businessService.getPinNumber(eq("07987676542"), eq("someSessionId"),
+        when(businessService.getPinNumber(eq(phonePin), eq("someSessionId"),
             eq(Boolean.TRUE))).thenReturn("54321");
 
-        mockMvc.perform(get(InvitationController.INVITE_PIN_BILINGUAL_URL)
+        mockMvc.perform(post(InvitationController.INVITE_PIN_BILINGUAL_URL)
                 .header("Session-Id", "someSessionId")
-                .param("phoneNumber", "07987676542"))
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .content(requestContent))
                 .andExpect(status().isOk());
-        verify(businessService, times(1)).getPinNumber(eq("07987676542"),
-            eq("someSessionId"), eq(Boolean.TRUE));
+        verify(businessService, times(1))
+                .getPinNumber(eq(phonePin), eq("someSessionId"), eq(Boolean.TRUE));
+    }
+
+    @Test
+    public void bilingualPinRequest_withMissingField_shouldReturn400() throws Exception {
+        final String requestContent = "{}";
+
+        mockMvc.perform(post(InvitationController.INVITE_PIN_BILINGUAL_URL)
+                        .header("Session-Id", "someSessionId")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .content(requestContent))
+                .andExpect(status().is4xxClientError());
+        verify(businessService, never())
+                .getPinNumber(any(), any(), any());
+    }
+
+    @Test
+    public void bilingualPinRequest_withMisspelledField_shouldReturn400() throws Exception {
+        final String phoneNumber = "07987676542";
+        final String requestContent = String.format("""
+                {
+                  "phone": "%s"
+                }""",
+                phoneNumber);
+
+        mockMvc.perform(post(InvitationController.INVITE_PIN_BILINGUAL_URL)
+                        .header("Session-Id", "someSessionId")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .content(requestContent))
+                .andExpect(status().is4xxClientError());
+        verify(businessService, never())
+                .getPinNumber(any(), any(), any());
+    }
+
+    @Test
+    public void bilingualPinRequest_withNoBody_shouldReturn400() throws Exception {
+        mockMvc.perform(post(InvitationController.INVITE_PIN_BILINGUAL_URL)
+                        .header("Session-Id", "someSessionId")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().is4xxClientError());
+        verify(businessService, never())
+                .getPinNumber(any(), any(), any());
     }
 
     @Test

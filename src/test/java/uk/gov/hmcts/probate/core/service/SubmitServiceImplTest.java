@@ -1,6 +1,7 @@
 package uk.gov.hmcts.probate.core.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Assertions;
@@ -118,6 +119,7 @@ public class SubmitServiceImplTest {
 
     @BeforeEach
     public void setUp() throws Exception {
+        objectMapper.registerModule(new JavaTimeModule());
         IdentifierConfiguration identifierConfiguration = new IdentifierConfiguration();
 
         mappers = ImmutableMap.<ProbateType, FormMapper>builder()

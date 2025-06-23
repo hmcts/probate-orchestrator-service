@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +25,6 @@ public class GrantController {
     private final GrantDelayedNotifier grantDelayedNotifier;
     private final GrantAwaitingDocumentsNotifier grantAwaitingDocumentsNotifier;
 
-    @Scheduled(cron = "${cron.grantDelayed.schedule}")
     @Operation(summary = "Notify grants delayed")
     @PostMapping(path = "/delay-notification")
     public ResponseEntity initiateGrantDelayedSchedule() {
@@ -40,7 +38,6 @@ public class GrantController {
         return ResponseEntity.ok("Perform grant delayed notification called");
     }
 
-    @Scheduled(cron = "${cron.grantAwaitingDocuments.schedule}")
     @Operation(summary = "Notify grants Awaiting Documents")
     @PostMapping(path = "/awaiting-documents-notification")
     public ResponseEntity initiateAwaitingDocumentsSchedule() {
