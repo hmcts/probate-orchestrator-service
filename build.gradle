@@ -107,20 +107,20 @@ processContractTestResources {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
-task integration(type: Test) {
+tasks.register('integration', Test) {
     description = "Runs integration tests"
     testClassesDirs = sourceSets.testIntegration.output.classesDirs
     classpath = sourceSets.testIntegration.runtimeClasspath
 }
 
-task smoke(type: Test) {
+tasks.register('smoke', Test) {
     description = "Runs Smoke Tests"
     testClassesDirs = sourceSets.testSmoke.output.classesDirs
     classpath = sourceSets.testSmoke.runtimeClasspath
     environment("APPINSIGHTS_INSTRUMENTATIONKEY", "test-key")
 }
 
-task functional(type: Test) {
+tasks.register('functional', Test) {
     description = "Runs functional Tests"
     testClassesDirs = sourceSets.testFunctional.output.classesDirs
     classpath = sourceSets.testFunctional.runtimeClasspath
@@ -129,7 +129,7 @@ task functional(type: Test) {
 }
 
 functional.finalizedBy(aggregate)
-task runProviderPactVerification(type: Test) {
+tasks.register('runProviderPactVerification', Test) {
     testClassesDirs = sourceSets.contractTest.output.classesDirs
     classpath = sourceSets.contractTest.runtimeClasspath
     if (project.hasProperty('pact.verifier.publishResults')) {
@@ -138,7 +138,7 @@ task runProviderPactVerification(type: Test) {
     systemProperty 'pact.provider.version', project.pactVersion
 }
 
-task runProviderPactTests(type: Test) {
+tasks.register('runProviderPactTests', Test) {
     description = "Runs Provider Contract Tests"
     println 'runProviderPactTests-PACT_BROKER_FULL_URL=' + System.getenv("PACT_BROKER_FULL_URL")
     useJUnitPlatform()
@@ -146,7 +146,7 @@ task runProviderPactTests(type: Test) {
     classpath = sourceSets.contractTest.runtimeClasspath
 }
 
-task runConsumerPactTests(type: Test) {
+tasks.register('runConsumerPactTests', Test) {
     description = "Runs Contract Tests"
     println 'runProviderPactTests-PACT_BROKER_FULL_URL=' + System.getenv("PACT_BROKER_FULL_URL")
     useJUnitPlatform()
@@ -154,7 +154,7 @@ task runConsumerPactTests(type: Test) {
     classpath = sourceSets.contractTest.runtimeClasspath
 }
 
-tasks.withType(Test) {
+tasks.withType(Test).configureEach {
     maxHeapSize = "1024m"
     useJUnitPlatform()
 }
@@ -168,10 +168,10 @@ def versions = [
         fortifyClient                   : '1.4.9',
         hmctsJavaLogging                : '6.1.9',
         jacksonDatabind                 : '2.19.1',
-        junitJupiter                    : '5.13.1',
+        junitJupiter                    : '5.12.2',
         lombok                          : '1.18.38',
-        mapStruct                       : '1.6.3',
-        pact_version                    : '4.6.17',
+        mapStruct                       : '1.3.0.Final',
+        pact_version                    : '4.1.34',
         piTest                          : '1.20.0',
         probateCommonsVersion           : '2.2.2',
         restAssured                     : '5.5.5',
@@ -241,7 +241,7 @@ dependencies {
     implementation group: 'commons-io', name: 'commons-io', version: versions.commonsIO
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: versions.springDocOpenUi
     implementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
-    implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.6.3'
+    implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.5.5.Final'
     implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: versions.jacksonDatabind
     implementation group: 'org.pitest', name: 'pitest', version: versions.piTest
     implementation group: 'com.atlassian.commonmark', name: 'commonmark', version: versions.commonMark
@@ -322,13 +322,13 @@ dependencies {
     }
 }
 
-task fortifyScan(type: JavaExec)  {
+tasks.register('fortifyScan', JavaExec) {
     mainClass.set("uk.gov.hmcts.fortifyclient.FortifyClientMainApp")
     classpath += sourceSets.test.runtimeClasspath
     jvmArgs = ['--add-opens=java.base/java.lang.reflect=ALL-UNNAMED']
 }
 
-def getCheckedOutGitCommitHash() {
+static def getCheckedOutGitCommitHash() {
     'git rev-parse --verify --short HEAD'.execute().text.trim()
 }
 
@@ -336,7 +336,7 @@ project.ext {
     pactVersion = getCheckedOutGitCommitHash()
 }
 
-task runAndPublishConsumerPactTests(type: Test){
+tasks.register('runAndPublishConsumerPactTests', Test) {
     logger.lifecycle("Runs PublishConsumer pact tests")
     systemProperty 'pact.rootDir', "pacts"
     println 'runAndPublishConsumerPactTests-PACT_BROKER_FULL_URL=' + System.getenv("PACT_BROKER_FULL_URL")
@@ -360,7 +360,7 @@ pact {
     }
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.compilerArgs << "-parameters"
 }
 
@@ -377,7 +377,7 @@ bootJar {
     }
 }
 
-task generateAatEnvFile() {
+tasks.register('generateAatEnvFile') {
     doFirst {
         print 'Generating AAT env var file'
         "sh bin/generate-aat-env-file.sh".execute()
