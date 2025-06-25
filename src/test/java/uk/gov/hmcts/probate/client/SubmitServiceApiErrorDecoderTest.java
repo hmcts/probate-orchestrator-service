@@ -1,5 +1,6 @@
 package uk.gov.hmcts.probate.client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Request;
 import feign.Response;
 import feign.Util;
@@ -16,14 +17,16 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
-public class SubmitServiceApiErrorDecoderTest {
+class SubmitServiceApiErrorDecoderTest {
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     private Map<String, Collection<String>> headers = new LinkedHashMap<>();
 
-    private SubmitServiceApiErrorDecoder errorDecoder = new SubmitServiceApiErrorDecoder();
+    private SubmitServiceApiErrorDecoder errorDecoder = new SubmitServiceApiErrorDecoder(objectMapper);
 
     @Test
-    public void throwsApiClientException() throws Throwable {
+    void throwsApiClientException() throws Throwable {
         assertThrows(ApiClientException.class, () -> {
             Response response = Response.builder()
                     .status(500)

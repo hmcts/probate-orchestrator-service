@@ -19,10 +19,10 @@ import org.springframework.context.annotation.Primary;
 public class ObjectMapperConfiguration {
 
 
-    @Bean
+    @Bean(name = "defaultMapper")
     @Primary
     public ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = JsonMapper
+        return JsonMapper
                 .builder()
                 .addModule(new JavaTimeModule())
                 .addModule(new Jdk8Module())
@@ -31,8 +31,17 @@ public class ObjectMapperConfiguration {
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 .disable(JsonGenerator.Feature.AUTO_CLOSE_JSON_CONTENT)
                 .build();
-
-        return objectMapper;
     }
 
+    @Bean(name = "rootValueMapper")
+    public ObjectMapper rootValueObjectMapper() {
+        return JsonMapper
+                .builder()
+                .addModule(new JavaTimeModule())
+                .addModule(new Jdk8Module())
+                .enable(SerializationFeature.WRAP_ROOT_VALUE)
+                .enable(DeserializationFeature.UNWRAP_ROOT_VALUE)
+                .disable(JsonGenerator.Feature.AUTO_CLOSE_JSON_CONTENT)
+                .build();
+    }
 }

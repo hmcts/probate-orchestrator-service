@@ -17,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.ResourceUtils;
@@ -47,7 +48,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
     "core_case_data.api.url : localhost:8893",
     "business.service.api.url : localhost:8894"
 })
-public class BusinessServiceConsumerTest {
+class BusinessServiceConsumerTest {
 
 
     @Autowired
@@ -57,6 +58,7 @@ public class BusinessServiceConsumerTest {
     ContractTestUtils contractTestUtils;
 
     @Autowired
+    @Qualifier("rootValueMapper")
     ObjectMapper objectMapper;
 
     public static final String SOME_AUTHORIZATION_TOKEN = "someAuthorizationToken";
@@ -64,12 +66,12 @@ public class BusinessServiceConsumerTest {
     private String serviceAuthorization = "ServiceAuthorization";
 
     @BeforeEach
-    public void setUpTest() throws InterruptedException {
+    void setUpTest() throws InterruptedException {
         Thread.sleep(2000);
     }
 
     @Pact(provider = "probate_businessservice_documents", consumer = "probate_orchestrator_service")
-    public RequestResponsePact executeSuccessGetCheckYoursAnswersSummaryPact(PactDslWithProvider builder)
+    RequestResponsePact executeSuccessGetCheckYoursAnswersSummaryPact(PactDslWithProvider builder)
         throws IOException, JSONException {
         // @formatter:off
         return builder
@@ -89,7 +91,7 @@ public class BusinessServiceConsumerTest {
 
 
     @Pact(provider = "probate_businessservice_documents", consumer = "probate_orchestrator_service")
-    public RequestResponsePact executeValidationErrorsCheckYoursAnswersSummaryPact(PactDslWithProvider builder)
+    RequestResponsePact executeValidationErrorsCheckYoursAnswersSummaryPact(PactDslWithProvider builder)
         throws IOException, JSONException {
         // @formatter:off
         return builder
@@ -121,7 +123,7 @@ public class BusinessServiceConsumerTest {
 
 
     @Pact(provider = "probate_businessservice_documents", consumer = "probate_orchestrator_service")
-    public RequestResponsePact executeSuccessGetLegalDeclarationPact(PactDslWithProvider builder)
+    RequestResponsePact executeSuccessGetLegalDeclarationPact(PactDslWithProvider builder)
         throws IOException, JSONException {
         // @formatter:off
         return builder
@@ -142,7 +144,7 @@ public class BusinessServiceConsumerTest {
 
 
     @Pact(provider = "probate_businessservice_documents", consumer = "probate_orchestrator_service")
-    public RequestResponsePact executeValidationErrorsLegalDeclarationPact(PactDslWithProvider builder)
+    RequestResponsePact executeValidationErrorsLegalDeclarationPact(PactDslWithProvider builder)
         throws IOException, JSONException {
         // @formatter:off
         return builder
@@ -173,7 +175,7 @@ public class BusinessServiceConsumerTest {
 
 
     @Pact(provider = "probate_businessservice_documents", consumer = "probate_orchestrator_service")
-    public RequestResponsePact executeSuccessGetBulkScanCoversheetPact(PactDslWithProvider builder)
+    RequestResponsePact executeSuccessGetBulkScanCoversheetPact(PactDslWithProvider builder)
         throws IOException, JSONException {
         // @formatter:off
         return builder
@@ -194,7 +196,7 @@ public class BusinessServiceConsumerTest {
 
 
     @Pact(provider = "probate_businessservice_documents", consumer = "probate_orchestrator_service")
-    public RequestResponsePact executeValidationErrorsBulkScanCoversheetPact(PactDslWithProvider builder)
+    RequestResponsePact executeValidationErrorsBulkScanCoversheetPact(PactDslWithProvider builder)
         throws IOException, JSONException {
         // @formatter:off
         return builder
@@ -227,7 +229,7 @@ public class BusinessServiceConsumerTest {
 
     @Test
     @PactTestFor(pactMethod = "executeSuccessGetCheckYoursAnswersSummaryPact")
-    public void verifyExecuteSuccessGetCheckYoursAnswersSummaryPact() throws JSONException, IOException {
+    void verifyExecuteSuccessGetCheckYoursAnswersSummaryPact() throws JSONException, IOException {
         businessServiceApi.generateCheckAnswersSummaryPdf(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN,
             getCheckAnswersSummary("businessDocuments/checkAnswersSimpleSummary.json"));
 
@@ -236,7 +238,7 @@ public class BusinessServiceConsumerTest {
 
     @Test
     @PactTestFor(pactMethod = "executeValidationErrorsCheckYoursAnswersSummaryPact")
-    public void verifyExecuteValidationErrorsCheckYoursAnswersSummaryPact() throws JSONException, IOException {
+    void verifyExecuteValidationErrorsCheckYoursAnswersSummaryPact() throws JSONException, IOException {
         assertThrows(UndeclaredThrowableException.class, () -> {
             businessServiceApi.generateCheckAnswersSummaryPdf(SOME_AUTHORIZATION_TOKEN,
                 SOME_SERVICE_AUTHORIZATION_TOKEN, getCheckAnswersSummary(
@@ -247,7 +249,7 @@ public class BusinessServiceConsumerTest {
 
     @Test
     @PactTestFor(pactMethod = "executeValidationErrorsLegalDeclarationPact")
-    public void verifyExecuteValidationErrorsLegalDeclarationPact() throws JSONException, IOException {
+    void verifyExecuteValidationErrorsLegalDeclarationPact() throws JSONException, IOException {
         assertThrows(UndeclaredThrowableException.class, () -> {
             businessServiceApi.generateLegalDeclarationPDF(SOME_AUTHORIZATION_TOKEN,
                 SOME_SERVICE_AUTHORIZATION_TOKEN,
@@ -258,9 +260,7 @@ public class BusinessServiceConsumerTest {
 
     @Test
     @PactTestFor(pactMethod = "executeSuccessGetLegalDeclarationPact")
-    public void verifyExecuteSuccessGetLegalDeclarationPact() throws JSONException, IOException {
-        objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
-        objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
+    void verifyExecuteSuccessGetLegalDeclarationPact() throws JSONException, IOException {
         businessServiceApi.generateLegalDeclarationPDF(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN,
             getLegalDeclaration("businessDocuments/validLegalDeclaration.json"));
 
@@ -269,8 +269,6 @@ public class BusinessServiceConsumerTest {
     @Test
     @PactTestFor(pactMethod = "executeSuccessGetBulkScanCoversheetPact")
     public void verifyExecuteSuccessGetBulkScanCoversheetPact() throws JSONException, IOException {
-        objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
-        objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
         businessServiceApi.generateBulkScanCoverSheetPDF(SOME_AUTHORIZATION_TOKEN, SOME_SERVICE_AUTHORIZATION_TOKEN,
             getBulkScanCoverSheet("businessDocuments/bulkScanCoverSheet.json"));
 
@@ -278,7 +276,7 @@ public class BusinessServiceConsumerTest {
 
     @Test
     @PactTestFor(pactMethod = "executeValidationErrorsBulkScanCoversheetPact")
-    public void verifyExecuteValidationErrorsBulkScanCoversheetPact() throws JSONException, IOException {
+    void verifyExecuteValidationErrorsBulkScanCoversheetPact() throws JSONException, IOException {
         assertThrows(UndeclaredThrowableException.class, () -> {
             businessServiceApi.generateBulkScanCoverSheetPDF(SOME_AUTHORIZATION_TOKEN,
                 SOME_SERVICE_AUTHORIZATION_TOKEN,
