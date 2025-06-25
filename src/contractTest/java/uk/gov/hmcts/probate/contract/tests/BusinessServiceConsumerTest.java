@@ -9,7 +9,6 @@ import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import io.pactfoundation.consumer.dsl.LambdaDslJsonArray;
 import org.json.JSONException;
 import org.json.JSONObject;
