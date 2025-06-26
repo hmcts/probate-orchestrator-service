@@ -4,7 +4,7 @@ import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
 import org.json.JSONException;
 import org.mockito.ArgumentMatchers;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import uk.gov.hmcts.probate.client.business.BusinessServiceApi;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.SecurityUtils;
@@ -21,11 +21,11 @@ import static org.mockito.Mockito.when;
 @Provider("probate_orchestrator_service_invitelink")
 public class InviteLinkControllerProviderTest extends ControllerProviderTest {
 
-    @MockBean
+    @MockitoBean
     private BusinessServiceApi businessServiceApi;
-    @MockBean
+    @MockitoBean
     private SubmitServiceApi submitServiceApi;
-    @MockBean
+    @MockitoBean
     private SecurityUtils securityUtils;
 
 

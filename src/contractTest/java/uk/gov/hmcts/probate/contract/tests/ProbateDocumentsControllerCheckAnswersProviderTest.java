@@ -3,7 +3,7 @@ package uk.gov.hmcts.probate.contract.tests;
 import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
 import org.json.JSONException;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import uk.gov.hmcts.probate.client.business.BusinessServiceApi;
 import uk.gov.hmcts.probate.core.service.SecurityUtils;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
@@ -18,9 +18,9 @@ import static org.mockito.Mockito.when;
 @Provider("probate_orchestrator_service_documents_check_answers")
 public class ProbateDocumentsControllerCheckAnswersProviderTest extends ControllerProviderTest {
 
-    @MockBean
+    @MockitoBean
     private BusinessServiceApi businessServiceApi;
-    @MockBean
+    @MockitoBean
     private SecurityUtils securityUtils;
 
     @State({"probate_orchestrator_service generates check answers byte[] with success",
