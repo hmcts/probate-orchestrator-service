@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Logger;
 import feign.codec.Decoder;
 import feign.jackson.JacksonDecoder;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 
@@ -17,15 +18,17 @@ public class SubmitServiceConfiguration {
     static final String INVITATION_ID = "invitationId";
     static final String CASE_ID = "caseId";
 
+
     @Bean
     @Primary
-    public Decoder feignDecoder(ObjectMapper objectMapper) {
+    public Decoder feignDecoder(@Qualifier("defaultMapper") ObjectMapper objectMapper) {
         return new JacksonDecoder(objectMapper);
     }
 
     @Bean
-    public SubmitServiceApiErrorDecoder submitServiceApiErrorDecoder() {
-        return new SubmitServiceApiErrorDecoder();
+    public SubmitServiceApiErrorDecoder submitServiceApiErrorDecoder(
+            @Qualifier("defaultMapper") ObjectMapper objectMapper) {
+        return new SubmitServiceApiErrorDecoder(objectMapper);
     }
 
     @Bean

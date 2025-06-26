@@ -1,11 +1,10 @@
 package uk.gov.hmcts.probate.client.business;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import feign.Logger;
 import feign.codec.Encoder;
 import feign.jackson.JacksonEncoder;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 
@@ -14,12 +13,15 @@ public class BusinessServiceConfiguration {
 
     static final String SERVICE_AUTHORIZATION = "ServiceAuthorization";
 
+    private final ObjectMapper objectMapper;
+
+    public BusinessServiceConfiguration(@Qualifier("rootValueMapper") ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
     @Bean
     @Primary
     Encoder feignEncoder() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
-        objectMapper.enable(DeserializationFeature.UNWRAP_ROOT_VALUE);
         return new JacksonEncoder(objectMapper);
     }
 
