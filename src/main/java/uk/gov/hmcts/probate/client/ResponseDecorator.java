@@ -37,10 +37,9 @@ public class ResponseDecorator {
     }
 
     public ErrorResponse mapToErrorResponse() {
-        ObjectMapper mapper = new ObjectMapper();
         ErrorResponse errorResponse = null;
         try {
-            errorResponse = mapper.readValue(this.bodyToString(), ErrorResponse.class);
+            errorResponse = this.objectMapper.readValue(this.bodyToString(), ErrorResponse.class);
         } catch (IOException e) {
             log.debug("Response contained empty body");
         }
