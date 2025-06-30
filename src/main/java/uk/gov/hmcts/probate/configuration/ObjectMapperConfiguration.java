@@ -22,7 +22,7 @@ public class ObjectMapperConfiguration {
     @Bean
     @Primary
     public ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = JsonMapper
+        return JsonMapper
                 .builder()
                 .addModule(new JavaTimeModule())
                 .addModule(new Jdk8Module())
@@ -32,7 +32,6 @@ public class ObjectMapperConfiguration {
                 .disable(JsonGenerator.Feature.AUTO_CLOSE_JSON_CONTENT)
                 .build();
 
-        return objectMapper;
     }
 
 }

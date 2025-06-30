@@ -9,6 +9,7 @@ import uk.gov.hmcts.probate.configuration.ApplicationContextProvider;
 import uk.gov.hmcts.reform.probate.model.client.ErrorResponse;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 public class ResponseDecorator {
@@ -27,7 +28,7 @@ public class ResponseDecorator {
         String apiError = "";
         try {
             if (this.response.body() != null) {
-                apiError = Util.toString(this.response.body().asReader());
+                apiError = Util.toString(this.response.body().asReader(StandardCharsets.UTF_8));
             }
         } catch (IOException ignored) {
             log.debug("Unable to read response body");
