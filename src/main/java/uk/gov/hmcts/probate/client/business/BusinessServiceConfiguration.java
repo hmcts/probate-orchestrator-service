@@ -1,5 +1,6 @@
 package uk.gov.hmcts.probate.client.business;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -20,6 +21,7 @@ public class BusinessServiceConfiguration {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
         objectMapper.enable(DeserializationFeature.UNWRAP_ROOT_VALUE);
+        objectMapper.disable(JsonGenerator.Feature.AUTO_CLOSE_JSON_CONTENT);
         return new JacksonEncoder(objectMapper);
     }
 
