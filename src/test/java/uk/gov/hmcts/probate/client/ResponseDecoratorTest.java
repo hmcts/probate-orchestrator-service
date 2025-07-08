@@ -45,7 +45,7 @@ public class ResponseDecoratorTest {
                 .body("hello world", UTF_8)
                 .build();
 
-        ResponseDecorator responseDecorator = new ResponseDecorator(response);
+        ResponseDecorator responseDecorator = new ResponseDecorator(response,objectMapper);
         Field objectMapperField = ResponseDecorator.class.getDeclaredField("objectMapper");
         objectMapperField.setAccessible(true);
         objectMapperField.set(responseDecorator, objectMapper);
@@ -63,7 +63,7 @@ public class ResponseDecoratorTest {
                 .headers(headers)
                 .build();
 
-        ResponseDecorator responseDecorator = new ResponseDecorator(response);
+        ResponseDecorator responseDecorator = new ResponseDecorator(response,objectMapper);
         String body = responseDecorator.bodyToString();
 
         assertThat(response.body()).isNull();
@@ -84,7 +84,7 @@ public class ResponseDecoratorTest {
                     }
                 }, 1)
                 .build();
-        ResponseDecorator responseDecorator = new ResponseDecorator(response);
+        ResponseDecorator responseDecorator = new ResponseDecorator(response,objectMapper);
 
         String body = responseDecorator.bodyToString();
 
@@ -103,7 +103,7 @@ public class ResponseDecoratorTest {
                 .body(validationErrorResponse, UTF_8)
                 .build();
 
-        ResponseDecorator responseDecorator = new ResponseDecorator(response);
+        ResponseDecorator responseDecorator = new ResponseDecorator(response,objectMapper);
         ErrorResponse errorResponse = responseDecorator.mapToErrorResponse();
 
         assertThat(errorResponse.getType()).isEqualTo(ErrorType.VALIDATION);
@@ -121,7 +121,7 @@ public class ResponseDecoratorTest {
                 .body(apiClientErrorResponse, UTF_8)
                 .build();
 
-        ResponseDecorator responseDecorator = new ResponseDecorator(response);
+        ResponseDecorator responseDecorator = new ResponseDecorator(response,objectMapper);
         ErrorResponse errorResponse = responseDecorator.mapToErrorResponse();
 
         assertThat(errorResponse.getType()).isEqualTo(ErrorType.API_CLIENT);
@@ -137,7 +137,7 @@ public class ResponseDecoratorTest {
                 .headers(headers)
                 .build();
 
-        ResponseDecorator responseDecorator = new ResponseDecorator(response);
+        ResponseDecorator responseDecorator = new ResponseDecorator(response,objectMapper);
         ErrorResponse errorResponse = responseDecorator.mapToErrorResponse();
 
         assertThat(errorResponse).isNull();
