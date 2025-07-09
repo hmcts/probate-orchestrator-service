@@ -17,6 +17,7 @@ public class SubmitServiceConfiguration {
     static final String INVITATION_ID = "invitationId";
     static final String CASE_ID = "caseId";
 
+
     @Bean
     @Primary
     public Decoder feignDecoder(ObjectMapper objectMapper) {
@@ -24,8 +25,8 @@ public class SubmitServiceConfiguration {
     }
 
     @Bean
-    public SubmitServiceApiErrorDecoder submitServiceApiErrorDecoder() {
-        return new SubmitServiceApiErrorDecoder();
+    public SubmitServiceApiErrorDecoder submitServiceApiErrorDecoder(ObjectMapper objectMapper) {
+        return new SubmitServiceApiErrorDecoder(objectMapper);
     }
 
     @Bean
