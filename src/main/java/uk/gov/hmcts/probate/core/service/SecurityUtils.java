@@ -29,11 +29,8 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 @RequiredArgsConstructor
 public class SecurityUtils {
 
-    private static final String BASIC = "Basic ";
     private static final String BEARER = "Bearer ";
     private static final String OPENID_GRANT_TYPE = "password";
-    private static final String AUTHORIZATION_CODE = "authorization_code";
-    private static final String CODE = "code";
     private final AuthTokenGenerator authTokenGenerator;
     private final AuthTokenValidator authTokenValidator;
     private final List<String> allowedToUpdateDetails;
@@ -102,7 +99,7 @@ public class SecurityUtils {
             log.info("Using cached Case Worker IDAM token.");
         }
         log.info("Getting AccessToken...");
-        return BEARER + cacheCaseworkerTokenResponse.accessToken;
+        return getBearerToken(cacheCaseworkerTokenResponse.accessToken);
     }
 
     private String getSchedulerToken() {
@@ -113,7 +110,7 @@ public class SecurityUtils {
             log.info("Using cached Scheduler IDAM token.");
         }
         log.info("Getting AccessToken...");
-        return BEARER + cacheSchedulerTokenResponse.accessToken;
+        return getBearerToken(cacheSchedulerTokenResponse.accessToken);
     }
 
     private TokenResponse getOpenIdTokenResponse(String username, String password) {
