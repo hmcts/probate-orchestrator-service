@@ -16,7 +16,6 @@ import uk.gov.hmcts.reform.probate.model.client.ErrorType;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -46,9 +45,6 @@ public class ResponseDecoratorTest {
                 .build();
 
         ResponseDecorator responseDecorator = new ResponseDecorator(response,objectMapper);
-        Field objectMapperField = ResponseDecorator.class.getDeclaredField("objectMapper");
-        objectMapperField.setAccessible(true);
-        objectMapperField.set(responseDecorator, objectMapper);
         String body = responseDecorator.bodyToString();
 
         assertThat(body).isEqualTo("hello world");
