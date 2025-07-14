@@ -4,10 +4,10 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.7'
     id 'org.springframework.boot' version '3.5.3'
     id 'com.github.ben-manes.versions' version '0.52.0'
-    id 'com.gorylenko.gradle-git-properties' version '2.5.0'
+    id 'com.gorylenko.gradle-git-properties' version '2.5.2'
     id 'info.solidsoft.pitest' version '1.15.0'
     id 'au.com.dius.pact' version '4.6.17'
-    id 'net.serenity-bdd.serenity-gradle-plugin' version '4.2.33'
+    id 'net.serenity-bdd.serenity-gradle-plugin' version '4.2.34'
     id 'org.sonarqube' version '6.2.0.5505'
     id 'uk.gov.hmcts.java' version '0.12.67'
     id 'project-report'
@@ -230,7 +230,7 @@ dependencies {
     implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: versions.feign
     implementation group: 'io.github.openfeign', name: 'feign-jackson', version: versions.feign
     implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.5'
-    implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.2.1'
+    implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.2.2'
 
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.hmctsJavaLogging
     implementation group: 'com.github.hmcts', name: 'auth-checker-lib', version: versions.authCheckerLib
