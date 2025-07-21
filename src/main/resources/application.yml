@@ -81,7 +81,3 @@ feign:
         connectTimeout: 30000
         readTimeout: 30000
         loggerLevel: basic
-
-cron:
-  caveatExpiry:
-    schedule: "0 0 3 * * *"
