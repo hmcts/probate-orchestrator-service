@@ -183,8 +183,8 @@ public class SubmitServiceImpl implements SubmitService {
         String authorisation = securityUtils.getAuthorisation();
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         log.info("Get existing case from submit service");
-        ProbateCaseDetails existingCase = submitServiceApi.getCase(authorisation,
-            serviceAuthorisation, identifier, probateType.getCaseType().name());
+        ProbateCaseDetails existingCase = submitServiceApi.getCaseById(authorisation,
+            serviceAuthorisation, identifier);
 
         log.info("Got existing case now set payment on this case");
         CasePayment casePayment = paymentDtoMapper.toCasePayment(paymentDto);
@@ -234,8 +234,8 @@ public class SubmitServiceImpl implements SubmitService {
         String authorisation = securityUtils.getAuthorisation();
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         log.info("Get existing case from submit service");
-        ProbateCaseDetails existingCase = submitServiceApi.getCase(authorisation,
-            serviceAuthorisation, identifier, form.getType().getCaseType().name());
+        ProbateCaseDetails existingCase = submitServiceApi.getCaseById(authorisation,
+            serviceAuthorisation, identifier);
         log.info("Got existing case now set payment on this case");
         FormMapper formMapper = mappers.get(form.getType());
         CaseData caseData = formMapper.toCaseData(form);
