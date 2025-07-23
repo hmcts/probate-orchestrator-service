@@ -330,6 +330,7 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     private ProbateCaseDetails getProbateCaseDetails(String caseId) {
+        log.info("BusinessServiceImpl.getProbateCaseDetails id: {}", caseId);
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
         return submitServiceApi.getCaseById(authorisation, serviceAuthorisation, caseId);
