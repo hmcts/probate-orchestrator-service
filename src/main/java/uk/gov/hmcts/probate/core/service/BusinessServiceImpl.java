@@ -8,7 +8,6 @@ import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.mapper.ExecutorApplyingToInvitationMapper;
 import uk.gov.hmcts.probate.service.BusinessService;
 import uk.gov.hmcts.reform.probate.model.PhonePin;
-import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
@@ -333,8 +332,7 @@ public class BusinessServiceImpl implements BusinessService {
     private ProbateCaseDetails getProbateCaseDetails(String caseId) {
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         String authorisation = securityUtils.getAuthorisation();
-        return submitServiceApi.getCase(authorisation, serviceAuthorisation,
-                caseId, ProbateType.PA.getCaseType().name());
+        return submitServiceApi.getCaseById(authorisation, serviceAuthorisation, caseId);
     }
 
     private void updateCaseData(ProbateCaseDetails probateCaseDetails, String formdataId) {
