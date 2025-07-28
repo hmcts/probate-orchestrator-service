@@ -66,7 +66,7 @@ public class FormsController {
     @ResponseBody
     public ResponseEntity<Form> saveForm(@RequestBody Form form,
                                          @PathVariable("identifier") String identifier) {
-        log.info("Save form called id " + identifier) ;
+        log.info("Save form called id " + identifier);
         return new ResponseEntity<>(submitService.saveCase(identifier, form), HttpStatus.OK);
     }
 
