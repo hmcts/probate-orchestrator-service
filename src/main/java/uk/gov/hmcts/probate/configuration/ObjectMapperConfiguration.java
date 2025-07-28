@@ -29,7 +29,6 @@ public class ObjectMapperConfiguration {
                 .addModule(new ParameterNamesModule(JsonCreator.Mode.DEFAULT))
                 .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-                .disable(DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES)
                 .disable(JsonGenerator.Feature.AUTO_CLOSE_JSON_CONTENT)
                 .build();
 
