@@ -294,6 +294,7 @@ public class SubmitServiceImpl implements SubmitService {
         String authorisation = securityUtils.getAuthorisation();
         ProbateCaseDetails probateCaseDetails = submitServiceApi.validate(authorisation,
             serviceAuthorisation, identifier, probateType.getCaseType().name());
+
         Form form = formMapper.fromCaseData(probateCaseDetails.getCaseData());
         updateCcdCase(probateCaseDetails, form);
         return form;
@@ -304,6 +305,7 @@ public class SubmitServiceImpl implements SubmitService {
     }
 
     private Form mapFromCase(FormMapper formMapper, ProbateCaseDetails probateCaseDetails) {
+        log.info("mapFromCase-->probateCaseDetails--> {}", probateCaseDetails.getCaseData().getPayments());
         Form formResponse = formMapper.fromCaseData(probateCaseDetails.getCaseData());
         updateCcdCase(probateCaseDetails, formResponse);
         log.info("mapFromCase-->formResponse.getPayment() = {}", formResponse.getPayment());
