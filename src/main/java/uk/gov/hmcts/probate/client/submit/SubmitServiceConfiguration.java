@@ -26,7 +26,7 @@ public class SubmitServiceConfiguration {
 
     @Bean
     public SubmitServiceApiErrorDecoder submitServiceApiErrorDecoder(ObjectMapper objectMapper) {
-        return new SubmitServiceApiErrorDecoder(objectMapper);
+        return new SubmitServiceApiErrorDecoder();
     }
 
     @Bean

@@ -1,12 +1,10 @@
 package uk.gov.hmcts.probate.client;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Request;
 import feign.Response;
 import feign.Util;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -31,9 +29,6 @@ public class ResponseDecoratorTest {
 
     private Map<String, Collection<String>> headers = new LinkedHashMap<>();
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @Test
     public void bodyToStringShouldReturnString() throws ReflectiveOperationException {
         Response response = Response.builder()
@@ -44,7 +39,7 @@ public class ResponseDecoratorTest {
                 .body("hello world", UTF_8)
                 .build();
 
-        ResponseDecorator responseDecorator = new ResponseDecorator(response,objectMapper);
+        ResponseDecorator responseDecorator = new ResponseDecorator(response);
         String body = responseDecorator.bodyToString();
 
         assertThat(body).isEqualTo("hello world");
@@ -59,7 +54,7 @@ public class ResponseDecoratorTest {
                 .headers(headers)
                 .build();
 
-        ResponseDecorator responseDecorator = new ResponseDecorator(response,objectMapper);
+        ResponseDecorator responseDecorator = new ResponseDecorator(response);
         String body = responseDecorator.bodyToString();
 
         assertThat(response.body()).isNull();
@@ -80,7 +75,7 @@ public class ResponseDecoratorTest {
                     }
                 }, 1)
                 .build();
-        ResponseDecorator responseDecorator = new ResponseDecorator(response,objectMapper);
+        ResponseDecorator responseDecorator = new ResponseDecorator(response);
 
         String body = responseDecorator.bodyToString();
 
@@ -99,7 +94,7 @@ public class ResponseDecoratorTest {
                 .body(validationErrorResponse, UTF_8)
                 .build();
 
-        ResponseDecorator responseDecorator = new ResponseDecorator(response,objectMapper);
+        ResponseDecorator responseDecorator = new ResponseDecorator(response);
         ErrorResponse errorResponse = responseDecorator.mapToErrorResponse();
 
         assertThat(errorResponse.getType()).isEqualTo(ErrorType.VALIDATION);
@@ -117,7 +112,7 @@ public class ResponseDecoratorTest {
                 .body(apiClientErrorResponse, UTF_8)
                 .build();
 
-        ResponseDecorator responseDecorator = new ResponseDecorator(response,objectMapper);
+        ResponseDecorator responseDecorator = new ResponseDecorator(response);
         ErrorResponse errorResponse = responseDecorator.mapToErrorResponse();
 
         assertThat(errorResponse.getType()).isEqualTo(ErrorType.API_CLIENT);
@@ -133,7 +128,7 @@ public class ResponseDecoratorTest {
                 .headers(headers)
                 .build();
 
-        ResponseDecorator responseDecorator = new ResponseDecorator(response,objectMapper);
+        ResponseDecorator responseDecorator = new ResponseDecorator(response);
         ErrorResponse errorResponse = responseDecorator.mapToErrorResponse();
 
         assertThat(errorResponse).isNull();
