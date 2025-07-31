@@ -182,9 +182,16 @@ public class SubmitServiceImpl implements SubmitService {
     public Form update(String identifier, ProbateType probateType, PaymentDto paymentDto) {
         String authorisation = securityUtils.getAuthorisation();
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
-        log.info("Get existing case from submit service");
-        ProbateCaseDetails existingCase = submitServiceApi.getCase(authorisation,
-            serviceAuthorisation, identifier, probateType.getCaseType().name());
+        log.info("Get existing case from submit service casetype {} identifier {} ",
+                probateType.getCaseType().name(),identifier);
+        ProbateCaseDetails existingCase = null;
+        if (ProbateType.CAVEAT.getCaseType().name().equals(probateType.getCaseType().name())) {
+            existingCase = submitServiceApi.getCase(authorisation,
+                serviceAuthorisation, identifier, probateType.getCaseType().name());
+        } else {
+            existingCase = submitServiceApi.getCaseById(authorisation,
+                    serviceAuthorisation, identifier);
+        }
 
         log.info("Got existing case now set payment on this case");
         CasePayment casePayment = paymentDtoMapper.toCasePayment(paymentDto);
@@ -233,9 +240,16 @@ public class SubmitServiceImpl implements SubmitService {
             "Cannot update case with no payments, there needs to be at least one payment");
         String authorisation = securityUtils.getAuthorisation();
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
-        log.info("Get existing case from submit service");
-        ProbateCaseDetails existingCase = submitServiceApi.getCase(authorisation,
-            serviceAuthorisation, identifier, form.getType().getCaseType().name());
+        log.info("Get existing case from submit service casetype {} identifier {} ",
+                form.getType().getName(),identifier);
+        ProbateCaseDetails existingCase = null;
+        if (ProbateType.CAVEAT.getCaseType().name().equals(form.getType().getName())) {
+            submitServiceApi.getCase(authorisation,
+                    serviceAuthorisation, identifier, form.getType().name());
+        } else {
+            existingCase = submitServiceApi.getCaseById(authorisation,
+                    serviceAuthorisation, identifier);
+        }
         log.info("Got existing case now set payment on this case");
         FormMapper formMapper = mappers.get(form.getType());
         CaseData caseData = formMapper.toCaseData(form);
