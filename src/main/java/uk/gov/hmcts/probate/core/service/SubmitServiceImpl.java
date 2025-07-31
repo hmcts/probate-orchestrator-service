@@ -185,7 +185,7 @@ public class SubmitServiceImpl implements SubmitService {
         log.info("Get existing case from submit service casetype {} identifier {} ",
                 probateType.getCaseType().name(),identifier);
         ProbateCaseDetails existingCase = null;
-        if (ProbateType.CAVEAT.getCaseType().name().equals(probateType.getCaseType().name())) {
+        if (ProbateType.CAVEAT.getName().equals(probateType.getName())) {
             existingCase = submitServiceApi.getCase(authorisation,
                 serviceAuthorisation, identifier, probateType.getCaseType().name());
         } else {
@@ -243,8 +243,8 @@ public class SubmitServiceImpl implements SubmitService {
         log.info("Get existing case from submit service casetype {} identifier {} ",
                 form.getType().getName(),identifier);
         ProbateCaseDetails existingCase = null;
-        if (ProbateType.CAVEAT.getCaseType().name().equals(form.getType().getName())) {
-            submitServiceApi.getCase(authorisation,
+        if (ProbateType.CAVEAT.getName().equals(form.getType().getName())) {
+            existingCase = submitServiceApi.getCase(authorisation,
                     serviceAuthorisation, identifier, form.getType().name());
         } else {
             existingCase = submitServiceApi.getCaseById(authorisation,
