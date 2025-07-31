@@ -318,7 +318,7 @@ public class SubmitServiceImplTest {
     @Test
     public void shouldUpdateCaveatForm() {
         when(submitServiceApi.getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
-                CASE_ID, ProbateType.CAVEAT.name())).thenReturn(caveatCaseDetails);
+                CASE_ID, ProbateType.CAVEAT.getName())).thenReturn(caveatCaseDetails);
         when(submitServiceApi.createCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
                 eq(CASE_ID), any(ProbateCaseDetails.class))).thenReturn(caveatCaseDetails);
 
@@ -329,7 +329,7 @@ public class SubmitServiceImplTest {
 
         assertThat(formResponse, is(caveatForm));
         verify(submitServiceApi, times(1)).getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
-                CASE_ID, ProbateType.CAVEAT.name());
+                CASE_ID, ProbateType.CAVEAT.getName());
         verify(submitServiceApi, times(1)).createCase(eq(AUTHORIZATION),
                 eq(SERVICE_AUTHORIZATION),
                 eq(CASE_ID), any(ProbateCaseDetails.class));
