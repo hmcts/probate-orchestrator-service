@@ -242,10 +242,13 @@ public class SubmitServiceImpl implements SubmitService {
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         log.info("Get existing case from submit service casetype {} identifier {} ",
                 form.getType().getName(),identifier);
+        log.info("Get existing case from submit service casetype {} identifier2 {} ",
+                form.getType().getCaseType().name(),identifier);
         ProbateCaseDetails existingCase = null;
+
         if (ProbateType.CAVEAT.getName().equals(form.getType().getName())) {
             existingCase = submitServiceApi.getCase(authorisation,
-                    serviceAuthorisation, identifier, ProbateType.CAVEAT.getName());
+                    serviceAuthorisation, identifier,form.getType().getCaseType().name());
         } else {
             existingCase = submitServiceApi.getCaseById(authorisation,
                     serviceAuthorisation, identifier);
