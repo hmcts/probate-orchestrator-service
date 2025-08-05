@@ -185,9 +185,9 @@ public class SubmitServiceImpl implements SubmitService {
         log.info("Get existing case from submit service casetype {} identifier {} ",
                 probateType.getCaseType().name(),identifier);
         ProbateCaseDetails existingCase = null;
-        if (ProbateType.CAVEAT.getName().equals(probateType.getName())) {
+        if (ProbateType.CAVEAT.name().equals(probateType.getCaseType().name())) {
             existingCase = submitServiceApi.getCase(authorisation,
-                serviceAuthorisation, identifier, ProbateType.CAVEAT.getName());
+                serviceAuthorisation, identifier, ProbateType.CAVEAT.name());
         } else {
             existingCase = submitServiceApi.getCaseById(authorisation,
                     serviceAuthorisation, identifier);
@@ -241,16 +241,20 @@ public class SubmitServiceImpl implements SubmitService {
         String authorisation = securityUtils.getAuthorisation();
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
         log.info("Get existing case from submit service casetype {} identifier {} ",
-                form.getType().getName(),identifier);
-        log.info("Get existing case from submit service casetype {} identifier2 {} ",
                 form.getType().getCaseType().name(),identifier);
+        log.info("Get existing case from submit service casetype {} identifier2 {} ",
+                form.getType().getCaseType().getName(),identifier);
         log.info("Get existing case from submit service casetype {} identifier3 {} ",
-                ProbateType.CAVEAT.getName(),identifier);
+                ProbateType.CAVEAT.getCaseType().name(),identifier);
+        log.info("Get existing case from submit service casetype {} identifier4 {} ",
+                ProbateType.CAVEAT.getCaseType().getName(),identifier);
         ProbateCaseDetails existingCase = null;
 
-        if (ProbateType.CAVEAT.getName().equals(form.getType().getName())) {
+        if (ProbateType.CAVEAT.getCaseType().name().equals(form.getType().getCaseType().name())) {
+            log.info("Get existing case from submit service casetype {} identifier5 {} ",
+                    ProbateType.CAVEAT.getCaseType().name(),identifier);
             existingCase = submitServiceApi.getCase(authorisation,
-                    serviceAuthorisation, identifier,form.getType().getCaseType().name());
+                    serviceAuthorisation, identifier,ProbateType.CAVEAT.getCaseType().name());
         } else {
             existingCase = submitServiceApi.getCaseById(authorisation,
                     serviceAuthorisation, identifier);
