@@ -13,7 +13,6 @@ import uk.gov.hmcts.probate.client.business.BusinessServiceApi;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.mapper.ExecutorApplyingToInvitationMapper;
 import uk.gov.hmcts.reform.probate.model.PhonePin;
-import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.CaseInfo;
 import uk.gov.hmcts.reform.probate.model.cases.CaseType;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
@@ -88,8 +87,8 @@ public class BusinessServiceImplTest {
         when(securityUtils.getAuthorisation()).thenReturn(AUTHORIZATION);
         when(securityUtils.getServiceAuthorisation()).thenReturn(SERVICE_AUTHORIZATION);
 
-        when(submitServiceApi.getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
-            formdataId, ProbateType.PA.getCaseType().name())).thenReturn(mockProbateCaseDetails);
+        when(submitServiceApi.getCaseById(AUTHORIZATION, SERVICE_AUTHORIZATION,
+            formdataId)).thenReturn(mockProbateCaseDetails);
         when(mockProbateCaseDetails.getCaseData()).thenReturn(mockGrantOfRepresentationData);
         when(mockProbateCaseDetails.getCaseInfo()).thenReturn(mockCaseInfo);
         when(mockCaseInfo.getCaseId()).thenReturn("123456789101112");
@@ -594,8 +593,9 @@ public class BusinessServiceImplTest {
     }
 
     private void verifyGetCaseCalls() {
-        verify(submitServiceApi).getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
-            formdataId, ProbateType.PA.getCaseType().name());
+
+        verify(submitServiceApi).getCaseById(AUTHORIZATION, SERVICE_AUTHORIZATION,
+                formdataId);
         verify(mockProbateCaseDetails).getCaseData();
     }
 
