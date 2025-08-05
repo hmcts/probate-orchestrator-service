@@ -188,7 +188,6 @@ public class SubmitServiceImpl implements SubmitService {
         if (ProbateType.CAVEAT.getName().equals(probateType.getName())) {
             existingCase = submitServiceApi.getCase(authorisation,
                 serviceAuthorisation, identifier, ProbateType.CAVEAT.getName());
-            //probateType.getCaseType().name()
         } else {
             existingCase = submitServiceApi.getCaseById(authorisation,
                     serviceAuthorisation, identifier);
