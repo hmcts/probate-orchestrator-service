@@ -33,7 +33,7 @@ public class SubmitServiceApiErrorDecoderTest {
 
     @Test
     public void throwsApiClientException() throws Throwable {
-        errorDecoder = new SubmitServiceApiErrorDecoder(objectMapper);
+        errorDecoder = new SubmitServiceApiErrorDecoder();
         assertThrows(ApiClientException.class, () -> {
             Response response = Response.builder()
                     .status(500)
