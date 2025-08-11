@@ -295,26 +295,47 @@ public class SubmitServiceImplTest {
 
     @Test
     public void shouldUpdateForm() {
-        when(submitServiceApi.getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
-            EMAIL_ADDRESS, CaseType.GRANT_OF_REPRESENTATION.name())).thenReturn(intestacyCaseDetails);
+        when(submitServiceApi.getCaseById(AUTHORIZATION, SERVICE_AUTHORIZATION,
+            CASE_ID)).thenReturn(intestacyCaseDetails);
         when(submitServiceApi.createCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-            eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class))).thenReturn(intestacyCaseDetails);
+            eq(CASE_ID), any(ProbateCaseDetails.class))).thenReturn(intestacyCaseDetails);
 
         CasePayment casePayment = CasePayment.builder().build();
         when(paymentDtoMapper.toCasePayment(paymentDto)).thenReturn(casePayment);
 
-        Form formResponse = submitService.update(EMAIL_ADDRESS, ProbateType.INTESTACY, paymentDto);
+        Form formResponse = submitService.update(CASE_ID, ProbateType.INTESTACY, paymentDto);
 
         assertThat(formResponse, is(intestacyForm));
-        verify(submitServiceApi, times(1)).getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
-            EMAIL_ADDRESS, CaseType.GRANT_OF_REPRESENTATION.name());
+        verify(submitServiceApi, times(1)).getCaseById(AUTHORIZATION, SERVICE_AUTHORIZATION,
+                CASE_ID);
         verify(submitServiceApi, times(1)).createCase(eq(AUTHORIZATION),
             eq(SERVICE_AUTHORIZATION),
-            eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class));
+            eq(CASE_ID), any(ProbateCaseDetails.class));
         verify(securityUtils, times(1)).getAuthorisation();
         verify(securityUtils, times(1)).getServiceAuthorisation();
     }
 
+    @Test
+    public void shouldUpdateCaveatForm() {
+        when(submitServiceApi.getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
+                CASE_ID, ProbateType.CAVEAT.name())).thenReturn(caveatCaseDetails);
+        when(submitServiceApi.createCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
+                eq(CASE_ID), any(ProbateCaseDetails.class))).thenReturn(caveatCaseDetails);
+
+        CasePayment casePayment = CasePayment.builder().build();
+        when(paymentDtoMapper.toCasePayment(paymentDto)).thenReturn(casePayment);
+
+        Form formResponse = submitService.update(CASE_ID, ProbateType.CAVEAT, paymentDto);
+
+        assertThat(formResponse, is(caveatForm));
+        verify(submitServiceApi, times(1)).getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
+                CASE_ID, ProbateType.CAVEAT.name());
+        verify(submitServiceApi, times(1)).createCase(eq(AUTHORIZATION),
+                eq(SERVICE_AUTHORIZATION),
+                eq(CASE_ID), any(ProbateCaseDetails.class));
+        verify(securityUtils, times(1)).getAuthorisation();
+        verify(securityUtils, times(1)).getServiceAuthorisation();
+    }
 
     @Test
     public void shouldThrowErrorOnSubmitIfEmailAddressDoesNotMatchForm() {
@@ -327,8 +348,8 @@ public class SubmitServiceImplTest {
 
     @Test
     public void shouldUpdateIntestacyPayments() {
-        when(submitServiceApi.getCase(anyString(), anyString(),
-            anyString(), anyString())).thenReturn(caveatCaseDetails);
+        when(submitServiceApi.getCaseById(anyString(), anyString(),
+            anyString())).thenReturn(caveatCaseDetails);
 
         shouldUpdatePayments(intestacyForm, intestacyCaseDetails);
         verify(backOfficeService, never()).sendNotification(intestacyCaseDetails);
@@ -336,8 +357,8 @@ public class SubmitServiceImplTest {
 
     @Test
     public void shouldUpdateCaveatPaymentsAndSendNotification() {
-        when(submitServiceApi.getCase(anyString(), anyString(),
-            anyString(), anyString())).thenReturn(caveatCaseDetails);
+        when(submitServiceApi.getCase(anyString(), anyString(), anyString(),
+            anyString())).thenReturn(caveatCaseDetails);
 
         caveatCaseDetails.getCaseInfo().setState(CaseState.CAVEAT_RAISED);
         shouldUpdatePayments(caveatForm, caveatCaseDetails);
@@ -346,8 +367,8 @@ public class SubmitServiceImplTest {
 
     @Test
     public void shouldUpdateCaveatPaymentsAndNotSendNotification() {
-        when(submitServiceApi.getCase(anyString(), anyString(),
-            anyString(), anyString())).thenReturn(caveatCaseDetails);
+        when(submitServiceApi.getCase(anyString(), anyString(), anyString(),
+            anyString())).thenReturn(caveatCaseDetails);
 
         caveatCaseDetails.getCaseData().getPayments().get(0).getValue().setStatus(PaymentStatus.FAILED);
         shouldUpdatePayments(caveatForm, caveatCaseDetails);
@@ -358,8 +379,8 @@ public class SubmitServiceImplTest {
 
     @Test
     public void shouldUpdateIntestacyPaymentsAndSendNotification() {
-        when(submitServiceApi.getCase(anyString(), anyString(),
-            anyString(), anyString())).thenReturn(intestacyCaseDetails);
+        when(submitServiceApi.getCaseById(anyString(), anyString(),
+            anyString())).thenReturn(intestacyCaseDetails);
 
         intestacyCaseDetails.getCaseData().getPayments().get(0).getValue().setStatus(PaymentStatus.SUCCESS);
 
@@ -370,8 +391,8 @@ public class SubmitServiceImplTest {
 
     @Test
     public void shouldUpdateIntestacyPaymentsAndNotSendNotification() {
-        when(submitServiceApi.getCase(anyString(), anyString(),
-            anyString(), anyString())).thenReturn(intestacyCaseDetails);
+        when(submitServiceApi.getCaseById(anyString(), anyString(),
+            anyString())).thenReturn(intestacyCaseDetails);
 
         intestacyCaseDetails.getCaseData().getPayments().get(0).getValue().setStatus(PaymentStatus.FAILED);
 
@@ -382,14 +403,14 @@ public class SubmitServiceImplTest {
 
     private void shouldUpdatePayments(Form form, ProbateCaseDetails caseDetails) {
         when(submitServiceApi.createCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-            eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class))).thenReturn(caseDetails);
+            eq(CASE_ID), any(ProbateCaseDetails.class))).thenReturn(caseDetails);
 
-        Form formResponse = submitService.updatePayments(EMAIL_ADDRESS, form);
+        Form formResponse = submitService.updatePayments(CASE_ID, form);
 
         assertThat(formResponse, is(form));
         verify(submitServiceApi, times(1)).createCase(eq(AUTHORIZATION),
             eq(SERVICE_AUTHORIZATION),
-            eq(EMAIL_ADDRESS), any(ProbateCaseDetails.class));
+            eq(CASE_ID), any(ProbateCaseDetails.class));
         verify(securityUtils, times(1)).getAuthorisation();
         verify(securityUtils, times(1)).getServiceAuthorisation();
     }
