@@ -181,6 +181,7 @@ def versions = [
         springBootVersion               : '3.5.4',
         springCloudWiremock             : '4.3.0',
         springDocOpenUi                 : '2.8.9',
+        swaggerAnnotations              : '2.2.35',
         springSecurityVersion           : '6.5.2',
 ]
 
@@ -240,6 +241,7 @@ dependencies {
     implementation group: 'com.microsoft.azure', name: 'applicationinsights-runtime-attach', version: '3.7.4'
     implementation group: 'commons-io', name: 'commons-io', version: versions.commonsIO
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: versions.springDocOpenUi
+    implementation group: 'io.swagger.core.v3', name: 'swagger-annotations', version: versions.swaggerAnnotations
     implementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.5.5.Final'
     implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: versions.jacksonDatabind
