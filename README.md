@@ -129,3 +129,4 @@ Plugin setup for other IDE's are available on [https://projectlombok.org/setup/o
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
 
+
