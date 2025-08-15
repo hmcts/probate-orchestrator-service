@@ -15,12 +15,10 @@ public class ResponseDecorator {
 
     private Response response;
 
-    private ObjectMapper objectMapper;
 
-    public ResponseDecorator(Response response, ObjectMapper objectMapper) {
+    public ResponseDecorator(Response response) {
 
         this.response = response;
-        this.objectMapper = objectMapper;
     }
 
     public String bodyToString() {
@@ -36,9 +34,10 @@ public class ResponseDecorator {
     }
 
     public ErrorResponse mapToErrorResponse() {
+        ObjectMapper mapper = new ObjectMapper();
         ErrorResponse errorResponse = null;
         try {
-            errorResponse = this.objectMapper.readValue(this.bodyToString(), ErrorResponse.class);
+            errorResponse = mapper.readValue(this.bodyToString(), ErrorResponse.class);
         } catch (IOException e) {
             log.debug("Response contained empty body");
         }
