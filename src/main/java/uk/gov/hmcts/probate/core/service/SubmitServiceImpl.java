@@ -322,8 +322,10 @@ public class SubmitServiceImpl implements SubmitService {
     }
 
     private Form mapFromCase(FormMapper formMapper, ProbateCaseDetails probateCaseDetails) {
+        log.info("mapFromCase-->probateCaseDetails--> {}", probateCaseDetails.getCaseData().getPayments());
         Form formResponse = formMapper.fromCaseData(probateCaseDetails.getCaseData());
         updateCcdCase(probateCaseDetails, formResponse);
+        log.info("mapFromCase-->formResponse.getPayment() = {}", formResponse.getPayment());
         return formResponse;
     }
 }
