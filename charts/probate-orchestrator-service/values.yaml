@@ -11,12 +11,12 @@ java:
     DEPLOYMENT_ENV: "{{ .Values.global.environment }}"
     SERVICES_PERSISTENCE_BASEURL: "http://probate-persistence-service-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
     AUTH_PROVIDER_SERVICE_CLIENT_BASEURL: "http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
-    SERVICES_CORECASEDATA_BASEURL: "http://ccd-data-store-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
+    SERVICES_CORECASEDATA_BASEURL: "http://probate-back-office-pr-3373-ccd-data-store-api"
     SERVICES_AUTH_PROVIDER_BASEURL: "http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
     AUTH_IDAM_CLIENT_BASEURL: "https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net"
-    SUBMIT_SERVICE_API_URL: "http://probate-submit-service-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
+    SUBMIT_SERVICE_API_URL: "http://probate-submit-service-pr-1211-java"
     BUSINESS_SERVICE_API_URL: "http://probate-business-service-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
-    BACK_OFFICE_API_URL: "http://probate-back-office-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
+    BACK_OFFICE_API_URL: "http://probate-back-office-pr-3373-java"
     MAIL_JAVAMAILPROPERTIES_MAIL_SMTP_SSL_ENABLE: false
     MAIL_JAVAMAILPROPERTIES_MAIL_SMTP_AUTH: false
     SERVICES_CORECASEDATA_ENABLED: true
