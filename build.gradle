@@ -180,7 +180,7 @@ def versions = [
         serviceTokenGenerator           : '0.6.0',
         springBootVersion               : '3.5.5',
         springCloudWiremock             : '4.3.0',
-        springDocOpenUi                 : '2.8.12',
+        springDocOpenUi                 : '2.8.13',
         swaggerAnnotations              : '2.2.36',
         springSecurityVersion           : '6.5.3',
         tomcat              : '11.0.10'
