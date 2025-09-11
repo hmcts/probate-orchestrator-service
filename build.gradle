@@ -167,7 +167,7 @@ def versions = [
         feign                           : '13.6',
         fortifyClient                   : '1.4.10',
         hmctsJavaLogging                : '6.1.9',
-        jacksonDatabind                 : '2.19.2',
+        jacksonDatabind                 : '2.20.0',
         junitJupiter                    : '5.12.2',
         lombok                          : '1.18.40',
         mapStruct                       : '1.3.0.Final',
