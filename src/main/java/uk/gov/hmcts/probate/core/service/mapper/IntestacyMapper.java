@@ -78,11 +78,8 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "deceasedMaritalStatus", expression = "java(form.getDeceased()!= null ? "
         + "MaritalStatus.fromString(form.getDeceased().getMaritalStatus()) : null)")
     @Mapping(target = "deceasedDivorcedInEnglandOrWales", source = "deceased.divorcedInEnglandOrWales")
-    @Mapping(target = "deceasedSeparatedInEnglandOrWales", source = "deceased.separatedInEnglandOrWales")
     @Mapping(target = "deceasedDivorcedDateKnown", source = "deceased.divorcedDateKnown")
-    @Mapping(target = "deceasedDivorcedDate", source = "deceased.divorcedDate")
-    @Mapping(target = "deceasedSeparatedDateKnown", source = "deceased.separatedDateKnown")
-    @Mapping(target = "deceasedSeparatedDate", source = "deceased.separatedDate")
+    @Mapping(target = "dateOfDivorcedCPJudicially", source = "deceased.divorcedDate")
     @Mapping(target = "deceasedOtherChildren", source = "deceased.otherChildren")
     @Mapping(target = "declarationCheckbox", source = "declaration.declarationCheckbox")
     @Mapping(target = "legalStatement", source = "declaration.legalStatement")
