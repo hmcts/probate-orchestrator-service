@@ -5,6 +5,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromApplicantFamilyDetails;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromDocumentLink;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromIhtMethod;
@@ -12,6 +13,7 @@ import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromLocalDate;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromMap;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromRegistryLocation;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromUploadDocs;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToApplicantFamilyDetails;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCaseAddress;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToDocumentLink;
@@ -25,6 +27,7 @@ import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPoundsString;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToRegistryLocation;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToUploadDocs;
 import uk.gov.hmcts.reform.probate.model.IhtFormType;
+import uk.gov.hmcts.reform.probate.model.Predeceased;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.Relationship;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
@@ -42,10 +45,10 @@ import java.time.LocalDate;
 @Mapper(componentModel = "spring", uses = {PaPaymentMapper.class, PaymentsMapper.class, AliasNameMapper.class,
     RegistryLocationMapper.class, PoundsConverter.class,
     IhtMethodConverter.class, MapConverter.class, LegalStatementMapper.class, LocalDateTimeMapper.class,
-    DocumentsMapper.class, StatementOfTruthMapper.class, AddressMapper.class},
+    DocumentsMapper.class, StatementOfTruthMapper.class, AddressMapper.class, ApplicantFamilyDetailsMapper.class},
     imports = {ApplicationType.class, GrantType.class, LocalDate.class, ProbateType.class, IhtMethod.class,
         MaritalStatus.class, DeathCertificate.class, Relationship.class, SpouseNotApplyingReason.class,
-        AddressMapper.class, IhtFormType.class},
+        AddressMapper.class, IhtFormType.class, Predeceased.class},
     unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, IntestacyForm> {
 
@@ -85,6 +88,9 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "legalStatement", source = "declaration.legalStatement")
     @Mapping(target = "allDeceasedChildrenOverEighteen", source = "deceased.allDeceasedChildrenOverEighteen")
     @Mapping(target = "childrenDied", source = "deceased.anyDeceasedChildrenDieBeforeDeceased")
+    @Mapping(target = "childrenDiedBeforeDeceased", expression = "java(form.getDeceased()!= null ? "
+            + "Predeceased.fromString(form.getDeceased().getChildrenDiedBeforeDeceased()) : null)")
+    @Mapping(target = "grandChildrenSurvived", source = "deceased.grandChildrenSurvived")
     @Mapping(target = "anyDeceasedGrandChildrenUnderEighteen",
         source = "deceased.anyDeceasedGrandchildrenUnderEighteen")
     @Mapping(target = "deceasedSpouseNotApplyingReason", expression = "java(form.getApplicant()!= null && "
@@ -144,6 +150,8 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "isSaveAndClose", source = "provideinformation.isSaveAndClose")
     @Mapping(target = "citizenResponseCheckbox", source = "reviewresponse.citizenResponseCheckbox")
     @Mapping(target = "expectedResponseDate", source = "expectedResponseDate")
+    @Mapping(target = "applicantFamilyDetails", source = "details",
+            qualifiedBy = {ToApplicantFamilyDetails.class})
     GrantOfRepresentationData toCaseData(IntestacyForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.INTESTACY)")
@@ -165,6 +173,9 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "applicant.spouseNotApplyingReason",
         expression = "java(grantOfRepresentationData.getDeceasedSpouseNotApplyingReason()!=null ? "
         + "grantOfRepresentationData.getDeceasedSpouseNotApplyingReason().getDescription() : null)")
+    @Mapping(target = "deceased.childrenDiedBeforeDeceased", expression =
+            "java(grantOfRepresentationData.getChildrenDiedBeforeDeceased()!=null ? "
+                    + "grantOfRepresentationData.getChildrenDiedBeforeDeceased().getDescription() : null)")
     @Mapping(target = "registry.name", source = "registryLocation", qualifiedBy = {FromRegistryLocation.class})
     @Mapping(target = "registry.address", source = "registryAddress")
     @Mapping(target = "registry.email", source = "registryEmailAddress")
@@ -233,6 +244,8 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "assets.assetsoverseas",
             expression = "java(grantOfRepresentationData.getOutsideUkGrantCopies() == null ? "
                     + "null : grantOfRepresentationData.getOutsideUkGrantCopies() > 0L)")
+    @Mapping(target = "details", source = "applicantFamilyDetails",
+            qualifiedBy = {FromApplicantFamilyDetails.class})
     @InheritInverseConfiguration
     IntestacyForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 }
