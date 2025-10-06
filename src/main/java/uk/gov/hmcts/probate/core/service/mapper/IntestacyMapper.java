@@ -17,6 +17,7 @@ import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToApplicantFamilyDeta
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCaseAddress;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToDocumentLink;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToExecutorApplyingCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToFormAddress;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToIhtMethod;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToLocalDate;
@@ -43,12 +44,12 @@ import java.time.LocalDate;
 
 
 @Mapper(componentModel = "spring", uses = {PaPaymentMapper.class, PaymentsMapper.class, AliasNameMapper.class,
-    RegistryLocationMapper.class, PoundsConverter.class,
+    RegistryLocationMapper.class, PoundsConverter.class,ExecutorsMapper.class,
     IhtMethodConverter.class, MapConverter.class, LegalStatementMapper.class, LocalDateTimeMapper.class,
     DocumentsMapper.class, StatementOfTruthMapper.class, AddressMapper.class, ApplicantFamilyDetailsMapper.class},
     imports = {ApplicationType.class, GrantType.class, LocalDate.class, ProbateType.class, IhtMethod.class,
         MaritalStatus.class, DeathCertificate.class, Relationship.class, SpouseNotApplyingReason.class,
-        AddressMapper.class, IhtFormType.class, Predeceased.class},
+        AddressMapper.class, IhtFormType.class, Predeceased.class, ExecutorsMapper.class},
     unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, IntestacyForm> {
 
@@ -150,6 +151,9 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "isSaveAndClose", source = "provideinformation.isSaveAndClose")
     @Mapping(target = "citizenResponseCheckbox", source = "reviewresponse.citizenResponseCheckbox")
     @Mapping(target = "expectedResponseDate", source = "expectedResponseDate")
+    @Mapping(target = "executorsApplying", source = "coApplicants.list", qualifiedBy = {
+            ToExecutorApplyingCollectionMember.class})
+
     @Mapping(target = "applicantFamilyDetails", source = "details",
             qualifiedBy = {ToApplicantFamilyDetails.class})
     GrantOfRepresentationData toCaseData(IntestacyForm form);
