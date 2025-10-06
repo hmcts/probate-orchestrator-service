@@ -8,13 +8,14 @@ import org.mapstruct.ReportingPolicy;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCaseAddress;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToFormAddress;
 import uk.gov.hmcts.reform.probate.model.AliasReason;
+import uk.gov.hmcts.reform.probate.model.Relationship;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.forms.pa.Executor;
 
 @Mapper(componentModel = "spring", uses = {AddressMapper.class},
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        imports = {BooleanUtils.class, AddressMapper.class, AliasReason.class}
+        imports = {BooleanUtils.class, AddressMapper.class, AliasReason.class, Relationship.class}
 )
 public interface ExecutorApplyingMapper {
 
@@ -39,6 +40,9 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "value.applyingExecutorAgreed", source = "executorAgreed")
     @Mapping(target = "value.applyingExecutorApplicant", source = "isApplicant")
     @Mapping(target = "value.applyingExecutorPostCode", source = "postcode")
+    @Mapping(target = "value.applicantFamilyDetails.relationshipToDeceased", expression = "java(executor.getCoApplicantRelationshipToDeceased()!= null ?"
+               + " Relationship.fromString(executor.getCoApplicantRelationshipToDeceased()) : null)")
+
     CollectionMember<ExecutorApplying> toExecutorApplying(Executor executor);
 
 
