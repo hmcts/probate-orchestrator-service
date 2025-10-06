@@ -227,7 +227,7 @@ dependencies {
     implementation group: 'com.google.guava', name: 'guava', version: '33.4.8-jre'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.jacksonDatabind
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: versions.jacksonDatabind
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.20'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-hateoas', version: versions.springBootVersion
     implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: versions.feign
     implementation group: 'io.github.openfeign', name: 'feign-jackson', version: versions.feign
