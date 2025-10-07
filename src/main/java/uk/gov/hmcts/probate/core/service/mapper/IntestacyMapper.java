@@ -253,5 +253,6 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "details", source = "applicantFamilyDetails",
             qualifiedBy = {FromApplicantFamilyDetails.class})
     @InheritInverseConfiguration
+    @Mapping(target = "coApplicants.list", source = ".", qualifiedBy = {FromCollectionMember.class})
     IntestacyForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 }

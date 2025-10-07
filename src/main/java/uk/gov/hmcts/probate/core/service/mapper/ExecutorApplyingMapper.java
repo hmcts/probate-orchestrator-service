@@ -40,7 +40,8 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "value.applyingExecutorAgreed", source = "executorAgreed")
     @Mapping(target = "value.applyingExecutorApplicant", source = "isApplicant")
     @Mapping(target = "value.applyingExecutorPostCode", source = "postcode")
-    @Mapping(target = "value.applicantFamilyDetails.relationshipToDeceased", expression = "java(executor.getCoApplicantRelationshipToDeceased()!= null ?"
+    @Mapping(target = "value.applicantFamilyDetails.relationshipToDeceased",
+            expression = "java(executor.getCoApplicantRelationshipToDeceased()!= null ?"
                + " Relationship.fromString(executor.getCoApplicantRelationshipToDeceased()) : null)")
 
     CollectionMember<ExecutorApplying> toExecutorApplying(Executor executor);
@@ -54,6 +55,9 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "otherReason", source = "value.applyingExecutorOtherReason")
     @Mapping(target = "isApplying", expression = "java(true)")
     @Mapping(target = "fullName", source = "value.applyingExecutorName")
+    @Mapping(target = "coApplicantRelationshipToDeceased",
+            expression = "java(executorApplyingCollectionMember.getValue().getApplicantFamilyDetails()!= null ? "
+            + "executorApplyingCollectionMember.getValue().getApplicantFamilyDetails().getRelationshipToDeceased().getDescription() : null)")
     @InheritInverseConfiguration
     Executor fromExecutorApplying(CollectionMember<ExecutorApplying> executorApplyingCollectionMember);
 }
