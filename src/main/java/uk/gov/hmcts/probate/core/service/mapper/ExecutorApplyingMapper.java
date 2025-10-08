@@ -41,7 +41,7 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "value.applyingExecutorApplicant", source = "isApplicant")
     @Mapping(target = "value.applyingExecutorPostCode", source = "postcode")
     @Mapping(target = "value.applicantFamilyDetails.relationshipToDeceased",
-            expression = "java(executor.getCoApplicantRelationshipToDeceased()!= null ?"
+            expression = "java(executor.getCoApplicantRelationshipToDeceased()!= null ? "
                + " Relationship.fromString(executor.getCoApplicantRelationshipToDeceased()) : null)")
 
     @Mapping(target = "value.applicantFamilyDetails.childAdoptedIn",
@@ -77,7 +77,7 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "isApplying", expression = "java(true)")
     @Mapping(target = "fullName", source = "value.applyingExecutorName")
     @Mapping(target = "coApplicantRelationshipToDeceased",
-            expression = "java(executorApplyingCollectionMember.getValue().getApplicantFamilyDetails()!= null ? "
+            expression = "java(executorApplyingCollectionMember.getValue().getApplicantFamilyDetails()!= null && executorApplyingCollectionMember.getValue().getApplicantFamilyDetails().getRelationshipToDeceased()!= null ? "
             + "executorApplyingCollectionMember.getValue().getApplicantFamilyDetails().getRelationshipToDeceased().getDescription() : null)")
 
     @Mapping(target = "childAdoptedIn", source = "value.applicantFamilyDetails.childAdoptedIn")
