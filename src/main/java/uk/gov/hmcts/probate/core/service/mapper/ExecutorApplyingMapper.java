@@ -60,7 +60,7 @@ public interface ExecutorApplyingMapper {
 
 
     @Mapping(target = "value.applicantFamilyDetails.applicantParentAdoptedIn",
-            expression = "java(executor.getApplicantParentAdoptedIn()!= null ? executor.ApplicantParentAdoptedIn() : null)")
+            expression = "java(executor.getApplicantParentAdoptedIn()!= null ? executor.getApplicantParentAdoptedIn() : null)")
     @Mapping(target = "value.applicantFamilyDetails.applicantParentAdoptedOut",
             expression = "java(executor.getApplicantParentAdoptedOut()!= null ? executor.getApplicantParentAdoptedOut() : null)")
     @Mapping(target = "value.applicantFamilyDetails.applicantParentAdoptionInEnglandOrWales",
