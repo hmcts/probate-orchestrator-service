@@ -63,6 +63,13 @@ public interface ExecutorApplyingMapper {
             expression = "java(executor.getChildAdoptionOutEnglandOrWales()!= null ? executor.getChildAdoptionOutEnglandOrWales() : null)")
     @Mapping(target = "value.applicantFamilyDetails.grandchildAdoptionOutEnglandOrWales",
             expression = "java(executor.getGrandchildAdoptionOutEnglandOrWales()!= null ? executor.getGrandchildAdoptionOutEnglandOrWales() : null)")
+
+    @Mapping(target = "value.applicantFamilyDetails.applicantParentAdoptedIn",
+            expression = "java(executor.getApplicantParentAdoptedIn()!= null ? executor.ApplicantParentAdoptedIn() : null)")
+    @Mapping(target = "value.applicantFamilyDetails.applicantParentAdoptedOut",
+            expression = "java(executor.getApplicantParentAdoptedOut()!= null ? executor.getApplicantParentAdoptedOut() : null)")
+    @Mapping(target = "value.applicantFamilyDetails.applicantParentAdoptionInEnglandOrWales",
+            expression = "java(executor.getApplicantParentAdoptionInEnglandOrWales()!= null ? executor.getApplicantParentAdoptionInEnglandOrWales() : null)")
     CollectionMember<ExecutorApplying> toExecutorApplying(Executor executor);
 
 
@@ -86,6 +93,9 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "grandchildAdoptionInEnglandOrWales", source = "value.applicantFamilyDetails.grandchildAdoptionInEnglandOrWales")
     @Mapping(target = "childAdoptionOutEnglandOrWales", source = "value.applicantFamilyDetails.childAdoptionOutEnglandOrWales")
     @Mapping(target = "grandchildAdoptionOutEnglandOrWales", source = "value.applicantFamilyDetails.grandchildAdoptionOutEnglandOrWales")
+    @Mapping(target = "applicantParentAdoptedIn", source = "value.applicantFamilyDetails.applicantParentAdoptedIn")
+    @Mapping(target = "applicantParentAdoptedOut", source = "value.applicantFamilyDetails.applicantParentAdoptedOut")
+    @Mapping(target = "applicantParentAdoptionInEnglandOrWales", source = "value.applicantFamilyDetails.applicantParentAdoptionInEnglandOrWales")
 
     @InheritInverseConfiguration
     Executor fromExecutorApplying(CollectionMember<ExecutorApplying> executorApplyingCollectionMember);
