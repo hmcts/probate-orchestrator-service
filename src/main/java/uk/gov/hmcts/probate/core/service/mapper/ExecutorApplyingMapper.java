@@ -42,7 +42,7 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "value.applyingExecutorPostCode", source = "postcode")
     @Mapping(target = "value.applicantFamilyDetails.relationshipToDeceased",
             expression = "java(executor.getCoApplicantRelationshipToDeceased()!= null ? "
-               + " Relationship.fromString(executor.getCoApplicantRelationshipToDeceased()) : null)")
+               + "Relationship.fromString(executor.getCoApplicantRelationshipToDeceased()) : null)")
 
     @Mapping(target = "value.applicantFamilyDetails.childAdoptedIn",
             expression = "java(executor.getChildAdoptedIn()!= null ? executor.getChildAdoptedIn() : null)")
