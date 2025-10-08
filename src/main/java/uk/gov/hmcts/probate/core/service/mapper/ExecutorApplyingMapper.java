@@ -44,6 +44,25 @@ public interface ExecutorApplyingMapper {
             expression = "java(executor.getCoApplicantRelationshipToDeceased()!= null ?"
                + " Relationship.fromString(executor.getCoApplicantRelationshipToDeceased()) : null)")
 
+    @Mapping(target = "value.applicantFamilyDetails.childAdoptedIn",
+            expression = "java(executor.getChildAdoptedIn()!= null ? executor.getChildAdoptedIn() : null)")
+    @Mapping(target = "value.applicantFamilyDetails.grandchildAdoptedIn",
+            expression = "java(executor.getGrandchildAdoptedIn()!= null ? executor.getGrandchildAdoptedIn() : null)")
+
+    @Mapping(target = "value.applicantFamilyDetails.childAdoptedOut",
+            expression = "java(executor.getChildAdoptedOut()!= null ? executor.getChildAdoptedOut() : null)")
+    @Mapping(target = "value.applicantFamilyDetails.grandchildAdoptedOut",
+            expression = "java(executor.getGrandchildAdoptedOut()!= null ? executor.getGrandchildAdoptedOut() : null)")
+
+    @Mapping(target = "value.applicantFamilyDetails.childAdoptionInEnglandOrWales",
+            expression = "java(executor.getChildAdoptionInEnglandOrWales()!= null ? executor.getChildAdoptionInEnglandOrWales() : null)")
+    @Mapping(target = "value.applicantFamilyDetails.grandchildAdoptionInEnglandOrWales",
+            expression = "java(executor.getGrandchildAdoptionInEnglandOrWales()!= null ? executor.getGrandchildAdoptionInEnglandOrWales() : null)")
+
+    @Mapping(target = "value.applicantFamilyDetails.childAdoptionOutEnglandOrWales",
+            expression = "java(executor.getChildAdoptionOutEnglandOrWales()!= null ? executor.getChildAdoptionOutEnglandOrWales() : null)")
+    @Mapping(target = "value.applicantFamilyDetails.grandchildAdoptionOutEnglandOrWales",
+            expression = "java(executor.getGrandchildAdoptionOutEnglandOrWales()!= null ? executor.getGrandchildAdoptionOutEnglandOrWales() : null)")
     CollectionMember<ExecutorApplying> toExecutorApplying(Executor executor);
 
 
@@ -58,6 +77,16 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "coApplicantRelationshipToDeceased",
             expression = "java(executorApplyingCollectionMember.getValue().getApplicantFamilyDetails()!= null ? "
             + "executorApplyingCollectionMember.getValue().getApplicantFamilyDetails().getRelationshipToDeceased().getDescription() : null)")
+
+    @Mapping(target = "childAdoptedIn", source = "value.applicantFamilyDetails.childAdoptedIn")
+    @Mapping(target = "grandchildAdoptedIn",  source = "value.applicantFamilyDetails.grandchildAdoptedIn")
+    @Mapping(target = "childAdoptedOut", source = "value.applicantFamilyDetails.childAdoptedOut")
+    @Mapping(target = "grandchildAdoptedOut", source = "value.applicantFamilyDetails.grandchildAdoptedOut")
+    @Mapping(target = "childAdoptionInEnglandOrWales", source = "value.applicantFamilyDetails.childAdoptionInEnglandOrWales")
+    @Mapping(target = "grandchildAdoptionInEnglandOrWales", source = "value.applicantFamilyDetails.grandchildAdoptionInEnglandOrWales")
+    @Mapping(target = "childAdoptionOutEnglandOrWales", source = "value.applicantFamilyDetails.childAdoptionOutEnglandOrWales")
+    @Mapping(target = "grandchildAdoptionOutEnglandOrWales", source = "value.applicantFamilyDetails.grandchildAdoptionOutEnglandOrWales")
+
     @InheritInverseConfiguration
     Executor fromExecutorApplying(CollectionMember<ExecutorApplying> executorApplyingCollectionMember);
 }
