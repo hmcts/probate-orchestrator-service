@@ -153,7 +153,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "expectedResponseDate", source = "expectedResponseDate")
     @Mapping(target = "executorsApplying", source = "coApplicants.list", qualifiedBy = {
             ToExecutorApplyingCollectionMember.class})
-
+    @Mapping(target = "hasCoApplicant", source = "coApplicants.hasCoApplicant")
     @Mapping(target = "applicantFamilyDetails", source = "details",
             qualifiedBy = {ToApplicantFamilyDetails.class})
     GrantOfRepresentationData toCaseData(IntestacyForm form);
@@ -252,5 +252,6 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
             qualifiedBy = {FromApplicantFamilyDetails.class})
     @InheritInverseConfiguration
     @Mapping(target = "coApplicants.list", source = ".", qualifiedBy = {FromCollectionMember.class})
+    @Mapping(target = "coApplicants.hasCoApplicant", source = "hasCoApplicant")
     IntestacyForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 }
