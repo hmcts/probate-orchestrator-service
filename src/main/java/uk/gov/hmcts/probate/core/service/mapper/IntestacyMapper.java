@@ -152,7 +152,8 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "citizenResponseCheckbox", source = "reviewresponse.citizenResponseCheckbox")
     @Mapping(target = "expectedResponseDate", source = "expectedResponseDate")
     @Mapping(target = "executorsApplying", source = "coApplicants.list", qualifiedBy = {
-        ToExecutorApplyingCollectionMember.class})
+            ToExecutorApplyingCollectionMember.class})
+    @Mapping(target = "hasCoApplicant", source = "coApplicants.hasCoApplicant")
     @Mapping(target = "applicantFamilyDetails", source = "details",
             qualifiedBy = {ToApplicantFamilyDetails.class})
     GrantOfRepresentationData toCaseData(IntestacyForm form);
