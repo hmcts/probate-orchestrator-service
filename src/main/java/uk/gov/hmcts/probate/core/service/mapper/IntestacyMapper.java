@@ -151,9 +151,9 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "isSaveAndClose", source = "provideinformation.isSaveAndClose")
     @Mapping(target = "citizenResponseCheckbox", source = "reviewresponse.citizenResponseCheckbox")
     @Mapping(target = "expectedResponseDate", source = "expectedResponseDate")
-    @Mapping(target = "executorsApplying", source = "coApplicants.list", qualifiedBy = {
+    @Mapping(target = "executorsApplying", source = "executors.list", qualifiedBy = {
             ToExecutorApplyingCollectionMember.class})
-    @Mapping(target = "hasCoApplicant", source = "coApplicants.hasCoApplicant")
+    @Mapping(target = "hasCoApplicant", source = "executors.hasCoApplicant")
     @Mapping(target = "applicantFamilyDetails", source = "details",
             qualifiedBy = {ToApplicantFamilyDetails.class})
     GrantOfRepresentationData toCaseData(IntestacyForm form);
@@ -251,6 +251,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "details", source = "applicantFamilyDetails",
             qualifiedBy = {FromApplicantFamilyDetails.class})
     @InheritInverseConfiguration
-    @Mapping(target = "coApplicants.list", source = ".", qualifiedBy = {FromCollectionMember.class})
+    @Mapping(target = "executors.list", source = ".", qualifiedBy = {FromCollectionMember.class})
+    @Mapping(target = "executors.hasCoApplicant", source = "hasCoApplicant")
     IntestacyForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 }
