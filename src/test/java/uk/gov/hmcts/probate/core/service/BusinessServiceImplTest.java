@@ -505,6 +505,7 @@ public class BusinessServiceImplTest {
         businessService.resetAgreedFlags(formdataId);
         verifyGetCaseCalls();
         verify(mockGrantOfRepresentationData).resetExecutorsApplyingAgreedFlags();
+        verify(mockGrantOfRepresentationData).resetHasDataChangedFlag();
         verify(submitServiceApi).saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId,
             EVENT_DESCRIPTION, mockProbateCaseDetails);
 

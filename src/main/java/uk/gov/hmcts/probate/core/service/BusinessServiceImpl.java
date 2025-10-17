@@ -254,6 +254,7 @@ public class BusinessServiceImpl implements BusinessService {
         GrantOfRepresentationData grantOfRepresentationData =
                 (GrantOfRepresentationData) probateCaseDetails.getCaseData();
         grantOfRepresentationData.resetExecutorsApplyingAgreedFlags();
+        grantOfRepresentationData.resetHasDataChangedFlag();
         log.info("Updating case with reset agreed flag");
         updateCaseData(probateCaseDetails, formdataId);
     }
