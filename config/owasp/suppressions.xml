@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd ">
-    <suppress until = "2025-10-15">
+    <suppress until = "2026-01-13">
         <!--
           Pebble literal templates can permit loading from the filesystem.
           If a user could control the template input this would be an issue,
@@ -10,7 +10,7 @@
         -->
         <cve>CVE-2025-1686</cve>
     </suppress>
-    <suppress until = "2025-10-15">
+    <suppress until = "2026-01-13">
         <!--
             The direct dependencies on commons-beanutils have been coerced
             into using an updated version but sonar-plugin-api bundles its
@@ -18,7 +18,7 @@
         -->
         <cve>CVE-2025-48734</cve>
     </suppress>
-    <suppress until = "2025-10-15">
+    <suppress until = "2026-01-13">
         <!--
             Apache Commons Lang ClassUtils.getClass(...) can throw an Error
             on long inputs. We do not use this method.
