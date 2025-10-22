@@ -62,6 +62,15 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "value.applicantFamilyDetails.grandchildAdoptionInEnglandOrWales",
             expression = "java(executor.getGrandchildAdoptionInEnglandOrWales()!= null ? "
                     + "executor.getGrandchildAdoptionInEnglandOrWales() : null)")
+    @Mapping(target = "value.applicantFamilyDetails.grandchildParentAdoptedIn",
+            expression = "java(executor.getGrandchildParentAdoptedIn()!= null "
+                    + "? executor.getGrandchildParentAdoptedIn() : null)")
+    @Mapping(target = "value.applicantFamilyDetails.grandchildParentAdoptedOut",
+            expression = "java(executor.getGrandchildParentAdoptedOut()!= null "
+                    + "? executor.getGrandchildParentAdoptedOut() : null)")
+    @Mapping(target = "value.applicantFamilyDetails.grandchildParentAdoptionInEnglandOrWales",
+            expression = "java(executor.getGrandchildParentAdoptionInEnglandOrWales()!= null ? "
+                    + "executor.getGrandchildParentAdoptionInEnglandOrWales() : null)")
 
     CollectionMember<ExecutorApplying> toExecutorApplying(Executor executor);
 
@@ -90,6 +99,10 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "grandchildAdoptedOut", source = "value.applicantFamilyDetails.grandchildAdoptedOut")
     @Mapping(target = "grandchildAdoptionInEnglandOrWales",
             source = "value.applicantFamilyDetails.grandchildAdoptionInEnglandOrWales")
+    @Mapping(target = "grandchildParentAdoptedIn",  source = "value.applicantFamilyDetails.grandchildParentAdoptedIn")
+    @Mapping(target = "grandchildParentAdoptedOut", source = "value.applicantFamilyDetails.grandchildParentAdoptedOut")
+    @Mapping(target = "grandchildParentAdoptionInEnglandOrWales",
+            source = "value.applicantFamilyDetails.grandchildParentAdoptionInEnglandOrWales")
 
     @InheritInverseConfiguration
     Executor fromExecutorApplying(CollectionMember<ExecutorApplying> executorApplyingCollectionMember);
