@@ -22,6 +22,9 @@ public class ApplicantFamilyDetailsMapper {
                 .grandchildAdoptedIn(details.getGrandchildAdoptedIn())
                 .grandchildAdoptionInEnglandOrWales(details.getGrandchildAdoptionInEnglandOrWales())
                 .grandchildAdoptedOut(details.getGrandchildAdoptedOut())
+                .grandchildParentAdoptedIn(details.getGrandchildParentAdoptedIn())
+                .grandchildParentAdoptionInEnglandOrWales(details.getGrandchildParentAdoptionInEnglandOrWales())
+                .grandchildParentAdoptedOut(details.getGrandchildParentAdoptedOut())
                 .build();
     }
 
@@ -38,6 +41,9 @@ public class ApplicantFamilyDetailsMapper {
                 .grandchildAdoptedIn(details.getGrandchildAdoptedIn())
                 .grandchildAdoptionInEnglandOrWales(details.getGrandchildAdoptionInEnglandOrWales())
                 .grandchildAdoptedOut(details.getGrandchildAdoptedOut())
+                .grandchildParentAdoptedIn(details.getGrandchildParentAdoptedIn())
+                .grandchildParentAdoptionInEnglandOrWales(details.getGrandchildParentAdoptionInEnglandOrWales())
+                .grandchildParentAdoptedOut(details.getGrandchildParentAdoptedOut())
                 .build();
     }
 }
