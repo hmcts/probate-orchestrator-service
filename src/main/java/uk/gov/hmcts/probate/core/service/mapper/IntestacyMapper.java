@@ -98,6 +98,8 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
         + "form.getApplicant().getSpouseNotApplyingReason() != null ? "
         + "SpouseNotApplyingReason.fromString(form.getApplicant().getSpouseNotApplyingReason()) : null)")
     @Mapping(target = "deceasedAnyChildren", source = "deceased.anyChildren")
+    @Mapping(target = "deceasedAnyLivingDescendants", source = "deceased.anyLivingDescendants")
+    @Mapping(target = "deceasedAnyOtherParentAlive", source = "deceased.anyOtherParentAlive")
     @Mapping(target = "deceasedAliasNameList", source = "deceased.otherNames",
         qualifiedBy = {ToCollectionMember.class})
     @Mapping(target = "outsideUkGrantCopies", source = "copies.overseas")
