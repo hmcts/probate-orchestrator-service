@@ -254,7 +254,7 @@ dependencies {
     implementation group: 'org.pitest', name: 'pitest', version: versions.piTest
     implementation group: 'org.commonmark', name: 'commonmark', version: versions.commonMark
     implementation group: 'info.solidsoft.gradle.pitest', name: 'gradle-pitest-plugin', version: '1.15.0'
-    implementation group: 'org.sonarsource.api.plugin', name: 'sonar-plugin-api', version: '13.2.0.3137'
+    implementation group: 'org.sonarsource.api.plugin', name: 'sonar-plugin-api', version: '13.3.0.3209'
     implementation group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
     implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '9.0'
