@@ -22,6 +22,9 @@ public class ApplicantFamilyDetailsMapper {
                 .grandchildAdoptedIn(details.getGrandchildAdoptedIn())
                 .grandchildAdoptionInEnglandOrWales(details.getGrandchildAdoptionInEnglandOrWales())
                 .grandchildAdoptedOut(details.getGrandchildAdoptedOut())
+                .grandchildParentAdoptedIn(details.getGrandchildParentAdoptedIn())
+                .grandchildParentAdoptionInEnglandOrWales(details.getGrandchildParentAdoptionInEnglandOrWales())
+                .grandchildParentAdoptedOut(details.getGrandchildParentAdoptedOut())
                 .build();
     }
 
@@ -30,14 +33,31 @@ public class ApplicantFamilyDetailsMapper {
         if (details == null) {
             return null;
         }
-        return FamilyDetails.builder()
-                .relationshipToDeceased(details.getRelationshipToDeceased().getDescription())
+        String relationship = details.getRelationshipToDeceased() != null
+                ? details.getRelationshipToDeceased().getDescription() : null;
+
+        FamilyDetails.FamilyDetailsBuilder builder = FamilyDetails.builder()
+                .relationshipToDeceased(relationship)
+                .grandchildParentAdoptedIn(details.getGrandchildParentAdoptedIn())
+                .grandchildParentAdoptionInEnglandOrWales(details.getGrandchildParentAdoptionInEnglandOrWales())
+                .grandchildParentAdoptedOut(details.getGrandchildParentAdoptedOut())
                 .childAdoptedIn(details.getChildAdoptedIn())
-                .childAdoptionInEnglandOrWales(details.getChildAdoptionInEnglandOrWales())
                 .childAdoptedOut(details.getChildAdoptedOut())
+                .childAdoptionInEnglandOrWales(details.getChildAdoptionInEnglandOrWales())
                 .grandchildAdoptedIn(details.getGrandchildAdoptedIn())
-                .grandchildAdoptionInEnglandOrWales(details.getGrandchildAdoptionInEnglandOrWales())
                 .grandchildAdoptedOut(details.getGrandchildAdoptedOut())
-                .build();
+                .grandchildAdoptionInEnglandOrWales(details.getGrandchildAdoptionInEnglandOrWales());
+
+        if ("optionGrandchild".equals(relationship)) {
+            builder.adoptedIn(details.getGrandchildParentAdoptedIn())
+                    .adoptedOut(details.getGrandchildParentAdoptedOut())
+                    .adoptionPlace(details.getGrandchildParentAdoptionInEnglandOrWales());
+        } else if ("optionChild".equals(relationship)) {
+            builder.adoptedIn(details.getChildAdoptedIn())
+                    .adoptedOut(details.getChildAdoptedOut())
+                    .adoptionPlace(details.getChildAdoptionInEnglandOrWales());
+        }
+
+        return builder.build();
     }
 }
