@@ -25,6 +25,9 @@ public class ApplicantFamilyDetailsMapper {
                 .grandchildParentAdoptedIn(details.getGrandchildParentAdoptedIn())
                 .grandchildParentAdoptionInEnglandOrWales(details.getGrandchildParentAdoptionInEnglandOrWales())
                 .grandchildParentAdoptedOut(details.getGrandchildParentAdoptedOut())
+                .deceasedAdoptedIn(details.getDeceasedAdoptedIn())
+                .deceasedAdoptionInEnglandOrWales(details.getDeceasedAdoptionInEnglandOrWales())
+                .deceasedAdoptedOut(details.getDeceasedAdoptedOut())
                 .build();
     }
 
@@ -46,7 +49,10 @@ public class ApplicantFamilyDetailsMapper {
                 .childAdoptionInEnglandOrWales(details.getChildAdoptionInEnglandOrWales())
                 .grandchildAdoptedIn(details.getGrandchildAdoptedIn())
                 .grandchildAdoptedOut(details.getGrandchildAdoptedOut())
-                .grandchildAdoptionInEnglandOrWales(details.getGrandchildAdoptionInEnglandOrWales());
+                .grandchildAdoptionInEnglandOrWales(details.getGrandchildAdoptionInEnglandOrWales())
+                .deceasedAdoptedIn(details.getDeceasedAdoptedIn())
+                .deceasedAdoptedOut(details.getDeceasedAdoptedOut())
+                .deceasedAdoptionInEnglandOrWales(details.getDeceasedAdoptionInEnglandOrWales());
 
         if ("optionGrandchild".equals(relationship)) {
             builder.adoptedIn(details.getGrandchildParentAdoptedIn())
@@ -56,7 +62,12 @@ public class ApplicantFamilyDetailsMapper {
             builder.adoptedIn(details.getChildAdoptedIn())
                     .adoptedOut(details.getChildAdoptedOut())
                     .adoptionPlace(details.getChildAdoptionInEnglandOrWales());
+        } else if ("optionParent".equals(relationship)) {
+            builder.adoptedIn(details.getDeceasedAdoptedIn())
+                    .adoptedOut(details.getDeceasedAdoptedOut())
+                    .adoptionPlace(details.getDeceasedAdoptionInEnglandOrWales());
         }
+
 
         return builder.build();
     }
