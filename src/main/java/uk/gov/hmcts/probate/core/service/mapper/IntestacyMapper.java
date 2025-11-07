@@ -101,6 +101,8 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "deceasedAnyChildren", source = "deceased.anyChildren")
     @Mapping(target = "deceasedAnyLivingDescendants", source = "deceased.anyLivingDescendants")
     @Mapping(target = "deceasedAnyOtherParentAlive", source = "deceased.anyOtherParentAlive")
+    @Mapping(target = "grandchildParentOtherChildren", source = "deceased.grandchildParentOtherChildren")
+    @Mapping(target = "grandchildParentChildrenOverEighteen", source = "deceased.grandchildParentChildrenOverEighteen")
     @Mapping(target = "deceasedAliasNameList", source = "deceased.otherNames",
         qualifiedBy = {ToCollectionMember.class})
     @Mapping(target = "outsideUkGrantCopies", source = "copies.overseas")
