@@ -74,4 +74,66 @@ class ApplicantFamilyDetailsMapperTest {
         Assertions.assertThat(result.getGrandchildAdoptionInEnglandOrWales()).isTrue();
         Assertions.assertThat(result.getGrandchildAdoptedOut()).isFalse();
     }
+
+    @Test
+    void fromApplicantDetailsHandlesOptionGrandchildRelationshipCorrectly() {
+        ApplicantFamilyDetails details = ApplicantFamilyDetails.builder()
+                .relationshipToDeceased(Relationship.GRANDCHILD)
+                .grandchildParentAdoptedIn(true)
+                .grandchildParentAdoptedOut(false)
+                .grandchildParentAdoptionInEnglandOrWales(true)
+                .build();
+
+        FamilyDetails result = mapper.fromApplicantDetails(details);
+
+        Assertions.assertThat(result.getAdoptedIn()).isTrue();
+        Assertions.assertThat(result.getAdoptedOut()).isFalse();
+        Assertions.assertThat(result.getAdoptionPlace()).isTrue();
+    }
+
+    @Test
+    void fromApplicantDetailsHandlesOptionChildRelationshipCorrectly() {
+        ApplicantFamilyDetails details = ApplicantFamilyDetails.builder()
+                .relationshipToDeceased(Relationship.CHILD)
+                .childAdoptedIn(true)
+                .childAdoptedOut(false)
+                .childAdoptionInEnglandOrWales(true)
+                .build();
+
+        FamilyDetails result = mapper.fromApplicantDetails(details);
+
+        Assertions.assertThat(result.getAdoptedIn()).isTrue();
+        Assertions.assertThat(result.getAdoptedOut()).isFalse();
+        Assertions.assertThat(result.getAdoptionPlace()).isTrue();
+    }
+
+    @Test
+    void fromApplicantDetailsHandlesOptionParentRelationshipCorrectly() {
+        ApplicantFamilyDetails details = ApplicantFamilyDetails.builder()
+                .relationshipToDeceased(Relationship.PARENT)
+                .deceasedAdoptedIn(true)
+                .deceasedAdoptedOut(false)
+                .deceasedAdoptionInEnglandOrWales(true)
+                .build();
+
+        FamilyDetails result = mapper.fromApplicantDetails(details);
+
+        Assertions.assertThat(result.getAdoptedIn()).isTrue();
+        Assertions.assertThat(result.getAdoptedOut()).isFalse();
+        Assertions.assertThat(result.getAdoptionPlace()).isTrue();
+    }
+
+    @Test
+    void fromApplicantDetailsHandlesNullRelationshipGracefully() {
+        ApplicantFamilyDetails details = ApplicantFamilyDetails.builder()
+                .relationshipToDeceased(null)
+                .build();
+
+        FamilyDetails result = mapper.fromApplicantDetails(details);
+
+        Assertions.assertThat(result.getAdoptedIn()).isNull();
+        Assertions.assertThat(result.getAdoptedOut()).isNull();
+        Assertions.assertThat(result.getAdoptionPlace()).isNull();
+    }
+
 }
