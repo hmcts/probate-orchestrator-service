@@ -163,7 +163,7 @@ def versions = [
         applicationInsights             : '3.7.6',
         authCheckerLib                  : '3.1.1',
         commonsBeanutils                : '1.11.0',
-        commonsIO                       : '2.20.0',
+        commonsIO                       : '2.21.0',
         commonMark                      : '0.27.0',
         feign                           : '13.6',
         fortifyClient                   : '1.4.10',
