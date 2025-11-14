@@ -5,6 +5,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromApplicantFamilyDetails;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromDocumentLink;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromIhtMethod;
@@ -12,9 +13,11 @@ import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromLocalDate;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromMap;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromRegistryLocation;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromUploadDocs;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToApplicantFamilyDetails;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCaseAddress;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToDocumentLink;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToExecutorApplyingCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToFormAddress;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToIhtMethod;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToLocalDate;
@@ -25,6 +28,7 @@ import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPoundsString;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToRegistryLocation;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToUploadDocs;
 import uk.gov.hmcts.reform.probate.model.IhtFormType;
+import uk.gov.hmcts.reform.probate.model.Predeceased;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.Relationship;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
@@ -40,12 +44,12 @@ import java.time.LocalDate;
 
 
 @Mapper(componentModel = "spring", uses = {PaPaymentMapper.class, PaymentsMapper.class, AliasNameMapper.class,
-    RegistryLocationMapper.class, PoundsConverter.class,
+    RegistryLocationMapper.class, PoundsConverter.class,ExecutorsMapper.class,
     IhtMethodConverter.class, MapConverter.class, LegalStatementMapper.class, LocalDateTimeMapper.class,
-    DocumentsMapper.class, StatementOfTruthMapper.class, AddressMapper.class},
+    DocumentsMapper.class, StatementOfTruthMapper.class, AddressMapper.class, ApplicantFamilyDetailsMapper.class},
     imports = {ApplicationType.class, GrantType.class, LocalDate.class, ProbateType.class, IhtMethod.class,
         MaritalStatus.class, DeathCertificate.class, Relationship.class, SpouseNotApplyingReason.class,
-        AddressMapper.class, IhtFormType.class},
+        AddressMapper.class, IhtFormType.class, Predeceased.class, ExecutorsMapper.class},
     unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, IntestacyForm> {
 
@@ -78,11 +82,17 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "deceasedMaritalStatus", expression = "java(form.getDeceased()!= null ? "
         + "MaritalStatus.fromString(form.getDeceased().getMaritalStatus()) : null)")
     @Mapping(target = "deceasedDivorcedInEnglandOrWales", source = "deceased.divorcedInEnglandOrWales")
+    @Mapping(target = "deceasedDivorcedDateKnown", source = "deceased.divorcedDateKnown")
+    @Mapping(target = "dateOfDivorcedCPJudicially", source = "deceased.divorcedDate")
     @Mapping(target = "deceasedOtherChildren", source = "deceased.otherChildren")
     @Mapping(target = "declarationCheckbox", source = "declaration.declarationCheckbox")
     @Mapping(target = "legalStatement", source = "declaration.legalStatement")
     @Mapping(target = "allDeceasedChildrenOverEighteen", source = "deceased.allDeceasedChildrenOverEighteen")
     @Mapping(target = "childrenDied", source = "deceased.anyDeceasedChildrenDieBeforeDeceased")
+    @Mapping(target = "childrenDiedBeforeDeceased", expression = "java(form.getDeceased()!= null ? "
+            + "Predeceased.fromString(form.getDeceased().getChildrenDiedBeforeDeceased()) : null)")
+    @Mapping(target = "grandChildrenSurvived", source = "deceased.grandChildrenSurvived")
+    @Mapping(target = "childAlive", source = "deceased.childAlive")
     @Mapping(target = "anyDeceasedGrandChildrenUnderEighteen",
         source = "deceased.anyDeceasedGrandchildrenUnderEighteen")
     @Mapping(target = "anyLivingParents",
@@ -93,6 +103,10 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
         + "form.getApplicant().getSpouseNotApplyingReason() != null ? "
         + "SpouseNotApplyingReason.fromString(form.getApplicant().getSpouseNotApplyingReason()) : null)")
     @Mapping(target = "deceasedAnyChildren", source = "deceased.anyChildren")
+    @Mapping(target = "deceasedAnyLivingDescendants", source = "deceased.anyLivingDescendants")
+    @Mapping(target = "deceasedAnyOtherParentAlive", source = "deceased.anyOtherParentAlive")
+    @Mapping(target = "grandchildParentOtherChildren", source = "deceased.grandchildParentOtherChildren")
+    @Mapping(target = "grandchildParentChildrenOverEighteen", source = "deceased.grandchildParentChildrenOverEighteen")
     @Mapping(target = "deceasedAliasNameList", source = "deceased.otherNames",
         qualifiedBy = {ToCollectionMember.class})
     @Mapping(target = "outsideUkGrantCopies", source = "copies.overseas")
@@ -146,6 +160,11 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "isSaveAndClose", source = "provideinformation.isSaveAndClose")
     @Mapping(target = "citizenResponseCheckbox", source = "reviewresponse.citizenResponseCheckbox")
     @Mapping(target = "expectedResponseDate", source = "expectedResponseDate")
+    @Mapping(target = "executorsApplying", source = "executors.list", qualifiedBy = {
+        ToExecutorApplyingCollectionMember.class})
+    @Mapping(target = "hasCoApplicant", source = "executors.hasCoApplicant")
+    @Mapping(target = "applicantFamilyDetails", source = "details",
+            qualifiedBy = {ToApplicantFamilyDetails.class})
     GrantOfRepresentationData toCaseData(IntestacyForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.INTESTACY)")
@@ -167,6 +186,9 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "applicant.spouseNotApplyingReason",
         expression = "java(grantOfRepresentationData.getDeceasedSpouseNotApplyingReason()!=null ? "
         + "grantOfRepresentationData.getDeceasedSpouseNotApplyingReason().getDescription() : null)")
+    @Mapping(target = "deceased.childrenDiedBeforeDeceased", expression =
+            "java(grantOfRepresentationData.getChildrenDiedBeforeDeceased()!=null ? "
+                    + "grantOfRepresentationData.getChildrenDiedBeforeDeceased().getDescription() : null)")
     @Mapping(target = "registry.name", source = "registryLocation", qualifiedBy = {FromRegistryLocation.class})
     @Mapping(target = "registry.address", source = "registryAddress")
     @Mapping(target = "registry.email", source = "registryEmailAddress")
@@ -235,6 +257,10 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "assets.assetsoverseas",
             expression = "java(grantOfRepresentationData.getOutsideUkGrantCopies() == null ? "
                     + "null : grantOfRepresentationData.getOutsideUkGrantCopies() > 0L)")
+    @Mapping(target = "details", source = "applicantFamilyDetails",
+            qualifiedBy = {FromApplicantFamilyDetails.class})
     @InheritInverseConfiguration
+    @Mapping(target = "executors.list", source = ".", qualifiedBy = {FromCollectionMember.class})
+    @Mapping(target = "executors.hasCoApplicant", source = "hasCoApplicant")
     IntestacyForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 }
