@@ -188,7 +188,7 @@ public final class PaSingleExecutorTestDataCreator {
     private static final String DOCUMENT_FILENAME = "document_filename.png";
     private static final String SOT_DOCUMENT_URL = "http://sot-doc-url";
     private static final String SOT_DOCUMENT_FILENAME = "sot_document_filename.png";
-    private static final List<String> SELECTED_DAMAGE_TYPES = Arrays.asList("stapleOrPunchHoles","paperClipMarks", 
+    private static final List<String> SELECTED_DAMAGE_TYPES = Arrays.asList("stapleOrPunchHoles","paperClipMarks",
         "tornEdges", "otherVisibleDamage");
     private static final String DAMAGE_TYPE_OTHER_DESC = "Some other damage description";
     private static final boolean DAMAGE_REASON_KNOWN = true;
@@ -277,7 +277,7 @@ public final class PaSingleExecutorTestDataCreator {
                     .otherDamageDescription(DAMAGE_TYPE_OTHER_DESC)
                     .build())
                 .codicilsDamageReasonKnown(CODICILS_DAMAGE_REASON_KNOWN)
-                .codicilsDamageReasonDescription(CODICILS_DAMAGE_REASON_DESC) 
+                .codicilsDamageReasonDescription(CODICILS_DAMAGE_REASON_DESC)
                 .codicilsDamageCulpritKnown(CODICILS_DAMAGE_CULPRIT_KNOWN)
                 .codicilsDamageCulpritName(CombinedName.builder()
                     .firstName(CODICILS_DAMAGE_CULPRIT_FIRST_NAME)
@@ -360,7 +360,7 @@ public final class PaSingleExecutorTestDataCreator {
                         .isApplicant(TRUE)
                         .build()
                 ))
-                .invitesSent(TRUE)
+                .invitesSent(FALSE)
                 .executorsNumber(EXECUTORS_NUMBER)
                 .build())
             .declaration(Declaration.builder()
