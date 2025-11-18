@@ -14,6 +14,7 @@ import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.cases.UploadDocument;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
+import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.documents.BulkScanCoverSheet;
 import uk.gov.hmcts.reform.probate.model.documents.CheckAnswersSummary;
 import uk.gov.hmcts.reform.probate.model.documents.DocumentNotification;
@@ -104,20 +105,40 @@ public class BusinessServiceImpl implements BusinessService {
                     (GrantOfRepresentationData) probateCaseDetails.getCaseData();
             invitations.stream().forEach(invitation -> {
                 if (invitation.getInviteId() == null) {
-                    log.info("Invitation not sent previously creating invite by calling businessServiceApi");
-                    if (isBilingual) {
-                        invitation.setInviteId(businessServiceApi.inviteBilingual(invitation, sessionId));
+                    if (grantOfRepresentationData.getGrantType().equals(GrantType.INTESTACY)) {
+                        log.info("Intestacy Invitation not sent and creating invite by calling businessServiceApi");
+                        if (isBilingual) {
+                            invitation.setInviteId(businessServiceApi.inviteCoApplicantBilingual(
+                                    invitation, sessionId));
+                        } else {
+                            invitation.setInviteId(businessServiceApi.inviteCoApplicant(invitation, sessionId));
+                        }
                     } else {
-                        invitation.setInviteId(businessServiceApi.invite(invitation, sessionId));
+                        log.info("Gop Invitation not sent and creating invite by calling businessServiceApi");
+                        if (isBilingual) {
+                            invitation.setInviteId(businessServiceApi.inviteBilingual(invitation, sessionId));
+                        } else {
+                            invitation.setInviteId(businessServiceApi.invite(invitation, sessionId));
+                        }
                     }
+
                     grantOfRepresentationData.setInvitationDetailsForExecutorApplying(invitation.getEmail(),
                             invitation.getInviteId(),
                             invitation.getLeadExecutorName(), invitation.getExecutorName());
                 } else {
-                    if (isBilingual) {
-                        businessServiceApi.inviteBilingual(invitation.getInviteId(), invitation, sessionId);
+                    if (grantOfRepresentationData.getGrantType().equals(GrantType.INTESTACY)) {
+                        if (isBilingual) {
+                            businessServiceApi.inviteCoApplicantBilingual(invitation.getInviteId(),
+                                    invitation, sessionId);
+                        } else {
+                            businessServiceApi.inviteCoApplicant(invitation.getInviteId(), invitation, sessionId);
+                        }
                     } else {
-                        businessServiceApi.invite(invitation.getInviteId(), invitation, sessionId);
+                        if (isBilingual) {
+                            businessServiceApi.inviteBilingual(invitation.getInviteId(), invitation, sessionId);
+                        } else {
+                            businessServiceApi.invite(invitation.getInviteId(), invitation, sessionId);
+                        }
                     }
                 }
 
@@ -137,7 +158,7 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Override
     public Boolean haveAllIniviteesAgreed(String formdataId) {
-        log.info("Have all invitees agreed");
+        log.info("checking have all invitees agreed?");
         ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(formdataId);
         GrantOfRepresentationData grantOfRepresentationData =
                 (GrantOfRepresentationData) probateCaseDetails.getCaseData();
@@ -162,8 +183,10 @@ public class BusinessServiceImpl implements BusinessService {
         ProbateCaseDetails probateCaseDetails = getProbateCaseDetails(formdataId);
         GrantOfRepresentationData grantOfRepresentationData =
                 (GrantOfRepresentationData) probateCaseDetails.getCaseData();
+        boolean isIntestacy = grantOfRepresentationData.getGrantType().equals(GrantType.INTESTACY);
         // To the best of my understanding formdataId here is the case reference, thus not sensitive
         log.info("Got the case details now set agreed flag: {}", formdataId);
+        log.info("Got the case details now InviteId: {}", invitation.getInviteId());
         grantOfRepresentationData.setInvitationAgreedFlagForExecutorApplying(invitation.getInviteId(),
                 invitation.getAgreed());
         updateCaseDataAsCaseWorker(probateCaseDetails, formdataId);
@@ -178,17 +201,37 @@ public class BusinessServiceImpl implements BusinessService {
                         + " " + grantOfRepresentationData.getDeceasedSurname())
                 .email(grantOfRepresentationData.getPrimaryApplicantEmailAddress())
                 .build();
-        if (Boolean.TRUE.equals(grantOfRepresentationData.haveAllExecutorsAgreed())
-                && grantOfRepresentationData.getLanguagePreferenceWelsh().equals(Boolean.TRUE)) {
-            businessServiceApi.signedExecAllBilingual(executorNotification);
-        } else if (Boolean.TRUE.equals(grantOfRepresentationData.haveAllExecutorsAgreed())) {
-            businessServiceApi.signedExecAll(executorNotification);
-        } else if (grantOfRepresentationData.getLanguagePreferenceWelsh().equals(Boolean.TRUE)
-                && invitation.getAgreed().equals(Boolean.TRUE)) {
-            businessServiceApi.signedBilingual(executorNotification);
-        } else if (invitation.getAgreed().equals(Boolean.TRUE)) {
-            businessServiceApi.signedExec(executorNotification);
+        if (grantOfRepresentationData.getGrantType().equals(GrantType.INTESTACY)) {
+            if (Boolean.TRUE.equals(grantOfRepresentationData.haveAllExecutorsAgreed())
+                    && grantOfRepresentationData.getLanguagePreferenceWelsh().equals(Boolean.TRUE)) {
+                businessServiceApi.signedCoApplicantAllBilingual(executorNotification);
+            } else if (Boolean.TRUE.equals(grantOfRepresentationData.haveAllExecutorsAgreed())) {
+                businessServiceApi.signedCoApplicantAll(executorNotification);
+            } else if (grantOfRepresentationData.getLanguagePreferenceWelsh().equals(Boolean.TRUE)
+                    && invitation.getAgreed().equals(Boolean.TRUE)) {
+                businessServiceApi.signedCoApplicantBilingual(executorNotification);
+            } else if (invitation.getAgreed().equals(Boolean.TRUE)) {
+                businessServiceApi.signedCoApplicant(executorNotification);
+            } else if (grantOfRepresentationData.getLanguagePreferenceWelsh().equals(Boolean.TRUE)
+                    && invitation.getAgreed().equals(Boolean.FALSE)) {
+                businessServiceApi.disagreeCoApplicantBilingual(executorNotification);
+            } else if (invitation.getAgreed().equals(Boolean.FALSE)) {
+                businessServiceApi.disagreeCoApplicant(executorNotification);
+            }
+        } else {
+            if (Boolean.TRUE.equals(grantOfRepresentationData.haveAllExecutorsAgreed())
+                    && grantOfRepresentationData.getLanguagePreferenceWelsh().equals(Boolean.TRUE)) {
+                businessServiceApi.signedExecAllBilingual(executorNotification);
+            } else if (Boolean.TRUE.equals(grantOfRepresentationData.haveAllExecutorsAgreed())) {
+                businessServiceApi.signedExecAll(executorNotification);
+            } else if (grantOfRepresentationData.getLanguagePreferenceWelsh().equals(Boolean.TRUE)
+                    && invitation.getAgreed().equals(Boolean.TRUE)) {
+                businessServiceApi.signedBilingual(executorNotification);
+            } else if (invitation.getAgreed().equals(Boolean.TRUE)) {
+                businessServiceApi.signedExec(executorNotification);
+            }
         }
+
         return invitation.getInviteId();
     }
 
@@ -237,7 +280,8 @@ public class BusinessServiceImpl implements BusinessService {
         if (citizenDocuments == null) {
             return new ArrayList<>();
         } else {
-            return citizenDocuments.stream().map(citizenDocument -> citizenDocument.getValue().getDocumentLink()
+            return citizenDocuments.stream().map(
+                    citizenDocument -> citizenDocument.getValue().getDocumentLink()
                             .getDocumentFilename()).toList();
         }
     }

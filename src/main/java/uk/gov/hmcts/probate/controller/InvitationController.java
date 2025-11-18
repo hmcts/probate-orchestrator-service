@@ -43,6 +43,7 @@ public class InvitationController {
         consumes = MediaType.APPLICATION_JSON_VALUE)
     public InvitationsResult invite(@Valid @RequestBody List<Invitation> invitations,
                                     @RequestHeader("Session-Id") String sessionId) {
+        log.info("OS.InvitationController.invite called");
         return InvitationsResult.builder()
             .invitations(businessService.sendInvitations(invitations, sessionId, Boolean.FALSE)).build();
     }
@@ -51,10 +52,10 @@ public class InvitationController {
         consumes = MediaType.APPLICATION_JSON_VALUE)
     public InvitationsResult inviteBilingual(@Valid @RequestBody List<Invitation> invitations,
                                              @RequestHeader("Session-Id") String sessionId) {
+        log.info("OS.InvitationController.inviteBilingual called");
         return InvitationsResult.builder()
             .invitations(businessService.sendInvitations(invitations, sessionId, Boolean.TRUE)).build();
     }
-
 
     @GetMapping(path = INVITE_ALLAGREED_URL + "/{formdataId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Boolean invitesAllAgreed(@PathVariable("formdataId") String formdataId) {
