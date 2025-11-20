@@ -12,6 +12,8 @@ public class FeatureToggleServiceImpl implements FeatureToggleService {
     private final LDClientInterface ldClient;
     private final LDContext ldContext;
 
+    static final String PAYMENT_LOOKUP_FEATURE = "probate-use-ccd-lookup-not-elastic-when-paying";
+
     public FeatureToggleServiceImpl(
             final LDClientInterface ldClient,
             final LDContext ldContext) {
@@ -27,6 +29,6 @@ public class FeatureToggleServiceImpl implements FeatureToggleService {
 
     @Override
     public boolean useCcdLookupForPayments() {
-        return isFeatureToggleOn("probate-use-ccd-lookup-not-elastic-when-paying", false);
+        return isFeatureToggleOn(PAYMENT_LOOKUP_FEATURE, false);
     }
 }
