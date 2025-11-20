@@ -11,7 +11,6 @@ import org.mockito.MockitoAnnotations;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -44,12 +43,18 @@ class FeatureToggleServiceImplTest {
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     void lookupFromLDWhenCcdPaymentQueried(final boolean expected) {
-        when(ldClientMock.boolVariation(any(), eq(ldContextMock), anyBoolean()))
+        when(ldClientMock.boolVariation(
+                    eq(FeatureToggleServiceImpl.PAYMENT_LOOKUP_FEATURE),
+                    eq(ldContextMock),
+                    anyBoolean()))
                 .thenReturn(expected);
 
         final boolean actual = featureToggleService.useCcdLookupForPayments();
 
-        verify(ldClientMock).boolVariation(any(), eq(ldContextMock), anyBoolean());
+        verify(ldClientMock).boolVariation(
+                eq(FeatureToggleServiceImpl.PAYMENT_LOOKUP_FEATURE),
+                eq(ldContextMock),
+                anyBoolean());
         assertThat(actual, equalTo(expected));
     }
 }
