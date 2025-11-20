@@ -81,3 +81,10 @@ feign:
         connectTimeout: 30000
         readTimeout: 30000
         loggerLevel: basic
+
+ld:
+  sdk_key: ${LAUNCHDARKLY_KEY:dummy}
+  user:
+    key: ${LD_USER_KEY:dummy_key}
+    firstName: Probate
+    lastName: Orchestrator
