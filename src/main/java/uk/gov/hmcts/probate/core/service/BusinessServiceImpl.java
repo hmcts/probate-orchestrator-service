@@ -124,8 +124,8 @@ public class BusinessServiceImpl implements BusinessService {
                             invitation.getInviteId(),
                             invitation.getLeadExecutorName(), invitation.getExecutorName());
                 } else {
-                    log.info("Gop Invitation - creating invite by calling businessServiceApi inviteId {} "
-                            ,invitation.getInviteId());
+                    log.info("Gop Invitation - creating invite by calling businessServiceApi inviteId {} ",
+                            invitation.getInviteId());
                     if (grantOfRepresentationData.getGrantType().equals(GrantType.INTESTACY)) {
                         if (isBilingual) {
                             businessServiceApi.inviteCoApplicantBilingual(invitation.getInviteId(), invitation,
