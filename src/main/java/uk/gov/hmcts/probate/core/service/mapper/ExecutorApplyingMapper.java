@@ -8,14 +8,14 @@ import org.mapstruct.ReportingPolicy;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCaseAddress;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToFormAddress;
 import uk.gov.hmcts.reform.probate.model.AliasReason;
-import uk.gov.hmcts.reform.probate.model.Relationship;
+import uk.gov.hmcts.reform.probate.model.CoApplicantRelationship;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.forms.pa.Executor;
 
 @Mapper(componentModel = "spring", uses = {AddressMapper.class},
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        imports = {BooleanUtils.class, AddressMapper.class, AliasReason.class, Relationship.class}
+        imports = {BooleanUtils.class, AddressMapper.class, AliasReason.class, CoApplicantRelationship.class}
 )
 public interface ExecutorApplyingMapper {
 
@@ -42,7 +42,7 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "value.applyingExecutorPostCode", source = "postcode")
     @Mapping(target = "value.applicantFamilyDetails.relationshipToDeceased",
             expression = "java(executor.getCoApplicantRelationshipToDeceased()!= null ? "
-               + "Relationship.fromString(executor.getCoApplicantRelationshipToDeceased()) : null)")
+               + "CoApplicantRelationship.fromString(executor.getCoApplicantRelationshipToDeceased()) : null)")
 
     @Mapping(target = "value.applicantFamilyDetails.childAdoptedIn",
             expression = "java(executor.getChildAdoptedIn()!= null ? executor.getChildAdoptedIn() : null)")
@@ -73,15 +73,28 @@ public interface ExecutorApplyingMapper {
             expression = "java(executor.getGrandchildParentAdoptionInEnglandOrWales()!= null ? "
                     + "executor.getGrandchildParentAdoptionInEnglandOrWales() : null)")
 
-    @Mapping(target = "value.applicantFamilyDetails.deceasedAdoptedIn",
-            expression = "java(executor.getDeceasedAdoptedIn()!= null "
-                    + "? executor.getDeceasedAdoptedIn() : null)")
-    @Mapping(target = "value.applicantFamilyDetails.deceasedAdoptedOut",
-            expression = "java(executor.getDeceasedAdoptedOut()!= null "
-                    + "? executor.getDeceasedAdoptedOut() : null)")
-    @Mapping(target = "value.applicantFamilyDetails.deceasedAdoptionInEnglandOrWales",
-            expression = "java(executor.getDeceasedAdoptionInEnglandOrWales()!= null ? "
-                    + "executor.getDeceasedAdoptionInEnglandOrWales() : null)")
+    @Mapping(target = "value.applicantFamilyDetails.halfBloodSiblingAdoptedIn",
+            expression = "java(executor.getHalfBloodSiblingAdoptedIn()!= null "
+                    + "? executor.getHalfBloodSiblingAdoptedIn() : null)")
+    @Mapping(target = "value.applicantFamilyDetails.halfBloodSiblingAdoptedOut",
+            expression = "java(executor.getHalfBloodSiblingAdoptedOut()!= null "
+                    + "? executor.getHalfBloodSiblingAdoptedOut() : null)")
+    @Mapping(target = "value.applicantFamilyDetails.halfBloodSiblingAdoptionInEnglandOrWales",
+            expression = "java(executor.getHalfBloodSiblingAdoptionInEnglandOrWales()!= null ? "
+                    + "executor.getHalfBloodSiblingAdoptionInEnglandOrWales() : null)")
+
+    @Mapping(target = "value.applicantFamilyDetails.halfBloodSiblingDiedBeforeDeceased",
+            expression = "java(executor.getHalfBloodSiblingDiedBeforeDeceased()!= null "
+                    + "? executor.getHalfBloodSiblingDiedBeforeDeceased() : null)")
+    @Mapping(target = "value.applicantFamilyDetails.halfBloodNieceOrNephewAdoptedIn",
+            expression = "java(executor.getHalfBloodNieceOrNephewAdoptedIn()!= null "
+                    + "? executor.getHalfBloodNieceOrNephewAdoptedIn() : null)")
+    @Mapping(target = "value.applicantFamilyDetails.halfBloodNieceOrNephewAdoptedOut",
+            expression = "java(executor.getHalfBloodNieceOrNephewAdoptedOut()!= null "
+                    + "? executor.getHalfBloodNieceOrNephewAdoptedOut() : null)")
+    @Mapping(target = "value.applicantFamilyDetails.halfBloodNieceOrNephewAdoptionInEnglandOrWales",
+            expression = "java(executor.getHalfBloodNieceOrNephewAdoptionInEnglandOrWales()!= null ? "
+                    + "executor.getHalfBloodNieceOrNephewAdoptionInEnglandOrWales() : null)")
 
     CollectionMember<ExecutorApplying> toExecutorApplying(Executor executor);
 
@@ -115,10 +128,19 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "grandchildParentAdoptionInEnglandOrWales",
             source = "value.applicantFamilyDetails.grandchildParentAdoptionInEnglandOrWales")
 
-    @Mapping(target = "deceasedAdoptedIn",  source = "value.applicantFamilyDetails.deceasedAdoptedIn")
-    @Mapping(target = "deceasedAdoptedOut", source = "value.applicantFamilyDetails.deceasedAdoptedOut")
-    @Mapping(target = "deceasedAdoptionInEnglandOrWales",
-            source = "value.applicantFamilyDetails.deceasedAdoptionInEnglandOrWales")
+    @Mapping(target = "halfBloodSiblingAdoptedIn",  source = "value.applicantFamilyDetails.halfBloodSiblingAdoptedIn")
+    @Mapping(target = "halfBloodSiblingAdoptedOut", source = "value.applicantFamilyDetails.halfBloodSiblingAdoptedOut")
+    @Mapping(target = "halfBloodSiblingAdoptionInEnglandOrWales",
+            source = "value.applicantFamilyDetails.halfBloodSiblingAdoptionInEnglandOrWales")
+
+    @Mapping(target = "halfBloodSiblingDiedBeforeDeceased",
+            source = "value.applicantFamilyDetails.halfBloodSiblingDiedBeforeDeceased")
+    @Mapping(target = "halfBloodNieceOrNephewAdoptedIn",
+            source = "value.applicantFamilyDetails.halfBloodNieceOrNephewAdoptedIn")
+    @Mapping(target = "halfBloodNieceOrNephewAdoptedOut",
+            source = "value.applicantFamilyDetails.halfBloodNieceOrNephewAdoptedOut")
+    @Mapping(target = "halfBloodNieceOrNephewAdoptionInEnglandOrWales",
+            source = "value.applicantFamilyDetails.halfBloodNieceOrNephewAdoptionInEnglandOrWales")
 
     @InheritInverseConfiguration
     Executor fromExecutorApplying(CollectionMember<ExecutorApplying> executorApplyingCollectionMember);
