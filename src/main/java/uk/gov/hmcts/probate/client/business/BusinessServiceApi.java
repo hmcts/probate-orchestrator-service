@@ -95,7 +95,7 @@ public interface BusinessServiceApi {
 
     @PostMapping(path = "/invite-co-applicant/{inviteId}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    String inviteCoApplicant(@PathVariable("inviteId") String inviteId,
+    void inviteCoApplicant(@PathVariable("inviteId") String inviteId,
                   @RequestBody Invitation invitation,
                   @RequestHeader("Session-Id") String sessionId);
 
@@ -135,7 +135,7 @@ public interface BusinessServiceApi {
 
     @PostMapping(path = "/invite-co-applicant/bilingual/{inviteId}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    String inviteCoApplicantBilingual(@PathVariable("inviteId") String inviteId,
+    void inviteCoApplicantBilingual(@PathVariable("inviteId") String inviteId,
                            @RequestBody Invitation invitation,
                            @RequestHeader("Session-Id") String sessionId);
 
