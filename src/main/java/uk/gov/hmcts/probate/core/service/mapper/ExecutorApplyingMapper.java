@@ -152,7 +152,8 @@ public interface ExecutorApplyingMapper {
             source = "value.applicantFamilyDetails.grandchildParentAdoptionInEnglandOrWales")
 
     @Mapping(target = "wholeBloodSiblingAdoptedIn",  source = "value.applicantFamilyDetails.wholeBloodSiblingAdoptedIn")
-    @Mapping(target = "wholeBloodSiblingAdoptedOut", source = "value.applicantFamilyDetails.wholeBloodSiblingAdoptedOut")
+    @Mapping(target = "wholeBloodSiblingAdoptedOut",
+            source = "value.applicantFamilyDetails.wholeBloodSiblingAdoptedOut")
     @Mapping(target = "wholeBloodSiblingAdoptionInEnglandOrWales",
             source = "value.applicantFamilyDetails.wholeBloodSiblingAdoptionInEnglandOrWales")
     @Mapping(target = "wholeBloodSiblingDiedBeforeDeceased",
