@@ -73,6 +73,29 @@ public interface ExecutorApplyingMapper {
             expression = "java(executor.getGrandchildParentAdoptionInEnglandOrWales()!= null ? "
                     + "executor.getGrandchildParentAdoptionInEnglandOrWales() : null)")
 
+    @Mapping(target = "value.applicantFamilyDetails.wholeBloodSiblingAdoptedIn",
+            expression = "java(executor.getWholeBloodSiblingAdoptedIn()!= null "
+                    + "? executor.getWholeBloodSiblingAdoptedIn() : null)")
+    @Mapping(target = "value.applicantFamilyDetails.wholeBloodSiblingAdoptedOut",
+            expression = "java(executor.getWholeBloodSiblingAdoptedOut()!= null "
+                    + "? executor.getWholeBloodSiblingAdoptedOut() : null)")
+    @Mapping(target = "value.applicantFamilyDetails.wholeBloodSiblingAdoptionInEnglandOrWales",
+            expression = "java(executor.getWholeBloodSiblingAdoptionInEnglandOrWales()!= null ? "
+                    + "executor.getWholeBloodSiblingAdoptionInEnglandOrWales() : null)")
+
+    @Mapping(target = "value.applicantFamilyDetails.wholeBloodSiblingDiedBeforeDeceased",
+            expression = "java(executor.getWholeBloodSiblingDiedBeforeDeceased()!= null "
+                    + "? executor.getWholeBloodSiblingDiedBeforeDeceased() : null)")
+    @Mapping(target = "value.applicantFamilyDetails.wholeBloodNieceOrNephewAdoptedIn",
+            expression = "java(executor.getWholeBloodNieceOrNephewAdoptedIn()!= null "
+                    + "? executor.getWholeBloodNieceOrNephewAdoptedIn() : null)")
+    @Mapping(target = "value.applicantFamilyDetails.wholeBloodNieceOrNephewAdoptedOut",
+            expression = "java(executor.getWholeBloodNieceOrNephewAdoptedOut()!= null "
+                    + "? executor.getWholeBloodNieceOrNephewAdoptedOut() : null)")
+    @Mapping(target = "value.applicantFamilyDetails.wholeBloodNieceOrNephewAdoptionInEnglandOrWales",
+            expression = "java(executor.getWholeBloodNieceOrNephewAdoptionInEnglandOrWales()!= null ? "
+                    + "executor.getWholeBloodNieceOrNephewAdoptionInEnglandOrWales() : null)")
+
     @Mapping(target = "value.applicantFamilyDetails.halfBloodSiblingAdoptedIn",
             expression = "java(executor.getHalfBloodSiblingAdoptedIn()!= null "
                     + "? executor.getHalfBloodSiblingAdoptedIn() : null)")
@@ -127,6 +150,20 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "grandchildParentAdoptedOut", source = "value.applicantFamilyDetails.grandchildParentAdoptedOut")
     @Mapping(target = "grandchildParentAdoptionInEnglandOrWales",
             source = "value.applicantFamilyDetails.grandchildParentAdoptionInEnglandOrWales")
+
+    @Mapping(target = "wholeBloodSiblingAdoptedIn",  source = "value.applicantFamilyDetails.wholeBloodSiblingAdoptedIn")
+    @Mapping(target = "wholeBloodSiblingAdoptedOut",
+            source = "value.applicantFamilyDetails.wholeBloodSiblingAdoptedOut")
+    @Mapping(target = "wholeBloodSiblingAdoptionInEnglandOrWales",
+            source = "value.applicantFamilyDetails.wholeBloodSiblingAdoptionInEnglandOrWales")
+    @Mapping(target = "wholeBloodSiblingDiedBeforeDeceased",
+            source = "value.applicantFamilyDetails.wholeBloodSiblingDiedBeforeDeceased")
+    @Mapping(target = "wholeBloodNieceOrNephewAdoptedIn",
+            source = "value.applicantFamilyDetails.wholeBloodNieceOrNephewAdoptedIn")
+    @Mapping(target = "wholeBloodNieceOrNephewAdoptedOut",
+            source = "value.applicantFamilyDetails.wholeBloodNieceOrNephewAdoptedOut")
+    @Mapping(target = "wholeBloodNieceOrNephewAdoptionInEnglandOrWales",
+            source = "value.applicantFamilyDetails.wholeBloodNieceOrNephewAdoptionInEnglandOrWales")
 
     @Mapping(target = "halfBloodSiblingAdoptedIn",  source = "value.applicantFamilyDetails.halfBloodSiblingAdoptedIn")
     @Mapping(target = "halfBloodSiblingAdoptedOut", source = "value.applicantFamilyDetails.halfBloodSiblingAdoptedOut")
