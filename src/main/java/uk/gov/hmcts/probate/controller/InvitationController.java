@@ -55,7 +55,6 @@ public class InvitationController {
             .invitations(businessService.sendInvitations(invitations, sessionId, Boolean.TRUE)).build();
     }
 
-
     @GetMapping(path = INVITE_ALLAGREED_URL + "/{formdataId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Boolean invitesAllAgreed(@PathVariable("formdataId") String formdataId) {
         return businessService.haveAllIniviteesAgreed(formdataId);
