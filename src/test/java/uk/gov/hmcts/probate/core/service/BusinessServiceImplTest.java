@@ -416,6 +416,90 @@ public class BusinessServiceImplTest {
     }
 
     @Test
+    void shouldSendSignedCoApplicantAllBilingualIfAllAgreedAndWelsh() {
+        when(mockGrantOfRepresentationData.getGrantType()).thenReturn(GrantType.INTESTACY);
+        when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.TRUE);
+        when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.TRUE);
+        Invitation invitation = getInvitation(formdataId);
+        ExecutorNotification executorNotification = buildExecutorNotification(invitation);
+        businessService.inviteAgreed(formdataId, invitation);
+        verify(businessServiceApi).signedCoApplicantAllBilingual(executorNotification);
+    }
+
+    @Test
+    void shouldSendSignedCoApplicantAllIfAllAgreedAndNotWelsh() {
+        when(mockGrantOfRepresentationData.getGrantType()).thenReturn(GrantType.INTESTACY);
+        when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.TRUE);
+        when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.FALSE);
+        Invitation invitation = getInvitation(formdataId);
+        ExecutorNotification executorNotification = buildExecutorNotification(invitation);
+        businessService.inviteAgreed(formdataId, invitation);
+        verify(businessServiceApi).signedCoApplicantAll(executorNotification);
+    }
+
+    @Test
+    void shouldSendSignedCoApplicantBilingualIfWelshAndAgreed() {
+        when(mockGrantOfRepresentationData.getGrantType()).thenReturn(GrantType.INTESTACY);
+        when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
+        when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.TRUE);
+        Invitation invitation = getInvitation(formdataId);
+        invitation.setAgreed(Boolean.TRUE);
+        ExecutorNotification executorNotification = buildExecutorNotification(invitation);
+        businessService.inviteAgreed(formdataId, invitation);
+        verify(businessServiceApi).signedCoApplicantBilingual(executorNotification);
+    }
+
+    @Test
+    void shouldSendSignedCoApplicantIfNotWelshAndAgreed() {
+        when(mockGrantOfRepresentationData.getGrantType()).thenReturn(GrantType.INTESTACY);
+        when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
+        when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.FALSE);
+        Invitation invitation = getInvitation(formdataId);
+        invitation.setAgreed(Boolean.TRUE);
+        ExecutorNotification executorNotification = buildExecutorNotification(invitation);
+        businessService.inviteAgreed(formdataId, invitation);
+        verify(businessServiceApi).signedCoApplicant(executorNotification);
+    }
+
+    @Test
+    void shouldSendDisagreeCoApplicantBilingualIfWelshAndNotAgreed() {
+        when(mockGrantOfRepresentationData.getGrantType()).thenReturn(GrantType.INTESTACY);
+        when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
+        when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.TRUE);
+        Invitation invitation = getInvitation(formdataId);
+        invitation.setAgreed(Boolean.FALSE);
+        ExecutorNotification executorNotification = buildExecutorNotification(invitation);
+        businessService.inviteAgreed(formdataId, invitation);
+        verify(businessServiceApi).disagreeCoApplicantBilingual(executorNotification);
+    }
+
+    @Test
+    void shouldSendDisagreeCoApplicantIfNotWelshAndNotAgreed() {
+        when(mockGrantOfRepresentationData.getGrantType()).thenReturn(GrantType.INTESTACY);
+        when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
+        when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.FALSE);
+        Invitation invitation = getInvitation(formdataId);
+        invitation.setAgreed(Boolean.FALSE);
+        ExecutorNotification executorNotification = buildExecutorNotification(invitation);
+        businessService.inviteAgreed(formdataId, invitation);
+        verify(businessServiceApi).disagreeCoApplicant(executorNotification);
+    }
+
+    private ExecutorNotification buildExecutorNotification(Invitation invitation) {
+        return ExecutorNotification.builder()
+                .ccdReference(formdataId)
+                .executorName(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(invitation.getInviteId())
+                        .getApplyingExecutorName())
+                .applicantName(mockGrantOfRepresentationData.getPrimaryApplicantForenames()
+                        + " " + mockGrantOfRepresentationData.getPrimaryApplicantSurname())
+                .deceasedName(mockGrantOfRepresentationData.getDeceasedForenames()
+                        + " " + mockGrantOfRepresentationData.getDeceasedSurname())
+                .deceasedDod(mockGrantOfRepresentationData.getDeceasedDateOfDeath().toString())
+                .email(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress())
+                .build();
+    }
+
+    @Test
     void shouldSendEmailForDocumentUploadSuccessful() {
         when(mockGrantOfRepresentationData.getDocumentUploadIssue()).thenReturn(Boolean.FALSE);
         when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.FALSE);
