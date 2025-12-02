@@ -95,8 +95,6 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "deceasedOtherChildren", source = "deceased.otherChildren")
     @Mapping(target = "hasDataChanged", source = "declaration.hasDataChanged")
     @Mapping(target = "declarationCheckbox", source = "declaration.declarationCheckbox")
-
-    //@Mapping(target = "legalStatement", source = "declaration.legalStatement")
     @Mapping(target = "legalStatement", source = "declaration.legalStatement.en")
     @Mapping(target = "welshLegalStatement", source = "declaration.legalStatement.cy")
     @Mapping(target = "declaration", source = "declaration.declaration.en")
