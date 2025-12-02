@@ -251,6 +251,65 @@ public class BusinessServiceImplTest {
     }
 
     @Test
+    void shouldSendIntestacyInvitationsAndUpdateProbateCaseDetails() {
+        when(mockGrantOfRepresentationData.getGrantType()).thenReturn(GrantType.INTESTACY);
+        Invitation newInvitation = getInvitation(formdataId);
+        newInvitation.setInviteId(null);
+        Invitation resendInvitation = Invitation.builder()
+                .inviteId("inviteId")
+                .lastName("RsLastName")
+                .firstName("RsFirstName")
+                .leadExecutorName("RsLeadExecName")
+                .email("rsEmailAddress")
+                .formdataId(formdataId)
+                .build();
+
+        when(businessServiceApi.inviteCoApplicant(newInvitation, sessionId)).thenReturn(invitationId);
+
+        List<Invitation> results = businessService.sendInvitations(
+                Lists.newArrayList(newInvitation, resendInvitation), sessionId, Boolean.FALSE);
+
+        verify(businessServiceApi).inviteCoApplicant(newInvitation, sessionId);
+        verify(businessServiceApi).inviteCoApplicant(resendInvitation.getInviteId(), resendInvitation, sessionId);
+        verifyGetCaseCalls();
+        verify(mockGrantOfRepresentationData).setInvitationDetailsForExecutorApplying(
+                newInvitation.getEmail(), invitationId, newInvitation.getLeadExecutorName(), executorName);
+        verify(submitServiceApi).saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, EVENT_DESCRIPTION,
+                mockProbateCaseDetails);
+        assertEquals(invitationId, newInvitation.getInviteId());
+    }
+
+    @Test
+    void shouldSendIntestacyBilingualInvitationsAndUpdateProbateCaseDetails() {
+        when(mockGrantOfRepresentationData.getGrantType()).thenReturn(GrantType.INTESTACY);
+        Invitation newInvitation = getInvitation(formdataId);
+        newInvitation.setInviteId(null);
+        Invitation resendInvitation = Invitation.builder()
+                .inviteId("inviteId")
+                .lastName("RsLastName")
+                .firstName("RsFirstName")
+                .leadExecutorName("RsLeadExecName")
+                .email("rsEmailAddress")
+                .formdataId(formdataId)
+                .build();
+
+        when(businessServiceApi.inviteCoApplicantBilingual(newInvitation, sessionId)).thenReturn(invitationId);
+
+        List<Invitation> results = businessService.sendInvitations(
+                Lists.newArrayList(newInvitation, resendInvitation), sessionId, Boolean.TRUE);
+
+        verify(businessServiceApi).inviteCoApplicantBilingual(newInvitation, sessionId);
+        verify(businessServiceApi).inviteCoApplicantBilingual(resendInvitation.getInviteId(), resendInvitation,
+                sessionId);
+        verifyGetCaseCalls();
+        verify(mockGrantOfRepresentationData).setInvitationDetailsForExecutorApplying(
+                newInvitation.getEmail(), invitationId, newInvitation.getLeadExecutorName(), executorName);
+        verify(submitServiceApi).saveCase(AUTHORIZATION, SERVICE_AUTHORIZATION, formdataId, EVENT_DESCRIPTION,
+                mockProbateCaseDetails);
+        assertEquals(invitationId, newInvitation.getInviteId());
+    }
+
+    @Test
     public void shouldResendInvitation() {
         Invitation invitation = getInvitation(formdataId);
         String result = businessService.resendInvitation(invitationId, invitation, sessionId);
