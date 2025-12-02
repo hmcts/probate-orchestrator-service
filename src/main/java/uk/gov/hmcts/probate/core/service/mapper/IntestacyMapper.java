@@ -267,6 +267,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "iht.assetsOutsideNetValue", source = "assetsOutsideNetValue", qualifiedBy = {ToPounds.class})
     @Mapping(target = "iht.netValueAssetsOutsideField", source = "assetsOutsideNetValue", qualifiedBy = {
         ToPoundsString.class})
+    @Mapping(target = "declaration.hasDataChanged", source = "hasDataChanged")
     @Mapping(target = "legalDeclaration", source = "legalDeclarationJson", qualifiedBy = {ToMap.class})
     @Mapping(target = "checkAnswersSummary", source = "checkAnswersSummaryJson", qualifiedBy = {ToMap.class})
     @Mapping(target = "payment", source = "payments")
@@ -292,5 +293,6 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @InheritInverseConfiguration
     @Mapping(target = "executors.list", source = ".", qualifiedBy = {FromCollectionMember.class})
     @Mapping(target = "executors.hasCoApplicant", source = "hasCoApplicant")
+    @Mapping(target = "executors.invitesSent", expression = "java(grantOfRepresentationData.haveInvitesBeenSent())")
     IntestacyForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 }
