@@ -85,6 +85,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "deceasedDivorcedDateKnown", source = "deceased.divorcedDateKnown")
     @Mapping(target = "dateOfDivorcedCPJudicially", source = "deceased.divorcedDate")
     @Mapping(target = "deceasedOtherChildren", source = "deceased.otherChildren")
+    @Mapping(target = "hasDataChanged", source = "declaration.hasDataChanged")
     @Mapping(target = "declarationCheckbox", source = "declaration.declarationCheckbox")
 
     //@Mapping(target = "legalStatement", source = "declaration.legalStatement")
@@ -237,6 +238,7 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "iht.assetsOutsideNetValue", source = "assetsOutsideNetValue", qualifiedBy = {ToPounds.class})
     @Mapping(target = "iht.netValueAssetsOutsideField", source = "assetsOutsideNetValue", qualifiedBy = {
         ToPoundsString.class})
+    @Mapping(target = "declaration.hasDataChanged", source = "hasDataChanged")
     @Mapping(target = "legalDeclaration", source = "legalDeclarationJson", qualifiedBy = {ToMap.class})
     @Mapping(target = "checkAnswersSummary", source = "checkAnswersSummaryJson", qualifiedBy = {ToMap.class})
     @Mapping(target = "payment", source = "payments")
