@@ -221,6 +221,9 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "applicant.halfBloodSiblingsDiedBeforeDeceased", expression =
             "java(grantOfRepresentationData.getHalfBloodSiblingsDiedBeforeDeceased()!=null ? "
                     + "grantOfRepresentationData.getHalfBloodSiblingsDiedBeforeDeceased().getDescription() : null)")
+    @Mapping(target = "applicant.wholeBloodSiblingsDiedBeforeDeceased", expression =
+            "java(grantOfRepresentationData.getWholeBloodSiblingsDiedBeforeDeceased()!=null ? "
+                    + "grantOfRepresentationData.getWholeBloodSiblingsDiedBeforeDeceased().getDescription() : null)")
     @Mapping(target = "registry.name", source = "registryLocation", qualifiedBy = {FromRegistryLocation.class})
     @Mapping(target = "registry.address", source = "registryAddress")
     @Mapping(target = "registry.email", source = "registryEmailAddress")
