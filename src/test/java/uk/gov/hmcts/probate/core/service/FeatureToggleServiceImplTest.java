@@ -57,4 +57,13 @@ class FeatureToggleServiceImplTest {
                 anyBoolean());
         assertThat(actual, equalTo(expected));
     }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void coverConfirmFeatureToggleFalse(final boolean param) {
+        when(ldClientMock.boolVariation(eq(FeatureToggleServiceImpl.CONFIRM_FEATURE), eq(ldContextMock), anyBoolean()))
+                .thenReturn(param);
+
+        featureToggleService.confirmFeatureToggle();
+    }
 }
