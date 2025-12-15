@@ -51,3 +51,7 @@ java:
           alias: SCHEDULER_CASEWORKER_USERNAME
         - name: schedulerCaseWorkerPass
           alias: SCHEDULER_CASEWORKER_PASSWORD
+        - name: launchdarkly-key
+          alias: ld.sdk_key
+        - name: launchdarklyUserkeyBackend
+          alias: ld.user.key
