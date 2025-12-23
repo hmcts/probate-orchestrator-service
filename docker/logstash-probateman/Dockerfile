@@ -1,3 +1,3 @@
-FROM docker.elastic.co/logstash/logstash:9.2.2
+FROM docker.elastic.co/logstash/logstash:9.2.3
 RUN mkdir drivers
 RUN curl -o ./postgresql-42.2.2.jar https://jdbc.postgresql.org/download/postgresql-42.2.2.jar
