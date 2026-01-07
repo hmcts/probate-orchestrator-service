@@ -105,7 +105,7 @@ public class BusinessServiceImpl implements BusinessService {
                     (GrantOfRepresentationData) probateCaseDetails.getCaseData();
             invitations.stream().forEach(invitation -> {
                 if (invitation.getInviteId() == null) {
-                    log.info("Intestacy Invitation - creating invite by calling businessServiceApi");
+                    log.info("Invitation not sent previously creating invite by calling businessServiceApi");
                     if (grantOfRepresentationData.getGrantType().equals(GrantType.INTESTACY)) {
                         if (isBilingual) {
                             invitation.setInviteId(businessServiceApi.inviteCoApplicantBilingual(
@@ -124,7 +124,7 @@ public class BusinessServiceImpl implements BusinessService {
                             invitation.getInviteId(),
                             invitation.getLeadExecutorName(), invitation.getExecutorName());
                 } else {
-                    log.info("Gop Invitation - creating invite by calling businessServiceApi inviteId {} ",
+                    log.info("Invitation - creating invite by calling businessServiceApi inviteId {} ",
                             invitation.getInviteId());
                     if (grantOfRepresentationData.getGrantType().equals(GrantType.INTESTACY)) {
                         if (isBilingual) {
