@@ -163,6 +163,7 @@ def versions = [
         applicationInsights             : '3.7.6',
         authCheckerLib                  : '3.1.1',
         commonsBeanutils                : '1.11.0',
+        commonsFileuploadVersion        : '1.6.0',
         commonsIO                       : '2.21.0',
         commonMark                      : '0.27.0',
         feign                           : '13.6',
@@ -215,7 +216,10 @@ configurations {
     smokeTestRuntimeOnly.extendsFrom runtimeOnly
 }
 
-ext['snakeyaml.version'] = '2.0'
+ext {
+    set("log4j2.version", libs.versions.log4j2.get()) // CVE-2025-68161
+    set("commons-lang3.version", libs.versions.commonsLang3.get()) // CVE-2025-48924
+}
 
 dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: versions.springBootVersion
@@ -329,17 +333,8 @@ dependencies {
         implementation group: 'commons-beanutils', name: 'commons-beanutils', version: versions.commonsBeanutils
         testFunctionalImplementation group: 'commons-beanutils', name: 'commons-beanutils', version: versions.commonsBeanutils
         testIntegrationImplementation group: 'commons-beanutils', name: 'commons-beanutils', version: versions.commonsBeanutils
-    }
-}
+        implementation(group: 'commons-fileupload', name: 'commons-fileupload', version: versions.commonsFileuploadVersion) // CVE-2025-48976
 
-configurations.configureEach {
-    resolutionStrategy {
-        eachDependency { details ->
-            // Resolve CVE‑2025‑48976
-            if (details.requested.name == 'commons-fileupload') {
-                details.useVersion '1.6.0'
-            }
-        }
     }
 }
 
