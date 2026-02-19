@@ -168,7 +168,7 @@ def versions = [
         commonMark                      : '0.27.1',
         feign                           : '13.8',
         fortifyClient                   : '1.4.10',
-        hmctsJavaLogging                : '7.0.0',
+        hmctsJavaLogging                : '8.0.0',
         jacksonDatabind                 : '2.19.2',
         junitJupiter                    : '5.12.2',
         lombok                          : '1.18.42',
