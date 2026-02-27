@@ -181,7 +181,7 @@ def versions = [
         serviceAuthProviderClient       : '5.3.3',
         serviceTokenGenerator           : '0.6.0',
         springBootVersion               : '3.5.11',
-        springCloudWiremock             : '4.3.0',
+        springCloudWiremock             : '4.3.1',
         springDocOpenUi                 : '2.8.15',
         swaggerAnnotations              : '2.2.43',
         springSecurityVersion           : '6.5.8',
@@ -207,7 +207,7 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2025.0.0"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2025.1.1"
     }
 }
 
