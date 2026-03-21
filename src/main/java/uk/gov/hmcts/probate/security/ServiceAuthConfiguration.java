@@ -7,14 +7,12 @@ import org.springframework.context.annotation.Configuration;
 
 import feign.Feign;
 import feign.jackson.JacksonEncoder;
-import lombok.extern.slf4j.Slf4j;
 import uk.gov.hmcts.reform.authorisation.ServiceAuthorisationApi;
 import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 import uk.gov.hmcts.reform.authorisation.validators.AuthTokenValidator;
 import uk.gov.hmcts.reform.authorisation.validators.ServiceAuthTokenValidator;
 
 
-@Slf4j
 @Configuration
 public class ServiceAuthConfiguration {
 

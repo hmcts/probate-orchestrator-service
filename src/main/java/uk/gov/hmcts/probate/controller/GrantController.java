@@ -1,8 +1,8 @@
 package uk.gov.hmcts.probate.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,14 +16,19 @@ import java.util.concurrent.Executors;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@Slf4j
-@RequiredArgsConstructor
 @RequestMapping(value = "/grant", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_VALUE)
 @RestController
 public class GrantController {
+    private static final Logger log = LoggerFactory.getLogger(GrantController.class);
 
     private final GrantDelayedNotifier grantDelayedNotifier;
     private final GrantAwaitingDocumentsNotifier grantAwaitingDocumentsNotifier;
+
+    public GrantController(GrantDelayedNotifier grantDelayedNotifier,
+                           GrantAwaitingDocumentsNotifier grantAwaitingDocumentsNotifier) {
+        this.grantDelayedNotifier = grantDelayedNotifier;
+        this.grantAwaitingDocumentsNotifier = grantAwaitingDocumentsNotifier;
+    }
 
     @Operation(summary = "Notify grants delayed")
     @PostMapping(path = "/delay-notification")

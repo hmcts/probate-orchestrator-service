@@ -1,8 +1,8 @@
 package uk.gov.hmcts.probate.core.service;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,9 +25,8 @@ import java.util.Objects;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Component
-@Slf4j
-@RequiredArgsConstructor
 public class SecurityUtils {
+    private static final Logger log = LoggerFactory.getLogger(SecurityUtils.class);
 
     private static final String BEARER = "Bearer ";
     private static final String OPENID_GRANT_TYPE = "password";

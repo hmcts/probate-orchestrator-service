@@ -1,6 +1,7 @@
 package uk.gov.hmcts.probate.client.submit;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -9,9 +10,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import uk.gov.hmcts.reform.probate.model.client.ApiClientException;
 import uk.gov.hmcts.reform.probate.model.client.ErrorResponse;
 
-@Slf4j
 @ControllerAdvice
 public class SubmitServiceApiExceptionHandler extends ResponseEntityExceptionHandler {
+    private static final Logger log = LoggerFactory.getLogger(SubmitServiceApiExceptionHandler.class);
 
     @ExceptionHandler(ApiClientException.class)
     public ResponseEntity<ErrorResponse> handleApiClientException(final ApiClientException exception) {

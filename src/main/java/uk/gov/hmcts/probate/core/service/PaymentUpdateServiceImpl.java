@@ -2,11 +2,10 @@ package uk.gov.hmcts.probate.core.service;
 
 import java.util.Arrays;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.mapper.PaymentDtoMapper;
 import uk.gov.hmcts.probate.service.PaymentUpdateService;
@@ -18,9 +17,8 @@ import uk.gov.hmcts.reform.probate.model.cases.ProbateCaseDetails;
 import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
 @Component
-@Slf4j
-@RequiredArgsConstructor
 public class PaymentUpdateServiceImpl implements PaymentUpdateService {
+    private static final Logger log = LoggerFactory.getLogger(PaymentUpdateServiceImpl.class);
 
     private final SubmitService submitService;
 
@@ -29,6 +27,14 @@ public class PaymentUpdateServiceImpl implements PaymentUpdateService {
     private final PaymentDtoMapper paymentDtoMapper;
 
     private final SecurityUtils securityUtils;
+
+    public PaymentUpdateServiceImpl(SubmitService submitService, SubmitServiceApi submitServiceApi,
+                                    PaymentDtoMapper paymentDtoMapper, SecurityUtils securityUtils) {
+        this.submitService = submitService;
+        this.submitServiceApi = submitServiceApi;
+        this.paymentDtoMapper = paymentDtoMapper;
+        this.securityUtils = securityUtils;
+    }
 
     @Async
     @Override

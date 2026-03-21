@@ -1,6 +1,5 @@
 package uk.gov.hmcts.probate.core.service.mapper;
 
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromCollectionMember;
@@ -17,12 +16,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-@RequiredArgsConstructor
 public class ExecutorsMapper {
 
     private final ExecutorApplyingMapper executorApplyingMapper;
 
     private final ExecutorNotApplyingMapper executorNotApplyingMapper;
+
+    public ExecutorsMapper(ExecutorApplyingMapper executorApplyingMapper, ExecutorNotApplyingMapper executorNotApplyingMapper) {
+        this.executorApplyingMapper = executorApplyingMapper;
+        this.executorNotApplyingMapper = executorNotApplyingMapper;
+    }
 
     @ToExecutorNotApplyingCollectionMember
     List<CollectionMember<ExecutorNotApplying>> toExecutorNotApplyingCollectionMember(List<Executor> executors) {

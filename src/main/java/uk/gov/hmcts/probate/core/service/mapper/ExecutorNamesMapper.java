@@ -1,12 +1,14 @@
 package uk.gov.hmcts.probate.core.service.mapper;
 
-import lombok.experimental.UtilityClass;
 import uk.gov.hmcts.reform.probate.model.forms.pa.Executor;
 
-@UtilityClass
-public class ExecutorNamesMapper {
+public final class ExecutorNamesMapper {
 
-    public String getFullname(Executor executor) {
+    private ExecutorNamesMapper() {
+        throw new IllegalStateException("Utility class");
+    }
+
+    public static String getFullname(Executor executor) {
         if (executor == null) {
             return null; //NOSONAR
         }

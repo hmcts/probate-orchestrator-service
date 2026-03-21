@@ -1,7 +1,7 @@
 package uk.gov.hmcts.probate.core.service;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.probate.client.business.BusinessServiceApi;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
@@ -27,10 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Slf4j
 @Component
-@RequiredArgsConstructor
 public class BusinessServiceImpl implements BusinessService {
+    private static final Logger log = LoggerFactory.getLogger(BusinessServiceImpl.class);
 
     private final BusinessServiceApi businessServiceApi;
     private final SubmitServiceApi submitServiceApi;
@@ -38,6 +37,15 @@ public class BusinessServiceImpl implements BusinessService {
     private final ExecutorApplyingToInvitationMapper executorApplyingToInvitationMapper;
     private static final String RESPONSE_DATE_FORMAT = "yyyy-MM-dd";
     private static final String FALSE = "false";
+
+    public BusinessServiceImpl(BusinessServiceApi businessServiceApi, SubmitServiceApi submitServiceApi,
+                               SecurityUtils securityUtils,
+                               ExecutorApplyingToInvitationMapper executorApplyingToInvitationMapper) {
+        this.businessServiceApi = businessServiceApi;
+        this.submitServiceApi = submitServiceApi;
+        this.securityUtils = securityUtils;
+        this.executorApplyingToInvitationMapper = executorApplyingToInvitationMapper;
+    }
 
 
     @Override

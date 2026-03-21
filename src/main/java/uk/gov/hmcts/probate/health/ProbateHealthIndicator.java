@@ -1,7 +1,7 @@
 package uk.gov.hmcts.probate.health;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.http.HttpStatus;
@@ -11,9 +11,8 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.client.UnknownHttpStatusCodeException;
 
-@Slf4j
-@RequiredArgsConstructor
 public class ProbateHealthIndicator implements HealthIndicator {
+    private static final Logger log = LoggerFactory.getLogger(ProbateHealthIndicator.class);
 
     private static final String EXCEPTION_KEY = "exception";
     private static final String MESSAGE_KEY = "message";
@@ -22,6 +21,12 @@ public class ProbateHealthIndicator implements HealthIndicator {
     private final String url;
     private final RestTemplate restTemplate;
     private final String endpoint;
+
+    public ProbateHealthIndicator(String url, RestTemplate restTemplate, String endpoint) {
+        this.url = url;
+        this.restTemplate = restTemplate;
+        this.endpoint = endpoint;
+    }
 
     @Override
     public Health health() {

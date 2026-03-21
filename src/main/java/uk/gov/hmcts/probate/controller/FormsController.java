@@ -4,8 +4,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,9 +25,8 @@ import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
 @Tag(name = "FormsController", description = "Forms API")
 @RestController
-@Slf4j
-@RequiredArgsConstructor
 public class FormsController {
+    private static final Logger log = LoggerFactory.getLogger(FormsController.class);
 
     private static final String FORMS_CASE_ENDPOINT = "/forms/case/{identifier}";
     private static final String FORMS_CASES_ENDPOINT = "/forms/cases";
@@ -39,6 +38,10 @@ public class FormsController {
     private static final String MIGRATE_DATA_ENDPOINT = "/migrateData";
 
     private final SubmitService submitService;
+
+    public FormsController(SubmitService submitService) {
+        this.submitService = submitService;
+    }
 
 
     @Operation(summary = "Initiate form data", description = "Initiate form data")

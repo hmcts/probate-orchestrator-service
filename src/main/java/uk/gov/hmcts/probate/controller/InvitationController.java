@@ -1,6 +1,7 @@
 package uk.gov.hmcts.probate.controller;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
@@ -21,8 +22,8 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
-@Slf4j
 public class InvitationController {
+    private static final Logger log = LoggerFactory.getLogger(InvitationController.class);
 
     protected static final String INVITE_BASEURL = "/invite";
     protected static final String INVITES_BASEURL = "/invites";

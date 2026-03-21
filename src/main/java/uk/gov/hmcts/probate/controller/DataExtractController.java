@@ -3,8 +3,8 @@ package uk.gov.hmcts.probate.controller;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,15 +15,18 @@ import uk.gov.hmcts.probate.service.DataExtractService;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-@Slf4j
-@RequiredArgsConstructor
 @RequestMapping("/data-extract")
 @RestController
 @Tag(name = "Initiate data extract for HMRC, IronMountain and Excela")
 public class DataExtractController {
+    private static final Logger log = LoggerFactory.getLogger(DataExtractController.class);
 
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private final DataExtractService dataExtractService;
+
+    public DataExtractController(DataExtractService dataExtractService) {
+        this.dataExtractService = dataExtractService;
+    }
 
     @Operation(summary = "Initiate HMRC data extract", description = "Will find cases for yesterdays date")
     @PostMapping(path = "/hmrc")
