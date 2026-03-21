@@ -174,7 +174,7 @@ public class BackOfficeServiceImplTest {
 
         GrantScheduleResponse response = backOfficeService.initiateGrantDelayedNotification(date);
 
-        assertEquals(response.getScheduleResponseData().size(), 2);
+        assertEquals(response.scheduleResponseData().size(), 2);
         verify(backOfficeApi)
             .initiateGrantDelayedNotification(eq("Bearer " + AUTHORIZATION), eq("Bearer "
                     + SERVICE_AUTHORIZATION),
@@ -193,7 +193,7 @@ public class BackOfficeServiceImplTest {
 
         GrantScheduleResponse response = backOfficeService.initiateGrantAwaitingDocumentsNotification(date);
 
-        assertEquals(response.getScheduleResponseData().size(), 2);
+        assertEquals(response.scheduleResponseData().size(), 2);
         verify(backOfficeApi).initiateGrantAwaitingDocumentsNotification(eq("Bearer " + AUTHORIZATION),
             eq("Bearer " + SERVICE_AUTHORIZATION), eq(date));
     }

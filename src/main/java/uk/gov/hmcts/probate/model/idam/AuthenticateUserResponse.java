@@ -1,28 +1,23 @@
 package uk.gov.hmcts.probate.model.idam;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Builder;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Builder
-public class AuthenticateUserResponse {
-
-    private String code;
-
-    public AuthenticateUserResponse() {
+public record AuthenticateUserResponse(String code) {
+    public static Builder builder() {
+        return new Builder();
     }
 
-    public AuthenticateUserResponse(String code) {
-        this.code = code;
+    public static final class Builder {
+        private String code;
+
+        public Builder code(String code) {
+            this.code = code;
+            return this;
+        }
+
+        public AuthenticateUserResponse build() {
+            return new AuthenticateUserResponse(code);
+        }
     }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-
 }

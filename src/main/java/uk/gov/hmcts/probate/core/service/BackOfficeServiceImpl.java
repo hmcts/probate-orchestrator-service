@@ -1,8 +1,8 @@
 package uk.gov.hmcts.probate.core.service;
 
 import com.google.common.collect.ImmutableMap;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,10 +28,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
-@Slf4j
-@RequiredArgsConstructor
 @Component
 public class BackOfficeServiceImpl implements BackOfficeService {
+    private static final Logger log = LoggerFactory.getLogger(BackOfficeServiceImpl.class);
 
     private static final String CAVEAT_DATE_FORMAT = "yyyy-MM-dd";
     private static final String BEARER_PREFIX = "Bearer ";
@@ -39,6 +38,11 @@ public class BackOfficeServiceImpl implements BackOfficeService {
     private final BackOfficeApi backOfficeApi;
 
     private final SecurityUtils securityUtils;
+
+    public BackOfficeServiceImpl(BackOfficeApi backOfficeApi, SecurityUtils securityUtils) {
+        this.backOfficeApi = backOfficeApi;
+        this.securityUtils = securityUtils;
+    }
 
     private final Map<CaseType, Function<ProbateCaseDetails, CaseData>> sendNotificationFunctions = ImmutableMap
         .<CaseType, Function<ProbateCaseDetails, CaseData>>builder()
@@ -131,16 +135,16 @@ public class BackOfficeServiceImpl implements BackOfficeService {
         return probateCaseDetails -> {
             BackOfficeCallbackRequest backOfficeCallbackRequest = createBackOfficeCallbackRequest(probateCaseDetails);
             log.info("Sending caveat data to back-office for case id {}",
-                backOfficeCallbackRequest.getCaseDetails().getId());
+                backOfficeCallbackRequest.caseDetails().id());
             BackOfficeCaveatResponse backOfficeCaveatResponse = backOfficeApi.raiseCaveat(
                 securityUtils.getAuthorisation(),
                 securityUtils.getServiceAuthorisation(),
                 backOfficeCallbackRequest);
             CaveatData caveatData = (CaveatData) probateCaseDetails.getCaseData();
-            caveatData.setNotificationsGenerated(backOfficeCaveatResponse.getCaseData().getNotificationsGenerated());
-            caveatData.setExpiryDate(getFormattedCaveatDate(backOfficeCaveatResponse.getCaseData().getExpiryDate()));
+            caveatData.setNotificationsGenerated(backOfficeCaveatResponse.caseData().notificationsGenerated());
+            caveatData.setExpiryDate(getFormattedCaveatDate(backOfficeCaveatResponse.caseData().expiryDate()));
             caveatData.setApplicationSubmittedDate(
-                getFormattedCaveatDate(backOfficeCaveatResponse.getCaseData().getApplicationSubmittedDate()));
+                getFormattedCaveatDate(backOfficeCaveatResponse.caseData().applicationSubmittedDate()));
             return caveatData;
         };
     }
@@ -149,7 +153,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
         return probateCaseDetails -> {
             BackOfficeCallbackRequest backOfficeCallbackRequest = createBackOfficeCallbackRequest(probateCaseDetails);
             log.info("Sending Application Recieved notifiation rquest to back-office for case id {}",
-                backOfficeCallbackRequest.getCaseDetails().getId());
+                backOfficeCallbackRequest.caseDetails().id());
             ProbateDocument probateDocument = backOfficeApi.applicationReceived(
                 securityUtils.getAuthorisation(),
                 securityUtils.getServiceAuthorisation(),

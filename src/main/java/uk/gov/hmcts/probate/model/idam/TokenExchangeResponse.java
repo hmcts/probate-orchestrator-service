@@ -2,28 +2,23 @@ package uk.gov.hmcts.probate.model.idam;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Builder
-public class TokenExchangeResponse {
-
-    @JsonProperty("access_token")
-    private String accessToken;
-
-    public TokenExchangeResponse() {
+public record TokenExchangeResponse(@JsonProperty("access_token") String accessToken) {
+    public static Builder builder() {
+        return new Builder();
     }
 
-    public TokenExchangeResponse(String accessToken) {
-        this.accessToken = accessToken;
-    }
+    public static final class Builder {
+        private String accessToken;
 
-    public String getAccessToken() {
-        return accessToken;
-    }
+        public Builder accessToken(String accessToken) {
+            this.accessToken = accessToken;
+            return this;
+        }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+        public TokenExchangeResponse build() {
+            return new TokenExchangeResponse(accessToken);
+        }
     }
-
 }
