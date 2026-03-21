@@ -48,9 +48,14 @@ public class TestTokenGenerator {
     public void createNewUser(String email, String role) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        IdamData idamData = IdamData.builder().email(email).forename("forename").surname("surname")
-                .password(password).roles(Arrays.asList(Role.builder().code(role).build()))
-                .build();
+        IdamData idamData = new IdamData(
+                email,
+                "forename",
+                "surname",
+                password,
+                null,
+                Arrays.asList(new Role(role))
+        );
 
         given().headers("Content-type", "application/json")
                 .relaxedHTTPSValidation()

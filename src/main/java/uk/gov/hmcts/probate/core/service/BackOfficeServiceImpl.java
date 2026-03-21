@@ -182,11 +182,12 @@ public class BackOfficeServiceImpl implements BackOfficeService {
     }
 
     private BackOfficeCallbackRequest createBackOfficeCallbackRequest(ProbateCaseDetails probateCaseDetails) {
-        return BackOfficeCallbackRequest.builder()
-            .caseDetails(BackOfficeCaseDetails.builder()
-                .data(probateCaseDetails.getCaseData())
-                .id(Long.valueOf(probateCaseDetails.getCaseInfo().getCaseId()))
-                .build())
-            .build();
+        return new BackOfficeCallbackRequest(
+            new BackOfficeCaseDetails(
+                probateCaseDetails.getCaseData(),
+                null,
+                Long.valueOf(probateCaseDetails.getCaseInfo().getCaseId())
+            )
+        );
     }
 }

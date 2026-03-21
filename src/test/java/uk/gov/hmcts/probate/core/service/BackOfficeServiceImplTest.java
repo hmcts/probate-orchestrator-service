@@ -59,11 +59,30 @@ public class BackOfficeServiceImplTest {
     @BeforeEach
     public void setUp() {
 
-        backOfficeCaveatResponse = BackOfficeCaveatResponse.builder().caseData(BackOfficeCaveatData.builder()
-            .applicationSubmittedDate(CAVEAT_SUBMITTED_DATE)
-            .expiryDate(CAVEAT_EXPIRY_DATE)
-            .build())
-            .build();
+        backOfficeCaveatResponse = new BackOfficeCaveatResponse(new BackOfficeCaveatData(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            CAVEAT_EXPIRY_DATE,
+            CAVEAT_SUBMITTED_DATE,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ));
         Mockito.when(securityUtils.getAuthorisation()).thenReturn(AUTHORIZATION);
         Mockito.when(securityUtils.getServiceAuthorisation()).thenReturn(SERVICE_AUTHORIZATION);
     }
@@ -166,7 +185,7 @@ public class BackOfficeServiceImplTest {
     public void shouldInitiateGrantDelayedNotification() {
         String date = "someDate";
         GrantScheduleResponse responseBody =
-            GrantScheduleResponse.builder().scheduleResponseData(Arrays.asList("case1", "case2")).build();
+            new GrantScheduleResponse(Arrays.asList("case1", "case2"));
         Mockito.when(backOfficeApi.initiateGrantDelayedNotification("Bearer "
                 + securityUtils.getAuthorisation(),
             "Bearer " + securityUtils.getServiceAuthorisation(),
@@ -185,7 +204,7 @@ public class BackOfficeServiceImplTest {
     public void shouldInitiateGrantAwaitingDocumentsNotification() {
         String date = "someDate";
         GrantScheduleResponse responseBody =
-            GrantScheduleResponse.builder().scheduleResponseData(Arrays.asList("case1", "case2")).build();
+            new GrantScheduleResponse(Arrays.asList("case1", "case2"));
         Mockito.when(backOfficeApi
             .initiateGrantAwaitingDocumentsNotification("Bearer " + securityUtils.getAuthorisation(),
                 "Bearer " + securityUtils.getServiceAuthorisation(),
