@@ -1,7 +1,6 @@
 package uk.gov.hmcts.probate.core.service;
 
 import com.google.common.collect.ImmutableMap;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import uk.gov.hmcts.reform.probate.model.cases.CaseData;
@@ -15,7 +14,6 @@ import java.util.Optional;
 import java.util.function.Function;
 
 @Component
-@Slf4j
 public class CaseSubmissionUpdater {
 
     private Map<CaseType, Function<CaseData, CaseData>> caseTypeUpdateFunctionMap =

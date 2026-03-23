@@ -4,14 +4,15 @@ package uk.gov.hmcts.probate.client;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Response;
 import feign.Util;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.gov.hmcts.reform.probate.model.client.ErrorResponse;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-@Slf4j
 public class ResponseDecorator {
+    private static final Logger log = LoggerFactory.getLogger(ResponseDecorator.class);
 
     private Response response;
 

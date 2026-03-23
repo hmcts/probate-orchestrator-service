@@ -113,19 +113,8 @@ Note that the cron will only run in the aat-00 cluster as we don't have a way to
 
 ### IDE Settings
 
-#### Project Lombok Plugin
-When building the project in your IDE (eclipse or IntelliJ), Lombok plugin will be required to compile. 
-
-For IntelliJ IDEA, please add the Lombok IntelliJ plugin:
-* Go to `File > Settings > Plugins`
-* Click on `Browse repositories...`
-* Search for `Lombok Plugin`
-* Click on `Install plugin`
-* Restart IntelliJ IDEA
-
-Plugin setup for other IDE's are available on [https://projectlombok.org/setup/overview]
+No Lombok plugin is required for compilation.
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
-

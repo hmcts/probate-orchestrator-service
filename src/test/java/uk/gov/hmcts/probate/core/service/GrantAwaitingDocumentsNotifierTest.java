@@ -35,8 +35,7 @@ public class GrantAwaitingDocumentsNotifierTest {
     public void shouldInitiateAwaitingDocsGrantNotification() {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = dateFormat.format(LocalDate.now().minusDays(1));
-        GrantScheduleResponse grantScheduleResponse = GrantScheduleResponse.builder()
-            .scheduleResponseData(Arrays.asList("someBody")).build();
+        GrantScheduleResponse grantScheduleResponse = new GrantScheduleResponse(Arrays.asList("someBody"));
         when(backOfficeService.initiateGrantAwaitingDocumentsNotification(anyString()))
             .thenReturn(grantScheduleResponse);
 

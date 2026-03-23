@@ -1,7 +1,8 @@
 package uk.gov.hmcts.probate.core.service;
 
 import com.google.common.collect.Sets;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
@@ -40,8 +41,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
-@Slf4j
 public class SubmitServiceImpl implements SubmitService {
+    private static final Logger log = LoggerFactory.getLogger(SubmitServiceImpl.class);
 
     private final Map<ProbateType, FormMapper> mappers;
 

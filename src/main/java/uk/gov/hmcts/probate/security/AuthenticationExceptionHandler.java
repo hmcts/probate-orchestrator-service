@@ -3,7 +3,8 @@ package uk.gov.hmcts.probate.security;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,8 +18,8 @@ import java.io.IOException;
 import java.io.Serializable;
 
 @Component
-@Slf4j
 public class AuthenticationExceptionHandler implements AuthenticationEntryPoint, Serializable {
+    private static final Logger log = LoggerFactory.getLogger(AuthenticationExceptionHandler.class);
 
     private final ObjectMapper objectMapper;
 

@@ -1,12 +1,14 @@
 package uk.gov.hmcts.probate.core.service.mapper;
 
-import lombok.experimental.UtilityClass;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaForm;
 
-@UtilityClass
-public class OverseasCopiesMapper {
+public final class OverseasCopiesMapper {
 
-    public Long mapOverseasCopies(PaForm paForm) {
+    private OverseasCopiesMapper() {
+        throw new IllegalStateException("Utility class");
+    }
+
+    public static Long mapOverseasCopies(PaForm paForm) {
         if (paForm.getCopies() != null && paForm.getCopies().getOverseas() != null) {
             return paForm.getCopies().getOverseas();
         }

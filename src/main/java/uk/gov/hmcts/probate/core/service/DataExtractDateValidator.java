@@ -1,8 +1,8 @@
 package uk.gov.hmcts.probate.core.service;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.probate.model.client.ApiClientError;
@@ -14,9 +14,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 @Service
-@RequiredArgsConstructor
-@Slf4j
 public class DataExtractDateValidator {
+    private static final Logger log = LoggerFactory.getLogger(DataExtractDateValidator.class);
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public void validate(String date) {

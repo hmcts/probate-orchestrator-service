@@ -2,7 +2,8 @@ package uk.gov.hmcts.probate.core.service;
 
 import com.launchdarkly.sdk.LDContext;
 import com.launchdarkly.sdk.server.interfaces.LDClientInterface;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.probate.service.FeatureToggleService;
 
@@ -10,8 +11,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
-@Slf4j
 public class FeatureToggleServiceImpl implements FeatureToggleService {
+    private static final Logger log = LoggerFactory.getLogger(FeatureToggleServiceImpl.class);
+
     private final LDClientInterface ldClient;
     private final LDContext ldContext;
 

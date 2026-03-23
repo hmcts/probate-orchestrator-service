@@ -1,8 +1,8 @@
 package uk.gov.hmcts.probate.schedule;
 
 import feign.FeignException;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.probate.core.service.DataExtractDateValidator;
 import uk.gov.hmcts.probate.service.BackOfficeService;
@@ -12,14 +12,18 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Component
-@Slf4j
-@RequiredArgsConstructor
 public class SmeeAndFordExtractTask implements Runnable {
+    private static final Logger log = LoggerFactory.getLogger(SmeeAndFordExtractTask.class);
 
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     private final DataExtractDateValidator dataExtractDateValidator;
     private final BackOfficeService backOfficeService;
+
+    public SmeeAndFordExtractTask(DataExtractDateValidator dataExtractDateValidator, BackOfficeService backOfficeService) {
+        this.dataExtractDateValidator = dataExtractDateValidator;
+        this.backOfficeService = backOfficeService;
+    }
 
     @Override
     public void run() {

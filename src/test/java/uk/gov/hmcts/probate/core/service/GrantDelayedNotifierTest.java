@@ -34,8 +34,7 @@ public class GrantDelayedNotifierTest {
     public void shouldInitiateGrantDelayedNotification() {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = dateFormat.format(LocalDate.now().minusDays(1));
-        GrantScheduleResponse grantScheduleResponse = GrantScheduleResponse.builder()
-            .scheduleResponseData(Arrays.asList("someBody")).build();
+        GrantScheduleResponse grantScheduleResponse = new GrantScheduleResponse(Arrays.asList("someBody"));
         when(backOfficeService.initiateGrantDelayedNotification(anyString())).thenReturn(grantScheduleResponse);
 
         grantDelayedNotifier.initiateGrantDelayedNotification();

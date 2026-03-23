@@ -1,7 +1,7 @@
 package uk.gov.hmcts.probate.core.service;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.probate.service.BackOfficeService;
@@ -11,13 +11,17 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-@Slf4j
-@RequiredArgsConstructor
 @Component
 public class DataExtractServiceImpl implements DataExtractService {
+    private static final Logger log = LoggerFactory.getLogger(DataExtractServiceImpl.class);
     
     private final DataExtractDateValidator dataExtractDateValidator;
     private final BackOfficeService backOfficeService;
+
+    public DataExtractServiceImpl(DataExtractDateValidator dataExtractDateValidator, BackOfficeService backOfficeService) {
+        this.dataExtractDateValidator = dataExtractDateValidator;
+        this.backOfficeService = backOfficeService;
+    }
 
     @Override
     public ResponseEntity initiateHmrcExtract(String fromDate, String toDate) {

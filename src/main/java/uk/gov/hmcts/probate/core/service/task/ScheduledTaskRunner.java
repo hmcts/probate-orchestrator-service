@@ -1,6 +1,7 @@
 package uk.gov.hmcts.probate.core.service.task;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -10,8 +11,8 @@ import jakarta.annotation.Nullable;
 import static java.lang.Character.toLowerCase;
 
 @Service
-@Slf4j
 public class ScheduledTaskRunner {
+    private static final Logger log = LoggerFactory.getLogger(ScheduledTaskRunner.class);
 
     @Autowired
     ApplicationContext context;

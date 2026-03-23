@@ -4,7 +4,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,8 +21,8 @@ import uk.gov.hmcts.reform.probate.model.payments.PaymentDto;
 
 @Tag(name = "Payment Update Controller", description = "Payment Update API")
 @RestController
-@Slf4j
 public class PaymentUpdateController {
+    private static final Logger log = LoggerFactory.getLogger(PaymentUpdateController.class);
 
     public static final String SERVICE_AUTHORIZATION_HEADER = "ServiceAuthorization";
     private static final String PAYMENT_UPDATES = "/payment-updates";
