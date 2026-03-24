@@ -29,3 +29,4 @@ git.properties
 /src/main/generated/
 
 .aat-env
+/aat-env
