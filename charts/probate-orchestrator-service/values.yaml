@@ -26,7 +26,7 @@ java:
     IDAM_CLIENT_ID: "probate"
     AUTH_S2S_CLIENT_ID: "probate_backend"
     MIGRATION_JOB_SCHEDULER: false
-  image: hmctspublic.azurecr.io/probate/orchestrator-service:latest
+  image: hmctsprod.azurecr.io/probate/orchestrator-service:latest
   aadIdentityName: probate
   autoscaling:
     enabled: true
