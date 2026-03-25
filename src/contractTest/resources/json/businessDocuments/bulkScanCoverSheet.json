@@ -15,6 +15,7 @@
     "submitAddressIntroWelsh": "You must send these documents and this cover sheet to the address shown below",
     "submitAddress": "Divorce Service\nPO BOX 123\nExela BSP Services\nHarlow\nCM19 5QS",
     "checkListItemsIntro": "Send your documents and coversheet",
+    "checkListItemsIntroWelsh": "Send your documents and coversheet",
     "checkListItems": [],
     "checkListItemsWelsh": [],
     "noDocumentsRequired": true,
