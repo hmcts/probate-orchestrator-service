@@ -15,6 +15,7 @@ import uk.gov.hmcts.probate.core.service.mapper.qualifiers.FromUploadDocs;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCaseAddress;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToDocumentLink;
+import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToExecutorApplyingCollectionMember;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToFormAddress;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToIhtMethod;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToLocalDate;
@@ -25,8 +26,10 @@ import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToPoundsString;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToRegistryLocation;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToUploadDocs;
 import uk.gov.hmcts.reform.probate.model.IhtFormType;
+import uk.gov.hmcts.reform.probate.model.Predeceased;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.Relationship;
+import uk.gov.hmcts.reform.probate.model.SameParent;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.DeathCertificate;
 import uk.gov.hmcts.reform.probate.model.cases.MaritalStatus;
@@ -40,12 +43,12 @@ import java.time.LocalDate;
 
 
 @Mapper(componentModel = "spring", uses = {PaPaymentMapper.class, PaymentsMapper.class, AliasNameMapper.class,
-    RegistryLocationMapper.class, PoundsConverter.class,
+    RegistryLocationMapper.class, PoundsConverter.class,ExecutorsMapper.class,
     IhtMethodConverter.class, MapConverter.class, LegalStatementMapper.class, LocalDateTimeMapper.class,
     DocumentsMapper.class, StatementOfTruthMapper.class, AddressMapper.class},
     imports = {ApplicationType.class, GrantType.class, LocalDate.class, ProbateType.class, IhtMethod.class,
         MaritalStatus.class, DeathCertificate.class, Relationship.class, SpouseNotApplyingReason.class,
-        AddressMapper.class, IhtFormType.class},
+        AddressMapper.class, IhtFormType.class, Predeceased.class, SameParent.class, ExecutorsMapper.class},
     unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, IntestacyForm> {
 
@@ -56,7 +59,16 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "primaryApplicantRelationshipToDeceased", expression =
         "java(form.getApplicant()!= null && form.getApplicant().getRelationshipToDeceased() != null ? "
         + "Relationship.fromString(form.getApplicant().getRelationshipToDeceased()) : null)")
+    @Mapping(target = "primaryApplicantAdoptedIn", source = "applicant.adoptedIn")
     @Mapping(target = "primaryApplicantAdoptionInEnglandOrWales", source = "applicant.adoptionInEnglandOrWales")
+    @Mapping(target = "primaryApplicantAdoptedOut", source = "applicant.adoptedOut")
+    @Mapping(target = "primaryApplicantParentAdoptedIn", source = "applicant.parentAdoptedIn")
+    @Mapping(target = "primaryApplicantParentAdoptionInEnglandOrWales",
+            source = "applicant.parentAdoptionInEnglandOrWales")
+    @Mapping(target = "primaryApplicantParentAdoptedOut", source = "applicant.parentAdoptedOut")
+    @Mapping(target = "deceasedAdoptedIn", source = "applicant.deceasedAdoptedIn")
+    @Mapping(target = "deceasedAdoptionInEnglandOrWales", source = "applicant.deceasedAdoptionInEnglandOrWales")
+    @Mapping(target = "deceasedAdoptedOut", source = "applicant.deceasedAdoptedOut")
     @Mapping(target = "primaryApplicantPhoneNumber", source = "applicant.phoneNumber")
     @Mapping(target = "primaryApplicantEmailAddress",
         expression = "java(form.getApplicantEmail() != null ? form.getApplicantEmail().toLowerCase() : null)")
@@ -78,18 +90,51 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "deceasedMaritalStatus", expression = "java(form.getDeceased()!= null ? "
         + "MaritalStatus.fromString(form.getDeceased().getMaritalStatus()) : null)")
     @Mapping(target = "deceasedDivorcedInEnglandOrWales", source = "deceased.divorcedInEnglandOrWales")
+    @Mapping(target = "deceasedDivorcedDateKnown", source = "deceased.divorcedDateKnown")
+    @Mapping(target = "dateOfDivorcedCPJudicially", source = "deceased.divorcedDate")
     @Mapping(target = "deceasedOtherChildren", source = "deceased.otherChildren")
     @Mapping(target = "hasDataChanged", source = "declaration.hasDataChanged")
     @Mapping(target = "declarationCheckbox", source = "declaration.declarationCheckbox")
-    @Mapping(target = "legalStatement", source = "declaration.legalStatement")
+
+    //@Mapping(target = "legalStatement", source = "declaration.legalStatement")
+    @Mapping(target = "legalStatement", source = "declaration.legalStatement.en")
+    @Mapping(target = "welshLegalStatement", source = "declaration.legalStatement.cy")
+    @Mapping(target = "declaration", source = "declaration.declaration.en")
+    @Mapping(target = "welshDeclaration", source = "declaration.declaration.cy")
+
     @Mapping(target = "allDeceasedChildrenOverEighteen", source = "deceased.allDeceasedChildrenOverEighteen")
     @Mapping(target = "childrenDied", source = "deceased.anyDeceasedChildrenDieBeforeDeceased")
+    @Mapping(target = "childrenDiedBeforeDeceased", expression = "java(form.getDeceased()!= null ? "
+            + "Predeceased.fromString(form.getDeceased().getChildrenDiedBeforeDeceased()) : null)")
+    @Mapping(target = "grandChildrenSurvived", source = "deceased.grandChildrenSurvived")
+    @Mapping(target = "childAlive", source = "deceased.childAlive")
     @Mapping(target = "anyDeceasedGrandChildrenUnderEighteen",
         source = "deceased.anyDeceasedGrandchildrenUnderEighteen")
+    @Mapping(target = "deceasedAnyLivingParents", source = "deceased.anyLivingParents")
+    @Mapping(target = "applicantSameParentsAsDeceased", expression = "java(form.getApplicant()!= null ? "
+            + "SameParent.fromString(form.getApplicant().getSameParentsAsDeceased()) : null)")
     @Mapping(target = "deceasedSpouseNotApplyingReason", expression = "java(form.getApplicant()!= null && "
         + "form.getApplicant().getSpouseNotApplyingReason() != null ? "
         + "SpouseNotApplyingReason.fromString(form.getApplicant().getSpouseNotApplyingReason()) : null)")
     @Mapping(target = "deceasedAnyChildren", source = "deceased.anyChildren")
+    @Mapping(target = "deceasedAnyLivingDescendants", source = "deceased.anyLivingDescendants")
+    @Mapping(target = "deceasedAnyOtherParentAlive", source = "deceased.anyOtherParentAlive")
+    @Mapping(target = "grandchildParentOtherChildren", source = "deceased.grandchildParentOtherChildren")
+    @Mapping(target = "grandchildParentChildrenOverEighteen", source = "deceased.grandchildParentChildrenOverEighteen")
+    @Mapping(target = "otherWholeBloodSiblings", source = "applicant.otherWholeBloodSiblings")
+    @Mapping(target = "wholeBloodSiblingsOverEighteen", source = "applicant.wholeBloodSiblingsOverEighteen")
+    @Mapping(target = "wholeBloodSiblingsDiedBeforeDeceased", expression = "java(form.getApplicant()!= null ? "
+            + "Predeceased.fromString(form.getApplicant().getWholeBloodSiblingsDiedBeforeDeceased()) : null)")
+    @Mapping(target = "wholeBloodNiecesAndNephewsSurvived", source = "applicant.wholeBloodNiecesAndNephewsSurvived")
+    @Mapping(target = "wholeBloodNiecesAndNephewsOverEighteen",
+            source = "applicant.wholeBloodNiecesAndNephewsOverEighteen")
+    @Mapping(target = "otherHalfBloodSiblings", source = "applicant.otherHalfBloodSiblings")
+    @Mapping(target = "halfBloodSiblingsOverEighteen", source = "applicant.halfBloodSiblingsOverEighteen")
+    @Mapping(target = "halfBloodSiblingsDiedBeforeDeceased", expression = "java(form.getApplicant()!= null ? "
+            + "Predeceased.fromString(form.getApplicant().getHalfBloodSiblingsDiedBeforeDeceased()) : null)")
+    @Mapping(target = "halfBloodNiecesAndNephewsSurvived", source = "applicant.halfBloodNiecesAndNephewsSurvived")
+    @Mapping(target = "halfBloodNiecesAndNephewsOverEighteen",
+            source = "applicant.halfBloodNiecesAndNephewsOverEighteen")
     @Mapping(target = "deceasedAliasNameList", source = "deceased.otherNames",
         qualifiedBy = {ToCollectionMember.class})
     @Mapping(target = "outsideUkGrantCopies", source = "copies.overseas")
@@ -143,6 +188,9 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "isSaveAndClose", source = "provideinformation.isSaveAndClose")
     @Mapping(target = "citizenResponseCheckbox", source = "reviewresponse.citizenResponseCheckbox")
     @Mapping(target = "expectedResponseDate", source = "expectedResponseDate")
+    @Mapping(target = "executorsApplying", source = "executors.list", qualifiedBy = {
+        ToExecutorApplyingCollectionMember.class})
+    @Mapping(target = "hasCoApplicant", source = "executors.hasCoApplicant")
     GrantOfRepresentationData toCaseData(IntestacyForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.INTESTACY)")
@@ -164,6 +212,18 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "applicant.spouseNotApplyingReason",
         expression = "java(grantOfRepresentationData.getDeceasedSpouseNotApplyingReason()!=null ? "
         + "grantOfRepresentationData.getDeceasedSpouseNotApplyingReason().getDescription() : null)")
+    @Mapping(target = "applicant.sameParentsAsDeceased", expression =
+            "java(grantOfRepresentationData.getApplicantSameParentsAsDeceased()!=null ? "
+                    + "grantOfRepresentationData.getApplicantSameParentsAsDeceased().getDescription() : null)")
+    @Mapping(target = "deceased.childrenDiedBeforeDeceased", expression =
+            "java(grantOfRepresentationData.getChildrenDiedBeforeDeceased()!=null ? "
+                    + "grantOfRepresentationData.getChildrenDiedBeforeDeceased().getDescription() : null)")
+    @Mapping(target = "applicant.halfBloodSiblingsDiedBeforeDeceased", expression =
+            "java(grantOfRepresentationData.getHalfBloodSiblingsDiedBeforeDeceased()!=null ? "
+                    + "grantOfRepresentationData.getHalfBloodSiblingsDiedBeforeDeceased().getDescription() : null)")
+    @Mapping(target = "applicant.wholeBloodSiblingsDiedBeforeDeceased", expression =
+            "java(grantOfRepresentationData.getWholeBloodSiblingsDiedBeforeDeceased()!=null ? "
+                    + "grantOfRepresentationData.getWholeBloodSiblingsDiedBeforeDeceased().getDescription() : null)")
     @Mapping(target = "registry.name", source = "registryLocation", qualifiedBy = {FromRegistryLocation.class})
     @Mapping(target = "registry.address", source = "registryAddress")
     @Mapping(target = "registry.email", source = "registryEmailAddress")
@@ -234,5 +294,8 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
             expression = "java(grantOfRepresentationData.getOutsideUkGrantCopies() == null ? "
                     + "null : grantOfRepresentationData.getOutsideUkGrantCopies() > 0L)")
     @InheritInverseConfiguration
+    @Mapping(target = "executors.list", source = ".", qualifiedBy = {FromCollectionMember.class})
+    @Mapping(target = "executors.hasCoApplicant", source = "hasCoApplicant")
+    @Mapping(target = "executors.invitesSent", expression = "java(grantOfRepresentationData.haveInvitesBeenSent())")
     IntestacyForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 }
