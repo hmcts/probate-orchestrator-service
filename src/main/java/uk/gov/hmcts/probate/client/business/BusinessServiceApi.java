@@ -83,6 +83,22 @@ public interface BusinessServiceApi {
                          @RequestBody Invitation invitation,
                          @RequestHeader("Session-Id") String sessionId);
 
+    @PostMapping(
+            value = "/invite-co-applicant",
+            headers = {
+                CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+                }
+    )
+    String inviteCoApplicant(@RequestBody Invitation invitation,
+                  @RequestHeader("Session-Id") String sessionId);
+
+
+    @PostMapping(path = "/invite-co-applicant/{inviteId}",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    void inviteCoApplicant(@PathVariable("inviteId") String inviteId,
+                  @RequestBody Invitation invitation,
+                  @RequestHeader("Session-Id") String sessionId);
+
     @PostMapping(path = "/pin", consumes = MediaType.APPLICATION_JSON_VALUE)
     String pinNumberPost(
             @RequestHeader("Session-Id") String sessionId,
@@ -104,6 +120,25 @@ public interface BusinessServiceApi {
                   @RequestBody Invitation invitation,
                   @RequestHeader("Session-Id") String sessionId);
 
+
+
+    @PostMapping(
+            value = "/invite-co-applicant/bilingual",
+            headers = {
+                CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE
+            }
+    )
+
+    String inviteCoApplicantBilingual(@RequestBody Invitation invitation,
+                           @RequestHeader("Session-Id") String sessionId);
+
+
+    @PostMapping(path = "/invite-co-applicant/bilingual/{inviteId}",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    void inviteCoApplicantBilingual(@PathVariable("inviteId") String inviteId,
+                           @RequestBody Invitation invitation,
+                           @RequestHeader("Session-Id") String sessionId);
+
     @PostMapping(path = "/executor-notification/bilingual", consumes = MediaType.APPLICATION_JSON_VALUE)
     String signedBilingual(@RequestBody ExecutorNotification executorNotification);
 
@@ -115,6 +150,25 @@ public interface BusinessServiceApi {
 
     @PostMapping(path = "/executor-notification/all-bilingual", consumes = MediaType.APPLICATION_JSON_VALUE)
     String signedExecAllBilingual(@RequestBody ExecutorNotification executorNotification);
+    //---------------------------------- Intestacy co-applicant notifications ----------------------------------//
+
+    @PostMapping(path = "/co-applicant-disagree-notification/bilingual", consumes = MediaType.APPLICATION_JSON_VALUE)
+    String disagreeCoApplicantBilingual(@RequestBody ExecutorNotification executorNotification);
+
+    @PostMapping(path = "/co-applicant-disagree-notification", consumes = MediaType.APPLICATION_JSON_VALUE)
+    String disagreeCoApplicant(@RequestBody ExecutorNotification executorNotification);
+
+    @PostMapping(path = "/co-applicant-notification/bilingual", consumes = MediaType.APPLICATION_JSON_VALUE)
+    String signedCoApplicantBilingual(@RequestBody ExecutorNotification executorNotification);
+
+    @PostMapping(path = "/co-applicant-notification", consumes = MediaType.APPLICATION_JSON_VALUE)
+    String signedCoApplicant(@RequestBody ExecutorNotification executorNotification);
+
+    @PostMapping(path = "/co-applicant-notification/all", consumes = MediaType.APPLICATION_JSON_VALUE)
+    String signedCoApplicantAll(@RequestBody ExecutorNotification executorNotification);
+
+    @PostMapping(path = "/co-applicant-notification/all-bilingual", consumes = MediaType.APPLICATION_JSON_VALUE)
+    String signedCoApplicantAllBilingual(@RequestBody ExecutorNotification executorNotification);
 
     @PostMapping(path = "/document-upload-notification/bilingual", consumes = MediaType.APPLICATION_JSON_VALUE)
     String documentUploadBilingual(@RequestBody DocumentNotification executorNotification);
