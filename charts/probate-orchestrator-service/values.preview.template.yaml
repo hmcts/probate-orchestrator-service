@@ -3,6 +3,10 @@ java:
     LOG_LEVEL: DEBUG
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_NAME}.preview.platform.hmcts.net
+  devcpuRequests: 100m
+  devcpuLimits: 500m
+  devmemoryRequests: 1Gi
+  devmemoryLimits: 1Gi
 
 keyVaults:
   probate:
