@@ -166,7 +166,7 @@ def versions = [
         commonsFileuploadVersion        : '1.6.0',
         commonsIO                       : '2.21.0',
         commonMark                      : '0.28.0',
-        feign                           : '13.9',
+        feign                           : '13.12',
         fortifyClient                   : '1.4.10',
         hmctsJavaLogging                : '8.0.0',
         jacksonDatabind                 : '2.19.2',
@@ -234,6 +234,7 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.jacksonDatabind
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: versions.jacksonDatabind
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-hateoas', version: versions.springBootVersion
+    implementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
     implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: versions.feign
     implementation group: 'io.github.openfeign', name: 'feign-jackson', version: versions.feign
     implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.6.1'
