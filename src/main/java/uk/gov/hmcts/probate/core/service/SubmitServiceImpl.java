@@ -207,28 +207,15 @@ public class SubmitServiceImpl implements SubmitService {
         final CaseType caseType = probateType.getCaseType();
         final String paymentCase = paymentDto.getCcdCaseNumber();
 
-        final ProbateCaseDetails existingCase;
-        if (featureToggleService.useCcdLookupForPayments()
-                || !(ProbateType.CAVEAT.name().equals(caseType.name()))) {
-            log.info("Looking up {} case from submit service by id using identifier {} (paymentCase: {})",
-                    caseType,
-                    identifier,
-                    paymentCase);
-            existingCase = submitServiceApi.getCaseById(
-                    authorisation,
-                    serviceAuthorisation,
-                    identifier);
-        } else {
-            log.info("Looking up {} case from submit service without id using identifier {} (paymentCase: {})",
-                    caseType,
-                    identifier,
-                    paymentCase);
-            existingCase = submitServiceApi.getCase(
-                    authorisation,
-                    serviceAuthorisation,
-                    identifier,
-                    ProbateType.CAVEAT.name());
-        }
+        log.info("Looking up {} case from submit service by id using identifier {} (paymentCase: {})",
+                caseType,
+                identifier,
+                paymentCase);
+        final ProbateCaseDetails existingCase = submitServiceApi.getCaseById(
+                authorisation,
+                serviceAuthorisation,
+                identifier);
+
 
         log.info("Got existing case now set payment on this case");
         CasePayment casePayment = paymentDtoMapper.toCasePayment(paymentDto);
@@ -280,29 +267,13 @@ public class SubmitServiceImpl implements SubmitService {
         String authorisation = securityUtils.getAuthorisation();
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
 
-        log.info("Get existing case from submit service casetype {} identifier {} ", caseType, identifier);
-
-
-        final ProbateCaseDetails existingCase;
-        if (featureToggleService.useCcdLookupForPayments()
-                || !(ProbateType.CAVEAT.name().equals(caseType))) {
-            log.info("Looking up {} case from submit service by id using identifier {}",
-                    caseType,
-                    identifier);
-            existingCase = submitServiceApi.getCaseById(
-                    authorisation,
-                    serviceAuthorisation,
-                    identifier);
-        } else {
-            log.info("Looking up {} case from submit service without id using identifier {} (paymentCase: {})",
-                    caseType,
-                    identifier);
-            existingCase = submitServiceApi.getCase(
-                    authorisation,
-                    serviceAuthorisation,
-                    identifier,
-                    ProbateType.CAVEAT.name());
-        }
+        log.info("Looking up {} case from submit service by id using identifier {}",
+                caseType,
+                identifier);
+        final ProbateCaseDetails existingCase = submitServiceApi.getCaseById(
+                authorisation,
+                serviceAuthorisation,
+                identifier);
 
         log.info("Got existing case now set payment on this case");
         FormMapper formMapper = mappers.get(form.getType());
