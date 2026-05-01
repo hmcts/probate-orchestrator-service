@@ -138,9 +138,6 @@ class SubmitServiceImplTest {
                     caseSummaryMapper,
                     featureToggleServiceMock);
 
-        when(featureToggleServiceMock.useCcdLookupForPayments())
-                .thenReturn(false);
-
         when(securityUtils.getAuthorisation()).thenReturn(AUTHORIZATION);
         when(securityUtils.getServiceAuthorisation()).thenReturn(SERVICE_AUTHORIZATION);
         caseInfo = CaseInfo.builder().state(STATE).caseId(CASE_ID).build();
@@ -310,7 +307,7 @@ class SubmitServiceImplTest {
     }
 
     @Test
-    void shouldUpdateFormWithFTOff() {
+    void shouldUpdateForm() {
         when(submitServiceApi.getCaseById(AUTHORIZATION, SERVICE_AUTHORIZATION,
                 CASE_ID)).thenReturn(intestacyCaseDetails);
         when(submitServiceApi.createCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
@@ -332,54 +329,7 @@ class SubmitServiceImplTest {
     }
 
     @Test
-    void shouldUpdateFormWithFTOn() {
-        when(featureToggleServiceMock.useCcdLookupForPayments())
-                .thenReturn(true);
-        when(submitServiceApi.getCaseById(AUTHORIZATION, SERVICE_AUTHORIZATION,
-                CASE_ID)).thenReturn(intestacyCaseDetails);
-        when(submitServiceApi.createCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-                eq(CASE_ID), any(ProbateCaseDetails.class))).thenReturn(intestacyCaseDetails);
-
-        CasePayment casePayment = CasePayment.builder().build();
-        when(paymentDtoMapper.toCasePayment(paymentDto)).thenReturn(casePayment);
-
-        Form formResponse = submitService.update(CASE_ID, ProbateType.INTESTACY, paymentDto);
-
-        assertThat(formResponse, is(intestacyForm));
-        verify(submitServiceApi, times(1)).getCaseById(AUTHORIZATION, SERVICE_AUTHORIZATION,
-                CASE_ID);
-        verify(submitServiceApi, times(1)).createCase(eq(AUTHORIZATION),
-                eq(SERVICE_AUTHORIZATION),
-                eq(CASE_ID), any(ProbateCaseDetails.class));
-        verify(securityUtils, times(1)).getAuthorisation();
-        verify(securityUtils, times(1)).getServiceAuthorisation();
-    }
-
-    @Test
-    void shouldUpdateCaveatFormWithFTOff() {
-        when(submitServiceApi.getCase(AUTHORIZATION, SERVICE_AUTHORIZATION,
-                CASE_ID, ProbateType.CAVEAT.name())).thenReturn(caveatCaseDetails);
-        when(submitServiceApi.createCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
-                eq(CASE_ID), any(ProbateCaseDetails.class))).thenReturn(caveatCaseDetails);
-
-        CasePayment casePayment = CasePayment.builder().build();
-        when(paymentDtoMapper.toCasePayment(paymentDto)).thenReturn(casePayment);
-
-        Form formResponse = submitService.update(CASE_ID, ProbateType.CAVEAT, paymentDto);
-
-        assertThat(formResponse, is(caveatForm));
-        verify(submitServiceApi, times(1)).getCase(
-                AUTHORIZATION, SERVICE_AUTHORIZATION, CASE_ID, ProbateType.CAVEAT.name());
-        verify(submitServiceApi, times(1))
-                .createCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), eq(CASE_ID), any(ProbateCaseDetails.class));
-        verify(securityUtils, times(1)).getAuthorisation();
-        verify(securityUtils, times(1)).getServiceAuthorisation();
-    }
-
-    @Test
-    void shouldUpdateCaveatFormWithFTOn() {
-        when(featureToggleServiceMock.useCcdLookupForPayments())
-                .thenReturn(true);
+    void shouldUpdateCaveatForm() {
         when(submitServiceApi.getCaseById(AUTHORIZATION, SERVICE_AUTHORIZATION, CASE_ID))
                 .thenReturn(caveatCaseDetails);
         when(submitServiceApi.createCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
@@ -423,24 +373,7 @@ class SubmitServiceImplTest {
     }
 
     @Test
-    void shouldUpdateCaveatPaymentsAndSendNotificationWithFTOff() {
-        when(submitServiceApi.getCase(anyString(), anyString(), anyString(), anyString()))
-                .thenReturn(caveatCaseDetails);
-
-        caveatCaseDetails.getCaseInfo().setState(CaseState.CAVEAT_RAISED);
-
-        shouldUpdatePayments(caveatForm, caveatCaseDetails);
-
-        verify(submitServiceApi, times(1)).getCase(anyString(), anyString(), anyString(), anyString());
-        verify(submitServiceApi, never()).getCaseById(anyString(), anyString(), anyString());
-        verify(backOfficeService, times(1)).sendNotification(caveatCaseDetails);
-    }
-
-    @Test
-    void shouldUpdateCaveatPaymentsAndSendNotificationWithFTOn() {
-        when(featureToggleServiceMock.useCcdLookupForPayments())
-                .thenReturn(true);
-
+    void shouldUpdateCaveatPaymentsAndSendNotification() {
         when(submitServiceApi.getCaseById(anyString(), anyString(), anyString()))
                 .thenReturn(caveatCaseDetails);
 
@@ -455,8 +388,8 @@ class SubmitServiceImplTest {
 
     @Test
     public void shouldUpdateCaveatPaymentsAndNotSendNotification() {
-        when(submitServiceApi.getCase(anyString(), anyString(), anyString(),
-            anyString())).thenReturn(caveatCaseDetails);
+        when(submitServiceApi.getCaseById(anyString(), anyString(), anyString()))
+                .thenReturn(caveatCaseDetails);
 
         caveatCaseDetails.getCaseData().getPayments().get(0).getValue().setStatus(PaymentStatus.FAILED);
         shouldUpdatePayments(caveatForm, caveatCaseDetails);
