@@ -10,7 +10,6 @@ import uk.gov.hmcts.probate.core.service.mapper.CaseSummaryMapper;
 import uk.gov.hmcts.probate.core.service.mapper.FormMapper;
 import uk.gov.hmcts.probate.core.service.mapper.PaymentDtoMapper;
 import uk.gov.hmcts.probate.service.BackOfficeService;
-import uk.gov.hmcts.probate.service.FeatureToggleService;
 import uk.gov.hmcts.probate.service.SubmitService;
 import uk.gov.hmcts.reform.probate.model.PaymentStatus;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
@@ -61,7 +60,6 @@ public class SubmitServiceImpl implements SubmitService {
     private final CaseSubmissionUpdater caseSubmissionUpdater;
 
     private final CaseSummaryMapper caseSummaryMapper;
-    private final FeatureToggleService featureToggleService;
 
     public SubmitServiceImpl(
             final Map<ProbateType, FormMapper> mappers,
@@ -71,8 +69,7 @@ public class SubmitServiceImpl implements SubmitService {
             final SecurityUtils securityUtils,
             final Map<ProbateType, Function<Form, String>> formIdentifierFunctionMap,
             final CaseSubmissionUpdater caseSubmissionUpdater,
-            final CaseSummaryMapper caseSummaryMapper,
-            final FeatureToggleService featureToggleService) {
+            final CaseSummaryMapper caseSummaryMapper) {
         this.mappers = mappers;
         this.paymentDtoMapper = paymentDtoMapper;
         this.submitServiceApi = submitServiceApi;
@@ -81,7 +78,6 @@ public class SubmitServiceImpl implements SubmitService {
         this.formIdentifierFunctionMap = formIdentifierFunctionMap;
         this.caseSubmissionUpdater = caseSubmissionUpdater;
         this.caseSummaryMapper = caseSummaryMapper;
-        this.featureToggleService = featureToggleService;
     }
 
     @Override

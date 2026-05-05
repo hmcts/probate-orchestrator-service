@@ -18,7 +18,6 @@ import uk.gov.hmcts.probate.core.service.mapper.FormMapper;
 import uk.gov.hmcts.probate.core.service.mapper.IntestacyMapper;
 import uk.gov.hmcts.probate.core.service.mapper.PaymentDtoMapper;
 import uk.gov.hmcts.probate.service.BackOfficeService;
-import uk.gov.hmcts.probate.service.FeatureToggleService;
 import uk.gov.hmcts.reform.probate.model.PaymentStatus;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.CaseData;
@@ -90,8 +89,6 @@ class SubmitServiceImplTest {
     CaseSubmissionUpdater caseSubmissionUpdater;
     @Mock
     CaseSummaryMapper caseSummaryMapper;
-    @Mock
-    FeatureToggleService featureToggleServiceMock;
 
     SubmitServiceImpl submitService;
 
@@ -135,8 +132,7 @@ class SubmitServiceImplTest {
                     securityUtils,
                     identifierConfiguration.formIdentifierFunctionMap(),
                     caseSubmissionUpdater,
-                    caseSummaryMapper,
-                    featureToggleServiceMock);
+                    caseSummaryMapper);
 
         when(securityUtils.getAuthorisation()).thenReturn(AUTHORIZATION);
         when(securityUtils.getServiceAuthorisation()).thenReturn(SERVICE_AUTHORIZATION);

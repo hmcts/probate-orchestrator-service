@@ -69,9 +69,9 @@ class FeatureToggleServiceImplTest {
         final boolean actual = featureToggleService.isFeatureToggleOn(featureToggleCode, defaultValue);
 
         verify(ldClientMock).boolVariation(
-                eq(featureToggleCode),
-                eq(ldContextMock),
-                eq(defaultValue));
+                featureToggleCode,
+                ldContextMock,
+                defaultValue);
         assertThat(actual, equalTo(expected));
     }
 }
