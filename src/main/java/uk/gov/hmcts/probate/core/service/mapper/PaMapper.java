@@ -170,6 +170,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "isSaveAndClose", source = "provideinformation.isSaveAndClose")
     @Mapping(target = "citizenResponseCheckbox", source = "reviewresponse.citizenResponseCheckbox")
     @Mapping(target = "expectedResponseDate", source = "expectedResponseDate")
+    @Mapping(target = "eventDescription", source = "eventDescription")
     GrantOfRepresentationData toCaseData(PaForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.PA)")
