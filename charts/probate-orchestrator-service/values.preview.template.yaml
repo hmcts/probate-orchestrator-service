@@ -6,7 +6,7 @@ java:
   devcpuRequests: 100m
   devcpuLimits: 500m
   devmemoryRequests: 1Gi
-  devmemoryLimits: 1Gi
+  devmemoryLimits: 2Gi
 
 keyVaults:
   probate:
