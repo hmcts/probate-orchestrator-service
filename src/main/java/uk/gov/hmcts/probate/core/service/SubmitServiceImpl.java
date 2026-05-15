@@ -10,7 +10,6 @@ import uk.gov.hmcts.probate.core.service.mapper.CaseSummaryMapper;
 import uk.gov.hmcts.probate.core.service.mapper.FormMapper;
 import uk.gov.hmcts.probate.core.service.mapper.PaymentDtoMapper;
 import uk.gov.hmcts.probate.service.BackOfficeService;
-import uk.gov.hmcts.probate.service.FeatureToggleService;
 import uk.gov.hmcts.probate.service.SubmitService;
 import uk.gov.hmcts.reform.probate.model.PaymentStatus;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
@@ -61,7 +60,6 @@ public class SubmitServiceImpl implements SubmitService {
     private final CaseSubmissionUpdater caseSubmissionUpdater;
 
     private final CaseSummaryMapper caseSummaryMapper;
-    private final FeatureToggleService featureToggleService;
 
     public SubmitServiceImpl(
             final Map<ProbateType, FormMapper> mappers,
@@ -71,8 +69,7 @@ public class SubmitServiceImpl implements SubmitService {
             final SecurityUtils securityUtils,
             final Map<ProbateType, Function<Form, String>> formIdentifierFunctionMap,
             final CaseSubmissionUpdater caseSubmissionUpdater,
-            final CaseSummaryMapper caseSummaryMapper,
-            final FeatureToggleService featureToggleService) {
+            final CaseSummaryMapper caseSummaryMapper) {
         this.mappers = mappers;
         this.paymentDtoMapper = paymentDtoMapper;
         this.submitServiceApi = submitServiceApi;
@@ -81,7 +78,6 @@ public class SubmitServiceImpl implements SubmitService {
         this.formIdentifierFunctionMap = formIdentifierFunctionMap;
         this.caseSubmissionUpdater = caseSubmissionUpdater;
         this.caseSummaryMapper = caseSummaryMapper;
-        this.featureToggleService = featureToggleService;
     }
 
     @Override
@@ -207,28 +203,15 @@ public class SubmitServiceImpl implements SubmitService {
         final CaseType caseType = probateType.getCaseType();
         final String paymentCase = paymentDto.getCcdCaseNumber();
 
-        final ProbateCaseDetails existingCase;
-        if (featureToggleService.useCcdLookupForPayments()
-                || !(ProbateType.CAVEAT.name().equals(caseType.name()))) {
-            log.info("Looking up {} case from submit service by id using identifier {} (paymentCase: {})",
-                    caseType,
-                    identifier,
-                    paymentCase);
-            existingCase = submitServiceApi.getCaseById(
-                    authorisation,
-                    serviceAuthorisation,
-                    identifier);
-        } else {
-            log.info("Looking up {} case from submit service without id using identifier {} (paymentCase: {})",
-                    caseType,
-                    identifier,
-                    paymentCase);
-            existingCase = submitServiceApi.getCase(
-                    authorisation,
-                    serviceAuthorisation,
-                    identifier,
-                    ProbateType.CAVEAT.name());
-        }
+        log.info("Looking up {} case from submit service by id using identifier {} (paymentCase: {})",
+                caseType,
+                identifier,
+                paymentCase);
+        final ProbateCaseDetails existingCase = submitServiceApi.getCaseById(
+                authorisation,
+                serviceAuthorisation,
+                identifier);
+
 
         log.info("Got existing case now set payment on this case");
         CasePayment casePayment = paymentDtoMapper.toCasePayment(paymentDto);
@@ -280,29 +263,13 @@ public class SubmitServiceImpl implements SubmitService {
         String authorisation = securityUtils.getAuthorisation();
         String serviceAuthorisation = securityUtils.getServiceAuthorisation();
 
-        log.info("Get existing case from submit service casetype {} identifier {} ", caseType, identifier);
-
-
-        final ProbateCaseDetails existingCase;
-        if (featureToggleService.useCcdLookupForPayments()
-                || !(ProbateType.CAVEAT.name().equals(caseType))) {
-            log.info("Looking up {} case from submit service by id using identifier {}",
-                    caseType,
-                    identifier);
-            existingCase = submitServiceApi.getCaseById(
-                    authorisation,
-                    serviceAuthorisation,
-                    identifier);
-        } else {
-            log.info("Looking up {} case from submit service without id using identifier {} (paymentCase: {})",
-                    caseType,
-                    identifier);
-            existingCase = submitServiceApi.getCase(
-                    authorisation,
-                    serviceAuthorisation,
-                    identifier,
-                    ProbateType.CAVEAT.name());
-        }
+        log.info("Looking up {} case from submit service by id using identifier {}",
+                caseType,
+                identifier);
+        final ProbateCaseDetails existingCase = submitServiceApi.getCaseById(
+                authorisation,
+                serviceAuthorisation,
+                identifier);
 
         log.info("Got existing case now set payment on this case");
         FormMapper formMapper = mappers.get(form.getType());
