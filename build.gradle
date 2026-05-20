@@ -174,7 +174,7 @@ def versions = [
         lombok                          : '1.18.46',
         mapStruct                       : '1.3.0.Final',
         pact_version                    : '4.1.34',
-        piTest                          : '1.23.1',
+        piTest                          : '1.24.1',
         probateCommonsVersion           : '2.2.19',
         restAssured                     : '5.5.7',
         serenity                        : '5.3.10',
@@ -183,7 +183,7 @@ def versions = [
         springBootVersion               : '3.5.14',
         springCloudWiremock             : '4.3.0',
         springDocOpenUi                 : '2.8.17',
-        swaggerAnnotations              : '2.2.49',
+        swaggerAnnotations              : '2.2.50',
         springSecurityVersion           : '6.5.10',
         tomcat                          : '11.0.22'
 ]
@@ -260,7 +260,7 @@ dependencies {
     implementation group: 'org.pitest', name: 'pitest', version: versions.piTest
     implementation group: 'org.commonmark', name: 'commonmark', version: versions.commonMark
     implementation group: 'info.solidsoft.gradle.pitest', name: 'gradle-pitest-plugin', version: '1.15.0'
-    implementation group: 'org.sonarsource.api.plugin', name: 'sonar-plugin-api', version: '13.5.0.4319'
+    implementation group: 'org.sonarsource.api.plugin', name: 'sonar-plugin-api', version: '13.7.0.4381'
     implementation group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
     implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '9.0'
