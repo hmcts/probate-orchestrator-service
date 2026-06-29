@@ -165,7 +165,7 @@ def versions = [
         commonsBeanutils                : '1.11.0',
         commonsFileuploadVersion        : '1.6.0',
         commonsIO                       : '2.22.0',
-        commonMark                      : '0.28.0',
+        commonMark                      : '0.29.0',
         feign                           : '13.13',
         fortifyClient                   : '1.4.10',
         hmctsJavaLogging                : '8.0.0',
