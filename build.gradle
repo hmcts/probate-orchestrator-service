@@ -169,19 +169,19 @@ def versions = [
         feign                           : '13.13',
         fortifyClient                   : '1.4.10',
         hmctsJavaLogging                : '8.0.0',
-        jacksonDatabind                 : '2.19.2',
+        jacksonVersion                  : '2.19.2',
         junitJupiter                    : '5.12.2',
         lombok                          : '1.18.46',
         mapStruct                       : '1.3.0.Final',
         pact_version                    : '4.1.34',
         piTest                          : '1.25.5',
-        probateCommonsVersion           : '2.2.19',
+        probateCommonsVersion           : '2.2.22-DTSPB-5808-v1',
         restAssured                     : '5.5.7',
         serenity                        : '5.3.10',
         serviceAuthProviderClient       : '5.3.4',
         serviceTokenGenerator           : '0.6.0',
         springBootVersion               : '3.5.16',
-        springCloudWiremock             : '4.3.0',
+        springCloudWiremock             : '4.3.4',
         springDocOpenUi                 : '2.8.17',
         swaggerAnnotations              : '2.2.52',
         springSecurityVersion           : '6.5.11',
@@ -209,6 +209,13 @@ dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:2025.0.0"
     }
+    dependencies {
+        //CVE-2026-29062
+        dependencySet(group: 'tools.jackson.core', version: '3.2.0') {
+            entry 'jackson-core'
+            entry 'jackson-databind'
+        }
+    }
 }
 
 configurations {
@@ -230,9 +237,9 @@ dependencies {
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-openfeign-core'
     implementation group: 'org.springframework.retry', name: 'spring-retry', version: '2.0.13'
     implementation group: 'com.google.guava', name: 'guava', version: '33.6.0-jre'
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.jacksonDatabind
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: versions.jacksonDatabind
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonVersion
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.jacksonVersion
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: versions.jacksonVersion
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-hateoas', version: versions.springBootVersion
     implementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
     implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: versions.feign
@@ -256,13 +263,13 @@ dependencies {
     implementation group: 'io.swagger.core.v3', name: 'swagger-annotations', version: versions.swaggerAnnotations
     implementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.5.5.Final'
-    implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: versions.jacksonDatabind
+    implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: versions.jacksonVersion
     implementation group: 'org.pitest', name: 'pitest', version: versions.piTest
     implementation group: 'org.commonmark', name: 'commonmark', version: versions.commonMark
     implementation group: 'info.solidsoft.gradle.pitest', name: 'gradle-pitest-plugin', version: '1.15.0'
     implementation group: 'org.sonarsource.api.plugin', name: 'sonar-plugin-api', version: '13.8.0.4399'
     implementation group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonVersion
     implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '9.0'
     implementation group: 'com.launchdarkly', name: 'launchdarkly-java-server-sdk', version: '7.14.0'
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
@@ -274,8 +281,8 @@ dependencies {
     testImplementation group: 'org.springframework.cloud', name: 'spring-cloud-contract-wiremock', version: versions.springCloudWiremock
     testImplementation group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
     testImplementation group: 'org.mapstruct', name: 'mapstruct-jdk8', version: versions.mapStruct
-    testImplementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
-    testImplementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: versions.jacksonDatabind
+    testImplementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonVersion
+    testImplementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: versions.jacksonVersion
     testImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
     testImplementation group: 'com.github.hmcts', name: 'fortify-client', version: versions.fortifyClient, classifier: 'all'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
@@ -289,8 +296,8 @@ dependencies {
     testIntegrationImplementation group: 'org.springframework.cloud', name: 'spring-cloud-contract-wiremock', version: versions.springCloudWiremock
     testIntegrationImplementation group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
     testIntegrationImplementation group: 'org.mapstruct', name: 'mapstruct-jdk8', version: versions.mapStruct
-    testIntegrationImplementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
-    testIntegrationImplementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: versions.jacksonDatabind
+    testIntegrationImplementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonVersion
+    testIntegrationImplementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: versions.jacksonVersion
     testIntegrationImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
     testIntegrationImplementation group: 'com.github.hmcts', name: 'fortify-client', version: versions.fortifyClient
     testIntegrationImplementation group: 'com.github.hmcts', name: 'probate-commons', version: versions.probateCommonsVersion
@@ -310,13 +317,13 @@ dependencies {
     testFunctionalImplementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.13.0'
     testFunctionalImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
     testFunctionalImplementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
-    testFunctionalImplementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonDatabind
+    testFunctionalImplementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonVersion
     testFunctionalAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     testFunctionalImplementation sourceSets.main.runtimeClasspath
     testFunctionalImplementation sourceSets.test.runtimeClasspath
 
     contractTestImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
-    contractTestImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    contractTestImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBootVersion
     contractTestImplementation group: 'au.com.dius.pact.consumer', name: 'junit5', version: versions.pact_version
     contractTestImplementation group: 'au.com.dius.pact.consumer', name: 'java8', version: versions.pact_version
     contractTestImplementation group: 'au.com.dius.pact.provider', name: 'junit5', version: versions.pact_version
@@ -324,7 +331,6 @@ dependencies {
     contractTestImplementation group: 'au.com.dius.pact.provider', name: 'junit5spring', version: versions.pact_version
     contractTestImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
     contractTestRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: versions.junitJupiter
-    contractTestImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junitJupiter
     contractTestImplementation sourceSets.main.runtimeClasspath
     contractTestImplementation sourceSets.test.runtimeClasspath
     contractTestImplementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
@@ -405,7 +411,7 @@ tasks.register('generateAatEnvFile') {
 }
 
 run {
-    if (new Boolean(System.getenv("POINT_TO_AAT"))) {
+    if (Boolean.parseBoolean(System.getenv("POINT_TO_AAT"))) {
         print 'Exporting AAT env vars'
         doFirst {
             if (project.file('./.aat-env').exists()) {
@@ -418,7 +424,7 @@ run {
             }
         }
     }
-    if (debug == 'true') {
+    if (debug) {
         jvmArgs = ['-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005']
     }
 }
