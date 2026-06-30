@@ -499,7 +499,7 @@ public final class PaSingleExecutorTestDataCreator {
             .deceasedDateOfDeath(DECEASED_DATE_OF_DEATH.toLocalDate())
             .deceasedSurname(DECEASED_LAST_NAME)
             .deceasedForenames(DECEASED_FIRST_NAME)
-            .deceasedMarriedAfterWillOrCodicilDate(MARRIED)
+            .deceasedMarriedAfterWillOrCodicilDateYN(MARRIED)
             .deceasedAddress(uk.gov.hmcts.reform.probate.model.cases.Address.builder()
                 .addressLine1(DECEASED_ADDRESS.getAddressLine1())
                 .postTown(DECEASED_ADDRESS.getPostTown())

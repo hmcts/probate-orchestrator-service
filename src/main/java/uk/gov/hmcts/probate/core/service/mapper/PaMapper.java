@@ -80,7 +80,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "deceasedAliasLastNameOnWill", source = "deceased.aliasLastNameOnWill")
     @Mapping(target = "deceasedAnyOtherNames", source = "deceased.alias")
     @Mapping(target = "deceasedAliasNameList", source = "deceased.otherNames", qualifiedBy = {ToCollectionMember.class})
-    @Mapping(target = "deceasedMarriedAfterWillOrCodicilDate", source = "deceased.married")
+    @Mapping(target = "deceasedMarriedAfterWillOrCodicilDateYN", source = "deceased.married")
     @Mapping(target = "deceasedAddress", source = "deceased.address", qualifiedBy = {ToCaseAddress.class})
     @Mapping(target = "deceasedDateOfBirth", source = "deceased.dateOfBirth", qualifiedBy = {ToLocalDate.class})
     @Mapping(target = "deceasedDateOfDeath", source = "deceased.dateOfDeath", qualifiedBy = {ToLocalDate.class})
@@ -257,6 +257,14 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "expectedResponseDate", source = "expectedResponseDate")
     @Mapping(target = "informationNeeded", source = "informationNeeded")
     @Mapping(target = "informationNeededByPost", source = "informationNeededByPost")
+    @Mapping(
+            target = "deceased.married",
+            expression = "java("
+                    + "(grantOfRepresentationData.getDeceasedMarriedAfterWillOrCodicilDateYN() != null) ?"
+                    + "    grantOfRepresentationData.getDeceasedMarriedAfterWillOrCodicilDateYN()"
+                    + "    : grantOfRepresentationData.getDeceasedMarriedAfterWillOrCodicilDate()"
+                    + ")"
+    )
     @InheritInverseConfiguration
     PaForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 }
