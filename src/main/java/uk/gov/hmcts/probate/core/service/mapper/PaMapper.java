@@ -31,6 +31,7 @@ import uk.gov.hmcts.reform.probate.model.IhtFormType;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.DeathCertificate;
+import uk.gov.hmcts.reform.probate.model.cases.MaritalStatus;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
@@ -47,7 +48,7 @@ import java.time.LocalDate;
     imports = {ApplicationType.class, DeathCertificate.class, GrantType.class, ProbateType.class, IhtMethod.class,
         IhtFormType.class,
         LocalDate.class, ExecutorsMapper.class, BooleanUtils.class, AddressMapper.class, OverseasCopiesMapper.class,
-        AliasReason.class},
+        AliasReason.class, MaritalStatus.class},
     unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 
 public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> {
@@ -170,6 +171,13 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "isSaveAndClose", source = "provideinformation.isSaveAndClose")
     @Mapping(target = "citizenResponseCheckbox", source = "reviewresponse.citizenResponseCheckbox")
     @Mapping(target = "expectedResponseDate", source = "expectedResponseDate")
+    @Mapping(
+            target = "deceasedMaritalStatus",
+            expression = "java("
+                    + "(form.getDeceased() != null) ? "
+                    + "    MaritalStatus.fromString(form.getDeceased().getMaritalStatus())"
+                    + "    : null"
+                    + ")")
     GrantOfRepresentationData toCaseData(PaForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.PA)")
@@ -263,6 +271,14 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
                     + "(grantOfRepresentationData.getDeceasedMarriedAfterWillOrCodicilDateYN() != null) ?"
                     + "    grantOfRepresentationData.getDeceasedMarriedAfterWillOrCodicilDateYN()"
                     + "    : grantOfRepresentationData.getDeceasedMarriedAfterWillOrCodicilDate()"
+                    + ")"
+    )
+    @Mapping(
+            target = "deceased.maritalStatus",
+            expression = "java("
+                    + "(grantOfRepresentationData.getDeceasedMaritalStatus() != null) ? "
+                    + "    grantOfRepresentationData.getDeceasedMaritalStatus().getDescription() "
+                    + "    : null"
                     + ")"
     )
     @InheritInverseConfiguration
