@@ -178,6 +178,10 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
                     + "    MaritalStatus.fromString(form.getDeceased().getMaritalStatus())"
                     + "    : null"
                     + ")")
+    @Mapping(
+            target = "deceasedSpouseName",
+            source = "deceased.deceasedSpouseName"
+    )
     GrantOfRepresentationData toCaseData(PaForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.PA)")
@@ -280,6 +284,10 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
                     + "    grantOfRepresentationData.getDeceasedMaritalStatus().getDescription() "
                     + "    : null"
                     + ")"
+    )
+    @Mapping(
+            target = "deceased.deceasedSpouseName",
+            source = "deceasedSpouseName"
     )
     @InheritInverseConfiguration
     PaForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
