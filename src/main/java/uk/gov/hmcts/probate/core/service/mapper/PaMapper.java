@@ -186,6 +186,14 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(
             target = "deceasedDivorcedInEnglandOrWales",
             source = "deceased.divorcedInEnglandOrWales")
+    // deceased.divorcedDateKnown is in turn mapped to deceased.divorceDateKnown
+    @Mapping(
+            target = "deceasedDivorcedDateKnown",
+            source = "deceased.divorcedDateKnown")
+    // deceased.divorcedDate is in turn mapped to deceased.divorceDate
+    @Mapping(
+            target = "dateOfDivorcedCPJudicially",
+            source = "deceased.divorcedDate")
     GrantOfRepresentationData toCaseData(PaForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.PA)")
