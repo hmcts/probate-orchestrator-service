@@ -16,17 +16,21 @@ import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.SpouseNotApplyingReason;
 import uk.gov.hmcts.reform.probate.model.forms.Copies;
 import uk.gov.hmcts.reform.probate.model.forms.Declaration;
+import uk.gov.hmcts.reform.probate.model.forms.DeclarationDeclaration;
 import uk.gov.hmcts.reform.probate.model.forms.DocumentUpload;
 import uk.gov.hmcts.reform.probate.model.forms.Equality;
 import uk.gov.hmcts.reform.probate.model.forms.InheritanceTax;
 import uk.gov.hmcts.reform.probate.model.forms.Language;
+import uk.gov.hmcts.reform.probate.model.forms.LegalStatement;
 import uk.gov.hmcts.reform.probate.model.forms.ProvideInformation;
 import uk.gov.hmcts.reform.probate.model.forms.Registry;
 import uk.gov.hmcts.reform.probate.model.forms.ReviewResponse;
+import uk.gov.hmcts.reform.probate.model.forms.intestacy.CoApplicants;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyApplicant;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyDeceased;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaAssets;
+
 
 import java.util.ArrayList;
 
@@ -106,12 +110,16 @@ public class IntestacyMapperIT {
         expectedIntestacyForm.setRegistry(new Registry());
         expectedIntestacyForm.setApplicant(new IntestacyApplicant());
         expectedIntestacyForm.setDeceased(new IntestacyDeceased());
-        expectedIntestacyForm.setDeclaration(new Declaration());
+        Declaration declaration = new Declaration();
+        declaration.setDeclaration(DeclarationDeclaration.builder().build());
+        declaration.setLegalStatement(LegalStatement.builder().build());
+        expectedIntestacyForm.setDeclaration(declaration);
         expectedIntestacyForm.setLanguage(new Language());
         expectedIntestacyForm.setEquality(new Equality());
         expectedIntestacyForm.setProvideinformation(new ProvideInformation());
         expectedIntestacyForm.setReviewresponse(new ReviewResponse());
         expectedIntestacyForm.setAssets(new PaAssets());
+        expectedIntestacyForm.setExecutors(new CoApplicants());
         IntestacyForm actualIntestacyForm = mapper.fromCaseData(new GrantOfRepresentationData());
         assertThat(actualIntestacyForm).isEqualToComparingFieldByFieldRecursively(expectedIntestacyForm);
     }
