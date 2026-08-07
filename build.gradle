@@ -3,12 +3,12 @@ plugins {
     id 'java'
     id 'io.spring.dependency-management' version '1.1.7'
     id 'org.springframework.boot' version '3.5.16'
-    id 'com.github.ben-manes.versions' version '0.59.0'
+    id 'io.github.ben-manes.versions' version '0.59.0'
     id 'com.gorylenko.gradle-git-properties' version '4.0.1'
     id 'info.solidsoft.pitest' version '1.19.0'
-    id 'au.com.dius.pact' version '4.7.3'
+    id 'au.com.dius.pact' version '4.7.4'
     id 'net.serenity-bdd.serenity-gradle-plugin' version '5.3.9'
-    id 'org.sonarqube' version '7.3.1.8318'
+    id 'org.sonarqube' version '7.4.0.8496'
     id 'uk.gov.hmcts.java' version '0.12.70'
     id 'project-report'
     id 'jacoco'
@@ -165,7 +165,7 @@ def versions = [
         commonsBeanutils                : '1.11.0',
         commonsFileuploadVersion        : '1.6.0',
         commonsIO                       : '2.22.0',
-        commonMark                      : '0.29.0',
+        commonMark                      : '0.30.0',
         feign                           : '13.13',
         fortifyClient                   : '1.4.10',
         hmctsJavaLogging                : '8.0.0',
