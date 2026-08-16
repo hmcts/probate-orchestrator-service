@@ -7,18 +7,16 @@ import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.forms.pa.Executor;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class ExecutorApplyingMapperTest {
 
     private static final String WHOLE_BLOOD_NIECE_NEPHEW = "optionWholeBloodNieceOrNephew";
     private static final String HALF_BLOOD_NIECE_NEPHEW = "optionHalfBloodNieceOrNephew";
+    private static final String WHOLE_BLOOD_SIBLING = "optionWholeBloodSibling";
+    private static final String HALF_BLOOD_SIBLING = "optionHalfBloodSibling";
 
     private final ExecutorApplyingMapperImpl executorApplyingMapper = new ExecutorApplyingMapperImpl();
 
@@ -28,89 +26,165 @@ class ExecutorApplyingMapperTest {
     }
 
     @Test
-    void shouldRoundTripParentDeathAndAdoptionFieldsForWholeBloodCoApplicant() {
-        verifyRoundTripForRelationship(WHOLE_BLOOD_NIECE_NEPHEW);
+    void shouldMapWholeNieceNephewParentFieldsToWholeSiblingCaseFieldsAndBackToParentFields() {
+        Executor source = buildCoApplicant(WHOLE_BLOOD_NIECE_NEPHEW);
+        source.setWholeNieceOrNephewParentDieBeforeDeceased(Boolean.TRUE);
+        source.setWholeNieceOrNephewParentAdoptedIn(Boolean.FALSE);
+        source.setWholeNieceOrNephewParentAdoptionInEnglandOrWales(Boolean.TRUE);
+        source.setWholeNieceOrNephewParentAdoptedOut(Boolean.FALSE);
+
+        CollectionMember<ExecutorApplying> mapped = executorApplyingMapper.toExecutorApplying(source);
+        assertNotNull(mapped.getValue().getApplicantFamilyDetails());
+        assertEquals(Boolean.TRUE, mapped.getValue().getApplicantFamilyDetails().getWholeBloodSiblingDiedBeforeDeceased());
+        assertEquals(Boolean.FALSE, mapped.getValue().getApplicantFamilyDetails().getWholeBloodSiblingAdoptedIn());
+        assertEquals(Boolean.TRUE,
+            mapped.getValue().getApplicantFamilyDetails().getWholeBloodSiblingAdoptionInEnglandOrWales());
+        assertEquals(Boolean.FALSE, mapped.getValue().getApplicantFamilyDetails().getWholeBloodSiblingAdoptedOut());
+        assertNull(mapped.getValue().getApplicantFamilyDetails().getWholeBloodNieceOrNephewAdoptedIn());
+        assertNull(mapped.getValue().getApplicantFamilyDetails().getWholeBloodNieceOrNephewAdoptionInEnglandOrWales());
+        assertNull(mapped.getValue().getApplicantFamilyDetails().getWholeBloodNieceOrNephewAdoptedOut());
+
+        Executor roundTripped = executorApplyingMapper.fromExecutorApplying(mapped);
+        assertEquals(Boolean.TRUE, roundTripped.getWholeNieceOrNephewParentDieBeforeDeceased());
+        assertEquals(Boolean.FALSE, roundTripped.getWholeNieceOrNephewParentAdoptedIn());
+        assertEquals(Boolean.TRUE, roundTripped.getWholeNieceOrNephewParentAdoptionInEnglandOrWales());
+        assertEquals(Boolean.FALSE, roundTripped.getWholeNieceOrNephewParentAdoptedOut());
+        assertNull(roundTripped.getWholeBloodSiblingDiedBeforeDeceased());
+        assertNull(roundTripped.getWholeBloodSiblingAdoptedIn());
+        assertNull(roundTripped.getWholeBloodSiblingAdoptionInEnglandOrWales());
+        assertNull(roundTripped.getWholeBloodSiblingAdoptedOut());
     }
 
     @Test
-    void shouldRoundTripParentDeathAndAdoptionFieldsForHalfBloodCoApplicant() {
-        verifyRoundTripForRelationship(HALF_BLOOD_NIECE_NEPHEW);
+    void shouldMapHalfNieceNephewParentFieldsToHalfSiblingCaseFieldsAndBackToParentFields() {
+        Executor source = buildCoApplicant(HALF_BLOOD_NIECE_NEPHEW);
+        source.setHalfNieceOrNephewParentDieBeforeDeceased(Boolean.FALSE);
+        source.setHalfNieceOrNephewParentAdoptedIn(Boolean.TRUE);
+        source.setHalfNieceOrNephewParentAdoptionInEnglandOrWales(Boolean.FALSE);
+        source.setHalfNieceOrNephewParentAdoptedOut(Boolean.TRUE);
+
+        CollectionMember<ExecutorApplying> mapped = executorApplyingMapper.toExecutorApplying(source);
+        assertNotNull(mapped.getValue().getApplicantFamilyDetails());
+        assertEquals(Boolean.FALSE, mapped.getValue().getApplicantFamilyDetails().getHalfBloodSiblingDiedBeforeDeceased());
+        assertEquals(Boolean.TRUE, mapped.getValue().getApplicantFamilyDetails().getHalfBloodSiblingAdoptedIn());
+        assertEquals(Boolean.FALSE,
+            mapped.getValue().getApplicantFamilyDetails().getHalfBloodSiblingAdoptionInEnglandOrWales());
+        assertEquals(Boolean.TRUE, mapped.getValue().getApplicantFamilyDetails().getHalfBloodSiblingAdoptedOut());
+        assertNull(mapped.getValue().getApplicantFamilyDetails().getHalfBloodNieceOrNephewAdoptedIn());
+        assertNull(mapped.getValue().getApplicantFamilyDetails().getHalfBloodNieceOrNephewAdoptionInEnglandOrWales());
+        assertNull(mapped.getValue().getApplicantFamilyDetails().getHalfBloodNieceOrNephewAdoptedOut());
+
+        Executor roundTripped = executorApplyingMapper.fromExecutorApplying(mapped);
+        assertEquals(Boolean.FALSE, roundTripped.getHalfNieceOrNephewParentDieBeforeDeceased());
+        assertEquals(Boolean.TRUE, roundTripped.getHalfNieceOrNephewParentAdoptedIn());
+        assertEquals(Boolean.FALSE, roundTripped.getHalfNieceOrNephewParentAdoptionInEnglandOrWales());
+        assertEquals(Boolean.TRUE, roundTripped.getHalfNieceOrNephewParentAdoptedOut());
+        assertNull(roundTripped.getHalfBloodSiblingDiedBeforeDeceased());
+        assertNull(roundTripped.getHalfBloodSiblingAdoptedIn());
+        assertNull(roundTripped.getHalfBloodSiblingAdoptionInEnglandOrWales());
+        assertNull(roundTripped.getHalfBloodSiblingAdoptedOut());
     }
 
-    private void verifyRoundTripForRelationship(String relationship) {
-        List<Boolean> values = Arrays.asList(Boolean.TRUE, Boolean.FALSE, null);
+    @Test
+    void shouldPreferWholeParentFieldsForWholeNieceNephewWhenBothFieldFamiliesArePresent() {
+        Executor source = buildCoApplicant(WHOLE_BLOOD_NIECE_NEPHEW);
+        source.setWholeNieceOrNephewParentDieBeforeDeceased(Boolean.FALSE);
+        source.setWholeNieceOrNephewParentAdoptedIn(Boolean.TRUE);
+        source.setWholeNieceOrNephewParentAdoptionInEnglandOrWales(Boolean.FALSE);
+        source.setWholeNieceOrNephewParentAdoptedOut(Boolean.TRUE);
+        source.setWholeBloodSiblingDiedBeforeDeceased(Boolean.TRUE);
+        source.setWholeBloodSiblingAdoptedIn(Boolean.FALSE);
+        source.setWholeBloodSiblingAdoptionInEnglandOrWales(Boolean.TRUE);
+        source.setWholeBloodSiblingAdoptedOut(Boolean.FALSE);
 
-        for (FieldMapping mapping : fieldMappings()) {
-            for (Boolean value : values) {
-                Executor source = buildCoApplicant(relationship);
-                mapping.setter.accept(source, value);
+        CollectionMember<ExecutorApplying> mapped = executorApplyingMapper.toExecutorApplying(source);
 
-                CollectionMember<ExecutorApplying> mapped = executorApplyingMapper.toExecutorApplying(source);
-                assertNotNull(mapped.getValue().getApplicantFamilyDetails(),
-                    "Expected applicantFamilyDetails for field: " + mapping.fieldName);
-                assertEquals(value, mapping.caseGetter.apply(mapped.getValue()),
-                    "Case mapping mismatch for field: " + mapping.fieldName + " relationship: " + relationship);
-
-                Executor roundTripped = executorApplyingMapper.fromExecutorApplying(mapped);
-                assertEquals(value, mapping.executorGetter.apply(roundTripped),
-                    "Round-trip mismatch for field: " + mapping.fieldName + " relationship: " + relationship);
-            }
-        }
+        assertEquals(Boolean.FALSE, mapped.getValue().getApplicantFamilyDetails().getWholeBloodSiblingDiedBeforeDeceased());
+        assertEquals(Boolean.TRUE, mapped.getValue().getApplicantFamilyDetails().getWholeBloodSiblingAdoptedIn());
+        assertEquals(Boolean.FALSE,
+            mapped.getValue().getApplicantFamilyDetails().getWholeBloodSiblingAdoptionInEnglandOrWales());
+        assertEquals(Boolean.TRUE, mapped.getValue().getApplicantFamilyDetails().getWholeBloodSiblingAdoptedOut());
     }
 
-    private List<FieldMapping> fieldMappings() {
-        return List.of(
-            new FieldMapping(
-                "wholeBloodSiblingDiedBeforeDeceased",
-                Executor::setWholeBloodSiblingDiedBeforeDeceased,
-                Executor::getWholeBloodSiblingDiedBeforeDeceased,
-                executorApplying -> executorApplying.getApplicantFamilyDetails().getWholeBloodSiblingDiedBeforeDeceased()
-            ),
-            new FieldMapping(
-                "wholeBloodNieceOrNephewAdoptedIn",
-                Executor::setWholeBloodNieceOrNephewAdoptedIn,
-                Executor::getWholeBloodNieceOrNephewAdoptedIn,
-                executorApplying -> executorApplying.getApplicantFamilyDetails().getWholeBloodNieceOrNephewAdoptedIn()
-            ),
-            new FieldMapping(
-                "wholeBloodNieceOrNephewAdoptionInEnglandOrWales",
-                Executor::setWholeBloodNieceOrNephewAdoptionInEnglandOrWales,
-                Executor::getWholeBloodNieceOrNephewAdoptionInEnglandOrWales,
-                executorApplying -> executorApplying.getApplicantFamilyDetails()
-                    .getWholeBloodNieceOrNephewAdoptionInEnglandOrWales()
-            ),
-            new FieldMapping(
-                "wholeBloodNieceOrNephewAdoptedOut",
-                Executor::setWholeBloodNieceOrNephewAdoptedOut,
-                Executor::getWholeBloodNieceOrNephewAdoptedOut,
-                executorApplying -> executorApplying.getApplicantFamilyDetails().getWholeBloodNieceOrNephewAdoptedOut()
-            ),
-            new FieldMapping(
-                "halfBloodSiblingDiedBeforeDeceased",
-                Executor::setHalfBloodSiblingDiedBeforeDeceased,
-                Executor::getHalfBloodSiblingDiedBeforeDeceased,
-                executorApplying -> executorApplying.getApplicantFamilyDetails().getHalfBloodSiblingDiedBeforeDeceased()
-            ),
-            new FieldMapping(
-                "halfBloodNieceOrNephewAdoptedIn",
-                Executor::setHalfBloodNieceOrNephewAdoptedIn,
-                Executor::getHalfBloodNieceOrNephewAdoptedIn,
-                executorApplying -> executorApplying.getApplicantFamilyDetails().getHalfBloodNieceOrNephewAdoptedIn()
-            ),
-            new FieldMapping(
-                "halfBloodNieceOrNephewAdoptionInEnglandOrWales",
-                Executor::setHalfBloodNieceOrNephewAdoptionInEnglandOrWales,
-                Executor::getHalfBloodNieceOrNephewAdoptionInEnglandOrWales,
-                executorApplying -> executorApplying.getApplicantFamilyDetails()
-                    .getHalfBloodNieceOrNephewAdoptionInEnglandOrWales()
-            ),
-            new FieldMapping(
-                "halfBloodNieceOrNephewAdoptedOut",
-                Executor::setHalfBloodNieceOrNephewAdoptedOut,
-                Executor::getHalfBloodNieceOrNephewAdoptedOut,
-                executorApplying -> executorApplying.getApplicantFamilyDetails().getHalfBloodNieceOrNephewAdoptedOut()
-            )
-        );
+    @Test
+    void shouldPreferHalfParentFieldsForHalfNieceNephewWhenBothFieldFamiliesArePresent() {
+        Executor source = buildCoApplicant(HALF_BLOOD_NIECE_NEPHEW);
+        source.setHalfNieceOrNephewParentDieBeforeDeceased(Boolean.TRUE);
+        source.setHalfNieceOrNephewParentAdoptedIn(Boolean.FALSE);
+        source.setHalfNieceOrNephewParentAdoptionInEnglandOrWales(Boolean.TRUE);
+        source.setHalfNieceOrNephewParentAdoptedOut(Boolean.FALSE);
+        source.setHalfBloodSiblingDiedBeforeDeceased(Boolean.FALSE);
+        source.setHalfBloodSiblingAdoptedIn(Boolean.TRUE);
+        source.setHalfBloodSiblingAdoptionInEnglandOrWales(Boolean.FALSE);
+        source.setHalfBloodSiblingAdoptedOut(Boolean.TRUE);
+
+        CollectionMember<ExecutorApplying> mapped = executorApplyingMapper.toExecutorApplying(source);
+
+        assertEquals(Boolean.TRUE, mapped.getValue().getApplicantFamilyDetails().getHalfBloodSiblingDiedBeforeDeceased());
+        assertEquals(Boolean.FALSE, mapped.getValue().getApplicantFamilyDetails().getHalfBloodSiblingAdoptedIn());
+        assertEquals(Boolean.TRUE,
+            mapped.getValue().getApplicantFamilyDetails().getHalfBloodSiblingAdoptionInEnglandOrWales());
+        assertEquals(Boolean.FALSE, mapped.getValue().getApplicantFamilyDetails().getHalfBloodSiblingAdoptedOut());
+    }
+
+    @Test
+    void shouldKeepWholeSiblingMappingsForGenuineWholeSiblingRelationship() {
+        Executor source = buildCoApplicant(WHOLE_BLOOD_SIBLING);
+        source.setWholeBloodSiblingDiedBeforeDeceased(Boolean.TRUE);
+        source.setWholeBloodSiblingAdoptedIn(Boolean.FALSE);
+        source.setWholeBloodSiblingAdoptionInEnglandOrWales(Boolean.TRUE);
+        source.setWholeBloodSiblingAdoptedOut(Boolean.FALSE);
+        source.setWholeNieceOrNephewParentDieBeforeDeceased(Boolean.FALSE);
+        source.setWholeNieceOrNephewParentAdoptedIn(Boolean.TRUE);
+        source.setWholeNieceOrNephewParentAdoptionInEnglandOrWales(Boolean.FALSE);
+        source.setWholeNieceOrNephewParentAdoptedOut(Boolean.TRUE);
+
+        CollectionMember<ExecutorApplying> mapped = executorApplyingMapper.toExecutorApplying(source);
+        assertEquals(Boolean.TRUE, mapped.getValue().getApplicantFamilyDetails().getWholeBloodSiblingDiedBeforeDeceased());
+        assertEquals(Boolean.FALSE, mapped.getValue().getApplicantFamilyDetails().getWholeBloodSiblingAdoptedIn());
+        assertEquals(Boolean.TRUE,
+            mapped.getValue().getApplicantFamilyDetails().getWholeBloodSiblingAdoptionInEnglandOrWales());
+        assertEquals(Boolean.FALSE, mapped.getValue().getApplicantFamilyDetails().getWholeBloodSiblingAdoptedOut());
+
+        Executor roundTripped = executorApplyingMapper.fromExecutorApplying(mapped);
+        assertEquals(Boolean.TRUE, roundTripped.getWholeBloodSiblingDiedBeforeDeceased());
+        assertEquals(Boolean.FALSE, roundTripped.getWholeBloodSiblingAdoptedIn());
+        assertEquals(Boolean.TRUE, roundTripped.getWholeBloodSiblingAdoptionInEnglandOrWales());
+        assertEquals(Boolean.FALSE, roundTripped.getWholeBloodSiblingAdoptedOut());
+        assertNull(roundTripped.getWholeNieceOrNephewParentDieBeforeDeceased());
+        assertNull(roundTripped.getWholeNieceOrNephewParentAdoptedIn());
+        assertNull(roundTripped.getWholeNieceOrNephewParentAdoptionInEnglandOrWales());
+        assertNull(roundTripped.getWholeNieceOrNephewParentAdoptedOut());
+    }
+
+    @Test
+    void shouldKeepHalfSiblingMappingsForGenuineHalfSiblingRelationship() {
+        Executor source = buildCoApplicant(HALF_BLOOD_SIBLING);
+        source.setHalfBloodSiblingDiedBeforeDeceased(Boolean.FALSE);
+        source.setHalfBloodSiblingAdoptedIn(Boolean.TRUE);
+        source.setHalfBloodSiblingAdoptionInEnglandOrWales(Boolean.FALSE);
+        source.setHalfBloodSiblingAdoptedOut(Boolean.TRUE);
+        source.setHalfNieceOrNephewParentDieBeforeDeceased(Boolean.TRUE);
+        source.setHalfNieceOrNephewParentAdoptedIn(Boolean.FALSE);
+        source.setHalfNieceOrNephewParentAdoptionInEnglandOrWales(Boolean.TRUE);
+        source.setHalfNieceOrNephewParentAdoptedOut(Boolean.FALSE);
+
+        CollectionMember<ExecutorApplying> mapped = executorApplyingMapper.toExecutorApplying(source);
+        assertEquals(Boolean.FALSE, mapped.getValue().getApplicantFamilyDetails().getHalfBloodSiblingDiedBeforeDeceased());
+        assertEquals(Boolean.TRUE, mapped.getValue().getApplicantFamilyDetails().getHalfBloodSiblingAdoptedIn());
+        assertEquals(Boolean.FALSE,
+            mapped.getValue().getApplicantFamilyDetails().getHalfBloodSiblingAdoptionInEnglandOrWales());
+        assertEquals(Boolean.TRUE, mapped.getValue().getApplicantFamilyDetails().getHalfBloodSiblingAdoptedOut());
+
+        Executor roundTripped = executorApplyingMapper.fromExecutorApplying(mapped);
+        assertEquals(Boolean.FALSE, roundTripped.getHalfBloodSiblingDiedBeforeDeceased());
+        assertEquals(Boolean.TRUE, roundTripped.getHalfBloodSiblingAdoptedIn());
+        assertEquals(Boolean.FALSE, roundTripped.getHalfBloodSiblingAdoptionInEnglandOrWales());
+        assertEquals(Boolean.TRUE, roundTripped.getHalfBloodSiblingAdoptedOut());
+        assertNull(roundTripped.getHalfNieceOrNephewParentDieBeforeDeceased());
+        assertNull(roundTripped.getHalfNieceOrNephewParentAdoptedIn());
+        assertNull(roundTripped.getHalfNieceOrNephewParentAdoptionInEnglandOrWales());
+        assertNull(roundTripped.getHalfNieceOrNephewParentAdoptedOut());
     }
 
     private Executor buildCoApplicant(String relationship) {
@@ -122,24 +196,5 @@ class ExecutorApplyingMapperTest {
             .isApplicant(Boolean.FALSE)
             .coApplicantRelationshipToDeceased(relationship)
             .build();
-    }
-
-    private static final class FieldMapping {
-        private final String fieldName;
-        private final BiConsumer<Executor, Boolean> setter;
-        private final Function<Executor, Boolean> executorGetter;
-        private final Function<ExecutorApplying, Boolean> caseGetter;
-
-        private FieldMapping(
-            String fieldName,
-            BiConsumer<Executor, Boolean> setter,
-            Function<Executor, Boolean> executorGetter,
-            Function<ExecutorApplying, Boolean> caseGetter
-        ) {
-            this.fieldName = fieldName;
-            this.setter = setter;
-            this.executorGetter = executorGetter;
-            this.caseGetter = caseGetter;
-        }
     }
 }

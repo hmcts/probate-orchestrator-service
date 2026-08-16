@@ -9,6 +9,7 @@ import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCaseAddress;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToFormAddress;
 import uk.gov.hmcts.reform.probate.model.AliasReason;
 import uk.gov.hmcts.reform.probate.model.CoApplicantRelationship;
+import uk.gov.hmcts.reform.probate.model.cases.ApplicantFamilyDetails;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.forms.pa.Executor;
@@ -74,18 +75,14 @@ public interface ExecutorApplyingMapper {
                     + "executor.getGrandchildParentAdoptionInEnglandOrWales() : null)")
 
     @Mapping(target = "value.applicantFamilyDetails.wholeBloodSiblingAdoptedIn",
-            expression = "java(executor.getWholeBloodSiblingAdoptedIn()!= null "
-                    + "? executor.getWholeBloodSiblingAdoptedIn() : null)")
+            expression = "java(resolveWholeBloodSiblingAdoptedIn(executor))")
     @Mapping(target = "value.applicantFamilyDetails.wholeBloodSiblingAdoptedOut",
-            expression = "java(executor.getWholeBloodSiblingAdoptedOut()!= null "
-                    + "? executor.getWholeBloodSiblingAdoptedOut() : null)")
+            expression = "java(resolveWholeBloodSiblingAdoptedOut(executor))")
     @Mapping(target = "value.applicantFamilyDetails.wholeBloodSiblingAdoptionInEnglandOrWales",
-            expression = "java(executor.getWholeBloodSiblingAdoptionInEnglandOrWales()!= null ? "
-                    + "executor.getWholeBloodSiblingAdoptionInEnglandOrWales() : null)")
+            expression = "java(resolveWholeBloodSiblingAdoptionInEnglandOrWales(executor))")
 
     @Mapping(target = "value.applicantFamilyDetails.wholeBloodSiblingDiedBeforeDeceased",
-            expression = "java(executor.getWholeBloodSiblingDiedBeforeDeceased()!= null "
-                    + "? executor.getWholeBloodSiblingDiedBeforeDeceased() : null)")
+            expression = "java(resolveWholeBloodSiblingDiedBeforeDeceased(executor))")
     @Mapping(target = "value.applicantFamilyDetails.wholeBloodNieceOrNephewAdoptedIn",
             expression = "java(executor.getWholeBloodNieceOrNephewAdoptedIn()!= null "
                     + "? executor.getWholeBloodNieceOrNephewAdoptedIn() : null)")
@@ -97,18 +94,14 @@ public interface ExecutorApplyingMapper {
                     + "executor.getWholeBloodNieceOrNephewAdoptionInEnglandOrWales() : null)")
 
     @Mapping(target = "value.applicantFamilyDetails.halfBloodSiblingAdoptedIn",
-            expression = "java(executor.getHalfBloodSiblingAdoptedIn()!= null "
-                    + "? executor.getHalfBloodSiblingAdoptedIn() : null)")
+            expression = "java(resolveHalfBloodSiblingAdoptedIn(executor))")
     @Mapping(target = "value.applicantFamilyDetails.halfBloodSiblingAdoptedOut",
-            expression = "java(executor.getHalfBloodSiblingAdoptedOut()!= null "
-                    + "? executor.getHalfBloodSiblingAdoptedOut() : null)")
+            expression = "java(resolveHalfBloodSiblingAdoptedOut(executor))")
     @Mapping(target = "value.applicantFamilyDetails.halfBloodSiblingAdoptionInEnglandOrWales",
-            expression = "java(executor.getHalfBloodSiblingAdoptionInEnglandOrWales()!= null ? "
-                    + "executor.getHalfBloodSiblingAdoptionInEnglandOrWales() : null)")
+            expression = "java(resolveHalfBloodSiblingAdoptionInEnglandOrWales(executor))")
 
     @Mapping(target = "value.applicantFamilyDetails.halfBloodSiblingDiedBeforeDeceased",
-            expression = "java(executor.getHalfBloodSiblingDiedBeforeDeceased()!= null "
-                    + "? executor.getHalfBloodSiblingDiedBeforeDeceased() : null)")
+            expression = "java(resolveHalfBloodSiblingDiedBeforeDeceased(executor))")
     @Mapping(target = "value.applicantFamilyDetails.halfBloodNieceOrNephewAdoptedIn",
             expression = "java(executor.getHalfBloodNieceOrNephewAdoptedIn()!= null "
                     + "? executor.getHalfBloodNieceOrNephewAdoptedIn() : null)")
@@ -151,13 +144,21 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "grandchildParentAdoptionInEnglandOrWales",
             source = "value.applicantFamilyDetails.grandchildParentAdoptionInEnglandOrWales")
 
-    @Mapping(target = "wholeBloodSiblingAdoptedIn",  source = "value.applicantFamilyDetails.wholeBloodSiblingAdoptedIn")
+    @Mapping(target = "wholeBloodSiblingAdoptedIn",  expression = "java(mapWholeBloodSiblingAdoptedIn(executorApplyingCollectionMember))")
+    @Mapping(target = "wholeNieceOrNephewParentAdoptedIn",
+            expression = "java(mapWholeNieceOrNephewParentAdoptedIn(executorApplyingCollectionMember))")
     @Mapping(target = "wholeBloodSiblingAdoptedOut",
-            source = "value.applicantFamilyDetails.wholeBloodSiblingAdoptedOut")
+            expression = "java(mapWholeBloodSiblingAdoptedOut(executorApplyingCollectionMember))")
+    @Mapping(target = "wholeNieceOrNephewParentAdoptedOut",
+            expression = "java(mapWholeNieceOrNephewParentAdoptedOut(executorApplyingCollectionMember))")
     @Mapping(target = "wholeBloodSiblingAdoptionInEnglandOrWales",
-            source = "value.applicantFamilyDetails.wholeBloodSiblingAdoptionInEnglandOrWales")
+            expression = "java(mapWholeBloodSiblingAdoptionInEnglandOrWales(executorApplyingCollectionMember))")
+    @Mapping(target = "wholeNieceOrNephewParentAdoptionInEnglandOrWales",
+            expression = "java(mapWholeNieceOrNephewParentAdoptionInEnglandOrWales(executorApplyingCollectionMember))")
     @Mapping(target = "wholeBloodSiblingDiedBeforeDeceased",
-            source = "value.applicantFamilyDetails.wholeBloodSiblingDiedBeforeDeceased")
+            expression = "java(mapWholeBloodSiblingDiedBeforeDeceased(executorApplyingCollectionMember))")
+    @Mapping(target = "wholeNieceOrNephewParentDieBeforeDeceased",
+            expression = "java(mapWholeNieceOrNephewParentDieBeforeDeceased(executorApplyingCollectionMember))")
     @Mapping(target = "wholeBloodNieceOrNephewAdoptedIn",
             source = "value.applicantFamilyDetails.wholeBloodNieceOrNephewAdoptedIn")
     @Mapping(target = "wholeBloodNieceOrNephewAdoptedOut",
@@ -165,13 +166,21 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "wholeBloodNieceOrNephewAdoptionInEnglandOrWales",
             source = "value.applicantFamilyDetails.wholeBloodNieceOrNephewAdoptionInEnglandOrWales")
 
-    @Mapping(target = "halfBloodSiblingAdoptedIn",  source = "value.applicantFamilyDetails.halfBloodSiblingAdoptedIn")
-    @Mapping(target = "halfBloodSiblingAdoptedOut", source = "value.applicantFamilyDetails.halfBloodSiblingAdoptedOut")
+    @Mapping(target = "halfBloodSiblingAdoptedIn",  expression = "java(mapHalfBloodSiblingAdoptedIn(executorApplyingCollectionMember))")
+    @Mapping(target = "halfNieceOrNephewParentAdoptedIn",
+            expression = "java(mapHalfNieceOrNephewParentAdoptedIn(executorApplyingCollectionMember))")
+    @Mapping(target = "halfBloodSiblingAdoptedOut", expression = "java(mapHalfBloodSiblingAdoptedOut(executorApplyingCollectionMember))")
+    @Mapping(target = "halfNieceOrNephewParentAdoptedOut",
+            expression = "java(mapHalfNieceOrNephewParentAdoptedOut(executorApplyingCollectionMember))")
     @Mapping(target = "halfBloodSiblingAdoptionInEnglandOrWales",
-            source = "value.applicantFamilyDetails.halfBloodSiblingAdoptionInEnglandOrWales")
+            expression = "java(mapHalfBloodSiblingAdoptionInEnglandOrWales(executorApplyingCollectionMember))")
+    @Mapping(target = "halfNieceOrNephewParentAdoptionInEnglandOrWales",
+            expression = "java(mapHalfNieceOrNephewParentAdoptionInEnglandOrWales(executorApplyingCollectionMember))")
 
     @Mapping(target = "halfBloodSiblingDiedBeforeDeceased",
-            source = "value.applicantFamilyDetails.halfBloodSiblingDiedBeforeDeceased")
+            expression = "java(mapHalfBloodSiblingDiedBeforeDeceased(executorApplyingCollectionMember))")
+    @Mapping(target = "halfNieceOrNephewParentDieBeforeDeceased",
+            expression = "java(mapHalfNieceOrNephewParentDieBeforeDeceased(executorApplyingCollectionMember))")
     @Mapping(target = "halfBloodNieceOrNephewAdoptedIn",
             source = "value.applicantFamilyDetails.halfBloodNieceOrNephewAdoptedIn")
     @Mapping(target = "halfBloodNieceOrNephewAdoptedOut",
@@ -181,4 +190,177 @@ public interface ExecutorApplyingMapper {
 
     @InheritInverseConfiguration
     Executor fromExecutorApplying(CollectionMember<ExecutorApplying> executorApplyingCollectionMember);
+
+    default Boolean resolveWholeBloodSiblingAdoptedIn(Executor executor) {
+        if (CoApplicantRelationship.WHOLE_BLOOD_NIECE_OR_NEPHEW.getDescription()
+            .equalsIgnoreCase(executor.getCoApplicantRelationshipToDeceased())) {
+            return executor.getWholeNieceOrNephewParentAdoptedIn();
+        }
+        return executor.getWholeBloodSiblingAdoptedIn();
+    }
+
+    default Boolean resolveWholeBloodSiblingAdoptedOut(Executor executor) {
+        if (CoApplicantRelationship.WHOLE_BLOOD_NIECE_OR_NEPHEW.getDescription()
+            .equalsIgnoreCase(executor.getCoApplicantRelationshipToDeceased())) {
+            return executor.getWholeNieceOrNephewParentAdoptedOut();
+        }
+        return executor.getWholeBloodSiblingAdoptedOut();
+    }
+
+    default Boolean resolveWholeBloodSiblingAdoptionInEnglandOrWales(Executor executor) {
+        if (CoApplicantRelationship.WHOLE_BLOOD_NIECE_OR_NEPHEW.getDescription()
+            .equalsIgnoreCase(executor.getCoApplicantRelationshipToDeceased())) {
+            return executor.getWholeNieceOrNephewParentAdoptionInEnglandOrWales();
+        }
+        return executor.getWholeBloodSiblingAdoptionInEnglandOrWales();
+    }
+
+    default Boolean resolveWholeBloodSiblingDiedBeforeDeceased(Executor executor) {
+        if (CoApplicantRelationship.WHOLE_BLOOD_NIECE_OR_NEPHEW.getDescription()
+            .equalsIgnoreCase(executor.getCoApplicantRelationshipToDeceased())) {
+            return executor.getWholeNieceOrNephewParentDieBeforeDeceased();
+        }
+        return executor.getWholeBloodSiblingDiedBeforeDeceased();
+    }
+
+    default Boolean resolveHalfBloodSiblingAdoptedIn(Executor executor) {
+        if (CoApplicantRelationship.HALF_BLOOD_NIECE_OR_NEPHEW.getDescription()
+            .equalsIgnoreCase(executor.getCoApplicantRelationshipToDeceased())) {
+            return executor.getHalfNieceOrNephewParentAdoptedIn();
+        }
+        return executor.getHalfBloodSiblingAdoptedIn();
+    }
+
+    default Boolean resolveHalfBloodSiblingAdoptedOut(Executor executor) {
+        if (CoApplicantRelationship.HALF_BLOOD_NIECE_OR_NEPHEW.getDescription()
+            .equalsIgnoreCase(executor.getCoApplicantRelationshipToDeceased())) {
+            return executor.getHalfNieceOrNephewParentAdoptedOut();
+        }
+        return executor.getHalfBloodSiblingAdoptedOut();
+    }
+
+    default Boolean resolveHalfBloodSiblingAdoptionInEnglandOrWales(Executor executor) {
+        if (CoApplicantRelationship.HALF_BLOOD_NIECE_OR_NEPHEW.getDescription()
+            .equalsIgnoreCase(executor.getCoApplicantRelationshipToDeceased())) {
+            return executor.getHalfNieceOrNephewParentAdoptionInEnglandOrWales();
+        }
+        return executor.getHalfBloodSiblingAdoptionInEnglandOrWales();
+    }
+
+    default Boolean resolveHalfBloodSiblingDiedBeforeDeceased(Executor executor) {
+        if (CoApplicantRelationship.HALF_BLOOD_NIECE_OR_NEPHEW.getDescription()
+            .equalsIgnoreCase(executor.getCoApplicantRelationshipToDeceased())) {
+            return executor.getHalfNieceOrNephewParentDieBeforeDeceased();
+        }
+        return executor.getHalfBloodSiblingDiedBeforeDeceased();
+    }
+
+    default Boolean mapWholeBloodSiblingAdoptedIn(CollectionMember<ExecutorApplying> source) {
+        ApplicantFamilyDetails afd = applicantFamilyDetails(source);
+        return relationship(afd) == CoApplicantRelationship.WHOLE_BLOOD_NIECE_OR_NEPHEW
+            ? null : valueOrNull(afd != null ? afd.getWholeBloodSiblingAdoptedIn() : null);
+    }
+
+    default Boolean mapWholeNieceOrNephewParentAdoptedIn(CollectionMember<ExecutorApplying> source) {
+        ApplicantFamilyDetails afd = applicantFamilyDetails(source);
+        return relationship(afd) == CoApplicantRelationship.WHOLE_BLOOD_NIECE_OR_NEPHEW
+            ? valueOrNull(afd.getWholeBloodSiblingAdoptedIn()) : null;
+    }
+
+    default Boolean mapWholeBloodSiblingAdoptedOut(CollectionMember<ExecutorApplying> source) {
+        ApplicantFamilyDetails afd = applicantFamilyDetails(source);
+        return relationship(afd) == CoApplicantRelationship.WHOLE_BLOOD_NIECE_OR_NEPHEW
+            ? null : valueOrNull(afd != null ? afd.getWholeBloodSiblingAdoptedOut() : null);
+    }
+
+    default Boolean mapWholeNieceOrNephewParentAdoptedOut(CollectionMember<ExecutorApplying> source) {
+        ApplicantFamilyDetails afd = applicantFamilyDetails(source);
+        return relationship(afd) == CoApplicantRelationship.WHOLE_BLOOD_NIECE_OR_NEPHEW
+            ? valueOrNull(afd.getWholeBloodSiblingAdoptedOut()) : null;
+    }
+
+    default Boolean mapWholeBloodSiblingAdoptionInEnglandOrWales(CollectionMember<ExecutorApplying> source) {
+        ApplicantFamilyDetails afd = applicantFamilyDetails(source);
+        return relationship(afd) == CoApplicantRelationship.WHOLE_BLOOD_NIECE_OR_NEPHEW
+                ? null : valueOrNull(afd != null ? afd.getWholeBloodSiblingAdoptionInEnglandOrWales() : null);
+    }
+
+    default Boolean mapWholeNieceOrNephewParentAdoptionInEnglandOrWales(CollectionMember<ExecutorApplying> source) {
+        ApplicantFamilyDetails afd = applicantFamilyDetails(source);
+        return relationship(afd) == CoApplicantRelationship.WHOLE_BLOOD_NIECE_OR_NEPHEW
+                ? valueOrNull(afd.getWholeBloodSiblingAdoptionInEnglandOrWales()) : null;
+    }
+
+    default Boolean mapWholeBloodSiblingDiedBeforeDeceased(CollectionMember<ExecutorApplying> source) {
+        ApplicantFamilyDetails afd = applicantFamilyDetails(source);
+        return relationship(afd) == CoApplicantRelationship.WHOLE_BLOOD_NIECE_OR_NEPHEW
+                ? null : valueOrNull(afd != null ? afd.getWholeBloodSiblingDiedBeforeDeceased() : null);
+    }
+
+    default Boolean mapWholeNieceOrNephewParentDieBeforeDeceased(CollectionMember<ExecutorApplying> source) {
+        ApplicantFamilyDetails afd = applicantFamilyDetails(source);
+        return relationship(afd) == CoApplicantRelationship.WHOLE_BLOOD_NIECE_OR_NEPHEW
+                ? valueOrNull(afd.getWholeBloodSiblingDiedBeforeDeceased()) : null;
+    }
+
+    default Boolean mapHalfBloodSiblingAdoptedIn(CollectionMember<ExecutorApplying> source) {
+        ApplicantFamilyDetails afd = applicantFamilyDetails(source);
+        return relationship(afd) == CoApplicantRelationship.HALF_BLOOD_NIECE_OR_NEPHEW
+            ? null : valueOrNull(afd != null ? afd.getHalfBloodSiblingAdoptedIn() : null);
+    }
+
+    default Boolean mapHalfNieceOrNephewParentAdoptedIn(CollectionMember<ExecutorApplying> source) {
+        ApplicantFamilyDetails afd = applicantFamilyDetails(source);
+        return relationship(afd) == CoApplicantRelationship.HALF_BLOOD_NIECE_OR_NEPHEW
+            ? valueOrNull(afd.getHalfBloodSiblingAdoptedIn()) : null;
+    }
+
+    default Boolean mapHalfBloodSiblingAdoptedOut(CollectionMember<ExecutorApplying> source) {
+        ApplicantFamilyDetails afd = applicantFamilyDetails(source);
+        return relationship(afd) == CoApplicantRelationship.HALF_BLOOD_NIECE_OR_NEPHEW
+            ? null : valueOrNull(afd != null ? afd.getHalfBloodSiblingAdoptedOut() : null);
+    }
+
+    default Boolean mapHalfNieceOrNephewParentAdoptedOut(CollectionMember<ExecutorApplying> source) {
+        ApplicantFamilyDetails afd = applicantFamilyDetails(source);
+        return relationship(afd) == CoApplicantRelationship.HALF_BLOOD_NIECE_OR_NEPHEW
+            ? valueOrNull(afd.getHalfBloodSiblingAdoptedOut()) : null;
+    }
+
+    default Boolean mapHalfBloodSiblingAdoptionInEnglandOrWales(CollectionMember<ExecutorApplying> source) {
+        ApplicantFamilyDetails afd = applicantFamilyDetails(source);
+        return relationship(afd) == CoApplicantRelationship.HALF_BLOOD_NIECE_OR_NEPHEW
+                ? null : valueOrNull(afd != null ? afd.getHalfBloodSiblingAdoptionInEnglandOrWales() : null);
+    }
+
+    default Boolean mapHalfNieceOrNephewParentAdoptionInEnglandOrWales(CollectionMember<ExecutorApplying> source) {
+        ApplicantFamilyDetails afd = applicantFamilyDetails(source);
+        return relationship(afd) == CoApplicantRelationship.HALF_BLOOD_NIECE_OR_NEPHEW
+                ? valueOrNull(afd.getHalfBloodSiblingAdoptionInEnglandOrWales()) : null;
+    }
+
+    default Boolean mapHalfBloodSiblingDiedBeforeDeceased(CollectionMember<ExecutorApplying> source) {
+        ApplicantFamilyDetails afd = applicantFamilyDetails(source);
+        return relationship(afd) == CoApplicantRelationship.HALF_BLOOD_NIECE_OR_NEPHEW
+                ? null : valueOrNull(afd != null ? afd.getHalfBloodSiblingDiedBeforeDeceased() : null);
+    }
+
+    default Boolean mapHalfNieceOrNephewParentDieBeforeDeceased(CollectionMember<ExecutorApplying> source) {
+        ApplicantFamilyDetails afd = applicantFamilyDetails(source);
+        return relationship(afd) == CoApplicantRelationship.HALF_BLOOD_NIECE_OR_NEPHEW
+                ? valueOrNull(afd.getHalfBloodSiblingDiedBeforeDeceased()) : null;
+    }
+
+    default ApplicantFamilyDetails applicantFamilyDetails(CollectionMember<ExecutorApplying> source) {
+        return source != null && source.getValue() != null ? source.getValue().getApplicantFamilyDetails() : null;
+    }
+
+    default CoApplicantRelationship relationship(ApplicantFamilyDetails applicantFamilyDetails) {
+        return applicantFamilyDetails != null ? applicantFamilyDetails.getRelationshipToDeceased() : null;
+    }
+
+
+    default Boolean valueOrNull(Boolean value) {
+        return value != null ? value : null;
+    }
 }

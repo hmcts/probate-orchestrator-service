@@ -11,6 +11,7 @@ import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.DocumentLink;
 import uk.gov.hmcts.reform.probate.model.cases.MaritalStatus;
+import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.SpouseNotApplyingReason;
@@ -34,13 +35,11 @@ import uk.gov.hmcts.reform.probate.model.forms.pa.Executor;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Optional;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(SpringExtension.class)
@@ -141,31 +140,67 @@ public class IntestacyMapperIT {
     }
 
     @Test
-    public void shouldRoundTripParentDeathAndAdoptionFieldsThroughIntestacyMapperForWholeBloodCoApplicant() {
-        verifyRoundTripForRelationship(WHOLE_BLOOD_NIECE_NEPHEW);
+    public void shouldRoundTripWholeNieceNephewParentFieldsThroughSiblingCaseFields() {
+        Executor coApplicant = buildCoApplicant(WHOLE_BLOOD_NIECE_NEPHEW);
+        coApplicant.setWholeNieceOrNephewParentDieBeforeDeceased(Boolean.TRUE);
+        coApplicant.setWholeNieceOrNephewParentAdoptedIn(Boolean.FALSE);
+        coApplicant.setWholeNieceOrNephewParentAdoptionInEnglandOrWales(Boolean.TRUE);
+        coApplicant.setWholeNieceOrNephewParentAdoptedOut(Boolean.FALSE);
+
+        IntestacyForm sourceForm = buildFormWithCoApplicant(coApplicant);
+        GrantOfRepresentationData caseData = mapper.toCaseData(sourceForm);
+        ExecutorApplying mappedCoApplicant = findCoApplicantCaseData(caseData);
+
+        assertNotNull(mappedCoApplicant.getApplicantFamilyDetails());
+        assertEquals(Boolean.TRUE, mappedCoApplicant.getApplicantFamilyDetails().getWholeBloodSiblingDiedBeforeDeceased());
+        assertEquals(Boolean.FALSE, mappedCoApplicant.getApplicantFamilyDetails().getWholeBloodSiblingAdoptedIn());
+        assertEquals(Boolean.TRUE,
+            mappedCoApplicant.getApplicantFamilyDetails().getWholeBloodSiblingAdoptionInEnglandOrWales());
+        assertEquals(Boolean.FALSE, mappedCoApplicant.getApplicantFamilyDetails().getWholeBloodSiblingAdoptedOut());
+
+        IntestacyForm roundTrippedForm = mapper.fromCaseData(caseData);
+        Executor roundTrippedCoApplicant = findCoApplicant(roundTrippedForm);
+
+        assertEquals(Boolean.TRUE, roundTrippedCoApplicant.getWholeNieceOrNephewParentDieBeforeDeceased());
+        assertEquals(Boolean.FALSE, roundTrippedCoApplicant.getWholeNieceOrNephewParentAdoptedIn());
+        assertEquals(Boolean.TRUE, roundTrippedCoApplicant.getWholeNieceOrNephewParentAdoptionInEnglandOrWales());
+        assertEquals(Boolean.FALSE, roundTrippedCoApplicant.getWholeNieceOrNephewParentAdoptedOut());
+        assertNull(roundTrippedCoApplicant.getWholeBloodSiblingDiedBeforeDeceased());
+        assertNull(roundTrippedCoApplicant.getWholeBloodSiblingAdoptedIn());
+        assertNull(roundTrippedCoApplicant.getWholeBloodSiblingAdoptionInEnglandOrWales());
+        assertNull(roundTrippedCoApplicant.getWholeBloodSiblingAdoptedOut());
     }
 
     @Test
-    public void shouldRoundTripParentDeathAndAdoptionFieldsThroughIntestacyMapperForHalfBloodCoApplicant() {
-        verifyRoundTripForRelationship(HALF_BLOOD_NIECE_NEPHEW);
-    }
+    public void shouldRoundTripHalfNieceNephewParentFieldsThroughSiblingCaseFields() {
+        Executor coApplicant = buildCoApplicant(HALF_BLOOD_NIECE_NEPHEW);
+        coApplicant.setHalfNieceOrNephewParentDieBeforeDeceased(Boolean.FALSE);
+        coApplicant.setHalfNieceOrNephewParentAdoptedIn(Boolean.TRUE);
+        coApplicant.setHalfNieceOrNephewParentAdoptionInEnglandOrWales(Boolean.FALSE);
+        coApplicant.setHalfNieceOrNephewParentAdoptedOut(Boolean.TRUE);
 
-    private void verifyRoundTripForRelationship(String relationship) {
-        for (FieldMapping mapping : fieldMappings()) {
-            for (Boolean value : Arrays.asList(Boolean.TRUE, Boolean.FALSE, null)) {
-                Executor coApplicant = buildCoApplicant(relationship);
-                mapping.setter.accept(coApplicant, value);
+        IntestacyForm sourceForm = buildFormWithCoApplicant(coApplicant);
+        GrantOfRepresentationData caseData = mapper.toCaseData(sourceForm);
+        ExecutorApplying mappedCoApplicant = findCoApplicantCaseData(caseData);
 
-                IntestacyForm sourceForm = buildFormWithCoApplicant(coApplicant);
-                GrantOfRepresentationData caseData = mapper.toCaseData(sourceForm);
-                IntestacyForm roundTrippedForm = mapper.fromCaseData(caseData);
+        assertNotNull(mappedCoApplicant.getApplicantFamilyDetails());
+        assertEquals(Boolean.FALSE, mappedCoApplicant.getApplicantFamilyDetails().getHalfBloodSiblingDiedBeforeDeceased());
+        assertEquals(Boolean.TRUE, mappedCoApplicant.getApplicantFamilyDetails().getHalfBloodSiblingAdoptedIn());
+        assertEquals(Boolean.FALSE,
+            mappedCoApplicant.getApplicantFamilyDetails().getHalfBloodSiblingAdoptionInEnglandOrWales());
+        assertEquals(Boolean.TRUE, mappedCoApplicant.getApplicantFamilyDetails().getHalfBloodSiblingAdoptedOut());
 
-                Executor roundTrippedCoApplicant = findCoApplicant(roundTrippedForm);
-                assertEquals(value, mapping.getter.apply(roundTrippedCoApplicant),
-                    "Intestacy mapper chain mismatch for field: " + mapping.fieldName + " relationship: "
-                        + relationship);
-            }
-        }
+        IntestacyForm roundTrippedForm = mapper.fromCaseData(caseData);
+        Executor roundTrippedCoApplicant = findCoApplicant(roundTrippedForm);
+
+        assertEquals(Boolean.FALSE, roundTrippedCoApplicant.getHalfNieceOrNephewParentDieBeforeDeceased());
+        assertEquals(Boolean.TRUE, roundTrippedCoApplicant.getHalfNieceOrNephewParentAdoptedIn());
+        assertEquals(Boolean.FALSE, roundTrippedCoApplicant.getHalfNieceOrNephewParentAdoptionInEnglandOrWales());
+        assertEquals(Boolean.TRUE, roundTrippedCoApplicant.getHalfNieceOrNephewParentAdoptedOut());
+        assertNull(roundTrippedCoApplicant.getHalfBloodSiblingDiedBeforeDeceased());
+        assertNull(roundTrippedCoApplicant.getHalfBloodSiblingAdoptedIn());
+        assertNull(roundTrippedCoApplicant.getHalfBloodSiblingAdoptionInEnglandOrWales());
+        assertNull(roundTrippedCoApplicant.getHalfBloodSiblingAdoptedOut());
     }
 
     private Executor findCoApplicant(IntestacyForm form) {
@@ -174,6 +209,18 @@ public class IntestacyMapperIT {
 
         Optional<Executor> coApplicant = form.getExecutors().getList().stream()
             .filter(executor -> Boolean.FALSE.equals(executor.getIsApplicant()))
+            .findFirst();
+
+        assertThat(coApplicant.isPresent()).isTrue();
+        return coApplicant.get();
+    }
+
+    private ExecutorApplying findCoApplicantCaseData(GrantOfRepresentationData caseData) {
+        assertThat(caseData.getExecutorsApplying()).isNotNull();
+
+        Optional<ExecutorApplying> coApplicant = caseData.getExecutorsApplying().stream()
+            .map(uk.gov.hmcts.reform.probate.model.cases.CollectionMember::getValue)
+            .filter(executorApplying -> Boolean.FALSE.equals(executorApplying.getApplyingExecutorApplicant()))
             .findFirst();
 
         assertThat(coApplicant.isPresent()).isTrue();
@@ -209,45 +256,5 @@ public class IntestacyMapperIT {
             .build();
     }
 
-    private java.util.List<FieldMapping> fieldMappings() {
-        return java.util.List.of(
-            new FieldMapping("wholeBloodSiblingDiedBeforeDeceased",
-                Executor::setWholeBloodSiblingDiedBeforeDeceased,
-                Executor::getWholeBloodSiblingDiedBeforeDeceased),
-            new FieldMapping("wholeBloodNieceOrNephewAdoptedIn",
-                Executor::setWholeBloodNieceOrNephewAdoptedIn,
-                Executor::getWholeBloodNieceOrNephewAdoptedIn),
-            new FieldMapping("wholeBloodNieceOrNephewAdoptionInEnglandOrWales",
-                Executor::setWholeBloodNieceOrNephewAdoptionInEnglandOrWales,
-                Executor::getWholeBloodNieceOrNephewAdoptionInEnglandOrWales),
-            new FieldMapping("wholeBloodNieceOrNephewAdoptedOut",
-                Executor::setWholeBloodNieceOrNephewAdoptedOut,
-                Executor::getWholeBloodNieceOrNephewAdoptedOut),
-            new FieldMapping("halfBloodSiblingDiedBeforeDeceased",
-                Executor::setHalfBloodSiblingDiedBeforeDeceased,
-                Executor::getHalfBloodSiblingDiedBeforeDeceased),
-            new FieldMapping("halfBloodNieceOrNephewAdoptedIn",
-                Executor::setHalfBloodNieceOrNephewAdoptedIn,
-                Executor::getHalfBloodNieceOrNephewAdoptedIn),
-            new FieldMapping("halfBloodNieceOrNephewAdoptionInEnglandOrWales",
-                Executor::setHalfBloodNieceOrNephewAdoptionInEnglandOrWales,
-                Executor::getHalfBloodNieceOrNephewAdoptionInEnglandOrWales),
-            new FieldMapping("halfBloodNieceOrNephewAdoptedOut",
-                Executor::setHalfBloodNieceOrNephewAdoptedOut,
-                Executor::getHalfBloodNieceOrNephewAdoptedOut)
-        );
-    }
-
-    private static final class FieldMapping {
-        private final String fieldName;
-        private final BiConsumer<Executor, Boolean> setter;
-        private final Function<Executor, Boolean> getter;
-
-        private FieldMapping(String fieldName, BiConsumer<Executor, Boolean> setter, Function<Executor, Boolean> getter) {
-            this.fieldName = fieldName;
-            this.setter = setter;
-            this.getter = getter;
-        }
-    }
 
 }
