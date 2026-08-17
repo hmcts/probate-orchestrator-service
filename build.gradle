@@ -3,10 +3,10 @@ plugins {
     id 'java'
     id 'io.spring.dependency-management' version '1.1.7'
     id 'org.springframework.boot' version '3.5.16'
-    id 'io.github.ben-manes.versions' version '0.59.0'
+    id 'io.github.ben-manes.versions' version '0.61.0'
     id 'com.gorylenko.gradle-git-properties' version '4.0.1'
     id 'info.solidsoft.pitest' version '1.19.0'
-    id 'au.com.dius.pact' version '4.7.4'
+    id 'au.com.dius.pact' version '4.7.5'
     id 'net.serenity-bdd.serenity-gradle-plugin' version '5.3.9'
     id 'org.sonarqube' version '7.4.0.8496'
     id 'uk.gov.hmcts.java' version '0.12.70'
@@ -248,7 +248,7 @@ dependencies {
     implementation group: 'io.github.openfeign', name: 'feign-core', version: versions.feign
     implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: versions.feign
     implementation group: 'io.github.openfeign', name: 'feign-jackson', version: versions.feign
-    implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.6.3'
+    implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.6.4'
     implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.2.4'
 
     //Solves CVE-2025-48989
@@ -271,7 +271,7 @@ dependencies {
     implementation group: 'org.pitest', name: 'pitest', version: versions.piTest
     implementation group: 'org.commonmark', name: 'commonmark', version: versions.commonMark
     implementation group: 'info.solidsoft.gradle.pitest', name: 'gradle-pitest-plugin', version: '1.15.0'
-    implementation group: 'org.sonarsource.api.plugin', name: 'sonar-plugin-api', version: '13.9.0.4428'
+    implementation group: 'org.sonarsource.api.plugin', name: 'sonar-plugin-api', version: '13.10.0.4437'
     implementation group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonVersion
     implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '9.0'
