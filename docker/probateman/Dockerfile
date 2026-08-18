@@ -1,4 +1,4 @@
-FROM postgres:17.10-alpine
+FROM postgres:17.11-alpine
 
 COPY init-db.sh /docker-entrypoint-initdb.d
 
