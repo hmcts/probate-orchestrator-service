@@ -157,6 +157,10 @@ public class IntestacyMapperIT {
         assertEquals(Boolean.TRUE,
             mappedCoApplicant.getApplicantFamilyDetails().getWholeBloodSiblingAdoptionInEnglandOrWales());
         assertEquals(Boolean.FALSE, mappedCoApplicant.getApplicantFamilyDetails().getWholeBloodSiblingAdoptedOut());
+        assertNull(mappedCoApplicant.getApplicantFamilyDetails().getWholeNieceOrNephewParentDieBeforeDeceased());
+        assertNull(mappedCoApplicant.getApplicantFamilyDetails().getWholeNieceOrNephewParentAdoptedIn());
+        assertNull(mappedCoApplicant.getApplicantFamilyDetails().getWholeNieceOrNephewParentAdoptionInEnglandOrWales());
+        assertNull(mappedCoApplicant.getApplicantFamilyDetails().getWholeNieceOrNephewParentAdoptedOut());
 
         IntestacyForm roundTrippedForm = mapper.fromCaseData(caseData);
         Executor roundTrippedCoApplicant = findCoApplicant(roundTrippedForm);
@@ -189,6 +193,10 @@ public class IntestacyMapperIT {
         assertEquals(Boolean.FALSE,
             mappedCoApplicant.getApplicantFamilyDetails().getHalfBloodSiblingAdoptionInEnglandOrWales());
         assertEquals(Boolean.TRUE, mappedCoApplicant.getApplicantFamilyDetails().getHalfBloodSiblingAdoptedOut());
+        assertNull(mappedCoApplicant.getApplicantFamilyDetails().getHalfNieceOrNephewParentDieBeforeDeceased());
+        assertNull(mappedCoApplicant.getApplicantFamilyDetails().getHalfNieceOrNephewParentAdoptedIn());
+        assertNull(mappedCoApplicant.getApplicantFamilyDetails().getHalfNieceOrNephewParentAdoptionInEnglandOrWales());
+        assertNull(mappedCoApplicant.getApplicantFamilyDetails().getHalfNieceOrNephewParentAdoptedOut());
 
         IntestacyForm roundTrippedForm = mapper.fromCaseData(caseData);
         Executor roundTrippedCoApplicant = findCoApplicant(roundTrippedForm);

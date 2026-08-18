@@ -40,6 +40,10 @@ class ExecutorApplyingMapperTest {
         assertEquals(Boolean.TRUE,
             mapped.getValue().getApplicantFamilyDetails().getWholeBloodSiblingAdoptionInEnglandOrWales());
         assertEquals(Boolean.FALSE, mapped.getValue().getApplicantFamilyDetails().getWholeBloodSiblingAdoptedOut());
+        assertNull(mapped.getValue().getApplicantFamilyDetails().getWholeNieceOrNephewParentDieBeforeDeceased());
+        assertNull(mapped.getValue().getApplicantFamilyDetails().getWholeNieceOrNephewParentAdoptedIn());
+        assertNull(mapped.getValue().getApplicantFamilyDetails().getWholeNieceOrNephewParentAdoptionInEnglandOrWales());
+        assertNull(mapped.getValue().getApplicantFamilyDetails().getWholeNieceOrNephewParentAdoptedOut());
         assertNull(mapped.getValue().getApplicantFamilyDetails().getWholeBloodNieceOrNephewAdoptedIn());
         assertNull(mapped.getValue().getApplicantFamilyDetails().getWholeBloodNieceOrNephewAdoptionInEnglandOrWales());
         assertNull(mapped.getValue().getApplicantFamilyDetails().getWholeBloodNieceOrNephewAdoptedOut());
@@ -70,6 +74,10 @@ class ExecutorApplyingMapperTest {
         assertEquals(Boolean.FALSE,
             mapped.getValue().getApplicantFamilyDetails().getHalfBloodSiblingAdoptionInEnglandOrWales());
         assertEquals(Boolean.TRUE, mapped.getValue().getApplicantFamilyDetails().getHalfBloodSiblingAdoptedOut());
+        assertNull(mapped.getValue().getApplicantFamilyDetails().getHalfNieceOrNephewParentDieBeforeDeceased());
+        assertNull(mapped.getValue().getApplicantFamilyDetails().getHalfNieceOrNephewParentAdoptedIn());
+        assertNull(mapped.getValue().getApplicantFamilyDetails().getHalfNieceOrNephewParentAdoptionInEnglandOrWales());
+        assertNull(mapped.getValue().getApplicantFamilyDetails().getHalfNieceOrNephewParentAdoptedOut());
         assertNull(mapped.getValue().getApplicantFamilyDetails().getHalfBloodNieceOrNephewAdoptedIn());
         assertNull(mapped.getValue().getApplicantFamilyDetails().getHalfBloodNieceOrNephewAdoptionInEnglandOrWales());
         assertNull(mapped.getValue().getApplicantFamilyDetails().getHalfBloodNieceOrNephewAdoptedOut());
@@ -185,6 +193,20 @@ class ExecutorApplyingMapperTest {
         assertNull(roundTripped.getHalfNieceOrNephewParentAdoptedIn());
         assertNull(roundTripped.getHalfNieceOrNephewParentAdoptionInEnglandOrWales());
         assertNull(roundTripped.getHalfNieceOrNephewParentAdoptedOut());
+    }
+
+    @Test
+    void shouldMapExecutorWithoutRelationshipWithoutUsingParentAliasFields() {
+        Executor source = buildCoApplicant(null);
+        source.setWholeBloodSiblingDiedBeforeDeceased(Boolean.TRUE);
+        source.setHalfBloodSiblingAdoptedIn(Boolean.FALSE);
+
+        CollectionMember<ExecutorApplying> mapped = executorApplyingMapper.toExecutorApplying(source);
+
+        assertEquals(Boolean.TRUE, mapped.getValue().getApplicantFamilyDetails().getWholeBloodSiblingDiedBeforeDeceased());
+        assertEquals(Boolean.FALSE, mapped.getValue().getApplicantFamilyDetails().getHalfBloodSiblingAdoptedIn());
+        assertNull(mapped.getValue().getApplicantFamilyDetails().getWholeNieceOrNephewParentDieBeforeDeceased());
+        assertNull(mapped.getValue().getApplicantFamilyDetails().getHalfNieceOrNephewParentAdoptedIn());
     }
 
     private Executor buildCoApplicant(String relationship) {
