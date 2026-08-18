@@ -169,7 +169,7 @@ def versions = [
         feign                           : '13.13',
         fortifyClient                   : '1.4.10',
         hmctsJavaLogging                : '8.0.0',
-        jacksonVersion                  : '2.22.1',
+        jacksonVersion                  : '2.22.2',
         junitJupiter                    : '5.12.2',
         lombok                          : '1.18.46',
         mapStruct                       : '1.3.0.Final',
@@ -211,7 +211,7 @@ dependencyManagement {
     }
     dependencies {
         //CVE-2026-29062
-        dependencySet(group: 'tools.jackson.core', version: '3.2.1') {
+        dependencySet(group: 'tools.jackson.core', version: '3.2.2') {
             entry 'jackson-core'
             entry 'jackson-databind'
         }
@@ -240,7 +240,7 @@ dependencies {
     implementation group: 'org.springframework.security', name: 'spring-security-core', version: versions.springSecurityVersion
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-openfeign-core'
     implementation group: 'org.springframework.retry', name: 'spring-retry', version: '2.0.13'
-    implementation group: 'com.google.guava', name: 'guava', version: '33.6.0-jre'
+    implementation group: 'com.google.guava', name: 'guava', version: '33.7.1-jre'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonVersion
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.jacksonVersion
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.22'
@@ -271,7 +271,7 @@ dependencies {
     implementation group: 'org.pitest', name: 'pitest', version: versions.piTest
     implementation group: 'org.commonmark', name: 'commonmark', version: versions.commonMark
     implementation group: 'info.solidsoft.gradle.pitest', name: 'gradle-pitest-plugin', version: '1.15.0'
-    implementation group: 'org.sonarsource.api.plugin', name: 'sonar-plugin-api', version: '13.10.0.4437'
+    implementation group: 'org.sonarsource.api.plugin', name: 'sonar-plugin-api', version: '13.11.0.4459'
     implementation group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonVersion
     implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '9.0'
