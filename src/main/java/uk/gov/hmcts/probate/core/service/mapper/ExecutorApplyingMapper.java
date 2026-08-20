@@ -9,7 +9,6 @@ import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToCaseAddress;
 import uk.gov.hmcts.probate.core.service.mapper.qualifiers.ToFormAddress;
 import uk.gov.hmcts.reform.probate.model.AliasReason;
 import uk.gov.hmcts.reform.probate.model.CoApplicantRelationship;
-import uk.gov.hmcts.reform.probate.model.cases.ApplicantFamilyDetails;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.forms.pa.Executor;
@@ -156,18 +155,18 @@ public interface ExecutorApplyingMapper {
 
     @Mapping(target = "wholeBloodSiblingAdoptedIn", source = "value.applicantFamilyDetails.wholeBloodSiblingAdoptedIn")
     @Mapping(target = "wholeNieceOrNephewParentAdoptedIn",
-            expression = "java(readWholeNieceOrNephewParentAdoptedIn(executorApplyingCollectionMember))")
+            source = "value.applicantFamilyDetails.wholeNieceOrNephewParentAdoptedIn")
     @Mapping(target = "wholeBloodSiblingAdoptedOut", source = "value.applicantFamilyDetails.wholeBloodSiblingAdoptedOut")
     @Mapping(target = "wholeNieceOrNephewParentAdoptedOut",
-            expression = "java(readWholeNieceOrNephewParentAdoptedOut(executorApplyingCollectionMember))")
+            source = "value.applicantFamilyDetails.wholeNieceOrNephewParentAdoptedOut")
     @Mapping(target = "wholeBloodSiblingAdoptionInEnglandOrWales",
             source = "value.applicantFamilyDetails.wholeBloodSiblingAdoptionInEnglandOrWales")
     @Mapping(target = "wholeNieceOrNephewParentAdoptionInEnglandOrWales",
-            expression = "java(readWholeNieceOrNephewParentAdoptionInEnglandOrWales(executorApplyingCollectionMember))")
+            source = "value.applicantFamilyDetails.wholeNieceOrNephewParentAdoptionInEnglandOrWales")
     @Mapping(target = "wholeBloodSiblingDiedBeforeDeceased",
             source = "value.applicantFamilyDetails.wholeBloodSiblingDiedBeforeDeceased")
     @Mapping(target = "wholeNieceOrNephewParentDieBeforeDeceased",
-            expression = "java(readWholeNieceOrNephewParentDieBeforeDeceased(executorApplyingCollectionMember))")
+            source = "value.applicantFamilyDetails.wholeNieceOrNephewParentDieBeforeDeceased")
     @Mapping(target = "wholeBloodNieceOrNephewAdoptedIn",
             source = "value.applicantFamilyDetails.wholeBloodNieceOrNephewAdoptedIn")
     @Mapping(target = "wholeBloodNieceOrNephewAdoptedOut",
@@ -177,18 +176,18 @@ public interface ExecutorApplyingMapper {
 
     @Mapping(target = "halfBloodSiblingAdoptedIn", source = "value.applicantFamilyDetails.halfBloodSiblingAdoptedIn")
     @Mapping(target = "halfNieceOrNephewParentAdoptedIn",
-            expression = "java(readHalfNieceOrNephewParentAdoptedIn(executorApplyingCollectionMember))")
+            source = "value.applicantFamilyDetails.halfNieceOrNephewParentAdoptedIn")
     @Mapping(target = "halfBloodSiblingAdoptedOut", source = "value.applicantFamilyDetails.halfBloodSiblingAdoptedOut")
     @Mapping(target = "halfNieceOrNephewParentAdoptedOut",
-            expression = "java(readHalfNieceOrNephewParentAdoptedOut(executorApplyingCollectionMember))")
+            source = "value.applicantFamilyDetails.halfNieceOrNephewParentAdoptedOut")
     @Mapping(target = "halfBloodSiblingAdoptionInEnglandOrWales",
             source = "value.applicantFamilyDetails.halfBloodSiblingAdoptionInEnglandOrWales")
     @Mapping(target = "halfNieceOrNephewParentAdoptionInEnglandOrWales",
-            expression = "java(readHalfNieceOrNephewParentAdoptionInEnglandOrWales(executorApplyingCollectionMember))")
+            source = "value.applicantFamilyDetails.halfNieceOrNephewParentAdoptionInEnglandOrWales")
     @Mapping(target = "halfBloodSiblingDiedBeforeDeceased",
             source = "value.applicantFamilyDetails.halfBloodSiblingDiedBeforeDeceased")
     @Mapping(target = "halfNieceOrNephewParentDieBeforeDeceased",
-            expression = "java(readHalfNieceOrNephewParentDieBeforeDeceased(executorApplyingCollectionMember))")
+            source = "value.applicantFamilyDetails.halfNieceOrNephewParentDieBeforeDeceased")
     @Mapping(target = "halfBloodNieceOrNephewAdoptedIn",
             source = "value.applicantFamilyDetails.halfBloodNieceOrNephewAdoptedIn")
     @Mapping(target = "halfBloodNieceOrNephewAdoptedOut",
@@ -199,99 +198,5 @@ public interface ExecutorApplyingMapper {
     @InheritInverseConfiguration
     Executor fromExecutorApplying(CollectionMember<ExecutorApplying> executorApplyingCollectionMember);
 
-    default boolean isWholeBloodNieceOrNephew(ApplicantFamilyDetails applicantFamilyDetails) {
-        return applicantFamilyDetails != null
-            && applicantFamilyDetails.getRelationshipToDeceased() == CoApplicantRelationship.WHOLE_BLOOD_NIECE_OR_NEPHEW;
-    }
-
-    default boolean isHalfBloodNieceOrNephew(ApplicantFamilyDetails applicantFamilyDetails) {
-        return applicantFamilyDetails != null
-            && applicantFamilyDetails.getRelationshipToDeceased() == CoApplicantRelationship.HALF_BLOOD_NIECE_OR_NEPHEW;
-    }
-
-    default Boolean readWholeNieceOrNephewParentAdoptedIn(CollectionMember<ExecutorApplying> source) {
-        ApplicantFamilyDetails afd = applicantFamilyDetails(source);
-        if (afd == null) {
-            return null;
-        }
-        return readParentValueWithLegacyFallback(afd.getWholeNieceOrNephewParentAdoptedIn(),
-            afd.getWholeBloodSiblingAdoptedIn(), isWholeBloodNieceOrNephew(afd));
-    }
-
-    default Boolean readWholeNieceOrNephewParentAdoptedOut(CollectionMember<ExecutorApplying> source) {
-        ApplicantFamilyDetails afd = applicantFamilyDetails(source);
-        if (afd == null) {
-            return null;
-        }
-        return readParentValueWithLegacyFallback(afd.getWholeNieceOrNephewParentAdoptedOut(),
-            afd.getWholeBloodSiblingAdoptedOut(), isWholeBloodNieceOrNephew(afd));
-    }
-
-    default Boolean readWholeNieceOrNephewParentAdoptionInEnglandOrWales(CollectionMember<ExecutorApplying> source) {
-        ApplicantFamilyDetails afd = applicantFamilyDetails(source);
-        if (afd == null) {
-            return null;
-        }
-        return readParentValueWithLegacyFallback(afd.getWholeNieceOrNephewParentAdoptionInEnglandOrWales(),
-            afd.getWholeBloodSiblingAdoptionInEnglandOrWales(), isWholeBloodNieceOrNephew(afd));
-    }
-
-    default Boolean readWholeNieceOrNephewParentDieBeforeDeceased(CollectionMember<ExecutorApplying> source) {
-        ApplicantFamilyDetails afd = applicantFamilyDetails(source);
-        if (afd == null) {
-            return null;
-        }
-        return readParentValueWithLegacyFallback(afd.getWholeNieceOrNephewParentDieBeforeDeceased(),
-            afd.getWholeBloodSiblingDiedBeforeDeceased(), isWholeBloodNieceOrNephew(afd));
-    }
-
-    default Boolean readHalfNieceOrNephewParentAdoptedIn(CollectionMember<ExecutorApplying> source) {
-        ApplicantFamilyDetails afd = applicantFamilyDetails(source);
-        if (afd == null) {
-            return null;
-        }
-        return readParentValueWithLegacyFallback(afd.getHalfNieceOrNephewParentAdoptedIn(),
-            afd.getHalfBloodSiblingAdoptedIn(), isHalfBloodNieceOrNephew(afd));
-    }
-
-    default Boolean readHalfNieceOrNephewParentAdoptedOut(CollectionMember<ExecutorApplying> source) {
-        ApplicantFamilyDetails afd = applicantFamilyDetails(source);
-        if (afd == null) {
-            return null;
-        }
-        return readParentValueWithLegacyFallback(afd.getHalfNieceOrNephewParentAdoptedOut(),
-            afd.getHalfBloodSiblingAdoptedOut(), isHalfBloodNieceOrNephew(afd));
-    }
-
-    default Boolean readHalfNieceOrNephewParentAdoptionInEnglandOrWales(CollectionMember<ExecutorApplying> source) {
-        ApplicantFamilyDetails afd = applicantFamilyDetails(source);
-        if (afd == null) {
-            return null;
-        }
-        return readParentValueWithLegacyFallback(afd.getHalfNieceOrNephewParentAdoptionInEnglandOrWales(),
-            afd.getHalfBloodSiblingAdoptionInEnglandOrWales(), isHalfBloodNieceOrNephew(afd));
-    }
-
-    default Boolean readHalfNieceOrNephewParentDieBeforeDeceased(CollectionMember<ExecutorApplying> source) {
-        ApplicantFamilyDetails afd = applicantFamilyDetails(source);
-        if (afd == null) {
-            return null;
-        }
-        return readParentValueWithLegacyFallback(afd.getHalfNieceOrNephewParentDieBeforeDeceased(),
-            afd.getHalfBloodSiblingDiedBeforeDeceased(), isHalfBloodNieceOrNephew(afd));
-    }
-
-    default Boolean readParentValueWithLegacyFallback(Boolean dedicatedParentValue,
-                                                       Boolean legacySiblingValue,
-                                                       boolean isNieceOrNephewRelationship) {
-        if (dedicatedParentValue != null) {
-            return dedicatedParentValue;
-        }
-        return isNieceOrNephewRelationship ? legacySiblingValue : null;
-    }
-
-    default ApplicantFamilyDetails applicantFamilyDetails(CollectionMember<ExecutorApplying> source) {
-        return source != null && source.getValue() != null ? source.getValue().getApplicantFamilyDetails() : null;
-    }
 
 }

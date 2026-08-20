@@ -14,8 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 class ExecutorApplyingMapperTest {
 
     private static final String WHOLE_BLOOD_NIECE_NEPHEW = "optionWholeBloodNieceOrNephew";
-    private static final String HALF_BLOOD_NIECE_NEPHEW = "optionHalfBloodNieceOrNephew";
-
     private final ExecutorApplyingMapperImpl executorApplyingMapper = new ExecutorApplyingMapperImpl();
 
     @BeforeEach
@@ -113,52 +111,8 @@ class ExecutorApplyingMapperTest {
     }
 
     @Test
-    void shouldUseLegacyWholeSiblingValuesWhenDedicatedWholeParentValuesAreMissing() {
+    void shouldReadDedicatedParentFieldsDirectlyWhenSiblingFieldsContainValues() {
         Executor source = buildCoApplicant(WHOLE_BLOOD_NIECE_NEPHEW);
-        source.setWholeBloodSiblingDiedBeforeDeceased(Boolean.TRUE);
-        source.setWholeBloodSiblingAdoptedIn(Boolean.FALSE);
-        source.setWholeBloodSiblingAdoptionInEnglandOrWales(Boolean.TRUE);
-        source.setWholeBloodSiblingAdoptedOut(Boolean.FALSE);
-
-        CollectionMember<ExecutorApplying> mapped = executorApplyingMapper.toExecutorApplying(source);
-        mapped.getValue().getApplicantFamilyDetails().setWholeNieceOrNephewParentDieBeforeDeceased(null);
-        mapped.getValue().getApplicantFamilyDetails().setWholeNieceOrNephewParentAdoptedIn(null);
-        mapped.getValue().getApplicantFamilyDetails().setWholeNieceOrNephewParentAdoptionInEnglandOrWales(null);
-        mapped.getValue().getApplicantFamilyDetails().setWholeNieceOrNephewParentAdoptedOut(null);
-
-        Executor roundTripped = executorApplyingMapper.fromExecutorApplying(mapped);
-
-        assertEquals(Boolean.TRUE, roundTripped.getWholeNieceOrNephewParentDieBeforeDeceased());
-        assertEquals(Boolean.FALSE, roundTripped.getWholeNieceOrNephewParentAdoptedIn());
-        assertEquals(Boolean.TRUE, roundTripped.getWholeNieceOrNephewParentAdoptionInEnglandOrWales());
-        assertEquals(Boolean.FALSE, roundTripped.getWholeNieceOrNephewParentAdoptedOut());
-    }
-
-    @Test
-    void shouldUseLegacyHalfSiblingValuesWhenDedicatedHalfParentValuesAreMissing() {
-        Executor source = buildCoApplicant(HALF_BLOOD_NIECE_NEPHEW);
-        source.setHalfBloodSiblingDiedBeforeDeceased(Boolean.FALSE);
-        source.setHalfBloodSiblingAdoptedIn(Boolean.TRUE);
-        source.setHalfBloodSiblingAdoptionInEnglandOrWales(Boolean.FALSE);
-        source.setHalfBloodSiblingAdoptedOut(Boolean.TRUE);
-
-        CollectionMember<ExecutorApplying> mapped = executorApplyingMapper.toExecutorApplying(source);
-        mapped.getValue().getApplicantFamilyDetails().setHalfNieceOrNephewParentDieBeforeDeceased(null);
-        mapped.getValue().getApplicantFamilyDetails().setHalfNieceOrNephewParentAdoptedIn(null);
-        mapped.getValue().getApplicantFamilyDetails().setHalfNieceOrNephewParentAdoptionInEnglandOrWales(null);
-        mapped.getValue().getApplicantFamilyDetails().setHalfNieceOrNephewParentAdoptedOut(null);
-
-        Executor roundTripped = executorApplyingMapper.fromExecutorApplying(mapped);
-
-        assertEquals(Boolean.FALSE, roundTripped.getHalfNieceOrNephewParentDieBeforeDeceased());
-        assertEquals(Boolean.TRUE, roundTripped.getHalfNieceOrNephewParentAdoptedIn());
-        assertEquals(Boolean.FALSE, roundTripped.getHalfNieceOrNephewParentAdoptionInEnglandOrWales());
-        assertEquals(Boolean.TRUE, roundTripped.getHalfNieceOrNephewParentAdoptedOut());
-    }
-
-    @Test
-    void shouldNotUseLegacySiblingFallbackWhenRelationshipIsNotNieceOrNephew() {
-        Executor source = buildCoApplicant(null);
         source.setWholeBloodSiblingAdoptedIn(Boolean.TRUE);
         source.setHalfBloodSiblingAdoptedIn(Boolean.FALSE);
 
