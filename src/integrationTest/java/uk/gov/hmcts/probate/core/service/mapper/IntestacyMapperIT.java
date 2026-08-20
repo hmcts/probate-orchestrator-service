@@ -11,6 +11,7 @@ import uk.gov.hmcts.reform.probate.model.ProbateType;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.DocumentLink;
 import uk.gov.hmcts.reform.probate.model.cases.MaritalStatus;
+import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.ExecutorApplying;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantOfRepresentationData;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.GrantType;
 import uk.gov.hmcts.reform.probate.model.cases.grantofrepresentation.SpouseNotApplyingReason;
@@ -30,17 +31,23 @@ import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyApplicant;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyDeceased;
 import uk.gov.hmcts.reform.probate.model.forms.intestacy.IntestacyForm;
 import uk.gov.hmcts.reform.probate.model.forms.pa.PaAssets;
+import uk.gov.hmcts.reform.probate.model.forms.pa.Executor;
 
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class IntestacyMapperIT {
+
+    private static final String WHOLE_BLOOD_NIECE_NEPHEW = "optionWholeBloodNieceOrNephew";
+    private static final String HALF_BLOOD_NIECE_NEPHEW = "optionHalfBloodNieceOrNephew";
 
     @Autowired
     private IntestacyMapper mapper;
@@ -131,4 +138,163 @@ public class IntestacyMapperIT {
         assertThat(SpouseNotApplyingReason.RENUNCIATED)
             .isEqualTo(SpouseNotApplyingReason.fromString(SpouseNotApplyingReason.RENUNCIATED.getDescription()));
     }
+
+    @Test
+    public void shouldRoundTripWholeNieceNephewParentFieldsThroughDedicatedCaseFields() {
+        Executor coApplicant = buildCoApplicant(WHOLE_BLOOD_NIECE_NEPHEW);
+        coApplicant.setWholeNieceOrNephewParentDieBeforeDeceased(Boolean.TRUE);
+        coApplicant.setWholeNieceOrNephewParentAdoptedIn(Boolean.FALSE);
+        coApplicant.setWholeNieceOrNephewParentAdoptionInEnglandOrWales(Boolean.TRUE);
+        coApplicant.setWholeNieceOrNephewParentAdoptedOut(Boolean.FALSE);
+
+        IntestacyForm sourceForm = buildFormWithCoApplicant(coApplicant);
+        GrantOfRepresentationData caseData = mapper.toCaseData(sourceForm);
+        ExecutorApplying mappedCoApplicant = findCoApplicantCaseData(caseData);
+
+        assertNotNull(mappedCoApplicant.getApplicantFamilyDetails());
+        assertEquals(Boolean.TRUE, mappedCoApplicant.getApplicantFamilyDetails().getWholeNieceOrNephewParentDieBeforeDeceased());
+        assertEquals(Boolean.FALSE, mappedCoApplicant.getApplicantFamilyDetails().getWholeNieceOrNephewParentAdoptedIn());
+        assertEquals(Boolean.TRUE,
+            mappedCoApplicant.getApplicantFamilyDetails().getWholeNieceOrNephewParentAdoptionInEnglandOrWales());
+        assertEquals(Boolean.FALSE, mappedCoApplicant.getApplicantFamilyDetails().getWholeNieceOrNephewParentAdoptedOut());
+
+        IntestacyForm roundTrippedForm = mapper.fromCaseData(caseData);
+        Executor roundTrippedCoApplicant = findCoApplicant(roundTrippedForm);
+
+        assertEquals(Boolean.TRUE, roundTrippedCoApplicant.getWholeNieceOrNephewParentDieBeforeDeceased());
+        assertEquals(Boolean.FALSE, roundTrippedCoApplicant.getWholeNieceOrNephewParentAdoptedIn());
+        assertEquals(Boolean.TRUE, roundTrippedCoApplicant.getWholeNieceOrNephewParentAdoptionInEnglandOrWales());
+        assertEquals(Boolean.FALSE, roundTrippedCoApplicant.getWholeNieceOrNephewParentAdoptedOut());
+    }
+
+    @Test
+    public void shouldRoundTripHalfNieceNephewParentFieldsThroughDedicatedCaseFields() {
+        Executor coApplicant = buildCoApplicant(HALF_BLOOD_NIECE_NEPHEW);
+        coApplicant.setHalfNieceOrNephewParentDieBeforeDeceased(Boolean.FALSE);
+        coApplicant.setHalfNieceOrNephewParentAdoptedIn(Boolean.TRUE);
+        coApplicant.setHalfNieceOrNephewParentAdoptionInEnglandOrWales(Boolean.FALSE);
+        coApplicant.setHalfNieceOrNephewParentAdoptedOut(Boolean.TRUE);
+
+        IntestacyForm sourceForm = buildFormWithCoApplicant(coApplicant);
+        GrantOfRepresentationData caseData = mapper.toCaseData(sourceForm);
+        ExecutorApplying mappedCoApplicant = findCoApplicantCaseData(caseData);
+
+        assertNotNull(mappedCoApplicant.getApplicantFamilyDetails());
+        assertEquals(Boolean.FALSE, mappedCoApplicant.getApplicantFamilyDetails().getHalfNieceOrNephewParentDieBeforeDeceased());
+        assertEquals(Boolean.TRUE, mappedCoApplicant.getApplicantFamilyDetails().getHalfNieceOrNephewParentAdoptedIn());
+        assertEquals(Boolean.FALSE,
+            mappedCoApplicant.getApplicantFamilyDetails().getHalfNieceOrNephewParentAdoptionInEnglandOrWales());
+        assertEquals(Boolean.TRUE, mappedCoApplicant.getApplicantFamilyDetails().getHalfNieceOrNephewParentAdoptedOut());
+
+        IntestacyForm roundTrippedForm = mapper.fromCaseData(caseData);
+        Executor roundTrippedCoApplicant = findCoApplicant(roundTrippedForm);
+
+        assertEquals(Boolean.FALSE, roundTrippedCoApplicant.getHalfNieceOrNephewParentDieBeforeDeceased());
+        assertEquals(Boolean.TRUE, roundTrippedCoApplicant.getHalfNieceOrNephewParentAdoptedIn());
+        assertEquals(Boolean.FALSE, roundTrippedCoApplicant.getHalfNieceOrNephewParentAdoptionInEnglandOrWales());
+        assertEquals(Boolean.TRUE, roundTrippedCoApplicant.getHalfNieceOrNephewParentAdoptedOut());
+    }
+
+    @Test
+    public void shouldReadLegacyWholeSiblingValuesForWholeNieceNephewWhenDedicatedParentFieldsAreMissing() {
+        Executor coApplicant = buildCoApplicant(WHOLE_BLOOD_NIECE_NEPHEW);
+        coApplicant.setWholeBloodSiblingDiedBeforeDeceased(Boolean.TRUE);
+        coApplicant.setWholeBloodSiblingAdoptedIn(Boolean.FALSE);
+        coApplicant.setWholeBloodSiblingAdoptionInEnglandOrWales(Boolean.TRUE);
+        coApplicant.setWholeBloodSiblingAdoptedOut(Boolean.FALSE);
+
+        GrantOfRepresentationData caseData = mapper.toCaseData(buildFormWithCoApplicant(coApplicant));
+        ExecutorApplying mappedCoApplicant = findCoApplicantCaseData(caseData);
+        mappedCoApplicant.getApplicantFamilyDetails().setWholeNieceOrNephewParentDieBeforeDeceased(null);
+        mappedCoApplicant.getApplicantFamilyDetails().setWholeNieceOrNephewParentAdoptedIn(null);
+        mappedCoApplicant.getApplicantFamilyDetails().setWholeNieceOrNephewParentAdoptionInEnglandOrWales(null);
+        mappedCoApplicant.getApplicantFamilyDetails().setWholeNieceOrNephewParentAdoptedOut(null);
+
+        IntestacyForm roundTrippedForm = mapper.fromCaseData(caseData);
+        Executor roundTrippedCoApplicant = findCoApplicant(roundTrippedForm);
+
+        assertEquals(Boolean.TRUE, roundTrippedCoApplicant.getWholeNieceOrNephewParentDieBeforeDeceased());
+        assertEquals(Boolean.FALSE, roundTrippedCoApplicant.getWholeNieceOrNephewParentAdoptedIn());
+        assertEquals(Boolean.TRUE, roundTrippedCoApplicant.getWholeNieceOrNephewParentAdoptionInEnglandOrWales());
+        assertEquals(Boolean.FALSE, roundTrippedCoApplicant.getWholeNieceOrNephewParentAdoptedOut());
+    }
+
+    @Test
+    public void shouldReadLegacyHalfSiblingValuesForHalfNieceNephewWhenDedicatedParentFieldsAreMissing() {
+        Executor coApplicant = buildCoApplicant(HALF_BLOOD_NIECE_NEPHEW);
+        coApplicant.setHalfBloodSiblingDiedBeforeDeceased(Boolean.FALSE);
+        coApplicant.setHalfBloodSiblingAdoptedIn(Boolean.TRUE);
+        coApplicant.setHalfBloodSiblingAdoptionInEnglandOrWales(Boolean.FALSE);
+        coApplicant.setHalfBloodSiblingAdoptedOut(Boolean.TRUE);
+
+        GrantOfRepresentationData caseData = mapper.toCaseData(buildFormWithCoApplicant(coApplicant));
+        ExecutorApplying mappedCoApplicant = findCoApplicantCaseData(caseData);
+        mappedCoApplicant.getApplicantFamilyDetails().setHalfNieceOrNephewParentDieBeforeDeceased(null);
+        mappedCoApplicant.getApplicantFamilyDetails().setHalfNieceOrNephewParentAdoptedIn(null);
+        mappedCoApplicant.getApplicantFamilyDetails().setHalfNieceOrNephewParentAdoptionInEnglandOrWales(null);
+        mappedCoApplicant.getApplicantFamilyDetails().setHalfNieceOrNephewParentAdoptedOut(null);
+
+        IntestacyForm roundTrippedForm = mapper.fromCaseData(caseData);
+        Executor roundTrippedCoApplicant = findCoApplicant(roundTrippedForm);
+
+        assertEquals(Boolean.FALSE, roundTrippedCoApplicant.getHalfNieceOrNephewParentDieBeforeDeceased());
+        assertEquals(Boolean.TRUE, roundTrippedCoApplicant.getHalfNieceOrNephewParentAdoptedIn());
+        assertEquals(Boolean.FALSE, roundTrippedCoApplicant.getHalfNieceOrNephewParentAdoptionInEnglandOrWales());
+        assertEquals(Boolean.TRUE, roundTrippedCoApplicant.getHalfNieceOrNephewParentAdoptedOut());
+    }
+
+    private Executor findCoApplicant(IntestacyForm form) {
+        assertThat(form.getExecutors()).isNotNull();
+        assertThat(form.getExecutors().getList()).isNotNull();
+
+        Optional<Executor> coApplicant = form.getExecutors().getList().stream()
+            .filter(executor -> Boolean.FALSE.equals(executor.getIsApplicant()))
+            .findFirst();
+
+        assertThat(coApplicant.isPresent()).isTrue();
+        return coApplicant.get();
+    }
+
+    private ExecutorApplying findCoApplicantCaseData(GrantOfRepresentationData caseData) {
+        assertThat(caseData.getExecutorsApplying()).isNotNull();
+
+        Optional<ExecutorApplying> coApplicant = caseData.getExecutorsApplying().stream()
+            .map(uk.gov.hmcts.reform.probate.model.cases.CollectionMember::getValue)
+            .filter(executorApplying -> Boolean.FALSE.equals(executorApplying.getApplyingExecutorApplicant()))
+            .findFirst();
+
+        assertThat(coApplicant.isPresent()).isTrue();
+        return coApplicant.get();
+    }
+
+    private IntestacyForm buildFormWithCoApplicant(Executor coApplicant) {
+        Executor primaryApplicant = Executor.builder()
+            .firstName("Primary")
+            .lastName("Applicant")
+            .fullName("Primary Applicant")
+            .isApplying(Boolean.TRUE)
+            .isApplicant(Boolean.TRUE)
+            .build();
+
+        return IntestacyForm.builder()
+            .applicant(IntestacyApplicant.builder().firstName("Primary").lastName("Applicant").build())
+            .executors(CoApplicants.builder()
+                .hasCoApplicant(Boolean.TRUE)
+                .list(java.util.List.of(primaryApplicant, coApplicant))
+                .build())
+            .build();
+    }
+
+    private Executor buildCoApplicant(String relationship) {
+        return Executor.builder()
+            .firstName("Case")
+            .lastName("Coapplicant")
+            .fullName("Case Coapplicant")
+            .isApplying(Boolean.TRUE)
+            .isApplicant(Boolean.FALSE)
+            .coApplicantRelationshipToDeceased(relationship)
+            .build();
+    }
+
+
 }
