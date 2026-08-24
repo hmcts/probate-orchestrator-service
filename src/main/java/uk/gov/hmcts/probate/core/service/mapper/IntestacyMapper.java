@@ -107,7 +107,6 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "childrenDiedBeforeDeceased", expression = "java(form.getDeceased()!= null ? "
             + "Predeceased.fromString(form.getDeceased().getChildrenDiedBeforeDeceased()) : null)")
     @Mapping(target = "grandChildrenSurvived", source = "deceased.grandChildrenSurvived")
-    @Mapping(target = "childAlive", source = "deceased.childAlive")
     @Mapping(target = "anyDeceasedGrandChildrenUnderEighteen",
         source = "deceased.anyDeceasedGrandchildrenUnderEighteen")
     @Mapping(target = "deceasedAnyLivingParents", source = "deceased.anyLivingParents")
@@ -191,6 +190,9 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "executorsApplying", source = "executors.list", qualifiedBy = {
         ToExecutorApplyingCollectionMember.class})
     @Mapping(target = "hasCoApplicant", source = "executors.hasCoApplicant")
+    @Mapping(
+            target = "isApplicantParentDeceasedChild",
+            source = "deceased.childAlive")
     GrantOfRepresentationData toCaseData(IntestacyForm form);
 
     @Mapping(target = "type", expression = "java(ProbateType.INTESTACY)")
@@ -297,5 +299,16 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "executors.list", source = ".", qualifiedBy = {FromCollectionMember.class})
     @Mapping(target = "executors.hasCoApplicant", source = "hasCoApplicant")
     @Mapping(target = "executors.invitesSent", expression = "java(grantOfRepresentationData.haveInvitesBeenSent())")
+    @Mapping(
+            target = "deceased.childAlive",
+            expression = ""
+                    + "java("
+                    + "    grantOfRepresentationData.getIsApplicantParentDeceasedChild() != null ?"
+                    + "        grantOfRepresentationData.getIsApplicantParentDeceasedChild()"
+                    + "        : (grantOfRepresentationData.getChildAlive() != null ?"
+                    + "            ! grantOfRepresentationData.getChildAlive()"
+                    + "            : null"
+                    + "        )"
+                    + ")")
     IntestacyForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 }
