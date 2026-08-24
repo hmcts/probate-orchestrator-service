@@ -55,6 +55,13 @@ public interface ExecutorApplyingMapper {
             expression = "java(executor.getChildDieBeforeDeceased()!= null ? "
                     + "executor.getChildDieBeforeDeceased() : null)")
 
+    @Mapping(target = "value.applicantFamilyDetails.coApplicantAdoptedDeceasedIn",
+            expression = "java(executor.getCoApplicantAdoptedDeceasedIn()!= null ? executor.getCoApplicantAdoptedDeceasedIn() : null)")
+    @Mapping(target = "value.applicantFamilyDetails.coApplicantAdoptedDeceasedInEnglandOrWales",
+            expression = "java(executor.getCoApplicantAdoptedDeceasedInEnglandOrWales()!= null ? executor.getCoApplicantAdoptedDeceasedInEnglandOrWales() : null)")
+    @Mapping(target = "value.applicantFamilyDetails.coApplicantAdoptedDeceasedOut",
+            expression = "java(executor.getCoApplicantAdoptedDeceasedOut()!= null ? executor.getCoApplicantAdoptedDeceasedOut() : null)")
+
     @Mapping(target = "value.applicantFamilyDetails.grandchildAdoptedIn",
             expression = "java(executor.getGrandchildAdoptedIn()!= null ? executor.getGrandchildAdoptedIn() : null)")
     @Mapping(target = "value.applicantFamilyDetails.grandchildAdoptedOut",
@@ -141,6 +148,10 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "childAdoptionInEnglandOrWales",
             source = "value.applicantFamilyDetails.childAdoptionInEnglandOrWales")
     @Mapping(target = "childDieBeforeDeceased", source = "value.applicantFamilyDetails.childDieBeforeDeceased")
+
+    @Mapping(target = "coApplicantAdoptedDeceasedIn", source = "value.applicantFamilyDetails.coApplicantAdoptedDeceasedIn")
+    @Mapping(target = "coApplicantAdoptedDeceasedInEnglandOrWales", source = "value.applicantFamilyDetails.coApplicantAdoptedDeceasedInEnglandOrWales")
+    @Mapping(target = "coApplicantAdoptedDeceasedOut", source = "value.applicantFamilyDetails.coApplicantAdoptedDeceasedOut")
 
     @Mapping(target = "grandchildAdoptedIn",  source = "value.applicantFamilyDetails.grandchildAdoptedIn")
     @Mapping(target = "grandchildAdoptedOut", source = "value.applicantFamilyDetails.grandchildAdoptedOut")
