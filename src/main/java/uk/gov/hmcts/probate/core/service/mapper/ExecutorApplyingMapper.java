@@ -56,14 +56,14 @@ public interface ExecutorApplyingMapper {
                     + "executor.getChildDieBeforeDeceased() : null)")
 
     @Mapping(target = "value.applicantFamilyDetails.coApplicantAdoptedDeceasedIn",
-            expression = "java(executor.getCoApplicantAdoptedDeceasedIn()!= null " +
-                    "? executor.getCoApplicantAdoptedDeceasedIn() : null)")
+            expression = "java(executor.getCoApplicantAdoptedDeceasedIn()!= null "
+                    + "? executor.getCoApplicantAdoptedDeceasedIn() : null)")
     @Mapping(target = "value.applicantFamilyDetails.coApplicantAdoptedDeceasedInEnglandOrWales",
-            expression = "java(executor.getCoApplicantAdoptedDeceasedInEnglandOrWales()!= null " +
-                    "? executor.getCoApplicantAdoptedDeceasedInEnglandOrWales() : null)")
+            expression = "java(executor.getCoApplicantAdoptedDeceasedInEnglandOrWales()!= null "
+                    + "? executor.getCoApplicantAdoptedDeceasedInEnglandOrWales() : null)")
     @Mapping(target = "value.applicantFamilyDetails.coApplicantAdoptedDeceasedOut",
-            expression = "java(executor.getCoApplicantAdoptedDeceasedOut()!= null " +
-                    "? executor.getCoApplicantAdoptedDeceasedOut() : null)")
+            expression = "java(executor.getCoApplicantAdoptedDeceasedOut()!= null "
+                    + "? executor.getCoApplicantAdoptedDeceasedOut() : null)")
 
     @Mapping(target = "value.applicantFamilyDetails.grandchildAdoptedIn",
             expression = "java(executor.getGrandchildAdoptedIn()!= null ? executor.getGrandchildAdoptedIn() : null)")
