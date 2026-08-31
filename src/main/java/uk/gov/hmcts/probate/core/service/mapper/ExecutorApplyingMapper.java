@@ -154,8 +154,8 @@ public interface ExecutorApplyingMapper {
 
     @Mapping(target = "coApplicantAdoptedDeceasedIn",
             source = "value.applicantFamilyDetails.coApplicantAdoptedDeceasedIn")
-    @Mapping(target = "coApplicantAdoptedDeceasedInEnglandOrWales",
-            source = "value.applicantFamilyDetails.coApplicantAdoptedDeceasedInEnglandOrWales")
+    @Mapping(target = "coApplicantAdoptionDeceasedInEnglandOrWales",
+            source = "value.applicantFamilyDetails.coApplicantAdoptionDeceasedInEnglandOrWales")
     @Mapping(target = "coApplicantAdoptedDeceasedOut",
             source = "value.applicantFamilyDetails.coApplicantAdoptedDeceasedOut")
 
