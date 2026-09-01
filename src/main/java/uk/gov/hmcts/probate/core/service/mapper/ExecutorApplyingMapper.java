@@ -58,9 +58,9 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "value.applicantFamilyDetails.coApplicantAdoptedDeceasedIn",
             expression = "java(executor.getCoApplicantAdoptedDeceasedIn()!= null "
                     + "? executor.getCoApplicantAdoptedDeceasedIn() : null)")
-    @Mapping(target = "value.applicantFamilyDetails.coApplicantAdoptedDeceasedInEnglandOrWales",
-            expression = "java(executor.getCoApplicantAdoptedDeceasedInEnglandOrWales()!= null "
-                    + "? executor.getCoApplicantAdoptedDeceasedInEnglandOrWales() : null)")
+    @Mapping(target = "value.applicantFamilyDetails.coApplicantAdoptionDeceasedInEnglandOrWales",
+            expression = "java(executor.getCoApplicantAdoptionDeceasedInEnglandOrWales()!= null "
+                    + "? executor.getCoApplicantAdoptionDeceasedInEnglandOrWales() : null)")
     @Mapping(target = "value.applicantFamilyDetails.coApplicantAdoptedDeceasedOut",
             expression = "java(executor.getCoApplicantAdoptedDeceasedOut()!= null "
                     + "? executor.getCoApplicantAdoptedDeceasedOut() : null)")
@@ -154,8 +154,8 @@ public interface ExecutorApplyingMapper {
 
     @Mapping(target = "coApplicantAdoptedDeceasedIn",
             source = "value.applicantFamilyDetails.coApplicantAdoptedDeceasedIn")
-    @Mapping(target = "coApplicantAdoptedDeceasedInEnglandOrWales",
-            source = "value.applicantFamilyDetails.coApplicantAdoptedDeceasedInEnglandOrWales")
+    @Mapping(target = "coApplicantAdoptionDeceasedInEnglandOrWales",
+            source = "value.applicantFamilyDetails.coApplicantAdoptionDeceasedInEnglandOrWales")
     @Mapping(target = "coApplicantAdoptedDeceasedOut",
             source = "value.applicantFamilyDetails.coApplicantAdoptedDeceasedOut")
 
