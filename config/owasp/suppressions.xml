@@ -13,16 +13,15 @@
     </suppress>
     <suppress until = "2026-10-24">
         <notes><![CDATA[
-   file name: httpcore-4.4.16.jar
+   file name: opentelemetry-runtime-attach-core-1.57.0-alpha.jar
    ]]></notes>
-        <cve>CVE-2026-54399</cve>
-        <cve>CVE-2026-54428</cve>
+        <cve>CVE-2026-54285</cve>
     </suppress>
     <suppress until = "2026-10-24">
         <notes><![CDATA[
-   file name: tomcat-embed-core-11.0.24.jar
-   file name: tomcat-embed-websocket-11.0.24.jar
+           Spring framework CVEs
    ]]></notes>
-        <cve>CVE-2026-66299</cve>
+        <cve>CVE-2026-59313</cve>
+        <cve>CVE-2026-59314</cve>
     </suppress>
 </suppressions>
