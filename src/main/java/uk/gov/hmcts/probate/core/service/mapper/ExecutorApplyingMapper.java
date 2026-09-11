@@ -54,6 +54,17 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "value.applicantFamilyDetails.childDieBeforeDeceased",
             expression = "java(executor.getChildDieBeforeDeceased()!= null ? "
                     + "executor.getChildDieBeforeDeceased() : null)")
+
+    @Mapping(target = "value.applicantFamilyDetails.coApplicantAdoptedDeceasedIn",
+            expression = "java(executor.getCoApplicantAdoptedDeceasedIn()!= null "
+                    + "? executor.getCoApplicantAdoptedDeceasedIn() : null)")
+    @Mapping(target = "value.applicantFamilyDetails.coApplicantAdoptionDeceasedInEnglandOrWales",
+            expression = "java(executor.getCoApplicantAdoptionDeceasedInEnglandOrWales()!= null "
+                    + "? executor.getCoApplicantAdoptionDeceasedInEnglandOrWales() : null)")
+    @Mapping(target = "value.applicantFamilyDetails.coApplicantAdoptedDeceasedOut",
+            expression = "java(executor.getCoApplicantAdoptedDeceasedOut()!= null "
+                    + "? executor.getCoApplicantAdoptedDeceasedOut() : null)")
+
     @Mapping(target = "value.applicantFamilyDetails.grandchildAdoptedIn",
             expression = "java(executor.getGrandchildAdoptedIn()!= null ? executor.getGrandchildAdoptedIn() : null)")
     @Mapping(target = "value.applicantFamilyDetails.grandchildAdoptedOut",
@@ -137,6 +148,13 @@ public interface ExecutorApplyingMapper {
         + "executorApplyingCollectionMember.getValue().getApplicantFamilyDetails().getRelationshipToDeceased()!=null ? "
         + "executorApplyingCollectionMember.getValue().getApplicantFamilyDetails().getRelationshipToDeceased()"
         + ".getDescription() : null)")
+
+    @Mapping(target = "coApplicantAdoptedDeceasedIn",
+            source = "value.applicantFamilyDetails.coApplicantAdoptedDeceasedIn")
+    @Mapping(target = "coApplicantAdoptionDeceasedInEnglandOrWales",
+            source = "value.applicantFamilyDetails.coApplicantAdoptionDeceasedInEnglandOrWales")
+    @Mapping(target = "coApplicantAdoptedDeceasedOut",
+            source = "value.applicantFamilyDetails.coApplicantAdoptedDeceasedOut")
 
     @Mapping(target = "childAdoptedIn", source = "value.applicantFamilyDetails.childAdoptedIn")
     @Mapping(target = "childAdoptedOut", source = "value.applicantFamilyDetails.childAdoptedOut")
