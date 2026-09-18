@@ -88,8 +88,6 @@ public interface ExecutorApplyingMapper {
             source = "wholeBloodSiblingAdoptedOut")
     @Mapping(target = "value.applicantFamilyDetails.wholeBloodSiblingAdoptionInEnglandOrWales",
             source = "wholeBloodSiblingAdoptionInEnglandOrWales")
-    @Mapping(target = "value.applicantFamilyDetails.wholeBloodSiblingDiedBeforeDeceased",
-            source = "wholeBloodSiblingDiedBeforeDeceased")
     @Mapping(target = "value.applicantFamilyDetails.wholeNieceOrNephewParentDieBeforeDeceased",
             source = "wholeNieceOrNephewParentDieBeforeDeceased")
     @Mapping(target = "value.applicantFamilyDetails.wholeNieceOrNephewParentAdoptedIn",
@@ -112,8 +110,6 @@ public interface ExecutorApplyingMapper {
     @Mapping(target = "value.applicantFamilyDetails.halfBloodSiblingAdoptedOut", source = "halfBloodSiblingAdoptedOut")
     @Mapping(target = "value.applicantFamilyDetails.halfBloodSiblingAdoptionInEnglandOrWales",
             source = "halfBloodSiblingAdoptionInEnglandOrWales")
-    @Mapping(target = "value.applicantFamilyDetails.halfBloodSiblingDiedBeforeDeceased",
-            source = "halfBloodSiblingDiedBeforeDeceased")
     @Mapping(target = "value.applicantFamilyDetails.halfNieceOrNephewParentDieBeforeDeceased",
             source = "halfNieceOrNephewParentDieBeforeDeceased")
     @Mapping(target = "value.applicantFamilyDetails.halfNieceOrNephewParentAdoptedIn",
@@ -181,8 +177,6 @@ public interface ExecutorApplyingMapper {
             source = "value.applicantFamilyDetails.wholeBloodSiblingAdoptionInEnglandOrWales")
     @Mapping(target = "wholeNieceOrNephewParentAdoptionInEnglandOrWales",
             source = "value.applicantFamilyDetails.wholeNieceOrNephewParentAdoptionInEnglandOrWales")
-    @Mapping(target = "wholeBloodSiblingDiedBeforeDeceased",
-            source = "value.applicantFamilyDetails.wholeBloodSiblingDiedBeforeDeceased")
     @Mapping(target = "wholeNieceOrNephewParentDieBeforeDeceased",
             source = "value.applicantFamilyDetails.wholeNieceOrNephewParentDieBeforeDeceased")
     @Mapping(target = "wholeBloodNieceOrNephewAdoptedIn",
@@ -202,8 +196,6 @@ public interface ExecutorApplyingMapper {
             source = "value.applicantFamilyDetails.halfBloodSiblingAdoptionInEnglandOrWales")
     @Mapping(target = "halfNieceOrNephewParentAdoptionInEnglandOrWales",
             source = "value.applicantFamilyDetails.halfNieceOrNephewParentAdoptionInEnglandOrWales")
-    @Mapping(target = "halfBloodSiblingDiedBeforeDeceased",
-            source = "value.applicantFamilyDetails.halfBloodSiblingDiedBeforeDeceased")
     @Mapping(target = "halfNieceOrNephewParentDieBeforeDeceased",
             source = "value.applicantFamilyDetails.halfNieceOrNephewParentDieBeforeDeceased")
     @Mapping(target = "halfBloodNieceOrNephewAdoptedIn",
