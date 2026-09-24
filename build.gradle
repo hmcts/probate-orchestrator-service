@@ -160,7 +160,7 @@ tasks.withType(Test).configureEach {
 }
 
 def versions = [
-        applicationInsights             : '3.7.9',
+        applicationInsights             : '3.7.10',
         authCheckerLib                  : '3.1.1',
         commonsBeanutils                : '1.11.0',
         commonsFileuploadVersion        : '1.6.0',
@@ -169,7 +169,7 @@ def versions = [
         feign                           : '13.15',
         fortifyClient                   : '1.4.10',
         hmctsJavaLogging                : '8.0.0',
-        jacksonVersion                  : '2.22.2',
+        jacksonVersion                  : '2.22.3',
         junitJupiter                    : '5.12.2',
         lombok                          : '1.18.48',
         mapStruct                       : '1.3.0.Final',
@@ -211,7 +211,7 @@ dependencyManagement {
     }
     dependencies {
         //CVE-2026-29062
-        dependencySet(group: 'tools.jackson.core', version: '3.2.2') {
+        dependencySet(group: 'tools.jackson.core', version: '3.2.3') {
             entry 'jackson-core'
             entry 'jackson-databind'
         }
@@ -249,7 +249,7 @@ dependencies {
     implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: versions.feign
     implementation group: 'io.github.openfeign', name: 'feign-jackson', version: versions.feign
     implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.6.4'
-    implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.2.4'
+    implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.3.0'
 
     //Solves CVE-2025-48989
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: versions.tomcat
