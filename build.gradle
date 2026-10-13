@@ -177,7 +177,7 @@ def versions = [
         piTest                          : '1.30.0',
         probateCommonsVersion           : '2.3.1',
         restAssured                     : '5.5.7',
-        serenity                        : '5.3.11',
+        serenity                        : '5.4.1',
         serviceAuthProviderClient       : '5.3.5',
         serviceTokenGenerator           : '0.6.0',
         springBootVersion               : '3.5.16',
