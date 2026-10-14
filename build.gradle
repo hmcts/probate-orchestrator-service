@@ -7,7 +7,7 @@ plugins {
     id 'com.gorylenko.gradle-git-properties' version '4.0.1'
     id 'info.solidsoft.pitest' version '1.19.0'
     id 'au.com.dius.pact' version '4.7.5'
-    id 'net.serenity-bdd.serenity-gradle-plugin' version '5.3.9'
+    id 'net.serenity-bdd.serenity-gradle-plugin' version '5.4.1'
     id 'org.sonarqube' version '7.5.0.8588'
     id 'uk.gov.hmcts.java' version '0.12.70'
     id 'project-report'
@@ -177,7 +177,7 @@ def versions = [
         piTest                          : '1.30.0',
         probateCommonsVersion           : '2.3.2',
         restAssured                     : '5.5.7',
-        serenity                        : '5.3.11',
+        serenity                        : '5.4.1',
         serviceAuthProviderClient       : '5.3.5',
         serviceTokenGenerator           : '0.6.0',
         springBootVersion               : '3.5.16',
