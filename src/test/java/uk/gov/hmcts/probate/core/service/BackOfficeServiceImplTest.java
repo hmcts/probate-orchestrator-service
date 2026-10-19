@@ -7,9 +7,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.mock.web.MockMultipartFile;
 import uk.gov.hmcts.probate.client.backoffice.BackOfficeApi;
 import uk.gov.hmcts.probate.model.backoffice.BackOfficeCallbackRequest;
@@ -33,10 +33,9 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(SpringExtension.class)
-public class BackOfficeServiceImplTest {
+@ExtendWith(MockitoExtension.class)
+class BackOfficeServiceImplTest {
 
-    private static final String CASE_ID = "42343543";
     private static final String SERVICE_AUTHORIZATION = "SERVICEAUTH1234567";
     private static final String AUTHORIZATION = "AUTH1234567";
     private static final String CAVEAT_EXPIRY_DATE = "2019-12-31";
@@ -57,19 +56,23 @@ public class BackOfficeServiceImplTest {
     private BackOfficeServiceImpl backOfficeService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
 
         backOfficeCaveatResponse = BackOfficeCaveatResponse.builder().caseData(BackOfficeCaveatData.builder()
             .applicationSubmittedDate(CAVEAT_SUBMITTED_DATE)
             .expiryDate(CAVEAT_EXPIRY_DATE)
             .build())
             .build();
-        Mockito.when(securityUtils.getAuthorisation()).thenReturn(AUTHORIZATION);
-        Mockito.when(securityUtils.getServiceAuthorisation()).thenReturn(SERVICE_AUTHORIZATION);
+    }
+
+    private void mockSecurityTokens() {
+        when(securityUtils.getAuthorisation()).thenReturn(AUTHORIZATION);
+        when(securityUtils.getServiceAuthorisation()).thenReturn(SERVICE_AUTHORIZATION);
     }
 
     @Test
-    public void shouldSendNotificationWhenCaseTypeIsCaveat() {
+    void shouldSendNotificationWhenCaseTypeIsCaveat() {
+        mockSecurityTokens();
         when(backOfficeApi
             .raiseCaveat(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class)))
             .thenReturn(backOfficeCaveatResponse);
@@ -84,7 +87,8 @@ public class BackOfficeServiceImplTest {
     }
 
     @Test
-    public void shouldSendNotificationWhenCaseTypeIsGrantOfrepresentation() {
+    void shouldSendNotificationWhenCaseTypeIsGrantOfRepresentation() {
+        mockSecurityTokens();
         ProbateDocument probateDocument = ProbateDocument.builder().build();
         when(backOfficeApi
             .applicationReceived(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class)))
@@ -100,7 +104,9 @@ public class BackOfficeServiceImplTest {
     }
 
     @Test
-    public void shouldNotSendNotificationWhenCaseTypeIsGrantOfrepresentation() {
+    void shouldNotSendNotificationWhenCaseTypeIsGrantOfRepresentation() {
+        mockSecurityTokens();
+
         when(backOfficeApi
             .applicationReceived(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(BackOfficeCallbackRequest.class)))
             .thenReturn(null);
@@ -116,7 +122,9 @@ public class BackOfficeServiceImplTest {
     }
 
     @Test
-    public void shouldInitiateHmrcExtract() {
+    void shouldInitiateHmrcExtract() {
+        mockSecurityTokens();
+
         when(backOfficeApi
             .initiateHmrcExtract(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(String.class), any(String.class)))
             .thenReturn(responseEntity);
@@ -125,7 +133,9 @@ public class BackOfficeServiceImplTest {
     }
 
     @Test
-    public void shouldInitiateIronMountainExtract() {
+    void shouldInitiateIronMountainExtract() {
+        mockSecurityTokens();
+
         when(backOfficeApi.initiateIronMountainExtract(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(String.class)))
             .thenReturn(responseEntity);
 
@@ -133,7 +143,9 @@ public class BackOfficeServiceImplTest {
     }
 
     @Test
-    public void shouldInitiateExelaExtract() {
+    void shouldInitiateExelaExtract() {
+        mockSecurityTokens();
+
         when(backOfficeApi.initiateExelaExtract(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(String.class)))
             .thenReturn(responseEntity);
 
@@ -141,7 +153,9 @@ public class BackOfficeServiceImplTest {
     }
 
     @Test
-    public void shouldInitiateExelaExtractDateRange() {
+    void shouldInitiateExelaExtractDateRange() {
+        mockSecurityTokens();
+
         when(backOfficeApi
             .initiateExelaExtractDateRange(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(String.class),
                 any(String.class)))
@@ -152,7 +166,9 @@ public class BackOfficeServiceImplTest {
     }
 
     @Test
-    public void shouldInitiateSmeeAndFordExtractDateRange() {
+    void shouldInitiateSmeeAndFordExtractDateRange() {
+        mockSecurityTokens();
+
         when(backOfficeApi
             .initiateSmeeAndFordExtractDateRange(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(String.class),
                 any(String.class)))
@@ -163,7 +179,9 @@ public class BackOfficeServiceImplTest {
     }
 
     @Test
-    public void shouldInitiateGrantDelayedNotification() {
+    void shouldInitiateGrantDelayedNotification() {
+        mockSecurityTokens();
+
         String date = "someDate";
         GrantScheduleResponse responseBody =
             GrantScheduleResponse.builder().scheduleResponseData(Arrays.asList("case1", "case2")).build();
@@ -174,7 +192,7 @@ public class BackOfficeServiceImplTest {
 
         GrantScheduleResponse response = backOfficeService.initiateGrantDelayedNotification(date);
 
-        assertEquals(response.getScheduleResponseData().size(), 2);
+        assertEquals(2, response.getScheduleResponseData().size());
         verify(backOfficeApi)
             .initiateGrantDelayedNotification(eq("Bearer " + AUTHORIZATION), eq("Bearer "
                     + SERVICE_AUTHORIZATION),
@@ -182,7 +200,9 @@ public class BackOfficeServiceImplTest {
     }
 
     @Test
-    public void shouldInitiateGrantAwaitingDocumentsNotification() {
+    void shouldInitiateGrantAwaitingDocumentsNotification() {
+        mockSecurityTokens();
+
         String date = "someDate";
         GrantScheduleResponse responseBody =
             GrantScheduleResponse.builder().scheduleResponseData(Arrays.asList("case1", "case2")).build();
@@ -193,13 +213,13 @@ public class BackOfficeServiceImplTest {
 
         GrantScheduleResponse response = backOfficeService.initiateGrantAwaitingDocumentsNotification(date);
 
-        assertEquals(response.getScheduleResponseData().size(), 2);
+        assertEquals(2, response.getScheduleResponseData().size());
         verify(backOfficeApi).initiateGrantAwaitingDocumentsNotification(eq("Bearer " + AUTHORIZATION),
             eq("Bearer " + SERVICE_AUTHORIZATION), eq(date));
     }
 
     @Test
-    public void shouldUploadSuccessfully() {
+    void shouldUploadSuccessfully() {
         MockMultipartFile file = new MockMultipartFile("file", "orig",
             MediaType.IMAGE_PNG_VALUE, "bar".getBytes());
         String authorizationToken = "AUTHTOKEN12345";
@@ -212,7 +232,7 @@ public class BackOfficeServiceImplTest {
     }
 
     @Test()
-    public void shouldThrowExceptoinIfFilesAreEmpty() {
+    void shouldThrowExceptionIfFilesAreEmpty() {
         String authorizationToken = "AUTHTOKEN12345";
         assertThrows(IllegalArgumentException.class, () -> {
             backOfficeService.uploadDocument(authorizationToken, Lists.newArrayList());

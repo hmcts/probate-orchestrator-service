@@ -31,7 +31,7 @@ public class AuthenticationExceptionHandler implements AuthenticationEntryPoint,
                          AuthenticationException authenticationException) throws IOException {
         log.warn("Forbidden error", authenticationException);
         response.setStatus(HttpStatus.FORBIDDEN.value());
-        response.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+        response.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         response.getWriter().write(createErrorPayload(authenticationException));
     }
 

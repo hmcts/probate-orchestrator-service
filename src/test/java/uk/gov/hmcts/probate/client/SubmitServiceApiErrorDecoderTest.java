@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class SubmitServiceApiErrorDecoderTest {
+class SubmitServiceApiErrorDecoderTest {
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -32,7 +32,7 @@ public class SubmitServiceApiErrorDecoderTest {
     private SubmitServiceApiErrorDecoder errorDecoder;
 
     @Test
-    public void throwsApiClientException() throws Throwable {
+    void throwsApiClientException() throws Throwable {
         errorDecoder = new SubmitServiceApiErrorDecoder(objectMapper);
         assertThrows(ApiClientException.class, () -> {
             Response response = Response.builder()

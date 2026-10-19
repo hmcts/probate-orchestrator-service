@@ -17,7 +17,6 @@ import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
-import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM_VALUE;
 
@@ -31,8 +30,8 @@ public interface BusinessServiceApi {
     @PostMapping(
             value = "/businessDocument/generateCheckAnswersSummaryPDF",
             headers = {
-                CONTENT_TYPE + "=" + APPLICATION_JSON_UTF8_VALUE,
-                ACCEPT + "=" + APPLICATION_JSON_UTF8_VALUE
+                CONTENT_TYPE + "=" + APPLICATION_JSON_VALUE,
+                ACCEPT + "=" + APPLICATION_JSON_VALUE
             }
     )
     byte[] generateCheckAnswersSummaryPdf(

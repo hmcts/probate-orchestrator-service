@@ -10,17 +10,17 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class CaseSubmissionUpdaterTest {
+class CaseSubmissionUpdaterTest {
 
     private CaseSubmissionUpdater caseSubmissionUpdater;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         caseSubmissionUpdater = new CaseSubmissionUpdater();
     }
 
     @Test
-    public void shouldUpdateCaveatCaseForSubmission() {
+    void shouldUpdateCaveatCaseForSubmission() {
         CaveatData caveatData = CaveatData.builder().build();
 
         CaveatData actualCaveatData = (CaveatData) caseSubmissionUpdater.updateCaseForSubmission(caveatData);
@@ -29,7 +29,7 @@ public class CaseSubmissionUpdaterTest {
     }
 
     @Test
-    public void shouldNotUpdateForStandingSearch() {
+    void shouldNotUpdateForStandingSearch() {
         StandingSearchData standingSearchData = StandingSearchData.builder().build();
 
         StandingSearchData actualStandingSearchData =
@@ -39,7 +39,7 @@ public class CaseSubmissionUpdaterTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenCaseDataIsNull() {
+    void shouldThrowExceptionWhenCaseDataIsNull() {
         assertThrows(IllegalArgumentException.class, () -> {
             caseSubmissionUpdater.updateCaseForSubmission(null);
         });

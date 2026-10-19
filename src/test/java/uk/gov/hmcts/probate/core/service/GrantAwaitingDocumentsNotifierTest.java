@@ -4,21 +4,21 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.hmcts.probate.model.backoffice.GrantScheduleResponse;
 import uk.gov.hmcts.probate.service.BackOfficeService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(SpringExtension.class)
-public class GrantAwaitingDocumentsNotifierTest {
+@ExtendWith(MockitoExtension.class)
+class GrantAwaitingDocumentsNotifierTest {
 
 
     @Mock
@@ -27,16 +27,16 @@ public class GrantAwaitingDocumentsNotifierTest {
     GrantAwaitingDocumentsNotifier grantAwaitingDocumentsNotifier;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         grantAwaitingDocumentsNotifier = new GrantAwaitingDocumentsNotifier(backOfficeService);
     }
 
     @Test
-    public void shouldInitiateAwaitingDocsGrantNotification() {
+    void shouldInitiateAwaitingDocsGrantNotification() {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = dateFormat.format(LocalDate.now().minusDays(1));
         GrantScheduleResponse grantScheduleResponse = GrantScheduleResponse.builder()
-            .scheduleResponseData(Arrays.asList("someBody")).build();
+            .scheduleResponseData(List.of("someBody")).build();
         when(backOfficeService.initiateGrantAwaitingDocumentsNotification(anyString()))
             .thenReturn(grantScheduleResponse);
 
@@ -44,5 +44,4 @@ public class GrantAwaitingDocumentsNotifierTest {
 
         verify(backOfficeService, times(1)).initiateGrantAwaitingDocumentsNotification(date);
     }
-
 }
