@@ -10,7 +10,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
-public class PoundsConverterTest {
+class PoundsConverterTest {
 
     private static final Long longValue = 250015L;
 
@@ -19,22 +19,22 @@ public class PoundsConverterTest {
     private PoundsConverter poundsConverter = new PoundsConverter();
 
     @Test
-    public void shouldConvertFromPoundsToPennies() {
+    void shouldConvertFromPoundsToPennies() {
         assertThat(poundsConverter.poundsToPennies(bigDecimalValue), equalTo(longValue));
     }
 
     @Test
-    public void shouldConvertNullFromPoundsToPennies() {
+    void shouldConvertNullFromPoundsToPennies() {
         assertThat(poundsConverter.poundsToPennies(null), is(nullValue()));
     }
 
     @Test
-    public void shouldConvertPoundsToString() {
+    void shouldConvertPoundsToString() {
         assertThat(poundsConverter.penniesToPoundsString(null), is(nullValue()));
     }
 
     @Test
-    public void shouldConvertPenniesToPounds() {
+    void shouldConvertPenniesToPounds() {
         assertThat(poundsConverter.penniesToPoundsString(longValue), equalTo(bigDecimalValue.toPlainString()));
     }
 

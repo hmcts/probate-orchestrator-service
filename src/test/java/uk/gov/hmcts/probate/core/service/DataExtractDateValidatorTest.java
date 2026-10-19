@@ -8,77 +8,77 @@ import uk.gov.hmcts.reform.probate.model.client.ApiClientException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class DataExtractDateValidatorTest {
+class DataExtractDateValidatorTest {
 
     private DataExtractDateValidator dataExtractDateValidator;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         dataExtractDateValidator = new DataExtractDateValidator();
     }
 
     @Test
-    public void shouldValidateDate() {
+    void shouldValidateDate() {
         dataExtractDateValidator.validate("2000-12-31");
     }
 
     @Test
-    public void shouldValidateEmptyFromDate() {
+    void shouldValidateEmptyFromDate() {
         dataExtractDateValidator.validate("", "2000-12-31");
     }
 
     @Test
-    public void shouldValidatenullFromDate() {
+    void shouldValidatenullFromDate() {
         dataExtractDateValidator.validate(null, "2000-12-31");
     }
 
     @Test
-    public void shouldValidateDateFromTo() {
+    void shouldValidateDateFromTo() {
         dataExtractDateValidator.validate("2000-12-31", "2001-12-31");
     }
 
     @Test
-    public void shouldValidateDateFromToSame() {
+    void shouldValidateDateFromToSame() {
         dataExtractDateValidator.validate("2000-12-31", "2000-12-31");
     }
 
     @Test
-    public void shouldThrowExceptionForInvalidaDate() {
+    void shouldThrowExceptionForInvalidaDate() {
         assertThrows(ApiClientException.class, () -> {
             dataExtractDateValidator.validate("2000-14-31");
         });
     }
 
     @Test
-    public void shouldThrowExceptionForInvalidFromDate() {
+    void shouldThrowExceptionForInvalidFromDate() {
         assertThrows(ApiClientException.class, () -> {
             dataExtractDateValidator.validate("2000--31", "2001-12-31");
         });
     }
 
     @Test
-    public void shouldThrowExceptionForInvalidToDate() {
+    void shouldThrowExceptionForInvalidToDate() {
         assertThrows(ApiClientException.class, () -> {
             dataExtractDateValidator.validate("2000-12-31", "2001");
         });
     }
 
     @Test
-    public void shouldThrowExceptionForNullDate() {
+    void shouldThrowExceptionForNullDate() {
         assertThrows(ApiClientException.class, () -> {
             dataExtractDateValidator.validate(null);
         });
     }
 
     @Test
-    public void shouldThrowExceptionForNullFromToDates() {
+    void shouldThrowExceptionForNullFromToDates() {
         assertThrows(ApiClientException.class, () -> {
             dataExtractDateValidator.validate(null, null);
         });
     }
 
     @Test
-    public void shouldThrowExceptionForEmptyFromToDates() {
+    void shouldThrowExceptionForEmptyFromToDates() {
         assertThrows(ApiClientException.class, () -> {
             dataExtractDateValidator.validate("", "");
         });

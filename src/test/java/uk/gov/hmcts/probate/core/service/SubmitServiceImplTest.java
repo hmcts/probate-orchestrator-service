@@ -63,7 +63,7 @@ import static org.mockito.Mockito.when;
 
 class SubmitServiceImplTest {
 
-    public static final String EXTERNAL_REFERENCE = "EXT2213214";
+    static final String EXTERNAL_REFERENCE = "EXT2213214";
     private static final String EMAIL_ADDRESS = "jon.snow@thenorth.com";
     private static final String SERVICE_AUTHORIZATION = "SERVICEAUTH1234567";
     private static final String AUTHORIZATION = "AUTH1234567";
@@ -186,7 +186,7 @@ class SubmitServiceImplTest {
     }
 
     @Test
-    public void shouldGetIntestacyForm() {
+    void shouldGetIntestacyForm() {
         when(submitServiceApi.getCaseById(AUTHORIZATION, SERVICE_AUTHORIZATION,
             EMAIL_ADDRESS)).thenReturn(intestacyCaseDetails);
 
@@ -200,7 +200,7 @@ class SubmitServiceImplTest {
     }
 
     @Test
-    public void shouldGetAllCasesForm() {
+    void shouldGetAllCasesForm() {
         when(
             submitServiceApi.getAllCases(AUTHORIZATION, SERVICE_AUTHORIZATION, CaseType.GRANT_OF_REPRESENTATION.name()))
             .thenReturn(Arrays.asList(intestacyCaseDetails));
@@ -220,7 +220,7 @@ class SubmitServiceImplTest {
 
 
     @Test
-    public void shouldInitiateCase() {
+    void shouldInitiateCase() {
         when(submitServiceApi.initiateCase(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION), any(ProbateCaseDetails.class)))
             .thenReturn(intestacyCaseDetails);
         CaseSummary caseSummary = mock(CaseSummary.class);
@@ -237,7 +237,7 @@ class SubmitServiceImplTest {
     }
 
     @Test
-    public void shouldGetCaveatForm() {
+    void shouldGetCaveatForm() {
         when(submitServiceApi.getCaseById(AUTHORIZATION, SERVICE_AUTHORIZATION,
             CAVEAT_IDENTIFIER)).thenReturn(caveatCaseDetails);
 
@@ -251,12 +251,12 @@ class SubmitServiceImplTest {
     }
 
     @Test
-    public void shouldSaveDraftIntestacyForm() {
+    void shouldSaveDraftIntestacyForm() {
         shouldSaveDraftForm(intestacyForm, intestacyCaseDetails, "1535574519543818");
     }
 
     @Test
-    public void shouldSaveDraftCaveatsForm() {
+    void shouldSaveDraftCaveatsForm() {
         shouldSaveDraftForm(caveatForm, caveatCaseDetails, CAVEAT_IDENTIFIER);
     }
 
@@ -274,12 +274,12 @@ class SubmitServiceImplTest {
     }
 
     @Test
-    public void shouldSaveDraftCaveatForm() {
+    void shouldSaveDraftCaveatForm() {
         shouldSaveDraftForm(caveatForm, caveatCaseDetails, CAVEAT_IDENTIFIER);
     }
 
     @Test
-    public void shouldThrowErrorOnSaveDraftIfEmailAddressDoesNotMatchForm() {
+    void shouldThrowErrorOnSaveDraftIfEmailAddressDoesNotMatchForm() {
         ((CaveatForm) caveatForm).setApplicationId("test@Test.com");
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -288,7 +288,7 @@ class SubmitServiceImplTest {
     }
 
     @Test
-    public void shouldSubmitCaveatForm() {
+    void shouldSubmitCaveatForm() {
         when(submitServiceApi.submit(eq(AUTHORIZATION), eq(SERVICE_AUTHORIZATION),
             eq(CAVEAT_IDENTIFIER), any(ProbateCaseDetails.class)))
             .thenReturn(new SubmitResult(caveatCaseDetails, null));
@@ -351,7 +351,7 @@ class SubmitServiceImplTest {
     }
 
     @Test
-    public void shouldThrowErrorOnSubmitIfEmailAddressDoesNotMatchForm() {
+    void shouldThrowErrorOnSubmitIfEmailAddressDoesNotMatchForm() {
         //TODO Remove CAST
         ((IntestacyForm) intestacyForm).setApplicantEmail("test@Test.com");
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -360,7 +360,7 @@ class SubmitServiceImplTest {
     }
 
     @Test
-    public void shouldUpdateIntestacyPayments() {
+    void shouldUpdateIntestacyPayments() {
         when(submitServiceApi.getCaseById(anyString(), anyString(),
             anyString())).thenReturn(caveatCaseDetails);
 
@@ -383,7 +383,7 @@ class SubmitServiceImplTest {
     }
 
     @Test
-    public void shouldUpdateCaveatPaymentsAndNotSendNotification() {
+    void shouldUpdateCaveatPaymentsAndNotSendNotification() {
         when(submitServiceApi.getCaseById(anyString(), anyString(), anyString()))
                 .thenReturn(caveatCaseDetails);
 
@@ -395,7 +395,7 @@ class SubmitServiceImplTest {
 
 
     @Test
-    public void shouldUpdateIntestacyPaymentsAndSendNotification() {
+    void shouldUpdateIntestacyPaymentsAndSendNotification() {
         when(submitServiceApi.getCaseById(anyString(), anyString(),
             anyString())).thenReturn(intestacyCaseDetails);
 
@@ -407,7 +407,7 @@ class SubmitServiceImplTest {
     }
 
     @Test
-    public void shouldUpdateIntestacyPaymentsAndNotSendNotification() {
+    void shouldUpdateIntestacyPaymentsAndNotSendNotification() {
         when(submitServiceApi.getCaseById(anyString(), anyString(),
             anyString())).thenReturn(intestacyCaseDetails);
 
@@ -433,7 +433,7 @@ class SubmitServiceImplTest {
     }
 
     @Test
-    public void shouldThrowErrorOnUpdatePaymentsIfNoPaymentsOnForm() {
+    void shouldThrowErrorOnUpdatePaymentsIfNoPaymentsOnForm() {
         intestacyForm.setPayments(null);
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             submitService.updatePayments(EMAIL_ADDRESS, intestacyForm);
@@ -442,7 +442,7 @@ class SubmitServiceImplTest {
     }
 
     @Test
-    public void shouldUpdatePaymentAndSendNotificationGop() {
+    void shouldUpdatePaymentAndSendNotificationGop() {
         String caseId = "234324";
         CasePayment casePayment = CasePayment.builder().status(PaymentStatus.SUCCESS).build();
         ProbateCaseDetails probateCaseDetails = ProbateCaseDetails.builder().caseInfo(CaseInfo.builder()
@@ -464,7 +464,7 @@ class SubmitServiceImplTest {
     }
 
     @Test
-    public void shouldUpdatePaymentAndSendNotificationGopForPaymentNotRequired() {
+    void shouldUpdatePaymentAndSendNotificationGopForPaymentNotRequired() {
         String caseId = "234324";
         CasePayment casePayment = CasePayment.builder().status(PaymentStatus.NOT_REQUIRED).build();
         CollectionMember<CasePayment> collectionMember = new CollectionMember<>(null, casePayment);
@@ -482,7 +482,7 @@ class SubmitServiceImplTest {
     }
 
     @Test
-    public void shouldUpdatePaymentAndSendNotificationGopForPaymentSucccess() {
+    void shouldUpdatePaymentAndSendNotificationGopForPaymentSucccess() {
         String caseId = "234324";
         CasePayment casePayment = CasePayment.builder().status(PaymentStatus.SUCCESS).build();
         CollectionMember<CasePayment> collectionMember = new CollectionMember<>(null, casePayment);
@@ -500,7 +500,7 @@ class SubmitServiceImplTest {
     }
 
     @Test
-    public void shouldNotUpdatePaymentAndSendNotificationGopForPaymentFailed() {
+    void shouldNotUpdatePaymentAndSendNotificationGopForPaymentFailed() {
         String caseId = "234324";
         CasePayment casePayment = CasePayment.builder().status(PaymentStatus.FAILED).build();
         CollectionMember<CasePayment> collectionMember = new CollectionMember<>(null, casePayment);
@@ -518,7 +518,7 @@ class SubmitServiceImplTest {
     }
 
     @Test
-    public void shouldUpdatePaymentsCaveats() {
+    void shouldUpdatePaymentsCaveats() {
         String caseId = "234324";
         CasePayment casePayment = CasePayment.builder().build();
         ProbateCaseDetails probateCaseDetails = ProbateCaseDetails.builder().caseInfo(CaseInfo.builder()
@@ -539,7 +539,7 @@ class SubmitServiceImplTest {
 
 
     @Test
-    public void shouldValidate() {
+    void shouldValidate() {
         when(submitServiceApi.validate(AUTHORIZATION, SERVICE_AUTHORIZATION,
             EMAIL_ADDRESS, CaseType.GRANT_OF_REPRESENTATION.name())).thenReturn(intestacyCaseDetails);
 
@@ -550,7 +550,7 @@ class SubmitServiceImplTest {
     }
 
     @Test
-    public void shouldExpireCaveats() {
+    void shouldExpireCaveats() {
         when(submitServiceApi.expireCaveats(AUTHORIZATION, SERVICE_AUTHORIZATION,
             CAVEAT_EXPIRY_DATE)).thenReturn(expiredCaveatDetails);
 
