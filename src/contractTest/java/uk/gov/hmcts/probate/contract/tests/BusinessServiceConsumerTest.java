@@ -78,8 +78,9 @@ public class BusinessServiceConsumerTest {
                 .path("/businessDocument/generateCheckAnswersSummaryPDF")
                 .method("POST")
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, serviceAuthorization,
-                SOME_SERVICE_AUTHORIZATION_TOKEN)
+                    SOME_SERVICE_AUTHORIZATION_TOKEN)
                 .body(contractTestUtils.createJsonObject("businessDocuments/checkAnswersSimpleSummary.json"))
+                .matchHeader("Content-Type", "application/json")
                 .willRespondWith()
                 .status(200)
                 .matchHeader("FormDataContent-Type", "application/octet-stream")
@@ -98,9 +99,10 @@ public class BusinessServiceConsumerTest {
                 .path("/businessDocument/generateCheckAnswersSummaryPDF")
                 .method("POST")
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, serviceAuthorization,
-                SOME_SERVICE_AUTHORIZATION_TOKEN)
+                    SOME_SERVICE_AUTHORIZATION_TOKEN)
                 //.body(invalidCheckAnswersSummaryBody)
                 .body(contractTestUtils.createJsonObject("businessDocuments/invalidCheckAnswersSummary.json"))
+                .matchHeader("Content-Type", "application/json")
                 .willRespondWith()
                 .status(400)
                 .matchHeader("FormDataContent-Type", "application/json;charset=UTF-8")
@@ -130,7 +132,7 @@ public class BusinessServiceConsumerTest {
                     .path("/businessDocument/generateLegalDeclarationPDF")
                     .method("POST")
                     .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, serviceAuthorization,
-                    SOME_SERVICE_AUTHORIZATION_TOKEN)
+                        SOME_SERVICE_AUTHORIZATION_TOKEN)
                     .body(contractTestUtils.createJsonObject("businessDocuments/validLegalDeclaration.json"))
                     .matchHeader("Content-Type", "application/json")
                     .willRespondWith()
@@ -151,7 +153,7 @@ public class BusinessServiceConsumerTest {
                 .path("/businessDocument/generateLegalDeclarationPDF")
                 .method("POST")
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, serviceAuthorization,
-                SOME_SERVICE_AUTHORIZATION_TOKEN)
+                    SOME_SERVICE_AUTHORIZATION_TOKEN)
                 .body(contractTestUtils.createJsonObject("businessDocuments/invalidLegalDeclaration.json"))
                 .matchHeader("Content-Type", "application/json")
                 .willRespondWith()
@@ -182,7 +184,7 @@ public class BusinessServiceConsumerTest {
                 .path("/businessDocument/generateBulkScanCoverSheetPDF")
                 .method("POST")
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, serviceAuthorization,
-                SOME_SERVICE_AUTHORIZATION_TOKEN)
+                    SOME_SERVICE_AUTHORIZATION_TOKEN)
                 .body(contractTestUtils.createJsonObject("businessDocuments/bulkScanCoverSheet.json"))
                 .matchHeader("Content-Type", "application/json")
                 .willRespondWith()
@@ -203,7 +205,7 @@ public class BusinessServiceConsumerTest {
                 .path("/businessDocument/generateBulkScanCoverSheetPDF")
                 .method("POST")
                 .headers(AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, serviceAuthorization,
-                SOME_SERVICE_AUTHORIZATION_TOKEN)
+                    SOME_SERVICE_AUTHORIZATION_TOKEN)
                 .body(contractTestUtils.createJsonObject("businessDocuments/invalidBulkScanCoverSheet.json"))
                 .matchHeader("Content-Type", "application/json")
                 .willRespondWith()
