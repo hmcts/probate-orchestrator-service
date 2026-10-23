@@ -16,6 +16,7 @@ import org.springframework.web.client.UnknownHttpStatusCodeException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -43,7 +44,7 @@ class ProbateHealthIndicatorTest {
         when(mockResponseEntity.getStatusCode()).thenReturn(HttpStatus.OK);
         Health health = businessHealthIndicator.health();
 
-        assert health != null;
+        assertNotNull(health);
         assertThat(health.getStatus(), is(Status.UP));
         assertThat(health.getDetails().get("url"), is(URL));
     }
@@ -54,7 +55,7 @@ class ProbateHealthIndicatorTest {
         when(mockResponseEntity.getStatusCode()).thenReturn(HttpStatus.NO_CONTENT);
         Health health = businessHealthIndicator.health();
 
-        assert health != null;
+        assertNotNull(health);
         assertThat(health.getStatus(), is(Status.DOWN));
         assertThat(health.getDetails().get("url"), is(URL));
         assertThat(health.getDetails().get("message"), is("HTTP Status code not 200"));
@@ -68,7 +69,7 @@ class ProbateHealthIndicatorTest {
 
         Health health = businessHealthIndicator.health();
 
-        assert health != null;
+        assertNotNull(health);
         assertThat(health.getStatus(), is(Status.DOWN));
         assertThat(health.getDetails().get("url"), is(URL));
         assertThat(health.getDetails().get("message"), is(message));
@@ -82,7 +83,7 @@ class ProbateHealthIndicatorTest {
 
         Health health = businessHealthIndicator.health();
 
-        assert health != null;
+        assertNotNull(health);
         assertThat(health.getStatus(), is(Status.DOWN));
         assertThat(health.getDetails().get("url"), is(URL));
         assertThat(health.getDetails().get("message"), is("400 BAD_REQUEST"));
@@ -97,7 +98,7 @@ class ProbateHealthIndicatorTest {
 
         Health health = businessHealthIndicator.health();
 
-        assert health != null;
+        assertNotNull(health);
         assertThat(health.getStatus(), is(Status.DOWN));
         assertThat(health.getDetails().get("url"), is(URL));
         assertThat(health.getDetails().get("message"), is("Unknown status code [999] status text"));
