@@ -4,7 +4,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.probate.model.forms.IhtMethod;
 
-public class IhtMethodConverterTest {
+class IhtMethodConverterTest {
 
     private IhtMethodConverter ihtMethodConverter = new IhtMethodConverter();
 

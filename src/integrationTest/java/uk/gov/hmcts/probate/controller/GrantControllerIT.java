@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class GrantControllerIT {
+class GrantControllerIT {
 
     @MockitoBean
     private GrantDelayedNotifier grantDelayedNotifier;
@@ -39,12 +39,12 @@ public class GrantControllerIT {
     private WebApplicationContext webApplicationContext;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
     @Test
-    public void shouldInitiateGrantDelayedFromSchedule() throws Exception {
+    void shouldInitiateGrantDelayedFromSchedule() throws Exception {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String expiryDate = dateTimeFormatter.format(LocalDate.now().minusDays(1L));
 
@@ -56,7 +56,7 @@ public class GrantControllerIT {
     }
 
     @Test
-    public void shouldInitiateGrantAwaitingDocsFromSchedule() throws Exception {
+    void shouldInitiateGrantAwaitingDocsFromSchedule() throws Exception {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String expiryDate = dateTimeFormatter.format(LocalDate.now().minusDays(1L));
 
