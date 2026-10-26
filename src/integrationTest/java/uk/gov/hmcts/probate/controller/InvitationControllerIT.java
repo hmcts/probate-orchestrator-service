@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
@@ -20,7 +20,7 @@ import uk.gov.hmcts.reform.probate.model.PhonePin;
 import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class InvitationControllerIT {
+class InvitationControllerIT {
 
     @MockitoBean
     private BusinessService businessService;
@@ -62,49 +62,49 @@ public class InvitationControllerIT {
     private WebApplicationContext webApplicationContext;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
         invitationStr = TestUtils.getJsonFromFile("invite/invitation.json");
         documentNotificationStr = TestUtils.getJsonFromFile("businessDocuments/documentNotification.json");
         this.invitation = objectMapper.readValue(invitationStr, Invitation.class);
         this.invitation2 = objectMapper.readValue(invitationStr, Invitation.class);
-        invitationArrayStr = new StringBuilder("[").append(invitationStr).append("]").toString();
-        invitationsResult = new ArrayList();
+        invitationArrayStr = "[" + invitationStr + "]";
+        invitationsResult = new ArrayList<>();
         invitationsResult.add(invitation);
         invitationsResult.add(invitation2);
 
         invitationResendStr = TestUtils.getJsonFromFile("invite/invitationResend.json");
-        invitationResendArrayStr = new StringBuilder("[").append(invitationResendStr).append("]").toString();
+        invitationResendArrayStr = "[" + invitationResendStr + "]";
         this.invitationResend = objectMapper.readValue(invitationResendStr, Invitation.class);
     }
 
     @Test
-    public void sendInvitation_withValidJson_shouldReturn200() throws Exception {
+    void sendInvitation_withValidJson_shouldReturn200() throws Exception {
 
         mockMvc.perform(post(InvitationController.INVITE_BASEURL)
                 .header("Session-Id", "someSessionId")
                 .content(invitationArrayStr)
                 .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
                 .andExpect(status().isOk());
-        verify(businessService, times(1)).sendInvitations(eq(Arrays.asList(invitation)),
+        verify(businessService, times(1)).sendInvitations(eq(Collections.singletonList(invitation)),
             eq("someSessionId"), eq(Boolean.FALSE));
     }
 
     @Test
-    public void sendBilingualInvitation_withValidJson_shouldReturn200() throws Exception {
+    void sendBilingualInvitation_withValidJson_shouldReturn200() throws Exception {
 
         mockMvc.perform(post(InvitationController.INVITE_BILINGUAL_URL)
                 .header("Session-Id", "someSessionId")
                 .content(invitationArrayStr)
                 .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
                 .andExpect(status().isOk());
-        verify(businessService, times(1)).sendInvitations(eq(Arrays.asList(invitation)),
+        verify(businessService, times(1)).sendInvitations(eq(Collections.singletonList(invitation)),
             eq("someSessionId"), eq(Boolean.TRUE));
     }
 
     @Test
-    public void resendInvitation_withValidJson_shouldReturn200() throws Exception {
+    void resendInvitation_withValidJson_shouldReturn200() throws Exception {
 
         when(businessService.resendInvitation(eq("12345"), eq(invitationResend), eq("someSessionId")))
             .thenReturn("12345");
@@ -114,12 +114,12 @@ public class InvitationControllerIT {
                 .content(invitationResendArrayStr)
                 .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
                 .andExpect(status().isOk());
-        verify(businessService, times(1)).sendInvitations(eq(Arrays.asList(invitationResend)),
+        verify(businessService, times(1)).sendInvitations(eq(Collections.singletonList(invitationResend)),
             eq("someSessionId"), eq(Boolean.FALSE));
     }
 
     @Test
-    public void pinRequest_shouldReturn200() throws Exception {
+    void pinRequest_shouldReturn200() throws Exception {
         final String phoneNumber = "07987676542";
         final PhonePin phonePin = new PhonePin(phoneNumber);
         final String requestContent = String.format("""
@@ -141,7 +141,7 @@ public class InvitationControllerIT {
     }
 
     @Test
-    public void pinRequest_withMissingField_shouldReturn400() throws Exception {
+    void pinRequest_withMissingField_shouldReturn400() throws Exception {
         final String requestContent = "{}";
 
         mockMvc.perform(post(InvitationController.INVITE_PIN_URL)
@@ -154,7 +154,7 @@ public class InvitationControllerIT {
     }
 
     @Test
-    public void pinRequest_withMisspelledField_shouldReturn400() throws Exception {
+    void pinRequest_withMisspelledField_shouldReturn400() throws Exception {
         final String phoneNumber = "07987676542";
         final String requestContent = String.format("""
                 {
@@ -172,7 +172,7 @@ public class InvitationControllerIT {
     }
 
     @Test
-    public void pinRequest_withNoBody_shouldReturn400() throws Exception {
+    void pinRequest_withNoBody_shouldReturn400() throws Exception {
         mockMvc.perform(post(InvitationController.INVITE_PIN_URL)
                         .header("Session-Id", "someSessionId")
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
@@ -182,7 +182,7 @@ public class InvitationControllerIT {
     }
 
     @Test
-    public void bilingualPinRequest_shouldReturn200() throws Exception {
+    void bilingualPinRequest_shouldReturn200() throws Exception {
         final String phoneNumber = "07987676542";
         final PhonePin phonePin = new PhonePin(phoneNumber);
         final String requestContent = new StringBuilder()
@@ -206,7 +206,7 @@ public class InvitationControllerIT {
     }
 
     @Test
-    public void bilingualPinRequest_withMissingField_shouldReturn400() throws Exception {
+    void bilingualPinRequest_withMissingField_shouldReturn400() throws Exception {
         final String requestContent = "{}";
 
         mockMvc.perform(post(InvitationController.INVITE_PIN_BILINGUAL_URL)
@@ -219,7 +219,7 @@ public class InvitationControllerIT {
     }
 
     @Test
-    public void bilingualPinRequest_withMisspelledField_shouldReturn400() throws Exception {
+    void bilingualPinRequest_withMisspelledField_shouldReturn400() throws Exception {
         final String phoneNumber = "07987676542";
         final String requestContent = String.format("""
                 {
@@ -237,7 +237,7 @@ public class InvitationControllerIT {
     }
 
     @Test
-    public void bilingualPinRequest_withNoBody_shouldReturn400() throws Exception {
+    void bilingualPinRequest_withNoBody_shouldReturn400() throws Exception {
         mockMvc.perform(post(InvitationController.INVITE_PIN_BILINGUAL_URL)
                         .header("Session-Id", "someSessionId")
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
@@ -247,7 +247,7 @@ public class InvitationControllerIT {
     }
 
     @Test
-    public void inviteAgreed_withValidJson_shouldReturn200() throws Exception {
+    void inviteAgreed_withValidJson_shouldReturn200() throws Exception {
 
         when(businessService.inviteAgreed(eq("12345"), eq(invitation))).thenReturn("54321");
 
@@ -260,7 +260,7 @@ public class InvitationControllerIT {
     }
 
     @Test
-    public void inviteResetAgreed_shouldReturn200() throws Exception {
+    void inviteResetAgreed_shouldReturn200() throws Exception {
 
         mockMvc.perform(post(InvitationController.INVITE_RESET_AGREED_URL + "/12345"))
                 .andExpect(status().isOk());
@@ -268,7 +268,7 @@ public class InvitationControllerIT {
     }
 
     @Test
-    public void inviteAllAgreed_shouldReturn200() throws Exception {
+    void inviteAllAgreed_shouldReturn200() throws Exception {
 
         when(businessService.haveAllIniviteesAgreed(eq("12345"))).thenReturn(Boolean.TRUE);
         mockMvc.perform(get(InvitationController.INVITE_ALLAGREED_URL + "/12345"))
@@ -277,7 +277,7 @@ public class InvitationControllerIT {
     }
 
     @Test
-    public void updateContactDetails_withValidJson_shouldReturn200() throws Exception {
+    void updateContactDetails_withValidJson_shouldReturn200() throws Exception {
 
         when(businessService.updateContactDetails(eq("12345"), eq(invitation))).thenReturn("12345");
         mockMvc.perform(post(InvitationController.INVITE_CONTACTDETAILS_URL + "/12345")
@@ -289,7 +289,7 @@ public class InvitationControllerIT {
     }
 
     @Test
-    public void deleteInvitation_withValidJson_shouldReturn200() throws Exception {
+    void deleteInvitation_withValidJson_shouldReturn200() throws Exception {
 
         when(businessService.deleteInvite(eq("12345"), eq(invitation))).thenReturn("12345");
         mockMvc.perform(post(InvitationController.INVITE_DELETE_URL + "/12345")
@@ -300,7 +300,7 @@ public class InvitationControllerIT {
     }
 
     @Test
-    public void getInvitationDetails_shouldReturn200() throws Exception {
+    void getInvitationDetails_shouldReturn200() throws Exception {
 
         when(businessService.getInviteData(eq("12345"))).thenReturn(invitation);
         mockMvc.perform(get(InvitationController.INVITE_DATA_URL + "/12345"))
@@ -309,7 +309,7 @@ public class InvitationControllerIT {
     }
 
     @Test
-    public void getAllInviteData_shouldReturn200() throws Exception {
+    void getAllInviteData_shouldReturn200() throws Exception {
 
         when(businessService.getAllInviteData(eq("12345"))).thenReturn(invitationsResult);
         mockMvc.perform(get(InvitationController.INVITES_BASEURL + "/12345"))

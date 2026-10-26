@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class DocumentsControllerIT {
+class DocumentsControllerIT {
 
     private static final String CHECK_ANSWERS_SUMMARY_ENDPOINT =
         DocumentsController.DOCUMENTS_BASEURL + DocumentsController.CHECK_ANSWERS_ENDPOINT;
@@ -65,12 +65,12 @@ public class DocumentsControllerIT {
     private String documentNotificationStr;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
     @Test
-    public void generateCheckAnswersSummaryPdf_withValidJson_shouldReturn200() throws Exception {
+    void generateCheckAnswersSummaryPdf_withValidJson_shouldReturn200() throws Exception {
         when(businessService.generateCheckAnswersSummaryPdf(any(CheckAnswersSummary.class)))
             .thenReturn(any(byte[].class));
 
@@ -86,7 +86,7 @@ public class DocumentsControllerIT {
     }
 
     @Test
-    public void generateCheckAnswersSummaryPdf_withInvalidJson_shouldReturnBadRequest() throws Exception {
+    void generateCheckAnswersSummaryPdf_withInvalidJson_shouldReturnBadRequest() throws Exception {
         String invalidCheckAnswersSummaryJson =
                 TestUtils.getJsonFromFile("businessDocuments/invalidCheckAnswersSummary.json");
 
@@ -98,7 +98,7 @@ public class DocumentsControllerIT {
 
 
     @Test
-    public void generateLegalDeclarationyPdf_withValidJson_shouldReturn200() throws Exception {
+    void generateLegalDeclarationyPdf_withValidJson_shouldReturn200() throws Exception {
         when(businessService.generateLegalDeclarationPdf(any(LegalDeclaration.class))).thenReturn(any(byte[].class));
 
         String legalDecJson = TestUtils.getJsonFromFile("businessDocuments/validLegalDeclaration.json");
@@ -112,7 +112,7 @@ public class DocumentsControllerIT {
     }
 
     @Test
-    public void generateLegalDeclarationPdf_withInvalidJson_shouldReturnBadRequest() throws Exception {
+    void generateLegalDeclarationPdf_withInvalidJson_shouldReturnBadRequest() throws Exception {
         String invalidLegalDeclarationJson =
                 TestUtils.getJsonFromFile("businessDocuments/invalidLegalDeclaration.json");
 
@@ -124,7 +124,7 @@ public class DocumentsControllerIT {
 
 
     @Test
-    public void generateBulkScanCoversheetPdf_withValidJson_shouldReturn200() throws Exception {
+    void generateBulkScanCoversheetPdf_withValidJson_shouldReturn200() throws Exception {
 
         String bulkScanJosn = TestUtils.getJsonFromFile("businessDocuments/validBulkScanCoverSheet.json");
 
@@ -137,7 +137,7 @@ public class DocumentsControllerIT {
     }
 
     @Test
-    public void generateBulkScanCoversheetPdf_withInvalidJson_shouldReturnBadRequest() throws Exception {
+    void generateBulkScanCoversheetPdf_withInvalidJson_shouldReturnBadRequest() throws Exception {
         String invalidBulkScanJosn = TestUtils
             .getJsonFromFile("businessDocuments/invalidBulkScanCoverSheet.json");
 
@@ -148,7 +148,7 @@ public class DocumentsControllerIT {
     }
 
     @Test
-    public void shouldUpload() throws Exception {
+    void shouldUpload() throws Exception {
         String userId = "USERID1234";
         String authorisation = "AUTHORISATION";
 
@@ -165,7 +165,7 @@ public class DocumentsControllerIT {
     }
 
     @Test
-    public void shouldReturn200ForDocumentUpload() throws Exception {
+    void shouldReturn200ForDocumentUpload() throws Exception {
 
         documentNotificationStr = TestUtils.getJsonFromFile("businessDocuments/documentNotification.json");
 

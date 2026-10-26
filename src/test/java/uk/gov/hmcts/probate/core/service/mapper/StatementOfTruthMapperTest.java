@@ -7,10 +7,10 @@ import uk.gov.hmcts.reform.probate.model.forms.DocumentUpload;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class StatementOfTruthMapperTest {
+class StatementOfTruthMapperTest {
 
-    public static final String FILENAME = "filename";
-    public static final String URL = "url";
+    static final String FILENAME = "filename";
+    static final String URL = "url";
     StatementOfTruthMapper statementOfTruthMapper = new StatementOfTruthMapper();
 
     @Test

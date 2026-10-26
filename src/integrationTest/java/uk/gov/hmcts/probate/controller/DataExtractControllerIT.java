@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class DataExtractControllerIT {
+class DataExtractControllerIT {
 
     @MockitoBean
     private DataExtractController dataExtractController;
@@ -36,12 +36,12 @@ public class DataExtractControllerIT {
     private WebApplicationContext webApplicationContext;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
     @Test
-    public void shouldInitiateHmrcDataExtractForNoDate() throws Exception {
+    void shouldInitiateHmrcDataExtractForNoDate() throws Exception {
         mockMvc.perform(post("/data-extract/hmrc")
             .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
             .andExpect(status().isOk());
@@ -50,7 +50,7 @@ public class DataExtractControllerIT {
     }
 
     @Test
-    public void shouldInitiateHmrcDataExtractForGivenDate() throws Exception {
+    void shouldInitiateHmrcDataExtractForGivenDate() throws Exception {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = dateTimeFormatter.format(LocalDate.now().minusDays(1L));
 
@@ -62,7 +62,7 @@ public class DataExtractControllerIT {
     }
 
     @Test
-    public void shouldInitiateHmrcDataExtractForGivenDates() throws Exception {
+    void shouldInitiateHmrcDataExtractForGivenDates() throws Exception {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String dateFrom = dateTimeFormatter.format(LocalDate.now().minusDays(10L));
         String dateTo = dateTimeFormatter.format(LocalDate.now().minusDays(1L));
@@ -75,7 +75,7 @@ public class DataExtractControllerIT {
     }
 
     @Test
-    public void shouldInitiateIronMountainDataExtractForNoDate() throws Exception {
+    void shouldInitiateIronMountainDataExtractForNoDate() throws Exception {
         mockMvc.perform(post("/data-extract/iron-mountain")
             .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
             .andExpect(status().isOk());
@@ -84,7 +84,7 @@ public class DataExtractControllerIT {
     }
 
     @Test
-    public void shouldInitiateIronMountainDataExtractForGivenDate() throws Exception {
+    void shouldInitiateIronMountainDataExtractForGivenDate() throws Exception {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = dateTimeFormatter.format(LocalDate.now().minusDays(1L));
 
@@ -96,7 +96,7 @@ public class DataExtractControllerIT {
     }
 
     @Test
-    public void shouldInitiateExelaDataExtractForNoDate() throws Exception {
+    void shouldInitiateExelaDataExtractForNoDate() throws Exception {
         mockMvc.perform(post("/data-extract/exela")
             .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE)))
             .andExpect(status().isOk());
@@ -105,7 +105,7 @@ public class DataExtractControllerIT {
     }
 
     @Test
-    public void shouldInitiateExelaDataExtractForGivenDate() throws Exception {
+    void shouldInitiateExelaDataExtractForGivenDate() throws Exception {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = dateTimeFormatter.format(LocalDate.now().minusDays(1L));
 
@@ -117,7 +117,7 @@ public class DataExtractControllerIT {
     }
 
     @Test
-    public void shouldInitiateExelaDataExtractForGivenDateRange() throws Exception {
+    void shouldInitiateExelaDataExtractForGivenDateRange() throws Exception {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String fromDate = dateTimeFormatter.format(LocalDate.now().minusDays(2L));
         String toDate = dateTimeFormatter.format(LocalDate.now().minusDays(1L));
@@ -130,7 +130,7 @@ public class DataExtractControllerIT {
     }
 
     @Test
-    public void shouldInitiateSmeeAndFordDataExtractForGivenDateRange() throws Exception {
+    void shouldInitiateSmeeAndFordDataExtractForGivenDateRange() throws Exception {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String fromDate = dateTimeFormatter.format(LocalDate.now().minusDays(2L));
         String toDate = dateTimeFormatter.format(LocalDate.now().minusDays(1L));

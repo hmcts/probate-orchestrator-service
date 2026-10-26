@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class FormsControllerIT {
+class FormsControllerIT {
 
     private static final String EMAIL_ADDRESS = "1570130475566595";
 
@@ -80,7 +80,7 @@ public class FormsControllerIT {
     private WebApplicationContext webApplicationContext;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
         this.intestacyFormJsonStr = TestUtils.getJsonFromFile("intestacyFormTest.json");
@@ -104,7 +104,7 @@ public class FormsControllerIT {
     }
 
     @Test
-    public void shouldSaveCaveatForm() throws Exception {
+    void shouldSaveCaveatForm() throws Exception {
         when(submitService.saveCase(eq(EMAIL_ADDRESS), eq(caveatForm))).thenReturn(caveatForm);
 
         mockMvc.perform(post(FORMS_CASE_ENDPOINT + "/" + EMAIL_ADDRESS)
@@ -116,7 +116,7 @@ public class FormsControllerIT {
     }
 
     @Test
-    public void shouldSaveIntestacyForm() throws Exception {
+    void shouldSaveIntestacyForm() throws Exception {
         when(submitService.saveCase(eq(EMAIL_ADDRESS), eq(intestacyForm))).thenReturn(intestacyForm);
 
         mockMvc.perform(post(FORMS_CASE_ENDPOINT + "/" + EMAIL_ADDRESS)
@@ -129,7 +129,7 @@ public class FormsControllerIT {
     }
 
     @Test
-    public void shouldInitateCase() throws Exception {
+    void shouldInitateCase() throws Exception {
         when(submitService.initiateCase(eq(ProbateType.INTESTACY))).thenReturn(caseSummaryHolder);
 
         mockMvc.perform(post(FORMS_NEW_CASE_ENDPOINT)
@@ -143,7 +143,7 @@ public class FormsControllerIT {
 
 
     @Test
-    public void shouldSubmitPaFormWithPayment() throws Exception {
+    void shouldSubmitPaFormWithPayment() throws Exception {
         when(submitService.update(eq(EMAIL_ADDRESS), eq(ProbateType.PA), eq(paymentDto))).thenReturn(paForm);
         String paymentDtoStr = objectMapper.writeValueAsString(paymentDto);
 
@@ -159,7 +159,7 @@ public class FormsControllerIT {
 
 
     @Test
-    public void shouldSubmitIntestacyFormWithPayment() throws Exception {
+    void shouldSubmitIntestacyFormWithPayment() throws Exception {
         when(submitService.update(eq("123456"), eq(ProbateType.INTESTACY), eq(paymentDto))).thenReturn(paForm);
 
         //PaymentDto dto = PaymentDto.builder().status("not_required").build();
@@ -176,7 +176,7 @@ public class FormsControllerIT {
     }
 
     @Test
-    public void shouldGetCaveatForm() throws Exception {
+    void shouldGetCaveatForm() throws Exception {
         when(submitService.getCase(EMAIL_ADDRESS, ProbateType.CAVEAT)).thenReturn(caveatForm);
 
         mockMvc.perform(get(FORMS_CASE_ENDPOINT + "/" + EMAIL_ADDRESS)
@@ -189,7 +189,7 @@ public class FormsControllerIT {
 
 
     @Test
-    public void shouldGetIntestacyForm() throws Exception {
+    void shouldGetIntestacyForm() throws Exception {
         when(submitService.getCase(EMAIL_ADDRESS, ProbateType.INTESTACY)).thenReturn(intestacyForm);
 
         mockMvc.perform(get(FORMS_CASE_ENDPOINT + "/" + EMAIL_ADDRESS)
@@ -201,7 +201,7 @@ public class FormsControllerIT {
     }
 
     @Test
-    public void shouldGetAllCases() throws Exception {
+    void shouldGetAllCases() throws Exception {
         when(submitService.getAllCases()).thenReturn(caseSummaryHolder);
 
         mockMvc.perform(get(FORMS_CASES_ENDPOINT)
@@ -212,7 +212,7 @@ public class FormsControllerIT {
     }
 
     @Test
-    public void shouldSubmitCaveatForm() throws Exception {
+    void shouldSubmitCaveatForm() throws Exception {
         when(submitService.submit(eq(EMAIL_ADDRESS), eq(caveatForm))).thenReturn(caveatForm);
 
         mockMvc.perform(post(FORMS_ENDPOINT + "/" + EMAIL_ADDRESS + "/" + SUBMISSIONS_ENDPOINT)
@@ -224,7 +224,7 @@ public class FormsControllerIT {
     }
 
     @Test
-    public void shouldUpdateCaveatPayments() throws Exception {
+    void shouldUpdateCaveatPayments() throws Exception {
         when(submitService.updatePayments(eq(EMAIL_ADDRESS), eq(caveatForm))).thenReturn(caveatForm);
 
         mockMvc.perform(post(FORMS_ENDPOINT + "/" + EMAIL_ADDRESS + "/" + PAYMENTS_ENDPOINT)
@@ -236,7 +236,7 @@ public class FormsControllerIT {
     }
 
     @Test
-    public void shouldValidate() throws Exception {
+    void shouldValidate() throws Exception {
         when(submitService.validate(eq(EMAIL_ADDRESS), eq(ProbateType.PA))).thenReturn(paForm);
 
         mockMvc.perform(put(FORMS_ENDPOINT + "/" + EMAIL_ADDRESS + "/" + VALIDATIONS_ENDPOINT)

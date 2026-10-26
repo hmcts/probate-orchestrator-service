@@ -7,31 +7,31 @@ import java.math.BigDecimal;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-public class NumberUtilsTest {
+class NumberUtilsTest {
 
     @Test
-    public void shouldConvertPenniesToPounds() {
+    void shouldConvertPenniesToPounds() {
         assertThat(NumberUtils.penniesToPounds(1000L), equalTo(new BigDecimal("10.00")));
     }
 
     @Test
-    public void shouldNotDefaultToZeroWhenLongNotNull() {
+    void shouldNotDefaultToZeroWhenLongNotNull() {
         assertThat(NumberUtils.defaultToZero(1000L), equalTo(1000L));
     }
 
     @Test
-    public void shouldDefaultToZeroWhenLongNull() {
+    void shouldDefaultToZeroWhenLongNull() {
         Long val = null;
         assertThat(NumberUtils.defaultToZero(val), equalTo(0L));
     }
 
     @Test
-    public void shouldNotDefaultToZeroWhenBigDecimalNotNull() {
+    void shouldNotDefaultToZeroWhenBigDecimalNotNull() {
         assertThat(NumberUtils.defaultToZero(1000L), equalTo(1000L));
     }
 
     @Test
-    public void shouldDefaultToZeroWhenBigDecimalNull() {
+    void shouldDefaultToZeroWhenBigDecimalNull() {
         BigDecimal val = null;
         assertThat(NumberUtils.defaultToZero(val), equalTo(BigDecimal.ZERO));
     }
