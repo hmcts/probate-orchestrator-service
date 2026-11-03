@@ -152,6 +152,7 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "pcqId", source = "equality.pcqId")
     @Mapping(target = "extraCopiesOfGrant", source = "copies.uk")
     @Mapping(target = "outsideUkGrantCopies", expression = "java(OverseasCopiesMapper.mapOverseasCopies(form))")
+    @Mapping(target = "deceasedHasAssetsOutsideUK", source = "assets.assetsoverseas")
     @Mapping(target = "legalDeclarationJson", source = "legalDeclaration", qualifiedBy = {FromMap.class})
     @Mapping(target = "checkAnswersSummaryJson", source = "checkAnswersSummary", qualifiedBy = {FromMap.class})
     @Mapping(target = "payments", source = "payment")
@@ -255,8 +256,10 @@ public interface PaMapper extends FormMapper<GrantOfRepresentationData, PaForm> 
     @Mapping(target = "copies.overseas", source = "outsideUkGrantCopies")
     @Mapping(target = "copies.uk", source = "extraCopiesOfGrant")
     @Mapping(target = "assets.assetsoverseas",
-        expression = "java(grantOfRepresentationData.getOutsideUkGrantCopies() == null ? "
-            + "null : grantOfRepresentationData.getOutsideUkGrantCopies() > 0L)")
+            expression = "java(grantOfRepresentationData.getDeceasedHasAssetsOutsideUK() != null ? "
+            + "grantOfRepresentationData.getDeceasedHasAssetsOutsideUK() : "
+            + "(grantOfRepresentationData.getOutsideUkGrantCopies() == null ? null : "
+            + "grantOfRepresentationData.getOutsideUkGrantCopies() > 0L))")
     @Mapping(target = "applicant.aliasReason",
         expression = "java(grantOfRepresentationData.getPrimaryApplicantAliasReason()!=null ? "
             + "grantOfRepresentationData.getPrimaryApplicantAliasReason().getDescription() : null)")

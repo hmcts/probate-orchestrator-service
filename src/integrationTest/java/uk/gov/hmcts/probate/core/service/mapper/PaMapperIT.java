@@ -147,6 +147,26 @@ public class PaMapperIT {
     }
 
     @Test
+    public void shouldMapAssetsOutsideToCaseDataFromAssetsSection() {
+        PaForm paFormWithAssets = new PaForm();
+        paFormWithAssets.setAssets(PaAssets.builder().assetsoverseas(Boolean.FALSE).build());
+
+        GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(paFormWithAssets);
+
+        assertThat(actualGrantOfRepresentation.getDeceasedHasAssetsOutsideUK()).isFalse();
+    }
+
+    @Test
+    public void shouldMapAssetsOutsideFromCaseDataWhenOutsideUkGrantCopiesIsNull() {
+        GrantOfRepresentationData caseData = new GrantOfRepresentationData();
+        caseData.setDeceasedHasAssetsOutsideUK(Boolean.FALSE);
+
+        PaForm actualPaForm = mapper.fromCaseData(caseData);
+
+        assertThat(actualPaForm.getAssets().getAssetsoverseas()).isFalse();
+    }
+
+    @Test
     public void shouldMapPaFormToGrantOfRepresentationSingleExecutor() {
         GrantOfRepresentationData actualGrantOfRepresentation = mapper.toCaseData(paFormSingleExecutor);
         assertThat(actualGrantOfRepresentation)
