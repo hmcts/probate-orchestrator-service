@@ -137,6 +137,40 @@ public class IntestacyMapperIT {
     }
 
     @Test
+    public void shouldMapAssetsOutsideAsTrueFromCaseData() {
+        GrantOfRepresentationData caseData = new GrantOfRepresentationData();
+        caseData.setDeceasedHasAssetsOutsideUK(Boolean.TRUE);
+
+        IntestacyForm actualIntestacyForm = mapper.fromCaseData(caseData);
+
+        assertThat(actualIntestacyForm.getAssets().getAssetsoverseas()).isTrue();
+        assertThat(actualIntestacyForm.getIht().getAssetsOutside()).isTrue();
+    }
+
+    @Test
+    public void shouldFallBackToOutsideUkGrantCopiesWhenAssetsOutsideIsNull() {
+        GrantOfRepresentationData caseData = new GrantOfRepresentationData();
+        caseData.setDeceasedHasAssetsOutsideUK(null);
+        caseData.setOutsideUkGrantCopies(1L);
+
+        IntestacyForm actualIntestacyForm = mapper.fromCaseData(caseData);
+
+        assertThat(actualIntestacyForm.getAssets().getAssetsoverseas()).isTrue();
+    }
+
+    @Test
+    public void shouldPreferAssetsOutsideOverOutsideUkGrantCopies() {
+        GrantOfRepresentationData caseData = new GrantOfRepresentationData();
+        caseData.setDeceasedHasAssetsOutsideUK(Boolean.FALSE);
+        caseData.setOutsideUkGrantCopies(1L);
+
+        IntestacyForm actualIntestacyForm = mapper.fromCaseData(caseData);
+
+        assertThat(actualIntestacyForm.getAssets().getAssetsoverseas()).isFalse();
+        assertThat(actualIntestacyForm.getIht().getAssetsOutside()).isFalse();
+    }
+
+    @Test
     public void shouldMarital() {
 
         assertThat(MaritalStatus.WIDOWED).isEqualTo(MaritalStatus.fromString("optionWidowed"));
