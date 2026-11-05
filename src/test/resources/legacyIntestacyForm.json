@@ -97,7 +97,7 @@
         "deceased" : "That generic_fname generic_lname, of Buckingham Palace London SW1A 1AA United Kingdom , was born on 1 February 1953 and died on 4 May 2017 intestate.",
         "applicant" : "I, generic_fname generic_lname of Buckingham Palace London SW1A 1AA United Kingdom , make the following statement:",
         "applicant2" : "I am the lawful spouse or civil partner of generic_fname generic_lname and the only person now entitled to the estate.",
-        "deceasedChildren" : "No children under 18 are entitled to the estate.",
+        "deceasedChildren" : "There is no one under 18 entitled to the estate.",
         "deceasedEstateLand" : "To the best of my knowledge, information and belief, there was no land vested in generic_fname generic_lname which was settled previously to the death of generic_fname generic_lname and which remained settled land notwithstanding such death.",
         "deceasedOtherNames" : "",
         "deceasedEstateValue" : "The gross value for the estate amounts to &pound;600000.00 and the net value for the estate amounts to &pound;550000.00.",
@@ -148,7 +148,7 @@
         }, {
           "title" : "They were married or in a civil partnership and domiciled in England and Wales."
         }, {
-          "title" : "No children under 18 are entitled to the estate."
+          "title" : "There is no one under 18 entitled to the estate."
         } ]
       }, {
         "title" : "The estate of the person who died",
