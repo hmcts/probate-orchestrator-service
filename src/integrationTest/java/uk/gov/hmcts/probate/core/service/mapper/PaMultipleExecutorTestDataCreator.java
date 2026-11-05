@@ -525,6 +525,7 @@ public final class PaMultipleExecutorTestDataCreator {
                 .build())
             .extraCopiesOfGrant(UK)
             .outsideUkGrantCopies(OVERSEAS)
+            .deceasedHasAssetsOutsideUK(ASSETSOVERSEAS)
             .executorsNotApplying(Lists.newArrayList(
                 CollectionMember.<ExecutorNotApplying>builder()
                     .value(ExecutorNotApplying.builder()
