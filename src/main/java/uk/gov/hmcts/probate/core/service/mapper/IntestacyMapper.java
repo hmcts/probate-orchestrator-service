@@ -94,7 +94,9 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
         qualifiedBy = {ToCollectionMember.class})
     @Mapping(target = "outsideUkGrantCopies", source = "copies.overseas")
     @Mapping(target = "extraCopiesOfGrant", source = "copies.uk")
-    @Mapping(target = "deceasedHasAssetsOutsideUK", source = "iht.assetsOutside")
+    @Mapping(target = "deceasedHasAssetsOutsideUK", expression = "java(form.getAssets() != null "
+            + "&& form.getAssets().getAssetsoverseas() != null ? form.getAssets().getAssetsoverseas() : "
+            + "form.getIht() != null ? form.getIht().getAssetsOutside() : null)")
     @Mapping(target = "ihtReferenceNumber", expression =
         "java(form.getIht() != null && form.getIht().getMethod() == IhtMethod.ONLINE ? "
         + "form.getIht().getIdentifier() : form.getIht() != null ? \"Not applicable\" : null)")
@@ -228,11 +230,14 @@ public interface IntestacyMapper extends FormMapper<GrantOfRepresentationData, I
     @Mapping(target = "expectedResponseDate", source = "expectedResponseDate")
     @Mapping(target = "informationNeeded", source = "informationNeeded")
     @Mapping(target = "informationNeededByPost", source = "informationNeededByPost")
+    @Mapping(target = "iht.assetsOutside", source = "deceasedHasAssetsOutsideUK")
     @Mapping(target = "copies.overseas", source = "outsideUkGrantCopies")
     @Mapping(target = "copies.uk", source = "extraCopiesOfGrant")
     @Mapping(target = "assets.assetsoverseas",
-            expression = "java(grantOfRepresentationData.getOutsideUkGrantCopies() == null ? "
-                    + "null : grantOfRepresentationData.getOutsideUkGrantCopies() > 0L)")
+            expression = "java(grantOfRepresentationData.getDeceasedHasAssetsOutsideUK() != null ? "
+                    + "grantOfRepresentationData.getDeceasedHasAssetsOutsideUK() : "
+                    + "(grantOfRepresentationData.getOutsideUkGrantCopies() == null ? null : "
+                    + "grantOfRepresentationData.getOutsideUkGrantCopies() > 0L))")
     @InheritInverseConfiguration
     IntestacyForm fromCaseData(GrantOfRepresentationData grantOfRepresentation);
 }
