@@ -23,7 +23,7 @@ public class BackOfficeApiExceptionHandlerTest {
         ResponseEntity responseEntity = exceptionHandler
             .handleApiClientException(new ApiClientException(500, errorResponse));
 
-        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(500);
+        assertThat(responseEntity.getStatusCode().value()).isEqualTo(500);
     }
 
 }

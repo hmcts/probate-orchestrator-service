@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.hmcts.probate.model.backoffice.GrantScheduleResponse;
 import uk.gov.hmcts.probate.service.BackOfficeService;
 
@@ -17,8 +17,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(SpringExtension.class)
-public class GrantDelayedNotifierTest {
+@ExtendWith(MockitoExtension.class)
+class GrantDelayedNotifierTest {
 
     @Mock
     BackOfficeService backOfficeService;
@@ -26,12 +26,12 @@ public class GrantDelayedNotifierTest {
     GrantDelayedNotifier grantDelayedNotifier;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         grantDelayedNotifier = new GrantDelayedNotifier(backOfficeService);
     }
 
     @Test
-    public void shouldInitiateGrantDelayedNotification() {
+    void shouldInitiateGrantDelayedNotification() {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = dateFormat.format(LocalDate.now().minusDays(1));
         GrantScheduleResponse grantScheduleResponse = GrantScheduleResponse.builder()

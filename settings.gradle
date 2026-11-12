@@ -1,9 +1,34 @@
 pluginManagement {
     repositories {
         maven {
-            url "https://pkgs.dev.azure.com/hmcts/Artifacts/_packaging/hmcts-lib/maven/v1"
+            url = uri('https://artifactory.platform.hmcts.net/artifactory/maven-remotes')
+        }
+        maven {
+            url = uri('https://pkgs.dev.azure.com/hmcts/Artifacts/_packaging/hmcts-lib/maven/v1')
         }
         gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositories {
+        maven {
+            name = 'HMCTSArtifactory'
+            url = uri('https://artifactory.platform.hmcts.net/artifactory/maven-remotes')
+        }
+
+        maven {
+            name = 'HMCTSAzureArtifacts'
+            url = uri('https://pkgs.dev.azure.com/hmcts/Artifacts/_packaging/hmcts-lib/maven/v1')
+            content {
+                includeGroup 'com.github.hmcts'
+            }
+        }
+
+        if (!System.getenv('CI')) {
+            mavenLocal()
+            mavenCentral()
+        }
     }
 }
 

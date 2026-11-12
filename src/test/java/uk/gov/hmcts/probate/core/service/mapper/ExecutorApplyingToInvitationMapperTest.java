@@ -6,19 +6,19 @@ import uk.gov.hmcts.reform.probate.model.multiapplicant.Invitation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ExecutorApplyingToInvitationMapperTest {
+class ExecutorApplyingToInvitationMapperTest {
 
-    public static final String APPLYING_EXECUTOR_NAME = "applyingExecutorName";
-    public static final String EXECUTOR_EMAIL = "applyingExecutorEmail";
-    public static final String PHONE_NUMBER = "phoneNumber";
-    public static final String FIRST_NAME = "firstName";
-    public static final String LAST_NAME = "lastName";
-    public static final String LEAD_NAME = "leadName";
-    public static final String APPLYING_EXECUTOR_INVITATION_ID = "applyingExecutorInvitationId";
+    static final String APPLYING_EXECUTOR_NAME = "applyingExecutorName";
+    static final String EXECUTOR_EMAIL = "applyingExecutorEmail";
+    static final String PHONE_NUMBER = "phoneNumber";
+    static final String FIRST_NAME = "firstName";
+    static final String LAST_NAME = "lastName";
+    static final String LEAD_NAME = "leadName";
+    static final String APPLYING_EXECUTOR_INVITATION_ID = "applyingExecutorInvitationId";
     ExecutorApplyingToInvitationMapper executorApplyingToInvitationMapper = new ExecutorApplyingToInvitationMapper();
 
     @Test
-    public void shouldMapCorrectly() {
+    void shouldMapCorrectly() {
 
         ExecutorApplying executorApplying = ExecutorApplying.builder()
                 .applyingExecutorName(APPLYING_EXECUTOR_NAME)
