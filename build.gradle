@@ -166,7 +166,7 @@ def versions = [
         commonsFileuploadVersion        : '1.6.0',
         commonsIO                       : '2.22.0',
         commonMark                      : '0.32.0',
-        feign                           : '13.17',
+        feign                           : '13.18',
         fortifyClient                   : '1.4.10',
         hmctsJavaLogging                : '8.0.0',
         jacksonVersion                  : '2.22.4',
@@ -271,7 +271,7 @@ dependencies {
     implementation group: 'org.pitest', name: 'pitest', version: versions.piTest
     implementation group: 'org.commonmark', name: 'commonmark', version: versions.commonMark
     implementation group: 'info.solidsoft.gradle.pitest', name: 'gradle-pitest-plugin', version: '1.15.0'
-    implementation group: 'org.sonarsource.api.plugin', name: 'sonar-plugin-api', version: '14.2.0.5584'
+    implementation group: 'org.sonarsource.api.plugin', name: 'sonar-plugin-api', version: '14.3.0.5639'
     implementation group: 'org.mapstruct', name: 'mapstruct-processor', version: versions.mapStruct
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksonVersion
     implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '9.0'
