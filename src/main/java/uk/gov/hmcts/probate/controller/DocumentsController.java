@@ -85,7 +85,7 @@ public class DocumentsController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Document uploaded successfully")})
     @PostMapping(path = DOCUMENT_UPLOAD_ENDPOINT, consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-        produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+        produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<String>> upload(@RequestHeader(value = "Authorization", required = false)
                                                        String authorizationToken,
                                                @RequestHeader("user-id") String userID,

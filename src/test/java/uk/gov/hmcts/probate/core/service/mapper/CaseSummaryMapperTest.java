@@ -12,12 +12,12 @@ import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CaseSummaryMapperTest {
+class CaseSummaryMapperTest {
 
     private CaseSummaryMapper caseSummaryMapper = new CaseSummaryMapper();
 
     @Test
-    public void shouldMapCaseSummary() {
+    void shouldMapCaseSummary() {
 
         LocalDate now = LocalDate.now();
         ProbateCaseDetails probateCaseDetails =
