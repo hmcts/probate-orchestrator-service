@@ -19,5 +19,5 @@ fi
 authString=$(echo -n "$email:$password" | base64)
 
 curl -XPOST \
-  http://localhost:4501/oauth2/authorize \
+  http://localhost:4501/o/token?grant_type=password \
   -H "Authorization: Basic ${authString}"
