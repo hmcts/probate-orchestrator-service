@@ -34,7 +34,7 @@ public interface IdamClientApi {
      */
     @Deprecated
     @PostMapping(
-            value = "/oauth2/authorize",
+            value = "/o/token?grant_type=password",
             headers = CONTENT_TYPE + "=" + APPLICATION_FORM_URLENCODED_VALUE,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
     )
@@ -59,7 +59,7 @@ public interface IdamClientApi {
     );
 
     @GetMapping(
-            value = "/details",
+            value = "/o/userinfo",
             headers = CONTENT_TYPE + "=" + APPLICATION_FORM_URLENCODED_VALUE,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
     )

@@ -21,7 +21,8 @@ tokenSuffix='","token_type":"Bearer","expires_in":28800}'
 authString=$(echo -n 'testusername1@test.com:password' | base64)
 code=$(curl --silent -XPOST \
   -H "Authorization: Basic ${authString}" \
-  http://localhost:4501/oauth2/authorize  \
+  http://localhost:4501/o/token  \
+  -d grant_type=password \
   -d response_type=code \
   -d client_id=probate \
   -d redirect_uri=http://localhost:3451/oauth2redirect)
@@ -46,7 +47,7 @@ echo $token
 
 id=$(curl --silent -XGET \
   -H "Authorization: Bearer ${token}" \
-  http://localhost:4501/details)
+  http://localhost:4501/o/userinfo)
 
 echo
 echo 'User Details: '
