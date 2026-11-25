@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
@@ -28,10 +28,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class PaymentUpdateControllerIT {
+class PaymentUpdateControllerIT {
 
-    public static final String AUTH_TOKEN = "dummyToken";
-    public static final String AUTH_TOKEN_EMPTY = " ";
+    static final String AUTH_TOKEN = "dummyToken";
+    static final String AUTH_TOKEN_EMPTY = " ";
     private static final String PAYMENT_UPDATES = "/payment-updates";
 
     @MockitoBean
@@ -49,12 +49,12 @@ public class PaymentUpdateControllerIT {
     private WebApplicationContext webApplicationContext;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
     @Test
-    public void shouldUpdatePayment() throws Exception {
+    void shouldUpdatePayment() throws Exception {
         String paymentDtoJsonStr = TestUtils.getJsonFromFile("paymentDto.json");
         when(securityUtils.checkIfServiceIsAllowed(AUTH_TOKEN)).thenReturn(true);
 
@@ -67,7 +67,7 @@ public class PaymentUpdateControllerIT {
     }
 
     @Test
-    public void shouldNotUpdatePayment() throws Exception {
+    void shouldNotUpdatePayment() throws Exception {
         String paymentDtoJsonStr = TestUtils.getJsonFromFile("paymentDto.json");
         when(securityUtils.checkIfServiceIsAllowed(AUTH_TOKEN_EMPTY)).thenReturn(Boolean.FALSE);
 
@@ -80,7 +80,7 @@ public class PaymentUpdateControllerIT {
     }
 
     @Test
-    public void shouldNotUpdatePaymentAndInvalidTokenException() throws Exception {
+    void shouldNotUpdatePaymentAndInvalidTokenException() throws Exception {
         String paymentDtoJsonStr = TestUtils.getJsonFromFile("paymentDto.json");
         when(securityUtils.checkIfServiceIsAllowed(AUTH_TOKEN_EMPTY))
             .thenThrow(new InvalidTokenException("Provided S2S token is missing or invalid"));
