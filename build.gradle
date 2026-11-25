@@ -183,7 +183,7 @@ def versions = [
         springCloudWiremock             : '5.0.3',
         springDocOpenUi                 : '3.2.1',
         swaggerAnnotations              : '2.2.56',
-        springSecurityVersion           : '7.1.1',
+        springSecurityVersion           : '7.2.0',
         tomcat                          : '11.0.29'
 ]
 
