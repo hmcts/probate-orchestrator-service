@@ -170,7 +170,7 @@ def versions = [
         fortifyClient                   : '1.4.10',
         hmctsJavaLogging                : '8.0.0',
         jacksonVersion                  : '2.23.0',
-        junitJupiter                    : '6.0.3',
+        junitJupiter                    : '6.1.3',
         lombok                          : '1.18.48',
         mapStruct                       : '1.3.0.Final',
         pact_version                    : '4.1.34',
