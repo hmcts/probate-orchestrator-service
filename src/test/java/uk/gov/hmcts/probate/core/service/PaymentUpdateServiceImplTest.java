@@ -1,12 +1,10 @@
 package uk.gov.hmcts.probate.core.service;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
 import uk.gov.hmcts.probate.core.service.mapper.PaymentDtoMapper;
 import uk.gov.hmcts.probate.service.SubmitService;
@@ -22,8 +20,8 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(SpringExtension.class)
-public class PaymentUpdateServiceImplTest {
+@ExtendWith(MockitoExtension.class)
+class PaymentUpdateServiceImplTest {
 
     private static final String SERVICE_AUTHORIZATION = "SERVICEAUTH1234567";
     private static final String AUTHORIZATION = "AUTH1234567";
@@ -44,14 +42,10 @@ public class PaymentUpdateServiceImplTest {
     @InjectMocks
     private PaymentUpdateServiceImpl paymentUpdateService;
 
-    @BeforeEach
-    public void setUp() {
-        Mockito.when(securityUtils.getAuthorisation()).thenReturn(AUTHORIZATION);
-        Mockito.when(securityUtils.getServiceAuthorisation()).thenReturn(SERVICE_AUTHORIZATION);
-    }
-
     @Test
-    public void shouldMakePaymentUpdateWhenPaymentStatusIsSuccess() {
+    void shouldMakePaymentUpdateWhenPaymentStatusIsSuccess() {
+        when(securityUtils.getAuthorisation()).thenReturn(AUTHORIZATION);
+        when(securityUtils.getServiceAuthorisation()).thenReturn(SERVICE_AUTHORIZATION);
         PaymentDto paymentDto = PaymentDto.builder()
             .ccdCaseNumber(CCD_CASE_NUMBER)
             .status(PaymentStatus.SUCCESS.getName())
@@ -72,7 +66,7 @@ public class PaymentUpdateServiceImplTest {
     }
 
     @Test
-    public void shouldNotMakePaymentUpdateWhenPaymentStatusIsNotSuccess() {
+    void shouldNotMakePaymentUpdateWhenPaymentStatusIsNotSuccess() {
         PaymentDto paymentDto = PaymentDto.builder()
             .ccdCaseNumber(CCD_CASE_NUMBER)
             .status(PaymentStatus.FAILED.getName())

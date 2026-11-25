@@ -4,9 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.probate.model.client.ApiClientException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -14,8 +14,8 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doThrow;
 
-@ExtendWith(SpringExtension.class)
-public class DataExtractServiceImplTest {
+@ExtendWith(MockitoExtension.class)
+class DataExtractServiceImplTest {
 
     @InjectMocks
     private DataExtractServiceImpl dataExtractService;
@@ -33,7 +33,7 @@ public class DataExtractServiceImplTest {
     private static final String TO_DATE = "toDate";
 
     @Test
-    public void shouldInitiateHmrcExtract() {
+    void shouldInitiateHmrcExtract() {
 
         ResponseEntity<String> responseEntity = dataExtractService.initiateHmrcExtract(FROM_DATE, TO_DATE);
         assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.ACCEPTED));
@@ -41,7 +41,7 @@ public class DataExtractServiceImplTest {
     }
 
     @Test
-    public void shouldThrowDateExceptionOnInitiateHmrcExtract() {
+    void shouldThrowDateExceptionOnInitiateHmrcExtract() {
 
         doThrow(ApiClientException.class).when(dataExtractDateValidator).validate(FROM_DATE, TO_DATE);
         assertThrows(ApiClientException.class, () -> {
@@ -50,7 +50,7 @@ public class DataExtractServiceImplTest {
     }
 
     @Test
-    public void shouldInitiateIronMountainExtract() {
+    void shouldInitiateIronMountainExtract() {
 
         ResponseEntity<String> responseEntity = dataExtractService.initiateIronMountainExtract(FROM_DATE);
         assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.ACCEPTED));
@@ -58,7 +58,7 @@ public class DataExtractServiceImplTest {
     }
 
     @Test
-    public void shouldThrowDateExceptionOnInitiateIronMountainExtract() {
+    void shouldThrowDateExceptionOnInitiateIronMountainExtract() {
 
         doThrow(ApiClientException.class).when(dataExtractDateValidator).validate(FROM_DATE);
         assertThrows(ApiClientException.class, () -> {
@@ -68,7 +68,7 @@ public class DataExtractServiceImplTest {
     }
 
     @Test
-    public void shouldInitiateExelaExtract() {
+    void shouldInitiateExelaExtract() {
 
         ResponseEntity<String> responseEntity = dataExtractService.initiateExelaExtract(FROM_DATE);
         assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.ACCEPTED));
@@ -76,7 +76,7 @@ public class DataExtractServiceImplTest {
     }
 
     @Test
-    public void shouldThrowDateExceptionOnInitiateExelaExtract() {
+    void shouldThrowDateExceptionOnInitiateExelaExtract() {
 
         doThrow(ApiClientException.class).when(dataExtractDateValidator).validate(FROM_DATE);
         assertThrows(ApiClientException.class, () -> {
@@ -85,7 +85,7 @@ public class DataExtractServiceImplTest {
     }
 
     @Test
-    public void shouldThrowDateExceptionOnInitiateExelaExtractDateRange() {
+    void shouldThrowDateExceptionOnInitiateExelaExtractDateRange() {
 
         doThrow(ApiClientException.class).when(dataExtractDateValidator).validate(FROM_DATE, TO_DATE);
         assertThrows(ApiClientException.class, () -> {
@@ -94,7 +94,7 @@ public class DataExtractServiceImplTest {
     }
 
     @Test
-    public void shouldInitiateExelaExtractDateRange() {
+    void shouldInitiateExelaExtractDateRange() {
 
         ResponseEntity<String> responseEntity = dataExtractService.initiateExelaExtractDateRange(FROM_DATE, TO_DATE);
         assertThat(responseEntity.getStatusCode(), equalTo(HttpStatus.ACCEPTED));
@@ -102,7 +102,7 @@ public class DataExtractServiceImplTest {
     }
 
     @Test
-    public void shouldInitiateSmeeAndFordExtractDateRange() {
+    void shouldInitiateSmeeAndFordExtractDateRange() {
 
         ResponseEntity<String> responseEntity = dataExtractService
             .initiateSmeeAndFordExtractDateRange(FROM_DATE, TO_DATE);
@@ -111,7 +111,7 @@ public class DataExtractServiceImplTest {
     }
 
     @Test
-    public void shouldThrowDateExceptionOnInitiateSmeeAndFordExtractDateRange() {
+    void shouldThrowDateExceptionOnInitiateSmeeAndFordExtractDateRange() {
         doThrow(ApiClientException.class).when(dataExtractDateValidator).validate(FROM_DATE, TO_DATE);
         assertThrows(ApiClientException.class, () -> {
             dataExtractService.initiateSmeeAndFordExtractDateRange(FROM_DATE, TO_DATE);

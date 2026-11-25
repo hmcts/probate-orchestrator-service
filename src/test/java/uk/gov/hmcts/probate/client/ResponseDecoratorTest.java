@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class ResponseDecoratorTest {
+class ResponseDecoratorTest {
 
     private Map<String, Collection<String>> headers = new LinkedHashMap<>();
 
@@ -35,7 +35,7 @@ public class ResponseDecoratorTest {
     private ObjectMapper objectMapper;
 
     @Test
-    public void bodyToStringShouldReturnString() throws ReflectiveOperationException {
+    void bodyToStringShouldReturnString() throws ReflectiveOperationException {
         Response response = Response.builder()
                 .status(400)
                 .reason("Bad Request")
@@ -51,7 +51,7 @@ public class ResponseDecoratorTest {
     }
 
     @Test
-    public void bodyToStringShouldReturnEmptyStringIfResponseBodyIsNull() {
+    void bodyToStringShouldReturnEmptyStringIfResponseBodyIsNull() {
         Response response = Response.builder()
                 .status(400)
                 .reason("Bad Request")
@@ -88,7 +88,7 @@ public class ResponseDecoratorTest {
     }
 
     @Test
-    public void mapToErrorResponseShouldReturnValidationErrorResponse() throws IOException {
+    void mapToErrorResponseShouldReturnValidationErrorResponse() throws IOException {
         String validationErrorResponse = TestUtils.getJsonFromFile("errorResponse/validationErrorResponse.json");
 
         Response response = Response.builder()
@@ -106,7 +106,7 @@ public class ResponseDecoratorTest {
     }
 
     @Test
-    public void mapToErrorResponseShouldReturnApiClientErrorResponse() throws IOException {
+    void mapToErrorResponseShouldReturnApiClientErrorResponse() throws IOException {
         String apiClientErrorResponse = TestUtils.getJsonFromFile("errorResponse/apiClientErrorResponse.json");
 
         Response response = Response.builder()
@@ -124,7 +124,7 @@ public class ResponseDecoratorTest {
     }
 
     @Test
-    public void mapToErrorResponseResponseBodyIsNull() {
+    void mapToErrorResponseResponseBodyIsNull() {
 
         Response response = Response.builder()
                 .status(500)
