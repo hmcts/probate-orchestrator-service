@@ -7,6 +7,7 @@ import uk.gov.hmcts.reform.probate.model.AliasReason;
 import uk.gov.hmcts.reform.probate.model.IhtFormType;
 import uk.gov.hmcts.reform.probate.model.PaymentStatus;
 import uk.gov.hmcts.reform.probate.model.ProbateType;
+import uk.gov.hmcts.reform.probate.model.cases.ApplicantFamilyDetails;
 import uk.gov.hmcts.reform.probate.model.cases.ApplicationType;
 import uk.gov.hmcts.reform.probate.model.cases.CasePayment;
 import uk.gov.hmcts.reform.probate.model.cases.CollectionMember;
@@ -315,6 +316,7 @@ public final class PaMultipleExecutorTestDataCreator {
                         .address(Address.builder().addressLine1(SECOND_EXECUTOR_ADDRESS)
                             .formattedAddress(SECOND_EXECUTOR_ADDRESS).build())
                         .hasOtherName(SECOND_EXECUTOR_HAS_OTHERNAME)
+
                         .build(),
                     Executor.builder()
                         .fullName(SECOND_EXECUTOR_NOT_APPLYING)
@@ -547,6 +549,7 @@ public final class PaMultipleExecutorTestDataCreator {
                         .applyingExecutorEmail(SECOND_EXECUTOR_EMAIL)
                         .applyingExecutorInvitationId(SECOND_EXECUTOR_INVITE_ID)
                         .applyingExecutorHasOtherName(Boolean.FALSE)
+                        .applicantFamilyDetails(new ApplicantFamilyDetails())
                         .applyingExecutorAddress(uk.gov.hmcts.reform.probate.model.cases.Address.builder()
                             .addressLine1(SECOND_EXECUTOR_ADDRESS)
                             .build())
