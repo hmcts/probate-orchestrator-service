@@ -181,7 +181,7 @@ def versions = [
         serviceAuthProviderClient       : '6.1.2',
         springBootVersion               : '4.1.1',
         springCloudWiremock             : '5.0.3',
-        springDocOpenUi                 : '3.1.1',
+        springDocOpenUi                 : '3.2.1',
         swaggerAnnotations              : '2.2.56',
         springSecurityVersion           : '7.1.1',
         tomcat                          : '11.0.29'
