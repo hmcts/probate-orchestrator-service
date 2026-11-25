@@ -34,7 +34,7 @@ public class SubmitServiceApiExceptionHandlerTest {
         ResponseEntity responseEntity = exceptionHandler
                 .handleApiClientException(new ApiClientException(500, errorResponse));
 
-        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(500);
+        assertThat(responseEntity.getStatusCode().value()).isEqualTo(500);
     }
 
     @Test
@@ -42,7 +42,7 @@ public class SubmitServiceApiExceptionHandlerTest {
         ResponseEntity responseEntity = exceptionHandler
                 .handleApiClientException(new ApiClientException(400, errorResponse));
 
-        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(400);
+        assertThat(responseEntity.getStatusCode().value()).isEqualTo(400);
     }
 
     @Test
@@ -50,7 +50,7 @@ public class SubmitServiceApiExceptionHandlerTest {
         ResponseEntity responseEntity = exceptionHandler
                 .handleApiClientException(new ApiClientException(599, errorResponse));
 
-        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(500);
+        assertThat(responseEntity.getStatusCode().value()).isEqualTo(500);
     }
 
     @Test
@@ -60,7 +60,7 @@ public class SubmitServiceApiExceptionHandlerTest {
         ResponseEntity responseEntity = exceptionHandler
                 .handleApiClientException(new ApiClientException(400, errorResponse));
 
-        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(400);
+        assertThat(responseEntity.getStatusCode().value()).isEqualTo(400);
     }
 
     @Test
@@ -71,7 +71,7 @@ public class SubmitServiceApiExceptionHandlerTest {
         ResponseEntity responseEntity = exceptionHandler
                 .handleApiClientException(new ApiClientException(400, errorResponse));
 
-        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(400);
+        assertThat(responseEntity.getStatusCode().value()).isEqualTo(400);
         assertThat(responseEntity.hasBody()).isTrue();
     }
 
@@ -80,7 +80,7 @@ public class SubmitServiceApiExceptionHandlerTest {
         ResponseEntity responseEntity = exceptionHandler
                 .handleApiClientException(new ApiClientException(400, errorResponse));
 
-        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(400);
+        assertThat(responseEntity.getStatusCode().value()).isEqualTo(400);
         assertThat(responseEntity.hasBody()).isTrue();
     }
 }

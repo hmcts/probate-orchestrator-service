@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.hmcts.probate.TestUtils;
 import uk.gov.hmcts.probate.client.business.BusinessServiceApi;
 import uk.gov.hmcts.probate.client.submit.SubmitServiceApi;
@@ -35,13 +35,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(SpringExtension.class)
-public class BusinessServiceImplTest {
+@ExtendWith(MockitoExtension.class)
+class BusinessServiceImplTest {
 
     private static final String SERVICE_AUTHORIZATION = "SERVICEAUTH1234567";
     private static final String AUTHORIZATION = "AUTH1234567";
@@ -80,42 +79,54 @@ public class BusinessServiceImplTest {
 
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() {
         objectMapper = new ObjectMapper();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(RESPONSE_DATE_FORMAT);
+        pdfExample = new byte[10];
+        businessService = new BusinessServiceImpl(businessServiceApi,
+                submitServiceApi, securityUtils, mockExecutorApplyingToInvitationMapper);
+    }
 
+    private void mockSecurityTokens() {
         when(securityUtils.getAuthorisation()).thenReturn(AUTHORIZATION);
         when(securityUtils.getServiceAuthorisation()).thenReturn(SERVICE_AUTHORIZATION);
+    }
 
+    private void mockCaseLookup() {
         when(submitServiceApi.getCaseById(AUTHORIZATION, SERVICE_AUTHORIZATION,
             formdataId)).thenReturn(mockProbateCaseDetails);
         when(mockProbateCaseDetails.getCaseData()).thenReturn(mockGrantOfRepresentationData);
-        when(mockProbateCaseDetails.getCaseInfo()).thenReturn(mockCaseInfo);
-        when(mockCaseInfo.getCaseId()).thenReturn("123456789101112");
+    }
+
+    private void mockExecutorNotificationData() {
         when(mockGrantOfRepresentationData.getDeceasedDateOfDeath()).thenReturn(LocalDate.now());
         when(mockGrantOfRepresentationData.getPrimaryApplicantForenames()).thenReturn("Testana");
         when(mockGrantOfRepresentationData.getPrimaryApplicantSurname()).thenReturn("Testerson");
         when(mockGrantOfRepresentationData.getDeceasedForenames()).thenReturn("Test");
         when(mockGrantOfRepresentationData.getDeceasedSurname()).thenReturn("Testerson");
+        when(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress()).thenReturn(emailaddress);
+        when(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(invitationId))
+                .thenReturn(ExecutorApplying.builder().applyingExecutorName("Test Executor").build());
+    }
+
+    private void mockDocumentNotificationData() {
+        when(mockGrantOfRepresentationData.getDeceasedDateOfDeath()).thenReturn(LocalDate.now());
+        when(mockGrantOfRepresentationData.getPrimaryApplicantForenames()).thenReturn("Testana");
+        when(mockGrantOfRepresentationData.getPrimaryApplicantSurname()).thenReturn("Testerson");
+        when(mockGrantOfRepresentationData.getDeceasedForenames()).thenReturn("Test");
+        when(mockGrantOfRepresentationData.getDeceasedSurname()).thenReturn("Testerson");
+        when(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress()).thenReturn(emailaddress);
         when(mockGrantOfRepresentationData.getCitizenResponse()).thenReturn("response");
         when(mockGrantOfRepresentationData.getExpectedResponseDate()).thenReturn(LocalDate.now()
-                .plusWeeks(7).format(formatter));
-        List<CollectionMember<UploadDocument>> documents = new ArrayList();
+                .plusWeeks(7).format(DateTimeFormatter.ofPattern(RESPONSE_DATE_FORMAT)));
+        List<CollectionMember<UploadDocument>> documents = new ArrayList<>();
         documents.add(CollectionMember.<UploadDocument>builder().value(UploadDocument.builder()
                 .documentLink(DocumentLink.builder().documentFilename("fileName.pdf").build()).build()).build());
         when(mockGrantOfRepresentationData.getCitizenDocumentsUploaded()).thenReturn(documents);
-        when(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(anyString()))
-                .thenReturn(ExecutorApplying.builder().applyingExecutorName("Test Executor").build());
-        when(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress()).thenReturn(emailaddress);
-
-        pdfExample = new byte[10];
-        businessService = new BusinessServiceImpl(businessServiceApi,
-            submitServiceApi, securityUtils, mockExecutorApplyingToInvitationMapper);
     }
 
     @Test
-    public void generateCheckAnswersSummaryPdf() throws Exception {
-
+    void generateCheckAnswersSummaryPdf() throws Exception {
+        mockSecurityTokens();
         String checkAnswersSummaryJson = TestUtils
             .getJsonFromFile("businessDocuments/validCheckAnswersSummary.json");
         CheckAnswersSummary checkAnswersSummary =
@@ -134,8 +145,8 @@ public class BusinessServiceImplTest {
 
 
     @Test
-    public void generateLegalDeclarationPdf() throws Exception {
-
+    void generateLegalDeclarationPdf() throws Exception {
+        mockSecurityTokens();
         String legalDeclarationJson = TestUtils
             .getJsonFromFile("businessDocuments/validLegalDeclaration.json");
         LegalDeclaration legalDeclaration = objectMapper.readValue(legalDeclarationJson, LegalDeclaration.class);
@@ -152,8 +163,8 @@ public class BusinessServiceImplTest {
 
 
     @Test
-    public void generateBulkScanCoversheetPdf() throws Exception {
-
+    void generateBulkScanCoversheetPdf() throws Exception {
+        mockSecurityTokens();
         String bulkScanCoversheetJson = TestUtils
             .getJsonFromFile("businessDocuments/validBulkScanCoverSheet.json");
         BulkScanCoverSheet bulkScanCoverSheet =
@@ -171,7 +182,9 @@ public class BusinessServiceImplTest {
 
 
     @Test
-    public void shouldSendInvitationAndUpdateProbateCaseDetails() {
+    void shouldSendInvitationAndUpdateProbateCaseDetails() {
+        mockSecurityTokens();
+        mockCaseLookup();
 
         Invitation invitation = getInvitation(formdataId);
 
@@ -190,7 +203,9 @@ public class BusinessServiceImplTest {
     }
 
     @Test
-    public void shouldSendInvitationsAndUpdateProbateCaseDetails() {
+    void shouldSendInvitationsAndUpdateProbateCaseDetails() {
+        mockSecurityTokens();
+        mockCaseLookup();
 
         Invitation newInvitation = getInvitation(formdataId);
         newInvitation.setInviteId(null);
@@ -219,7 +234,9 @@ public class BusinessServiceImplTest {
     }
 
     @Test
-    public void shouldSendBilingualInvitationsAndUpdateProbateCaseDetails() {
+    void shouldSendBilingualInvitationsAndUpdateProbateCaseDetails() {
+        mockSecurityTokens();
+        mockCaseLookup();
 
         Invitation newInvitation = getInvitation(formdataId);
         newInvitation.setInviteId(null);
@@ -248,7 +265,7 @@ public class BusinessServiceImplTest {
     }
 
     @Test
-    public void shouldResendInvitation() {
+    void shouldResendInvitation() {
         Invitation invitation = getInvitation(formdataId);
         String result = businessService.resendInvitation(invitationId, invitation, sessionId);
         verify(businessServiceApi).invite(invitationId, invitation, sessionId);
@@ -256,7 +273,9 @@ public class BusinessServiceImplTest {
     }
 
     @Test
-    public void shouldDetermineIfAllInviteesHaveAgreedFromCase() {
+    void shouldDetermineIfAllInviteesHaveAgreedFromCase() {
+        mockSecurityTokens();
+        mockCaseLookup();
 
         when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.TRUE);
         Boolean result = businessService.haveAllIniviteesAgreed(formdataId);
@@ -264,7 +283,9 @@ public class BusinessServiceImplTest {
     }
 
     @Test
-    public void shouldUpdateContactDetailsOnCase() {
+    void shouldUpdateContactDetailsOnCase() {
+        mockSecurityTokens();
+        mockCaseLookup();
 
         businessService.updateContactDetails(formdataId, getInvitation(formdataId));
         verifyGetCaseCalls();
@@ -276,7 +297,11 @@ public class BusinessServiceImplTest {
     }
 
     @Test
-    public void shouldSetInviteAgreedOnCase() {
+    void shouldSetInviteAgreedOnCase() {
+        mockSecurityTokens();
+        mockCaseLookup();
+        mockExecutorNotificationData();
+
 
         Invitation invitation = getInvitation(formdataId);
         invitation.setBilingual(Boolean.FALSE);
@@ -291,6 +316,10 @@ public class BusinessServiceImplTest {
 
     @Test
     void shouldSendIfExecAgreed() {
+        mockSecurityTokens();
+        mockCaseLookup();
+        mockExecutorNotificationData();
+
         Invitation invitation = getInvitation(formdataId);
         when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
         when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.FALSE);
@@ -316,6 +345,10 @@ public class BusinessServiceImplTest {
 
     @Test
     void shouldNotSendIfExecNotAgreed() {
+        mockSecurityTokens();
+        mockCaseLookup();
+        mockExecutorNotificationData();
+
         Invitation invitation = getInvitation(formdataId);
         when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
         when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.FALSE);
@@ -330,11 +363,13 @@ public class BusinessServiceImplTest {
 
     @Test
     void shouldSendIfExecAgreedBilingual() {
+        mockSecurityTokens();
+        mockCaseLookup();
+        mockExecutorNotificationData();
+
         Invitation invitation = getInvitation(formdataId);
         when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
         when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.TRUE);
-        when(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(invitation.getInviteId()))
-                .thenReturn(ExecutorApplying.builder().applyingExecutorName("Test Executor").build());
         ExecutorNotification executorNotification = ExecutorNotification.builder()
                 .ccdReference(formdataId)
                 .executorName(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(invitation.getInviteId())
@@ -357,6 +392,10 @@ public class BusinessServiceImplTest {
 
     @Test
     void shouldSendIfAllExecAgreed() {
+        mockSecurityTokens();
+        mockCaseLookup();
+        mockExecutorNotificationData();
+
         Invitation invitation = getInvitation(formdataId);
         when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.TRUE);
         when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.FALSE);
@@ -382,6 +421,10 @@ public class BusinessServiceImplTest {
 
     @Test
     void shouldSendIfAllExecAgreedBilingual() {
+        mockSecurityTokens();
+        mockCaseLookup();
+        mockExecutorNotificationData();
+
         Invitation invitation = getInvitation(formdataId);
         when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.TRUE);
         when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.TRUE);
@@ -407,6 +450,10 @@ public class BusinessServiceImplTest {
 
     @Test
     void shouldSendEmailForDocumentUploadSuccessful() {
+        mockSecurityTokens();
+        mockCaseLookup();
+        mockDocumentNotificationData();
+
         when(mockGrantOfRepresentationData.getDocumentUploadIssue()).thenReturn(Boolean.FALSE);
         when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.FALSE);
         DocumentNotification documentNotification = DocumentNotification.builder()
@@ -430,6 +477,10 @@ public class BusinessServiceImplTest {
 
     @Test
     void shouldSendEmailForWelshDocumentUploadSuccessful() {
+        mockSecurityTokens();
+        mockCaseLookup();
+        mockDocumentNotificationData();
+
         when(mockGrantOfRepresentationData.getDocumentUploadIssue()).thenReturn(Boolean.FALSE);
         when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.TRUE);
         DocumentNotification documentNotification = DocumentNotification.builder()
@@ -442,8 +493,7 @@ public class BusinessServiceImplTest {
                 .email(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress())
                 .fileName(List.of("fileName.pdf"))
                 .citizenResponse(mockGrantOfRepresentationData.getCitizenResponse())
-                .expectedResponseDate(mockGrantOfRepresentationData.getExpectedResponseDate()
-                        .toString())
+                .expectedResponseDate(mockGrantOfRepresentationData.getExpectedResponseDate())
                 .build();
         businessService.documentUploadNotification(formdataId, "true");
         verifyGetCaseCalls();
@@ -454,6 +504,10 @@ public class BusinessServiceImplTest {
 
     @Test
     void shouldSendEmailForDocumentUploadIssue() {
+        mockSecurityTokens();
+        mockCaseLookup();
+        mockDocumentNotificationData();
+
         when(mockGrantOfRepresentationData.getDocumentUploadIssue()).thenReturn(Boolean.TRUE);
         when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.FALSE);
         DocumentNotification documentNotification = DocumentNotification.builder()
@@ -466,8 +520,7 @@ public class BusinessServiceImplTest {
                 .email(mockGrantOfRepresentationData.getPrimaryApplicantEmailAddress())
                 .fileName(List.of("fileName.pdf"))
                 .citizenResponse(mockGrantOfRepresentationData.getCitizenResponse())
-                .expectedResponseDate(mockGrantOfRepresentationData.getExpectedResponseDate()
-                        .toString())
+                .expectedResponseDate(mockGrantOfRepresentationData.getExpectedResponseDate())
                 .build();
         businessService.documentUploadNotification(formdataId, "true");
         verifyGetCaseCalls();
@@ -478,6 +531,10 @@ public class BusinessServiceImplTest {
 
     @Test
     void shouldSendEmailForWelshDocumentUploadIssue() {
+        mockSecurityTokens();
+        mockCaseLookup();
+        mockDocumentNotificationData();
+
         when(mockGrantOfRepresentationData.getDocumentUploadIssue()).thenReturn(Boolean.TRUE);
         when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.TRUE);
         DocumentNotification documentNotification = DocumentNotification.builder()
@@ -500,7 +557,10 @@ public class BusinessServiceImplTest {
     }
 
     @Test
-    public void shouldResetInviteAgreedOnCase() {
+    void shouldResetInviteAgreedOnCase() {
+        mockSecurityTokens();
+        mockCaseLookup();
+
 
         businessService.resetAgreedFlags(formdataId);
         verifyGetCaseCalls();
@@ -511,7 +571,10 @@ public class BusinessServiceImplTest {
     }
 
     @Test
-    public void shouldDeleteInviteOnCase() {
+    void shouldDeleteInviteOnCase() {
+        mockSecurityTokens();
+        mockCaseLookup();
+
 
         Invitation invitation = getInvitation(formdataId);
         businessService.deleteInvite(formdataId, invitation);
@@ -522,7 +585,7 @@ public class BusinessServiceImplTest {
     }
 
     @Test
-    public void shouldGetPinNumber() {
+    void shouldGetPinNumber() {
         final PhonePin phonePin = new PhonePin(phoneNumber);
 
         businessService.getPinNumber(phonePin, sessionId, Boolean.FALSE);
@@ -533,7 +596,11 @@ public class BusinessServiceImplTest {
     }
 
     @Test
-    public void shouldGetCaseByInvitationId() {
+    void shouldGetCaseByInvitationId() {
+        mockSecurityTokens();
+        when(mockProbateCaseDetails.getCaseInfo()).thenReturn(mockCaseInfo);
+        when(mockCaseInfo.getCaseId()).thenReturn("123456789101112");
+
 
         when(submitServiceApi.getCaseByInvitationId(AUTHORIZATION, SERVICE_AUTHORIZATION,
             invitationId, CaseType.GRANT_OF_REPRESENTATION.name())).thenReturn(mockProbateCaseDetails);
@@ -554,7 +621,10 @@ public class BusinessServiceImplTest {
     }
 
     @Test
-    public void shouldGetAllInviteData() {
+    void shouldGetAllInviteData() {
+        mockSecurityTokens();
+        mockCaseLookup();
+
         CollectionMember<ExecutorApplying> mockExecutorApplying = CollectionMember
             .<ExecutorApplying>builder()
             .value(ExecutorApplying.builder()
@@ -572,14 +642,13 @@ public class BusinessServiceImplTest {
         List<CollectionMember<ExecutorApplying>> mockExecutorsApplying = Arrays
             .asList(mockExecutorApplying, mockExecutorApplying2);
 
-        when(mockProbateCaseDetails.getCaseData()).thenReturn(mockGrantOfRepresentationData);
-
 
         when(mockGrantOfRepresentationData.getExecutorsApplying())
             .thenReturn(mockExecutorsApplying);
         when(submitServiceApi.getCaseByInvitationId(AUTHORIZATION, SERVICE_AUTHORIZATION,
             invitationId, CaseType.GRANT_OF_REPRESENTATION.name())).thenReturn(mockProbateCaseDetails);
-        when(mockProbateCaseDetails.getCaseData()).thenReturn(mockGrantOfRepresentationData);
+        when(mockProbateCaseDetails.getCaseInfo()).thenReturn(mockCaseInfo);
+        when(mockCaseInfo.getCaseId()).thenReturn("123456789101112");
         ExecutorApplying mockExecutorApplying1 = Mockito.mock(ExecutorApplying.class);
         when(mockGrantOfRepresentationData.getExecutorApplyingByInviteId(invitationId))
             .thenReturn(mockExecutorApplying1);

@@ -10,6 +10,17 @@ spring:
       location: classpath:uk/gov/hmcts/probate/services/orchestrator/git.properties
   config:
     import: "optional:configtree:/mnt/secrets/probate/"
+  http:
+    converters:
+      preferred-json-mapper: jackson2
+  cloud:
+    openfeign:
+          client:
+            config:
+              submit-service-api:
+                connectTimeout: 30000
+                readTimeout: 30000
+                loggerLevel: basic
 
 server:
   port: 8888
@@ -23,7 +34,6 @@ management:
   endpoint:
     health:
       show-details: always
-      enabled: true
   info:
     git:
       mode: full
@@ -63,7 +73,6 @@ s2s.auth.totp.secret: ${S2S_AUTH_TOTP_SECRET:'AAAAAAAAAAAAAAAA'}
 service.name: ${auth.provider.service.client.microservice}
 
 submit.service.api.url: ${SUBMIT_SERVICE_API_URL:http://localhost:8181}
-persistence.service.api.url: ${SERVICES_PERSISTENCE_BASEURL:probate-persistence-service-aat.service.core-compute-aat.internal}
 business.service.api.url: ${BUSINESS_SERVICE_API_URL:http://localhost:8081}
 back.office.api.url: ${BACK_OFFICE_API_URL:http://localhost:4104}
 
@@ -74,13 +83,6 @@ logging:
   pattern:
     console: "%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n"
 
-feign:
-  client:
-    config:
-      submit-service-api:
-        connectTimeout: 30000
-        readTimeout: 30000
-        loggerLevel: basic
 
 ld:
   sdk_key: ${LAUNCHDARKLY_KEY:dummy}
