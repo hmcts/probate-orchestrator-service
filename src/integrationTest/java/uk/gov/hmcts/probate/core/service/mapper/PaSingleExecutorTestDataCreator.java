@@ -571,6 +571,7 @@ public final class PaSingleExecutorTestDataCreator {
                 .build())
             .extraCopiesOfGrant(UK)
             .outsideUkGrantCopies(OVERSEAS)
+            .deceasedHasAssetsOutsideUK(ASSETSOVERSEAS)
             .executorsApplying(Lists.newArrayList(
             ))
             .executorsNotApplying(Lists.newArrayList(
