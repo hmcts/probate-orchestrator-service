@@ -2,7 +2,7 @@ plugins {
     id 'application'
     id 'java'
     id 'io.spring.dependency-management' version '1.1.7'
-    id 'org.springframework.boot' version '4.1.1'
+    id 'org.springframework.boot' version '4.2.0'
     id 'io.github.ben-manes.versions' version '0.67.0'
     id 'com.gorylenko.gradle-git-properties' version '4.0.1'
     id 'info.solidsoft.pitest' version '1.19.0'
@@ -179,7 +179,7 @@ def versions = [
         restAssured                     : '6.3.0',
         serenity                        : '5.4.1',
         serviceAuthProviderClient       : '6.1.2',
-        springBootVersion               : '4.1.1',
+        springBootVersion               : '4.2.0',
         springCloudWiremock             : '5.0.3',
         springDocOpenUi                 : '3.2.1',
         swaggerAnnotations              : '2.2.56',
