@@ -269,6 +269,8 @@ class BusinessServiceImplTest {
 
     @Test
     void shouldSendIntestacyInvitationsAndUpdateProbateCaseDetails() {
+        mockSecurityTokens();
+        mockCaseLookup();
         when(mockGrantOfRepresentationData.getGrantType()).thenReturn(GrantType.INTESTACY);
         Invitation newInvitation = getInvitation(formdataId);
         newInvitation.setInviteId(null);
@@ -298,6 +300,8 @@ class BusinessServiceImplTest {
 
     @Test
     void shouldSendIntestacyBilingualInvitationsAndUpdateProbateCaseDetails() {
+        mockSecurityTokens();
+        mockCaseLookup();
         when(mockGrantOfRepresentationData.getGrantType()).thenReturn(GrantType.INTESTACY);
         Invitation newInvitation = getInvitation(formdataId);
         newInvitation.setInviteId(null);
@@ -382,6 +386,8 @@ class BusinessServiceImplTest {
         mockSecurityTokens();
         mockCaseLookup();
         mockExecutorNotificationData();
+
+        when(mockGrantOfRepresentationData.getGrantType()).thenReturn(GrantType.GRANT_OF_PROBATE);
 
         Invitation invitation = getInvitation(formdataId);
         when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
@@ -519,6 +525,9 @@ class BusinessServiceImplTest {
 
     @Test
     void shouldSendSignedCoApplicantAllBilingualIfAllAgreedAndWelsh() {
+        mockSecurityTokens();
+        mockCaseLookup();
+        mockExecutorNotificationData();
         when(mockGrantOfRepresentationData.getGrantType()).thenReturn(GrantType.INTESTACY);
         when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.TRUE);
         when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.TRUE);
@@ -530,6 +539,9 @@ class BusinessServiceImplTest {
 
     @Test
     void shouldSendSignedCoApplicantAllIfAllAgreedAndNotWelsh() {
+        mockSecurityTokens();
+        mockCaseLookup();
+        mockExecutorNotificationData();
         when(mockGrantOfRepresentationData.getGrantType()).thenReturn(GrantType.INTESTACY);
         when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.TRUE);
         when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.FALSE);
@@ -541,6 +553,9 @@ class BusinessServiceImplTest {
 
     @Test
     void shouldSendSignedCoApplicantBilingualIfWelshAndAgreed() {
+        mockSecurityTokens();
+        mockCaseLookup();
+        mockExecutorNotificationData();
         when(mockGrantOfRepresentationData.getGrantType()).thenReturn(GrantType.INTESTACY);
         when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
         when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.TRUE);
@@ -553,6 +568,9 @@ class BusinessServiceImplTest {
 
     @Test
     void shouldSendSignedCoApplicantIfNotWelshAndAgreed() {
+        mockSecurityTokens();
+        mockCaseLookup();
+        mockExecutorNotificationData();
         when(mockGrantOfRepresentationData.getGrantType()).thenReturn(GrantType.INTESTACY);
         when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
         when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.FALSE);
@@ -565,6 +583,9 @@ class BusinessServiceImplTest {
 
     @Test
     void shouldSendDisagreeCoApplicantBilingualIfWelshAndNotAgreed() {
+        mockSecurityTokens();
+        mockCaseLookup();
+        mockExecutorNotificationData();
         when(mockGrantOfRepresentationData.getGrantType()).thenReturn(GrantType.INTESTACY);
         when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
         when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.TRUE);
@@ -577,6 +598,9 @@ class BusinessServiceImplTest {
 
     @Test
     void shouldSendDisagreeCoApplicantIfNotWelshAndNotAgreed() {
+        mockSecurityTokens();
+        mockCaseLookup();
+        mockExecutorNotificationData();
         when(mockGrantOfRepresentationData.getGrantType()).thenReturn(GrantType.INTESTACY);
         when(mockGrantOfRepresentationData.haveAllExecutorsAgreed()).thenReturn(Boolean.FALSE);
         when(mockGrantOfRepresentationData.getLanguagePreferenceWelsh()).thenReturn(Boolean.FALSE);
